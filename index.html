@@ -76,9 +76,9 @@ body{padding:32px 24px 60px}
     <h1>AI Notes · Demo 管理中心</h1>
     <p>所有 VP Demo 版本 · 按内容分类 · 按时间排列</p>
     <div class="stats">
-      <div class="stat"><div class="stat-num">25</div><div class="stat-label">总 Demo 数</div></div>
-      <div class="stat"><div class="stat-num">5</div><div class="stat-label">分类</div></div>
-      <div class="stat"><div class="stat-num">6</div><div class="stat-label">天</div></div>
+      <div class="stat"><div class="stat-num">29</div><div class="stat-label">总 Demo 数</div></div>
+      <div class="stat"><div class="stat-num">6</div><div class="stat-label">分类</div></div>
+      <div class="stat"><div class="stat-num">10</div><div class="stat-label">天</div></div>
     </div>
   </div>
 
@@ -113,6 +113,10 @@ const DEMOS = [
   {file:"demos/vp-demo-combined-v3.html",title:"AI Notes v3 · 对话框即历史",desc:"对话框即历史 · 交互模式创新",cat:"combined",catName:"完整版",color:"gn",date:"2026-03-16",time:"19:17",ver:"完整v3"},
   {file:"demos/vp-demo-combined-v4.html",title:"Claw 全场景产品演示",desc:"Claw全场景产品演示 · 完整流程",cat:"claw",catName:"Claw光线",color:"cy",date:"2026-03-17",time:"13:42",ver:"全场景"},
   {file:"demos/vp-demo-combined-v5.html",title:"Claw v5 三层架构（双端）",desc:"三层架构双端适配 · 手机+桌面",cat:"claw",catName:"Claw光线",color:"cy",date:"2026-03-17",time:"13:49",ver:"双端"},
+  {file:"demos/ai_note_roadmap_v2.html",title:"手机端版本发布节奏",desc:"排期看板 · 版本发布节奏规划",cat:"pm",catName:"项目管理",color:"rd",date:"2026-03-18",time:"21:56",ver:"排期"},
+  {file:"demos/ai_note_ai_team_requirements.html",title:"AI 团队需求文档",desc:"AI团队需求定义 · 技术方案",cat:"product",catName:"产品定义",color:"am",date:"2026-03-19",time:"17:17",ver:"AI需求"},
+  {file:"demos/ai_note_release_strategy.html",title:"版本灰度发布策略对比",desc:"独立版 · 灰度发布策略对比分析",cat:"pm",catName:"项目管理",color:"rd",date:"2026-03-20",time:"20:26",ver:"灰度"},
+  {file:"demos/ai_note_combined_v3.html",title:"进度汇报 + 发布策略",desc:"最新合并版 · 进度汇报+发布策略",cat:"pm",catName:"项目管理",color:"rd",date:"2026-03-22",time:"21:21",ver:"汇报"},
 ];
 
 const CATS = [
@@ -122,6 +126,7 @@ const CATS = [
   {id:"serious",name:"严肃创作",icon:"✍️",count:DEMOS.filter(d=>d.cat==="serious").length,color:"pu"},
   {id:"combined",name:"完整版",icon:"📦",count:DEMOS.filter(d=>d.cat==="combined").length,color:"gn"},
   {id:"claw",name:"Claw光线",icon:"✨",count:DEMOS.filter(d=>d.cat==="claw").length,color:"cy"},
+  {id:"pm",name:"项目管理",icon:"📊",count:DEMOS.filter(d=>d.cat==="pm").length,color:"rd"},
 ];
 
 let activeCat = "all";
