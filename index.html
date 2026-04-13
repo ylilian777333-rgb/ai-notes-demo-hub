@@ -76,9 +76,9 @@ body{padding:32px 24px 60px}
     <h1>AI Notes · Demo 管理中心</h1>
     <p>所有 VP Demo 版本 · 按内容分类 · 按时间排列</p>
     <div class="stats">
-      <div class="stat"><div class="stat-num">29</div><div class="stat-label">总 Demo 数</div></div>
-      <div class="stat"><div class="stat-num">6</div><div class="stat-label">分类</div></div>
-      <div class="stat"><div class="stat-num">10</div><div class="stat-label">天</div></div>
+      <div class="stat"><div class="stat-num">31</div><div class="stat-label">总 Demo 数</div></div>
+      <div class="stat"><div class="stat-num">7</div><div class="stat-label">分类</div></div>
+      <div class="stat"><div class="stat-num">11</div><div class="stat-label">天</div></div>
     </div>
   </div>
 
@@ -117,6 +117,8 @@ const DEMOS = [
   {file:"demos/ai_note_ai_team_requirements.html",title:"AI 团队需求文档",desc:"AI团队需求定义 · 技术方案",cat:"product",catName:"产品定义",color:"am",date:"2026-03-19",time:"17:17",ver:"AI需求"},
   {file:"demos/ai_note_release_strategy.html",title:"版本灰度发布策略对比",desc:"独立版 · 灰度发布策略对比分析",cat:"pm",catName:"项目管理",color:"rd",date:"2026-03-20",time:"20:26",ver:"灰度"},
   {file:"demos/ai_note_combined_v3.html",title:"进度汇报 + 发布策略",desc:"最新合并版 · 进度汇报+发布策略",cat:"pm",catName:"项目管理",color:"rd",date:"2026-03-22",time:"21:21",ver:"汇报"},
+  {file:"demos/miclaw-agent-demo.html",title:"MiClaw · 内容助手 Agent 架构",desc:"跨端/系统/APP三层生态 · 24个场景 · 手表/戒指/AI键/超级岛",cat:"miclaw",catName:"MiClaw Agent",color:"am",date:"2026-04-13",time:"15:00",ver:"Agent"},
+  {file:"demos/voice-note-demo.html",title:"语音笔记 · 新版产品方案",desc:"语音录入 · 实时转写 · AI Diff更新文档 · 手机端交互原型",cat:"miclaw",catName:"MiClaw Agent",color:"am",date:"2026-04-13",time:"14:00",ver:"语音笔记"},
 ];
 
 const CATS = [
@@ -127,6 +129,7 @@ const CATS = [
   {id:"combined",name:"完整版",icon:"📦",count:DEMOS.filter(d=>d.cat==="combined").length,color:"gn"},
   {id:"claw",name:"Claw光线",icon:"✨",count:DEMOS.filter(d=>d.cat==="claw").length,color:"cy"},
   {id:"pm",name:"项目管理",icon:"📊",count:DEMOS.filter(d=>d.cat==="pm").length,color:"rd"},
+  {id:"miclaw",name:"MiClaw Agent",icon:"🔥",count:DEMOS.filter(d=>d.cat==="miclaw").length,color:"am"},
 ];
 
 let activeCat = "all";
