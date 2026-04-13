@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AI Notes · Demo 管理中心</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#020617;--s2:#0f172a;--s3:#111827;
+  --bd:#1e293b;--bd2:#243045;
+  --tx:#f1f5f9;--su:#94a3b8;--mu:#64748b;--dm:#334155;
+  --bl:#3b82f6;--am:#f59e0b;--pu:#a78bfa;--gn:#4ade80;--rd:#ef4444;--cy:#22d3ee;
+}
+html,body{background:var(--bg);color:var(--tx);font-family:'Noto Sans SC',sans-serif;min-height:100vh}
+body{padding:32px 24px 60px}
+.container{max-width:1200px;margin:0 auto}
+
+/* header */
+.header{text-align:center;margin-bottom:40px}
+.header-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:20px;padding:4px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--mu);margin-bottom:12px}
+.header h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.header p{font-size:13px;color:var(--mu)}
+.stats{display:flex;gap:20px;justify-content:center;margin-top:16px}
+.stat{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:8px 18px;text-align:center}
+.stat-num{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--bl)}
+.stat-label{font-size:10px;color:var(--mu);margin-top:2px}
+
+/* filters */
+.filters{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap;justify-content:center}
+.filter-btn{display:flex;align-items:center;gap:6px;border:1.5px solid var(--bd);border-radius:10px;padding:8px 16px;cursor:pointer;transition:all .25s;background:rgba(255,255,255,.02);font-family:'Noto Sans SC',sans-serif;font-size:12px;font-weight:500;color:var(--su)}
+.filter-btn:hover{border-color:var(--bd2);transform:translateY(-1px);background:rgba(255,255,255,.04)}
+.filter-btn.active{border-color:var(--bl);background:rgba(59,130,246,.1);color:var(--bl)}
+.filter-btn .count{font-family:'JetBrains Mono',monospace;font-size:10px;background:rgba(255,255,255,.06);padding:2px 6px;border-radius:4px;color:var(--mu)}
+
+/* timeline */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--bd),transparent)}
+.date-group{margin-bottom:32px}
+.date-label{position:relative;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu);margin-bottom:14px;letter-spacing:.05em}
+.date-label::before{content:'';position:absolute;left:-24px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--bl);border:2px solid var(--bg);box-shadow:0 0 8px rgba(59,130,246,.4)}
+
+/* cards grid */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+
+/* card */
+.card{display:block;background:var(--s2);border:1px solid var(--bd);border-radius:14px;padding:16px 18px;text-decoration:none;color:var(--tx);transition:all .25s;position:relative;overflow:hidden;cursor:pointer}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac);border-radius:3px 0 0 3px;opacity:.6;transition:opacity .25s}
+.card:hover{border-color:var(--ac);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.card:hover::before{opacity:1}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.card-ver{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(255,255,255,.05);color:var(--ac);font-weight:600}
+.card-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dm)}
+.card-title{font-size:14px;font-weight:600;margin-bottom:5px;line-height:1.4}
+.card-desc{font-size:11.5px;color:var(--mu);line-height:1.6;margin-bottom:10px}
+.card-foot{display:flex;justify-content:space-between;align-items:center}
+.card-cat{font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(255,255,255,.04);color:var(--su);font-weight:500}
+.card-open{font-size:11px;color:var(--ac);font-weight:500;opacity:0;transition:opacity .25s}
+.card:hover .card-open{opacity:1}
+
+/* responsive */
+@media(max-width:640px){
+  body{padding:20px 14px 40px}
+  .header h1{font-size:22px}
+  .cards{grid-template-columns:1fr}
+  .stats{gap:10px}
+  .stat{padding:6px 12px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="header-badge">◆ DEMO MANAGER</div>
+    <h1>AI Notes · Demo 管理中心</h1>
+    <p>所有 VP Demo 版本 · 按内容分类 · 按时间排列</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">14</div><div class="stat-label">总 Demo 数</div></div>
+      <div class="stat"><div class="stat-num">5</div><div class="stat-label">分类</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">天</div></div>
+    </div>
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <div id="timeline"></div>
+</div>
+
+<script>
+const DEMOS = [
+  {file:"demos/vp-demo-v2.html",title:"AI Notes · 初版原型",desc:"4种输入类型 · 差异化AI交互模式",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-12",time:"23:22",ver:"v2.0"},
+  {file:"demos/vp-demo-v2-1.html",title:"AI Notes · VP Demo v1",desc:"4种输入类型 · 差异化AI交互模式",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-12",time:"23:56",ver:"v2.1"},
+  {file:"demos/vp-demo-v2-2.html",title:"AI Notes · 交互演示 v2",desc:"4种场景 · AI自动理解意图 · Light模式",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"09:46",ver:"v2.2"},
+  {file:"demos/vp-demo-v2-3.html",title:"AI Notes · 交互演示 v3",desc:"4种场景 · 交互优化迭代",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"10:17",ver:"v2.3"},
+  {file:"demos/vp-demo-v2-4.html",title:"AI Notes · 交互演示 v4",desc:"4种场景 · 持续优化",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"10:40",ver:"v2.4"},
+  {file:"demos/vp-demo-v2-5.html",title:"AI Notes · 交互演示 v5",desc:"4种场景 · 细节调整",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"11:06",ver:"v2.5"},
+  {file:"demos/vp-demo-v2-6.html",title:"AI Notes · 交互演示 v6",desc:"4种场景 · 交互打磨",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"11:12",ver:"v2.6"},
+  {file:"demos/vp-demo-v2-7.html",title:"AI Notes · 交互演示 v7",desc:"4种场景 · 交互定稿",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"11:19",ver:"v2.7"},
+  {file:"demos/vp-demo-v2-8.html",title:"AI Notes · 产品定义画布",desc:"产品定义画布 · 三个核心主体 · v0.2评审版",cat:"product",catName:"产品定义",color:"am",date:"2026-03-13",time:"14:45",ver:"v2.8"},
+  {file:"demos/vp-demo-v2-9.html",title:"AI Notes · Trust模式 + 产品定义",desc:"Trust A/B方案 · 产品定义画布 · Before/After确认",cat:"product",catName:"产品定义",color:"am",date:"2026-03-13",time:"16:16",ver:"v2.9"},
+  {file:"demos/vp-demo-v2-10.html",title:"AI Notes · 快速记录版",desc:"Trust模式 · 快速记录+AI整理 · 完整产品定义",cat:"product",catName:"产品定义",color:"am",date:"2026-03-13",time:"19:52",ver:"v2.10"},
+  {file:"demos/vp-demo-serious.html",title:"AI Notes · 严肃创作版",desc:"分段讨论 · 精准控制 · 高质量输出",cat:"serious",catName:"严肃创作",color:"pu",date:"2026-03-13",time:"20:45",ver:"严肃版"},
+  {file:"demos/vp-demo-combined.html",title:"AI Notes · 完整版",desc:"快速记录+严肃创作 · 两种交互模式完整演示",cat:"combined",catName:"完整版",color:"gn",date:"2026-03-13",time:"22:41",ver:"完整版"},
+  {file:"demos/vp-demo-claw.html",title:"Claw · 系统级语音光线",desc:"任何App底部一条光线 · 系统级常驻入口",cat:"claw",catName:"Claw光线",color:"cy",date:"2026-03-15",time:"16:36",ver:"Claw"},
+];
+
+const CATS = [
+  {id:"all",name:"全部",icon:"📋",count:DEMOS.length},
+  {id:"interaction",name:"交互演示",icon:"🎯",count:DEMOS.filter(d=>d.cat==="interaction").length,color:"bl"},
+  {id:"product",name:"产品定义",icon:"📐",count:DEMOS.filter(d=>d.cat==="product").length,color:"am"},
+  {id:"serious",name:"严肃创作",icon:"✍️",count:DEMOS.filter(d=>d.cat==="serious").length,color:"pu"},
+  {id:"combined",name:"完整版",icon:"📦",count:DEMOS.filter(d=>d.cat==="combined").length,color:"gn"},
+  {id:"claw",name:"Claw光线",icon:"✨",count:DEMOS.filter(d=>d.cat==="claw").length,color:"cy"},
+];
+
+let activeCat = "all";
+
+function renderFilters(){
+  const el = document.getElementById("filters");
+  el.innerHTML = CATS.map(c=>`<button class="filter-btn ${activeCat===c.id?'active':''}" onclick="setFilter('${c.id}')">${c.icon} ${c.name} <span class="count">${c.count}</span></button>`).join("");
+}
+
+function setFilter(cat){
+  activeCat = cat;
+  renderFilters();
+  renderTimeline();
+}
+
+function renderTimeline(){
+  const filtered = activeCat==="all" ? DEMOS : DEMOS.filter(d=>d.cat===activeCat);
+  const groups = {};
+  filtered.forEach(d=>{
+    if(!groups[d.date]) groups[d.date]=[];
+    groups[d.date].push(d);
+  });
+  const sortedDates = Object.keys(groups).sort((a,b)=>b.localeCompare(a));
+  const el = document.getElementById("timeline");
+  el.innerHTML = sortedDates.map(date=>{
+    const dayLabel = formatDate(date);
+    const cards = groups[date].sort((a,b)=>b.time.localeCompare(a.time));
+    return `<div class="date-group">
+      <div class="date-label">${dayLabel} · ${cards.length} 个版本</div>
+      <div class="cards">${cards.map(renderCard).join("")}</div>
+    </div>`;
+  }).join("");
+}
+
+function formatDate(d){
+  const [y,m,day] = d.split("-");
+  const weekdays=["日","一","二","三","四","五","六"];
+  const dt = new Date(d);
+  return `${y}年${+m}月${+day}日 · 周${weekdays[dt.getDay()]}`;
+}
+
+function renderCard(d){
+  return `<a href="${d.file}" target="_blank" class="card" style="--ac:var(--${d.color})">
+    <div class="card-head">
+      <span class="card-ver">${d.ver}</span>
+      <span class="card-time">${d.time}</span>
+    </div>
+    <div class="card-title">${d.title}</div>
+    <div class="card-desc">${d.desc}</div>
+    <div class="card-foot">
+      <span class="card-cat">${d.catName}</span>
+      <span class="card-open">打开 →</span>
+    </div>
+  </a>`;
+}
+
+renderFilters();
+renderTimeline();
+</script>
+</body>
+</html>
+</body>
+</html>
