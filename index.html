@@ -43,6 +43,15 @@ body{background:var(--bg);color:var(--tx);font-family:'Noto Sans SC',sans-serif;
 .view-btn{padding:8px 14px;cursor:pointer;font-size:14px;border:none;background:none;color:var(--mu);transition:all .2s}
 .view-btn.active{background:var(--bl);color:#fff}
 
+/* sync button */
+.sync-btn{display:flex;align-items:center;gap:6px;padding:8px 18px;border:1.5px solid var(--bl);border-radius:12px;background:var(--bl-bg);color:var(--bl);font-size:13px;font-weight:600;font-family:'Noto Sans SC',sans-serif;cursor:pointer;transition:all .25s;white-space:nowrap}
+.sync-btn:hover{background:var(--bl);color:#fff;transform:translateY(-1px);box-shadow:0 4px 14px rgba(79,110,247,.25)}
+.sync-btn:active{transform:scale(.97)}
+
+/* toast */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--tx);color:#fff;padding:14px 24px;border-radius:14px;font-size:13px;z-index:999;box-shadow:0 12px 40px rgba(0,0,0,.15);transition:transform .4s cubic-bezier(.4,0,.2,1);max-width:90vw;text-align:center;line-height:1.6}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
 /* filters */
 .filters{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
 .filter-btn{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--bd);border-radius:24px;padding:7px 16px;cursor:pointer;transition:all .25s;background:var(--s1);font-family:'Noto Sans SC',sans-serif;font-size:12px;font-weight:500;color:var(--su)}
@@ -140,6 +149,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Noto Sans SC',sans-serif;
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" id="searchInput" placeholder="搜索 Demo 名称、描述..." oninput="onSearch()"/>
     </div>
+    <button class="sync-btn" onclick="showSyncTip()" title="同步新 Demo">🔄 同步</button>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')" id="vGrid">▦</button>
       <button class="view-btn" onclick="setView('list')" id="vList">☰</button>
@@ -231,6 +241,14 @@ function renderCard(d){
   return `<a href="${d.file}" target="_blank" class="card" style="--ac:var(--${d.color})"><div class="card-head"><span class="card-ver c-${d.color}">${d.ver}</span><span class="card-time">🕐 ${d.time}</span></div><div class="card-title">${d.title}</div><div class="card-desc">${d.desc}</div><div class="card-foot"><span class="card-cat c-${d.color}">${d.catIcon} ${d.catName}</span><span class="card-open">打开 →</span></div></a>`;
 }
 renderStats();renderFilters();renderTimeline();
+
+function showSyncTip(){
+  let t=document.getElementById('syncToast');
+  if(!t){t=document.createElement('div');t.id='syncToast';t.className='toast';document.body.appendChild(t)}
+  t.innerHTML='🔄 请在 Kiro 左侧 Agent Hooks 面板<br>点击「一键同步 Demo 到管理后台」按钮';
+  setTimeout(()=>t.classList.add('show'),10);
+  setTimeout(()=>t.classList.remove('show'),4000);
+}
 </script>
 </body>
 </html>
