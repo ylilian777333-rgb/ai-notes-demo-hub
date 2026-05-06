@@ -34,9 +34,9 @@ h1 { font-size: 22px; text-align: center; margin-bottom: 4px; }
 .btn { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .btn-label { font-size: 7px; color: #999; }
 .btn-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-.btn-icon.main { width: 38px; height: 38px; background: #FF5722; }
+.btn-icon.main { width: 32px; height: 32px; background: none; }
 .btn-icon svg { width: 16px; height: 16px; stroke: #555; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.btn-icon.main svg { width: 18px; height: 18px; stroke: #fff; }
+.btn-icon.main svg { width: 20px; height: 20px; stroke: #FF5722; }
 
 .pros-cons { margin-top: 10px; font-size: 10px; }
 .pro { color: #4CAF50; margin-bottom: 2px; }
@@ -161,7 +161,7 @@ h1 { font-size: 22px; text-align: center; margin-bottom: 4px; }
     </div>
     <div class="bottom-bar"><div class="icon-bar" style="background:transparent;">
       <div class="btn"><div class="btn-icon" style="background:#E3F2FD;"><svg viewBox="0 0 24 24" style="stroke:#1976D2;"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg></div><span class="btn-label" style="color:#1976D2;">上传</span></div>
-      <div class="btn"><div class="btn-icon" style="background:#FF5722;width:38px;height:38px;"><svg viewBox="0 0 24 24" style="stroke:#fff;width:18px;height:18px;"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div><span class="btn-label" style="color:#FF5722;">录音</span></div>
+      <div class="btn"><div class="btn-icon" style="width:32px;height:32px;"><svg viewBox="0 0 24 24" style="stroke:#FF5722;width:20px;height:20px;"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div><span class="btn-label" style="color:#FF5722;">录音</span></div>
       <div class="btn"><div class="btn-icon" style="background:#E8F5E9;"><svg viewBox="0 0 24 24" style="stroke:#388E3C;"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg></div><span class="btn-label" style="color:#388E3C;">文字</span></div>
     </div></div>
   </div></div>
@@ -235,7 +235,7 @@ h1 { font-size: 22px; text-align: center; margin-bottom: 4px; }
     </div>
     <div class="bottom-bar"><div style="display:flex;align-items:center;gap:8px;">
       <div class="btn"><div style="width:36px;height:36px;background:#f5f5f5;border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div><span class="btn-label">拍</span></div>
-      <div class="btn"><div style="width:42px;height:42px;background:#FF5722;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div><span class="btn-label" style="color:#FF5722;">说</span></div>
+      <div class="btn"><div style="width:36px;height:36px;background:none;display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div><span class="btn-label" style="color:#FF5722;">说</span></div>
       <div class="btn"><div style="width:36px;height:36px;background:#f5f5f5;border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><span class="btn-label">写</span></div>
     </div></div>
   </div></div>
@@ -253,7 +253,7 @@ h1 { font-size: 22px; text-align: center; margin-bottom: 4px; }
     <div class="bottom-bar" style="padding:6px 10px;"><div style="display:flex;align-items:center;width:100%;background:#f5f5f5;border-radius:20px;padding:5px 6px;gap:6px;">
       <div style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
       <div style="flex:1;font-size:8px;color:#bbb;">说点什么，AI帮你记...</div>
-      <div style="width:26px;height:26px;background:#FF5722;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div>
+      <div style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5722" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div>
     </div></div>
   </div></div>
 </div>
@@ -271,7 +271,7 @@ h1 { font-size: 22px; text-align: center; margin-bottom: 4px; }
       <div style="position:absolute;right:12px;bottom:8px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
         <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:7px;color:#666;background:#f5f5f5;padding:2px 6px;border-radius:3px;">上传文件</span><div style="width:26px;height:26px;background:#f0f4ff;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4A7DFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div></div>
         <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:7px;color:#666;background:#f5f5f5;padding:2px 6px;border-radius:3px;">文字笔记</span><div style="width:26px;height:26px;background:#E8F5E9;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
-        <div style="width:36px;height:36px;background:#FF5722;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(255,87,34,0.3);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div>
+        <div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF5722" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div>
       </div>
     </div>
   </div></div>
@@ -316,7 +316,7 @@ h1 { font-size: 22px; text-align: center; margin-bottom: 4px; }
     <div class="phone-content"><div class="note-item"><div class="note-title">读雷军的小米创业思考</div></div><div class="note-item"><div class="note-title">雨夜咖啡馆</div></div></div>
     <div class="bottom-bar"><div class="icon-bar" style="background:transparent;">
       <div class="btn"><div class="btn-icon" style="background:#E3F2FD;"><svg viewBox="0 0 24 24" style="stroke:#1976D2;"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg></div></div>
-      <div class="btn"><div class="btn-icon" style="background:#FF5722;width:38px;height:38px;"><svg viewBox="0 0 24 24" style="stroke:#fff;width:18px;height:18px;"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div></div>
+      <div class="btn"><div class="btn-icon" style="width:32px;height:32px;"><svg viewBox="0 0 24 24" style="stroke:#FF5722;width:20px;height:20px;"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div></div>
       <div class="btn"><div class="btn-icon" style="background:#E8F5E9;"><svg viewBox="0 0 24 24" style="stroke:#388E3C;"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg></div></div>
     </div></div>
   </div></div>
@@ -368,7 +368,7 @@ h1 { font-size: 22px; text-align: center; margin-bottom: 4px; }
     <div class="phone-content"><div class="note-item"><div class="note-title">读雷军的小米创业思考</div></div><div class="note-item"><div class="note-title">雨夜咖啡馆</div></div></div>
     <div class="bottom-bar"><div style="display:flex;align-items:center;gap:8px;">
       <div class="btn"><div style="width:36px;height:36px;background:#f5f5f5;border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div></div>
-      <div class="btn"><div style="width:42px;height:42px;background:#FF5722;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div></div>
+      <div class="btn"><div style="width:36px;height:36px;background:none;display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div></div>
       <div class="btn"><div style="width:36px;height:36px;background:#f5f5f5;border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
     </div></div>
   </div></div>
