@@ -4,293 +4,174 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>AI Notes · Demo 管理中心</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#f6f8fb;--s1:#ffffff;--s2:#f0f4f8;--s3:#e8edf3;
-  --bd:#dfe4ec;--bd2:#c8d0dc;
-  --tx:#1a1f36;--su:#4a5568;--mu:#718096;--dm:#a0aec0;
-  --bl:#4f6ef7;--am:#e8930c;--pu:#8b5cf6;--gn:#10b981;--rd:#ef4444;--cy:#06b6d4;
-  --bl-bg:#eef2ff;--am-bg:#fef3c7;--pu-bg:#f3e8ff;--gn-bg:#d1fae5;--rd-bg:#fee2e2;--cy-bg:#cffafe;
-  --radius:14px;
+  --bg:#f8fafc;--s2:#ffffff;--s3:#f1f5f9;
+  --bd:#e2e8f0;--bd2:#cbd5e1;
+  --tx:#0f172a;--su:#475569;--mu:#64748b;--dm:#94a3b8;
+  --bl:#2563eb;--am:#d97706;--pu:#7c3aed;--gn:#16a34a;--rd:#dc2626;--cy:#0891b2;
 }
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--tx);font-family:'Noto Sans SC',sans-serif;min-height:100vh;padding:0}
+html,body{background:var(--bg);color:var(--tx);font-family:'Noto Sans SC',sans-serif;min-height:100vh}
+body{padding:32px 24px 60px}
+.container{max-width:1200px;margin:0 auto}
 
-/* hero - 简洁渐变顶栏 */
-.hero{background:linear-gradient(135deg,#4f6ef7 0%,#7c5cf5 40%,#06b6d4 100%);padding:40px 24px 64px;text-align:center;position:relative}
-.hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:40px;background:var(--bg);border-radius:40px 40px 0 0}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 16px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:rgba(255,255,255,.9);margin-bottom:14px}
-.hero h1{font-size:30px;font-weight:700;letter-spacing:-.02em;color:#fff;margin-bottom:8px}
-.hero p{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:20px}
-.stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.stat{background:rgba(255,255,255,.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px 24px;text-align:center}
-.stat-num{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#fff}
-.stat-label{font-size:10px;color:rgba(255,255,255,.65);margin-top:2px}
-
-/* main container - 全宽 */
-.main{max-width:1400px;margin:0 auto;padding:0 32px 60px;position:relative;z-index:2}
-
-/* toolbar */
-.toolbar{display:flex;gap:12px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
-.search-box{flex:1;min-width:200px;position:relative}
-.search-box input{width:100%;padding:10px 14px 10px 38px;border:1.5px solid var(--bd);border-radius:12px;background:var(--s1);font-size:13px;font-family:'Noto Sans SC',sans-serif;color:var(--tx);outline:none;transition:all .2s}
-.search-box input:focus{border-color:var(--bl);box-shadow:0 0 0 3px rgba(79,110,247,.1)}
-.search-box input::placeholder{color:var(--dm)}
-.search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--dm);width:16px;height:16px}
-.view-toggle{display:flex;border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;background:var(--s1)}
-.view-btn{padding:8px 14px;cursor:pointer;font-size:14px;border:none;background:none;color:var(--mu);transition:all .2s}
-.view-btn.active{background:var(--bl);color:#fff}
-
-/* sync button */
-.sync-btn{display:flex;align-items:center;gap:6px;padding:8px 18px;border:1.5px solid var(--bl);border-radius:12px;background:var(--bl-bg);color:var(--bl);font-size:13px;font-weight:600;font-family:'Noto Sans SC',sans-serif;cursor:pointer;transition:all .25s;white-space:nowrap}
-.sync-btn:hover{background:var(--bl);color:#fff;transform:translateY(-1px);box-shadow:0 4px 14px rgba(79,110,247,.25)}
-.sync-btn:active{transform:scale(.97)}
-
-/* toast */
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--tx);color:#fff;padding:14px 24px;border-radius:14px;font-size:13px;z-index:999;box-shadow:0 12px 40px rgba(0,0,0,.15);transition:transform .4s cubic-bezier(.4,0,.2,1);max-width:90vw;text-align:center;line-height:1.6}
-.toast.show{transform:translateX(-50%) translateY(0)}
+/* header */
+.header{text-align:center;margin-bottom:40px}
+.header-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.03);border:1px solid var(--bd);border-radius:20px;padding:4px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--mu);margin-bottom:12px}
+.header h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.header p{font-size:13px;color:var(--mu)}
+.stats{display:flex;gap:20px;justify-content:center;margin-top:16px}
+.stat{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:8px 18px;text-align:center}
+.stat-num{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--bl)}
+.stat-label{font-size:10px;color:var(--mu);margin-top:2px}
 
 /* filters */
-.filters{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-.filter-btn{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--bd);border-radius:24px;padding:7px 16px;cursor:pointer;transition:all .25s;background:var(--s1);font-family:'Noto Sans SC',sans-serif;font-size:12px;font-weight:500;color:var(--su)}
-.filter-btn:hover{border-color:var(--bd2);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.04)}
-.filter-btn.active{color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(0,0,0,.1)}
-.filter-btn.active[data-cat="all"]{background:var(--bl)}
-.filter-btn.active[data-cat="interaction"]{background:var(--bl)}
-.filter-btn.active[data-cat="product"]{background:var(--am)}
-.filter-btn.active[data-cat="serious"]{background:var(--pu)}
-.filter-btn.active[data-cat="combined"]{background:var(--gn)}
-.filter-btn.active[data-cat="claw"]{background:var(--cy)}
-.filter-btn.active[data-cat="pm"]{background:var(--rd)}
-.filter-btn .count{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:10px;background:rgba(0,0,0,.06)}
-.filter-btn.active .count{background:rgba(255,255,255,.25);color:#fff}
+.filters{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap;justify-content:center}
+.filter-btn{display:flex;align-items:center;gap:6px;border:1.5px solid var(--bd);border-radius:10px;padding:8px 16px;cursor:pointer;transition:all .25s;background:var(--s2);font-family:'Noto Sans SC',sans-serif;font-size:12px;font-weight:500;color:var(--su)}
+.filter-btn:hover{border-color:var(--bd2);transform:translateY(-1px);background:var(--s3)}
+.filter-btn.active{border-color:var(--bl);background:rgba(37,99,235,.08);color:var(--bl)}
+.filter-btn .count{font-family:'JetBrains Mono',monospace;font-size:10px;background:rgba(0,0,0,.05);padding:2px 6px;border-radius:4px;color:var(--mu)}
 
 /* timeline */
-.date-group{margin-bottom:28px;animation:fadeUp .4s ease both}
-.date-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.date-dot{width:10px;height:10px;border-radius:50%;background:var(--bl);box-shadow:0 0 0 4px var(--bl-bg);flex-shrink:0}
-.date-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--su);font-weight:500;white-space:nowrap}
-.date-count{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dm);background:var(--s2);padding:2px 8px;border-radius:8px;white-space:nowrap}
-.date-line{height:1px;flex:1;background:linear-gradient(to right,var(--bd),transparent)}
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--bd),transparent)}
+.date-group{margin-bottom:32px}
+.date-label{position:relative;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu);margin-bottom:14px;letter-spacing:.05em}
+.date-label::before{content:'';position:absolute;left:-24px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--bl);border:2px solid var(--bg);box-shadow:0 0 6px rgba(37,99,235,.25)}
 
-/* cards grid - 3列为主 */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.cards.list-view{grid-template-columns:1fr;gap:10px}
+/* cards grid */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
 
 /* card */
-.card{display:block;background:var(--s1);border:1.5px solid var(--bd);border-radius:var(--radius);padding:18px 20px;text-decoration:none;color:var(--tx);transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;cursor:pointer}
-.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ac);border-radius:4px 0 0 4px;opacity:0;transition:opacity .3s}
-.card:hover{border-color:var(--ac);transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.07),0 2px 8px rgba(0,0,0,.04)}
+.card{display:block;background:var(--s2);border:1px solid var(--bd);border-radius:14px;padding:16px 18px;text-decoration:none;color:var(--tx);transition:all .25s;position:relative;overflow:hidden;cursor:pointer}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac);border-radius:3px 0 0 3px;opacity:.6;transition:opacity .25s}
+.card:hover{border-color:var(--ac);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.08)}
 .card:hover::before{opacity:1}
-.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.card-ver{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:8px;font-weight:600}
-.card-ver.c-bl{background:var(--bl-bg);color:var(--bl)}
-.card-ver.c-am{background:var(--am-bg);color:var(--am)}
-.card-ver.c-pu{background:var(--pu-bg);color:var(--pu)}
-.card-ver.c-gn{background:var(--gn-bg);color:var(--gn)}
-.card-ver.c-rd{background:var(--rd-bg);color:var(--rd)}
-.card-ver.c-cy{background:var(--cy-bg);color:var(--cy)}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.card-ver{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(0,0,0,.04);color:var(--ac);font-weight:600}
 .card-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dm)}
-.card-title{font-size:14px;font-weight:600;margin-bottom:5px;line-height:1.5}
-.card-desc{font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:12px}
+.card-title{font-size:14px;font-weight:600;margin-bottom:5px;line-height:1.4}
+.card-desc{font-size:11.5px;color:var(--mu);line-height:1.6;margin-bottom:10px}
 .card-foot{display:flex;justify-content:space-between;align-items:center}
-.card-cat{font-size:10px;padding:3px 10px;border-radius:8px;font-weight:500;display:inline-flex;align-items:center;gap:4px}
-.card-cat.c-bl{background:var(--bl-bg);color:var(--bl)}
-.card-cat.c-am{background:var(--am-bg);color:var(--am)}
-.card-cat.c-pu{background:var(--pu-bg);color:var(--pu)}
-.card-cat.c-gn{background:var(--gn-bg);color:var(--gn)}
-.card-cat.c-rd{background:var(--rd-bg);color:var(--rd)}
-.card-cat.c-cy{background:var(--cy-bg);color:var(--cy)}
-.card-open{font-size:12px;color:var(--ac);font-weight:500;opacity:0;transition:all .3s;transform:translateX(-4px)}
-.card:hover .card-open{opacity:1;transform:translateX(0)}
+.card-cat{font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(0,0,0,.04);color:var(--su);font-weight:500}
+.card-open{font-size:11px;color:var(--ac);font-weight:500;opacity:0;transition:opacity .25s}
+.card:hover .card-open{opacity:1}
 
-/* list view */
-.list-view .card{display:flex;align-items:center;gap:16px;padding:12px 20px}
-.list-view .card-head{margin-bottom:0;flex-shrink:0;width:80px}
-.list-view .card-body{flex:1;min-width:0}
-.list-view .card-title{margin-bottom:2px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.list-view .card-desc{margin-bottom:0;font-size:11px}
-.list-view .card-foot{flex-shrink:0}
-
-/* empty */
-.empty-state{text-align:center;padding:60px 20px}
-.empty-icon{font-size:48px;margin-bottom:12px}
-.empty-text{font-size:14px;color:var(--mu)}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-
-@media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:768px){
-  .hero{padding:32px 16px 56px}
-  .hero h1{font-size:24px}
-  .main{padding:0 16px 40px}
+/* responsive */
+@media(max-width:640px){
+  body{padding:20px 14px 40px}
+  .header h1{font-size:22px}
   .cards{grid-template-columns:1fr}
-  .toolbar{flex-direction:column}
-  .search-box{min-width:100%}
-}
-@media(max-width:400px){
-  .filters{gap:6px}
-  .filter-btn{padding:6px 12px;font-size:11px}
+  .stats{gap:10px}
+  .stat{padding:6px 12px}
 }
 </style>
 </head>
 <body>
-<div class="hero">
-  <div class="hero-badge">◆ DEMO MANAGER</div>
-  <h1>AI Notes · Demo 管理中心</h1>
-  <p>所有产品 Demo · 按内容分类 · 按时间线管理</p>
-  <div class="stats" id="stats"></div>
-</div>
-<div class="main">
-  <div class="toolbar">
-    <div class="search-box">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" id="searchInput" placeholder="搜索 Demo 名称、描述..." oninput="onSearch()"/>
-    </div>
-    <button class="sync-btn" onclick="showSyncTip()" title="同步新 Demo">🔄 同步</button>
-    <div class="view-toggle">
-      <button class="view-btn active" onclick="setView('grid')" id="vGrid">▦</button>
-      <button class="view-btn" onclick="setView('list')" id="vList">☰</button>
+<div class="container">
+  <div class="header">
+    <div class="header-badge">◆ DEMO MANAGER</div>
+    <h1>AI Notes · Demo 管理中心</h1>
+    <p>所有 VP Demo 版本 · 按内容分类 · 按时间排列</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">15</div><div class="stat-label">总 Demo 数</div></div>
+      <div class="stat"><div class="stat-num">5</div><div class="stat-label">分类</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">天</div></div>
     </div>
   </div>
+
   <div class="filters" id="filters"></div>
   <div id="timeline"></div>
-  <div class="empty-state" id="emptyState" style="display:none">
-    <div class="empty-icon">🔍</div>
-    <div class="empty-text">没有找到匹配的 Demo</div>
-  </div>
 </div>
+
 <script>
 const DEMOS = [
-  {file:"demos/ai-demo.html",title:"AI 助手演示 Demo",desc:"AI助手交互演示原型",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-03-01",time:"21:51",ver:"助手v1"},
-  {file:"demos/ai-demo-v2.html",title:"AI 系统调度中枢",desc:"AI系统调度中枢Demo",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-01",time:"22:26",ver:"调度v2"},
-  {file:"demos/xiaomi-ai-note.html",title:"小米 AI Note：系统级数字记忆",desc:"系统级数字记忆完整概念",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-04",time:"23:38",ver:"概念"},
-  {file:"demos/notes-demo.html",title:"AI 笔记 · 交互演示",desc:"AI笔记早期交互演示原型",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-03-05",time:"23:19",ver:"早期"},
-  {file:"demos/roadmap.html",title:"AI笔记 v1 月度路线图",desc:"月度路线图规划",cat:"pm",catName:"项目管理",catIcon:"📊",color:"rd",date:"2026-03-05",time:"23:30",ver:"路线图"},
-  {file:"demos/content-agent-doc.html",title:"内容助手 Agent · 能力定义",desc:"Agent能力定义文档",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-09",time:"20:21",ver:"Agent v1"},
-  {file:"demos/content-agent-doc-1.html",title:"内容助手 Agent · v1.1",desc:"能力定义迭代",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-09",time:"20:43",ver:"Agent v1.1"},
-  {file:"demos/content-agent-doc-2.html",title:"内容助手 Agent · v1.2",desc:"能力定义持续迭代",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"10:33",ver:"Agent v1.2"},
-  {file:"demos/content-agent-doc-3.html",title:"内容助手 Agent · v1.3",desc:"能力定义优化",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"17:31",ver:"Agent v1.3"},
-  {file:"demos/content-agent-doc-4.html",title:"内容助手 Agent · v1.4",desc:"能力定义细节调整",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"17:33",ver:"Agent v1.4"},
-  {file:"demos/content-agent-doc-v3.html",title:"内容助手 Agent · v3",desc:"能力定义v3大版本",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"18:14",ver:"Agent v3"},
-  {file:"demos/content-agent-doc-v3-1.html",title:"内容助手 Agent · v3.1",desc:"v3迭代",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"18:24",ver:"Agent v3.1"},
-  {file:"demos/content-agent-doc-v3-2.html",title:"内容助手 Agent · v3.2",desc:"v3持续迭代",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"18:28",ver:"Agent v3.2"},
-  {file:"demos/content-agent-doc-v3-3.html",title:"内容助手 Agent · v3.3",desc:"v3优化",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"18:41",ver:"Agent v3.3"},
-  {file:"demos/content-agent-doc-v3-4.html",title:"内容助手 Agent · v3.4",desc:"v3定稿",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"18:42",ver:"Agent v3.4"},
-  {file:"demos/content-agent-doc-v4.html",title:"内容助手 Agent · v4",desc:"能力定义v4最新版",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"20:10",ver:"Agent v4"},
-  {file:"demos/notes-tools-skills-v5.html",title:"内容助手 · Tools & Skills v5",desc:"笔记工具与技能定义",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"21:23",ver:"Skills v5"},
-  {file:"demos/notes-tools-skills-v6.html",title:"内容助手 · Tools & Skills v6",desc:"工具与技能迭代",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"21:56",ver:"Skills v6"},
-  {file:"demos/notes-tools-skills-v6-1.html",title:"内容助手 · Skills v6.1",desc:"Skills迭代",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"21:57",ver:"Skills v6.1"},
-  {file:"demos/notes-tools-skills-v6-2.html",title:"内容助手 · Skills v6.2",desc:"Skills优化",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"22:03",ver:"Skills v6.2"},
-  {file:"demos/notes-tools-skills-v6-3.html",title:"内容助手 · Skills v6.3",desc:"Skills定稿",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-10",time:"22:06",ver:"Skills v6.3"},
-  {file:"demos/agent-architecture-demo.html",title:"MiClaw Agent 架构演示",desc:"主Agent与子Agent关系",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-11",time:"20:32",ver:"架构"},
-  {file:"demos/notes-roadmap-march-v2.html",title:"AI 笔记 v1 · 2026年3月",desc:"3月版本路线图",cat:"pm",catName:"项目管理",catIcon:"📊",color:"rd",date:"2026-03-12",time:"11:46",ver:"3月路线"},
-  {file:"demos/vp-demo-v2.html",title:"AI Notes · 初版原型",desc:"4种输入类型 · 差异化AI交互",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-03-12",time:"23:22",ver:"v2.0"},
-  {file:"demos/vp-demo-v2-1.html",title:"AI Notes · VP Demo v1",desc:"4种输入类型 · 差异化AI交互",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-03-12",time:"23:56",ver:"v2.1"},
-  {file:"demos/vp-demo-v2-2.html",title:"AI Notes · 交互演示 v2",desc:"4种场景 · AI自动理解意图",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-03-13",time:"09:46",ver:"v2.2"},
-  {file:"demos/vp-demo-v2-3.html",title:"AI Notes · 交互演示 v3",desc:"交互优化迭代",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-03-13",time:"10:17",ver:"v2.3"},
-  {file:"demos/vp-demo-v2-4.html",title:"AI Notes · 交互演示 v4",desc:"持续优化",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-03-13",time:"10:40",ver:"v2.4"},
-  {file:"demos/vp-demo-v2-5.html",title:"AI Notes · 交互演示 v5",desc:"细节调整",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-03-13",time:"11:06",ver:"v2.5"},
-  {file:"demos/vp-demo-v2-6.html",title:"AI Notes · 交互演示 v6",desc:"交互打磨",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-03-13",time:"11:12",ver:"v2.6"},
-  {file:"demos/vp-demo-v2-7.html",title:"AI Notes · 交互演示 v7",desc:"交互定稿",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-03-13",time:"11:19",ver:"v2.7"},
-  {file:"demos/vp-demo-v2-8.html",title:"AI Notes · 产品定义画布",desc:"三个核心主体 · v0.2评审版",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-13",time:"14:45",ver:"v2.8"},
-  {file:"demos/vp-demo-v2-9.html",title:"AI Notes · Trust模式",desc:"Trust A/B方案 · Before/After",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-13",time:"16:16",ver:"v2.9"},
-  {file:"demos/vp-demo-v2-10.html",title:"AI Notes · 快速记录版",desc:"Trust模式 · 快速记录+AI整理",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-13",time:"16:19",ver:"v2.10"},
-  {file:"demos/vp-demo-serious.html",title:"AI Notes · 严肃创作版",desc:"分段讨论 · 精准控制",cat:"serious",catName:"严肃创作",catIcon:"✍️",color:"pu",date:"2026-03-13",time:"19:19",ver:"严肃版"},
-  {file:"demos/vp-demo-combined.html",title:"AI Notes · 完整版",desc:"快速记录+严肃创作 · 两种模式",cat:"combined",catName:"完整版",catIcon:"📦",color:"gn",date:"2026-03-13",time:"20:15",ver:"完整版"},
-  {file:"demos/vp-demo-claw.html",title:"Claw · 系统级语音光线",desc:"任何App底部一条光线",cat:"claw",catName:"Claw光线",catIcon:"✨",color:"cy",date:"2026-03-14",time:"11:35",ver:"Claw v1"},
-  {file:"demos/vp-demo-claw-v2.html",title:"Claw v2 · 三层分区",desc:"三层分区架构",cat:"claw",catName:"Claw光线",catIcon:"✨",color:"cy",date:"2026-03-16",time:"17:44",ver:"Claw v2"},
-  {file:"demos/vp-demo-claw-v3.html",title:"Claw v3 · 二层合一",desc:"李楠方案 · 简化架构",cat:"claw",catName:"Claw光线",catIcon:"✨",color:"cy",date:"2026-03-16",time:"18:07",ver:"Claw v3"},
-  {file:"demos/vp-demo-combined-v2.html",title:"AI Notes v2 · 李楠方案",desc:"李楠方案 · 完整版迭代",cat:"combined",catName:"完整版",catIcon:"📦",color:"gn",date:"2026-03-16",time:"18:52",ver:"完整v2"},
-  {file:"demos/vp-demo-combined-v3.html",title:"AI Notes v3 · 对话框即历史",desc:"对话框即历史 · 交互创新",cat:"combined",catName:"完整版",catIcon:"📦",color:"gn",date:"2026-03-16",time:"19:16",ver:"完整v3"},
-  {file:"demos/vp-demo-claw-v4.html",title:"Claw v4 · 产品级交互",desc:"产品级交互设计",cat:"claw",catName:"Claw光线",catIcon:"✨",color:"cy",date:"2026-03-16",time:"19:59",ver:"Claw v4"},
-  {file:"demos/vp-demo-combined-v4.html",title:"Claw 全场景产品演示",desc:"全场景产品演示",cat:"claw",catName:"Claw光线",catIcon:"✨",color:"cy",date:"2026-03-16",time:"21:57",ver:"全场景"},
-  {file:"demos/vp-demo-combined-v5.html",title:"Claw v5 三层架构（双端）",desc:"三层架构双端适配",cat:"claw",catName:"Claw光线",catIcon:"✨",color:"cy",date:"2026-03-17",time:"13:45",ver:"双端"},
-  {file:"demos/vp-demo-claw-v5.html",title:"Claw v5 · 三层架构（当前主力）",desc:"当前主力方案",cat:"claw",catName:"Claw光线",catIcon:"✨",color:"cy",date:"2026-03-17",time:"13:58",ver:"Claw v5"},
-  {file:"demos/ai_note_roadmap.html",title:"AI NOTE · 发布节奏",desc:"发布节奏规划初版",cat:"pm",catName:"项目管理",catIcon:"📊",color:"rd",date:"2026-03-17",time:"14:00",ver:"排期v1"},
-  {file:"demos/ai_note_roadmap_v2.html",title:"手机端版本发布节奏",desc:"排期看板",cat:"pm",catName:"项目管理",catIcon:"📊",color:"rd",date:"2026-03-17",time:"19:50",ver:"排期v2"},
-  {file:"demos/ai_note_ai_team_requirements.html",title:"AI团队功能需求清单",desc:"AI团队需求定义",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-19",time:"17:05",ver:"AI需求"},
-  {file:"demos/ai_note_release_strategy.html",title:"版本灰度发布策略对比",desc:"灰度发布策略对比",cat:"pm",catName:"项目管理",catIcon:"📊",color:"rd",date:"2026-03-19",time:"23:24",ver:"灰度"},
-  {file:"demos/ai_note_combined.html",title:"手机端大版本需求排期",desc:"需求排期与发布策略",cat:"pm",catName:"项目管理",catIcon:"📊",color:"rd",date:"2026-03-20",time:"12:48",ver:"排期合并"},
-  {file:"demos/ai_note_combined_v2.html",title:"手机端需求排期 v2",desc:"需求排期迭代",cat:"pm",catName:"项目管理",catIcon:"📊",color:"rd",date:"2026-03-20",time:"20:36",ver:"排期v2"},
-  {file:"demos/ai_note_combined_v3.html",title:"进度汇报 + 发布策略",desc:"进度汇报+发布策略",cat:"pm",catName:"项目管理",catIcon:"📊",color:"rd",date:"2026-03-22",time:"18:03",ver:"汇报"},
-  {file:"demos/ai_note_combined_v4.html",title:"手机端进度汇报 v4",desc:"进度汇报最新版",cat:"pm",catName:"项目管理",catIcon:"📊",color:"rd",date:"2026-03-22",time:"20:47",ver:"汇报v4"},
-  {file:"demos/miclaw-note-architecture.html",title:"MiClaw 笔记架构",desc:"笔记APP架构设计",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-03-23",time:"16:51",ver:"架构v2"},
-  {file:"demos/miclaw-note-scenes-demo.html",title:"MiClaw 笔记场景演示",desc:"23个用户场景",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-03-25",time:"13:30",ver:"场景"},
-  {file:"demos/pm-delivery-loop.html",title:"新时代产品经理的交付闭环",desc:"交付闭环方法论",cat:"pm",catName:"项目管理",catIcon:"📊",color:"rd",date:"2026-03-27",time:"19:12",ver:"交付闭环"},
-  {file:"demos/note-homepage-v2-demo.html",title:"AI笔记 · 首页概念",desc:"首页概念设计v2",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-13",time:"14:24",ver:"首页v2"},
-  {file:"demos/note-search-qa-demo.html",title:"AI笔记 · 搜索+问答融合",desc:"搜索与问答融合交互",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-16",time:"14:03",ver:"搜索QA"},
-  {file:"demos/note-recording-lockscreen-demo.html",title:"AI笔记 · 录音锁屏状态",desc:"录音时锁屏状态交互",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-17",time:"19:12",ver:"锁屏v1"},
-  {file:"demos/note-recording-lockscreen-v2.html",title:"AI笔记 · 录音锁屏 v2",desc:"录音锁屏优化方案",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-17",time:"19:45",ver:"锁屏v2"},
-  {file:"demos/note-recording-lockscreen-v3.html",title:"AI笔记 · 录音锁屏 v3",desc:"录音锁屏迭代",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-17",time:"20:05",ver:"锁屏v3"},
-  {file:"demos/note-recording-lockscreen-v4.html",title:"AI笔记 · 录音锁屏 v4",desc:"录音锁屏定稿",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-17",time:"20:09",ver:"锁屏v4"},
-  {file:"demos/import-loading-showcase.html",title:"导入中间态 · 全方案展示",desc:"导入中间态交互全方案",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-18",time:"15:27",ver:"导入态"},
-  {file:"demos/note-recording-notification-hifi.html",title:"录音锁屏通知 · 高保真方案",desc:"录音锁屏通知高保真",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-20",time:"10:35",ver:"通知HiFi"},
-  {file:"demos/note-markdown-style-demo.html",title:"笔记Markdown排版 · 优化对比",desc:"Markdown排版优化前后对比",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-21",time:"14:28",ver:"MD排版"},
-  {file:"demos/note-markdown-spec-demo.html",title:"AI笔记 Markdown排版规范",desc:"排版规范全场景对照",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-04-21",time:"14:38",ver:"MD规范"},
-  {file:"demos/note-md-spec-v2.html",title:"AI笔记 Markdown排版规范 v2",desc:"排版规范迭代",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-04-21",time:"15:32",ver:"MD规范v2"},
-  {file:"demos/import-loading-extra.html",title:"导入中间态 · 补充方案",desc:"导入中间态补充方案",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-21",time:"17:26",ver:"导入补充"},
-  {file:"demos/import-flow-demo.html",title:"笔记导入生成流程",desc:"导入生成完整流程交互",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-22",time:"14:08",ver:"导入流程"},
-  {file:"demos/import-fullscreen-anim.html",title:"笔记AI生成 · Canvas动效",desc:"AI生成Canvas动效演示",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-22",time:"14:34",ver:"Canvas动效"},
-  {file:"demos/ai-related-notes-demo.html",title:"AI 关联笔记推荐 · 效果验证",desc:"AI实时计算关联笔记推荐结果 · by @沈竹琦",cat:"interaction",catName:"交互演示",catIcon:"🎯",color:"bl",date:"2026-04-23",time:"10:00",ver:"关联推荐"},
-  {file:"demos/note-formatting-demo.html",title:"Markdown 排版规范 Demo",desc:"笔记详情页Markdown排版规范 · HyperOS Design System v2.1 · by @李晓东",cat:"product",catName:"产品定义",catIcon:"📐",color:"am",date:"2026-04-24",time:"10:00",ver:"排版v2.1"},
+  {file:"demos/vp-demo-v2.html",title:"AI Notes · 初版原型",desc:"4种输入类型 · 差异化AI交互模式",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-12",time:"23:22",ver:"v2.0"},
+  {file:"demos/vp-demo-v2-1.html",title:"AI Notes · VP Demo v1",desc:"4种输入类型 · 差异化AI交互模式",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-12",time:"23:56",ver:"v2.1"},
+  {file:"demos/vp-demo-v2-2.html",title:"AI Notes · 交互演示 v2",desc:"4种场景 · AI自动理解意图 · Light模式",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"09:46",ver:"v2.2"},
+  {file:"demos/vp-demo-v2-3.html",title:"AI Notes · 交互演示 v3",desc:"4种场景 · 交互优化迭代",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"10:17",ver:"v2.3"},
+  {file:"demos/vp-demo-v2-4.html",title:"AI Notes · 交互演示 v4",desc:"4种场景 · 持续优化",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"10:40",ver:"v2.4"},
+  {file:"demos/vp-demo-v2-5.html",title:"AI Notes · 交互演示 v5",desc:"4种场景 · 细节调整",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"11:06",ver:"v2.5"},
+  {file:"demos/vp-demo-v2-6.html",title:"AI Notes · 交互演示 v6",desc:"4种场景 · 交互打磨",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"11:12",ver:"v2.6"},
+  {file:"demos/vp-demo-v2-7.html",title:"AI Notes · 交互演示 v7",desc:"4种场景 · 交互定稿",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-03-13",time:"11:19",ver:"v2.7"},
+  {file:"demos/vp-demo-v2-8.html",title:"AI Notes · 产品定义画布",desc:"产品定义画布 · 三个核心主体 · v0.2评审版",cat:"product",catName:"产品定义",color:"am",date:"2026-03-13",time:"14:45",ver:"v2.8"},
+  {file:"demos/vp-demo-v2-9.html",title:"AI Notes · Trust模式 + 产品定义",desc:"Trust A/B方案 · 产品定义画布 · Before/After确认",cat:"product",catName:"产品定义",color:"am",date:"2026-03-13",time:"16:16",ver:"v2.9"},
+  {file:"demos/vp-demo-v2-10.html",title:"AI Notes · 快速记录版",desc:"Trust模式 · 快速记录+AI整理 · 完整产品定义",cat:"product",catName:"产品定义",color:"am",date:"2026-03-13",time:"19:52",ver:"v2.10"},
+  {file:"demos/vp-demo-serious.html",title:"AI Notes · 严肃创作版",desc:"分段讨论 · 精准控制 · 高质量输出",cat:"serious",catName:"严肃创作",color:"pu",date:"2026-03-13",time:"20:45",ver:"严肃版"},
+  {file:"demos/vp-demo-combined.html",title:"AI Notes · 完整版",desc:"快速记录+严肃创作 · 两种交互模式完整演示",cat:"combined",catName:"完整版",color:"gn",date:"2026-03-13",time:"22:41",ver:"完整版"},
+  {file:"demos/vp-demo-claw.html",title:"Claw · 系统级语音光线",desc:"任何App底部一条光线 · 系统级常驻入口",cat:"claw",catName:"Claw光线",color:"cy",date:"2026-03-15",time:"16:36",ver:"Claw"},
+  {file:"demos/note-homepage-icons.html",title:"笔记首页底部Icon方案对比",desc:"11个方案 · 导入/语音/文字三入口 · 两轮迭代",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-05-06",time:"10:30",ver:"Icon"},
 ];
-const CATS=[
-  {id:"all",name:"全部",icon:"📋"},
-  {id:"interaction",name:"交互演示",icon:"🎯"},
-  {id:"product",name:"产品定义",icon:"📐"},
-  {id:"serious",name:"严肃创作",icon:"✍️"},
-  {id:"combined",name:"完整版",icon:"📦"},
-  {id:"claw",name:"Claw光线",icon:"✨"},
-  {id:"pm",name:"项目管理",icon:"📊"},
-];
-let activeCat="all",searchQuery="",viewMode="grid";
-function getFiltered(){
-  let l=activeCat==="all"?DEMOS:DEMOS.filter(d=>d.cat===activeCat);
-  if(searchQuery){const q=searchQuery.toLowerCase();l=l.filter(d=>(d.title+d.desc+d.ver+d.catName).toLowerCase().includes(q))}
-  return l;
-}
-function renderStats(){
-  const c=new Set(DEMOS.map(d=>d.cat)),dy=new Set(DEMOS.map(d=>d.date));
-  document.getElementById("stats").innerHTML=`<div class="stat"><div class="stat-num">${DEMOS.length}</div><div class="stat-label">总 Demo</div></div><div class="stat"><div class="stat-num">${c.size}</div><div class="stat-label">分类</div></div><div class="stat"><div class="stat-num">${dy.size}</div><div class="stat-label">天</div></div>`;
-}
-function renderFilters(){
-  document.getElementById("filters").innerHTML=CATS.map(c=>{
-    const n=c.id==="all"?DEMOS.length:DEMOS.filter(d=>d.cat===c.id).length;
-    return `<button class="filter-btn ${activeCat===c.id?'active':''}" data-cat="${c.id}" onclick="setFilter('${c.id}')">${c.icon} ${c.name} <span class="count">${n}</span></button>`;
-  }).join("");
-}
-function setFilter(c){activeCat=c;renderFilters();renderTimeline()}
-function onSearch(){searchQuery=document.getElementById("searchInput").value;renderTimeline()}
-function setView(v){viewMode=v;document.getElementById("vGrid").className="view-btn"+(v==="grid"?" active":"");document.getElementById("vList").className="view-btn"+(v==="list"?" active":"");renderTimeline()}
-function renderTimeline(){
-  const f=getFiltered(),em=document.getElementById("emptyState"),el=document.getElementById("timeline");
-  if(!f.length){el.innerHTML="";em.style.display="block";return}
-  em.style.display="none";
-  const g={};f.forEach(d=>{if(!g[d.date])g[d.date]=[];g[d.date].push(d)});
-  const ds=Object.keys(g).sort((a,b)=>b.localeCompare(a));
-  el.innerHTML=ds.map((date,i)=>{
-    const cards=g[date].sort((a,b)=>b.time.localeCompare(a.time));
-    return `<div class="date-group" style="animation-delay:${i*50}ms"><div class="date-header"><div class="date-dot"></div><div class="date-label">${formatDate(date)}</div><div class="date-count">${cards.length} 个</div><div class="date-line"></div></div><div class="cards ${viewMode==='list'?'list-view':''}">${cards.map(renderCard).join("")}</div></div>`;
-  }).join("");
-}
-function formatDate(d){const[y,m,day]=d.split("-");const w=["日","一","二","三","四","五","六"];return `${+m}月${+day}日 · 周${w[new Date(d).getDay()]}`}
-function renderCard(d){
-  if(viewMode==="list")return `<a href="${d.file}" target="_blank" class="card" style="--ac:var(--${d.color})"><div class="card-head"><span class="card-ver c-${d.color}">${d.ver}</span></div><div class="card-body"><div class="card-title">${d.title}</div><div class="card-desc">${d.desc}</div></div><div class="card-foot"><span class="card-time">🕐 ${d.time}</span><span class="card-open">打开 →</span></div></a>`;
-  return `<a href="${d.file}" target="_blank" class="card" style="--ac:var(--${d.color})"><div class="card-head"><span class="card-ver c-${d.color}">${d.ver}</span><span class="card-time">🕐 ${d.time}</span></div><div class="card-title">${d.title}</div><div class="card-desc">${d.desc}</div><div class="card-foot"><span class="card-cat c-${d.color}">${d.catIcon} ${d.catName}</span><span class="card-open">打开 →</span></div></a>`;
-}
-renderStats();renderFilters();renderTimeline();
 
-function showSyncTip(){
-  let t=document.getElementById('syncToast');
-  if(!t){t=document.createElement('div');t.id='syncToast';t.className='toast';document.body.appendChild(t)}
-  t.innerHTML='🔄 请在 Kiro 左侧 Agent Hooks 面板<br>点击「一键同步 Demo 到管理后台」按钮';
-  setTimeout(()=>t.classList.add('show'),10);
-  setTimeout(()=>t.classList.remove('show'),4000);
+const CATS = [
+  {id:"all",name:"全部",icon:"📋",count:DEMOS.length},
+  {id:"interaction",name:"交互演示",icon:"🎯",count:DEMOS.filter(d=>d.cat==="interaction").length,color:"bl"},
+  {id:"product",name:"产品定义",icon:"📐",count:DEMOS.filter(d=>d.cat==="product").length,color:"am"},
+  {id:"serious",name:"严肃创作",icon:"✍️",count:DEMOS.filter(d=>d.cat==="serious").length,color:"pu"},
+  {id:"combined",name:"完整版",icon:"📦",count:DEMOS.filter(d=>d.cat==="combined").length,color:"gn"},
+  {id:"claw",name:"Claw光线",icon:"✨",count:DEMOS.filter(d=>d.cat==="claw").length,color:"cy"},
+];
+
+let activeCat = "all";
+
+function renderFilters(){
+  const el = document.getElementById("filters");
+  el.innerHTML = CATS.map(c=>`<button class="filter-btn ${activeCat===c.id?'active':''}" onclick="setFilter('${c.id}')">${c.icon} ${c.name} <span class="count">${c.count}</span></button>`).join("");
 }
-;(function(){var _u='https://kuxoynefvajmvqemprbs.supabase.co/rest/v1/visitors',_k='sb_publishable_txnvcWwQ__1STTuO8CfhAg_-hBj_2oX';try{fetch('https://ipapi.co/json/').then(function(r){return r.json()}).then(function(g){var d={ip:g.ip||'',city:g.city||'',region:g.region||'',country:g.country_name||'',org:g.org||'',ua:navigator.userAgent,lang:navigator.language,screen:screen.width+'x'+screen.height,ref:document.referrer,path:location.pathname};fetch(_u,{method:'POST',headers:{'Content-Type':'application/json','apikey':_k,'Authorization':'Bearer '+_k},body:JSON.stringify(d)})}).catch(function(){})}catch(e){}})();
+
+function setFilter(cat){
+  activeCat = cat;
+  renderFilters();
+  renderTimeline();
+}
+
+function renderTimeline(){
+  const filtered = activeCat==="all" ? DEMOS : DEMOS.filter(d=>d.cat===activeCat);
+  const groups = {};
+  filtered.forEach(d=>{
+    if(!groups[d.date]) groups[d.date]=[];
+    groups[d.date].push(d);
+  });
+  const sortedDates = Object.keys(groups).sort((a,b)=>b.localeCompare(a));
+  const el = document.getElementById("timeline");
+  el.innerHTML = sortedDates.map(date=>{
+    const dayLabel = formatDate(date);
+    const cards = groups[date].sort((a,b)=>b.time.localeCompare(a.time));
+    return `<div class="date-group">
+      <div class="date-label">${dayLabel} · ${cards.length} 个版本</div>
+      <div class="cards">${cards.map(renderCard).join("")}</div>
+    </div>`;
+  }).join("");
+}
+
+function formatDate(d){
+  const [y,m,day] = d.split("-");
+  const weekdays=["日","一","二","三","四","五","六"];
+  const dt = new Date(d);
+  return `${y}年${+m}月${+day}日 · 周${weekdays[dt.getDay()]}`;
+}
+
+function renderCard(d){
+  return `<a href="${d.file}" target="_blank" class="card" style="--ac:var(--${d.color})">
+    <div class="card-head">
+      <span class="card-ver">${d.ver}</span>
+      <span class="card-time">${d.time}</span>
+    </div>
+    <div class="card-title">${d.title}</div>
+    <div class="card-desc">${d.desc}</div>
+    <div class="card-foot">
+      <span class="card-cat">${d.catName}</span>
+      <span class="card-open">打开 →</span>
+    </div>
+  </a>`;
+}
+
+renderFilters();
+renderTimeline();
 </script>
+</body>
+</html>
 </body>
 </html>
