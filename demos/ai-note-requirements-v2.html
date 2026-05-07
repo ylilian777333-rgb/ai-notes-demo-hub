@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Note APP 二期需求文档合集</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro","Noto Sans SC",sans-serif;background:#f8f9fa;color:#1a1a1a;padding:24px;line-height:1.6}
+.container{max-width:1200px;margin:0 auto}
+h1{font-size:24px;font-weight:700;margin-bottom:8px;text-align:center}
+.subtitle{text-align:center;color:#666;font-size:13px;margin-bottom:24px}
+
+.alert{background:#fff0f0;border:1px solid #fcc;border-radius:12px;padding:16px 20px;margin-bottom:20px}
+.alert-title{font-weight:700;color:#d32f2f;font-size:14px;margin-bottom:8px}
+.alert ul{font-size:13px;color:#333;padding-left:20px}
+.alert li{margin-bottom:4px}
+.alert .highlight{color:#d32f2f;font-weight:600}
+
+.callout{background:#fff8e1;border:1px solid #ffe082;border-radius:12px;padding:16px 20px;margin-bottom:24px}
+.callout-title{font-weight:700;color:#f57c00;font-size:14px;margin-bottom:8px}
+.callout ul{font-size:13px;color:#333;padding-left:20px}
+.callout li{margin-bottom:4px}
+.callout strong{color:#e65100}
+
+h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e0e0e0}
+h3{font-size:14px;font-weight:600;color:#555;margin:20px 0 12px}
+
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:24px;font-size:13px}
+th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;color:#333;border-bottom:1px solid #e0e0e0;white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover{background:#fafafa}
+
+.status-done{color:#2e7d32;font-weight:600}
+.status-dev{color:#1565c0;font-weight:500}
+.status-blocked{color:#d32f2f;font-weight:600}
+.status-pending{color:#999}
+.priority{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.p00{background:#fce4ec;color:#c62828}
+.p0{background:#fff3e0;color:#e65100}
+.p1{background:#e3f2fd;color:#1565c0}
+.p2{background:#f5f5f5;color:#757575}
+
+.feature-tag{display:inline-block;background:#e8eaf6;color:#3949ab;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;margin-bottom:4px}
+
+.footer{text-align:center;color:#999;font-size:11px;margin-top:40px;padding-top:20px;border-top:1px solid #eee}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>AI Note APP 二期需求文档合集</h1>
+<p class="subtitle">以语音速记为核心，覆盖「收 → 理 → 找 → 用」全链路的AI笔记</p>
+
+<div class="alert">
+  <div class="alert-title">⚠️ 风险同步</div>
+  <ul>
+    <li>二期需求：原计划509合入的需求中，目前<span class="highlight">仅一个完成日更外发，两个开发完成待合入</span></li>
+    <li>日更需求：P00的录音过程中需求，累计5个，目前<span class="highlight">仅一个完成日更外发</span></li>
+    <li class="highlight">需求覆盖手机、Q18、Pad，产品侧建议手机侧交付为第一优先级</li>
+  </ul>
+</div>
+
+
+<h2>二期三大明星特性</h2>
+
+<table>
+  <tr>
+    <th>明星特性</th>
+    <th>需求名称</th>
+    <th>4/30状态</th>
+    <th>优先级</th>
+    <th>备注</th>
+  </tr>
+  <tr>
+    <td rowspan="3"><span class="feature-tag">特性一</span><br><strong>说话就能记<br>——零门槛的AI笔记</strong></td>
+    <td>截图/图片/文档/PDF/链接导入<br>+AI自动OCR结构化</td>
+    <td class="status-blocked">开发未完成<br>文档解析需开发提供，链接解析隐私未通过</td>
+    <td><span class="priority p00">P00</span></td>
+    <td>动效等均未完成</td>
+  </tr>
+  <tr>
+    <td>识屏/分享面板/跨APP内容采集</td>
+    <td class="status-blocked">未开始，无排期</td>
+    <td><span class="priority p0">P0</span></td>
+    <td>识屏依赖MiClaw</td>
+  </tr>
+  <tr>
+    <td>跨端采集（戒指/手表/手环等）</td>
+    <td class="status-blocked">开发未完成<br>卡点在可穿戴侧排期，我们侧可5/8完成</td>
+    <td><span class="priority p00">P00</span></td>
+    <td>进度30%</td>
+  </tr>
+  <tr>
+    <td rowspan="3"><span class="feature-tag">特性二</span><br><strong>AI深度理解内容<br>——说句话就能加工任何笔记</strong></td>
+    <td>对话框交互优化 + 一句话指令修改笔记<br>+ 选中段落局部润色 + 动态Chips推荐</td>
+    <td class="status-done">✅ 开发完成<br>待TMG评审</td>
+    <td><span class="priority p00">P00</span></td>
+    <td>tmg文档已完成，等测试摸底</td>
+  </tr>
+  <tr>
+    <td>AI搜索整体优化</td>
+    <td class="status-done">✅ 待搜索侧合入</td>
+    <td><span class="priority p00">P00</span></td>
+    <td>已合入</td>
+  </tr>
+  <tr>
+    <td>AI自动关联 + 相关笔记推荐</td>
+    <td class="status-blocked">依赖AI搜索，暂无排期</td>
+    <td><span class="priority p0">P0</span></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td rowspan="3"><span class="feature-tag">特性三</span><br><strong>笔记自己会长<br>——系统级内容自动汇聚</strong></td>
+    <td>待办↔系统待办中心↔日历三端同步</td>
+    <td class="status-blocked">排期优先级冲突，暂无排期</td>
+    <td><span class="priority p00">P00</span></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>导出Markdown / 音频原文 + 写入飞书 + 分享</td>
+    <td class="status-done">✅ 导出/分享基础能力已外发</td>
+    <td><span class="priority p00">P00</span></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Agent产出滚动更新到已有笔记</td>
+    <td class="status-blocked">未开始，无排期</td>
+    <td><span class="priority p0">P0</span></td>
+    <td></td>
+  </tr>
+</table>
+
+
+<h2>日更需求（正常迭代）</h2>
+
+<table>
+  <tr>
+    <th>分类</th>
+    <th>需求项</th>
+    <th>状态</th>
+    <th>优先级</th>
+  </tr>
+  <tr>
+    <td rowspan="4">数据与同步</td>
+    <td>云同步剩余功能补齐（录音转录和总结）</td>
+    <td class="status-dev">开发已完成，测试中，4/30代码已合入</td>
+    <td><span class="priority p0">P0</span></td>
+  </tr>
+  <tr>
+    <td>云备份（新功能）</td>
+    <td class="status-blocked">未开始</td>
+    <td><span class="priority p2">P2</span></td>
+  </tr>
+  <tr>
+    <td>新版本笔记格式旧版本兼容</td>
+    <td class="status-blocked">未开始</td>
+    <td><span class="priority p2">P2</span></td>
+  </tr>
+  <tr>
+    <td>三方数据兼容（iOS换机/贴一贴）</td>
+    <td class="status-done">✅ 已完成</td>
+    <td><span class="priority p2">P2</span></td>
+  </tr>
+  <tr>
+    <td rowspan="5">录音相关</td>
+    <td>边录边记</td>
+    <td class="status-dev">已完成开发，未进版</td>
+    <td><span class="priority p00">P00</span></td>
+  </tr>
+  <tr>
+    <td>录音详情页修改（高亮跟随/跳转/命名规则）</td>
+    <td class="status-dev">已完成开发，未进版</td>
+    <td><span class="priority p00">P00</span></td>
+  </tr>
+  <tr>
+    <td>录音拍照标记 + AI总结标记内容</td>
+    <td class="status-blocked">未开始</td>
+    <td><span class="priority p00">P00</span></td>
+  </tr>
+  <tr>
+    <td>总结转录页AI生成标识位置修改</td>
+    <td class="status-done">✅ 已完成外发</td>
+    <td><span class="priority p00">P00</span></td>
+  </tr>
+  <tr>
+    <td>录音页动效调整</td>
+    <td class="status-blocked">未开始</td>
+    <td><span class="priority p00">P00</span></td>
+  </tr>
+  <tr>
+    <td rowspan="3">遗留重要功能</td>
+    <td>OS action / ActionFunction</td>
+    <td class="status-blocked">未开始</td>
+    <td><span class="priority p2">P2</span></td>
+  </tr>
+  <tr>
+    <td>外部调起笔记适配（数据&界面）</td>
+    <td class="status-dev">进行中，遗留3个bug</td>
+    <td><span class="priority p0">P0</span></td>
+  </tr>
+  <tr>
+    <td>互联互通适配（镜像/跨数据传输）</td>
+    <td class="status-blocked">未开始</td>
+    <td><span class="priority p2">P2</span></td>
+  </tr>
+  <tr>
+    <td rowspan="2">其他存量功能</td>
+    <td>中低端机</td>
+    <td class="status-dev">开发完成，代码未合入，遗留1C+6M</td>
+    <td><span class="priority p0">P0</span></td>
+  </tr>
+  <tr>
+    <td>Pad、折叠屏</td>
+    <td class="status-dev">进行中</td>
+    <td><span class="priority p1">P1</span></td>
+  </tr>
+</table>
+
+<div class="footer">
+  AI Note APP · 二期需求文档合集 · 更新时间 2026-05-06
+</div>
+
+</div>
+</body>
+</html>

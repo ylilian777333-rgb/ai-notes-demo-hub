@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>请勿关机</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:-apple-system,"Noto Sans SC",sans-serif}
+.container{text-align:center;padding:40px}
+.icon{font-size:80px;margin-bottom:24px;animation:pulse 2s infinite}
+.main-text{font-size:96px;font-weight:800;color:#ff4444;margin-bottom:20px;text-shadow:0 0 30px rgba(255,68,68,.3)}
+.sub-text{font-size:40px;color:#ccc;margin-bottom:48px}
+.status{display:inline-flex;align-items:center;gap:10px;background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:12px 24px}
+.dot{width:12px;height:12px;background:#4caf50;border-radius:50%;animation:blink 1.5s infinite}
+.status-text{font-size:16px;color:#4caf50}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="icon">🖥️</div>
+  <div class="main-text">请勿关机</div>
+  <div class="sub-text">不要帮我关机，在跑 case</div>
+  <div class="status"><div class="dot"></div><span class="status-text">运行中...</span></div>
+</div>
+</body>
+</html>
