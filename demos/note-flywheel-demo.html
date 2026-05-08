@@ -8,207 +8,215 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC",sans-serif;background:#f0f0f5;display:flex;flex-direction:column;align-items:center;padding:24px;min-height:100vh}
 h1{font-size:18px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
-.subtitle{font-size:11px;color:#999;margin-bottom:20px}
+.subtitle{font-size:11px;color:#999;margin-bottom:20px;text-align:center}
 
-/* Controls */
-.controls{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
-.step-btn{padding:6px 14px;border-radius:16px;border:1px solid #ddd;background:#fff;font-size:11px;color:#666;cursor:pointer;transition:all .2s}
+.controls{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;justify-content:center}
+.step-btn{padding:6px 12px;border-radius:14px;border:1.5px solid #e0e0e0;background:#fff;font-size:10px;color:#666;cursor:pointer;transition:all .2s;font-weight:500}
 .step-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.step-btn:hover{border-color:#999}
-.step-info{text-align:center;margin-bottom:16px;max-width:400px}
-.step-label{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.step-info{text-align:center;margin-bottom:14px;max-width:420px}
+.step-label{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
 .step-desc{font-size:11px;color:#888;line-height:1.5}
 
 /* Phone */
 .phone{width:375px;background:#1a1a1a;border-radius:44px;padding:10px;box-shadow:0 24px 64px rgba(0,0,0,.2)}
 .screen{background:#fff;border-radius:36px;overflow:hidden;height:812px;position:relative}
-
-/* Status bar */
-.statusbar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:12px;font-weight:600;color:#000}
+.statusbar{height:48px;display:flex;align-items:center;justify-content:space-between;padding:12px 28px 0;font-size:12px;font-weight:600;color:#000;position:absolute;top:0;left:0;right:0;z-index:5}
+.statusbar-r{font-size:10px;color:#555;display:flex;gap:4px;align-items:center}
 
 /* Pages */
-.page{position:absolute;top:44px;left:0;right:0;bottom:0;overflow-y:auto;padding:0 16px 20px;display:none}
+.page{position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;display:none;background:#fff}
 .page.active{display:block}
 .page::-webkit-scrollbar{display:none}
+.page-content{padding:56px 16px 80px}
 
-/* Notes homepage */
-.n-header{display:flex;justify-content:flex-end;gap:12px;padding:8px 0}
-.n-header span{font-size:18px;color:#555}
-.n-title{font-size:28px;font-weight:700;color:#1a1a1a;margin-bottom:12px}
-.n-search{background:#f5f5f5;border-radius:20px;padding:10px 14px;font-size:13px;color:#bbb;display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.n-stats{font-size:11px;color:#999;margin-bottom:10px}
-.n-tabs{display:flex;gap:6px;margin-bottom:12px}
-.n-tab{font-size:11px;padding:5px 12px;border-radius:14px;background:#f5f5f5;color:#666}
-.n-tab.active{background:#1a1a1a;color:#fff}
-.n-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.n-card{background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:10px}
-.n-card-title{font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
-.n-card-preview{font-size:10px;color:#999;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.n-card-meta{font-size:9px;color:#ccc;margin-top:4px}
-
-/* Topic card */
-.n-topic{background:#f8f9ff;border:1px solid #e8ecff;border-radius:12px;padding:12px;margin-bottom:10px}
-.n-topic-title{font-size:13px;font-weight:600;color:#333}
-.n-topic-count{font-size:10px;color:#999;margin-top:2px}
-.n-topic-items{font-size:9px;color:#888;margin-top:6px;line-height:1.6}
+/* === NOTES HOME (方案B样式) === */
+.nh-greeting{font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:3px}
+.nh-stats{font-size:12px;color:#999;margin-bottom:14px}
+.nh-search{background:#f5f5f5;border-radius:22px;padding:10px 14px;font-size:12px;color:#bbb;display:flex;align-items:center;gap:6px;margin-bottom:14px}
+.nh-section{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:8px;margin-top:16px;display:flex;justify-content:space-between;align-items:center}
+.nh-section small{font-size:10px;color:#999;font-weight:400}
+.nh-scroll{display:flex;gap:10px;overflow-x:auto;margin-bottom:8px;padding-bottom:4px}
+.nh-scroll::-webkit-scrollbar{display:none}
+.nh-coll{min-width:150px;background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:10px;flex-shrink:0}
+.nh-coll-title{font-size:11px;font-weight:600;color:#1a1a1a}
+.nh-coll-count{font-size:9px;color:#999;margin-top:2px}
+.nh-coll-thumbs{display:grid;grid-template-columns:1fr 1fr;gap:2px;height:44px;border-radius:6px;overflow:hidden;margin-top:6px}
+.nh-coll-thumb{background:#f0f0f0}
+.nh-tags{display:flex;gap:5px;margin-bottom:12px}
+.nh-tag{font-size:9px;padding:4px 10px;border-radius:12px;background:#f5f5f5;color:#666}
+.nh-tag.active{background:#1a1a1a;color:#fff}
+.nh-card{background:#fff;border:1px solid #f0f0f0;border-radius:11px;padding:11px;margin-bottom:8px}
+.nh-card-title{font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+.nh-card-preview{font-size:10px;color:#888;line-height:1.4;margin-bottom:5px}
+.nh-card-meta{font-size:9px;color:#bbb;display:flex;gap:4px;align-items:center}
+.nh-card-source{background:#f5f5f5;padding:1px 5px;border-radius:3px;font-size:8px;color:#666}
+.nh-card-source.red{background:#fef1f0;color:#e44}
 
 /* Insight banner */
-.n-insight{background:linear-gradient(135deg,#f8f9ff,#fef8ff);border:1px solid #ede8ff;border-radius:12px;padding:10px;margin-bottom:10px;font-size:10px;color:#555;line-height:1.5}
-.n-insight strong{color:#6d28d9}
+.nh-insight{background:linear-gradient(135deg,#f8f9ff,#fef8ff);border:1px solid #ede8ff;border-radius:11px;padding:10px;margin-bottom:10px;font-size:10px;color:#555;line-height:1.5}
+.nh-insight strong{color:#6d28d9}
 
-/* MiClaw chat */
-.chat-header{display:flex;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid #f5f5f5;margin-bottom:12px}
-.chat-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#4A7DFF,#7c5cf5);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff}
-.chat-name{font-size:13px;font-weight:600;color:#1a1a1a}
-.chat-bubble-user{background:#e8f0fe;border-radius:14px 14px 4px 14px;padding:10px 12px;font-size:12px;color:#333;margin-bottom:10px;margin-left:60px}
-.chat-bubble-ai{background:#f8f8f8;border-radius:14px 14px 14px 4px;padding:10px 12px;font-size:11px;color:#555;line-height:1.6;margin-bottom:10px;margin-right:40px}
-.chat-source{font-size:9px;color:#999;background:#f0f0f0;border-radius:4px;padding:2px 6px;display:inline-block;margin-top:6px}
+/* New badge */
+.nh-new{background:#eefbf3;border:1px solid #d1fae5;border-radius:11px;padding:10px;margin-bottom:10px;font-size:10px;color:#166534}
 
-/* Bottom bar */
-.bottombar{position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:center;gap:36px}
-.bottombar svg{width:22px;height:22px;stroke:#555;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.bottombar .mic svg{stroke:#FF5722}
+/* === MICLAW CHAT === */
+.mc-header{display:flex;align-items:center;justify-content:center;padding:16px 20px 12px;position:relative;border-bottom:1px solid #f5f5f5}
+.mc-avatar{position:absolute;left:20px;width:32px;height:32px;border-radius:50%;border:1px solid #e8e8e8;display:flex;align-items:center;justify-content:center;font-size:16px}
+.mc-title{text-align:center}
+.mc-title-name{font-size:16px;font-weight:600;color:#1a1a1a}
+.mc-title-sub{font-size:10px;color:#999}
+.mc-icons{position:absolute;right:20px;display:flex;gap:10px}
+.mc-icons span{font-size:16px;color:#555}
+.mc-body{padding:16px 16px 80px}
+.mc-bubble-user{background:#e8f0fe;border-radius:16px 16px 4px 16px;padding:12px 14px;font-size:13px;color:#333;margin-left:80px;margin-bottom:12px}
+.mc-bubble-ai{background:#fff;border:1px solid #f0f0f0;border-radius:16px;padding:14px;margin-bottom:12px;margin-right:20px}
+.mc-bubble-ai h4{font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:6px}
+.mc-bubble-ai p{font-size:12px;color:#555;line-height:1.7;margin-bottom:4px}
+.mc-bubble-ai .mc-note-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:#f8f8f8;border:1px solid #eee;border-radius:10px;padding:10px;margin-top:10px;font-size:12px;color:#333;font-weight:500}
+.mc-bubble-ai .mc-time{font-size:9px;color:#ccc;margin-top:8px;padding-top:8px;border-top:1px solid #f5f5f5;display:flex;justify-content:space-between;align-items:center}
+.mc-bubble-ai .mc-actions{display:flex;gap:12px}
+.mc-bubble-ai .mc-actions span{font-size:14px;color:#bbb}
+.mc-tool{background:#f8f8f8;border:1px solid #eee;border-radius:10px;padding:10px 12px;margin-bottom:12px;margin-right:20px}
+.mc-tool-title{font-size:11px;color:#333;display:flex;align-items:center;gap:6px}
+.mc-tool-tag{font-size:9px;background:#f0f0f0;color:#666;padding:2px 6px;border-radius:4px}
+.mc-input{position:absolute;bottom:0;left:0;right:0;height:60px;background:#fff;border-top:1px solid #f0f0f0;display:flex;align-items:center;padding:0 14px;gap:10px}
+.mc-input-box{flex:1;background:#f5f5f5;border-radius:20px;padding:10px 14px;font-size:12px;color:#bbb}
+.mc-input-icon{font-size:18px;color:#555}
+.mc-source-tag{display:inline-block;font-size:9px;background:#f0f4ff;color:#4A7DFF;padding:2px 6px;border-radius:4px;margin-top:6px}
 
-/* Small ball overlay */
-.ball-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.3);display:none;z-index:10}
-.ball-overlay.show{display:flex;align-items:center;justify-content:center}
-.ball{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#FF5722,#ff8a50);box-shadow:0 4px 16px rgba(255,87,34,.4);display:flex;align-items:center;justify-content:center;animation:ballPulse 1.5s infinite}
-@keyframes ballPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-.ball-text{position:absolute;bottom:120px;background:#fff;border-radius:12px;padding:8px 14px;font-size:11px;color:#333;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+/* Bottom bar (notes) */
+.nb{position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:center;gap:36px;z-index:5}
+.nb svg{width:21px;height:21px;stroke:#555;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nb .mic svg{stroke:#FF5722}
 
-/* Processing overlay */
-.processing{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.95);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:10}
-.processing.show{display:flex}
-.processing-spinner{width:32px;height:32px;border:3px solid #f0f0f0;border-top-color:#4A7DFF;border-radius:50%;animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.processing-text{font-size:12px;color:#666}
+/* Ball overlay */
+.ball-ov{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.25);z-index:10;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.ball-circle{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#FF5722,#ff8a50);box-shadow:0 6px 20px rgba(255,87,34,.35);display:flex;align-items:center;justify-content:center;animation:bp 2s infinite}
+@keyframes bp{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.08);opacity:1}}
+.ball-text{background:#fff;border-radius:14px;padding:8px 14px;font-size:12px;color:#333;box-shadow:0 4px 16px rgba(0,0,0,.08)}
 </style>
 </head>
 <body>
 
 <h1>笔记飞轮 · 可交互演示</h1>
-<p class="subtitle">点击下方步骤，模拟从"存"到"整理"到"MiClaw调用"的完整过程</p>
+<p class="subtitle">点击步骤，模拟"存→自动整理→MiClaw调用"完整过程</p>
 
 <div class="controls">
-  <div class="step-btn active" onclick="goStep(0)">① 存（小球）</div>
-  <div class="step-btn" onclick="goStep(1)">② 存入成功</div>
-  <div class="step-btn" onclick="goStep(2)">③ Dream整理</div>
-  <div class="step-btn" onclick="goStep(3)">④ 首页展示</div>
-  <div class="step-btn" onclick="goStep(4)">⑤ MiClaw调用</div>
+  <div class="step-btn active" onclick="go(0)">① 小球存入</div>
+  <div class="step-btn" onclick="go(1)">② 笔记首页</div>
+  <div class="step-btn" onclick="go(2)">③ 次日首页（整理后）</div>
+  <div class="step-btn" onclick="go(3)">④ MiClaw调用</div>
 </div>
 
 <div class="step-info">
-  <div class="step-label" id="stepLabel">① 用户在小红书看到文章，小球指向说"记一下"</div>
-  <div class="step-desc" id="stepDesc">小球=手指指向+语音。用户一指一句话，不需要复制粘贴、不需要打开笔记APP。</div>
+  <div class="step-label" id="sL">① 小红书看到文章，小球指向说"记一下"</div>
+  <div class="step-desc" id="sD">小球=手指指向+语音。链接爬取获取全文，用户不需要复制粘贴。</div>
 </div>
 
 <div class="phone"><div class="screen">
-  <div class="statusbar"><span>13:11</span><span style="font-size:10px;color:#666">📶 41%</span></div>
+  <div class="statusbar"><span>18:04</span><span class="statusbar-r">5G 📶 82%</span></div>
 
-  <!-- Page 0: 小球采集 -->
-  <div class="page active" id="page0">
-    <div style="padding:12px 0">
-      <div style="font-size:9px;color:#e44;margin-bottom:8px">小红书</div>
-      <div style="background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:12px">
-        <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:6px">黄金ETF持仓量变化揭示了什么？</div>
-        <div style="font-size:11px;color:#888;line-height:1.6;margin-bottom:8px">2025年前三季度中国黄金产业呈"矿业高增、珠宝分化、投资主导"格局，投资市场受央行增持及政策调整...</div>
-        <div style="height:80px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:8px;margin-bottom:8px"></div>
-        <div style="font-size:9px;color:#bbb">#黄金走势分析 · 小红书</div>
+  <!-- P0: 小球采集 -->
+  <div class="page active" id="p0">
+    <div class="page-content">
+      <div style="font-size:10px;color:#e44;margin-bottom:10px;font-weight:500">小红书</div>
+      <div style="background:#fff;border:1px solid #f0f0f0;border-radius:14px;padding:14px">
+        <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:8px;line-height:1.4">黄金ETF持仓量变化揭示了什么？</div>
+        <div style="font-size:12px;color:#666;line-height:1.7;margin-bottom:10px">2025年前三季度中国黄金产业呈"矿业高增、珠宝分化、投资主导"格局，投资市场受央行增持...</div>
+        <div style="height:100px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:10px;margin-bottom:10px"></div>
+        <div style="font-size:10px;color:#bbb">#黄金走势分析 · 3.2万人看过</div>
       </div>
     </div>
-    <div class="ball-overlay show">
-      <div class="ball"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
+    <div class="ball-ov">
+      <div class="ball-circle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
       <div class="ball-text">🎙 "记一下这篇"</div>
     </div>
   </div>
 
-  <!-- Page 1: 存入成功 -->
-  <div class="page" id="page1">
-    <div class="n-header"><span>☑</span><span>⋮</span></div>
-    <div class="n-title">笔记</div>
-    <div class="n-search">🔍 搜索</div>
-    <div class="n-stats">176条笔记，0条待办全部同步完成 ›</div>
-    <div class="n-tabs"><span class="n-tab">≡</span><span class="n-tab active">全部</span><span class="n-tab">文件夹2</span><span class="n-tab">文件夹</span></div>
-    <div style="background:#eefbf3;border:1px solid #d1fae5;border-radius:10px;padding:10px;margin-bottom:10px;font-size:11px;color:#166534">✅ 已存入：黄金ETF持仓量变化分析<br><span style="font-size:9px;color:#888">来自小红书 · 全文+AI摘要</span></div>
-    <div class="n-grid">
-      <div class="n-card" style="border-color:#d1fae5;background:#fafffe"><div class="n-card-title">黄金ETF持仓量变化分析</div><div class="n-card-preview">2025年前三季度中国黄金产业呈"矿业高增..."</div><div class="n-card-meta">刚刚 · 小红书 🆕</div></div>
-      <div class="n-card"><div class="n-card-title">通知界面优化讨论</div><div class="n-card-preview">你提到的解锁在前台...</div><div class="n-card-meta">4月17日</div></div>
-      <div class="n-card"><div class="n-card-title">语音笔记</div><div class="n-card-preview">无附加文案</div><div class="n-card-meta">昨天 13:53</div></div>
-      <div class="n-card"><div class="n-card-title">录音与解锁记录</div><div class="n-card-preview">在录音吗？录音完成后...</div><div class="n-card-meta">4月17日 · AI生成</div></div>
+  <!-- P1: 笔记首页（刚存入） -->
+  <div class="page" id="p1">
+    <div class="page-content">
+      <div class="nh-greeting">笔记</div>
+      <div class="nh-search">🔍 搜索</div>
+      <div class="nh-new">✅ 已存入：黄金ETF持仓量变化分析<br><span style="font-size:9px;color:#16a34a">全文+AI摘要 · 来自小红书</span></div>
+      <div class="nh-tags"><span class="nh-tag active">全部</span><span class="nh-tag">工作</span><span class="nh-tag">生活</span><span class="nh-tag">投资</span></div>
+      <div class="nh-card" style="border-color:#d1fae5"><div class="nh-card-title">黄金ETF持仓量变化分析</div><div class="nh-card-preview">2025年前三季度中国黄金产业呈"矿业高增..."</div><div class="nh-card-meta"><span class="nh-card-source red">小红书</span> 刚刚 🆕</div></div>
+      <div class="nh-card"><div class="nh-card-title">"去美元化"趋势下央行行为</div><div class="nh-card-preview">多国央行持续增持黄金作为储备...</div><div class="nh-card-meta"><span class="nh-card-source red">小红书</span> 昨天</div></div>
+      <div class="nh-card"><div class="nh-card-title">投资指南：实物vs ETF</div><div class="nh-card-preview">ETF流动性好适合交易，实物适合长持...</div><div class="nh-card-meta"><span class="nh-card-source">网页</span> 昨天</div></div>
+      <div class="nh-card"><div class="nh-card-title">通知界面优化讨论</div><div class="nh-card-preview">你提到的解锁在前台，实际上...</div><div class="nh-card-meta"><span class="nh-card-source">🎙 语音</span> 4月17日</div></div>
+    </div>
+    <div class="nb"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg class="mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+  </div>
+
+  <!-- P2: 次日首页（Dream整理后，用户只看到结果） -->
+  <div class="page" id="p2">
+    <div class="page-content">
+      <div class="nh-greeting">笔记</div>
+      <div class="nh-search">🔍 搜索</div>
+      <div class="nh-insight"><strong>🔗 今日发现：</strong>"黄金ETF分析"和上周的"央行购金新闻"讨论同一话题，已自动关联</div>
+      <div class="nh-section">合集 <small>全部 5 ›</small></div>
+      <div class="nh-scroll">
+        <div class="nh-coll" style="border-color:#fef3c7;background:#fffef8">
+          <div class="nh-coll-title">📊 黄金投资</div>
+          <div class="nh-coll-count">4条资料 · 本周新建</div>
+          <div class="nh-coll-thumbs"><div class="nh-coll-thumb" style="background:#fef3c7"></div><div class="nh-coll-thumb" style="background:#fde68a"></div><div class="nh-coll-thumb" style="background:#fff7ed"></div><div class="nh-coll-thumb" style="background:#fffbeb"></div></div>
+        </div>
+        <div class="nh-coll">
+          <div class="nh-coll-title">💼 笔记资料库</div>
+          <div class="nh-coll-count">5条资料</div>
+          <div class="nh-coll-thumbs"><div class="nh-coll-thumb" style="background:#e0e7ff"></div><div class="nh-coll-thumb" style="background:#ede9fe"></div><div class="nh-coll-thumb" style="background:#f0f4ff"></div><div class="nh-coll-thumb" style="background:#f5f3ff"></div></div>
+        </div>
+      </div>
+      <div class="nh-tags"><span class="nh-tag active">全部</span><span class="nh-tag">#投资</span><span class="nh-tag">#工作</span><span class="nh-tag">#生活</span></div>
+      <div class="nh-card"><div class="nh-card-title">黄金ETF持仓量变化分析</div><div class="nh-card-preview">2025年前三季度黄金产业呈矿业高增...</div><div class="nh-card-meta"><span class="nh-card-source red">小红书</span><span class="nh-card-source">📊 黄金投资</span><span class="nh-card-source">关联3篇</span></div></div>
+      <div class="nh-card"><div class="nh-card-title">"去美元化"趋势下央行行为</div><div class="nh-card-preview">多国央行持续增持...</div><div class="nh-card-meta"><span class="nh-card-source red">小红书</span><span class="nh-card-source">📊 黄金投资</span></div></div>
+      <div class="nh-card"><div class="nh-card-title">投资指南：实物vs ETF</div><div class="nh-card-preview">ETF流动性好...</div><div class="nh-card-meta"><span class="nh-card-source">网页</span><span class="nh-card-source">📊 黄金投资</span></div></div>
+    </div>
+    <div class="nb"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg class="mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+  </div>
+
+  <!-- P3: MiClaw对话（真实UI） -->
+  <div class="page" id="p3">
+    <div class="mc-header">
+      <div class="mc-avatar">😊</div>
+      <div class="mc-title"><div class="mc-title-name">MiClaw</div><div class="mc-title-sub">内容由 AI 生成</div></div>
+      <div class="mc-icons"><span>🔇</span><span>ℹ️</span></div>
+    </div>
+    <div class="mc-body">
+      <div class="mc-bubble-user">帮我分析一下最近黄金走势</div>
+      <div class="mc-tool"><div class="mc-tool-title">正在调用 note_search <span class="mc-tool-tag">笔记检索</span></div></div>
+      <div class="mc-bubble-ai">
+        <h4>黄金走势分析</h4>
+        <p>根据你资料库中的资料：</p>
+        <p><strong>一、核心趋势</strong><br>全球黄金ETF连续6周净流入<br>中国央行连续18个月增持<br>短期目标价：2,500美元/盎司</p>
+        <p><strong>二、投资建议</strong><br>结合你存的《投资指南》：ETF流动性好适合交易，实物黄金适合长期持有。</p>
+        <p><strong>三、风险提示</strong><br>本文仅为公开信息整理，不构成投资建议。</p>
+        <div class="mc-note-btn">📝 去笔记查看</div>
+        <div class="mc-time"><span>05-08 18:04</span><div class="mc-actions"><span>📋</span><span>🔊</span><span>↗</span></div></div>
+      </div>
+      <div class="mc-source-tag">基于"黄金投资"专题 · 4篇资料</div>
+    </div>
+    <div class="mc-input">
+      <div class="mc-input-icon">+</div>
+      <div class="mc-input-box">发消息或按住说话</div>
+      <div class="mc-input-icon">🎙</div>
     </div>
   </div>
 
-  <!-- Page 2: Dream整理中 -->
-  <div class="page" id="page2">
-    <div class="n-header"><span>☑</span><span>⋮</span></div>
-    <div class="n-title">笔记</div>
-    <div class="processing show">
-      <div class="processing-spinner"></div>
-      <div class="processing-text">Dream 正在整理你的资料...</div>
-      <div style="font-size:10px;color:#bbb;text-align:center;line-height:1.8;margin-top:8px">· 发现3篇讨论黄金相关话题<br>· 自动聚合为"黄金投资"专题<br>· 生成索引摘要<br>· 关联历史笔记</div>
-    </div>
-  </div>
-
-  <!-- Page 3: 首页展示 -->
-  <div class="page" id="page3">
-    <div class="n-header"><span>☑</span><span>⋮</span></div>
-    <div class="n-title">笔记</div>
-    <div class="n-search">🔍 搜索</div>
-    <div class="n-insight"><strong>🔗 今日发现：</strong>"黄金ETF分析"和上周存的"央行购金新闻"讨论同一话题，已自动关联</div>
-    <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:8px">专题</div>
-    <div class="n-topic">
-      <div class="n-topic-title">📊 黄金投资</div>
-      <div class="n-topic-count">4条资料 · 来自小红书、网页</div>
-      <div class="n-topic-items">· 黄金ETF持仓量变化分析<br>· "去美元化"趋势下央行行为<br>· 投资指南：实物vs ETF<br>· 央行购金新闻</div>
-    </div>
-    <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin:12px 0 8px">最近</div>
-    <div class="n-grid">
-      <div class="n-card"><div class="n-card-title">投资指南：实物vs ETF</div><div class="n-card-preview">黄金ETF流动性好...</div><div class="n-card-meta">昨天 · 网页</div></div>
-      <div class="n-card"><div class="n-card-title">通知界面优化讨论</div><div class="n-card-preview">你提到的解锁在前台...</div><div class="n-card-meta">4月17日</div></div>
-    </div>
-  </div>
-
-  <!-- Page 4: MiClaw调用 -->
-  <div class="page" id="page4">
-    <div class="chat-header">
-      <div class="chat-avatar">M</div>
-      <div class="chat-name">MiClaw</div>
-    </div>
-    <div class="chat-bubble-user">帮我分析一下最近黄金走势</div>
-    <div class="chat-bubble-ai">
-      根据你资料库中的资料：<br><br>
-      <strong>核心趋势：</strong><br>
-      • 全球黄金ETF连续6周净流入<br>
-      • 中国央行连续18个月增持<br>
-      • 短期目标价：2,500美元/盎司<br><br>
-      <strong>投资建议：</strong><br>
-      结合你存的《投资指南》，ETF流动性更好适合交易，实物黄金适合长期持有。<br><br>
-      <div class="chat-source">基于"黄金投资"专题 · 4篇资料</div>
-    </div>
-    <div style="font-size:10px;color:#6d28d9;text-align:center;margin-top:12px;padding:8px;background:#f8f8ff;border-radius:8px">✨ 基于你的知识库回答，不是通用回答</div>
-  </div>
-
-  <!-- Bottom bar (always visible) -->
-  <div class="bottombar">
-    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    <svg class="mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
-    <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-  </div>
 </div></div>
 
 <script>
-const steps = [
-  {label:'① 用户在小红书看到文章，小球指向说"记一下"', desc:'小球=手指指向+语音。用户一指一句话，链接爬取获取全文，不需要复制粘贴。'},
-  {label:'② 存入成功，笔记列表出现新条目', desc:'原文正文+AI摘要+原始链接，一起存入。用户在笔记首页能看到。'},
-  {label:'③ Dream后台自动整理', desc:'AI发现多篇讨论同一话题→聚合为专题→生成索引摘要→建立关联。用户什么都不用做。'},
-  {label:'④ 用户打开首页，看到有结构的知识', desc:'专题卡片+今日发现+关联提示。不是100条平铺列表，是知识视图。'},
-  {label:'⑤ 新session，MiClaw调用你的知识回答', desc:'查索引→命中专题→读原文→带着你的资料回答。这是豆包做不到的。'}
+const info=[
+  {l:'① 小红书看到文章，小球指向说"记一下"',d:'小球=手指指向+语音指令。链接爬取获取全文+AI生成摘要，存入笔记。'},
+  {l:'② 存入成功，笔记列表出现新条目',d:'原文+摘要+来源链接一起进入笔记。和其他笔记平铺在一起，还没有被整理。'},
+  {l:'③ 次日打开首页，Dream已在后台整理完',d:'用户什么都没做。AI后台发现3篇都聊黄金→自动创建"黄金投资"专题→建立关联→首页出现专题卡片。'},
+  {l:'④ 新session对话，MiClaw调用你的知识回答',d:'查索引→命中"黄金投资"→读原文→带着你自己的资料回答。这是豆包做不到的。'}
 ];
-function goStep(i){
-  document.querySelectorAll('.step-btn').forEach((b,idx)=>b.classList.toggle('active',idx===i));
-  document.querySelectorAll('.page').forEach((p,idx)=>p.classList.toggle('active',idx===i));
-  document.getElementById('stepLabel').textContent=steps[i].label;
-  document.getElementById('stepDesc').textContent=steps[i].desc;
+function go(i){
+  document.querySelectorAll('.step-btn').forEach((b,x)=>b.classList.toggle('active',x===i));
+  document.querySelectorAll('.page').forEach((p,x)=>p.classList.toggle('active',x===i));
+  document.getElementById('sL').textContent=info[i].l;
+  document.getElementById('sD').textContent=info[i].d;
 }
 </script>
 </body>
