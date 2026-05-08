@@ -3,164 +3,213 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>笔记飞轮 · 端到端场景演示</title>
+<title>笔记飞轮 · 可交互演示</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC",sans-serif;background:#0a0a0a;color:#fff;padding:24px;min-height:100vh}
-h1{font-size:22px;text-align:center;margin-bottom:6px;font-weight:600}
-.subtitle{text-align:center;font-size:12px;color:#888;margin-bottom:32px}
+body{font-family:-apple-system,"PingFang SC",sans-serif;background:#f0f0f5;display:flex;flex-direction:column;align-items:center;padding:24px;min-height:100vh}
+h1{font-size:18px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.subtitle{font-size:11px;color:#999;margin-bottom:20px}
 
-/* Timeline */
-.timeline{max-width:900px;margin:0 auto;position:relative;padding-left:40px}
-.timeline::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#FF5722,#4A7DFF,#2E7D32,#6d28d9);border-radius:2px}
-.step{position:relative;margin-bottom:40px;animation:fadeIn .6s ease both}
-.step:nth-child(1){animation-delay:.1s}
-.step:nth-child(2){animation-delay:.3s}
-.step:nth-child(3){animation-delay:.5s}
-.step:nth-child(4){animation-delay:.7s}
-.step:nth-child(5){animation-delay:.9s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.step-dot{position:absolute;left:-32px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid #0a0a0a}
-.step:nth-child(1) .step-dot{background:#FF5722}
-.step:nth-child(2) .step-dot{background:#FF5722}
-.step:nth-child(3) .step-dot{background:#4A7DFF}
-.step:nth-child(4) .step-dot{background:#2E7D32}
-.step:nth-child(5) .step-dot{background:#6d28d9}
-.step-day{font-size:11px;color:#999;font-weight:600;margin-bottom:6px;letter-spacing:1px}
-.step-title{font-size:16px;font-weight:600;margin-bottom:8px}
-.step-desc{font-size:13px;color:#aaa;line-height:1.7;margin-bottom:12px}
+/* Controls */
+.controls{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
+.step-btn{padding:6px 14px;border-radius:16px;border:1px solid #ddd;background:#fff;font-size:11px;color:#666;cursor:pointer;transition:all .2s}
+.step-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.step-btn:hover{border-color:#999}
+.step-info{text-align:center;margin-bottom:16px;max-width:400px}
+.step-label{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.step-desc{font-size:11px;color:#888;line-height:1.5}
 
-/* Phone mockup */
-.phone-mini{width:280px;background:#1a1a1a;border-radius:28px;padding:8px;display:inline-block;vertical-align:top}
-.phone-mini .screen{background:#fff;border-radius:22px;overflow:hidden;padding:12px 14px;min-height:320px}
-.phone-mini .screen-dark{background:#1a1a1a;border:1px solid #333}
+/* Phone */
+.phone{width:375px;background:#1a1a1a;border-radius:44px;padding:10px;box-shadow:0 24px 64px rgba(0,0,0,.2)}
+.screen{background:#fff;border-radius:36px;overflow:hidden;height:812px;position:relative}
 
-/* Components inside phone */
-.m-title{font-size:11px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
-.m-text{font-size:9px;color:#888;line-height:1.5;margin-bottom:6px}
-.m-card{background:#f8f8f8;border-radius:8px;padding:8px;margin-bottom:6px}
-.m-card-title{font-size:10px;font-weight:600;color:#333;margin-bottom:2px}
-.m-card-desc{font-size:8px;color:#999}
-.m-tag{display:inline-block;font-size:8px;background:#f0f4ff;color:#4A7DFF;padding:1px 5px;border-radius:3px;margin-right:3px}
-.m-badge{display:inline-block;font-size:8px;background:#fef1f0;color:#e44;padding:1px 5px;border-radius:3px}
-.m-topic{background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:8px;margin-bottom:6px}
-.m-topic-title{font-size:10px;font-weight:600;color:#1a1a1a}
-.m-topic-count{font-size:8px;color:#999;margin-top:1px}
-.m-insight{background:linear-gradient(135deg,#f8f9ff,#fef8ff);border:1px solid #ede8ff;border-radius:8px;padding:8px;margin-bottom:6px;font-size:8px;color:#555}
-.m-chat{background:#f5f5f5;border-radius:12px;padding:8px;margin-bottom:6px}
-.m-chat-q{font-size:9px;color:#333;margin-bottom:6px;padding:6px 8px;background:#e8f0fe;border-radius:8px}
-.m-chat-a{font-size:9px;color:#555;line-height:1.5;padding:6px 8px;background:#fff;border-radius:8px;border:1px solid #eee}
+/* Status bar */
+.statusbar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:12px;font-weight:600;color:#000}
 
-/* Result */
-.result{max-width:900px;margin:40px auto 0;background:#161616;border-radius:20px;padding:24px;border:1px solid #222;text-align:center}
-.result-title{font-size:18px;font-weight:700;margin-bottom:8px}
-.result-desc{font-size:13px;color:#888;line-height:1.7}
-.result-highlight{color:#FF5722;font-weight:600}
+/* Pages */
+.page{position:absolute;top:44px;left:0;right:0;bottom:0;overflow-y:auto;padding:0 16px 20px;display:none}
+.page.active{display:block}
+.page::-webkit-scrollbar{display:none}
+
+/* Notes homepage */
+.n-header{display:flex;justify-content:flex-end;gap:12px;padding:8px 0}
+.n-header span{font-size:18px;color:#555}
+.n-title{font-size:28px;font-weight:700;color:#1a1a1a;margin-bottom:12px}
+.n-search{background:#f5f5f5;border-radius:20px;padding:10px 14px;font-size:13px;color:#bbb;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.n-stats{font-size:11px;color:#999;margin-bottom:10px}
+.n-tabs{display:flex;gap:6px;margin-bottom:12px}
+.n-tab{font-size:11px;padding:5px 12px;border-radius:14px;background:#f5f5f5;color:#666}
+.n-tab.active{background:#1a1a1a;color:#fff}
+.n-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.n-card{background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:10px}
+.n-card-title{font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+.n-card-preview{font-size:10px;color:#999;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.n-card-meta{font-size:9px;color:#ccc;margin-top:4px}
+
+/* Topic card */
+.n-topic{background:#f8f9ff;border:1px solid #e8ecff;border-radius:12px;padding:12px;margin-bottom:10px}
+.n-topic-title{font-size:13px;font-weight:600;color:#333}
+.n-topic-count{font-size:10px;color:#999;margin-top:2px}
+.n-topic-items{font-size:9px;color:#888;margin-top:6px;line-height:1.6}
+
+/* Insight banner */
+.n-insight{background:linear-gradient(135deg,#f8f9ff,#fef8ff);border:1px solid #ede8ff;border-radius:12px;padding:10px;margin-bottom:10px;font-size:10px;color:#555;line-height:1.5}
+.n-insight strong{color:#6d28d9}
+
+/* MiClaw chat */
+.chat-header{display:flex;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid #f5f5f5;margin-bottom:12px}
+.chat-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#4A7DFF,#7c5cf5);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff}
+.chat-name{font-size:13px;font-weight:600;color:#1a1a1a}
+.chat-bubble-user{background:#e8f0fe;border-radius:14px 14px 4px 14px;padding:10px 12px;font-size:12px;color:#333;margin-bottom:10px;margin-left:60px}
+.chat-bubble-ai{background:#f8f8f8;border-radius:14px 14px 14px 4px;padding:10px 12px;font-size:11px;color:#555;line-height:1.6;margin-bottom:10px;margin-right:40px}
+.chat-source{font-size:9px;color:#999;background:#f0f0f0;border-radius:4px;padding:2px 6px;display:inline-block;margin-top:6px}
+
+/* Bottom bar */
+.bottombar{position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:center;gap:36px}
+.bottombar svg{width:22px;height:22px;stroke:#555;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bottombar .mic svg{stroke:#FF5722}
+
+/* Small ball overlay */
+.ball-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.3);display:none;z-index:10}
+.ball-overlay.show{display:flex;align-items:center;justify-content:center}
+.ball{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#FF5722,#ff8a50);box-shadow:0 4px 16px rgba(255,87,34,.4);display:flex;align-items:center;justify-content:center;animation:ballPulse 1.5s infinite}
+@keyframes ballPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.ball-text{position:absolute;bottom:120px;background:#fff;border-radius:12px;padding:8px 14px;font-size:11px;color:#333;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+
+/* Processing overlay */
+.processing{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.95);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:10}
+.processing.show{display:flex}
+.processing-spinner{width:32px;height:32px;border:3px solid #f0f0f0;border-top-color:#4A7DFF;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.processing-text{font-size:12px;color:#666}
 </style>
 </head>
 <body>
 
-<h1>笔记飞轮 · 端到端场景</h1>
-<p class="subtitle">从"存"到"整理"到"MiClaw能用" —— 一个完整的飞轮转动过程</p>
+<h1>笔记飞轮 · 可交互演示</h1>
+<p class="subtitle">点击下方步骤，模拟从"存"到"整理"到"MiClaw调用"的完整过程</p>
 
-<div class="timeline">
-
-<!-- 周一：存 -->
-<div class="step">
-  <div class="step-dot"></div>
-  <div class="step-day">周一 · 存</div>
-  <div class="step-title">用户在小红书看到3篇黄金分析文章</div>
-  <div class="step-desc">小球指向链接卡片说"记一下" → 链接爬取拿到全文 → 存入笔记。<br>用户完全不需要复制粘贴、不需要打开笔记APP。一指一句话，完成。</div>
-  <div class="phone-mini"><div class="screen">
-    <div style="font-size:8px;color:#bbb;margin-bottom:6px">小红书</div>
-    <div class="m-card"><div class="m-card-title">黄金ETF持仓量变化揭示了什么...</div><div class="m-card-desc">2025年前三季度中国黄金产业呈"矿业高增..."</div><div style="margin-top:4px"><span class="m-badge">📕 小红书</span></div></div>
-    <div style="text-align:center;margin:8px 0"><div style="display:inline-block;background:#FF5722;color:#fff;font-size:8px;padding:4px 10px;border-radius:12px">🎙 "记一下这篇"</div></div>
-    <div style="font-size:8px;color:#2E7D32;text-align:center">✅ 已存入笔记 · 全文+AI摘要</div>
-  </div></div>
+<div class="controls">
+  <div class="step-btn active" onclick="goStep(0)">① 存（小球）</div>
+  <div class="step-btn" onclick="goStep(1)">② 存入成功</div>
+  <div class="step-btn" onclick="goStep(2)">③ Dream整理</div>
+  <div class="step-btn" onclick="goStep(3)">④ 首页展示</div>
+  <div class="step-btn" onclick="goStep(4)">⑤ MiClaw调用</div>
 </div>
 
-<!-- 周一晚：存更多 -->
-<div class="step">
-  <div class="step-dot"></div>
-  <div class="step-day">周一晚 · 继续存</div>
-  <div class="step-title">又存了2篇：央行购金分析 + 投资策略指南</div>
-  <div class="step-desc">用同样的方式，3篇黄金相关资料已进入笔记。此时它们是3条独立的笔记——没有关联、没有专题、平铺在列表里。</div>
-  <div class="phone-mini"><div class="screen">
-    <div style="font-size:10px;font-weight:600;color:#1a1a1a;margin-bottom:8px">笔记</div>
-    <div class="m-card"><div class="m-card-title">黄金ETF持仓量变化分析</div><div class="m-card-desc">今天 15:43 · 小红书</div></div>
-    <div class="m-card"><div class="m-card-title">"去美元化"趋势下央行购金行为</div><div class="m-card-desc">今天 20:12 · 小红书</div></div>
-    <div class="m-card"><div class="m-card-title">投资指南：实物黄金vs黄金ETF</div><div class="m-card-desc">今天 21:05 · 网页</div></div>
-    <div style="font-size:8px;color:#bbb;margin-top:8px;text-align:center">3条独立笔记 · 无关联 · 无专题</div>
-  </div></div>
+<div class="step-info">
+  <div class="step-label" id="stepLabel">① 用户在小红书看到文章，小球指向说"记一下"</div>
+  <div class="step-desc" id="stepDesc">小球=手指指向+语音。用户一指一句话，不需要复制粘贴、不需要打开笔记APP。</div>
 </div>
 
-<!-- 周二：Dream整理 -->
-<div class="step">
-  <div class="step-dot"></div>
-  <div class="step-day">周二 · Dream自动整理</div>
-  <div class="step-title">后台Dream跑了一轮：发现3篇都讨论黄金</div>
-  <div class="step-desc">AI自动聚合为"黄金投资"专题 → 生成索引摘要 → 建立关联（发现和上周存的"央行购金新闻"也相关）。<br><strong>用户什么都没做，AI在后台完成了整理。</strong></div>
-  <div class="phone-mini"><div class="screen">
-    <div style="font-size:10px;font-weight:600;color:#1a1a1a;margin-bottom:8px">笔记</div>
-    <div class="m-insight"><strong style="color:#6d28d9">💡 新专题：</strong>"黄金投资"已自动创建（4篇资料）</div>
-    <div class="m-topic">
-      <div class="m-topic-title">📊 黄金投资</div>
-      <div class="m-topic-count">4条资料 · 3个来源 · 本周新建</div>
+<div class="phone"><div class="screen">
+  <div class="statusbar"><span>13:11</span><span style="font-size:10px;color:#666">📶 41%</span></div>
+
+  <!-- Page 0: 小球采集 -->
+  <div class="page active" id="page0">
+    <div style="padding:12px 0">
+      <div style="font-size:9px;color:#e44;margin-bottom:8px">小红书</div>
+      <div style="background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:12px">
+        <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:6px">黄金ETF持仓量变化揭示了什么？</div>
+        <div style="font-size:11px;color:#888;line-height:1.6;margin-bottom:8px">2025年前三季度中国黄金产业呈"矿业高增、珠宝分化、投资主导"格局，投资市场受央行增持及政策调整...</div>
+        <div style="height:80px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:8px;margin-bottom:8px"></div>
+        <div style="font-size:9px;color:#bbb">#黄金走势分析 · 小红书</div>
+      </div>
     </div>
-    <div class="m-card"><div class="m-card-title">黄金ETF持仓量变化分析</div><div class="m-card-desc"><span class="m-tag">黄金投资</span><span class="m-tag">关联3篇</span></div></div>
-    <div style="font-size:8px;color:#2E7D32;margin-top:6px;text-align:center">✅ 自动归类 · 自动关联 · 索引已生成</div>
-  </div></div>
-</div>
-
-<!-- 周三：首页发现 -->
-<div class="step">
-  <div class="step-dot"></div>
-  <div class="step-day">周三 · 用户打开首页</div>
-  <div class="step-title">首页展示专题卡片 + 今日发现</div>
-  <div class="step-desc">用户打开笔记 → 看到"黄金投资"专题卡片 → 今日发现提示"和上周的央行购金分析相关"。<br>不是100条平铺列表，是有结构的知识视图。</div>
-  <div class="phone-mini"><div class="screen">
-    <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:8px">笔记</div>
-    <div class="m-insight"><strong style="color:#d97706">🔗 今日发现：</strong>你的"黄金ETF分析"和上周存的"央行购金"讨论同一话题</div>
-    <div style="font-size:9px;font-weight:600;color:#333;margin:8px 0 4px">专题</div>
-    <div class="m-topic">
-      <div class="m-topic-title">📊 黄金投资</div>
-      <div class="m-topic-count">4条 · 来自小红书、网页</div>
+    <div class="ball-overlay show">
+      <div class="ball"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
+      <div class="ball-text">🎙 "记一下这篇"</div>
     </div>
-    <div class="m-topic">
-      <div class="m-topic-title">💼 笔记资料库方案</div>
-      <div class="m-topic-count">5条 · 来自会议、工作</div>
-    </div>
-    <div style="font-size:9px;font-weight:600;color:#333;margin:8px 0 4px">最近</div>
-    <div class="m-card"><div class="m-card-title">投资指南：实物vs ETF</div><div class="m-card-desc">昨天 · <span class="m-tag">黄金投资</span></div></div>
-  </div></div>
-</div>
-
-<!-- 周四：MiClaw调用 -->
-<div class="step">
-  <div class="step-dot"></div>
-  <div class="step-day">周四 · MiClaw调用</div>
-  <div class="step-title">新session对话："帮我分析一下最近黄金走势"</div>
-  <div class="step-desc">MiClaw查索引 → 命中"黄金投资"专题 → 读取4篇原文 → <strong>带着用户自己积累的资料回答</strong>，不是泛泛的通用回答。<br>用户第一次感受到：我存的东西，AI真的记住了，而且能用上。</div>
-  <div class="phone-mini"><div class="screen">
-    <div style="font-size:8px;color:#bbb;margin-bottom:6px">MiClaw · 新session</div>
-    <div class="m-chat">
-      <div class="m-chat-q">帮我分析一下最近黄金走势</div>
-      <div class="m-chat-a">根据你资料库中《"去美元化"趋势下央行行为分析》一文：<br><br>• 全球黄金ETF连续6周净流入<br>• 中国央行连续18个月增持<br>• 短期目标价2,500美元/盎司<br><br>结合你存的《投资指南》，如果考虑配置，ETF流动性更好，实物黄金适合长期持有。<br><br><span style="font-size:7px;color:#999">基于"黄金投资"专题 · 4篇资料</span></div>
-    </div>
-    <div style="font-size:8px;color:#6d28d9;text-align:center;margin-top:6px">✨ 基于你的知识库回答，不是通用回答</div>
-  </div></div>
-</div>
-
-</div>
-
-<!-- 结论 -->
-<div class="result">
-  <div class="result-title">飞轮转起来了</div>
-  <div class="result-desc">
-    存得越多 → AI整理得越好 → MiClaw回答越精准 → 用户越愿意存<br><br>
-    <span class="result-highlight">这是豆包做不到的——它没有系统级采集能力，也没有用户积累的知识。</span>
   </div>
-</div>
 
+  <!-- Page 1: 存入成功 -->
+  <div class="page" id="page1">
+    <div class="n-header"><span>☑</span><span>⋮</span></div>
+    <div class="n-title">笔记</div>
+    <div class="n-search">🔍 搜索</div>
+    <div class="n-stats">176条笔记，0条待办全部同步完成 ›</div>
+    <div class="n-tabs"><span class="n-tab">≡</span><span class="n-tab active">全部</span><span class="n-tab">文件夹2</span><span class="n-tab">文件夹</span></div>
+    <div style="background:#eefbf3;border:1px solid #d1fae5;border-radius:10px;padding:10px;margin-bottom:10px;font-size:11px;color:#166534">✅ 已存入：黄金ETF持仓量变化分析<br><span style="font-size:9px;color:#888">来自小红书 · 全文+AI摘要</span></div>
+    <div class="n-grid">
+      <div class="n-card" style="border-color:#d1fae5;background:#fafffe"><div class="n-card-title">黄金ETF持仓量变化分析</div><div class="n-card-preview">2025年前三季度中国黄金产业呈"矿业高增..."</div><div class="n-card-meta">刚刚 · 小红书 🆕</div></div>
+      <div class="n-card"><div class="n-card-title">通知界面优化讨论</div><div class="n-card-preview">你提到的解锁在前台...</div><div class="n-card-meta">4月17日</div></div>
+      <div class="n-card"><div class="n-card-title">语音笔记</div><div class="n-card-preview">无附加文案</div><div class="n-card-meta">昨天 13:53</div></div>
+      <div class="n-card"><div class="n-card-title">录音与解锁记录</div><div class="n-card-preview">在录音吗？录音完成后...</div><div class="n-card-meta">4月17日 · AI生成</div></div>
+    </div>
+  </div>
+
+  <!-- Page 2: Dream整理中 -->
+  <div class="page" id="page2">
+    <div class="n-header"><span>☑</span><span>⋮</span></div>
+    <div class="n-title">笔记</div>
+    <div class="processing show">
+      <div class="processing-spinner"></div>
+      <div class="processing-text">Dream 正在整理你的资料...</div>
+      <div style="font-size:10px;color:#bbb;text-align:center;line-height:1.8;margin-top:8px">· 发现3篇讨论黄金相关话题<br>· 自动聚合为"黄金投资"专题<br>· 生成索引摘要<br>· 关联历史笔记</div>
+    </div>
+  </div>
+
+  <!-- Page 3: 首页展示 -->
+  <div class="page" id="page3">
+    <div class="n-header"><span>☑</span><span>⋮</span></div>
+    <div class="n-title">笔记</div>
+    <div class="n-search">🔍 搜索</div>
+    <div class="n-insight"><strong>🔗 今日发现：</strong>"黄金ETF分析"和上周存的"央行购金新闻"讨论同一话题，已自动关联</div>
+    <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:8px">专题</div>
+    <div class="n-topic">
+      <div class="n-topic-title">📊 黄金投资</div>
+      <div class="n-topic-count">4条资料 · 来自小红书、网页</div>
+      <div class="n-topic-items">· 黄金ETF持仓量变化分析<br>· "去美元化"趋势下央行行为<br>· 投资指南：实物vs ETF<br>· 央行购金新闻</div>
+    </div>
+    <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin:12px 0 8px">最近</div>
+    <div class="n-grid">
+      <div class="n-card"><div class="n-card-title">投资指南：实物vs ETF</div><div class="n-card-preview">黄金ETF流动性好...</div><div class="n-card-meta">昨天 · 网页</div></div>
+      <div class="n-card"><div class="n-card-title">通知界面优化讨论</div><div class="n-card-preview">你提到的解锁在前台...</div><div class="n-card-meta">4月17日</div></div>
+    </div>
+  </div>
+
+  <!-- Page 4: MiClaw调用 -->
+  <div class="page" id="page4">
+    <div class="chat-header">
+      <div class="chat-avatar">M</div>
+      <div class="chat-name">MiClaw</div>
+    </div>
+    <div class="chat-bubble-user">帮我分析一下最近黄金走势</div>
+    <div class="chat-bubble-ai">
+      根据你资料库中的资料：<br><br>
+      <strong>核心趋势：</strong><br>
+      • 全球黄金ETF连续6周净流入<br>
+      • 中国央行连续18个月增持<br>
+      • 短期目标价：2,500美元/盎司<br><br>
+      <strong>投资建议：</strong><br>
+      结合你存的《投资指南》，ETF流动性更好适合交易，实物黄金适合长期持有。<br><br>
+      <div class="chat-source">基于"黄金投资"专题 · 4篇资料</div>
+    </div>
+    <div style="font-size:10px;color:#6d28d9;text-align:center;margin-top:12px;padding:8px;background:#f8f8ff;border-radius:8px">✨ 基于你的知识库回答，不是通用回答</div>
+  </div>
+
+  <!-- Bottom bar (always visible) -->
+  <div class="bottombar">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    <svg class="mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+  </div>
+</div></div>
+
+<script>
+const steps = [
+  {label:'① 用户在小红书看到文章，小球指向说"记一下"', desc:'小球=手指指向+语音。用户一指一句话，链接爬取获取全文，不需要复制粘贴。'},
+  {label:'② 存入成功，笔记列表出现新条目', desc:'原文正文+AI摘要+原始链接，一起存入。用户在笔记首页能看到。'},
+  {label:'③ Dream后台自动整理', desc:'AI发现多篇讨论同一话题→聚合为专题→生成索引摘要→建立关联。用户什么都不用做。'},
+  {label:'④ 用户打开首页，看到有结构的知识', desc:'专题卡片+今日发现+关联提示。不是100条平铺列表，是知识视图。'},
+  {label:'⑤ 新session，MiClaw调用你的知识回答', desc:'查索引→命中专题→读原文→带着你的资料回答。这是豆包做不到的。'}
+];
+function goStep(i){
+  document.querySelectorAll('.step-btn').forEach((b,idx)=>b.classList.toggle('active',idx===i));
+  document.querySelectorAll('.page').forEach((p,idx)=>p.classList.toggle('active',idx===i));
+  document.getElementById('stepLabel').textContent=steps[i].label;
+  document.getElementById('stepDesc').textContent=steps[i].desc;
+}
+</script>
 </body>
 </html>
