@@ -3,31 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>笔记首页布局方案穷举</title>
+<title>笔记首页布局方案穷举 · 12方案</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Noto Sans SC",sans-serif;background:#0a0a0a;color:#fff;padding:20px 16px}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC",sans-serif;background:#0a0a0a;color:#fff;padding:20px 16px}
 h1{font-size:20px;text-align:center;margin-bottom:4px;font-weight:600}
 .subtitle{text-align:center;font-size:11px;color:#666;margin-bottom:28px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:24px;max-width:1800px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(440px,1fr));gap:24px;max-width:1900px;margin:0 auto}
+
+/* Scheme card */
 .scheme{background:#161616;border-radius:24px;padding:20px;border:1px solid #222}
 .scheme-header{margin-bottom:14px}
 .scheme-tag{display:inline-block;font-size:9px;padding:3px 8px;border-radius:4px;background:#FF5722;color:#fff;font-weight:600;margin-bottom:6px}
 .scheme-tag.current{background:#444}
-.scheme-title{font-size:15px;font-weight:600;margin-bottom:3px}
-.scheme-desc{font-size:11px;color:#777;line-height:1.5}
+.scheme-title{font-size:15px;font-weight:600;margin-bottom:4px}
+.scheme-desc{font-size:11px;color:#888;line-height:1.6}
+.scheme-detail{font-size:10px;color:#555;line-height:1.6;margin-top:6px;padding:8px 10px;background:#0f0f0f;border-radius:8px;border:1px solid #1a1a1a}
+.scheme-detail strong{color:#999}
 
-/* Phone Frame - Xiaomi 17 ratio */
+/* Phone */
 .phone{width:375px;margin:0 auto;background:#1a1a1a;border-radius:40px;padding:10px;box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.05)}
-.screen{background:#ffffff;border-radius:32px;overflow:hidden;height:812px;position:relative;overflow-y:auto;overflow-x:hidden}
+.screen{background:#fff;border-radius:32px;overflow:hidden;height:812px;position:relative;overflow-y:auto;overflow-x:hidden}
 .screen::-webkit-scrollbar{display:none}
+
+/* Detail overlay */
+.detail-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:#fff;z-index:20;display:none;overflow-y:auto}
+.detail-overlay.show{display:block}
+.detail-back{display:flex;align-items:center;gap:8px;padding:16px 20px;font-size:14px;color:#333;cursor:pointer;position:sticky;top:0;background:#fff;z-index:2;border-bottom:1px solid #f5f5f5}
+.detail-content{padding:16px 20px}
+.detail-title{font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+.detail-meta{font-size:11px;color:#999;margin-bottom:16px}
+.detail-body{font-size:13px;color:#555;line-height:1.8}
+.detail-item{background:#f8f8f8;border-radius:10px;padding:12px;margin-bottom:8px}
+.detail-item-title{font-size:12px;font-weight:600;color:#333;margin-bottom:3px}
+.detail-item-preview{font-size:11px;color:#888}
+.detail-item-meta{font-size:9px;color:#bbb;margin-top:4px}
 
 /* Status Bar */
 .statusbar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:12px;font-weight:600;color:#000}
-.statusbar-right{display:flex;gap:4px;align-items:center;font-size:10px}
+.statusbar-right{font-size:10px;color:#666}
 
 /* Content */
-.pg{padding:0 20px 100px}
+.pg{padding:0 20px 80px}
 
 /* Typography */
 .greeting{font-size:26px;font-weight:700;color:#1a1a1a;margin-bottom:4px;letter-spacing:-0.5px}
@@ -36,364 +53,288 @@ h1{font-size:20px;text-align:center;margin-bottom:4px;font-weight:600}
 /* Search */
 .searchbar{background:#f5f5f5;border-radius:24px;padding:12px 16px;display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:13px;color:#bbb}
 .searchbar svg{width:16px;height:16px;stroke:#999;fill:none;stroke-width:2;flex-shrink:0}
-.searchbar .mic{margin-left:auto;width:20px;height:20px;stroke:#FF5722}
+.searchbar .mic{margin-left:auto;width:18px;height:18px;stroke:#FF5722}
 
 /* AI Banners */
-.ai-pill{display:inline-flex;align-items:center;gap:6px;background:#f8f8f8;border:1px solid #f0f0f0;border-radius:20px;padding:8px 14px;font-size:12px;color:#333;font-weight:500;margin-bottom:6px;margin-right:6px}
+.ai-pill{display:inline-flex;align-items:center;gap:6px;background:#f8f8f8;border:1px solid #f0f0f0;border-radius:20px;padding:8px 14px;font-size:12px;color:#333;font-weight:500;margin-bottom:6px;margin-right:4px}
 .ai-pill em{font-style:normal;color:#FF5722;font-weight:600}
 
 /* Section */
-.sec-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;margin-top:20px}
-.sec-title{font-size:16px;font-weight:600;color:#1a1a1a}
-.sec-more{font-size:12px;color:#999}
+.sec-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;margin-top:18px}
+.sec-title{font-size:15px;font-weight:600;color:#1a1a1a}
+.sec-more{font-size:11px;color:#999}
 
 /* Collections */
-.coll-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;margin-bottom:4px}
+.coll-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:4px}
 .coll-scroll::-webkit-scrollbar{display:none}
-.coll-card{min-width:160px;background:#fff;border-radius:14px;padding:12px;border:1px solid #f0f0f0;flex-shrink:0}
-.coll-title{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
-.coll-count{font-size:11px;color:#999;margin-bottom:8px}
-.coll-thumbs{display:grid;grid-template-columns:1fr 1fr;gap:3px;border-radius:8px;overflow:hidden;height:60px}
-.coll-thumb{background:#f0f0f0;background-size:cover;background-position:center}
+.coll-card{min-width:155px;background:#fff;border-radius:14px;padding:12px;border:1px solid #f0f0f0;flex-shrink:0;cursor:pointer;transition:transform .15s}
+.coll-card:active{transform:scale(.97)}
+.coll-title{font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
+.coll-count{font-size:10px;color:#999;margin-bottom:8px}
+.coll-thumbs{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:6px;overflow:hidden;height:54px}
+.coll-thumb{background:#f0f0f0}
 
 /* Tags */
-.tags{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
+.tags{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
 .tags::-webkit-scrollbar{display:none}
-.tag{font-size:11px;padding:6px 12px;border-radius:16px;background:#f5f5f5;color:#666;white-space:nowrap;font-weight:500}
+.tag{font-size:10px;padding:5px 11px;border-radius:14px;background:#f5f5f5;color:#666;white-space:nowrap;font-weight:500}
 .tag.active{background:#1a1a1a;color:#fff}
-.tag .badge{font-size:9px;color:#999;margin-left:3px}
+.tag .badge{font-size:9px;color:#999;margin-left:2px}
 
 /* Note Cards */
-.ncard{background:#fff;border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid #f0f0f0}
-.ncard-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:4px;line-height:1.4}
-.ncard-preview{font-size:12px;color:#888;line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.ncard-meta{display:flex;align-items:center;gap:6px;font-size:10px;color:#bbb}
-.ncard-source{display:inline-flex;align-items:center;gap:3px;background:#f5f5f5;padding:2px 7px;border-radius:4px;font-size:9px;color:#666}
+.ncard{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid #f0f0f0;cursor:pointer;transition:transform .15s}
+.ncard:active{transform:scale(.98)}
+.ncard-title{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:3px;line-height:1.4}
+.ncard-preview{font-size:11px;color:#888;line-height:1.5;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ncard-meta{display:flex;align-items:center;gap:5px;font-size:9px;color:#bbb;flex-wrap:wrap}
+.ncard-source{display:inline-flex;align-items:center;gap:2px;background:#f5f5f5;padding:2px 6px;border-radius:3px;font-size:9px;color:#666}
 .ncard-source.red{background:#fef1f0;color:#e44}
 .ncard-source.green{background:#eefbf3;color:#2a9}
-.ncard-img{width:60px;height:60px;background:#f0f0f0;border-radius:8px;flex-shrink:0;float:right;margin-left:10px;background-size:cover;background-position:center}
 
 /* Two col */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-/* Today section */
-.today-box{background:#fffdf5;border:1px solid #fff3c4;border-radius:14px;padding:14px;margin-bottom:12px}
-.today-title{font-size:13px;font-weight:600;color:#d97706;margin-bottom:6px}
-.today-items{font-size:11px;color:#555;line-height:2}
-.today-items .done{color:#bbb;text-decoration:line-through}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 
 /* AI Insight */
-.insight{background:linear-gradient(135deg,#f8f9ff,#fef8ff);border:1px solid #ede8ff;border-radius:14px;padding:12px 14px;margin-bottom:12px;font-size:11px;color:#555;line-height:1.6}
+.insight{background:linear-gradient(135deg,#f8f9ff,#fef8ff);border:1px solid #ede8ff;border-radius:12px;padding:11px 13px;margin-bottom:10px;font-size:11px;color:#555;line-height:1.5}
 .insight strong{color:#6d28d9}
 
-/* Bottom Bar */
-.bottombar{position:absolute;bottom:0;left:0;right:0;height:64px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:center;gap:32px;padding:0 24px;z-index:10}
-.bottombar .bi{width:32px;height:32px;display:flex;align-items:center;justify-content:center}
-.bottombar .bi svg{width:22px;height:22px;stroke:#555;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.bottombar .bi.mic svg{stroke:#FF5722;width:24px;height:24px}
+/* Inbox */
+.inbox{display:inline-flex;align-items:center;gap:4px;background:#fef2f2;color:#dc2626;font-size:10px;padding:4px 10px;border-radius:6px;font-weight:500;margin-bottom:10px}
 
-/* Ask AI floating */
-.ask-ai{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid #e8e8e8;border-radius:20px;padding:8px 16px;font-size:11px;color:#333;box-shadow:0 4px 16px rgba(0,0,0,.06);display:flex;align-items:center;gap:6px;white-space:nowrap}
-.ask-ai span{color:#4A7DFF}
+/* KB Chips */
+.kb-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.kb-chip{display:flex;align-items:center;gap:5px;background:#f8f8f8;border:1px solid #eee;border-radius:10px;padding:6px 10px;cursor:pointer;transition:transform .15s}
+.kb-chip:active{transform:scale(.97)}
+.kb-chip-icon{width:20px;height:20px;border-radius:5px;background:#e8f0fe;display:flex;align-items:center;justify-content:center;font-size:10px}
+.kb-chip-text{font-size:10px;color:#333;font-weight:500}
+.kb-chip-count{font-size:9px;color:#999}
 
-/* Inbox badge */
-.inbox{display:inline-flex;align-items:center;gap:4px;background:#fef2f2;color:#dc2626;font-size:11px;padding:4px 10px;border-radius:8px;font-weight:500;margin-bottom:12px}
+/* Bottom Bar - FIXED at bottom */
+.bottombar{position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:center;gap:36px;padding:0 24px;z-index:10}
+.bottombar .bi{width:28px;height:28px;display:flex;align-items:center;justify-content:center}
+.bottombar .bi svg{width:21px;height:21px;stroke:#555;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bottombar .bi.mic svg{stroke:#FF5722;width:22px;height:22px}
 
-/* Knowledge base chips */
-.kb-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.kb-chip{display:flex;align-items:center;gap:6px;background:#f8f8f8;border:1px solid #eee;border-radius:12px;padding:8px 12px}
-.kb-chip-icon{width:24px;height:24px;border-radius:6px;background:#e8f0fe;display:flex;align-items:center;justify-content:center;font-size:11px}
-.kb-chip-text{font-size:11px;color:#333;font-weight:500}
-.kb-chip-count{font-size:10px;color:#999}
+/* Today */
+.today-box{background:#fffef8;border:1px solid #fef3c7;border-radius:12px;padding:12px;margin-bottom:10px}
+.today-title{font-size:12px;font-weight:600;color:#b45309;margin-bottom:5px}
 
-/* Dark variant */
-.screen.dark{background:#0d0d0d}
-.screen.dark .greeting{color:#fff}
-.screen.dark .stats{color:#666}
-.screen.dark .sec-title{color:#fff}
-.screen.dark .ncard{background:#1a1a1a;border-color:#2a2a2a}
-.screen.dark .ncard-title{color:#fff}
-.screen.dark .tag{background:#1a1a1a;color:#aaa}
-.screen.dark .tag.active{background:#fff;color:#000}
+/* Timeline */
+.tl-date{font-size:10px;font-weight:600;color:#999;margin:14px 0 6px;padding-left:10px;border-left:3px solid #4A7DFF}
+
+@media(max-width:500px){.grid{grid-template-columns:1fr}.phone{width:100%;max-width:375px}}
 </style>
 </head>
 <body>
 
 <h1>笔记首页布局方案穷举</h1>
-<p class="subtitle">基于"知识库/资料库"定位，穷举所有可能的首页信息架构 · 小米17比例</p>
+<p class="subtitle">基于"个人资料库"定位 · 12个方案 · 点击卡片可跳转二级页 · 小米17比例</p>
 
 <div class="grid">
 
-<!-- A: 当前版本 -->
+<!-- ===== A: 当前版本 ===== -->
 <div class="scheme">
   <div class="scheme-header">
-    <span class="scheme-tag current">当前版本</span>
+    <span class="scheme-tag current">当前</span>
     <div class="scheme-title">A. 文件夹 + 时间流</div>
-    <div class="scheme-desc">传统笔记APP模式。按文件夹Tab筛选+按时间排列的双列卡片。</div>
+    <div class="scheme-desc">传统笔记APP模式。按文件夹Tab筛选 + 按时间排列的双列卡片。用户熟悉的心智模型。</div>
+    <div class="scheme-detail"><strong>适合：</strong>笔记数量少、不需要AI整理的轻度用户<br><strong>问题：</strong>笔记多了之后找不到、没有知识关联、不体现资料库价值</div>
   </div>
-  <div class="phone"><div class="screen">
-    <div class="statusbar"><span>22:56</span><span class="statusbar-right">5G 📶 36%</span></div>
+  <div class="phone"><div class="screen" id="screenA">
+    <div class="statusbar"><span>22:56</span><span class="statusbar-right">5G 36%</span></div>
     <div class="pg">
-      <div style="display:flex;justify-content:flex-end;gap:12px;margin-bottom:8px"><span style="font-size:18px;color:#333">☑</span><span style="font-size:18px;color:#333">⋮</span></div>
+      <div style="display:flex;justify-content:flex-end;gap:12px;margin-bottom:8px"><span style="font-size:16px;color:#555">☑</span><span style="font-size:16px;color:#555">⋮</span></div>
       <div class="greeting">笔记</div>
       <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索</div>
       <div class="tags"><span class="tag">📁</span><span class="tag active">全部</span><span class="tag">工作</span><span class="tag">生活</span><span class="tag">文件夹2</span></div>
       <div class="two-col">
-        <div class="ncard"><div class="ncard-title">今日待办</div><div class="ncard-preview">上午开会下午写报告</div><div class="ncard-meta">置顶 ⭐</div></div>
-        <div class="ncard"><div class="ncard-title">今日待办</div><div class="ncard-preview">上午开会下午写报告</div><div class="ncard-meta">置顶 ⭐</div></div>
-        <div class="ncard"><div class="ncard-title">明天开会提醒</div><div class="ncard-preview">明天3点开会，记得拿产品方案。内容由AI生成</div><div class="ncard-meta">19:28 · 🎙</div></div>
-        <div class="ncard"><div class="ncard-title">小米集团(01810.HK)</div><div class="ncard-preview">盘中实时行情 最新价31.00港元(+0.58%)</div><div class="ncard-meta">09:57 · 🌐</div></div>
-        <div class="ncard"><div class="ncard-title">明天下午开会</div><div class="ncard-preview">明天3点开会，记得拿方案。内容由AI生成</div><div class="ncard-meta">19:27 · 🎙</div></div>
-        <div class="ncard"><div class="ncard-title">周会提醒</div><div class="ncard-preview">今天下午4点要开周会，准备好产品数值</div><div class="ncard-meta">09:40 · 🎙</div></div>
+        <div class="ncard" onclick="showDetail(this,'今日待办','上午开会下午写报告\n\n1. 9:00 产品评审会\n2. 14:00 提交设计稿\n3. 16:00 和张总通话','置顶 · 今天')"><div class="ncard-title">今日待办</div><div class="ncard-preview">上午开会下午写报告</div><div class="ncard-meta">置顶 ⭐</div></div>
+        <div class="ncard" onclick="showDetail(this,'明天开会提醒','明天下午3点要开会，记得拿产品方案。\n\n会议议题：\n- 二期需求评审\n- 528合入排期确认','19:28 · AI生成')"><div class="ncard-title">明天开会提醒</div><div class="ncard-preview">明天3点开会，记得拿方案</div><div class="ncard-meta">19:28 · 🎙</div></div>
+        <div class="ncard" onclick="showDetail(this,'小米集团(01810.HK)','盘中实时行情（截至09:51）\n\n股票代码：01810.HK（港股）\n最新价：31.00 港元（+0.58%）\n成交量：1.2亿\n市值：7,800亿港元','09:57 · 来自MiClaw')"><div class="ncard-title">小米集团01810.HK</div><div class="ncard-preview">盘中行情 最新价31.00港元</div><div class="ncard-meta">09:57 · 🌐</div></div>
+        <div class="ncard" onclick="showDetail(this,'周会提醒','今天下午4点要开周会，准备好产品数值。\n\n需要准备：\n- 本周DAU数据\n- 功能上线进度\n- 下周计划','09:40 · AI生成')"><div class="ncard-title">周会提醒</div><div class="ncard-preview">今天4点开周会，准备数值</div><div class="ncard-meta">09:40 · 🎙</div></div>
+        <div class="ncard"><div class="ncard-title">读雷军的小米创业思考</div><div class="ncard-preview">极致就是做到自己能力的极限...</div><div class="ncard-meta">周二 13:38</div></div>
+        <div class="ncard"><div class="ncard-title">雨夜咖啡馆</div><div class="ncard-preview">工业设计是一种创造性活动</div><div class="ncard-meta">周二 13:38 · 🎙</div></div>
       </div>
     </div>
     <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailA"><div class="detail-back" onclick="hideDetail('detailA')">← 返回</div><div class="detail-content" id="detailContentA"></div></div>
   </div></div>
 </div>
 
-<!-- B: 智能合集 + 来源筛选 -->
+<!-- ===== B: 合集+来源+AI推荐 ===== -->
 <div class="scheme">
   <div class="scheme-header">
     <span class="scheme-tag">B</span>
     <div class="scheme-title">B. 合集卡片 + 来源筛选 + AI推荐</div>
-    <div class="scheme-desc">顶部问候+AI推荐、横滑合集卡片（带缩略图）、来源Tab筛选、单列笔记流。最接近Figma方案。</div>
+    <div class="scheme-desc">问候语+AI推荐banner、横滑合集卡片（带缩略图）、来源Tab筛选、单列资料流。</div>
+    <div class="scheme-detail"><strong>适合：</strong>资料来源多样（小红书/微信/网页）、需要按来源快速筛选的用户<br><strong>优势：</strong>合集体现知识聚合价值，来源筛选方便回溯，AI推荐增加发现感<br><strong>参考：</strong>Figma一期设计方案</div>
   </div>
-  <div class="phone"><div class="screen">
-    <div class="statusbar"><span>16:36</span><span class="statusbar-right">5G 📶 65%</span></div>
+  <div class="phone"><div class="screen" id="screenB">
+    <div class="statusbar"><span>16:36</span><span class="statusbar-right">5G 65%</span></div>
     <div class="pg">
-      <div style="display:flex;justify-content:flex-end;gap:14px;margin-bottom:4px"><span style="font-size:16px;color:#333">🔍</span><span style="font-size:16px;color:#333">⋮</span></div>
+      <div style="display:flex;justify-content:flex-end;gap:12px;margin-bottom:4px"><span style="font-size:14px;color:#555">🔍</span><span style="font-size:14px;color:#555">⋮</span></div>
       <div class="greeting">下午好, Joeynan</div>
       <div class="stats">853 条资料</div>
-      <div style="margin-bottom:14px">
+      <div style="margin-bottom:12px">
         <div class="ai-pill">📍 <em>深圳美食地图</em>已更新</div>
         <div class="ai-pill">🔮 探索<em>美食</em>合集惊喜</div>
-        <div style="font-size:11px;color:#bbb;margin-top:4px">换一换 ↻</div>
+        <div style="font-size:10px;color:#ccc;margin-top:4px">换一换 ↻</div>
       </div>
       <div class="sec-header"><span class="sec-title">合集</span><span class="sec-more">全部 11 ›</span></div>
       <div class="coll-scroll">
-        <div class="coll-card">
-          <div class="coll-title">AI应用</div>
-          <div class="coll-count">71 条资料</div>
-          <div class="coll-thumbs"><div class="coll-thumb" style="background:#e8f0fe"></div><div class="coll-thumb" style="background:#fef3c7"></div><div class="coll-thumb" style="background:#dcfce7"></div><div class="coll-thumb" style="background:#fce7f3"></div></div>
-        </div>
-        <div class="coll-card">
-          <div class="coll-title">视觉设计</div>
-          <div class="coll-count">新增 19 条资料</div>
-          <div class="coll-thumbs"><div class="coll-thumb" style="background:#fee2e2"></div><div class="coll-thumb" style="background:#e0e7ff"></div><div class="coll-thumb" style="background:#fef9c3"></div><div class="coll-thumb" style="background:#d1fae5"></div></div>
-        </div>
-        <div class="coll-card">
-          <div class="coll-title">黄金趋势</div>
-          <div class="coll-count">22 条资料</div>
-          <div class="coll-thumbs"><div class="coll-thumb" style="background:#fef3c7"></div><div class="coll-thumb" style="background:#fff7ed"></div><div class="coll-thumb" style="background:#fefce8"></div><div class="coll-thumb" style="background:#fffbeb"></div></div>
-        </div>
+        <div class="coll-card" onclick="showCollDetail(this,'AI应用','71条资料','包含：GPT使用技巧、Prompt工程、AI绘画教程、Agent架构...')"><div class="coll-title">AI应用</div><div class="coll-count">71 条资料</div><div class="coll-thumbs"><div class="coll-thumb" style="background:#e8f0fe"></div><div class="coll-thumb" style="background:#fef3c7"></div><div class="coll-thumb" style="background:#dcfce7"></div><div class="coll-thumb" style="background:#fce7f3"></div></div></div>
+        <div class="coll-card" onclick="showCollDetail(this,'视觉设计','新增19条资料','包含：UI趋势、配色方案、组件库参考、竞品截图...')"><div class="coll-title">视觉设计</div><div class="coll-count">新增 19 条资料</div><div class="coll-thumbs"><div class="coll-thumb" style="background:#fee2e2"></div><div class="coll-thumb" style="background:#e0e7ff"></div><div class="coll-thumb" style="background:#fef9c3"></div><div class="coll-thumb" style="background:#d1fae5"></div></div></div>
+        <div class="coll-card" onclick="showCollDetail(this,'黄金趋势','22条资料','包含：ETF分析、央行购金、价格走势、投资策略...')"><div class="coll-title">黄金趋势</div><div class="coll-count">22 条资料</div><div class="coll-thumbs"><div class="coll-thumb" style="background:#fef3c7"></div><div class="coll-thumb" style="background:#fff7ed"></div><div class="coll-thumb" style="background:#fefce8"></div><div class="coll-thumb" style="background:#fffbeb"></div></div></div>
       </div>
       <div class="sec-header"><span class="sec-title">资料</span></div>
       <div class="tags"><span class="tag active">👁 全部</span><span class="tag"><span style="color:#e44">📕</span> 小红书<span class="badge">523</span></span><span class="tag"><span style="color:#2a9">💬</span> 微信<span class="badge">106</span></span></div>
-      <div class="ncard"><div class="ncard-title">视频评论区关于制作工具...</div><div class="ncard-preview">这是一段视频评论区的互动，用户们围绕视频制作工具展开讨论</div><div class="ncard-meta"><span class="ncard-source green">🌐 今天 10:38</span></div></div>
-      <div class="ncard"><div class="ncard-title">黄金ETF持仓量变化分析</div><div class="ncard-preview">视频讨论了当前市场上黄金ETF大幅增持及央行购金提供强力支撑</div><div class="ncard-meta"><span class="ncard-source red">📕 小红书</span><span>· 5条关联笔记</span></div></div>
+      <div class="ncard" onclick="showDetail(this,'视频评论区关于制作工具','这是一段视频评论区的互动，用户们围绕视频制作工具展开讨论。\n\n核心观点：\n- CapCut在海外市场占有率最高\n- DaVinci Resolve免费版功能已足够\n- AI字幕工具大幅降低制作门槛','今天 10:38 · 来自网页')"><div class="ncard-title">视频评论区关于制作工具...</div><div class="ncard-preview">这是一段视频评论区的互动，用户们围绕视频制作工具展开讨论</div><div class="ncard-meta"><span class="ncard-source green">🌐 今天 10:38</span></div></div>
+      <div class="ncard" onclick="showDetail(this,'黄金ETF持仓量变化分析','视频讨论了当前市场上黄金ETF大幅增持及央行购金提供强力支撑，期货净多头带来短期动能。\n\n要点：\n- 全球黄金ETF连续6周净流入\n- 中国央行连续18个月增持\n- 短期目标价：2,500美元/盎司','今天 15:43 · 来自小红书')"><div class="ncard-title">黄金ETF持仓量变化分析</div><div class="ncard-preview">视频讨论了当前市场上黄金ETF大幅增持及央行购金提供强力支撑</div><div class="ncard-meta"><span class="ncard-source red">📕 小红书</span><span>· 5条关联</span></div></div>
     </div>
-    <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><div style="font-size:10px;color:#4A7DFF;font-weight:500;margin-left:8px">✨问一问</div></div>
+    <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailB"><div class="detail-back" onclick="hideDetail('detailB')">← 返回</div><div class="detail-content" id="detailContentB"></div></div>
   </div></div>
 </div>
 
-<!-- C: 知识库看板 -->
+<!-- ===== C: 知识库看板 ===== -->
 <div class="scheme">
   <div class="scheme-header">
     <span class="scheme-tag">C</span>
     <div class="scheme-title">C. 知识库看板（资产优先）</div>
-    <div class="scheme-desc">合集作为首要展示内容，大卡片+缩略图网格。强调"你积累了什么"。点击进入知识库详情+问答。</div>
+    <div class="scheme-desc">大卡片展示AI自动归类的专题合集，点击进入合集详情+问答。强调"你积累了什么"。</div>
+    <div class="scheme-detail"><strong>适合：</strong>重度知识管理用户、已积累大量资料的用户<br><strong>优势：</strong>资产一目了然，知识库感最强，类似Notion数据库视图<br><strong>风险：</strong>新用户空状态体验差（没有合集时页面空）</div>
   </div>
-  <div class="phone"><div class="screen">
-    <div class="statusbar"><span>20:54</span><span class="statusbar-right">5G 📶 49%</span></div>
+  <div class="phone"><div class="screen" id="screenC">
+    <div class="statusbar"><span>20:54</span><span class="statusbar-right">5G 49%</span></div>
     <div class="pg">
-      <div class="greeting" style="font-size:22px">我的知识库</div>
-      <div class="stats">已收藏 264 条资料</div>
-      <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索</div>
-      <div class="tags" style="margin-top:4px"><span class="tag">记录</span><span class="tag active">合集</span></div>
-      <div class="two-col" style="margin-top:10px">
-        <div class="ncard" style="padding:0;overflow:hidden;border-radius:14px"><div style="height:100px;background:linear-gradient(135deg,#e0f2fe,#bae6fd)"></div><div style="padding:10px"><div class="ncard-title">工业设计</div><div style="font-size:10px;color:#888">59</div></div></div>
-        <div class="ncard" style="padding:0;overflow:hidden;border-radius:14px"><div style="height:100px;background:linear-gradient(135deg,#fef3c7,#fde68a)"></div><div style="padding:10px"><div class="ncard-title">美食</div><div style="font-size:10px;color:#888">8</div></div></div>
-        <div class="ncard" style="padding:0;overflow:hidden;border-radius:14px"><div style="height:100px;background:linear-gradient(135deg,#d1fae5,#a7f3d0)"></div><div style="padding:10px"><div class="ncard-title">人机交互</div><div style="font-size:10px;color:#888">56</div></div></div>
-        <div class="ncard" style="padding:0;overflow:hidden;border-radius:14px"><div style="height:100px;background:linear-gradient(135deg,#ede9fe,#ddd6fe)"></div><div style="padding:10px"><div class="ncard-title">摄影，拍照</div><div style="font-size:10px;color:#888">4</div></div></div>
+      <div class="greeting" style="font-size:22px">我的资料库</div>
+      <div class="stats">264 条资料 · 4个专题</div>
+      <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索知识库</div>
+      <div class="tags"><span class="tag">最近</span><span class="tag active">专题</span><span class="tag">全部资料</span></div>
+      <div class="two-col" style="margin-top:8px">
+        <div class="ncard" style="padding:0;overflow:hidden" onclick="showCollDetail(this,'工业设计','59条资料','包含：设计思维、工业设计案例、材料工艺、人机工程学...\n\n最近新增：\n- iPhone 16设计拆解\n- 小米SU7内饰设计分析')"><div style="height:90px;background:linear-gradient(135deg,#e0f2fe,#bae6fd)"></div><div style="padding:10px"><div class="ncard-title">工业设计</div><div style="font-size:10px;color:#888">59条 · 3个来源</div></div></div>
+        <div class="ncard" style="padding:0;overflow:hidden" onclick="showCollDetail(this,'美食','8条资料','包含：深圳美食地图、食谱收藏、餐厅推荐...')"><div style="height:90px;background:linear-gradient(135deg,#fef3c7,#fde68a)"></div><div style="padding:10px"><div class="ncard-title">美食</div><div style="font-size:10px;color:#888">8条 · 2个来源</div></div></div>
+        <div class="ncard" style="padding:0;overflow:hidden" onclick="showCollDetail(this,'人机交互','56条资料','包含：交互设计原则、用户研究方法、可用性测试、竞品分析...')"><div style="height:90px;background:linear-gradient(135deg,#d1fae5,#a7f3d0)"></div><div style="padding:10px"><div class="ncard-title">人机交互</div><div style="font-size:10px;color:#888">56条 · 4个来源</div></div></div>
+        <div class="ncard" style="padding:0;overflow:hidden" onclick="showCollDetail(this,'摄影/拍照','4条资料','包含：构图技巧、后期调色、手机摄影教程...')"><div style="height:90px;background:linear-gradient(135deg,#ede9fe,#ddd6fe)"></div><div style="padding:10px"><div class="ncard-title">摄影/拍照</div><div style="font-size:10px;color:#888">4条 · 1个来源</div></div></div>
       </div>
     </div>
     <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailC"><div class="detail-back" onclick="hideDetail('detailC')">← 返回</div><div class="detail-content" id="detailContentC"></div></div>
   </div></div>
 </div>
 
-<!-- D: 今日视图 -->
+<!-- ===== D: 今日视图 ===== -->
 <div class="scheme">
   <div class="scheme-header">
     <span class="scheme-tag">D</span>
-    <div class="scheme-title">D. 今日视图（Today）</div>
-    <div class="scheme-desc">打开即见今天的状态：待办/提醒/AI发现/最近新增。核心为"今天有什么要处理的"。参考Things/Notion today view。</div>
+    <div class="scheme-title">D. 今日视图 + 活跃专题</div>
+    <div class="scheme-desc">打开即见今天的状态：待办/提醒/AI发现/最近新增。核心为"今天有什么要看/要做的"。</div>
+    <div class="scheme-detail"><strong>适合：</strong>高频使用、每天都打开笔记的用户<br><strong>优势：</strong>行动导向，每次打开都有新内容，不会"打开了不知道干嘛"<br><strong>参考：</strong>Things Today / Apple日志</div>
   </div>
-  <div class="phone"><div class="screen">
-    <div class="statusbar"><span>8:36</span><span class="statusbar-right">📶 100%</span></div>
+  <div class="phone"><div class="screen" id="screenD">
+    <div class="statusbar"><span>8:36</span><span class="statusbar-right">100%</span></div>
     <div class="pg">
       <div class="greeting">Today</div>
-      <div style="display:flex;gap:16px;margin-bottom:16px;margin-top:8px">
-        <div style="text-align:center"><div style="font-size:28px;font-weight:700;color:#1a1a1a">8</div><div style="font-size:10px;color:#999">待办</div></div>
-        <div style="text-align:center"><div style="font-size:28px;font-weight:700;color:#1a1a1a">3</div><div style="font-size:10px;color:#999">提醒</div></div>
-        <div style="background:#f5f5f5;border-radius:20px;padding:8px 14px;font-size:11px;color:#666;display:flex;align-items:center;margin-left:auto">generate summary</div>
+      <div style="display:flex;gap:16px;margin:8px 0 14px">
+        <div style="text-align:center"><div style="font-size:26px;font-weight:700;color:#1a1a1a">8</div><div style="font-size:9px;color:#999">待办</div></div>
+        <div style="text-align:center"><div style="font-size:26px;font-weight:700;color:#1a1a1a">3</div><div style="font-size:9px;color:#999">提醒</div></div>
+        <div style="margin-left:auto;background:#f5f5f5;border-radius:16px;padding:6px 12px;font-size:10px;color:#666;display:flex;align-items:center">✨ 生成今日摘要</div>
       </div>
-      <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:10px">Daily Log</div>
-      <div style="font-size:11px;color:#666;line-height:2.2;padding-left:12px;border-left:2px solid #e0e0e0">
-        <div><span style="color:#999">8:30 AM</span> · <span style="font-weight:500">Start</span></div>
-        <div><span style="color:#999">9:00 AM</span> · <span style="color:#4A7DFF">daily progress report</span></div>
-        <div><span style="color:#999">10:00 AM</span> · Design Review</div>
-        <div><span style="color:#999">1:00 PM</span> · Call with Sarah</div>
-        <div><span style="color:#999">4:30 PM</span> · Review Designs</div>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:16px">
-        <div style="background:#f5f5f5;border-radius:12px;padding:10px;flex:1"><div style="font-size:10px;color:#999;margin-bottom:2px">Project A</div><div style="font-size:11px;font-weight:500;color:#333">3 entries</div></div>
-        <div style="background:#f5f5f5;border-radius:12px;padding:10px;flex:1"><div style="font-size:10px;color:#999;margin-bottom:2px">Insights</div><div style="font-size:11px;font-weight:500;color:#333">recent</div></div>
+      <div class="today-box"><div class="today-title">⏰ 今日待办</div><div style="font-size:10px;color:#555;line-height:2">□ 上午10点产品评审<br>□ 下午交设计稿<br><span style="color:#bbb;text-decoration:line-through">☑ 回复张总邮件</span></div></div>
+      <div class="insight"><strong>💡 AI发现：</strong>昨天存的"冰岛自驾攻略"和上周的"五一出行"高度相关，<span style="color:#6d28d9">已自动关联 →</span></div>
+      <div class="sec-header"><span class="sec-title">最近新增</span></div>
+      <div class="ncard" onclick="showDetail(this,'净水器维护记录','2026年2月27日花250元维护厨房小米净水器PP棉和RO膜。\n\n维护内容：\n- PP棉滤芯更换\n- RO膜清洗\n\n提醒：\n- 3个月后查PP棉\n- 1年后换RO膜','今天 15:43 · 语音笔记')"><div class="ncard-title">净水器维护记录</div><div class="ncard-preview">花250元维护PP棉和RO膜，3个月后查...</div><div class="ncard-meta"><span class="ncard-source">🎙 语音</span>今天 15:43</div></div>
+      <div class="ncard" onclick="showDetail(this,'黄金ETF持仓分析','视频讨论了当前市场上黄金ETF大幅增持及央行购金...','今天 15:43 · 小红书')"><div class="ncard-title">黄金ETF持仓分析</div><div class="ncard-preview">当前市场黄金ETF大幅增持...</div><div class="ncard-meta"><span class="ncard-source red">📕 小红书</span>今天 15:43</div></div>
+      <div class="sec-header"><span class="sec-title">本周活跃专题</span></div>
+      <div class="coll-scroll">
+        <div class="coll-card" onclick="showCollDetail(this,'笔记资料库方案','本周+5篇','产品定位、怎么存、怎么整理、MCP方案...')"><div class="coll-title">笔记资料库方案</div><div class="coll-count">本周+5篇</div></div>
+        <div class="coll-card" onclick="showCollDetail(this,'黄金投资','本周+3篇','ETF分析、持仓变化、央行购金...')"><div class="coll-title">黄金投资</div><div class="coll-count">本周+3篇</div></div>
       </div>
     </div>
     <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailD"><div class="detail-back" onclick="hideDetail('detailD')">← 返回</div><div class="detail-content" id="detailContentD"></div></div>
   </div></div>
 </div>
 
-<!-- E: 收件箱+库 -->
+<!-- ===== E: 收件箱+知识库 ===== -->
 <div class="scheme">
   <div class="scheme-header">
     <span class="scheme-tag">E</span>
-    <div class="scheme-title">E. 收件箱 + 知识库分区</div>
-    <div class="scheme-desc">上方=待整理的新资料（红色角标），下方=已归类的知识库。明确区分"来了什么"和"整理好了什么"。</div>
+    <div class="scheme-title">E. 收件箱 + 知识库双区</div>
+    <div class="scheme-desc">上方=待整理的新资料（红色角标，暗示"有东西要处理"），下方=已归类的知识库。</div>
+    <div class="scheme-detail"><strong>适合：</strong>GTD方法论用户，习惯"收集→整理→归档"流程<br><strong>优势：</strong>清晰区分"新来的"和"已整理的"，处理感强<br><strong>风险：</strong>收件箱长期不处理会造成焦虑</div>
   </div>
-  <div class="phone"><div class="screen">
-    <div class="statusbar"><span>8:36</span><span class="statusbar-right">📶 100%</span></div>
+  <div class="phone"><div class="screen" id="screenE">
+    <div class="statusbar"><span>8:36</span><span class="statusbar-right">100%</span></div>
     <div class="pg">
       <div class="greeting">笔记</div>
       <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索</div>
       <div class="inbox">📥 收件箱 · 4条新资料待整理</div>
       <div class="coll-scroll">
-        <div style="min-width:150px;background:#fffbeb;border:1px solid #fef3c7;border-radius:12px;padding:10px;flex-shrink:0"><div style="font-size:11px;font-weight:500;color:#92400e">公众号：AI前沿趋势</div><div style="font-size:9px;color:#b45309;margin-top:3px">刚刚 · 链接</div></div>
-        <div style="min-width:150px;background:#fffbeb;border:1px solid #fef3c7;border-radius:12px;padding:10px;flex-shrink:0"><div style="font-size:11px;font-weight:500;color:#92400e">张总发的体检报告.pdf</div><div style="font-size:9px;color:#b45309;margin-top:3px">1小时前 · 文件</div></div>
-        <div style="min-width:150px;background:#fffbeb;border:1px solid #fef3c7;border-radius:12px;padding:10px;flex-shrink:0"><div style="font-size:11px;font-weight:500;color:#92400e">MiClaw对话结论</div><div style="font-size:9px;color:#b45309;margin-top:3px">2小时前 · AI</div></div>
+        <div style="min-width:145px;background:#fffbeb;border:1px solid #fef3c7;border-radius:10px;padding:9px;flex-shrink:0;cursor:pointer" onclick="showDetail(this,'AI前沿趋势','公众号文章：大模型最新进展与应用场景分析\n\n待整理：需要归入"AI技术"专题','刚刚 · 链接 · 待归类')"><div style="font-size:10px;font-weight:500;color:#92400e">公众号：AI前沿趋势</div><div style="font-size:9px;color:#b45309;margin-top:2px">刚刚 · 链接</div></div>
+        <div style="min-width:145px;background:#fffbeb;border:1px solid #fef3c7;border-radius:10px;padding:9px;flex-shrink:0;cursor:pointer" onclick="showDetail(this,'体检报告2026.pdf','张总发的年度体检报告\n\nAI提取：\n- 血压正常\n- 血糖偏高，建议复查\n- BMI 24.5','1小时前 · PDF · 待归类')"><div style="font-size:10px;font-weight:500;color:#92400e">张总发的体检报告.pdf</div><div style="font-size:9px;color:#b45309;margin-top:2px">1小时前 · 文件</div></div>
+        <div style="min-width:145px;background:#fffbeb;border:1px solid #fef3c7;border-radius:10px;padding:9px;flex-shrink:0"><div style="font-size:10px;font-weight:500;color:#92400e">MiClaw对话结论</div><div style="font-size:9px;color:#b45309;margin-top:2px">2小时前 · AI</div></div>
       </div>
-      <div class="sec-header" style="margin-top:16px"><span class="sec-title">📚 知识库</span><span class="sec-more">管理 ›</span></div>
+      <div class="sec-header" style="margin-top:14px"><span class="sec-title">📚 知识库</span><span class="sec-more">管理 ›</span></div>
       <div class="two-col">
-        <div class="ncard"><div style="font-size:11px;font-weight:600;color:#4A7DFF;margin-bottom:3px">黄金趋势研究</div><div style="font-size:10px;color:#999">22条 · 6个来源</div></div>
-        <div class="ncard"><div style="font-size:11px;font-weight:600;color:#4A7DFF;margin-bottom:3px">AI技术笔记</div><div style="font-size:10px;color:#999">15条 · 4个来源</div></div>
-        <div class="ncard"><div style="font-size:11px;font-weight:600;color:#4A7DFF;margin-bottom:3px">旅行规划</div><div style="font-size:10px;color:#999">8条 · 3个来源</div></div>
-        <div class="ncard"><div style="font-size:11px;font-weight:600;color:#4A7DFF;margin-bottom:3px">健康管理</div><div style="font-size:10px;color:#999">12条 · 5个来源</div></div>
+        <div class="ncard" onclick="showCollDetail(this,'黄金趋势研究','22条 · 6个来源','ETF分析、央行购金、价格走势...')"><div style="font-size:11px;font-weight:600;color:#4A7DFF;margin-bottom:2px">黄金趋势研究</div><div style="font-size:9px;color:#999">22条 · 6个来源</div></div>
+        <div class="ncard" onclick="showCollDetail(this,'AI技术笔记','15条 · 4个来源','大模型、Prompt、Agent架构...')"><div style="font-size:11px;font-weight:600;color:#4A7DFF;margin-bottom:2px">AI技术笔记</div><div style="font-size:9px;color:#999">15条 · 4个来源</div></div>
+        <div class="ncard" onclick="showCollDetail(this,'旅行规划','8条 · 3个来源','冰岛自驾、五一出行、机票比价...')"><div style="font-size:11px;font-weight:600;color:#4A7DFF;margin-bottom:2px">旅行规划</div><div style="font-size:9px;color:#999">8条 · 3个来源</div></div>
+        <div class="ncard" onclick="showCollDetail(this,'健康管理','12条 · 5个来源','体检报告、运动记录、饮食...')"><div style="font-size:11px;font-weight:600;color:#4A7DFF;margin-bottom:2px">健康管理</div><div style="font-size:9px;color:#999">12条 · 5个来源</div></div>
       </div>
     </div>
     <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailE"><div class="detail-back" onclick="hideDetail('detailE')">← 返回</div><div class="detail-content" id="detailContentE"></div></div>
   </div></div>
 </div>
 
-<!-- F: AI洞察 -->
+<!-- ===== F: AI洞察 ===== -->
 <div class="scheme">
   <div class="scheme-header">
     <span class="scheme-tag">F</span>
-    <div class="scheme-title">F. AI洞察 + 活跃笔记</div>
-    <div class="scheme-desc">顶部是AI主动推送（关联发现/摘要/提醒），下方按活跃度排列。AI存在感最强。</div>
+    <div class="scheme-title">F. AI洞察面板 + 活跃笔记</div>
+    <div class="scheme-desc">顶部是AI主动推送的洞察（关联发现/摘要/提醒），下方按活跃度排列笔记。</div>
+    <div class="scheme-detail"><strong>适合：</strong>希望AI主动帮忙整理和发现关联的用户<br><strong>优势：</strong>AI存在感最强，用户每次打开都能看到新的洞察<br><strong>风险：</strong>AI推荐不准时会降低信任</div>
   </div>
-  <div class="phone"><div class="screen">
-    <div class="statusbar"><span>8:36</span><span class="statusbar-right">📶 100%</span></div>
+  <div class="phone"><div class="screen" id="screenF">
+    <div class="statusbar"><span>8:36</span><span class="statusbar-right">100%</span></div>
     <div class="pg">
       <div class="greeting">笔记</div>
       <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索或询问AI<svg class="mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
-      <div class="insight"><strong>🔗 发现关联：</strong>"笔记资料库方案"和"5/6会议纪要"讨论了相同话题（MCP+知识沉淀），<span style="color:#6d28d9">查看 →</span></div>
-      <div class="insight" style="background:linear-gradient(135deg,#fef9e7,#fffef5);border-color:#fef3c7"><strong style="color:#d97706">📋 今日：</strong>3篇新增，1条待办到期，"黄金趋势"专题有2篇更新</div>
+      <div class="insight"><strong>🔗 发现关联：</strong>"笔记资料库方案"和"5/6会议纪要"讨论了相同话题，<span style="color:#6d28d9">查看 →</span></div>
+      <div class="insight" style="background:linear-gradient(135deg,#fef9e7,#fffef5);border-color:#fef3c7"><strong style="color:#d97706">📋 今日：</strong>3篇新增，1条待办到期，"黄金趋势"有2篇更新</div>
       <div class="sec-header"><span class="sec-title">最近活跃</span></div>
-      <div class="ncard"><div class="ncard-title">笔记资料库 — 产品方案</div><div class="ncard-preview">笔记是用户在MiClaw生态中的资料库，用户看过的、想记的...</div><div class="ncard-meta"><span class="ncard-source">工作</span>今天 15:34</div></div>
-      <div class="ncard"><div class="ncard-title">5/7会议纪要</div><div class="ncard-preview">笔记产品与米Cloud资料库整合方案，明确产品定位与核心问题...</div><div class="ncard-meta"><span class="ncard-source">会议</span>今天 21:22</div></div>
-      <div class="ncard"><div class="ncard-title">黄金ETF持仓量变化</div><div class="ncard-preview">当前市场黄金ETF大幅增持及央行购金提供强力支撑...</div><div class="ncard-meta"><span class="ncard-source red">小红书</span>昨天 15:43</div></div>
+      <div class="ncard" onclick="showDetail(this,'笔记资料库 — 产品方案','笔记是用户在MiClaw生态中的资料库。用户看过的、想记的、AI帮他整理的都往这里存。\n\n核心飞轮：存得越多→索引越丰富→AI回答越好→用户越愿意存。','今天 15:34 · 工作')"><div class="ncard-title">笔记资料库 — 产品方案</div><div class="ncard-preview">笔记是用户在MiClaw生态中的资料库...</div><div class="ncard-meta"><span class="ncard-source">工作</span>今天 15:34</div></div>
+      <div class="ncard" onclick="showDetail(this,'5/7会议纪要','笔记产品与米Cloud资料库整合方案，明确产品定位与核心问题。\n\n核心共识：\n1. 产品定位收敛为知识沉淀\n2. 米Cloud对外作为MCP\n3. dream机制由笔记侧负责','今天 21:22 · 会议')"><div class="ncard-title">5/7会议纪要</div><div class="ncard-preview">笔记产品与米Cloud资料库整合方案...</div><div class="ncard-meta"><span class="ncard-source">会议</span>今天 21:22</div></div>
+      <div class="ncard"><div class="ncard-title">黄金ETF持仓量变化</div><div class="ncard-preview">当前市场黄金ETF大幅增持...</div><div class="ncard-meta"><span class="ncard-source red">小红书</span>昨天 15:43</div></div>
     </div>
     <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
-  </div></div>
-</div>
-
-<!-- G: 知识库Chips + 标签 + 双列 (参考方案一截图) -->
-<div class="scheme">
-  <div class="scheme-header">
-    <span class="scheme-tag">G</span>
-    <div class="scheme-title">G. 知识库Chips + 标签筛选 + 双列</div>
-    <div class="scheme-desc">知识库用Chip形态展示（占空间小），标签筛选，下方双列卡片（带图）。平衡知识库入口和笔记浏览。</div>
-  </div>
-  <div class="phone"><div class="screen">
-    <div class="statusbar"><span>8:36</span><span class="statusbar-right">📶 100%</span></div>
-    <div class="pg">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:16px">☰</span><span style="margin-left:auto;font-size:16px">☑</span><span style="font-size:16px">⚙</span></div>
-      <div class="greeting" style="font-size:22px">Hi👋, 快速记录灵感~</div>
-      <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索或询问AI<svg class="mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
-      <div class="sec-header" style="margin-top:4px"><span class="sec-title" style="font-size:13px">知识库</span><span class="sec-more" style="color:#4A7DFF">更多</span></div>
-      <div class="kb-chips">
-        <div class="kb-chip"><div class="kb-chip-icon">📊</div><div><div class="kb-chip-text">黄金趋势...</div><div class="kb-chip-count">22条笔记</div></div></div>
-        <div class="kb-chip"><div class="kb-chip-icon">🤖</div><div><div class="kb-chip-text">AI底层技术</div><div class="kb-chip-count">22条笔记</div></div></div>
-      </div>
-      <div class="tags"><span class="tag active">全部</span><span class="tag">#生活待办</span><span class="tag">#工作会议</span><span class="tag">#课程学习</span></div>
-      <div class="two-col">
-        <div class="ncard"><div class="ncard-title">春节回家物品</div><div class="ncard-preview">身份证、银行卡、手机、充电器、雨伞</div><div class="ncard-meta">#旅游规划</div></div>
-        <div class="ncard"><div style="height:50px;background:#f5f5f5;border-radius:6px;margin-bottom:4px"></div><div class="ncard-title">人文教育</div></div>
-        <div class="ncard"><div class="ncard-title">影视鉴赏剧本</div><div class="ncard-preview">经典电影拉片分析方法...</div></div>
-        <div class="ncard"><div class="ncard-title">雷军：我喜欢并推崇任天堂</div><div class="ncard-preview">极致的理解...</div><div class="ncard-meta">周二 下午1:38</div></div>
-      </div>
-    </div>
-    <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
-  </div></div>
-</div>
-
-<!-- H: 时间线 -->
-<div class="scheme">
-  <div class="scheme-header">
-    <span class="scheme-tag">H</span>
-    <div class="scheme-title">H. 时间线（Timeline）</div>
-    <div class="scheme-desc">按日期分组，像日记本回顾。强调时间维度的知识积累感。适合重度用户。</div>
-  </div>
-  <div class="phone"><div class="screen">
-    <div class="statusbar"><span>8:36</span><span class="statusbar-right">📶 100%</span></div>
-    <div class="pg">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><div class="greeting" style="font-size:20px;margin:0">Timeline</div><div style="font-size:12px;color:#4A7DFF">筛选</div></div>
-      <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索</div>
-      <div style="font-size:11px;font-weight:600;color:#999;margin:14px 0 8px;padding-left:12px;border-left:3px solid #4A7DFF;line-height:1.4">今天 · 5月8日<br><span style="font-weight:400;font-size:10px;color:#bbb">3篇笔记</span></div>
-      <div class="ncard"><div class="ncard-title">笔记资料库方案</div><div class="ncard-preview">笔记是用户的知识沉淀...</div><div class="ncard-meta">15:34 · <span class="ncard-source">工作</span></div></div>
-      <div class="ncard"><div class="ncard-title">5/7会议纪要</div><div class="ncard-preview">笔记产品定位确认...</div><div class="ncard-meta">21:22 · <span class="ncard-source">会议</span></div></div>
-      <div style="font-size:11px;font-weight:600;color:#999;margin:14px 0 8px;padding-left:12px;border-left:3px solid #e0e0e0;line-height:1.4">昨天 · 5月7日<br><span style="font-weight:400;font-size:10px;color:#bbb">5篇笔记</span></div>
-      <div class="ncard"><div class="ncard-title">代码改动说明</div><div class="ncard-preview">基于最新main + 李楠review...</div><div class="ncard-meta">10:05 · <span class="ncard-source">开发</span></div></div>
-      <div class="ncard"><div class="ncard-title">黄金ETF分析</div><div class="ncard-preview">大幅增持...</div><div class="ncard-meta">15:43 · <span class="ncard-source red">小红书</span></div></div>
-    </div>
-    <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
-  </div></div>
-</div>
-
-<!-- I: 智能合集+待办+标签（参考方案一截图融合） -->
-<div class="scheme">
-  <div class="scheme-header">
-    <span class="scheme-tag">I</span>
-    <div class="scheme-title">I. 待办前置 + 智能合集 + 单列流</div>
-    <div class="scheme-desc">待办卡片置顶（最高频），智能合集横滑，下方按标签筛选的单列笔记流。行动导向。</div>
-  </div>
-  <div class="phone"><div class="screen">
-    <div class="statusbar"><span>8:36</span><span class="statusbar-right">📶 100%</span></div>
-    <div class="pg">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:16px">☰</span><span style="margin-left:auto;font-size:16px">🎙</span></div>
-      <div class="greeting" style="font-size:22px">Hi👋, 快速记录灵感~</div>
-      <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索或询问AI<svg class="mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
-      <div class="sec-header"><span class="sec-title">智能合集</span><span class="sec-more">›</span></div>
-      <div class="coll-scroll">
-        <div class="coll-card" style="background:#fffef5;border-color:#fef3c7">
-          <div class="coll-title">待办事项</div>
-          <div class="coll-count">📋 今日：8条待办</div>
-          <div style="font-size:10px;color:#666;line-height:1.8;margin-top:6px">□ 完成会议纪要分享<br>□ 做3道AI工具训练题<br>□ 一周健身三次<br>□ 睡前读20页书</div>
-        </div>
-        <div class="coll-card">
-          <div class="coll-title">体重管理</div>
-          <div class="coll-count">📋 13条笔记</div>
-          <div class="coll-thumbs" style="margin-top:6px"><div class="coll-thumb" style="background:#fef3c7"></div><div class="coll-thumb" style="background:#dcfce7"></div><div class="coll-thumb" style="background:#fee2e2"></div><div class="coll-thumb" style="background:#e0e7ff"></div></div>
-        </div>
-      </div>
-      <div class="tags"><span class="tag active">全部</span><span class="tag">#生活待办</span><span class="tag">#工作会议</span><span class="tag">#课程学习</span></div>
-      <div class="ncard"><div class="ncard-title">净水器维护</div><div class="ncard-preview">2026年2月27日花250元维护厨房小米净水器PP棉和RO膜，提醒：3个月后查PP棉，1年后换RO膜</div><div class="ncard-meta"><span class="ncard-source">🎙 语音笔记</span><span class="ncard-source">📋 3条待办</span><span class="ncard-source">📎 5条关联</span></div></div>
-      <div class="ncard"><div class="ncard-title">黄金ETF持仓量变化</div><div class="ncard-preview">视频讨论了当前市场上黄金ETF大幅增持及央行购金提供强力支撑，期货净多头带来短期动能</div><div class="ncard-meta"><span class="ncard-source red">📕 小红书</span><span class="ncard-source">📎 5条关联</span></div></div>
-    </div>
-    <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailF"><div class="detail-back" onclick="hideDetail('detailF')">← 返回</div><div class="detail-content" id="detailContentF"></div></div>
   </div></div>
 </div>
 
 </div>
+
+<script>
+function showDetail(el, title, body, meta) {
+  const screen = el.closest('.screen');
+  const overlay = screen.querySelector('.detail-overlay');
+  const content = overlay.querySelector('.detail-content');
+  content.innerHTML = `<div class="detail-title">${title}</div><div class="detail-meta">${meta||''}</div><div class="detail-body">${(body||'').replace(/\n/g,'<br>')}</div>`;
+  overlay.classList.add('show');
+}
+function showCollDetail(el, title, count, desc) {
+  const screen = el.closest('.screen');
+  const overlay = screen.querySelector('.detail-overlay');
+  const content = overlay.querySelector('.detail-content');
+  const items = ['关于设计趋势的深度分析','核心方法论总结','竞品拆解与对比','实践案例与复盘','行业报告摘要'];
+  let itemsHtml = items.map((t,i)=>`<div class="detail-item"><div class="detail-item-title">${t}</div><div class="detail-item-preview">这是一条资料的摘要内容，包含核心要点和关键结论...</div><div class="detail-item-meta">${['小红书','微信','网页','录音','PDF'][i]} · ${5-i}天前</div></div>`).join('');
+  content.innerHTML = `<div class="detail-title">${title}</div><div class="detail-meta">${count}</div><div class="detail-body" style="margin-bottom:14px">${(desc||'').replace(/\n/g,'<br>')}</div><div style="background:#f0f4ff;border-radius:10px;padding:10px;margin-bottom:14px;font-size:11px;color:#4A7DFF;cursor:pointer">💬 基于这个专题问一问AI →</div>${itemsHtml}`;
+  overlay.classList.add('show');
+}
+function hideDetail(id) {
+  document.getElementById(id).classList.remove('show');
+}
+</script>
 </body>
 </html>
