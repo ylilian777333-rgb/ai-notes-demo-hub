@@ -313,6 +313,194 @@ h1{font-size:20px;text-align:center;margin-bottom:4px;font-weight:600}
   </div></div>
 </div>
 
+<!-- ===== G: 知识库Chips + 标签 + 双列 ===== -->
+<div class="scheme">
+  <div class="scheme-header">
+    <span class="scheme-tag">G</span>
+    <div class="scheme-title">G. 知识库Chips + 标签筛选 + 双列</div>
+    <div class="scheme-desc">知识库用Chip形态展示（占空间小），标签筛选笔记，下方双列卡片。平衡知识库入口和浏览。</div>
+    <div class="scheme-detail"><strong>适合：</strong>知识库数量不多（3-5个）、日常主要是浏览笔记的用户<br><strong>优势：</strong>知识库入口不抢空间，主体仍是笔记列表，过渡成本低<br><strong>参考：</strong>方案一截图中的知识库Chip形态</div>
+  </div>
+  <div class="phone"><div class="screen" id="screenG">
+    <div class="statusbar"><span>8:36</span><span class="statusbar-right">100%</span></div>
+    <div class="pg">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:14px">☰</span><span style="margin-left:auto;font-size:14px">☑</span><span style="font-size:14px">⚙</span></div>
+      <div class="greeting" style="font-size:22px">Hi👋, 快速记录灵感~</div>
+      <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索或询问AI<svg class="mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
+      <div class="sec-header" style="margin-top:4px"><span class="sec-title" style="font-size:13px">知识库</span><span class="sec-more" style="color:#4A7DFF">更多</span></div>
+      <div class="kb-chips">
+        <div class="kb-chip" onclick="showCollDetail(this,'黄金趋势研究','22条资料','ETF分析、央行购金、价格走势...')"><div class="kb-chip-icon">📊</div><div><div class="kb-chip-text">黄金趋势...</div><div class="kb-chip-count">22条</div></div></div>
+        <div class="kb-chip" onclick="showCollDetail(this,'AI底层技术','22条资料','大模型原理、Agent架构、RAG...')"><div class="kb-chip-icon">🤖</div><div><div class="kb-chip-text">AI底层技术</div><div class="kb-chip-count">22条</div></div></div>
+      </div>
+      <div class="tags"><span class="tag active">全部</span><span class="tag">#生活待办</span><span class="tag">#工作会议</span><span class="tag">#课程学习</span></div>
+      <div class="two-col">
+        <div class="ncard" onclick="showDetail(this,'春节回家物品','身份证、银行卡\n手机、充电器、充电宝\n雨伞、数据线\n保暖外套、便携洗漱包','#生活待办 #旅游规划')"><div class="ncard-title">春节回家物品</div><div class="ncard-preview">身份证、银行卡、手机、充电器</div><div class="ncard-meta">#旅游规划</div></div>
+        <div class="ncard" onclick="showDetail(this,'人文教育','关于人文素养和通识教育的笔记整理...','周二')"><div style="height:45px;background:#f5f5f5;border-radius:6px;margin-bottom:4px"></div><div class="ncard-title">人文教育</div></div>
+        <div class="ncard" onclick="showDetail(this,'影视鉴赏剧本','经典电影拉片分析方法\n\n1. 叙事结构拆解\n2. 镜头语言分析\n3. 人物弧光追踪','上周')"><div class="ncard-title">影视鉴赏剧本</div><div class="ncard-preview">经典电影拉片分析方法...</div></div>
+        <div class="ncard" onclick="showDetail(this,'雷军：我喜欢并推崇任天堂','在上一篇《小米创业思考》系列文章中，我分享了我对极致的理解：极致就是做到自己能力的极限。','周二 下午1:38')"><div class="ncard-title">雷军：我喜欢并推崇任天堂</div><div class="ncard-preview">极致的理解...</div><div class="ncard-meta">周二 下午1:38</div></div>
+      </div>
+    </div>
+    <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailG"><div class="detail-back" onclick="hideDetail('detailG')">← 返回</div><div class="detail-content" id="detailContentG"></div></div>
+  </div></div>
+</div>
+
+<!-- ===== H: 时间线 ===== -->
+<div class="scheme">
+  <div class="scheme-header">
+    <span class="scheme-tag">H</span>
+    <div class="scheme-title">H. 时间线（Timeline）</div>
+    <div class="scheme-desc">按日期分组展示资料，像日记本一样回顾。强调时间维度的知识积累。</div>
+    <div class="scheme-detail"><strong>适合：</strong>重度用户，每天都在记录，想回顾"那天我记了什么"<br><strong>优势：</strong>积累感强、有节奏感、类似个人知识日志<br><strong>参考：</strong>Figma方案1"时间流"、Apple Journal</div>
+  </div>
+  <div class="phone"><div class="screen" id="screenH">
+    <div class="statusbar"><span>8:36</span><span class="statusbar-right">100%</span></div>
+    <div class="pg">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div class="greeting" style="font-size:20px;margin:0">Timeline</div><div style="font-size:11px;color:#4A7DFF">筛选</div></div>
+      <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索</div>
+      <div class="tl-date">今天 · 5月8日 · 3篇</div>
+      <div class="ncard" onclick="showDetail(this,'笔记资料库方案','笔记=用户的资料库。怎么存、怎么整理。\n\n六类内容：链接/文件/图片/对话/音频/短信息\n三个核心能力：存得进、找得到、发得出','15:34 · 工作')"><div class="ncard-title">笔记资料库方案</div><div class="ncard-preview">笔记是用户的知识沉淀...</div><div class="ncard-meta">15:34 · <span class="ncard-source">工作</span></div></div>
+      <div class="ncard" onclick="showDetail(this,'5/7会议纪要','三人会：笔记产品定位确认\n\n共识：\n1. 定位=知识沉淀\n2. MCP由云服务负责\n3. dream由笔记侧负责\n4. 先做不等审批','21:22 · 会议')"><div class="ncard-title">5/7会议纪要</div><div class="ncard-preview">笔记产品定位确认...</div><div class="ncard-meta">21:22 · <span class="ncard-source">会议</span></div></div>
+      <div class="ncard"><div class="ncard-title">笔记写入滚动更新</div><div class="ncard-preview">Agent产出追加到已有笔记...</div><div class="ncard-meta">14:53 · <span class="ncard-source">工作</span></div></div>
+      <div class="tl-date" style="border-color:#e0e0e0">昨天 · 5月7日 · 5篇</div>
+      <div class="ncard"><div class="ncard-title">代码改动说明</div><div class="ncard-preview">基于最新main + review...</div><div class="ncard-meta">10:05 · <span class="ncard-source">开发</span></div></div>
+      <div class="ncard"><div class="ncard-title">黄金ETF持仓分析</div><div class="ncard-preview">大幅增持...</div><div class="ncard-meta">15:43 · <span class="ncard-source red">小红书</span></div></div>
+      <div class="ncard"><div class="ncard-title">产品走查问题</div><div class="ncard-preview">录音AI分析速度、等待反馈...</div><div class="ncard-meta">18:37 · <span class="ncard-source">走查</span></div></div>
+    </div>
+    <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailH"><div class="detail-back" onclick="hideDetail('detailH')">← 返回</div><div class="detail-content" id="detailContentH"></div></div>
+  </div></div>
+</div>
+
+<!-- ===== I: 搜索优先 ===== -->
+<div class="scheme">
+  <div class="scheme-header">
+    <span class="scheme-tag">I</span>
+    <div class="scheme-title">I. 搜索优先（Search-first）</div>
+    <div class="scheme-desc">搜索框占据最显眼位置，下方展示最近搜索和热门专题。核心逻辑：资料多了靠搜，不靠浏览。</div>
+    <div class="scheme-detail"><strong>适合：</strong>资料量极大（500+），浏览已经不现实，只能靠搜<br><strong>优势：</strong>直达效率最高，和MiClaw"用嘴问就能找到"的定位一致<br><strong>风险：</strong>新用户没什么可搜的，空状态体验差</div>
+  </div>
+  <div class="phone"><div class="screen" id="screenI">
+    <div class="statusbar"><span>8:36</span><span class="statusbar-right">100%</span></div>
+    <div class="pg">
+      <div class="greeting" style="margin-bottom:16px">资料库</div>
+      <div class="searchbar" style="padding:14px 18px;font-size:14px;border-radius:28px;background:#f0f0f0;margin-bottom:20px"><svg viewBox="0 0 24 24" style="width:18px;height:18px"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索资料或问AI一个问题...<svg class="mic" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
+      <div class="sec-header"><span class="sec-title" style="font-size:13px;color:#999">最近搜索</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px">
+        <span class="tag">冰岛自驾</span><span class="tag">会议纪要</span><span class="tag">黄金ETF</span><span class="tag">笔记方案</span><span class="tag">体检报告</span>
+      </div>
+      <div class="sec-header"><span class="sec-title" style="font-size:13px;color:#999">专题</span><span class="sec-more">全部 ›</span></div>
+      <div class="ncard" onclick="showCollDetail(this,'黄金趋势研究','22条资料 · 6个来源','ETF分析、央行购金、价格走势、投资策略...')"><div class="ncard-title">📊 黄金趋势研究</div><div class="ncard-meta">22条 · 最近更新3天前</div></div>
+      <div class="ncard" onclick="showCollDetail(this,'AI底层技术','15条资料 · 4个来源','大模型、Prompt工程、Agent架构...')"><div class="ncard-title">🤖 AI底层技术</div><div class="ncard-meta">15条 · 最近更新昨天</div></div>
+      <div class="ncard" onclick="showCollDetail(this,'旅行规划','8条资料 · 3个来源','冰岛自驾、五一出行、机票比价...')"><div class="ncard-title">✈️ 旅行规划</div><div class="ncard-meta">8条 · 最近更新上周</div></div>
+      <div class="ncard" onclick="showCollDetail(this,'工作项目','35条资料 · 2个来源','笔记资料库方案、528合入、穿戴录音...')"><div class="ncard-title">💼 工作项目</div><div class="ncard-meta">35条 · 最近更新今天</div></div>
+      <div class="sec-header"><span class="sec-title" style="font-size:13px;color:#999">最近添加</span></div>
+      <div class="ncard"><div class="ncard-title">笔记资料库方案</div><div class="ncard-meta">今天 15:34</div></div>
+      <div class="ncard"><div class="ncard-title">5/7会议纪要</div><div class="ncard-meta">今天 21:22</div></div>
+    </div>
+    <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailI"><div class="detail-back" onclick="hideDetail('detailI')">← 返回</div><div class="detail-content" id="detailContentI"></div></div>
+  </div></div>
+</div>
+
+<!-- ===== J: 极简列表 ===== -->
+<div class="scheme">
+  <div class="scheme-header">
+    <span class="scheme-tag">J</span>
+    <div class="scheme-title">J. 极简列表（Notion风格）</div>
+    <div class="scheme-desc">无卡片、无缩略图，纯文字列表。标题+一行摘要+来源标签。信息密度最高。</div>
+    <div class="scheme-detail"><strong>适合：</strong>效率优先的专业用户，追求信息密度<br><strong>优势：</strong>一屏能看到最多笔记，扫描效率高<br><strong>风险：</strong>视觉单调，没有"知识库"的丰富感</div>
+  </div>
+  <div class="phone"><div class="screen" id="screenJ">
+    <div class="statusbar"><span>8:36</span><span class="statusbar-right">100%</span></div>
+    <div class="pg">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><div class="greeting" style="font-size:20px;margin:0">笔记</div><div style="font-size:11px;color:#4A7DFF">+ 新建</div></div>
+      <div class="searchbar" style="padding:10px 14px"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索</div>
+      <div class="tags" style="margin-bottom:10px"><span class="tag active">全部</span><span class="tag">工作</span><span class="tag">生活</span><span class="tag">AI</span><span class="tag">投资</span></div>
+      <div onclick="showDetail(this,'笔记资料库方案','笔记=MiClaw的资料库\n\n怎么存：6种内容类型的采集方案\n怎么整理：自动分类+dream+关联','今天 15:34')" style="padding:10px 0;border-bottom:1px solid #f5f5f5;cursor:pointer"><div style="font-size:13px;font-weight:600;color:#1a1a1a">笔记资料库方案</div><div style="font-size:11px;color:#888;margin-top:2px">笔记是用户的知识沉淀工具...</div><div style="font-size:9px;color:#bbb;margin-top:3px;display:flex;gap:6px"><span class="ncard-source">工作</span>今天 15:34</div></div>
+      <div onclick="showDetail(this,'5/7会议纪要','笔记产品与米Cloud整合方案\n\n核心共识4点','今天 21:22')" style="padding:10px 0;border-bottom:1px solid #f5f5f5;cursor:pointer"><div style="font-size:13px;font-weight:600;color:#1a1a1a">5/7会议纪要</div><div style="font-size:11px;color:#888;margin-top:2px">笔记产品与米Cloud整合方案...</div><div style="font-size:9px;color:#bbb;margin-top:3px;display:flex;gap:6px"><span class="ncard-source">会议</span>今天 21:22</div></div>
+      <div style="padding:10px 0;border-bottom:1px solid #f5f5f5;cursor:pointer"><div style="font-size:13px;font-weight:600;color:#1a1a1a">黄金ETF持仓量变化</div><div style="font-size:11px;color:#888;margin-top:2px">当前市场黄金ETF大幅增持...</div><div style="font-size:9px;color:#bbb;margin-top:3px;display:flex;gap:6px"><span class="ncard-source red">小红书</span>昨天 15:43</div></div>
+      <div style="padding:10px 0;border-bottom:1px solid #f5f5f5;cursor:pointer"><div style="font-size:13px;font-weight:600;color:#1a1a1a">代码改动说明</div><div style="font-size:11px;color:#888;margin-top:2px">基于最新main + review...</div><div style="font-size:9px;color:#bbb;margin-top:3px;display:flex;gap:6px"><span class="ncard-source">开发</span>昨天 10:05</div></div>
+      <div style="padding:10px 0;border-bottom:1px solid #f5f5f5;cursor:pointer"><div style="font-size:13px;font-weight:600;color:#1a1a1a">净水器维护记录</div><div style="font-size:11px;color:#888;margin-top:2px">花250元维护PP棉和RO膜...</div><div style="font-size:9px;color:#bbb;margin-top:3px;display:flex;gap:6px"><span class="ncard-source">🎙 语音</span>昨天 15:43</div></div>
+      <div style="padding:10px 0;border-bottom:1px solid #f5f5f5;cursor:pointer"><div style="font-size:13px;font-weight:600;color:#1a1a1a">产品走查问题</div><div style="font-size:11px;color:#888;margin-top:2px">录音AI分析速度慢...</div><div style="font-size:9px;color:#bbb;margin-top:3px;display:flex;gap:6px"><span class="ncard-source">走查</span>5月6日</div></div>
+      <div style="padding:10px 0;border-bottom:1px solid #f5f5f5;cursor:pointer"><div style="font-size:13px;font-weight:600;color:#1a1a1a">Obsidian对标分析v2</div><div style="font-size:11px;color:#888;margin-top:2px">本地优先的个人知识库...</div><div style="font-size:9px;color:#bbb;margin-top:3px;display:flex;gap:6px"><span class="ncard-source">产品</span>4月13日</div></div>
+      <div style="padding:10px 0;border-bottom:1px solid #f5f5f5;cursor:pointer"><div style="font-size:13px;font-weight:600;color:#1a1a1a">AI笔记内容加工策略</div><div style="font-size:11px;color:#888;margin-top:2px">意图驱动的分级加工方案...</div><div style="font-size:9px;color:#bbb;margin-top:3px;display:flex;gap:6px"><span class="ncard-source">产品</span>4月7日</div></div>
+    </div>
+    <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailJ"><div class="detail-back" onclick="hideDetail('detailJ')">← 返回</div><div class="detail-content" id="detailContentJ"></div></div>
+  </div></div>
+</div>
+
+<!-- ===== K: 双Tab(资料+专题) ===== -->
+<div class="scheme">
+  <div class="scheme-header">
+    <span class="scheme-tag">K</span>
+    <div class="scheme-title">K. 双Tab切换（资料 / 专题）</div>
+    <div class="scheme-desc">顶部两个大Tab："资料"展示所有笔记流，"专题"展示知识库看板。用户按需切换视角。</div>
+    <div class="scheme-detail"><strong>适合：</strong>同时需要"浏览最新"和"管理知识库"两种模式的用户<br><strong>优势：</strong>两种需求都不牺牲，切换成本低<br><strong>参考：</strong>Figma中的"记录/合集"双Tab设计</div>
+  </div>
+  <div class="phone"><div class="screen" id="screenK">
+    <div class="statusbar"><span>8:36</span><span class="statusbar-right">100%</span></div>
+    <div class="pg">
+      <div class="greeting" style="font-size:20px">我的资料库</div>
+      <div class="stats">264 条资料 · 6个专题</div>
+      <div style="display:flex;gap:0;margin-bottom:14px;border-bottom:2px solid #f0f0f0">
+        <div style="padding:8px 16px;font-size:13px;font-weight:600;color:#1a1a1a;border-bottom:2px solid #1a1a1a;margin-bottom:-2px">资料</div>
+        <div style="padding:8px 16px;font-size:13px;color:#999">专题</div>
+      </div>
+      <div class="tags"><span class="tag active">全部</span><span class="tag">#工作</span><span class="tag">#生活</span><span class="tag">#投资</span><span class="tag">#学习</span></div>
+      <div class="ncard" onclick="showDetail(this,'笔记资料库方案','笔记=用户的资料库。怎么存、怎么整理。','今天 15:34 · 工作')"><div class="ncard-title">笔记资料库方案</div><div class="ncard-preview">笔记是用户的知识沉淀工具...</div><div class="ncard-meta"><span class="ncard-source">工作</span>今天 15:34</div></div>
+      <div class="ncard" onclick="showDetail(this,'5/7会议纪要','产品与米Cloud整合方案','今天 21:22 · 会议')"><div class="ncard-title">5/7会议纪要</div><div class="ncard-preview">笔记产品与米Cloud整合方案...</div><div class="ncard-meta"><span class="ncard-source">会议</span>今天 21:22</div></div>
+      <div class="ncard"><div class="ncard-title">黄金ETF持仓量变化</div><div class="ncard-preview">当前市场黄金ETF大幅增持...</div><div class="ncard-meta"><span class="ncard-source red">小红书</span>昨天 15:43</div></div>
+      <div class="ncard"><div class="ncard-title">净水器维护记录</div><div class="ncard-preview">花250元维护PP棉和RO膜...</div><div class="ncard-meta"><span class="ncard-source">🎙 语音</span>昨天 15:43</div></div>
+      <div class="ncard"><div class="ncard-title">代码改动说明</div><div class="ncard-preview">基于最新main + review...</div><div class="ncard-meta"><span class="ncard-source">开发</span>昨天 10:05</div></div>
+    </div>
+    <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailK"><div class="detail-back" onclick="hideDetail('detailK')">← 返回</div><div class="detail-content" id="detailContentK"></div></div>
+  </div></div>
+</div>
+
+<!-- ===== L: 待办+速记优先 ===== -->
+<div class="scheme">
+  <div class="scheme-header">
+    <span class="scheme-tag">L</span>
+    <div class="scheme-title">L. 待办前置 + 速记入口 + 合集</div>
+    <div class="scheme-desc">待办卡片置顶（最高频行动）、大面积速记入口、下方横滑合集。行动导向+快速记录。</div>
+    <div class="scheme-detail"><strong>适合：</strong>把笔记当待办本+速记本用的用户<br><strong>优势：</strong>打开即可行动（看待办/快速记），不需要思考"我要干嘛"<br><strong>参考：</strong>方案一截图中待办卡片+智能合集组合</div>
+  </div>
+  <div class="phone"><div class="screen" id="screenL">
+    <div class="statusbar"><span>8:36</span><span class="statusbar-right">100%</span></div>
+    <div class="pg">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:14px">☰</span><span style="margin-left:auto;font-size:14px">🎙</span></div>
+      <div class="greeting" style="font-size:22px">Hi👋, 快速记录灵感~</div>
+      <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索或询问AI<svg class="mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
+      <div class="sec-header"><span class="sec-title">智能合集</span><span class="sec-more">›</span></div>
+      <div class="coll-scroll">
+        <div class="coll-card" style="background:#fffef5;border-color:#fef3c7" onclick="showCollDetail(this,'待办事项','今日8条','□ 完成会议纪要分享\n□ 做3道AI工具训练题\n□ 一周健身三次\n□ 睡前读20页书')">
+          <div class="coll-title">待办事项</div>
+          <div class="coll-count">📋 今日：8条</div>
+          <div style="font-size:9px;color:#666;line-height:1.7;margin-top:6px">□ 完成会议纪要分享<br>□ 做3道AI训练题<br>□ 一周健身三次<br>□ 睡前读20页书</div>
+        </div>
+        <div class="coll-card" onclick="showCollDetail(this,'体重管理','13条资料','28天饮食计划、运动记录、体重趋势...')">
+          <div class="coll-title">体重管理</div>
+          <div class="coll-count">📋 13条资料</div>
+          <div class="coll-thumbs" style="margin-top:6px"><div class="coll-thumb" style="background:#fef3c7"></div><div class="coll-thumb" style="background:#dcfce7"></div><div class="coll-thumb" style="background:#fee2e2"></div><div class="coll-thumb" style="background:#e0e7ff"></div></div>
+        </div>
+        <div class="coll-card" onclick="showCollDetail(this,'黄金投资','22条资料','ETF分析、央行购金、持仓变化...')">
+          <div class="coll-title">黄金投资</div>
+          <div class="coll-count">📋 22条资料</div>
+          <div class="coll-thumbs" style="margin-top:6px"><div class="coll-thumb" style="background:#fef3c7"></div><div class="coll-thumb" style="background:#fffbeb"></div><div class="coll-thumb" style="background:#fefce8"></div><div class="coll-thumb" style="background:#fff7ed"></div></div>
+        </div>
+      </div>
+      <div class="tags"><span class="tag active">全部</span><span class="tag">#生活待办</span><span class="tag">#工作会议</span><span class="tag">#课程学习</span></div>
+      <div class="ncard" onclick="showDetail(this,'净水器维护','2026年2月27日花250元维护厨房小米净水器PP棉和RO膜。\n\n提醒：3个月后查PP棉，1年后换RO膜','今天 15:43 · 语音笔记 · 3条待办 · 5条关联')"><div class="ncard-title">净水器维护</div><div class="ncard-preview">2026年2月27日花250元维护厨房小米净水器PP棉和RO膜，提醒：3个月后查PP棉</div><div class="ncard-meta"><span class="ncard-source">🎙 语音</span><span class="ncard-source">📋 3条待办</span><span class="ncard-source">📎 5条关联</span></div></div>
+      <div class="ncard" onclick="showDetail(this,'黄金ETF持仓量变化','视频讨论了当前市场上黄金ETF大幅增持及央行购金。\n\n核心观点：\n- 全球ETF连续净流入\n- 央行持续增持\n- 期货净多头带来短期动能','今天 15:43 · 小红书 · 5条关联')"><div class="ncard-title">黄金ETF持仓量变化</div><div class="ncard-preview">视频讨论了当前市场上黄金ETF大幅增持及央行购金提供强力支撑</div><div class="ncard-meta"><span class="ncard-source red">📕 小红书</span><span class="ncard-source">📎 5条关联</span></div></div>
+    </div>
+    <div class="bottombar"><div class="bi"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bi mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><div class="bi"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+    <div class="detail-overlay" id="detailL"><div class="detail-back" onclick="hideDetail('detailL')">← 返回</div><div class="detail-content" id="detailContentL"></div></div>
+  </div></div>
+</div>
+
 </div>
 
 <script>
