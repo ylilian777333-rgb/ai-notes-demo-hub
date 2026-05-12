@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记首页底部Icon方案对比 - 第二轮</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Helvetica Neue", sans-serif; background: #1a1a1a; padding: 20px; color: #fff; }
+h1 { font-size: 20px; text-align: center; margin-bottom: 8px; }
+.subtitle { text-align: center; font-size: 12px; color: #888; margin-bottom: 32px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1400px; margin: 0 auto; }
+.card { background: #2a2a2a; border-radius: 20px; padding: 20px; }
+.card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+.tag-new { background: #FF5722; color: #fff; }
+.card-title { font-size: 14px; font-weight: 600; }
+.card-desc { font-size: 11px; color: #888; margin-bottom: 16px; margin-top: 4px; }
+
+/* Phone mockup */
+.phone { width: 260px; margin: 0 auto; background: #fff; border-radius: 24px; padding: 12px; position: relative; }
+.phone-screen { background: #f8f8f8; border-radius: 16px; overflow: hidden; padding-bottom: 16px; }
+.status-bar { height: 20px; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #333; }
+.note-list { padding: 8px 12px; }
+.note-item { background: #fff; border-radius: 8px; padding: 8px 10px; margin-bottom: 6px; }
+.note-title { font-size: 10px; font-weight: 600; color: #333; }
+.note-preview { font-size: 8px; color: #999; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bottom-bar { display: flex; align-items: center; justify-content: center; padding: 8px 0 4px; background: #fff; border-top: 1px solid #f0f0f0; }
+.icon-group { display: flex; align-items: center; gap: 20px; padding: 6px 16px; background: #f5f5f5; border-radius: 30px; }
+
+/* Icon styles */
+.btn { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; }
+.btn-label { font-size: 7px; color: #999; }
+.btn-icon { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+.btn-icon.main { width: 42px; height: 42px; background: #FF5722; }
+.btn-icon.main svg { stroke: #fff; }
+.btn-icon svg { width: 20px; height: 20px; stroke: #555; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-icon.main svg { width: 22px; height: 22px; }
+
+.pros-cons { margin-top: 12px; font-size: 11px; }
+.pro { color: #4CAF50; margin-bottom: 2px; }
+.con { color: #FF5722; }
+</style>
+</head>
+<body>
+
+<h1>笔记首页底部 Icon — 第二轮方案</h1>
+<p class="subtitle">左：导入富媒体 | 中：语音笔记 | 右：新建文字笔记</p>
+
+<div class="grid">
+
+<!-- 方案F：扫描/相机隐喻 -->
+<div class="card">
+  <div class="card-header"><span class="tag tag-new">F</span><span class="card-title">相机扫描 + 波形 + 键盘</span></div>
+  <div class="card-desc">左=拍照/扫描导入，中=语音波形，右=键盘打字</div>
+  <div class="phone">
+    <div class="phone-screen">
+      <div class="status-bar">9:41</div>
+      <div class="note-list">
+        <div class="note-item"><div class="note-title">读雷军的小米创业思考</div><div class="note-preview">雷军是不是在上升电梯中做俯卧撑的人...</div></div>
+        <div class="note-item"><div class="note-title">雨夜咖啡馆</div><div class="note-preview">工业设计是一种创造性的活动</div></div>
+        <div class="note-item"><div class="note-title">生活点滴</div><div class="note-preview">生命是有色彩的，并不是存在的变幻无常</div></div>
+      </div>
+      <div class="bottom-bar">
+        <div class="icon-group">
+          <div class="btn">
+            <div class="btn-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="7" r="1.5" fill="#555" stroke="none"/></svg>
+            </div>
+            <span class="btn-label">拍照导入</span>
+          </div>
+          <div class="btn">
+            <div class="btn-icon main">
+              <svg viewBox="0 0 24 24"><rect x="3" y="8" width="2" height="8" rx="1"/><rect x="7" y="5" width="2" height="14" rx="1"/><rect x="11" y="3" width="2" height="18" rx="1"/><rect x="15" y="6" width="2" height="12" rx="1"/><rect x="19" y="9" width="2" height="6" rx="1"/></svg>
+            </div>
+          </div>
+          <div class="btn">
+            <div class="btn-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="5" y1="17" x2="7" y2="17"/><line x1="9" y1="17" x2="11" y2="17"/><line x1="13" y1="17" x2="15" y2="17"/><line x1="17" y1="17" x2="19" y2="17"/><line x1="7" y1="19.5" x2="17" y2="19.5"/></svg>
+            </div>
+            <span class="btn-label">打字记录</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pro">+ 相机=拍照扫描导入，键盘=打字，日常隐喻强</div>
+    <div class="pro">+ 中间用波形替代麦克风，更有动感</div>
+    <div class="con">- 用户可能不知道"拍照"也能导入PDF/链接</div>
+  </div>
+</div>
+
+<!-- 方案G：动作导向 -->
+<div class="card">
+  <div class="card-header"><span class="tag tag-new">G</span><span class="card-title">↑上传 + 🎤说 + ✎写</span></div>
+  <div class="card-desc">三个最基础的动作：传、说、写</div>
+  <div class="phone">
+    <div class="phone-screen">
+      <div class="status-bar">9:41</div>
+      <div class="note-list">
+        <div class="note-item"><div class="note-title">读雷军的小米创业思考</div><div class="note-preview">雷军是不是在上升电梯中做俯卧撑的人...</div></div>
+        <div class="note-item"><div class="note-title">雨夜咖啡馆</div><div class="note-preview">工业设计是一种创造性的活动</div></div>
+        <div class="note-item"><div class="note-title">生活点滴</div><div class="note-preview">生命是有色彩的，并不是存在的变幻无常</div></div>
+      </div>
+      <div class="bottom-bar">
+        <div class="icon-group">
+          <div class="btn">
+            <div class="btn-icon" style="background:#f0f4ff;border-radius:12px;">
+              <svg viewBox="0 0 24 24" style="stroke:#4A7DFF;"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+            </div>
+            <span class="btn-label">传</span>
+          </div>
+          <div class="btn">
+            <div class="btn-icon main">
+              <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg>
+            </div>
+            <span class="btn-label" style="color:#FF5722;">说</span>
+          </div>
+          <div class="btn">
+            <div class="btn-icon" style="background:#f0fff4;border-radius:12px;">
+              <svg viewBox="0 0 24 24" style="stroke:#2E7D32;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <span class="btn-label">写</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pro">+ "传/说/写"三个字极简，零学习成本</div>
+    <div class="pro">+ 圆角方形+圆形+圆角方形，形态有差异</div>
+    <div class="pro">+ 颜色区分：蓝=传，橙=说，绿=写</div>
+    <div class="con">- "传"字可能不够直白（传什么？）</div>
+  </div>
+</div>
+
+<!-- 方案H：输入方式隐喻 -->
+<div class="card">
+  <div class="card-header"><span class="tag tag-new">H</span><span class="card-title">回形针 + 麦克风 + A光标</span></div>
+  <div class="card-desc">沿用通用IM/编辑器的图标语言</div>
+  <div class="phone">
+    <div class="phone-screen">
+      <div class="status-bar">9:41</div>
+      <div class="note-list">
+        <div class="note-item"><div class="note-title">读雷军的小米创业思考</div><div class="note-preview">雷军是不是在上升电梯中做俯卧撑的人...</div></div>
+        <div class="note-item"><div class="note-title">雨夜咖啡馆</div><div class="note-preview">工业设计是一种创造性的活动</div></div>
+        <div class="note-item"><div class="note-title">生活点滴</div><div class="note-preview">生命是有色彩的，并不是存在的变幻无常</div></div>
+      </div>
+      <div class="bottom-bar">
+        <div class="icon-group">
+          <div class="btn">
+            <div class="btn-icon">
+              <svg viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+            </div>
+            <span class="btn-label">附件</span>
+          </div>
+          <div class="btn">
+            <div class="btn-icon main">
+              <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+            </div>
+          </div>
+          <div class="btn">
+            <div class="btn-icon">
+              <svg viewBox="0 0 24 24"><path d="M5 20L9 4"/><path d="M2 15h10"/><path d="M15 4h2a3 3 0 013 3v0a3 3 0 01-3 3h-2"/><path d="M15 10h3a3 3 0 013 3v0a3 3 0 01-3 3h-3"/></svg>
+            </div>
+            <span class="btn-label">文字</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pro">+ 回形针=附件是全球通用隐喻（微信/邮件/Slack都用）</div>
+    <div class="pro">+ 用户已有认知，不需要教育</div>
+    <div class="con">- 回形针在部分场景可能暗示"附加到已有"而非"新建"</div>
+  </div>
+</div>
+
+<!-- 方案I：场景化icon -->
+<div class="card">
+  <div class="card-header"><span class="tag tag-new">I</span><span class="card-title">场景化：📷🎙️📝</span></div>
+  <div class="card-desc">直接用结果暗示：拍了→变笔记，说了→变笔记，写了→笔记</div>
+  <div class="phone">
+    <div class="phone-screen">
+      <div class="status-bar">9:41</div>
+      <div class="note-list">
+        <div class="note-item"><div class="note-title">读雷军的小米创业思考</div><div class="note-preview">雷军是不是在上升电梯中做俯卧撑的人...</div></div>
+        <div class="note-item"><div class="note-title">雨夜咖啡馆</div><div class="note-preview">工业设计是一种创造性的活动</div></div>
+        <div class="note-item"><div class="note-title">生活点滴</div><div class="note-preview">生命是有色彩的，并不是存在的变幻无常</div></div>
+      </div>
+      <div class="bottom-bar">
+        <div class="icon-group" style="background:transparent;gap:8px;">
+          <div class="btn">
+            <div style="width:42px;height:42px;background:#f5f5f5;border-radius:14px;display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <span class="btn-label">拍</span>
+          </div>
+          <div class="btn">
+            <div style="width:52px;height:52px;background:#FF5722;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg>
+            </div>
+            <span class="btn-label" style="color:#FF5722;">说</span>
+          </div>
+          <div class="btn">
+            <div style="width:42px;height:42px;background:#f5f5f5;border-radius:14px;display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <span class="btn-label">写</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pro">+ "拍/说/写"三种输入方式，覆盖所有笔记创建路径</div>
+    <div class="pro">+ 圆角方形（辅助）+ 圆形（主）层级清晰</div>
+    <div class="pro">+ 单字标签极简</div>
+    <div class="con">- "拍"可能让用户以为只能拍照，不包括已有文件上传</div>
+  </div>
+</div>
+
+<!-- 方案J：对话式/输入框隐喻 -->
+<div class="card">
+  <div class="card-header"><span class="tag tag-new">J</span><span class="card-title">输入框式底栏</span></div>
+  <div class="card-desc">模仿聊天输入框，左附件+中间输入区+右发送，降低认知门槛</div>
+  <div class="phone">
+    <div class="phone-screen">
+      <div class="status-bar">9:41</div>
+      <div class="note-list">
+        <div class="note-item"><div class="note-title">读雷军的小米创业思考</div><div class="note-preview">雷军是不是在上升电梯中做俯卧撑的人...</div></div>
+        <div class="note-item"><div class="note-title">雨夜咖啡馆</div><div class="note-preview">工业设计是一种创造性的活动</div></div>
+        <div class="note-item"><div class="note-title">生活点滴</div><div class="note-preview">生命是有色彩的，并不是存在的变幻无常</div></div>
+      </div>
+      <div class="bottom-bar" style="padding:8px 12px;">
+        <div style="display:flex;align-items:center;width:100%;background:#f5f5f5;border-radius:24px;padding:6px 8px;gap:8px;">
+          <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </div>
+          <div style="flex:1;font-size:10px;color:#bbb;padding:4px 0;">说点什么，AI帮你记...</div>
+          <div style="width:32px;height:32px;background:#FF5722;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pro">+ 沿用微信/搜索的输入框心智模型，用户秒懂</div>
+    <div class="pro">+ 左边"+"点开弹出附件菜单（图片/PDF/链接），不占底栏空间</div>
+    <div class="pro">+ placeholder文案引导"说点什么"，点击进入文字编辑或语音录制</div>
+    <div class="con">- 和传统笔记APP差异大，需要验证接受度</div>
+  </div>
+</div>
+
+<!-- 方案K：浮动操作按钮 -->
+<div class="card">
+  <div class="card-header"><span class="tag tag-new">K</span><span class="card-title">FAB浮动按钮组</span></div>
+  <div class="card-desc">主按钮浮动在右下，点击展开三个子按钮</div>
+  <div class="phone">
+    <div class="phone-screen">
+      <div class="status-bar">9:41</div>
+      <div class="note-list">
+        <div class="note-item"><div class="note-title">读雷军的小米创业思考</div><div class="note-preview">雷军是不是在上升电梯中做俯卧撑的人...</div></div>
+        <div class="note-item"><div class="note-title">雨夜咖啡馆</div><div class="note-preview">工业设计是一种创造性的活动</div></div>
+        <div class="note-item"><div class="note-title">生活点滴</div><div class="note-preview">生命是有色彩的，并不是存在的变幻无常</div></div>
+      </div>
+      <div style="position:relative;height:80px;background:#fff;">
+        <!-- 展开状态 -->
+        <div style="position:absolute;right:16px;bottom:16px;display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:9px;color:#666;background:#f5f5f5;padding:2px 8px;border-radius:4px;">上传文件</span>
+            <div style="width:34px;height:34px;background:#f0f4ff;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4A7DFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:9px;color:#666;background:#f5f5f5;padding:2px 8px;border-radius:4px;">文字笔记</span>
+            <div style="width:34px;height:34px;background:#E8F5E9;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+          </div>
+          <div style="width:46px;height:46px;background:#FF5722;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(255,87,34,0.3);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pro">+ 默认只有一个按钮（语音），界面极简</div>
+    <div class="pro">+ 展开后有文字标签，不会搞混</div>
+    <div class="pro">+ 语音是默认动作（最高频），符合产品定位"说话就能记"</div>
+    <div class="con">- 上传和文字需要多一次点击（展开）</div>
+  </div>
+</div>
+
+</div>
+
+<div style="margin-top:32px;padding:20px;background:#2a2a2a;border-radius:16px;max-width:1400px;margin-left:auto;margin-right:auto;">
+  <h2 style="font-size:15px;margin-bottom:12px;">推荐方向</h2>
+  <p style="font-size:12px;color:#ccc;line-height:1.8;">
+    <strong style="color:#FF5722;">方案G（传/说/写）</strong>或 <strong style="color:#FF5722;">方案J（输入框式）</strong>最值得深入。<br>
+    G的优势：三个单字标签+颜色区分，认知负荷最低，和产品核心主张"说话就能记"一致。<br>
+    J的优势：复用微信输入框心智，用户无需学习，且"说点什么AI帮你记"直接传达产品价值主张。<br>
+    K也值得考虑——如果语音是绝对主路径，FAB可以让默认界面只有一个按钮。
+  </p>
+</div>
+
+</body>
+</html>

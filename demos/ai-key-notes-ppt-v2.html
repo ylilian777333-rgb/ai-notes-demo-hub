@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI键+记事 — OS4 AI体验</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;background:#1a1a1a;color:#fff;overflow:hidden}
+.slide{width:100vw;height:100vh;display:none;flex-direction:column;padding:50px 60px;position:relative}
+.slide.active{display:flex}
+.slide-num{position:absolute;bottom:24px;right:40px;font-size:13px;color:#555}
+.nav-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-size:13px;color:#444;z-index:100}
+
+/* Title styles */
+.page-title{font-size:48px;font-weight:700;text-align:center;margin-bottom:8px;font-style:italic}
+.page-sub{font-size:24px;color:#999;text-align:center;margin-bottom:40px;font-style:italic}
+.cover-title{font-size:80px;font-weight:700;color:#e8a838;text-align:center}
+.cover-sub{font-size:34px;color:#999;text-align:center;font-style:italic;margin-top:16px}
+
+/* Phone mockup */
+.phones-row{display:flex;gap:24px;justify-content:center;flex:1;align-items:flex-start}
+.phone-col{display:flex;flex-direction:column;align-items:center;flex:1;max-width:380px}
+.phone-label{font-size:24px;font-weight:700;margin-bottom:14px}
+.phone{width:100%;border-radius:28px;background:#fff;overflow:hidden;color:#333;position:relative}
+
+/* Phone internal styles */
+.ph-status{display:flex;justify-content:space-between;align-items:center;padding:8px 20px;font-size:12px;color:#333}
+.ph-body{padding:0 16px 16px}
+.ph-toast{background:#f0f0f0;border-radius:12px;padding:10px 14px;margin:8px 0;font-size:13px;color:#333}
+.ph-toast b{color:#e8a838}
+.ph-card{background:#f5f5f5;border-radius:14px;padding:14px;margin:8px 0}
+.ph-card-title{font-size:15px;font-weight:600;color:#1a1a1a}
+.ph-card-desc{font-size:12px;color:#888;margin-top:4px;line-height:1.5}
+.ph-card-tag{display:inline-block;font-size:11px;background:#e8f0fe;color:#1a73e8;padding:2px 8px;border-radius:4px;margin-top:6px}
+.ph-island{background:#1a1a1a;color:#fff;border-radius:20px;padding:8px 16px;margin:0 auto 12px;width:fit-content;font-size:12px;display:flex;align-items:center;gap:6px}
+.ph-island-dot{width:8px;height:8px;border-radius:50%;background:#4caf50}
+.ph-header{padding:10px 16px;display:flex;align-items:center;gap:8px}
+.ph-header-title{font-size:16px;font-weight:600;color:#1a1a1a}
+.ph-header-sub{font-size:11px;color:#999}
+.ph-screenshot{background:linear-gradient(135deg,#e3f2fd,#f3e5f5);border-radius:10px;padding:12px;margin:8px 0}
+.ph-screenshot-text{font-size:12px;color:#555;line-height:1.6}
+.ph-ai-bar{background:#f8f8f8;border-top:1px solid #eee;padding:10px 16px;display:flex;align-items:center;gap:8px;border-radius:0 0 28px 28px}
+.ph-ai-bar span{font-size:12px;color:#999}
+
+/* Two phone layout */
+.two-phones{display:flex;gap:40px;justify-content:center;flex:1;align-items:flex-start}
+.two-phone-col{max-width:440px;flex:1;display:flex;flex-direction:column;align-items:center}
+
+/* Lock screen phone */
+.lockscreen{background:linear-gradient(180deg,#1a3a5c,#2a5a8c);border-radius:28px;width:100%;overflow:hidden;color:#fff}
+.ls-status{display:flex;justify-content:space-between;padding:10px 20px;font-size:12px;color:#ddd}
+.ls-date{text-align:center;font-size:14px;color:#ccc;padding:4px 0}
+.ls-time{text-align:center;font-size:72px;font-weight:200;color:#fff;opacity:0.9;padding:10px 0}
+.ls-card{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:16px;margin:10px 16px;padding:12px 14px}
+.ls-card-head{display:flex;align-items:center;gap:6px;font-size:11px;color:#aad;margin-bottom:6px}
+.ls-card-title{font-size:15px;font-weight:600}
+.ls-card-body{font-size:12px;color:#cde;line-height:1.6;margin-top:4px}
+.ls-tag{display:inline-block;background:rgba(255,255,255,0.2);border-radius:10px;padding:3px 10px;font-size:11px;margin:2px 4px 2px 0}
+</style>
+</head>
+<body>
+
+<!-- P1: Cover -->
+<div class="slide active" id="s1">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center">
+    <div class="cover-title">记事</div>
+    <div class="cover-sub">生活琐事，都帮你记下并管理好</div>
+  </div>
+  <div class="slide-num">1 / 6</div>
+</div>
+
+<!-- P2: 屏幕上的信息，一按就记 -->
+<div class="slide" id="s2">
+  <div class="page-title">屏幕上的信息，一按就记</div>
+  <div class="phones-row">
+    <!-- 订单 -->
+    <div class="phone-col">
+      <div class="phone-label">订单</div>
+      <div class="phone">
+        <div class="ph-status"><span>2:36</span><span>5G ⋅ 100</span></div>
+        <div class="ph-island"><div class="ph-island-dot"></div>已记录行程</div>
+        <div class="ph-body">
+          <div class="ph-screenshot">
+            <div style="font-size:14px;font-weight:600;color:#1a73e8;margin-bottom:6px">✈ 携程旅行</div>
+            <div class="ph-screenshot-text">
+              出票成功！<br>
+              <b style="color:#333">CA925 北京→东京</b><br>
+              6月15日 08:30起飞<br>
+              票价 ¥3,200
+            </div>
+          </div>
+          <div class="ph-toast">上岛：<b>已记录行程：CA925 北京→东京 6/15</b><br><span style="font-size:11px;color:#999">已同步日历 · 出发前一天提醒</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- 证件 -->
+    <div class="phone-col">
+      <div class="phone-label">证件</div>
+      <div class="phone">
+        <div class="ph-status"><span>2:36</span><span>5G ⋅ 100</span></div>
+        <div class="ph-island"><div class="ph-island-dot"></div>已记录证件</div>
+        <div class="ph-body">
+          <div class="ph-screenshot" style="background:linear-gradient(135deg,#fff3e0,#fce4ec);text-align:center;padding:20px">
+            <div style="font-size:40px;margin-bottom:8px">🪪</div>
+            <div style="font-size:14px;color:#333;font-weight:600">护照信息页</div>
+            <div style="font-size:12px;color:#777;margin-top:4px">高清原图已保存</div>
+          </div>
+          <div class="ph-toast">上岛：<b>已记录：护照</b><br><span style="font-size:11px;color:#999">归入"证件"分类 · 说"我的护照"立刻调出</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- 消息 -->
+    <div class="phone-col">
+      <div class="phone-label">消息</div>
+      <div class="phone">
+        <div class="ph-status"><span>2:36</span><span>5G ⋅ 100</span></div>
+        <div class="ph-island"><div class="ph-island-dot"></div>已生成待办</div>
+        <div class="ph-body">
+          <div class="ph-screenshot" style="background:linear-gradient(135deg,#e8f5e9,#e3f2fd)">
+            <div style="font-size:13px;color:#333;font-weight:600;margin-bottom:4px">QQ群 · 三年二班</div>
+            <div class="ph-screenshot-text">
+              王老师：<br>
+              今天作业：<br>
+              1. 数学p45第3、4题<br>
+              2. 语文背诵课文第5段<br>
+              <span style="color:#999">明天交</span>
+            </div>
+          </div>
+          <div class="ph-toast">上岛：<b>已生成待办：数学p45 + 语文背诵 明天交</b><br><span style="font-size:11px;color:#999">已同步日历 · 晚上问"今天作业是什么"</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">2 / 6</div>
+</div>
+
+<!-- P3: 不仅能记图文，还能记声音 -->
+<div class="slide" id="s3">
+  <div class="page-title">不仅能记图文，还能记声音</div>
+  <div class="two-phones">
+    <div class="two-phone-col">
+      <div class="phone-label">医嘱</div>
+      <div class="phone">
+        <div class="ph-status"><span>2:36</span><span>5G ⋅ 100</span></div>
+        <div class="ph-island"><div class="ph-island-dot" style="background:#f44336"></div>正在录音 0:08</div>
+        <div class="ph-body">
+          <div class="ph-card" style="background:#fff3e0">
+            <div style="font-size:11px;color:#e65100;margin-bottom:6px">🎙 语音转写中</div>
+            <div style="font-size:14px;color:#333;line-height:1.8">"医生说每天<b>早晚各一片降压药</b>，<b>下周三复查</b>"</div>
+          </div>
+          <div class="ph-toast">AI识别：<b>待办+健康信息</b><br>
+            <span style="font-size:11px;color:#999">✅ 已生成待办"下周三复查" · 已同步日历</span>
+          </div>
+          <div style="background:#f5f5f5;border-radius:10px;padding:10px;margin-top:8px">
+            <div style="font-size:12px;color:#888">之后问"医生说的药怎么吃"</div>
+            <div style="font-size:13px;color:#333;margin-top:4px">"每天早晚各一片降压药" · <span style="color:#e8a838">来自笔记</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="two-phone-col">
+      <div class="phone-label">灵感</div>
+      <div class="phone">
+        <div class="ph-status"><span>2:36</span><span>5G ⋅ 100</span></div>
+        <div class="ph-island"><div class="ph-island-dot" style="background:#4caf50"></div>语音笔记已保存</div>
+        <div class="ph-body">
+          <div class="ph-card">
+            <div style="font-size:11px;color:#999;margin-bottom:4px">🎙 语音笔记 · 今天 14:32</div>
+            <div style="display:flex;align-items:center;gap:8px;margin:8px 0">
+              <div style="width:28px;height:28px;background:#e8a838;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff">▶</div>
+              <div style="flex:1;height:4px;background:#eee;border-radius:2px"><div style="width:60%;height:100%;background:#e8a838;border-radius:2px"></div></div>
+              <span style="font-size:11px;color:#999">0:12</span>
+            </div>
+            <div style="font-size:13px;color:#333;line-height:1.6">"首页可以加个智能推荐模块，根据用户最近看的内容推荐相关笔记"</div>
+          </div>
+          <div class="ph-card" style="background:#f0f4ff">
+            <div style="font-size:11px;color:#1a73e8;margin-bottom:4px">AI摘要</div>
+            <div style="font-size:13px;color:#333">建议首页增加智能推荐，基于用户浏览行为推荐关联笔记</div>
+            <div class="ph-card-tag">工作</div>
+          </div>
+          <div style="background:#f5f5f5;border-radius:10px;padding:10px;margin-top:8px">
+            <div style="font-size:12px;color:#888">第二天问"昨天说的那个想法"</div>
+            <div style="font-size:13px;color:#333;margin-top:4px">→ 直接给出摘要 · <span style="color:#e8a838">来自笔记</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">3 / 6</div>
+</div>
+
+<!-- P4: 跟小爱聊的事儿，也都能保存 -->
+<div class="slide" id="s4">
+  <div class="page-title">跟小爱聊的事儿，也都能保存</div>
+  <div class="page-sub">对话中说"记一下"，结论自动结构化存入知识库</div>
+  <div class="two-phones">
+    <div class="two-phone-col">
+      <div class="phone-label">小爱对话</div>
+      <div class="phone">
+        <div class="ph-status"><span>2:36</span><span>5G ⋅ 100</span></div>
+        <div class="ph-header">
+          <span style="font-size:20px">←</span>
+          <div><div class="ph-header-title">超级小爱 ›</div><div class="ph-header-sub">内容由AI生成</div></div>
+        </div>
+        <div class="ph-body">
+          <div class="ph-card" style="background:#e8f0fe;margin-left:40px">
+            <div style="font-size:13px;color:#333">首页改版咱们就用方案A吧，卡片流保留，推荐算法让李四改一下，周五出排序方案</div>
+          </div>
+          <div style="background:#f5f5f5;border-radius:14px;padding:14px;margin:8px 0">
+            <div style="font-size:13px;color:#333;line-height:1.8">好的，已整理本次讨论结论：<br>① 卡片流保留<br>② 推荐算法需优化<br>③ 周五出排序方案</div>
+          </div>
+          <div class="ph-card" style="background:#e8f0fe;margin-left:40px">
+            <div style="font-size:13px;color:#333"><b>把结论记一下</b></div>
+          </div>
+          <div class="ph-toast"><b>已存到笔记：首页改版方案结论</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="two-phone-col">
+      <div class="phone-label">笔记保存</div>
+      <div class="phone">
+        <div class="ph-status"><span>2:36</span><span>5G ⋅ 100</span></div>
+        <div class="ph-body" style="padding-top:16px">
+          <div style="font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:4px">首页改版方案结论</div>
+          <div style="font-size:12px;color:#999;margin-bottom:16px">今天 15:30 · 来自MiClaw对话</div>
+          <div style="background:#f0f4ff;border-radius:10px;padding:12px;margin-bottom:12px">
+            <div style="font-size:12px;color:#1a73e8;margin-bottom:6px">来源：小爱对话</div>
+            <div style="font-size:12px;color:#555">首页改版方案讨论，3个决策点</div>
+          </div>
+          <div style="font-size:14px;color:#333;line-height:2">
+            <b>决策点：</b><br>
+            ① 卡片流保留<br>
+            ② 推荐算法需优化<br>
+            ③ 周五出排序方案<br><br>
+            <b>待办：</b><br>
+            <span style="color:#e8a838">☐</span> 周五出排序方案
+          </div>
+        </div>
+        <div class="ph-ai-bar">
+          <span style="font-size:16px">✨</span>
+          <span>总结、润色、对话...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">4 / 6</div>
+</div>
+
+<!-- P5: 收录的内容，按主题智能分类整理 -->
+<div class="slide" id="s5">
+  <div class="page-title">收录的内容，按主题智能分类整理</div>
+  <div class="page-sub">AI自动识别内容类型，自动打标签，自动归入智能合集</div>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center">
+    <div class="phones-row" style="max-width:1100px">
+      <div class="phone-col" style="max-width:320px">
+        <div class="phone">
+          <div class="ph-status"><span>2:36</span><span>5G ⋅ 100</span></div>
+          <div class="ph-body" style="padding-top:12px">
+            <div style="font-size:18px;font-weight:700;color:#1a1a1a;margin-bottom:12px">知识库</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+              <span style="background:#e3f2fd;color:#1565c0;padding:6px 12px;border-radius:16px;font-size:12px">全部</span>
+              <span style="background:#f5f5f5;color:#666;padding:6px 12px;border-radius:16px;font-size:12px">行程</span>
+              <span style="background:#f5f5f5;color:#666;padding:6px 12px;border-radius:16px;font-size:12px">证件</span>
+              <span style="background:#f5f5f5;color:#666;padding:6px 12px;border-radius:16px;font-size:12px">待办</span>
+            </div>
+            <div class="ph-card"><div class="ph-card-title">✈️ 行程</div><div class="ph-card-desc">CA925 北京→东京 · 机票订单 等3篇</div></div>
+            <div class="ph-card"><div class="ph-card-title">🪪 证件</div><div class="ph-card-desc">护照 · 驾照 等2篇</div></div>
+            <div class="ph-card"><div class="ph-card-title">📋 待办</div><div class="ph-card-desc">数学作业 · 下周三复查 等5篇</div></div>
+            <div class="ph-card"><div class="ph-card-title">🍜 美食推荐</div><div class="ph-card-desc">XXX日料 · 火锅 等3篇</div></div>
+            <div class="ph-card"><div class="ph-card-title">💼 工作</div><div class="ph-card-desc">Q3预算表 · 首页改版结论 等4篇</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;padding:0 30px">
+        <div style="font-size:20px;color:#ccc;line-height:2.2">
+          <div style="margin-bottom:20px">
+            <span style="color:#e8a838;font-size:24px;font-weight:600">用户不需要手动分类</span>
+          </div>
+          按AI键截了机票 → 自动归入<b style="color:#fff"> 行程</b><br>
+          拍了护照 → 自动归入<b style="color:#fff"> 证件</b><br>
+          截了作业 → 自动生成<b style="color:#fff"> 待办</b><br>
+          朋友推荐餐厅 → 自动归入<b style="color:#fff"> 美食</b><br>
+          对话记结论 → 自动归入<b style="color:#fff"> 工作</b><br><br>
+          <span style="color:#e8a838">记完就走，知识库帮你整理好</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">5 / 6</div>
+</div>
+
+<!-- P6: 所有知识，自动提炼成个人记忆 -->
+<div class="slide" id="s6">
+  <div class="page-title">所有知识，自动提炼成个人记忆</div>
+  <div class="page-sub">笔记 → 知识库 → 个人记忆 → 小爱随时调用</div>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center">
+    <div class="phones-row" style="max-width:1200px">
+      <div class="phone-col" style="max-width:220px">
+        <div style="background:#2a2a2a;border-radius:20px;padding:24px 20px;text-align:center;width:100%">
+          <div style="font-size:36px;margin-bottom:8px">📝</div>
+          <div style="font-size:20px;font-weight:600;margin-bottom:6px">摘要大纲</div>
+          <div style="font-size:13px;color:#999;line-height:1.6">小红书攻略→<br>"XX公园适合拍照<br>地铁X号线直达"</div>
+        </div>
+      </div>
+      <div class="phone-col" style="max-width:220px">
+        <div style="background:#2a2a2a;border-radius:20px;padding:24px 20px;text-align:center;width:100%">
+          <div style="font-size:36px;margin-bottom:8px">📅</div>
+          <div style="font-size:20px;font-weight:600;margin-bottom:6px">日程提醒</div>
+          <div style="font-size:13px;color:#999;line-height:1.6">机票→出发前一天<br>上岛"明天CA925<br>去东京 08:30起飞"</div>
+        </div>
+      </div>
+      <div class="phone-col" style="max-width:220px">
+        <div style="background:#2a2a2a;border-radius:20px;padding:24px 20px;text-align:center;width:100%">
+          <div style="font-size:36px;margin-bottom:8px">🪪</div>
+          <div style="font-size:20px;font-weight:600;margin-bottom:6px">身份信息</div>
+          <div style="font-size:13px;color:#999;line-height:1.6">说"我的护照"<br>→原图立刻出现<br>可放大出示</div>
+        </div>
+      </div>
+      <div class="phone-col" style="max-width:220px">
+        <div style="background:#2a2a2a;border-radius:20px;padding:24px 20px;text-align:center;width:100%">
+          <div style="font-size:36px;margin-bottom:8px">☑️</div>
+          <div style="font-size:20px;font-weight:600;margin-bottom:6px">待办</div>
+          <div style="font-size:13px;color:#999;line-height:1.6">作业→自动生成<br>待办+同步日历<br>到期提醒</div>
+        </div>
+      </div>
+      <div class="phone-col" style="max-width:220px">
+        <div style="background:#2a2a2a;border-radius:20px;padding:24px 20px;text-align:center;width:100%">
+          <div style="font-size:36px;margin-bottom:8px">❤️</div>
+          <div style="font-size:20px;font-weight:600;margin-bottom:6px">关注&喜好</div>
+          <div style="font-size:13px;color:#999;line-height:1.6">存了5篇黄金分析<br>→小爱知道<br>"你关注黄金投资"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;padding-bottom:30px;font-size:20px;color:#e8a838;font-weight:600">按一下就记住 · 知识库帮你整理 · 要用时说一句就出来</div>
+  <div class="slide-num">6 / 6</div>
+</div>
+
+<div class="nav-hint">← → 键翻页 &nbsp;|&nbsp; F 全屏 &nbsp;|&nbsp; 点击左右翻页</div>
+
+<script>
+var cur=0,slides=document.querySelectorAll('.slide');
+function go(i){if(i<0||i>=slides.length)return;slides[cur].classList.remove('active');cur=i;slides[cur].classList.add('active')}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')go(cur+1);
+  if(e.key==='ArrowLeft')go(cur-1);
+  if(e.key==='f'||e.key==='F'){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}
+});
+document.addEventListener('click',function(e){if(e.clientX>window.innerWidth/2)go(cur+1);else go(cur-1)});
+</script>
+</body>
+</html>

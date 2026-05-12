@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI键+记事 — OS4 AI体验</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;background:#1a1a1a;color:#fff;overflow:hidden}
+.slide{width:100vw;height:100vh;display:none;flex-direction:column;justify-content:center;align-items:center;padding:60px 80px;position:relative}
+.slide.active{display:flex}
+.slide-num{position:absolute;bottom:30px;right:40px;font-size:14px;color:#666}
+.tag{position:absolute;top:30px;right:40px;background:#d32f2f;color:#fff;font-size:14px;font-weight:700;padding:6px 14px}
+
+/* Typography */
+.title-big{font-size:72px;font-weight:700;color:#e8a838;text-align:center;margin-bottom:20px}
+.subtitle{font-size:32px;color:#999;text-align:center;font-style:italic}
+.title-left{font-size:48px;font-weight:700;line-height:1.4}
+.title-center{font-size:52px;font-weight:700;text-align:center;margin-bottom:50px;font-style:italic}
+.desc{font-size:20px;color:#aaa;line-height:1.6;margin-top:16px}
+
+/* Layouts */
+.two-col{display:flex;width:100%;align-items:center;gap:60px}
+.col-text{flex:1}
+.col-mock{flex:1;display:flex;justify-content:center}
+.phone{width:280px;height:500px;background:#2a2a2a;border-radius:32px;border:2px solid #444;display:flex;align-items:center;justify-content:center;font-size:16px;color:#666}
+
+.three-col{display:flex;width:100%;gap:30px;justify-content:center}
+.card-col{flex:1;text-align:center}
+.card-col .label{font-size:28px;font-weight:600;margin-bottom:16px}
+.card-col .phone-sm{width:100%;max-width:300px;height:420px;background:#2a2a2a;border-radius:28px;border:2px solid #444;margin:0 auto;padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.card-col .phone-sm .scene{font-size:15px;color:#ccc;line-height:1.8;text-align:left;width:100%}
+.card-col .phone-sm .toast{background:#333;border-radius:12px;padding:10px 16px;font-size:13px;color:#e8a838;margin-top:12px;width:100%;text-align:center}
+
+.two-phone{display:flex;width:100%;gap:40px;justify-content:center}
+.phone-card{flex:1;max-width:440px;text-align:center}
+.phone-card .label{font-size:20px;color:#999;margin-top:12px}
+.phone-card .phone-md{width:100%;height:400px;background:#2a2a2a;border-radius:28px;border:2px solid #444;padding:24px;display:flex;flex-direction:column;justify-content:center}
+.phone-card .phone-md .scene{font-size:15px;color:#ccc;line-height:1.8}
+.phone-card .phone-md .toast{background:#333;border-radius:12px;padding:10px 16px;font-size:13px;color:#e8a838;margin-top:12px;text-align:center}
+
+/* Tags cloud */
+.tags-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:900px}
+.tag-pill{background:#2a2a2a;border:1px solid #444;border-radius:24px;padding:18px 32px;font-size:22px;font-weight:500;color:#ddd}
+
+/* Memory cards */
+.memory-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:900px}
+.mem-card{width:260px;height:140px;background:#2a2a2a;border-radius:20px;border:1px solid #444;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.mem-card .mem-title{font-size:24px;font-weight:600}
+.mem-card .mem-desc{font-size:14px;color:#999;text-align:center;padding:0 16px}
+
+/* Nav hint */
+.nav-hint{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);font-size:14px;color:#555;z-index:100}
+
+/* Bullet */
+.bullet{font-size:18px;color:#bbb;line-height:2;margin-top:20px}
+.bullet li{list-style:none;padding-left:20px;position:relative}
+.bullet li::before{content:"";position:absolute;left:0;top:12px;width:8px;height:8px;border-radius:50%;background:#e8a838}
+</style>
+</head>
+<body>
+
+<!-- P1: Cover -->
+<div class="slide active" id="s1">
+  <div class="tag">@王羽</div>
+  <div class="title-big">记事</div>
+  <div class="subtitle">生活琐事，都帮你记下并管理好</div>
+  <div class="slide-num">1 / 8</div>
+</div>
+
+<!-- P2: Positioning -->
+<div class="slide" id="s2">
+  <div class="two-col">
+    <div class="col-text">
+      <div class="title-left">小米笔记大升级</div>
+      <div class="title-left" style="margin-top:12px">成为你的个人知识库</div>
+      <div class="desc">AI键一按就记 + 智能识别分类 + 小爱随时调用<br>从笔记工具升级为个人知识管理中心</div>
+    </div>
+    <div class="col-mock">
+      <div class="phone" style="height:540px">
+        <div style="text-align:center;padding:20px">
+          <div style="font-size:20px;color:#fff;font-weight:600;margin-bottom:20px">笔记首页</div>
+          <div style="background:#333;border-radius:12px;padding:12px;margin-bottom:10px;text-align:left">
+            <div style="font-size:13px;color:#e8a838">智能合集</div>
+            <div style="font-size:12px;color:#999;margin-top:4px">行程(3) &nbsp; 证件(2) &nbsp; 待办(5)</div>
+          </div>
+          <div style="background:#333;border-radius:12px;padding:12px;margin-bottom:8px;text-align:left">
+            <div style="font-size:13px;color:#fff">首页改版方案结论</div>
+            <div style="font-size:11px;color:#777">今天 · 对话记录</div>
+          </div>
+          <div style="background:#333;border-radius:12px;padding:12px;margin-bottom:8px;text-align:left">
+            <div style="font-size:13px;color:#fff">产品灵感：智能推荐模块</div>
+            <div style="font-size:11px;color:#777">昨天 · 语音笔记</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">2 / 8</div>
+</div>
+
+<!-- P3: Screen capture -->
+<div class="slide" id="s3">
+  <div class="title-center">屏幕上的信息，一按就记</div>
+  <div class="three-col">
+    <div class="card-col">
+      <div class="label">订单</div>
+      <div class="phone-sm">
+        <div class="scene">
+          <div style="color:#e8a838;font-size:14px;font-weight:600;margin-bottom:8px">场景：买了机票</div>
+          携程出票成功页<br>按AI键 →<br>
+          <span style="color:#fff">识别为行程</span><br>
+          自动生成日程<br>同步日历<br>出发前一天提醒
+        </div>
+        <div class="toast">已记录行程：CA925 北京→东京 6/15</div>
+      </div>
+    </div>
+    <div class="card-col">
+      <div class="label">证件</div>
+      <div class="phone-sm">
+        <div class="scene">
+          <div style="color:#e8a838;font-size:14px;font-weight:600;margin-bottom:8px">场景：拍护照</div>
+          护照信息页<br>按AI键 →<br>
+          <span style="color:#fff">识别为证件</span><br>
+          高清原图归档<br>
+          要用时说"我的护照"<br>原图立刻出现
+        </div>
+        <div class="toast">已记录：护照</div>
+      </div>
+    </div>
+    <div class="card-col">
+      <div class="label">消息</div>
+      <div class="phone-sm">
+        <div class="scene">
+          <div style="color:#e8a838;font-size:14px;font-weight:600;margin-bottom:8px">场景：孩子作业</div>
+          QQ群老师发作业<br>按AI键 →<br>
+          <span style="color:#fff">识别为待办</span><br>
+          自动生成待办<br>同步日历<br>
+          晚上问"今天作业是什么"
+        </div>
+        <div class="toast">已生成待办：数学p45 明天交</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">3 / 8</div>
+</div>
+
+<!-- P4: Articles -->
+<div class="slide" id="s4">
+  <div class="title-center">下载收藏的文章/帖子，同步记录</div>
+  <div class="three-col">
+    <div class="card-col">
+      <div class="label">PDF文档</div>
+      <div class="phone-sm">
+        <div class="scene">
+          <div style="color:#e8a838;font-size:14px;font-weight:600;margin-bottom:8px">场景：微信收到合同</div>
+          下载PDF后<br>对MiClaw说<br>"把刚下的文档记一下"<br><br>
+          <span style="color:#fff">自动摘要+关键数据提取</span><br>
+          开会前问"上周那个预算表"
+        </div>
+        <div class="toast">已记录：Q3预算表</div>
+      </div>
+    </div>
+    <div class="card-col">
+      <div class="label">社媒文章</div>
+      <div class="phone-sm">
+        <div class="scene">
+          <div style="color:#e8a838;font-size:14px;font-weight:600;margin-bottom:8px">场景：小红书好文</div>
+          看到好文章<br>按AI键 →<br>
+          <span style="color:#fff">抓取全文+AI摘要</span><br>
+          保留原链接<br>
+          攒一周后输入"周末"<br>
+          补全弹出"周末去处(3篇)"
+        </div>
+        <div class="toast">已记录：北京小众公园推荐</div>
+      </div>
+    </div>
+    <div class="card-col">
+      <div class="label">网页链接</div>
+      <div class="phone-sm">
+        <div class="scene">
+          <div style="color:#e8a838;font-size:14px;font-weight:600;margin-bottom:8px">场景：浏览器好文</div>
+          浏览器看到好文<br>按AI键 →<br>
+          <span style="color:#fff">全文存入知识库</span><br>
+          AI生成摘要+关键词<br><br>
+          随时搜到
+        </div>
+        <div class="toast">已记录：黄金ETF持仓分析</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">4 / 8</div>
+</div>
+
+<!-- P5: Voice -->
+<div class="slide" id="s5">
+  <div class="title-center">不仅能记图文，还能记声音</div>
+  <div class="two-phone">
+    <div class="phone-card">
+      <div class="phone-md">
+        <div class="scene">
+          <div style="color:#e8a838;font-size:16px;font-weight:600;margin-bottom:12px">医嘱</div>
+          长按AI键 → 说话：<br><br>
+          <span style="color:#fff;font-size:16px">"医生说每天早晚各一片降压药，下周三复查"</span><br><br>
+          系统自动：<br>
+          录音+转写<br>
+          <span style="color:#e8a838">识别为待办→生成"下周三复查"</span><br>
+          同步日历
+        </div>
+        <div class="toast">语音笔记已保存 + 已生成待办</div>
+      </div>
+      <div class="label">之后问"医生说的药怎么吃" → 直接答</div>
+    </div>
+    <div class="phone-card">
+      <div class="phone-md">
+        <div class="scene">
+          <div style="color:#e8a838;font-size:16px;font-weight:600;margin-bottom:12px">灵感</div>
+          长按AI键 → 说话：<br><br>
+          <span style="color:#fff;font-size:16px">"首页可以加个智能推荐模块"</span><br><br>
+          系统自动：<br>
+          录音+转写<br>
+          <span style="color:#e8a838">AI生成结构化摘要</span><br>
+          归入"工作"分类
+        </div>
+        <div class="toast">语音笔记已保存</div>
+      </div>
+      <div class="label">第二天问"昨天说的那个想法" → 摘要内容</div>
+    </div>
+  </div>
+  <div class="slide-num">5 / 8</div>
+</div>
+
+<!-- P6: MiClaw dialog -->
+<div class="slide" id="s6">
+  <div class="title-center">跟小爱聊的事儿，也都能会保存</div>
+  <div class="two-phone">
+    <div class="phone-card">
+      <div class="phone-md">
+        <div class="scene">
+          <div style="color:#e8a838;font-size:16px;font-weight:600;margin-bottom:12px">小爱对话</div>
+          和小爱讨论了30分钟方案<br><br>
+          用户说：<br>
+          <span style="color:#fff;font-size:16px">"把结论记一下"</span><br><br>
+          系统自动：<br>
+          提取决策点+action items<br>
+          <span style="color:#e8a838">生成待办卡片（可勾选）</span>
+        </div>
+        <div class="toast">已存到笔记：首页改版结论</div>
+      </div>
+      <div class="label">小爱对话</div>
+    </div>
+    <div class="phone-card">
+      <div class="phone-md">
+        <div class="scene">
+          <div style="color:#e8a838;font-size:16px;font-weight:600;margin-bottom:12px">笔记保存</div>
+          <div style="background:#333;border-radius:10px;padding:12px;margin-bottom:10px">
+            <div style="font-size:14px;color:#fff;font-weight:600">首页改版方案结论</div>
+            <div style="font-size:12px;color:#999;margin-top:6px">来自MiClaw对话 · 今天</div>
+          </div>
+          <div style="font-size:13px;color:#ccc;line-height:1.8">
+            ① 卡片流保留<br>
+            ② 推荐算法要改<br>
+            ③ 周五出排序方案<br>
+            <span style="color:#e8a838">□ 待办：周五出排序方案</span>
+          </div>
+        </div>
+      </div>
+      <div class="label">笔记保存</div>
+    </div>
+  </div>
+  <div class="slide-num">6 / 8</div>
+</div>
+
+<!-- P7: Smart classification -->
+<div class="slide" id="s7">
+  <div class="title-center">收录的内容，按主题智能分类整理</div>
+  <div class="tags-grid">
+    <div class="tag-pill">✈️ 行程</div>
+    <div class="tag-pill">🪪 证件</div>
+    <div class="tag-pill">📋 待办</div>
+    <div class="tag-pill">💳 账单</div>
+    <div class="tag-pill">🏥 健康管理</div>
+    <div class="tag-pill">🍜 美食推荐</div>
+    <div class="tag-pill">💼 工作</div>
+    <div class="tag-pill">📚 学习</div>
+    <div class="tag-pill">🎯 灵感</div>
+    <div class="tag-pill">👨‍👩‍👧 家庭</div>
+    <div class="tag-pill">🏠 生活</div>
+  </div>
+  <div style="text-align:center;margin-top:40px;font-size:20px;color:#999">
+    AI自动识别内容类型 → 自动打标签 → 自动归入智能合集<br>
+    <span style="color:#e8a838">用户不需要手动分类，记完就走</span>
+  </div>
+  <div class="slide-num">7 / 8</div>
+</div>
+
+<!-- P8: Personal memory -->
+<div class="slide" id="s8">
+  <div class="title-center">所有知识，自动提炼成个人记忆</div>
+  <div class="memory-grid">
+    <div class="mem-card">
+      <div class="mem-title">摘要大纲</div>
+      <div class="mem-desc">长文/文档 → AI提炼3句话<br>不用看原文就知道讲什么</div>
+    </div>
+    <div class="mem-card">
+      <div class="mem-title">日程提醒</div>
+      <div class="mem-desc">识别到时间 → 自动生成日程<br>出发前一天主动提醒</div>
+    </div>
+    <div class="mem-card">
+      <div class="mem-title">身份信息</div>
+      <div class="mem-desc">证件原图归档<br>说"我的护照"立刻出现</div>
+    </div>
+    <div class="mem-card">
+      <div class="mem-title">待办</div>
+      <div class="mem-desc">识别为任务 → 自动生成待办<br>同步日历+到期提醒</div>
+    </div>
+    <div class="mem-card">
+      <div class="mem-title">关注&喜好</div>
+      <div class="mem-desc">连续存了5篇黄金分析<br>→ 小爱知道"你关注黄金投资"</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:40px;font-size:22px;color:#e8a838;font-weight:600">
+    笔记 → 知识库 → 个人记忆 → 小爱随时调用
+  </div>
+  <div class="slide-num">8 / 8</div>
+</div>
+
+<div class="nav-hint">← → 键翻页 &nbsp;|&nbsp; F 全屏</div>
+
+<script>
+var cur=0,slides=document.querySelectorAll('.slide');
+function go(i){if(i<0||i>=slides.length)return;slides[cur].classList.remove('active');cur=i;slides[cur].classList.add('active')}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')go(cur+1);
+  if(e.key==='ArrowLeft')go(cur-1);
+  if(e.key==='f'||e.key==='F'){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}
+});
+document.addEventListener('click',function(e){if(e.clientX>window.innerWidth/2)go(cur+1);else go(cur-1)});
+</script>
+</body>
+</html>

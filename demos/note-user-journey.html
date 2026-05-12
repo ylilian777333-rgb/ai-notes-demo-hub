@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>笔记用户场景全链路</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;background:#fff;color:#1a1a1a;padding:40px}
+h1{font-size:28px;text-align:center;margin-bottom:8px}
+.subtitle{text-align:center;font-size:16px;color:#999;margin-bottom:40px}
+
+.source-group{margin-bottom:48px}
+.source-title{font-size:20px;font-weight:700;color:#fff;background:#1a1a1a;display:inline-block;padding:8px 20px;border-radius:8px;margin-bottom:20px}
+.source-desc{font-size:14px;color:#888;margin-bottom:20px;padding-left:4px}
+
+.scene-row{display:flex;gap:24px;margin-bottom:24px}
+.scene-card{flex:1;border:2px solid #eee;border-radius:16px;overflow:hidden}
+.scene-header{background:#f8f8f8;padding:14px 18px;border-bottom:2px solid #eee;display:flex;align-items:center;gap:10px}
+.scene-emoji{font-size:24px}
+.scene-name{font-size:17px;font-weight:700}
+
+.flow{display:flex;align-items:stretch}
+.step{flex:1;padding:16px 14px;border-right:1px solid #f0f0f0;display:flex;flex-direction:column;gap:8px;position:relative}
+.step:last-child{border-right:none}
+.step-label{font-size:11px;font-weight:700;color:#fff;background:#e8a838;border-radius:4px;padding:2px 8px;width:fit-content}
+.step-label.green{background:#4caf50}
+.step-label.blue{background:#1a73e8}
+.step-label.purple{background:#7c3aed}
+.step-label.red{background:#ef4444}
+
+.step-user{font-size:13px;color:#333;line-height:1.6;font-weight:600}
+.step-system{font-size:12px;color:#888;line-height:1.5}
+.step-visible{font-size:12px;color:#e8a838;font-weight:600;margin-top:auto}
+.step-note{font-size:11px;color:#1a73e8;background:#e8f0fe;padding:4px 8px;border-radius:4px;margin-top:4px}
+
+.arrow{display:flex;align-items:center;justify-content:center;width:24px;flex-shrink:0;color:#ccc;font-size:18px}
+
+/* Legend */
+.legend{display:flex;gap:16px;justify-content:center;margin-bottom:32px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:13px;color:#666}
+.legend-dot{width:12px;height:12px;border-radius:3px}
+</style>
+</head>
+<body>
+
+<h1>笔记用户场景全链路</h1>
+<div class="subtitle">按存入来源分类 · 每个来源2个明星场景 · 完整用户链路</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#e8a838"></div>记（触发）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1a73e8"></div>存+整理</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>回溯（用）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4caf50"></div>闭环</div>
+</div>
+
+<!-- Source 1: AI键短按 -->
+<div class="source-group">
+  <div class="source-title">AI键 · 短按记屏幕</div>
+  <div class="source-desc">看到什么按一下就记住 → 进入知识库 → 要用时自然出来</div>
+
+  <div class="scene-row">
+    <!-- 场景1: 作业 -->
+    <div class="scene-card">
+      <div class="scene-header"><span class="scene-emoji">📝</span><span class="scene-name">QQ群老师布置作业</span></div>
+      <div class="flow">
+        <div class="step">
+          <div class="step-label">记</div>
+          <div class="step-user">QQ群看到作业 → 按AI键</div>
+          <div class="step-system">截屏 → OCR识别</div>
+          <div class="step-visible">上岛"已生成待办：数学p45 明天交"</div>
+        </div>
+        <div class="step">
+          <div class="step-label blue">存+整理</div>
+          <div class="step-system">识别为待办 → 生成待办卡片 → 同步日历 → 标签[待办] → 归入"待办"合集</div>
+          <div class="step-note">笔记内：截图+待办卡片</div>
+        </div>
+        <div class="step">
+          <div class="step-label purple">用</div>
+          <div class="step-user">晚上辅导孩子<br>"今天作业是什么"</div>
+          <div class="step-visible">"数学p45，语文背诵第5段" · 来自笔记</div>
+        </div>
+        <div class="step">
+          <div class="step-label green">闭环</div>
+          <div class="step-user">做完作业 → 待办打勾</div>
+          <div class="step-note">待办卡片显示已完成</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene-row">
+    <!-- 场景2: 证件 -->
+    <div class="scene-card">
+      <div class="scene-header"><span class="scene-emoji">🪪</span><span class="scene-name">拍护照存证件</span></div>
+      <div class="flow">
+        <div class="step">
+          <div class="step-label">记</div>
+          <div class="step-user">拍护照信息页 → 按AI键</div>
+          <div class="step-system">VLM识别为证件</div>
+          <div class="step-visible">上岛"已记录：护照"</div>
+        </div>
+        <div class="step">
+          <div class="step-label blue">存+整理</div>
+          <div class="step-system">高清原图+证件信息存入 → 标签[证件] → 归入"证件"合集</div>
+          <div class="step-note">笔记内：护照原图+有效期标注</div>
+        </div>
+        <div class="step">
+          <div class="step-label purple">用</div>
+          <div class="step-user">填签证表需要护照号<br>"我的护照号"</div>
+          <div class="step-visible">直接告诉你"E12345678" · 来自笔记·证件</div>
+        </div>
+        <div class="step">
+          <div class="step-label green">闭环</div>
+          <div class="step-user">需要出示原图时<br>"我的护照"</div>
+          <div class="step-note">原图立刻出现可放大</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Source 2: AI键长按 -->
+<div class="source-group">
+  <div class="source-title">AI键 · 长按记语音</div>
+  <div class="source-desc">想记什么说一下就记住 → 录音+转写+智能处理</div>
+
+  <div class="scene-row">
+    <!-- 场景3: 医嘱 -->
+    <div class="scene-card">
+      <div class="scene-header"><span class="scene-emoji">🏥</span><span class="scene-name">看完医生记医嘱</span></div>
+      <div class="flow">
+        <div class="step">
+          <div class="step-label">记</div>
+          <div class="step-user">医院出来 → 长按AI键说话</div>
+          <div class="step-system">"每天早晚各一片降压药，下周三复查"</div>
+          <div class="step-visible">上岛"语音笔记已保存"</div>
+        </div>
+        <div class="step">
+          <div class="step-label blue">存+整理</div>
+          <div class="step-system">录音+转写 → 识别为健康+待办 → 生成待办"下周三复查" → 同步日历 → 标签[健康]</div>
+          <div class="step-note">笔记内：播放条+转写+待办卡片</div>
+        </div>
+        <div class="step">
+          <div class="step-label purple">用</div>
+          <div class="step-user">"医生说的药怎么吃"</div>
+          <div class="step-visible">"每天早晚各一片降压药" · 来自笔记</div>
+        </div>
+        <div class="step">
+          <div class="step-label green">闭环</div>
+          <div class="step-system">到周三 → 待办提醒上岛</div>
+          <div class="step-visible">"今天下午 医院复查"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene-row">
+    <!-- 场景4: 灵感 -->
+    <div class="scene-card">
+      <div class="scene-header"><span class="scene-emoji">💡</span><span class="scene-name">走路时的灵感</span></div>
+      <div class="flow">
+        <div class="step">
+          <div class="step-label">记</div>
+          <div class="step-user">走路想到idea → 长按AI键说话</div>
+          <div class="step-system">"首页可以加个智能推荐模块"</div>
+          <div class="step-visible">上岛"语音笔记已保存"</div>
+        </div>
+        <div class="step">
+          <div class="step-label blue">存+整理</div>
+          <div class="step-system">录音+转写+AI摘要 → 标签[工作] → 归入相关智能合集</div>
+          <div class="step-note">笔记内：播放条+转写+AI摘要（首页可见）</div>
+        </div>
+        <div class="step">
+          <div class="step-label purple">用</div>
+          <div class="step-user">第二天到公司<br>"昨天走路说的那个想法"</div>
+          <div class="step-visible">摘要内容 · 来自笔记</div>
+        </div>
+        <div class="step">
+          <div class="step-label green">闭环</div>
+          <div class="step-user">可回放原始录音</div>
+          <div class="step-note">笔记详情页播放条</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Source 3: MiClaw对话 -->
+<div class="source-group">
+  <div class="source-title">MiClaw对话 · "记一下"</div>
+  <div class="source-desc">和小爱聊的事，说"记一下"就存入知识库</div>
+
+  <div class="scene-row">
+    <!-- 场景5: 对话结论 -->
+    <div class="scene-card">
+      <div class="scene-header"><span class="scene-emoji">💬</span><span class="scene-name">讨论完方案记结论</span></div>
+      <div class="flow">
+        <div class="step">
+          <div class="step-label">记</div>
+          <div class="step-user">和MiClaw讨论完方案<br>"把结论记一下"</div>
+          <div class="step-system">提取决策点+action items</div>
+          <div class="step-visible">MiClaw回复"已存：首页改版结论"</div>
+        </div>
+        <div class="step">
+          <div class="step-label blue">存+整理</div>
+          <div class="step-system">结构化结论+待办卡片存入 → 标签[工作] → 归入"首页改版"合集</div>
+          <div class="step-note">笔记内：决策点+待办卡片（首页可见）</div>
+        </div>
+        <div class="step">
+          <div class="step-label purple">用</div>
+          <div class="step-user">开会前<br>"上次首页改版定了什么"</div>
+          <div class="step-visible">"①卡片流保留 ②推荐要改 ③周五出方案" · 来自笔记</div>
+        </div>
+        <div class="step">
+          <div class="step-label green">闭环</div>
+          <div class="step-user">完成action items → 待办打勾</div>
+          <div class="step-note">待办卡片显示已完成</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene-row">
+    <!-- 场景6: 微信文档 -->
+    <div class="scene-card">
+      <div class="scene-header"><span class="scene-emoji">📄</span><span class="scene-name">微信下的工作文档</span></div>
+      <div class="flow">
+        <div class="step">
+          <div class="step-label">记</div>
+          <div class="step-user">微信下载了PDF<br>"把刚下的文档记一下"</div>
+          <div class="step-system">定位最新PDF → 读取 → 生成摘要</div>
+          <div class="step-visible">MiClaw回复"已记录：Q3预算表"</div>
+        </div>
+        <div class="step">
+          <div class="step-label blue">存+整理</div>
+          <div class="step-system">摘要+关键数据+原文件路径 → 标签[工作] → 归入"工作"合集</div>
+          <div class="step-note">笔记内：文档卡片+摘要+打开原文件</div>
+        </div>
+        <div class="step">
+          <div class="step-label purple">用</div>
+          <div class="step-user">开会前<br>"上周那个预算表"</div>
+          <div class="step-visible">"Q3预算表，总预算320万" + 打开原文件 · 来自笔记</div>
+        </div>
+        <div class="step">
+          <div class="step-label green">闭环</div>
+          <div class="step-user">点"打开原文件"</div>
+          <div class="step-note">跳转文件管理器打开PDF</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Source 4: 分享面板 -->
+<div class="source-group">
+  <div class="source-title">分享面板 · 从其他APP分享到笔记</div>
+  <div class="source-desc">看到好内容分享到笔记 → AI摘要+保留原链接</div>
+
+  <div class="scene-row">
+    <!-- 场景7: 小红书 -->
+    <div class="scene-card">
+      <div class="scene-header"><span class="scene-emoji">📱</span><span class="scene-name">小红书攒攻略（一周多次）</span></div>
+      <div class="flow">
+        <div class="step">
+          <div class="step-label">记×N</div>
+          <div class="step-user">一周内刷到3个好地方<br>每次按AI键/分享到笔记</div>
+          <div class="step-system">截屏/抓链接 → 提取地点+特点</div>
+          <div class="step-visible">每次上岛"已记录：XX推荐"</div>
+        </div>
+        <div class="step">
+          <div class="step-label blue">存+整理</div>
+          <div class="step-system">各条独立存入+摘要+原链接 → 3条同主题 → 建"周末去处"合集</div>
+          <div class="step-note">笔记内：截图+摘要+原链接跳转</div>
+        </div>
+        <div class="step">
+          <div class="step-label purple">用</div>
+          <div class="step-user">周六想出门<br>输入"周末" → 补全弹出"周末去处（3篇）"</div>
+          <div class="step-visible">3个地方列表 · 来自笔记</div>
+        </div>
+        <div class="step">
+          <div class="step-label green">闭环</div>
+          <div class="step-user">点某条 → 跳回小红书原文</div>
+          <div class="step-note">原链接保留，可看完整攻略</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene-row">
+    <!-- 场景8: 朋友推荐 -->
+    <div class="scene-card">
+      <div class="scene-header"><span class="scene-emoji">🍜</span><span class="scene-name">朋友微信推荐餐厅</span></div>
+      <div class="flow">
+        <div class="step">
+          <div class="step-label">记</div>
+          <div class="step-user">微信聊天好友推荐餐厅<br>按AI键截屏</div>
+          <div class="step-system">OCR → 提取餐厅名+位置+推荐人</div>
+          <div class="step-visible">上岛"已记录：XXX日料 · 好友推荐"</div>
+        </div>
+        <div class="step">
+          <div class="step-label blue">存+整理</div>
+          <div class="step-system">聊天截图+结构化信息 → 标签[美食] → >=3条建"美食推荐"合集</div>
+          <div class="step-note">笔记内：截图+摘要</div>
+        </div>
+        <div class="step">
+          <div class="step-label purple">用</div>
+          <div class="step-user">周末约饭<br>"朋友推荐过什么餐厅"</div>
+          <div class="step-visible">"3条推荐：①XXX日料 ②火锅 ③..." · 来自笔记</div>
+        </div>
+        <div class="step">
+          <div class="step-label green">闭环</div>
+          <div class="step-user">点某条 → 查看聊天截图</div>
+          <div class="step-note">看到原始推荐+位置信息</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:30px 0;border-top:2px solid #eee;margin-top:20px">
+  <div style="font-size:22px;font-weight:700;color:#e8a838">按一下就记住 · 知识库帮你整理 · 要用时说一句就出来</div>
+  <div style="font-size:14px;color:#999;margin-top:8px">4种存入来源 × 8个明星场景 × 完整记→存→整→用→闭环链路</div>
+</div>
+
+</body>
+</html>
