@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>智能合集 · 交互原型</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:40px 0}
+h1{font-size:20px;color:#333;margin-bottom:4px}
+.subtitle{font-size:13px;color:#999;margin-bottom:24px}
+
+/* Phone frame */
+.phone{width:390px;height:844px;background:#fff;border-radius:40px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.15),0 0 0 1px rgba(0,0,0,.08);flex-shrink:0}
+
+/* Status bar */
+.status-bar{height:54px;padding:14px 24px 0;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600;color:#000;position:relative;z-index:10}
+.status-right{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:400}
+
+/* Screens */
+.screen{position:absolute;top:0;left:0;width:100%;height:100%;background:#fff;display:none;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.screen.active{display:flex}
+.screen-enter{animation:slideIn .3s ease}
+.screen-exit{animation:slideOut .3s ease}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@keyframes slideOut{from{transform:translateX(0)}to{transform:translateX(100%)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+/* Nav bar */
+.nav{height:54px;padding:14px 24px 0;display:flex;justify-content:space-between;align-items:center}
+.nav-back{font-size:28px;color:#000;cursor:pointer;width:32px;text-align:center;line-height:1}
+.nav-title{font-size:17px;font-weight:600;flex:1;text-align:center}
+.nav-right{width:32px;text-align:center;font-size:20px;color:#000;cursor:pointer}
+
+/* Tab bar */
+.tabs{display:flex;padding:8px 20px;gap:0;border-bottom:1px solid #f0f0f0}
+.tab{flex:1;text-align:center;padding:10px 0;font-size:14px;color:#999;cursor:pointer;position:relative}
+.tab.active{color:#000;font-weight:600}
+.tab.active::after{content:'';position:absolute;bottom:0;left:30%;right:30%;height:2px;background:#000;border-radius:1px}
+
+/* Content */
+.page-title{font-size:26px;font-weight:700;padding:16px 20px 4px}
+.page-meta{font-size:13px;color:#999;padding:0 20px 12px}
+
+/* Note card */
+.note-card{padding:16px 20px;border-bottom:1px solid #f5f5f5;display:flex;gap:12px;cursor:pointer;transition:background .15s}
+.note-card:active{background:#f8f8f8}
+.note-info{flex:1;min-width:0}
+.note-title{font-size:15px;font-weight:600;color:#000;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.note-desc{font-size:13px;color:#888;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.note-time{font-size:12px;color:#aaa;margin-top:6px}
+.note-thumb{width:56px;height:56px;border-radius:8px;flex-shrink:0;background:linear-gradient(135deg,#dbeafe,#e0e7ff)}
+.note-thumb.warm{background:linear-gradient(135deg,#fef3c7,#fecaca)}
+.note-thumb.green{background:linear-gradient(135deg,#d1fae5,#cffafe)}
+
+/* Collection card */
+.coll-card{padding:16px 20px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background .15s}
+.coll-card:active{background:#f8f8f8}
+.coll-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.coll-icon.purple{background:#f3e8ff}
+.coll-icon.blue{background:#dbeafe}
+.coll-icon.amber{background:#fef3c7}
+.coll-icon.green{background:#d1fae5}
+.coll-icon.red{background:#fee2e2}
+.coll-name{font-size:15px;font-weight:600;color:#000}
+.coll-count{font-size:13px;color:#999;margin-top:2px}
+.coll-arrow{color:#ccc;font-size:18px;margin-left:auto}
+
+/* AI Summary */
+.ai-summary{margin:12px 20px;padding:14px 16px;background:#f8faff;border-left:3px solid #2563eb;border-radius:0 10px 10px 0}
+.ai-label{font-size:13px;color:#2563eb;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:4px}
+.ai-text{font-size:13px;color:#444;line-height:1.8}
+.ai-disclaimer{font-size:11px;color:#bbb;padding:4px 20px 8px;font-style:italic}
+
+/* Recommend banner */
+.recommend-banner{margin:12px 20px;padding:14px 16px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:12px;cursor:pointer}
+.recommend-banner:active{opacity:.9}
+.rec-title{font-size:14px;font-weight:600;color:#92400e;margin-bottom:4px}
+.rec-desc{font-size:12px;color:#a16207}
+.rec-actions{display:flex;gap:8px;margin-top:10px}
+.rec-btn{padding:6px 16px;border-radius:16px;font-size:13px;font-weight:500;cursor:pointer;border:none}
+.rec-btn.primary{background:#000;color:#fff}
+.rec-btn.ghost{background:rgba(0,0,0,.08);color:#333}
+
+/* Bottom float button */
+.float-btn{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);padding:10px 24px;background:#fff;border-radius:24px;box-shadow:0 4px 20px rgba(0,0,0,.12);display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#333;cursor:pointer;z-index:20;border:1px solid #f0f0f0}
+.float-btn:active{transform:translateX(-50%) scale(.97)}
+
+/* Bottom sheet */
+.overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:30;display:none}
+.overlay.show{display:block;animation:fadeIn .2s ease}
+.bottom-sheet{position:absolute;bottom:0;left:0;width:100%;background:#fff;border-radius:20px 20px 0 0;z-index:31;display:none;max-height:70%}
+.bottom-sheet.show{display:block;animation:slideUp .3s ease}
+.sheet-handle{width:36px;height:4px;background:#ddd;border-radius:2px;margin:10px auto}
+.sheet-item{padding:16px 24px;font-size:16px;color:#000;cursor:pointer;border-bottom:1px solid #f8f8f8}
+.sheet-item:active{background:#f5f5f5}
+.sheet-item.danger{color:#ef4444}
+.sheet-cancel{padding:16px 24px;font-size:16px;color:#999;text-align:center;cursor:pointer}
+
+/* Dialog */
+.dialog{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;background:#fff;border-radius:16px;z-index:32;padding:24px;display:none;text-align:center}
+.dialog.show{display:block;animation:fadeIn .2s ease}
+.dialog-title{font-size:17px;font-weight:600;margin-bottom:8px}
+.dialog-desc{font-size:14px;color:#888;line-height:1.6;margin-bottom:20px}
+.dialog-actions{display:flex;gap:10px}
+.dialog-btn{flex:1;padding:12px;border-radius:10px;font-size:15px;font-weight:500;cursor:pointer;border:none}
+.dialog-btn.cancel{background:#f5f5f5;color:#333}
+.dialog-btn.danger{background:#ef4444;color:#fff}
+
+/* AI Chat panel */
+.chat-panel{padding:16px 20px;overflow-y:auto}
+.chat-input-area{padding:12px 20px;border-top:1px solid #f0f0f0;display:flex;gap:8px;align-items:center}
+.chat-input{flex:1;padding:10px 14px;border:1px solid #e5e5e5;border-radius:20px;font-size:14px;outline:none}
+.chat-send{width:32px;height:32px;background:#2563eb;border-radius:50%;color:#fff;border:none;font-size:16px;cursor:pointer}
+.chat-bubble{max-width:80%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.6;margin-bottom:12px}
+.chat-bubble.user{background:#2563eb;color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+.chat-bubble.ai{background:#f5f5f5;color:#333;border-bottom-left-radius:4px}
+
+/* Toast */
+.toast{position:absolute;top:60px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;z-index:40;display:none;white-space:nowrap}
+.toast.show{display:block;animation:fadeIn .2s ease}
+
+/* Detail content */
+.detail-content{padding:16px 20px;font-size:14px;color:#333;line-height:2}
+.detail-content h3{font-size:16px;font-weight:600;margin:16px 0 8px}
+.detail-content ul{padding-left:20px}
+.detail-content li{margin-bottom:4px}
+
+/* Note type icons */
+.type-icon{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#999;margin-top:4px}
+.type-icon span{font-size:14px}
+
+/* Hint bar */
+.hint-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;z-index:100}
+</style>
+</head>
+<body>
+
+<h1>智能合集 · 交互原型</h1>
+<div class="subtitle">点击手机内元素进行交互 · 支持前进/后退导航</div>
+
+<div class="phone" id="phone">
+
+  <!-- Screen: 笔记首页 -->
+  <div class="screen active" id="s-home">
+    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
+    <div style="padding:8px 20px 0;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:22px;font-weight:700">笔记</span>
+      <span style="font-size:20px;cursor:pointer">🔍</span>
+    </div>
+    <div class="tabs">
+      <div class="tab active" data-tab="all">全部</div>
+      <div class="tab" data-tab="folder">文件夹</div>
+      <div class="tab" data-tab="coll" onclick="goTo('s-coll-list')">合集</div>
+    </div>
+
+    <div class="recommend-banner" onclick="goTo('s-coll-preview')">
+      <div class="rec-title">✨ AI发现3篇南京相关笔记</div>
+      <div class="rec-desc">建议创建「南京旅游」合集，方便查找和问答</div>
+      <div class="rec-actions">
+        <button class="rec-btn primary" onclick="event.stopPropagation();goTo('s-coll-preview')">查看</button>
+        <button class="rec-btn ghost" onclick="event.stopPropagation();this.parentElement.parentElement.style.display='none'">忽略</button>
+      </div>
+    </div>
+
+    <div class="note-card" onclick="goTo('s-note-detail')">
+      <div class="note-info">
+        <div class="note-title">南京4日游真实感受</div>
+        <div class="note-desc">雷军是不是在上升电梯中做俯卧撑的人。在看到这里的时候，我能够理解雷军试图复...</div>
+        <div class="note-time">周二 13:38</div>
+      </div>
+      <div class="note-thumb warm"></div>
+    </div>
+    <div class="note-card" onclick="goTo('s-note-detail')">
+      <div class="note-info">
+        <div class="note-title">医院门诊复查诊疗</div>
+        <div class="note-desc">血常规基本正常，白细胞略高；继续服药3天，仍咳嗽则周二上午复查呼吸内科</div>
+        <div class="note-time">周二 8:12</div>
+      </div>
+    </div>
+    <div class="note-card" onclick="goTo('s-note-detail')">
+      <div class="note-info">
+        <div class="note-title">咖啡星人指南</div>
+        <div class="note-desc">生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱</div>
+        <div class="note-time">周二 13:38</div>
+      </div>
+      <div class="note-thumb green"></div>
+    </div>
+    <div class="note-card">
+      <div class="note-info">
+        <div class="note-title">南京钟山高尔夫绝美秘境</div>
+        <div class="note-desc">在上一篇《小米创业思考》系列文章中，我分享了我对极致的理解...</div>
+        <div class="note-time">周二 13:38</div>
+      </div>
+      <div class="note-thumb"></div>
+    </div>
+    <div class="note-card">
+      <div class="note-info">
+        <div class="note-title">计算机网络课程提纲</div>
+        <div class="note-desc">▼ 计算机网络 · 课程目标</div>
+        <div class="note-time">周二 13:38</div>
+        <div class="type-icon"><span>📝</span> 手写笔记</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen: 合集列表 -->
+  <div class="screen" id="s-coll-list">
+    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
+    <div style="padding:8px 20px 0;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:22px;font-weight:700">笔记</span>
+      <span style="font-size:20px">🔍</span>
+    </div>
+    <div class="tabs">
+      <div class="tab" onclick="goTo('s-home')">全部</div>
+      <div class="tab">文件夹</div>
+      <div class="tab active">合集</div>
+    </div>
+
+    <div class="coll-card" onclick="goTo('s-coll-detail')">
+      <div class="coll-icon purple">🗺️</div>
+      <div><div class="coll-name">南京旅游</div><div class="coll-count">13篇笔记 · 最近更新 5/9</div></div>
+      <div class="coll-arrow">›</div>
+    </div>
+    <div class="coll-card" onclick="goTo('s-coll-classroom')">
+      <div class="coll-icon blue">📖</div>
+      <div><div class="coll-name">课堂笔记</div><div class="coll-count">8篇笔记 · 最近更新 5/9</div></div>
+      <div class="coll-arrow">›</div>
+    </div>
+    <div class="coll-card" onclick="goTo('s-coll-detail')">
+      <div class="coll-icon amber">💰</div>
+      <div><div class="coll-name">黄金投资</div><div class="coll-count">5篇笔记 · 最近更新 5/8</div></div>
+      <div class="coll-arrow">›</div>
+    </div>
+    <div class="coll-card" onclick="goTo('s-coll-detail')">
+      <div class="coll-icon green">🏥</div>
+      <div><div class="coll-name">健康管理</div><div class="coll-count">3篇笔记 · 最近更新 5/7</div></div>
+      <div class="coll-arrow">›</div>
+    </div>
+    <div class="coll-card" id="coll-manage-target" onclick="showSheet('manage-sheet')">
+      <div class="coll-icon red">🌸</div>
+      <div><div class="coll-name">南京赏花</div><div class="coll-count">6篇笔记 · 最近更新 5/9</div></div>
+      <div class="coll-arrow">›</div>
+    </div>
+    <div style="padding:16px 20px;font-size:12px;color:#ccc;text-align:center">长按合集可管理 · 点击「南京赏花」试试</div>
+
+    <div class="overlay" id="manage-overlay" onclick="hideSheet('manage-sheet')"></div>
+    <div class="bottom-sheet" id="manage-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-item" onclick="hideSheet('manage-sheet');showToast('已重命名')">重命名</div>
+      <div class="sheet-item" onclick="hideSheet('manage-sheet');showDialog()">删除合集</div>
+      <div class="sheet-item" onclick="hideSheet('manage-sheet')">移出笔记</div>
+      <div class="sheet-cancel" onclick="hideSheet('manage-sheet')">取消</div>
+    </div>
+    <div class="overlay" id="dialog-overlay" onclick="hideDialog()"></div>
+    <div class="dialog" id="delete-dialog">
+      <div class="dialog-title">删除合集「南京赏花」？</div>
+      <div class="dialog-desc">删除合集不会删除笔记，<br>笔记将回到未归类状态</div>
+      <div class="dialog-actions">
+        <button class="dialog-btn cancel" onclick="hideDialog()">取消</button>
+        <button class="dialog-btn danger" onclick="hideDialog();showToast('已删除合集');document.getElementById('coll-manage-target').style.display='none'">确认删除</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen: 合集预览（推荐） -->
+  <div class="screen" id="s-coll-preview">
+    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
+    <div class="nav">
+      <div class="nav-back" onclick="goBack()">‹</div>
+      <div class="nav-title"></div>
+      <div class="nav-right"></div>
+    </div>
+    <div class="page-title">南京旅游</div>
+    <div class="page-meta">13条笔记 · 推荐保存为合集</div>
+
+    <div class="ai-summary">
+      <div class="ai-label">✨ AI总结</div>
+      <div class="ai-text">
+        <b>1.景点：</b>有梧桐大道、音乐台、夫子庙等，还有钟山秋水湖、小西湖等小众景点<br>
+        <b>2.行程：</b>有4日和3日游行程，4日游涵盖红山动物园、鸡鸣寺等<br>
+        <b>3.美食：</b>有觅炙烧烤海鲜粥火锅、十朝酥、泥炉烧肉师等
+      </div>
+    </div>
+
+    <div class="note-card" onclick="goTo('s-note-detail')">
+      <div class="note-info">
+        <div class="note-title">南京4日游真实感受</div>
+        <div class="note-desc">雷军是不是在上升电梯中做俯卧撑的人。在看到这里的时候...</div>
+        <div class="note-time">周二 13:38</div>
+      </div>
+      <div class="note-thumb warm"></div>
+    </div>
+    <div class="note-card" onclick="goTo('s-note-detail')">
+      <div class="note-info">
+        <div class="note-title">南京钟山高尔夫绝美秘境</div>
+        <div class="note-desc">在上一篇《小米创业思考》系列文章中，我分享了我对极致的理解...</div>
+        <div class="note-time">周二 13:38</div>
+      </div>
+    </div>
+    <div class="note-card">
+      <div class="note-info">
+        <div class="note-title">南京小西湖春日私藏攻略</div>
+        <div class="note-desc">▼ 计算机网络 · 课程目标</div>
+        <div class="note-time">周二 13:38</div>
+      </div>
+    </div>
+
+    <div style="padding:20px;text-align:center">
+      <button onclick="showToast('已保存为合集「南京旅游」');setTimeout(()=>goTo('s-coll-detail'),800)" style="width:100%;padding:14px;background:#000;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer">保存为合集</button>
+    </div>
+  </div>
+
+  <!-- Screen: 合集详情 - 南京旅游 -->
+  <div class="screen" id="s-coll-detail">
+    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
+    <div class="nav">
+      <div class="nav-back" onclick="goBack()">‹</div>
+      <div class="nav-title"></div>
+      <div class="nav-right">⋮</div>
+    </div>
+    <div class="page-title">南京旅游</div>
+    <div class="page-meta">13条笔记 ｜ 最近更新：5月9日 12:23</div>
+
+    <div class="ai-summary">
+      <div class="ai-label">✨ AI总结</div>
+      <div class="ai-text">
+        <b>1.景点：</b>有梧桐大道、音乐台、夫子庙等，还有钟山秋水湖、小西湖等小众景点，部分景点需提前预约<br>
+        <b>2.行程：</b>有4日和3日游行程，4日游涵盖红山动物园、鸡鸣寺等；3日游包括南京博物院、大报恩寺等<br>
+        <b>3.美食：</b>有觅炙烧烤海鲜粥火锅、十朝酥、泥炉烧肉师等<br>
+        <b>4.交通：</b>外部出行可选择南京禄口国际机场、南京南站；市内交通，首选地铁<br>
+        <b>5.天气：</b>南京属于北亚热带湿润气候，四季分明
+      </div>
+    </div>
+    <div class="ai-disclaimer">以上由AI大模型生成，可能包含不准确的信息。</div>
+
+    <div class="note-card" onclick="goTo('s-note-detail')">
+      <div class="note-info">
+        <div class="note-title">南京4日游真实感受</div>
+        <div class="note-desc">雷军是不是在上升电梯中做俯卧撑的人。在看到这里的时候...</div>
+        <div class="note-time">周二 13:38</div>
+      </div>
+      <div class="note-thumb warm"></div>
+    </div>
+    <div class="note-card" onclick="goTo('s-note-detail')">
+      <div class="note-info">
+        <div class="note-title">南京钟山高尔夫绝美秘境</div>
+        <div class="note-desc">在上一篇《小米创业思考》系列文章中...</div>
+        <div class="note-time">周二 13:38</div>
+      </div>
+    </div>
+    <div class="note-card" onclick="goTo('s-note-detail')">
+      <div class="note-info">
+        <div class="note-title">南京小西湖春日私藏攻略</div>
+        <div class="note-desc">▼ 计算机网络 · 课程目标</div>
+        <div class="note-time">周二 13:38</div>
+      </div>
+    </div>
+    <div class="note-card" onclick="goTo('s-note-detail')">
+      <div class="note-info">
+        <div class="note-title">网课截图</div>
+        <div class="note-desc">生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱</div>
+        <div class="note-time">周二 13:38</div>
+      </div>
+      <div class="note-thumb"></div>
+    </div>
+
+    <div class="float-btn" onclick="goTo('s-ai-chat')">✨ AI提问</div>
+  </div>
+
+  <!-- Screen: 合集详情 - 课堂笔记（双Tab方案） -->
+  <div class="screen" id="s-coll-classroom">
+    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
+    <div class="nav">
+      <div class="nav-back" onclick="goBack()">‹</div>
+      <div class="nav-title"></div>
+      <div class="nav-right">⋮</div>
+    </div>
+    <div class="page-title">课堂笔记</div>
+    <div class="page-meta">13条笔记 ｜ 最近更新：5月9日 12:23</div>
+    <div class="tabs" id="class-tabs">
+      <div class="tab" onclick="switchClassTab('summary')">智能总结</div>
+      <div class="tab active" onclick="switchClassTab('list')">笔记列表</div>
+    </div>
+
+    <div id="class-summary" style="display:none">
+      <div class="ai-summary">
+        <div class="ai-label">✨ AI总结</div>
+        <div class="ai-text">
+          本合集包含计算机网络课程的核心笔记。重点覆盖TCP/UDP协议、三次握手、网络分层模型等知识点。
+        </div>
+      </div>
+    </div>
+    <div id="class-list">
+      <div class="note-card" onclick="goTo('s-note-classroom')">
+        <div class="note-info">
+          <div class="note-title">计算机网络</div>
+          <div class="note-desc">雷军是不是在上升电梯中做俯卧撑的人。在看到这里的时候...</div>
+          <div class="note-time">周二 13:38</div>
+        </div>
+        <div class="note-thumb"></div>
+      </div>
+      <div class="note-card" onclick="goTo('s-note-classroom')">
+        <div class="note-info">
+          <div class="note-title">课堂笔记</div>
+          <div class="note-desc">在上一篇《小米创业思考》系列文章中，我分享了我对极致的理解...</div>
+          <div class="note-time">周二 13:38</div>
+        </div>
+      </div>
+      <div class="note-card" onclick="goTo('s-note-classroom')">
+        <div class="note-info">
+          <div class="note-title">计算机网络课程提纲</div>
+          <div class="note-desc">▼ 计算机网络 · 课程目标</div>
+          <div class="note-time">周二 13:38</div>
+        </div>
+      </div>
+      <div class="note-card" onclick="goTo('s-note-classroom')">
+        <div class="note-info">
+          <div class="note-title">网课截图</div>
+          <div class="note-desc">生命是有色彩的，并不是存在的变幻无常</div>
+          <div class="note-time">周二 13:38</div>
+        </div>
+        <div class="note-thumb warm"></div>
+      </div>
+      <div class="note-card" onclick="goTo('s-note-classroom')">
+        <div class="note-info">
+          <div class="note-title">复习</div>
+          <div class="note-desc">凭实力，整个世界都会为你让路！2025年11月15日...</div>
+          <div class="note-time">周二 13:38</div>
+        </div>
+      </div>
+    </div>
+    <div class="float-btn" onclick="goTo('s-ai-chat')">✨ AI提问</div>
+  </div>
+
+  <!-- Screen: 笔记详情 - 南京旅游 -->
+  <div class="screen" id="s-note-detail">
+    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
+    <div class="nav">
+      <div class="nav-back" onclick="goBack()">‹</div>
+      <div class="nav-title"></div>
+      <div class="nav-right">⋮</div>
+    </div>
+    <div class="page-title">南京4日游真实感受</div>
+    <div class="page-meta" style="border-bottom:1px solid #f0f0f0;padding-bottom:12px">来自小红书 · 周二 13:38</div>
+    <div class="detail-content">
+      <p>南京是一座值得慢慢品味的城市。四天的行程走遍了主要景点，分享一些真实感受：</p>
+      <h3>Day 1 · 钟山风景区</h3>
+      <ul>
+        <li>中山陵免费但需要预约，建议提前一周</li>
+        <li>美龄宫的项链公路确实很美，值得专门去看</li>
+        <li>钟山景区很大，建议买观光车票</li>
+      </ul>
+      <h3>Day 2 · 老城区</h3>
+      <ul>
+        <li>夫子庙商业化比较严重，但秦淮河夜景很美</li>
+        <li>老门东值得逛，文艺店铺多</li>
+        <li>鸡鸣寺樱花季人非常多，错峰去</li>
+      </ul>
+      <h3>Day 3 · 小众路线</h3>
+      <ul>
+        <li>小西湖人少景美，适合拍照</li>
+        <li>颐和路的民国建筑群值得一看</li>
+      </ul>
+    </div>
+    <div class="float-btn" onclick="goTo('s-ai-chat')">✨ AI提问</div>
+  </div>
+
+  <!-- Screen: 笔记详情 - 课堂笔记 -->
+  <div class="screen" id="s-note-classroom">
+    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
+    <div class="nav">
+      <div class="nav-back" onclick="goBack()">‹</div>
+      <div class="nav-title"></div>
+      <div class="nav-right">⋮</div>
+    </div>
+    <div class="page-title">课堂笔记</div>
+    <div class="page-meta" style="border-bottom:1px solid #f0f0f0;padding-bottom:12px">手写笔记 · 周二 13:38</div>
+    <div class="detail-content">
+      <h3>核心概念</h3>
+      <ul>
+        <li>传输层作用：为应用进程提供端到端的通信服务，位于网络层之上、应用层之下</li>
+        <li>两个核心协议：TCP（传输控制协议）、UDP（用户数据报协议）</li>
+        <li>端口号：16 位整数，用于标识应用进程，范围 0-65535</li>
+      </ul>
+      <h3>TCP 协议详解</h3>
+      <ul>
+        <li>特点：面向连接、可靠传输、字节流服务、全双工通信</li>
+        <li>提供流量控制、拥塞控制、差错控制</li>
+      </ul>
+      <p><b>三次握手</b></p>
+      <p style="padding-left:12px">
+        a. 客户端发送 SYN 报文（seq=x）<br>
+        b. 服务器回复 SYN+ACK 报文（seq=y, ack=x+1）<br>
+        c. 客户端发送 ACK 报文（ack=y+1）
+      </p>
+      <p style="color:#2563eb;margin-top:8px">易考点：为什么是三次不是两次？</p>
+
+      <h3>UDP 协议详解</h3>
+      <ul>
+        <li>无连接、不可靠传输、数据报服务</li>
+      </ul>
+    </div>
+    <div class="float-btn" onclick="goTo('s-ai-chat')">✨ AI提问</div>
+  </div>
+
+  <!-- Screen: AI提问 -->
+  <div class="screen" id="s-ai-chat">
+    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
+    <div class="nav">
+      <div class="nav-back" onclick="goBack()">‹</div>
+      <div class="nav-title">AI提问</div>
+      <div class="nav-right"></div>
+    </div>
+    <div class="chat-panel" style="flex:1" id="chat-area">
+      <div style="text-align:center;padding:20px;color:#ccc;font-size:13px">基于当前合集/笔记内容进行问答</div>
+      <div class="chat-bubble user">这个合集里有哪些值得去的景点？</div>
+      <div class="chat-bubble ai">根据合集内的笔记，值得去的景点包括：<br><br>🏛 <b>必去</b>：中山陵、夫子庙、玄武湖<br>📸 <b>拍照</b>：美龄宫项链公路、小西湖、颐和路<br>🌸 <b>小众</b>：钟山高尔夫秘境、老门东<br><br>建议提前预约中山陵（免费但限流），鸡鸣寺避开樱花季高峰。</div>
+      <div class="chat-bubble user">交通怎么安排？</div>
+      <div class="chat-bubble ai">根据笔记记录：<br><br>✈️ <b>到达</b>：南京禄口国际机场 或 南京南站<br>🚇 <b>市内</b>：首选地铁，覆盖主要景点<br>🚌 <b>景区</b>：钟山景区建议买观光车票，景区很大步行耗时<br><br>💡 地铁很方便，基本所有景点都能到达，建议办理交通卡。</div>
+    </div>
+    <div class="chat-input-area">
+      <input class="chat-input" placeholder="基于笔记内容提问..." id="chat-input">
+      <button class="chat-send" onclick="sendChat()">↑</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+</div>
+
+<div class="hint-bar">💡 点击笔记卡片进入详情 · 点击合集tab查看列表 · 点击AI提问对话</div>
+
+<script>
+const history = ['s-home'];
+
+function goTo(id) {
+  const current = document.querySelector('.screen.active');
+  const target = document.getElementById(id);
+  if (!target || current === target) return;
+
+  current.classList.remove('active');
+  target.classList.add('active', 'screen-enter');
+  setTimeout(() => target.classList.remove('screen-enter'), 300);
+
+  history.push(id);
+}
+
+function goBack() {
+  if (history.length <= 1) return;
+  history.pop();
+  const prevId = history[history.length - 1];
+  const current = document.querySelector('.screen.active');
+  const target = document.getElementById(prevId);
+
+  current.classList.remove('active');
+  target.classList.add('active');
+}
+
+function showSheet(id) {
+  document.getElementById(id).classList.add('show');
+  document.getElementById('manage-overlay').classList.add('show');
+}
+
+function hideSheet(id) {
+  document.getElementById(id).classList.remove('show');
+  document.getElementById('manage-overlay').classList.remove('show');
+}
+
+function showDialog() {
+  document.getElementById('delete-dialog').classList.add('show');
+  document.getElementById('dialog-overlay').classList.add('show');
+}
+
+function hideDialog() {
+  document.getElementById('delete-dialog').classList.remove('show');
+  document.getElementById('dialog-overlay').classList.remove('show');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function switchClassTab(tab) {
+  const tabs = document.querySelectorAll('#class-tabs .tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  if (tab === 'summary') {
+    tabs[0].classList.add('active');
+    document.getElementById('class-summary').style.display = 'block';
+    document.getElementById('class-list').style.display = 'none';
+  } else {
+    tabs[1].classList.add('active');
+    document.getElementById('class-summary').style.display = 'none';
+    document.getElementById('class-list').style.display = 'block';
+  }
+}
+
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const area = document.getElementById('chat-area');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const userBubble = document.createElement('div');
+  userBubble.className = 'chat-bubble user';
+  userBubble.textContent = text;
+  area.appendChild(userBubble);
+  input.value = '';
+
+  setTimeout(() => {
+    const aiBubble = document.createElement('div');
+    aiBubble.className = 'chat-bubble ai';
+    aiBubble.innerHTML = '根据笔记内容，' + text + '的相关信息如下：<br><br>正在分析合集内的笔记内容...已找到相关记录，为您整理中。';
+    area.appendChild(aiBubble);
+    area.scrollTop = area.scrollHeight;
+  }, 800);
+}
+</script>
+</body>
+</html>
