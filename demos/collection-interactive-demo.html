@@ -3,191 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>智能合集 · 交互原型</title>
+<title>智能合集 · 可点击交互原型</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:40px 0}
-h1{font-size:20px;color:#333;margin-bottom:4px}
-.subtitle{font-size:13px;color:#999;margin-bottom:20px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,"PingFang SC",sans-serif;background:#f3f3f3;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:40px 0 60px}
 
-/* Scheme switcher */
-.scheme-switcher{display:flex;gap:8px;margin-bottom:20px}
-.scheme-btn{padding:8px 20px;border-radius:8px;font-size:14px;border:none;cursor:pointer;background:#f5f5f5;color:#666;transition:all .2s}
-.scheme-btn.active{background:#000;color:#fff}
-.scheme-btn:hover:not(.active){background:#e8e8e8}
+/* ── Scheme switcher ── */
+.scheme-switcher{display:flex;gap:8px;margin-bottom:24px}
+.scheme-btn{padding:10px 24px;border-radius:10px;font-size:14px;font-weight:500;border:none;cursor:pointer;background:#fff;color:#666;transition:all .2s;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.scheme-btn.active{background:#000;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.scheme-btn:hover:not(.active){background:#eee}
 
-/* Phone frame */
-.phone{width:390px;height:844px;background:#fff;border-radius:40px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.15),0 0 0 1px rgba(0,0,0,.08);flex-shrink:0}
+/* ── Phone frame ── */
+.phone{width:390px;height:844px;background:#f3f3f3;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.15),0 0 0 1px rgba(0,0,0,.08);flex-shrink:0}
 
-/* Status bar */
-.status-bar{height:54px;padding:14px 24px 0;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600;color:#000;position:relative;z-index:10}
-.status-right{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:400}
-
-/* Screens */
-.screen{position:absolute;top:0;left:0;width:100%;height:100%;background:#fff;display:none;flex-direction:column;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:60px}
+/* ── Screens ── */
+.screen{position:absolute;top:0;left:0;width:100%;height:100%;background:#f3f3f3;display:none;flex-direction:column;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:100px}
 .screen.active{display:flex}
 .screen-enter{animation:slideIn .3s ease}
 @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* Nav bar */
-.nav{height:54px;padding:14px 24px 0;display:flex;justify-content:space-between;align-items:center}
-.nav-back{font-size:28px;color:#000;cursor:pointer;width:32px;text-align:center;line-height:1}
-.nav-title{font-size:17px;font-weight:600;flex:1;text-align:center}
-.nav-right{width:32px;text-align:center;font-size:20px;color:#000;cursor:pointer}
+/* ── Status bar ── */
+.status-bar{height:46px;padding:0 30px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.status-time{font-size:14px;font-weight:600;color:#000}
+.status-icons{font-size:12px;color:#000;letter-spacing:1px}
 
-/* Home header */
-.home-header{padding:8px 20px 0;display:flex;justify-content:space-between;align-items:center}
-.home-header .title{font-size:22px;font-weight:700}
-.home-header .actions{display:flex;gap:12px;align-items:center;font-size:18px;color:#333}
-.home-header .actions span{cursor:pointer}
+/* ── Home header ── */
+.home-header{display:flex;justify-content:space-between;align-items:center;padding:4px 26px 0}
+.home-title{font-size:32px;font-weight:400;color:#000}
+.home-actions{display:flex;gap:12px;font-size:18px;color:#333}
+.home-actions span{cursor:pointer}
 
-/* Search bar */
-.search-bar{margin:10px 16px;padding:8px 14px;background:#f5f5f5;border-radius:8px;font-size:14px;color:#999;display:flex;align-items:center;gap:6px}
+/* ── Search bar ── */
+.search-bar{margin:4px 12px 8px;height:44px;background:rgba(0,0,0,0.04);border-radius:999px;display:flex;align-items:center;padding:0 16px;font-size:17px;color:rgba(0,0,0,0.3);cursor:pointer;flex-shrink:0}
 
-/* Tag bar (horizontal scroll) */
-.tag-bar{display:flex;align-items:center;gap:8px;padding:8px 16px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+/* ── Tag bar ── */
+.tag-bar{height:52px;display:flex;align-items:center;gap:12px;padding:0 12px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;flex-shrink:0}
 .tag-bar::-webkit-scrollbar{display:none}
-.tag-item{padding:6px 14px;border-radius:16px;font-size:13px;color:#666;background:#f5f5f5;cursor:pointer;flex-shrink:0}
-.tag-item.active{background:#FFF3D0;color:#333;font-weight:500}
-.tag-item.icon{padding:6px 10px;font-size:16px;background:transparent}
+.tag-folder{width:44px;height:40px;background:#fff;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;flex-shrink:0}
+.tag-item{height:40px;padding:0 16px;border-radius:20px;display:flex;align-items:center;font-size:15px;cursor:pointer;flex-shrink:0;transition:all .2s}
+.tag-item.active{background:#ffc73a;color:#fff;font-weight:600}
+.tag-item:not(.active){background:#fff;color:rgba(0,0,0,0.6)}
 
-/* Section header */
-.section-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 8px}
-.section-header .label{font-size:15px;font-weight:600;color:#000}
-.section-header .more{font-size:18px;color:#ccc;cursor:pointer}
+/* ── Waterfall / masonry cards ── */
+.waterfall{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 12px}
+.note-card{background:#fff;border-radius:20px;overflow:hidden;cursor:pointer;break-inside:avoid}
+.note-card-inner{padding:16px}
+.note-card img,.note-card .card-img{width:100%;border-radius:8px;display:block}
+.note-card .card-title{font-size:17px;font-weight:500;color:#000;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:6px}
+.note-card .card-summary{font-size:14px;color:rgba(0,0,0,0.6);line-height:1.5;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px}
+.note-card .card-meta{font-size:13px;color:rgba(0,0,0,0.4)}
+.note-card .card-pin{font-size:12px;color:rgba(0,0,0,0.4);margin-top:4px}
+.card-img-placeholder{width:100%;border-radius:8px;display:block}
 
-/* Waterfall grid */
-.waterfall{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 20px}
-.wf-card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid #f0f0f0;cursor:pointer;transition:transform .1s}
-.wf-card:active{transform:scale(.98)}
-.wf-card .thumb{width:100%;height:100px;border-radius:8px 8px 0 0}
-.wf-card .thumb.blue-purple{background:linear-gradient(135deg,#667eea,#764ba2)}
-.wf-card .thumb.warm{background:linear-gradient(135deg,#f6d365,#fda085)}
-.wf-card .body{padding:10px 12px 12px}
-.wf-card .wf-title{font-size:14px;font-weight:600;color:#000;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.wf-card .wf-desc{font-size:12px;color:#888;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:4px}
-.wf-card .wf-meta{display:flex;justify-content:space-between;align-items:center}
-.wf-card .wf-time{font-size:11px;color:#aaa}
-.wf-card .wf-pin{font-size:11px}
-.wf-card .wf-type{font-size:11px;color:#999;margin-top:2px}
+/* ── Bottom tab bar ── */
+.bottom-tab{position:absolute;bottom:0;left:0;right:0;z-index:100;padding:20px 24px 24px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.4)}
+.bottom-tab-inner{height:56px;border-radius:28px;background:rgba(255,255,255,0.6);box-shadow:0 24px 60px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:space-around}
+.bottom-tab-inner span{font-size:28px;cursor:pointer;user-select:none}
 
-/* Horizontal scroll collection cards */
-.hscroll-area{display:flex;gap:10px;padding:0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
-.hscroll-area::-webkit-scrollbar{display:none}
-.hscroll-card{min-width:160px;padding:14px;border-radius:12px;border:1px solid #eee;background:#fff;cursor:pointer;flex-shrink:0;transition:transform .1s}
-.hscroll-card:active{transform:scale(.97)}
-.hscroll-card .hc-title{font-size:15px;font-weight:600;color:#000;margin-bottom:4px}
-.hscroll-card .hc-sub{font-size:12px;color:#999}
-.hscroll-card.create{border:1.5px dashed #ddd;display:flex;flex-direction:column;justify-content:center}
-.hscroll-card.create .hc-title{color:#999;font-weight:500}
-.hscroll-card.create .hc-sub{color:#bbb;font-size:11px}
-.hscroll-card.with-thumb{display:flex;align-items:center;gap:10px}
-.hscroll-card.with-thumb .hc-text{flex:1;min-width:0}
-.hscroll-card .hc-thumb{width:48px;height:48px;border-radius:8px;flex-shrink:0;background:linear-gradient(135deg,#fecaca,#fda4af);overflow:hidden}
+/* ── Smart collection section ── */
+.collection-section{padding:0 12px}
+.collection-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 8px}
+.collection-header .section-title{font-size:15px;font-weight:600;color:#000}
+.collection-header .section-arrow{font-size:16px;color:rgba(0,0,0,0.3);cursor:pointer}
+.collection-scroll{display:flex;gap:10px;overflow-x:auto;padding:0 4px 12px;-webkit-overflow-scrolling:touch}
+.collection-scroll::-webkit-scrollbar{display:none}
+.collection-card{min-width:160px;padding:14px;border-radius:12px;border:1px solid #eee;background:#fff;cursor:pointer;flex-shrink:0}
+.collection-card .cc-title{font-size:15px;font-weight:600;color:#000;margin-bottom:4px}
+.collection-card .cc-sub{font-size:12px;color:#999}
+.collection-card-create{min-width:160px;padding:14px;border-radius:12px;border:1.5px dashed #ddd;background:#fff;cursor:pointer;flex-shrink:0}
+.collection-card-create .cc-title{font-size:15px;font-weight:600;color:#999;margin-bottom:4px}
+.collection-card-create .cc-sub{font-size:12px;color:#bbb}
+.collection-card-thumb{min-width:180px;padding:14px;border-radius:12px;border:1px solid #eee;background:#fff;cursor:pointer;flex-shrink:0;display:flex;justify-content:space-between;align-items:center}
+.collection-card-thumb .cc-left{flex:1}
+.collection-card-thumb .cc-thumb{width:48px;height:48px;border-radius:8px;flex-shrink:0;margin-left:10px}
 
-/* Bottom tab bar */
-.bottom-tab{position:absolute;bottom:0;left:0;width:100%;height:56px;border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:center;gap:0;background:#fff;z-index:20}
-.bottom-tab .tab-icon{flex:1;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;height:100%}
-.bottom-tab .tab-icon.mic{position:relative}
-.bottom-tab .tab-icon.mic::before{content:'';position:absolute;width:44px;height:44px;border-radius:50%;background:#FF3B30}
-.bottom-tab .tab-icon.mic span{position:relative;z-index:1;font-size:22px;filter:brightness(0) invert(1)}
-.bottom-tab .tab-icon .plus{font-size:28px;color:#333}
+/* ── Section label ── */
+.section-label{padding:10px 16px 6px;font-size:15px;font-weight:600;color:#000}
 
-/* Content from original (shared screens) */
-.page-title{font-size:26px;font-weight:700;padding:16px 20px 4px}
-.page-meta{font-size:13px;color:#999;padding:0 20px 12px}
+/* ── Detail page nav ── */
+.detail-nav{height:46px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.detail-nav .back-btn{font-size:28px;color:#000;cursor:pointer;width:32px;line-height:1}
+.detail-nav .nav-actions{display:flex;gap:12px;font-size:18px}
 
-.note-card{padding:16px 20px;border-bottom:1px solid #f5f5f5;display:flex;gap:12px;cursor:pointer;transition:background .15s}
-.note-card:active{background:#f8f8f8}
-.note-info{flex:1;min-width:0}
-.note-title{font-size:15px;font-weight:600;color:#000;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.note-desc{font-size:13px;color:#888;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.note-time{font-size:12px;color:#aaa;margin-top:6px}
-.note-thumb{width:56px;height:56px;border-radius:8px;flex-shrink:0;background:linear-gradient(135deg,#dbeafe,#e0e7ff)}
-.note-thumb.warm{background:linear-gradient(135deg,#fef3c7,#fecaca)}
-.note-thumb.green{background:linear-gradient(135deg,#d1fae5,#cffafe)}
+/* ── Collection detail page ── */
+.coll-detail-title{font-size:26px;font-weight:700;color:#000;padding:4px 20px 4px}
+.coll-detail-sub{font-size:13px;color:#999;padding:0 20px 12px}
+.ai-summary-box{margin:0 16px 16px;background:#f8faff;border-radius:0 10px 10px 0;border-left:3px solid #2563eb;padding:14px 16px}
+.ai-summary-tag{font-size:13px;color:#2563eb;font-weight:600;margin-bottom:8px}
+.ai-summary-content{font-size:13px;color:#444;line-height:1.8}
+.ai-summary-content li{margin-bottom:2px;list-style:none}
+.ai-summary-content li::before{content:"• ";color:#2563eb}
+.note-list-item{padding:16px 20px;border-bottom:1px solid #f5f5f5;cursor:pointer}
+.note-list-item .nli-title{font-size:16px;font-weight:600;color:#000;margin-bottom:4px}
+.note-list-item .nli-summary{font-size:13px;color:#666;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.note-list-item .nli-meta{font-size:12px;color:#aaa;margin-top:6px}
 
-.coll-card{padding:16px 20px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background .15s}
-.coll-card:active{background:#f8f8f8}
-.coll-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.coll-icon.purple{background:#f3e8ff}
-.coll-icon.blue{background:#dbeafe}
-.coll-icon.amber{background:#fef3c7}
-.coll-icon.green{background:#d1fae5}
-.coll-icon.red{background:#fee2e2}
-.coll-name{font-size:15px;font-weight:600;color:#000}
-.coll-count{font-size:13px;color:#999;margin-top:2px}
-.coll-arrow{color:#ccc;font-size:18px;margin-left:auto}
+/* ── Tab switcher in detail ── */
+.detail-tabs{display:flex;border-bottom:1px solid #f0f0f0;margin:0 20px 12px;flex-shrink:0}
+.detail-tab{flex:1;text-align:center;padding:10px 0;font-size:15px;color:#999;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.detail-tab.active{color:#000;font-weight:600;border-bottom-color:#000}
 
-.ai-summary{margin:12px 20px;padding:14px 16px;background:#f8faff;border-left:3px solid #2563eb;border-radius:0 10px 10px 0}
-.ai-label{font-size:13px;color:#2563eb;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:4px}
-.ai-text{font-size:13px;color:#444;line-height:1.8}
-.ai-disclaimer{font-size:11px;color:#bbb;padding:4px 20px 8px;font-style:italic}
+/* ── Floating AI button ── */
+.ai-float-btn{position:absolute;bottom:110px;left:50%;transform:translateX(-50%);background:#fff;border-radius:24px;padding:10px 24px;font-size:14px;font-weight:500;color:#2563eb;box-shadow:0 4px 20px rgba(0,0,0,0.1);cursor:pointer;z-index:90;white-space:nowrap}
 
-.float-btn{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);padding:10px 24px;background:#fff;border-radius:24px;box-shadow:0 4px 20px rgba(0,0,0,.12);display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#333;cursor:pointer;z-index:20;border:1px solid #f0f0f0}
-.float-btn:active{transform:translateX(-50%) scale(.97)}
+/* ── Note detail page ── */
+.note-detail-title{font-size:26px;font-weight:700;color:#000;padding:8px 20px 4px}
+.note-detail-sub{font-size:13px;color:#999;padding:0 20px 16px}
+.note-detail-body{padding:0 20px;font-size:14px;line-height:2;color:#333}
+.note-detail-body h3{font-size:16px;font-weight:700;color:#000;margin:16px 0 8px}
+.note-detail-body p{margin-bottom:12px}
 
-.overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:30;display:none}
-.overlay.show{display:block;animation:fadeIn .2s ease}
-.bottom-sheet{position:absolute;bottom:0;left:0;width:100%;background:#fff;border-radius:20px 20px 0 0;z-index:31;display:none;max-height:70%}
-.bottom-sheet.show{display:block;animation:slideUp .3s ease}
-.sheet-handle{width:36px;height:4px;background:#ddd;border-radius:2px;margin:10px auto}
-.sheet-item{padding:16px 24px;font-size:16px;color:#000;cursor:pointer;border-bottom:1px solid #f8f8f8}
-.sheet-item:active{background:#f5f5f5}
-.sheet-item.danger{color:#ef4444}
-.sheet-cancel{padding:16px 24px;font-size:16px;color:#999;text-align:center;cursor:pointer}
+/* ── AI chat page ── */
+.chat-container{flex:1;padding:0 16px;overflow-y:auto}
+.chat-bubble{max-width:80%;padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.6;margin-bottom:12px;word-break:break-word}
+.chat-user{background:#2563eb;color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+.chat-ai{background:#f5f5f5;color:#333;margin-right:auto;border-bottom-left-radius:4px}
+.chat-input-bar{padding:12px 16px;display:flex;gap:8px;align-items:center;flex-shrink:0;border-top:1px solid #f0f0f0;background:#fff}
+.chat-input{flex:1;height:40px;border:1px solid #e5e5e5;border-radius:20px;padding:0 16px;font-size:14px;outline:none;font-family:inherit}
+.chat-send{width:40px;height:40px;border-radius:50%;background:#2563eb;color:#fff;border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
-.dialog{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;background:#fff;border-radius:16px;z-index:32;padding:24px;display:none;text-align:center}
-.dialog.show{display:block;animation:fadeIn .2s ease}
-.dialog-title{font-size:17px;font-weight:600;margin-bottom:8px}
-.dialog-desc{font-size:14px;color:#888;line-height:1.6;margin-bottom:20px}
-.dialog-actions{display:flex;gap:10px}
-.dialog-btn{flex:1;padding:12px;border-radius:10px;font-size:15px;font-weight:500;cursor:pointer;border:none}
-.dialog-btn.cancel{background:#f5f5f5;color:#333}
-.dialog-btn.danger{background:#ef4444;color:#fff}
+/* ── Collection list page ── */
+.coll-list-item{display:flex;align-items:center;padding:14px 20px;cursor:pointer}
+.coll-list-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;margin-right:14px}
+.coll-list-info{flex:1}
+.coll-list-name{font-size:16px;font-weight:500;color:#000}
+.coll-list-count{font-size:13px;color:#999;margin-top:2px}
+.coll-list-arrow{font-size:18px;color:#ccc}
 
-.chat-panel{padding:16px 20px;overflow-y:auto}
-.chat-input-area{padding:12px 20px;border-top:1px solid #f0f0f0;display:flex;gap:8px;align-items:center}
-.chat-input{flex:1;padding:10px 14px;border:1px solid #e5e5e5;border-radius:20px;font-size:14px;outline:none}
-.chat-send{width:32px;height:32px;background:#2563eb;border-radius:50%;color:#fff;border:none;font-size:16px;cursor:pointer}
-.chat-bubble{max-width:80%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.6;margin-bottom:12px}
-.chat-bubble.user{background:#2563eb;color:#fff;margin-left:auto;border-bottom-right-radius:4px}
-.chat-bubble.ai{background:#f5f5f5;color:#333;border-bottom-left-radius:4px}
+/* ── Action sheet / modal ── */
+.overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.overlay.show{display:flex}
+.action-sheet{width:100%;background:#fff;border-radius:20px 20px 0 0;padding:20px;animation:slideUp .25s ease}
+.action-sheet-title{font-size:17px;font-weight:600;text-align:center;margin-bottom:16px;color:#000}
+.action-sheet-item{padding:14px 0;text-align:center;font-size:16px;color:#333;cursor:pointer;border-bottom:1px solid #f5f5f5}
+.action-sheet-item.danger{color:#e53935}
+.action-sheet-cancel{padding:14px 0;text-align:center;font-size:16px;color:#999;cursor:pointer;margin-top:8px}
 
-.toast{position:absolute;top:60px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;z-index:40;display:none;white-space:nowrap}
-.toast.show{display:block;animation:fadeIn .2s ease}
+.confirm-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:300;display:none;align-items:center;justify-content:center}
+.confirm-overlay.show{display:flex}
+.confirm-dialog{width:300px;background:#fff;border-radius:16px;padding:24px;text-align:center;animation:fadeIn .2s ease}
+.confirm-dialog h3{font-size:17px;font-weight:600;margin-bottom:8px;color:#000}
+.confirm-dialog p{font-size:14px;color:#666;margin-bottom:20px;line-height:1.5}
+.confirm-btns{display:flex;gap:12px}
+.confirm-btns button{flex:1;height:44px;border-radius:10px;border:none;font-size:15px;font-weight:500;cursor:pointer}
+.confirm-cancel{background:#f5f5f5;color:#333}
+.confirm-delete{background:#e53935;color:#fff}
 
-.detail-content{padding:16px 20px;font-size:14px;color:#333;line-height:2}
-.detail-content h3{font-size:16px;font-weight:600;margin:16px 0 8px}
-.detail-content ul{padding-left:20px}
-.detail-content li{margin-bottom:4px}
-
-.type-icon{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#999;margin-top:4px}
-.type-icon span{font-size:14px}
-
-.hint-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;z-index:100}
-
-.recommend-banner{margin:12px 20px;padding:14px 16px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:12px;cursor:pointer}
-.recommend-banner:active{opacity:.9}
-.rec-title{font-size:14px;font-weight:600;color:#92400e;margin-bottom:4px}
-.rec-desc{font-size:12px;color:#a16207}
-.rec-actions{display:flex;gap:8px;margin-top:10px}
-.rec-btn{padding:6px 16px;border-radius:16px;font-size:13px;font-weight:500;cursor:pointer;border:none}
-.rec-btn.primary{background:#000;color:#fff}
-.rec-btn.ghost{background:rgba(0,0,0,.08);color:#333}
-
-.tabs{display:flex;padding:8px 20px;gap:0;border-bottom:1px solid #f0f0f0}
-.tab{flex:1;text-align:center;padding:10px 0;font-size:14px;color:#999;cursor:pointer;position:relative}
-.tab.active{color:#000;font-weight:600}
-.tab.active::after{content:'';position:absolute;bottom:0;left:30%;right:30%;height:2px;background:#000;border-radius:1px}
+/* Hide scrollbars */
+.screen::-webkit-scrollbar{display:none}
 </style>
 </head>
 <body>
-
-<h1>智能合集 · 交互原型</h1>
-<div class="subtitle">点击方案按钮切换首页 · 点击手机内元素进行交互</div>
 
 <!-- Scheme switcher -->
 <div class="scheme-switcher">
@@ -197,571 +166,640 @@ h1{font-size:20px;color:#333;margin-bottom:4px}
   <button class="scheme-btn" onclick="switchScheme('D')">方案D</button>
 </div>
 
+<!-- Phone frame -->
 <div class="phone" id="phone">
 
-  <!-- ============================================ -->
-  <!-- Screen: 首页 方案A — 无合集（当前状态） -->
-  <!-- ============================================ -->
-  <div class="screen active" id="s-home-a">
-    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
-    <div class="home-header">
-      <span class="title">笔记</span>
-      <div class="actions"><span>☑</span><span>⋮</span></div>
-    </div>
+  <!-- ========== HOME A ========== -->
+  <div class="screen active" id="home-A">
+    <div class="status-bar"><span class="status-time">2:36</span><span class="status-icons">···&nbsp;&nbsp;📶&nbsp;&nbsp;🔋100</span></div>
+    <div class="home-header"><span class="home-title">笔记</span><span class="home-actions"><span>☑</span><span>⋮</span></span></div>
     <div class="search-bar">🔍 搜索</div>
     <div class="tag-bar">
-      <div class="tag-item icon">📁</div>
+      <div class="tag-folder">📁</div>
       <div class="tag-item active">全部</div>
       <div class="tag-item">语音笔记</div>
       <div class="tag-item">工作</div>
       <div class="tag-item">个人</div>
     </div>
-    <div class="waterfall">
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="thumb blue-purple"></div>
-        <div class="body">
-          <div class="wf-title">读雷军的小米创业思考</div>
-          <div class="wf-desc">雷军是不是在上升电梯中做俯卧撑的人，在看到这里的时候能够理解</div>
-          <div class="wf-meta"><span class="wf-time">周二 13:38</span><span class="wf-pin">⭐</span></div>
+    <div class="waterfall" style="padding-top:8px">
+      <!-- Left col item 1 -->
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div style="width:100%;height:100px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:20px 20px 0 0"></div>
+        <div class="note-card-inner">
+          <div class="card-title">读雷军的小米创业思考</div>
+          <div class="card-summary">从金山到小米,雷军用20年时间完成了从程序员到企业家的蜕变。书中最打动我的是他对"极致性价比"的理解...</div>
+          <div class="card-pin">置顶 📌</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="body">
-          <div class="wf-title">雷军：我喜欢并推崇任天堂</div>
-          <div class="wf-desc">任天堂的产品哲学深深影响了我，用户体验为先，把简单做到极致</div>
-          <div class="wf-meta"><span class="wf-time">周一 09:15</span><span class="wf-pin">⭐</span></div>
+      <!-- Right col item 1 -->
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div class="note-card-inner">
+          <div class="card-title">雷军：我喜欢并推崇任天堂</div>
+          <div class="card-summary">任天堂的产品哲学是"用枯萎技术做水平思考",这和小米的很多理念不谋而合。游戏不一定需要最强硬件...</div>
+          <div class="card-pin">置顶 📌</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="body">
-          <div class="wf-title">雨夜咖啡馆</div>
-          <div class="wf-type">▼ 工业设计 列表</div>
-          <div class="wf-meta"><span class="wf-time">周日 21:30</span></div>
+      <!-- Left col item 2 -->
+      <div class="note-card" onclick="goTo('note-class')">
+        <div class="note-card-inner">
+          <div class="card-title">雨夜咖啡馆</div>
+          <div class="card-summary" style="font-size:13px">▼ 工业设计列表<br>· 工业设计是一...<br>· 建筑设计<br>· 雕塑设计<br>· 平面设计<br>· 视觉传达</div>
+          <div class="card-meta">5月8日</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="thumb warm"></div>
-        <div class="body">
-          <div class="wf-title">生活点滴</div>
-          <div class="wf-desc">生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱</div>
-          <div class="wf-meta"><span class="wf-time">周六 16:45</span></div>
+      <!-- Right col item 2 -->
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div style="width:100%;height:80px;background:linear-gradient(135deg,#f6d365,#fda085);border-radius:20px 20px 0 0"></div>
+        <div class="note-card-inner">
+          <div class="card-title">生活点滴</div>
+          <div class="card-summary">窗外的雨淅淅沥沥地下着,泡一杯热茶,翻开一本旧书...</div>
+          <div class="card-meta">5月6日</div>
+        </div>
+      </div>
+      <!-- Left col item 3 -->
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div class="note-card-inner">
+          <div class="card-title">从大满贯，到新起点！</div>
+          <div class="card-summary">站在领奖台上的那一刻,所有的付出都值得了。但冠军不是终点,而是新的起点...</div>
+        </div>
+      </div>
+      <!-- Right col item 3 -->
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div style="width:100%;height:140px;background:linear-gradient(135deg,#a18cd1,#fbc2eb);border-radius:20px 20px 0 0"></div>
+        <div class="note-card-inner">
+          <div class="card-title">临摹少年</div>
+          <div class="card-meta">5月3日</div>
         </div>
       </div>
     </div>
     <!-- Bottom tab -->
     <div class="bottom-tab">
-      <div class="tab-icon"><span class="plus">+</span></div>
-      <div class="tab-icon mic"><span>🎙</span></div>
-      <div class="tab-icon"><span>✏️</span></div>
+      <div class="bottom-tab-inner">
+        <span>➕</span><span>🎙</span><span>✏️</span>
+      </div>
     </div>
   </div>
 
-  <!-- ============================================ -->
-  <!-- Screen: 首页 方案B — 合集横滑卡片（独立模块） -->
-  <!-- ============================================ -->
-  <div class="screen" id="s-home-b">
-    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
-    <div class="home-header">
-      <span class="title">笔记</span>
-      <div class="actions"><span>☑</span><span>⋮</span></div>
-    </div>
+  <!-- ========== HOME B ========== -->
+  <div class="screen" id="home-B">
+    <div class="status-bar"><span class="status-time">2:36</span><span class="status-icons">···&nbsp;&nbsp;📶&nbsp;&nbsp;🔋100</span></div>
+    <div class="home-header"><span class="home-title">笔记</span><span class="home-actions"><span>☑</span><span>⋮</span></span></div>
     <div class="search-bar">🔍 搜索</div>
-    <!-- Collection horizontal scroll -->
-    <div class="section-header">
-      <span class="label">智能合集</span>
-      <span class="more" onclick="goTo('s-coll-list')">›</span>
-    </div>
-    <div class="hscroll-area">
-      <div class="hscroll-card" onclick="goTo('s-coll-detail')">
-        <div class="hc-title">南京旅游</div>
-        <div class="hc-sub">5篇笔记</div>
+    <!-- Smart collection -->
+    <div class="collection-section">
+      <div class="collection-header">
+        <span class="section-title">智能合集</span>
+        <span class="section-arrow" onclick="goTo('coll-list')">›</span>
       </div>
-      <div class="hscroll-card" onclick="goTo('s-coll-detail')">
-        <div class="hc-title">工作周报</div>
-        <div class="hc-sub">5篇笔记</div>
+      <div class="collection-scroll">
+        <div class="collection-card" onclick="goTo('coll-nanjing')">
+          <div class="cc-title">南京旅游</div>
+          <div class="cc-sub">5篇笔记</div>
+        </div>
+        <div class="collection-card" onclick="goTo('coll-class')">
+          <div class="cc-title">工作周报</div>
+          <div class="cc-sub">5篇笔记</div>
+        </div>
       </div>
     </div>
-    <!-- Notes section -->
-    <div class="section-header">
-      <span class="label">全部笔记</span>
-    </div>
+    <div class="section-label">全部笔记</div>
     <div class="tag-bar">
-      <div class="tag-item icon">📁</div>
+      <div class="tag-folder">📁</div>
       <div class="tag-item active">全部</div>
       <div class="tag-item">语音笔记</div>
       <div class="tag-item">工作</div>
       <div class="tag-item">个人</div>
     </div>
-    <div class="waterfall">
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="thumb blue-purple"></div>
-        <div class="body">
-          <div class="wf-title">读雷军的小米创业思考</div>
-          <div class="wf-desc">雷军是不是在上升电梯中做俯卧撑的人，在看到这里的时候能够理解</div>
-          <div class="wf-meta"><span class="wf-time">周二 13:38</span><span class="wf-pin">⭐</span></div>
+    <div class="waterfall" style="padding-top:8px">
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div style="width:100%;height:100px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:20px 20px 0 0"></div>
+        <div class="note-card-inner">
+          <div class="card-title">读雷军的小米创业思考</div>
+          <div class="card-summary">从金山到小米,雷军用20年时间完成了从程序员到企业家的蜕变...</div>
+          <div class="card-pin">置顶 📌</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="body">
-          <div class="wf-title">雷军：我喜欢并推崇任天堂</div>
-          <div class="wf-desc">任天堂的产品哲学深深影响了我，用户体验为先，把简单做到极致</div>
-          <div class="wf-meta"><span class="wf-time">周一 09:15</span><span class="wf-pin">⭐</span></div>
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div class="note-card-inner">
+          <div class="card-title">雷军：我喜欢并推崇任天堂</div>
+          <div class="card-summary">任天堂的产品哲学是"用枯萎技术做水平思考"...</div>
+          <div class="card-pin">置顶 📌</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="body">
-          <div class="wf-title">雨夜咖啡馆</div>
-          <div class="wf-type">▼ 工业设计 列表</div>
-          <div class="wf-meta"><span class="wf-time">周日 21:30</span></div>
+      <div class="note-card" onclick="goTo('note-class')">
+        <div class="note-card-inner">
+          <div class="card-title">雨夜咖啡馆</div>
+          <div class="card-summary" style="font-size:13px">▼ 工业设计列表<br>· 工业设计是一...<br>· 建筑设计<br>· 雕塑设计</div>
+          <div class="card-meta">5月8日</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="thumb warm"></div>
-        <div class="body">
-          <div class="wf-title">生活点滴</div>
-          <div class="wf-desc">生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱</div>
-          <div class="wf-meta"><span class="wf-time">周六 16:45</span></div>
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div style="width:100%;height:80px;background:linear-gradient(135deg,#f6d365,#fda085);border-radius:20px 20px 0 0"></div>
+        <div class="note-card-inner">
+          <div class="card-title">生活点滴</div>
+          <div class="card-summary">窗外的雨淅淅沥沥...</div>
+          <div class="card-meta">5月6日</div>
         </div>
       </div>
     </div>
     <div class="bottom-tab">
-      <div class="tab-icon"><span class="plus">+</span></div>
-      <div class="tab-icon mic"><span>🎙</span></div>
-      <div class="tab-icon"><span>✏️</span></div>
+      <div class="bottom-tab-inner">
+        <span>➕</span><span>🎙</span><span>✏️</span>
+      </div>
     </div>
   </div>
 
-  <!-- ============================================ -->
-  <!-- Screen: 首页 方案C — 合集+手动创建入口 -->
-  <!-- ============================================ -->
-  <div class="screen" id="s-home-c">
-    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
-    <div class="home-header">
-      <span class="title">笔记</span>
-      <div class="actions"><span>☑</span><span>⋮</span></div>
-    </div>
+  <!-- ========== HOME C ========== -->
+  <div class="screen" id="home-C">
+    <div class="status-bar"><span class="status-time">2:36</span><span class="status-icons">···&nbsp;&nbsp;📶&nbsp;&nbsp;🔋100</span></div>
+    <div class="home-header"><span class="home-title">笔记</span><span class="home-actions"><span>☑</span><span>⋮</span></span></div>
     <div class="search-bar">🔍 搜索</div>
-    <!-- Collection horizontal scroll -->
-    <div class="section-header">
-      <span class="label">智能合集</span>
-      <span class="more" onclick="goTo('s-coll-list')">›</span>
-    </div>
-    <div class="hscroll-area">
-      <div class="hscroll-card" onclick="goTo('s-coll-detail')">
-        <div class="hc-title">黄金趋势</div>
-        <div class="hc-sub">0条笔记</div>
+    <div class="collection-section">
+      <div class="collection-header">
+        <span class="section-title">智能合集</span>
+        <span class="section-arrow" onclick="goTo('coll-list')">›</span>
       </div>
-      <div class="hscroll-card create" onclick="showToast('创建合集功能')">
-        <div class="hc-title">+ 创建合集</div>
-        <div class="hc-sub">根据名称自动整理</div>
+      <div class="collection-scroll">
+        <div class="collection-card" onclick="goTo('coll-nanjing')">
+          <div class="cc-title">黄金趋势</div>
+          <div class="cc-sub">0条笔记</div>
+        </div>
+        <div class="collection-card-create">
+          <div class="cc-title">+ 创建合集</div>
+          <div class="cc-sub">根据名称自动整理</div>
+        </div>
       </div>
     </div>
-    <!-- Notes section -->
-    <div class="section-header">
-      <span class="label">全部笔记</span>
-    </div>
+    <div class="section-label">全部笔记</div>
     <div class="tag-bar">
-      <div class="tag-item icon">📁</div>
+      <div class="tag-folder">📁</div>
       <div class="tag-item active">默认</div>
       <div class="tag-item">语音随口记</div>
       <div class="tag-item">AI闪记</div>
       <div class="tag-item">生活...</div>
     </div>
-    <div class="waterfall">
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="thumb blue-purple"></div>
-        <div class="body">
-          <div class="wf-title">读雷军的小米创业思考</div>
-          <div class="wf-desc">雷军是不是在上升电梯中做俯卧撑的人，在看到这里的时候能够理解</div>
-          <div class="wf-meta"><span class="wf-time">周二 13:38</span><span class="wf-pin">⭐</span></div>
+    <div class="waterfall" style="padding-top:8px">
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div style="width:100%;height:100px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:20px 20px 0 0"></div>
+        <div class="note-card-inner">
+          <div class="card-title">读雷军的小米创业思考</div>
+          <div class="card-summary">从金山到小米,雷军用20年时间完成了从程序员到企业家的蜕变...</div>
+          <div class="card-pin">置顶 📌</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="body">
-          <div class="wf-title">雷军：我喜欢并推崇任天堂</div>
-          <div class="wf-desc">任天堂的产品哲学深深影响了我，用户体验为先，把简单做到极致</div>
-          <div class="wf-meta"><span class="wf-time">周一 09:15</span><span class="wf-pin">⭐</span></div>
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div class="note-card-inner">
+          <div class="card-title">雷军：我喜欢并推崇任天堂</div>
+          <div class="card-summary">任天堂的产品哲学是"用枯萎技术做水平思考"...</div>
+          <div class="card-pin">置顶 📌</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="body">
-          <div class="wf-title">雨夜咖啡馆</div>
-          <div class="wf-type">▼ 工业设计 列表</div>
-          <div class="wf-meta"><span class="wf-time">周日 21:30</span></div>
+      <div class="note-card" onclick="goTo('note-class')">
+        <div class="note-card-inner">
+          <div class="card-title">雨夜咖啡馆</div>
+          <div class="card-summary" style="font-size:13px">▼ 工业设计列表<br>· 工业设计是一...<br>· 建筑设计<br>· 雕塑设计</div>
+          <div class="card-meta">5月8日</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="thumb warm"></div>
-        <div class="body">
-          <div class="wf-title">生活点滴</div>
-          <div class="wf-desc">生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱</div>
-          <div class="wf-meta"><span class="wf-time">周六 16:45</span></div>
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div style="width:100%;height:80px;background:linear-gradient(135deg,#f6d365,#fda085);border-radius:20px 20px 0 0"></div>
+        <div class="note-card-inner">
+          <div class="card-title">生活点滴</div>
+          <div class="card-summary">窗外的雨淅淅沥沥...</div>
+          <div class="card-meta">5月6日</div>
         </div>
       </div>
     </div>
     <div class="bottom-tab">
-      <div class="tab-icon"><span class="plus">+</span></div>
-      <div class="tab-icon mic"><span>🎙</span></div>
-      <div class="tab-icon"><span>✏️</span></div>
+      <div class="bottom-tab-inner">
+        <span>➕</span><span>🎙</span><span>✏️</span>
+      </div>
     </div>
   </div>
 
-  <!-- ============================================ -->
-  <!-- Screen: 首页 方案D — 合集带缩略图+建议合集 -->
-  <!-- ============================================ -->
-  <div class="screen" id="s-home-d">
-    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
-    <div class="home-header">
-      <span class="title">笔记</span>
-      <div class="actions"><span>☑</span><span>⋮</span></div>
-    </div>
+  <!-- ========== HOME D ========== -->
+  <div class="screen" id="home-D">
+    <div class="status-bar"><span class="status-time">2:36</span><span class="status-icons">···&nbsp;&nbsp;📶&nbsp;&nbsp;🔋100</span></div>
+    <div class="home-header"><span class="home-title">笔记</span><span class="home-actions"><span>☑</span><span>⋮</span></span></div>
     <div class="search-bar">🔍 搜索</div>
-    <!-- Collection horizontal scroll -->
-    <div class="section-header">
-      <span class="label">智能合集</span>
-      <span class="more" onclick="goTo('s-coll-list')">›</span>
-    </div>
-    <div class="hscroll-area">
-      <div class="hscroll-card with-thumb" onclick="goTo('s-coll-detail')">
-        <div class="hc-text">
-          <div class="hc-title">南京赏花</div>
-          <div class="hc-sub">建议合集</div>
+    <div class="collection-section">
+      <div class="collection-header">
+        <span class="section-title">智能合集</span>
+        <span class="section-arrow" onclick="goTo('coll-list')">›</span>
+      </div>
+      <div class="collection-scroll">
+        <div class="collection-card-thumb" onclick="goTo('coll-nanjing')">
+          <div class="cc-left">
+            <div class="cc-title">南京赏花</div>
+            <div class="cc-sub">建议合集</div>
+          </div>
+          <div class="cc-thumb" style="background:linear-gradient(135deg,#fbc2eb,#f8a5c2)"></div>
         </div>
-        <div class="hc-thumb" style="background:linear-gradient(135deg,#fbcfe8,#f9a8d4)"></div>
-      </div>
-      <div class="hscroll-card create" onclick="showToast('创建合集功能')">
-        <div class="hc-title">+ 创建合集</div>
-        <div class="hc-sub">根据名称自动整理</div>
+        <div class="collection-card-create">
+          <div class="cc-title">+ 创建合集</div>
+          <div class="cc-sub">根据名称自动整理</div>
+        </div>
       </div>
     </div>
-    <!-- Notes section -->
-    <div class="section-header">
-      <span class="label">全部笔记</span>
-    </div>
+    <div class="section-label">全部笔记</div>
     <div class="tag-bar">
-      <div class="tag-item icon">📁</div>
+      <div class="tag-folder">📁</div>
       <div class="tag-item active">默认</div>
       <div class="tag-item">语音随口记</div>
       <div class="tag-item">AI闪记</div>
       <div class="tag-item">生活...</div>
     </div>
-    <div class="waterfall">
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="thumb blue-purple"></div>
-        <div class="body">
-          <div class="wf-title">读雷军的小米创业思考</div>
-          <div class="wf-desc">雷军是不是在上升电梯中做俯卧撑的人，在看到这里的时候能够理解</div>
-          <div class="wf-meta"><span class="wf-time">周二 13:38</span><span class="wf-pin">⭐</span></div>
+    <div class="waterfall" style="padding-top:8px">
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div style="width:100%;height:100px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:20px 20px 0 0"></div>
+        <div class="note-card-inner">
+          <div class="card-title">读雷军的小米创业思考</div>
+          <div class="card-summary">从金山到小米,雷军用20年时间完成了从程序员到企业家的蜕变...</div>
+          <div class="card-pin">置顶 📌</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="body">
-          <div class="wf-title">雷军：我喜欢并推崇任天堂</div>
-          <div class="wf-desc">任天堂的产品哲学深深影响了我，用户体验为先，把简单做到极致</div>
-          <div class="wf-meta"><span class="wf-time">周一 09:15</span><span class="wf-pin">⭐</span></div>
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div class="note-card-inner">
+          <div class="card-title">雷军：我喜欢并推崇任天堂</div>
+          <div class="card-summary">任天堂的产品哲学是"用枯萎技术做水平思考"...</div>
+          <div class="card-pin">置顶 📌</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="body">
-          <div class="wf-title">雨夜咖啡馆</div>
-          <div class="wf-type">▼ 工业设计 列表</div>
-          <div class="wf-meta"><span class="wf-time">周日 21:30</span></div>
+      <div class="note-card" onclick="goTo('note-class')">
+        <div class="note-card-inner">
+          <div class="card-title">雨夜咖啡馆</div>
+          <div class="card-summary" style="font-size:13px">▼ 工业设计列表<br>· 工业设计是一...<br>· 建筑设计<br>· 雕塑设计</div>
+          <div class="card-meta">5月8日</div>
         </div>
       </div>
-      <div class="wf-card" onclick="goTo('s-note-detail')">
-        <div class="thumb warm"></div>
-        <div class="body">
-          <div class="wf-title">生活点滴</div>
-          <div class="wf-desc">生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱</div>
-          <div class="wf-meta"><span class="wf-time">周六 16:45</span></div>
+      <div class="note-card" onclick="goTo('note-nanjing')">
+        <div style="width:100%;height:80px;background:linear-gradient(135deg,#f6d365,#fda085);border-radius:20px 20px 0 0"></div>
+        <div class="note-card-inner">
+          <div class="card-title">生活点滴</div>
+          <div class="card-summary">窗外的雨淅淅沥沥...</div>
+          <div class="card-meta">5月6日</div>
         </div>
       </div>
     </div>
     <div class="bottom-tab">
-      <div class="tab-icon"><span class="plus">+</span></div>
-      <div class="tab-icon mic"><span>🎙</span></div>
-      <div class="tab-icon"><span>✏️</span></div>
-    </div>
-  </div>
-
-  <!-- ============================================ -->
-  <!-- Shared Screen: 合集列表 -->
-  <!-- ============================================ -->
-  <div class="screen" id="s-coll-list">
-    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
-    <div class="nav">
-      <div class="nav-back" onclick="goBack()">‹</div>
-      <div class="nav-title">全部合集</div>
-      <div class="nav-right"></div>
-    </div>
-
-    <div class="coll-card" onclick="goTo('s-coll-detail')">
-      <div class="coll-icon purple">🗺️</div>
-      <div><div class="coll-name">南京旅游</div><div class="coll-count">13篇笔记 · 最近更新 5/9</div></div>
-      <div class="coll-arrow">›</div>
-    </div>
-    <div class="coll-card" onclick="goTo('s-coll-detail')">
-      <div class="coll-icon blue">📖</div>
-      <div><div class="coll-name">课堂笔记</div><div class="coll-count">8篇笔记 · 最近更新 5/9</div></div>
-      <div class="coll-arrow">›</div>
-    </div>
-    <div class="coll-card" onclick="goTo('s-coll-detail')">
-      <div class="coll-icon amber">💰</div>
-      <div><div class="coll-name">黄金投资</div><div class="coll-count">5篇笔记 · 最近更新 5/8</div></div>
-      <div class="coll-arrow">›</div>
-    </div>
-    <div class="coll-card" onclick="goTo('s-coll-detail')">
-      <div class="coll-icon green">🏥</div>
-      <div><div class="coll-name">健康管理</div><div class="coll-count">3篇笔记 · 最近更新 5/7</div></div>
-      <div class="coll-arrow">›</div>
-    </div>
-    <div class="coll-card" id="coll-manage-target" onclick="showSheet('manage-sheet')">
-      <div class="coll-icon red">🌸</div>
-      <div><div class="coll-name">南京赏花</div><div class="coll-count">6篇笔记 · 最近更新 5/9</div></div>
-      <div class="coll-arrow">›</div>
-    </div>
-    <div style="padding:16px 20px;font-size:12px;color:#ccc;text-align:center">长按合集可管理 · 点击「南京赏花」试试</div>
-
-    <div class="overlay" id="manage-overlay" onclick="hideSheet('manage-sheet')"></div>
-    <div class="bottom-sheet" id="manage-sheet">
-      <div class="sheet-handle"></div>
-      <div class="sheet-item" onclick="hideSheet('manage-sheet');showToast('已重命名')">重命名</div>
-      <div class="sheet-item" onclick="hideSheet('manage-sheet');showDialog()">删除合集</div>
-      <div class="sheet-item" onclick="hideSheet('manage-sheet')">移出笔记</div>
-      <div class="sheet-cancel" onclick="hideSheet('manage-sheet')">取消</div>
-    </div>
-    <div class="overlay" id="dialog-overlay" onclick="hideDialog()"></div>
-    <div class="dialog" id="delete-dialog">
-      <div class="dialog-title">删除合集「南京赏花」？</div>
-      <div class="dialog-desc">删除合集不会删除笔记，<br>笔记将回到未归类状态</div>
-      <div class="dialog-actions">
-        <button class="dialog-btn cancel" onclick="hideDialog()">取消</button>
-        <button class="dialog-btn danger" onclick="hideDialog();showToast('已删除合集');document.getElementById('coll-manage-target').style.display='none'">确认删除</button>
+      <div class="bottom-tab-inner">
+        <span>➕</span><span>🎙</span><span>✏️</span>
       </div>
     </div>
   </div>
 
-  <!-- ============================================ -->
-  <!-- Shared Screen: 合集详情 -->
-  <!-- ============================================ -->
-  <div class="screen" id="s-coll-detail">
-    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
-    <div class="nav">
-      <div class="nav-back" onclick="goBack()">‹</div>
-      <div class="nav-title"></div>
-      <div class="nav-right">⋮</div>
+  <!-- ========== COLLECTION LIST ========== -->
+  <div class="screen" id="coll-list">
+    <div class="status-bar"><span class="status-time">2:36</span><span class="status-icons">···&nbsp;&nbsp;📶&nbsp;&nbsp;🔋100</span></div>
+    <div class="home-header"><span class="home-title">笔记</span><span class="home-actions"><span>☑</span><span>⋮</span></span></div>
+    <div class="search-bar">🔍 搜索</div>
+    <div class="tag-bar">
+      <div class="tag-folder">📁</div>
+      <div class="tag-item">全部</div>
+      <div class="tag-item active">合集</div>
+      <div class="tag-item">语音笔记</div>
+      <div class="tag-item">工作</div>
     </div>
-    <div class="page-title">南京旅游</div>
-    <div class="page-meta">13条笔记 ｜ 最近更新：5月9日 12:23</div>
-
-    <div class="ai-summary">
-      <div class="ai-label">✨ AI总结</div>
-      <div class="ai-text">
-        <b>1.景点：</b>有梧桐大道、音乐台、夫子庙等，还有钟山秋水湖、小西湖等小众景点，部分景点需提前预约<br>
-        <b>2.行程：</b>有4日和3日游行程，4日游涵盖红山动物园、鸡鸣寺等；3日游包括南京博物院、大报恩寺等<br>
-        <b>3.美食：</b>有觅炙烧烤海鲜粥火锅、十朝酥、泥炉烧肉师等<br>
-        <b>4.交通：</b>外部出行可选择南京禄口国际机场、南京南站；市内交通，首选地铁<br>
-        <b>5.天气：</b>南京属于北亚热带湿润气候，四季分明
+    <div style="padding-top:8px">
+      <div class="coll-list-item" onclick="goTo('coll-nanjing')">
+        <div class="coll-list-icon" style="background:#e8f5e9">🗺️</div>
+        <div class="coll-list-info"><div class="coll-list-name">南京旅游</div><div class="coll-list-count">5篇笔记</div></div>
+        <span class="coll-list-arrow">›</span>
+      </div>
+      <div class="coll-list-item" onclick="goTo('coll-class')">
+        <div class="coll-list-icon" style="background:#e3f2fd">📖</div>
+        <div class="coll-list-info"><div class="coll-list-name">课堂笔记</div><div class="coll-list-count">8篇笔记</div></div>
+        <span class="coll-list-arrow">›</span>
+      </div>
+      <div class="coll-list-item" onclick="goTo('coll-nanjing')">
+        <div class="coll-list-icon" style="background:#fff8e1">💰</div>
+        <div class="coll-list-info"><div class="coll-list-name">黄金投资</div><div class="coll-list-count">3篇笔记</div></div>
+        <span class="coll-list-arrow">›</span>
+      </div>
+      <div class="coll-list-item" onclick="goTo('coll-nanjing')">
+        <div class="coll-list-icon" style="background:#fce4ec">🏥</div>
+        <div class="coll-list-info"><div class="coll-list-name">健康管理</div><div class="coll-list-count">6篇笔记</div></div>
+        <span class="coll-list-arrow">›</span>
+      </div>
+      <div class="coll-list-item" oncontextmenu="event.preventDefault();showSheet()" onclick="goTo('coll-nanjing')" ontouchstart="longPressStart(event)" ontouchend="longPressEnd(event)">
+        <div class="coll-list-icon" style="background:#fce4ec">🌸</div>
+        <div class="coll-list-info"><div class="coll-list-name">南京赏花</div><div class="coll-list-count">4篇笔记</div></div>
+        <span class="coll-list-arrow">›</span>
       </div>
     </div>
-    <div class="ai-disclaimer">以上由AI大模型生成，可能包含不准确的信息。</div>
-
-    <div class="note-card" onclick="goTo('s-note-detail')">
-      <div class="note-info">
-        <div class="note-title">南京4日游真实感受</div>
-        <div class="note-desc">雷军是不是在上升电梯中做俯卧撑的人。在看到这里的时候...</div>
-        <div class="note-time">周二 13:38</div>
-      </div>
-      <div class="note-thumb warm"></div>
-    </div>
-    <div class="note-card" onclick="goTo('s-note-detail')">
-      <div class="note-info">
-        <div class="note-title">南京钟山高尔夫绝美秘境</div>
-        <div class="note-desc">在上一篇《小米创业思考》系列文章中...</div>
-        <div class="note-time">周二 13:38</div>
+    <div class="bottom-tab">
+      <div class="bottom-tab-inner">
+        <span>➕</span><span>🎙</span><span>✏️</span>
       </div>
     </div>
-    <div class="note-card" onclick="goTo('s-note-detail')">
-      <div class="note-info">
-        <div class="note-title">南京小西湖春日私藏攻略</div>
-        <div class="note-desc">小西湖人少景美，适合拍照，颐和路的民国建筑群值得一看</div>
-        <div class="note-time">周二 13:38</div>
+    <!-- Action sheet overlay -->
+    <div class="overlay" id="actionSheet" onclick="hideSheet()">
+      <div class="action-sheet" onclick="event.stopPropagation()">
+        <div class="action-sheet-title">南京赏花</div>
+        <div class="action-sheet-item">编辑合集</div>
+        <div class="action-sheet-item">重命名</div>
+        <div class="action-sheet-item">分享合集</div>
+        <div class="action-sheet-item danger" onclick="hideSheet();showConfirm()">删除合集</div>
+        <div class="action-sheet-cancel" onclick="hideSheet()">取消</div>
       </div>
     </div>
-    <div class="note-card" onclick="goTo('s-note-detail')">
-      <div class="note-info">
-        <div class="note-title">网课截图</div>
-        <div class="note-desc">生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱</div>
-        <div class="note-time">周二 13:38</div>
+    <!-- Confirm overlay -->
+    <div class="confirm-overlay" id="confirmDialog" onclick="hideConfirm()">
+      <div class="confirm-dialog" onclick="event.stopPropagation()">
+        <h3>删除合集</h3>
+        <p>确定要删除"南京赏花"合集吗？<br>合集内的笔记不会被删除。</p>
+        <div class="confirm-btns">
+          <button class="confirm-cancel" onclick="hideConfirm()">取消</button>
+          <button class="confirm-delete" onclick="hideConfirm()">删除</button>
+        </div>
       </div>
-      <div class="note-thumb"></div>
     </div>
-
-    <div class="float-btn" onclick="goTo('s-ai-chat')">✨ AI提问</div>
   </div>
 
-  <!-- ============================================ -->
-  <!-- Shared Screen: 笔记详情 -->
-  <!-- ============================================ -->
-  <div class="screen" id="s-note-detail">
-    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
-    <div class="nav">
-      <div class="nav-back" onclick="goBack()">‹</div>
-      <div class="nav-title"></div>
-      <div class="nav-right">⋮</div>
+  <!-- ========== COLLECTION DETAIL - NANJING ========== -->
+  <div class="screen" id="coll-nanjing">
+    <div class="status-bar"><span class="status-time">2:36</span><span class="status-icons">···&nbsp;&nbsp;📶&nbsp;&nbsp;🔋100</span></div>
+    <div class="detail-nav">
+      <span class="back-btn" onclick="goBack()">‹</span>
+      <div class="nav-actions"><span>⋯</span></div>
     </div>
-    <div class="page-title">南京4日游真实感受</div>
-    <div class="page-meta" style="border-bottom:1px solid #f0f0f0;padding-bottom:12px">来自小红书 · 周二 13:38</div>
-    <div class="detail-content">
-      <p>南京是一座值得慢慢品味的城市。四天的行程走遍了主要景点，分享一些真实感受：</p>
+    <div class="coll-detail-title">南京旅游</div>
+    <div class="coll-detail-sub">13条笔记 ｜ 最近更新：5月9日 12:23</div>
+    <div class="ai-summary-box">
+      <div class="ai-summary-tag">✨ AI总结</div>
+      <div class="ai-summary-content">
+        <ul style="padding:0;margin:0">
+          <li>景点：钟山风景区、夫子庙、老门东、牛首山是高频推荐</li>
+          <li>行程：建议安排4天3晚，按区域分片游览效率最高</li>
+          <li>美食：鸭血粉丝汤、盐水鸭、糕团小点不可错过</li>
+          <li>交通：地铁覆盖主要景点，打车起步价11元</li>
+          <li>天气：5月气温适中，注意偶发阵雨携带雨具</li>
+        </ul>
+      </div>
+    </div>
+    <div style="padding:0">
+      <div class="note-list-item" onclick="goTo('note-nanjing')">
+        <div class="nli-title">南京4日游完整攻略</div>
+        <div class="nli-summary">Day1 钟山风景区 → 明孝陵 → 美龄宫 → 中山陵，建议早出发避开人流...</div>
+        <div class="nli-meta">5月9日 12:23</div>
+      </div>
+      <div class="note-list-item" onclick="goTo('note-nanjing')">
+        <div class="nli-title">夫子庙美食地图</div>
+        <div class="nli-summary">推荐路线：从三山街地铁站出发，先去莲湖糕团店，然后沿着贡院街...</div>
+        <div class="nli-meta">5月8日 18:05</div>
+      </div>
+      <div class="note-list-item" onclick="goTo('note-nanjing')">
+        <div class="nli-title">南京地铁出行指南</div>
+        <div class="nli-summary">S1号线直达禄口机场，1号线和3号线覆盖大部分景区...</div>
+        <div class="nli-meta">5月7日 09:30</div>
+      </div>
+      <div class="note-list-item" onclick="goTo('note-nanjing')">
+        <div class="nli-title">牛首山一日游</div>
+        <div class="nli-summary">牛首山人少景美，佛顶宫值得花2小时细看，地宫的琉璃世界非常震撼...</div>
+        <div class="nli-meta">5月6日 15:42</div>
+      </div>
+      <div class="note-list-item" onclick="goTo('note-nanjing')">
+        <div class="nli-title">老门东文艺之旅</div>
+        <div class="nli-summary">老门东的巷子里藏着很多宝藏小店，推荐德云社南京分社，周末需要提前预约...</div>
+        <div class="nli-meta">5月5日 20:11</div>
+      </div>
+    </div>
+    <div class="ai-float-btn" onclick="goTo('ai-chat')">✨ AI提问</div>
+    <div class="bottom-tab">
+      <div class="bottom-tab-inner">
+        <span>➕</span><span>🎙</span><span>✏️</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== COLLECTION DETAIL - CLASS ========== -->
+  <div class="screen" id="coll-class">
+    <div class="status-bar"><span class="status-time">2:36</span><span class="status-icons">···&nbsp;&nbsp;📶&nbsp;&nbsp;🔋100</span></div>
+    <div class="detail-nav">
+      <span class="back-btn" onclick="goBack()">‹</span>
+      <div class="nav-actions"><span>⋯</span></div>
+    </div>
+    <div class="coll-detail-title">课堂笔记</div>
+    <div class="coll-detail-sub">8条笔记 ｜ 最近更新：5月10日 09:15</div>
+    <div class="detail-tabs">
+      <div class="detail-tab active" onclick="switchClassTab('summary')">智能总结</div>
+      <div class="detail-tab" onclick="switchClassTab('list')">笔记列表</div>
+    </div>
+    <!-- Summary tab content -->
+    <div id="class-summary">
+      <div class="ai-summary-box">
+        <div class="ai-summary-tag">✨ AI总结</div>
+        <div class="ai-summary-content">
+          <ul style="padding:0;margin:0">
+            <li>TCP协议：面向连接的可靠传输协议，通过三次握手建立连接</li>
+            <li>三次握手：SYN → SYN+ACK → ACK，确保双向通信可达</li>
+            <li>UDP协议：无连接、不可靠但高效的传输协议</li>
+            <li>应用场景：TCP适合文件传输/网页，UDP适合视频流/游戏</li>
+            <li>对比要点：可靠性 vs 实时性的trade-off</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- List tab content -->
+    <div id="class-list" style="display:none">
+      <div class="note-list-item" onclick="goTo('note-class')">
+        <div class="nli-title">计算机网络-传输层</div>
+        <div class="nli-summary">核心概念：TCP协议、三次握手、UDP协议对比...</div>
+        <div class="nli-meta">5月10日 09:15</div>
+      </div>
+      <div class="note-list-item" onclick="goTo('note-class')">
+        <div class="nli-title">数据结构-排序算法</div>
+        <div class="nli-summary">快速排序、归并排序、堆排序的时间复杂度比较...</div>
+        <div class="nli-meta">5月9日 10:30</div>
+      </div>
+      <div class="note-list-item" onclick="goTo('note-class')">
+        <div class="nli-title">操作系统-进程管理</div>
+        <div class="nli-summary">进程vs线程，死锁的四个必要条件及预防策略...</div>
+        <div class="nli-meta">5月8日 14:00</div>
+      </div>
+      <div class="note-list-item" onclick="goTo('note-class')">
+        <div class="nli-title">数据库原理-SQL优化</div>
+        <div class="nli-summary">索引原理、查询计划分析、常见的性能瓶颈...</div>
+        <div class="nli-meta">5月7日 11:20</div>
+      </div>
+    </div>
+    <div class="ai-float-btn" onclick="goTo('ai-chat')">✨ AI提问</div>
+    <div class="bottom-tab">
+      <div class="bottom-tab-inner">
+        <span>➕</span><span>🎙</span><span>✏️</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== NOTE DETAIL - NANJING ========== -->
+  <div class="screen" id="note-nanjing">
+    <div class="status-bar"><span class="status-time">2:36</span><span class="status-icons">···&nbsp;&nbsp;📶&nbsp;&nbsp;🔋100</span></div>
+    <div class="detail-nav">
+      <span class="back-btn" onclick="goBack()">‹</span>
+      <div class="nav-actions"><span>⋯</span></div>
+    </div>
+    <div class="note-detail-title">南京4日游完整攻略</div>
+    <div class="note-detail-sub">5月9日 12:23 ｜ 1,240字</div>
+    <div class="note-detail-body">
       <h3>Day 1 · 钟山风景区</h3>
-      <ul>
-        <li>中山陵免费但需要预约，建议提前一周</li>
-        <li>美龄宫的项链公路确实很美，值得专门去看</li>
-        <li>钟山景区很大，建议买观光车票</li>
-      </ul>
-      <h3>Day 2 · 老城区</h3>
-      <ul>
-        <li>夫子庙商业化比较严重，但秦淮河夜景很美</li>
-        <li>老门东值得逛，文艺店铺多</li>
-        <li>鸡鸣寺樱花季人非常多，错峰去</li>
-      </ul>
+      <p>早上8点出发前往明孝陵,这里是明太祖朱元璋的陵墓,神道两旁的石象路非常适合拍照。沿着步道可以走到美龄宫,从空中俯瞰像一条项链。下午前往中山陵,392级台阶爬上去后俯瞰南京城,视野开阔。</p>
+      <h3>Day 2 · 老城区漫步</h3>
+      <p>上午去夫子庙-秦淮河景区,这里有最地道的南京小吃,鸭血粉丝汤一定要尝尝。下午逛老门东历史街区,青砖灰瓦的建筑里藏着很多文创小店和咖啡馆。晚上可以坐船夜游秦淮河,灯光映在水面上很美。</p>
       <h3>Day 3 · 小众路线</h3>
-      <ul>
-        <li>小西湖人少景美，适合拍照</li>
-        <li>颐和路的民国建筑群值得一看</li>
-      </ul>
+      <p>推荐去颐和路民国建筑群,法式梧桐夹道的街区非常出片。午后可以去先锋书店(总统府附近),被评为全球最美书店之一。如果时间充裕,南京博物院值得花半天,里面的民国馆是1:1还原的民国街道。</p>
     </div>
-    <div class="float-btn" onclick="goTo('s-ai-chat')">✨ AI提问</div>
   </div>
 
-  <!-- ============================================ -->
-  <!-- Shared Screen: AI提问 -->
-  <!-- ============================================ -->
-  <div class="screen" id="s-ai-chat">
-    <div class="status-bar"><span>2:36</span><span class="status-right">⋯ 📶 🔋</span></div>
-    <div class="nav">
-      <div class="nav-back" onclick="goBack()">‹</div>
-      <div class="nav-title">AI提问</div>
-      <div class="nav-right"></div>
+  <!-- ========== NOTE DETAIL - CLASS ========== -->
+  <div class="screen" id="note-class">
+    <div class="status-bar"><span class="status-time">2:36</span><span class="status-icons">···&nbsp;&nbsp;📶&nbsp;&nbsp;🔋100</span></div>
+    <div class="detail-nav">
+      <span class="back-btn" onclick="goBack()">‹</span>
+      <div class="nav-actions"><span>⋯</span></div>
     </div>
-    <div class="chat-panel" style="flex:1" id="chat-area">
-      <div style="text-align:center;padding:20px;color:#ccc;font-size:13px">基于当前合集/笔记内容进行问答</div>
-      <div class="chat-bubble user">这个合集里有哪些值得去的景点？</div>
-      <div class="chat-bubble ai">根据合集内的笔记，值得去的景点包括：<br><br>🏛 <b>必去</b>：中山陵、夫子庙、玄武湖<br>📸 <b>拍照</b>：美龄宫项链公路、小西湖、颐和路<br>🌸 <b>小众</b>：钟山高尔夫秘境、老门东<br><br>建议提前预约中山陵（免费但限流），鸡鸣寺避开樱花季高峰。</div>
-      <div class="chat-bubble user">交通怎么安排？</div>
-      <div class="chat-bubble ai">根据笔记记录：<br><br>✈️ <b>到达</b>：南京禄口国际机场 或 南京南站<br>🚇 <b>市内</b>：首选地铁，覆盖主要景点<br>🚌 <b>景区</b>：钟山景区建议买观光车票，景区很大步行耗时<br><br>💡 地铁很方便，基本所有景点都能到达，建议办理交通卡。</div>
+    <div class="note-detail-title">计算机网络-传输层</div>
+    <div class="note-detail-sub">5月10日 09:15 ｜ 980字</div>
+    <div class="note-detail-body">
+      <h3>核心概念</h3>
+      <p>传输层位于OSI模型第四层,负责端到端的数据传输。两个最重要的协议是TCP和UDP。</p>
+      <h3>TCP协议</h3>
+      <p>TCP(Transmission Control Protocol)是面向连接的可靠传输协议。它通过三次握手建立连接,四次挥手断开连接,保证数据的完整性和有序性。</p>
+      <h3>三次握手</h3>
+      <p>第一次：客户端发送SYN报文,进入SYN_SENT状态<br>第二次：服务端回复SYN+ACK报文,进入SYN_RCVD状态<br>第三次：客户端发送ACK报文,连接建立</p>
+      <h3>UDP协议</h3>
+      <p>UDP(User Datagram Protocol)是无连接的传输协议。它不保证可靠传输,但开销小、速度快。适合视频通话、在线游戏等实时场景。</p>
     </div>
-    <div class="chat-input-area">
-      <input class="chat-input" placeholder="基于笔记内容提问..." id="chat-input">
+  </div>
+
+  <!-- ========== AI CHAT ========== -->
+  <div class="screen" id="ai-chat" style="background:#fff">
+    <div class="status-bar" style="background:#fff"><span class="status-time">2:36</span><span class="status-icons">···&nbsp;&nbsp;📶&nbsp;&nbsp;🔋100</span></div>
+    <div class="detail-nav" style="background:#fff">
+      <span class="back-btn" onclick="goBack()">‹</span>
+      <div style="flex:1;text-align:center;font-size:17px;font-weight:600">AI提问</div>
+      <div style="width:32px"></div>
+    </div>
+    <div class="chat-container" id="chatContainer">
+      <div class="chat-bubble chat-user">南京旅游有哪些必去的景点？</div>
+      <div class="chat-bubble chat-ai">根据你的笔记整理,南京必去景点主要有：<br><br><b>经典必去</b><br>1. 中山陵 - 392级台阶,俯瞰南京全城<br>2. 明孝陵 - 石象路秋天绝美<br>3. 夫子庙·秦淮河 - 夜游尤其推荐<br><br><b>深度推荐</b><br>4. 牛首山·佛顶宫 - 人少景美<br>5. 老门东 - 文艺小店集合<br>6. 颐和路 - 民国建筑群,很出片</div>
+      <div class="chat-bubble chat-user">帮我规划一个3天的行程</div>
+      <div class="chat-bubble chat-ai">好的,根据你的笔记推荐以下路线：<br><br><b>Day 1 钟山片区</b><br>明孝陵 → 美龄宫 → 中山陵<br><br><b>Day 2 老城区</b><br>夫子庙 → 老门东 → 秦淮河夜游<br><br><b>Day 3 小众路线</b><br>颐和路 → 先锋书店 → 南京博物院<br><br>💡 建议早出晚归,利用地铁出行效率最高。</div>
+    </div>
+    <div class="chat-input-bar">
+      <input class="chat-input" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')sendChat()">
       <button class="chat-send" onclick="sendChat()">↑</button>
     </div>
   </div>
 
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
-</div>
-
-<div class="hint-bar">点击顶部方案按钮切换首页 · 点击合集卡片进入详情 · 点击AI提问对话</div>
+</div><!-- end phone -->
 
 <script>
-let navHistory = ['s-home-a'];
+// ── State ──
 let currentScheme = 'A';
+let history = [];
+let longPressTimer = null;
 
-const homeScreenMap = {
-  'A': 's-home-a',
-  'B': 's-home-b',
-  'C': 's-home-c',
-  'D': 's-home-d'
-};
-
-function switchScheme(scheme) {
+// ── Scheme switching ──
+function switchScheme(id) {
+  currentScheme = id;
+  history = [];
   // Update buttons
-  document.querySelectorAll('.scheme-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
-
-  // Hide current screen
-  const current = document.querySelector('.screen.active');
-  if (current) current.classList.remove('active');
-
-  // Show new home screen
-  const targetId = homeScreenMap[scheme];
-  const target = document.getElementById(targetId);
+  document.querySelectorAll('.scheme-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.includes(id));
+  });
+  // Hide all screens
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  // Show target home
+  const target = document.getElementById('home-' + id);
   if (target) target.classList.add('active');
-
-  // Reset history
-  currentScheme = scheme;
-  navHistory = [targetId];
 }
 
-function goTo(id) {
+// ── Navigation ──
+function goTo(screenId) {
   const current = document.querySelector('.screen.active');
-  const target = document.getElementById(id);
-  if (!target || current === target) return;
-
-  current.classList.remove('active');
-  target.classList.add('active', 'screen-enter');
-  setTimeout(() => target.classList.remove('screen-enter'), 300);
-
-  navHistory.push(id);
+  if (current) {
+    history.push(current.id);
+    current.classList.remove('active');
+  }
+  const next = document.getElementById(screenId);
+  if (next) {
+    next.classList.add('active');
+    next.classList.add('screen-enter');
+    next.scrollTop = 0;
+    setTimeout(() => next.classList.remove('screen-enter'), 300);
+  }
 }
 
 function goBack() {
-  if (navHistory.length <= 1) return;
-  navHistory.pop();
-  const prevId = navHistory[navHistory.length - 1];
+  if (history.length === 0) return;
   const current = document.querySelector('.screen.active');
-  const target = document.getElementById(prevId);
-
-  current.classList.remove('active');
-  target.classList.add('active');
+  if (current) current.classList.remove('active');
+  const prevId = history.pop();
+  const prev = document.getElementById(prevId);
+  if (prev) prev.classList.add('active');
 }
 
-function showSheet(id) {
-  document.getElementById(id).classList.add('show');
-  document.getElementById('manage-overlay').classList.add('show');
+// ── Class notes tab switch ──
+function switchClassTab(tab) {
+  const tabs = document.querySelectorAll('#coll-class .detail-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  if (tab === 'summary') {
+    tabs[0].classList.add('active');
+    document.getElementById('class-summary').style.display = '';
+    document.getElementById('class-list').style.display = 'none';
+  } else {
+    tabs[1].classList.add('active');
+    document.getElementById('class-summary').style.display = 'none';
+    document.getElementById('class-list').style.display = '';
+  }
 }
 
-function hideSheet(id) {
-  document.getElementById(id).classList.remove('show');
-  document.getElementById('manage-overlay').classList.remove('show');
+// ── Action sheet / confirm ──
+function showSheet() {
+  document.getElementById('actionSheet').classList.add('show');
+}
+function hideSheet() {
+  document.getElementById('actionSheet').classList.remove('show');
+}
+function showConfirm() {
+  document.getElementById('confirmDialog').classList.add('show');
+}
+function hideConfirm() {
+  document.getElementById('confirmDialog').classList.remove('show');
 }
 
-function showDialog() {
-  document.getElementById('delete-dialog').classList.add('show');
-  document.getElementById('dialog-overlay').classList.add('show');
+// ── Long press for mobile ──
+function longPressStart(e) {
+  longPressTimer = setTimeout(() => {
+    e.preventDefault();
+    showSheet();
+  }, 600);
+}
+function longPressEnd(e) {
+  clearTimeout(longPressTimer);
 }
 
-function hideDialog() {
-  document.getElementById('delete-dialog').classList.remove('show');
-  document.getElementById('dialog-overlay').classList.remove('show');
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
-}
-
+// ── AI Chat ──
 function sendChat() {
-  const input = document.getElementById('chat-input');
-  const area = document.getElementById('chat-area');
+  const input = document.getElementById('chatInput');
   const text = input.value.trim();
   if (!text) return;
-
+  const container = document.getElementById('chatContainer');
+  // User bubble
   const userBubble = document.createElement('div');
-  userBubble.className = 'chat-bubble user';
+  userBubble.className = 'chat-bubble chat-user';
   userBubble.textContent = text;
-  area.appendChild(userBubble);
+  container.appendChild(userBubble);
   input.value = '';
-
+  // Scroll to bottom
+  container.scrollTop = container.scrollHeight;
+  // AI reply after delay
   setTimeout(() => {
     const aiBubble = document.createElement('div');
-    aiBubble.className = 'chat-bubble ai';
-    aiBubble.innerHTML = '根据笔记内容，' + text + '的相关信息如下：<br><br>正在分析合集内的笔记内容...已找到相关记录，为您整理中。';
-    area.appendChild(aiBubble);
-    area.scrollTop = area.scrollHeight;
+    aiBubble.className = 'chat-bubble chat-ai';
+    aiBubble.innerHTML = '让我在你的笔记中找找相关内容...<br><br>根据你的记录,这个问题涉及到以下几点：<br>1. 你之前记录过相关的信息<br>2. 建议结合实际情况灵活调整<br><br>需要我展开说明某个部分吗？';
+    container.appendChild(aiBubble);
+    container.scrollTop = container.scrollHeight;
   }, 800);
 }
 </script>
