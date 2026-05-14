@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小米笔记 - 明星场景串联交互原型</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #e8e8e8;
+  font-family: -apple-system, "PingFang SC", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 30px 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ======= 场景切换器 ======= */
+.scene-switcher {
+  width: 100%;
+  max-width: 560px;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 24px;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+.scene-switcher::-webkit-scrollbar { display: none; }
+
+.scene-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-right: 8px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #888;
+  transition: all .2s;
+  user-select: none;
+}
+.scene-btn.active {
+  background: #1a1a1a;
+  color: #fff;
+  border-color: #1a1a1a;
+}
+
+/* ======= 手机 Frame ======= */
+.phone-frame {
+  width: 390px;
+  height: 844px;
+  border-radius: 44px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0,0,0,.15), 0 0 0 1px rgba(0,0,0,.08);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ======= Screen 基础 ======= */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+}
+.screen.active {
+  display: flex;
+}
+.screen.slide-in {
+  animation: slideIn .3s ease forwards;
+}
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+/* ======= 状态栏 ======= */
+.status-bar {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+  z-index: 10;
+}
+.status-bar .time { font-weight: 700; }
+.status-bar .icons { display: flex; gap: 5px; font-size: 12px; }
+
+/* ======= 灵动岛 ======= */
+.dynamic-island {
+  width: 120px;
+  height: 34px;
+  background: #1a1a1a;
+  border-radius: 22px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+/* ======= QQ 聊天样式 ======= */
+.chat-bg { background: #ebebeb; flex: 1; display: flex; flex-direction: column; }
+.chat-header {
+  height: 50px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+}
+.chat-header .back { margin-right: 12px; color: #333; font-size: 20px; }
+.chat-header .menu { margin-left: auto; font-size: 18px; color: #666; }
+.chat-body { flex: 1; overflow-y: auto; padding: 12px 16px; }
+.chat-msg {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.chat-msg.right { flex-direction: row-reverse; }
+.chat-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  background: #ccc;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+.chat-bubble {
+  max-width: 240px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 10px;
+  background: #fff;
+  color: #333;
+}
+.chat-msg.right .chat-bubble {
+  background: #95ec69;
+  color: #000;
+}
+.chat-input-bar {
+  height: 52px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+  border-top: 1px solid #ddd;
+}
+.chat-input-bar .input-field {
+  flex: 1;
+  height: 34px;
+  background: #fff;
+  border-radius: 6px;
+  border: none;
+}
+.chat-keyboard {
+  height: 140px;
+  background: #d1d5db;
+}
+
+/* ======= 小爱面板 ======= */
+.xiaoai-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  backdrop-filter: blur(8px);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.xiaoai-panel {
+  width: 340px;
+  background: #1a1a1a;
+  border-radius: 24px;
+  margin-top: 50px;
+  padding: 20px;
+  color: #fff;
+}
+.xiaoai-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.xiaoai-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00d4ff, #7b61ff, #ff6b9d);
+  flex-shrink: 0;
+}
+.xiaoai-title { font-size: 14px; color: #aaa; }
+.xiaoai-listening { color: #00d4ff; font-size: 13px; }
+.xiaoai-user-bubble {
+  background: #2a2a2a;
+  border-radius: 16px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #fff;
+  margin: 8px 0;
+}
+.xiaoai-status {
+  font-size: 13px;
+  color: #aaa;
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.xiaoai-status .done { color: #00d4ff; }
+
+/* ======= 桌面 ======= */
+.desktop-bg {
+  background: linear-gradient(180deg, #a8d8ea 0%, #d4e8f5 40%, #eef3f7 100%);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.desktop-date {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #555;
+}
+.desktop-clock {
+  text-align: center;
+  font-size: 68px;
+  font-weight: 200;
+  color: #222;
+  margin-top: 2px;
+  letter-spacing: -2px;
+}
+.desktop-weather {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 20px 30px;
+  margin-top: auto;
+}
+.app-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  margin: 0 auto;
+}
+.app-label {
+  text-align: center;
+  font-size: 10px;
+  color: #444;
+  margin-top: 4px;
+}
+.dock-bar {
+  height: 80px;
+  background: rgba(255,255,255,.5);
+  backdrop-filter: blur(20px);
+  border-radius: 30px 30px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 30px;
+  margin-top: auto;
+}
+.dock-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+}
+
+/* ======= 结果卡片 ======= */
+.result-card {
+  width: 320px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 0 auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,.1);
+}
+.result-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #222;
+}
+.result-card p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+.result-card .btn-primary {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: #3478f6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+/* ======= 录音界面 ======= */
+.record-bg {
+  background: linear-gradient(180deg, #fff5ee, #fff);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.record-lang {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #888;
+}
+.record-ring {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 6px solid #ff6b35;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 60px;
+  position: relative;
+}
+.record-ring .time {
+  font-size: 36px;
+  font-weight: 300;
+  color: #333;
+}
+.wave-bars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 24px;
+  height: 40px;
+}
+.wave-bar {
+  width: 4px;
+  border-radius: 2px;
+  background: #ff6b35;
+  animation: waveAnim 1s ease-in-out infinite alternate;
+}
+@keyframes waveAnim {
+  0% { height: 8px; }
+  100% { height: var(--h); }
+}
+.record-actions {
+  display: flex;
+  gap: 24px;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #666;
+  align-items: center;
+}
+.record-actions .action-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: #fff;
+  font-size: 13px;
+}
+.record-actions .action-btn.active-btn {
+  background: #ff6b35;
+  color: #fff;
+  border-color: #ff6b35;
+}
+.record-controls {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  margin-top: auto;
+  margin-bottom: 40px;
+}
+.record-controls .ctrl-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.record-controls .stop-btn {
+  width: 64px;
+  height: 64px;
+  background: #ff3b30;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.record-controls .stop-btn .inner {
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 4px;
+}
+
+/* ======= 笔记详情 ======= */
+.note-detail {
+  background: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.note-header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.note-header .title { font-size: 17px; font-weight: 600; }
+.note-body { flex: 1; padding: 16px 20px; overflow-y: auto; }
+.note-body h2 { font-size: 18px; margin-bottom: 12px; }
+.note-body p { font-size: 14px; line-height: 1.7; color: #444; margin-bottom: 8px; }
+.play-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #f8f8f8;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #666;
+}
+.play-bar .track {
+  flex: 1;
+  height: 3px;
+  background: #ddd;
+  border-radius: 2px;
+  position: relative;
+}
+.play-bar .track::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30%;
+  height: 100%;
+  background: #333;
+  border-radius: 2px;
+}
+.ai-ask-btn {
+  position: absolute;
+  bottom: 30px;
+  right: 20px;
+  background: linear-gradient(135deg, #7b61ff, #00d4ff);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 24px;
+  font-size: 14px;
+  box-shadow: 0 4px 16px rgba(123,97,255,.3);
+}
+
+/* ======= 超级小爱对话 ======= */
+.ai-chat-bg { background: #f5f5f5; flex: 1; display: flex; flex-direction: column; }
+.ai-chat-header {
+  height: 54px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+  border-bottom: 1px solid #eee;
+}
+.ai-chat-header .title { font-size: 17px; font-weight: 600; flex: 1; }
+.ai-chat-header .subtitle { font-size: 11px; color: #999; }
+.ai-chat-body { flex: 1; overflow-y: auto; padding: 16px; }
+.ai-msg {
+  display: flex;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+.ai-msg.user { justify-content: flex-end; }
+.ai-msg .bubble {
+  max-width: 280px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.ai-msg.user .bubble {
+  background: #e8f0fe;
+  color: #1a1a1a;
+  border-bottom-right-radius: 4px;
+}
+.ai-msg.bot .bubble {
+  background: #fff;
+  color: #333;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+.ai-input-bar {
+  height: 56px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+  border-top: 1px solid #eee;
+}
+.ai-input-bar .input-field {
+  flex: 1;
+  height: 36px;
+  background: #f5f5f5;
+  border-radius: 18px;
+  border: none;
+  padding: 0 14px;
+  font-size: 14px;
+}
+.ai-input-bar .mic-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ======= 待办卡片 ======= */
+.todo-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+.todo-card .ai-badge {
+  display: inline-block;
+  font-size: 11px;
+  color: #7b61ff;
+  background: #f0ecff;
+  padding: 2px 8px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.todo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 14px;
+  color: #333;
+}
+.todo-item .checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.todo-item .checkbox.checked {
+  background: #3478f6;
+  border-color: #3478f6;
+  position: relative;
+}
+.todo-item .checkbox.checked::after {
+  content: '✓';
+  color: #fff;
+  font-size: 11px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.todo-item.done { color: #bbb; text-decoration: line-through; }
+
+/* ======= 待办中心 ======= */
+.todo-center { background: #f5f5f5; flex: 1; display: flex; flex-direction: column; }
+.todo-center-header {
+  background: #fff;
+  padding: 10px 16px 16px;
+}
+.todo-center-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+.todo-search {
+  height: 36px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #999;
+}
+.todo-list { flex: 1; overflow-y: auto; padding: 16px; }
+.todo-group {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+.todo-group .group-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.todo-group .progress { font-size: 12px; color: #999; }
+.todo-fab {
+  position: absolute;
+  bottom: 90px;
+  right: 20px;
+  width: 52px;
+  height: 52px;
+  background: #ffc107;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255,193,7,.4);
+}
+.todo-footer {
+  height: 50px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #999;
+  border-top: 1px solid #eee;
+}
+.todo-time-badge {
+  font-size: 11px;
+  color: #ff9500;
+  margin-left: auto;
+}
+
+/* ======= 微信聊天 ======= */
+.wechat-header {
+  height: 50px;
+  background: #ededed;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+}
+.wechat-body { flex: 1; background: #ececec; padding: 16px; overflow-y: auto; }
+.wechat-msg { display: flex; margin-bottom: 14px; align-items: flex-start; }
+.wechat-msg.right { flex-direction: row-reverse; }
+.wechat-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.wechat-bubble {
+  max-width: 240px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 10px;
+  background: #fff;
+  color: #333;
+}
+.wechat-msg.right .wechat-bubble {
+  background: #95ec69;
+  color: #000;
+}
+
+/* ======= 小球面板 ======= */
+.ball-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  backdrop-filter: blur(6px);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 120px;
+}
+.ball-panel {
+  width: 320px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.15);
+}
+.ball-panel h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.ball-panel p { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 6px; }
+.ball-confirm-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: #ff6b35;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+/* ======= 浏览器 ======= */
+.browser-header {
+  height: 44px;
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+  border-bottom: 1px solid #ddd;
+}
+.browser-url {
+  flex: 1;
+  height: 30px;
+  background: #eee;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 12px;
+  color: #666;
+}
+.browser-body { flex: 1; background: #fff; padding: 20px; overflow-y: auto; }
+.browser-body h2 { font-size: 20px; margin-bottom: 12px; }
+.browser-body p { font-size: 14px; line-height: 1.8; color: #444; margin-bottom: 10px; }
+.share-menu {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  padding: 20px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,.1);
+  z-index: 15;
+}
+.share-menu h4 { font-size: 15px; margin-bottom: 14px; }
+.share-apps {
+  display: flex;
+  gap: 20px;
+}
+.share-app {
+  text-align: center;
+  font-size: 11px;
+  color: #666;
+}
+.share-app .icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  margin: 0 auto 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+/* ======= 进度指示 ======= */
+.progress-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 30;
+}
+.progress-dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.4);
+}
+.progress-dots .dot.active {
+  background: rgba(255,255,255,.9);
+  width: 16px;
+  border-radius: 3px;
+}
+.progress-dots.dark .dot { background: rgba(0,0,0,.15); }
+.progress-dots.dark .dot.active { background: rgba(0,0,0,.5); }
+
+/* ======= 提示 ======= */
+.tap-hint {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,.6);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 12px;
+  z-index: 30;
+  animation: hintPulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes hintPulse {
+  0%, 100% { opacity: .6; }
+  50% { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- 场景切换器 -->
+<div class="scene-switcher" id="sceneSwitcher">
+  <span class="scene-btn active" onclick="switchScene(1)">场景一：AI键拍屏记作业</span>
+  <span class="scene-btn" onclick="switchScene(2)">场景二：语音速记</span>
+  <span class="scene-btn" onclick="switchScene(3)">场景三：MiClaw对话记结论</span>
+  <span class="scene-btn" onclick="switchScene(4)">场景四：小球存文档</span>
+  <span class="scene-btn" onclick="switchScene(5)">场景五：文档剪贴板</span>
+</div>
+
+<!-- 手机 -->
+<div class="phone-frame" id="phone">
+
+  <!-- ==================== 场景一 ==================== -->
+
+  <!-- S1-Screen1: QQ群消息 -->
+  <div class="screen active" id="s1-1" onclick="goTo('s1-2')">
+    <div class="status-bar" style="background:#f5f5f5">
+      <span class="time">9:41</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div class="dynamic-island"></div>
+    <div class="chat-bg">
+      <div class="chat-header">
+        <span class="back">‹</span>
+        <span>数学老师 🎓</span>
+        <span class="menu">≡</span>
+      </div>
+      <div class="chat-body">
+        <div class="chat-msg">
+          <div class="chat-avatar" style="background:#e88a6a">👩‍🏫</div>
+          <div class="chat-bubble">各位同学，明天记得带数学书p45页的作业，上课要检查</div>
+        </div>
+        <div class="chat-msg">
+          <div class="chat-avatar" style="background:#6ab8e8">🧑</div>
+          <div class="chat-bubble">老师，语文背诵第5段也是明天交吗？</div>
+        </div>
+        <div class="chat-msg">
+          <div class="chat-avatar" style="background:#e88a6a">👩‍🏫</div>
+          <div class="chat-bubble">对，语文背诵第5段也要检查，大家提前准备好</div>
+        </div>
+        <div class="chat-msg">
+          <div class="chat-avatar" style="background:#e88a6a">👩‍🏫</div>
+          <div class="chat-bubble">另外数学书一定要带，忘带的同学站着上课🙂</div>
+        </div>
+        <div class="chat-msg right">
+          <div class="chat-avatar" style="background:#7bc87b">我</div>
+          <div class="chat-bubble">收到</div>
+        </div>
+      </div>
+      <div class="chat-input-bar">
+        <div style="font-size:20px">🎤</div>
+        <div class="input-field"></div>
+        <div style="font-size:20px">😊</div>
+        <div style="font-size:20px">➕</div>
+      </div>
+      <div class="chat-keyboard"></div>
+    </div>
+    <div class="tap-hint">点击任意处 → 唤起小爱</div>
+    <div class="progress-dots dark"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- S1-Screen2: 小爱弹出 -->
+  <div class="screen" id="s1-2" onclick="goTo('s1-3')">
+    <div class="xiaoai-overlay">
+      <div class="xiaoai-panel" style="margin-top:60px">
+        <div class="xiaoai-header">
+          <div class="xiaoai-avatar"></div>
+          <div>
+            <div style="font-size:15px;font-weight:600;color:#fff">超级小爱</div>
+            <div class="xiaoai-listening">我在听...</div>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:12px">
+            <span style="color:#666">⌨</span>
+            <span style="color:#666">⚙</span>
+          </div>
+        </div>
+        <div class="xiaoai-user-bubble">帮我把作业记到笔记里面</div>
+      </div>
+    </div>
+    <div class="tap-hint">点击 → AI开始处理</div>
+    <div class="progress-dots"><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- S1-Screen3: AI处理中 -->
+  <div class="screen" id="s1-3" onclick="goTo('s1-4')">
+    <div class="xiaoai-overlay">
+      <div class="xiaoai-panel" style="margin-top:60px">
+        <div class="xiaoai-header">
+          <div class="xiaoai-avatar"></div>
+          <div>
+            <div style="font-size:15px;font-weight:600;color:#fff">超级小爱</div>
+            <div class="xiaoai-listening">我在听...</div>
+          </div>
+        </div>
+        <div class="xiaoai-user-bubble">帮我把作业记到笔记里面</div>
+        <div class="xiaoai-status" style="margin-top:14px">
+          <span style="color:#7b61ff">✦</span> <span style="color:#ccc">正在思考 ∨</span>
+        </div>
+        <div class="xiaoai-status"><span class="done">☑</span> 检测到屏幕内容</div>
+        <div class="xiaoai-status"><span class="done">☑</span> 读取屏幕内容成功</div>
+        <div class="xiaoai-status"><span style="color:#666">○</span> 正在加工笔记内容...</div>
+      </div>
+    </div>
+    <div class="tap-hint">点击 → 查看结果</div>
+    <div class="progress-dots"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- S1-Screen4: 桌面结果 -->
+  <div class="screen" id="s1-4">
+    <div class="status-bar" style="color:#333">
+      <span class="time">9:41</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div class="desktop-bg">
+      <!-- 顶部小爱确认 -->
+      <div style="position:absolute;top:50px;left:50%;transform:translateX(-50%);width:340px;background:#1a1a1a;border-radius:20px;padding:16px;color:#fff;z-index:10">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <div class="xiaoai-avatar" style="width:24px;height:24px"></div>
+          <span style="font-size:13px;font-weight:600">超级小爱</span>
+          <span style="font-size:12px;color:#7b61ff;margin-left:auto">AI记 ✨</span>
+        </div>
+        <div style="font-size:12px;color:#999;margin-bottom:6px">帮我把作业记到笔记里面</div>
+        <div style="font-size:13px;color:#fff">今天的作业已保存到笔记。</div>
+      </div>
+
+      <!-- 结果卡片 -->
+      <div class="result-card" style="margin-top:200px;position:relative;z-index:5">
+        <h3>📋 5月12日家庭作业</h3>
+        <p><strong>数学：</strong>完成课本 p45 页习题</p>
+        <p><strong>语文：</strong>背诵课文第5段</p>
+        <p style="color:#ff9500;font-size:13px;margin-top:8px">⚠ 明天带数学书，上课要检查</p>
+        <div class="btn-primary">📝 去笔记查看</div>
+      </div>
+
+      <!-- 桌面图标 -->
+      <div class="app-grid" style="margin-top:40px">
+        <div><div class="app-icon" style="background:#34c759"></div><div class="app-label">电话</div></div>
+        <div><div class="app-icon" style="background:#5ac8fa"></div><div class="app-label">天气</div></div>
+        <div><div class="app-icon" style="background:#ff9500"></div><div class="app-label">日历</div></div>
+        <div><div class="app-icon" style="background:#af52de"></div><div class="app-label">设置</div></div>
+      </div>
+      <div class="dock-bar">
+        <div class="dock-icon" style="background:#34c759"></div>
+        <div class="dock-icon" style="background:#5ac8fa"></div>
+        <div class="dock-icon" style="background:#ff9500"></div>
+        <div class="dock-icon" style="background:#007aff"></div>
+      </div>
+    </div>
+    <div class="progress-dots dark"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
+  </div>
+
+  <!-- ==================== 场景二 ==================== -->
+
+  <!-- S2-Screen1: 手机桌面 -->
+  <div class="screen" id="s2-1" onclick="goTo('s2-2')">
+    <div class="status-bar" style="color:#333">
+      <span class="time">8:12</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div class="dynamic-island"></div>
+    <div class="desktop-bg">
+      <div class="desktop-date">5月16日周五 七月初九</div>
+      <div class="desktop-clock">8:12</div>
+      <div class="desktop-weather">26° 多云 · 空气优</div>
+      <!-- weather widget -->
+      <div style="width:340px;margin:20px auto;background:rgba(255,255,255,.6);backdrop-filter:blur(10px);border-radius:16px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:32px;font-weight:200">26°</div>
+          <div style="font-size:12px;color:#666">多云 · 最高30°</div>
+        </div>
+        <div style="font-size:40px">⛅</div>
+      </div>
+      <div class="app-grid">
+        <div><div class="app-icon" style="background:#ff3b30"></div><div class="app-label">相册</div></div>
+        <div><div class="app-icon" style="background:#007aff"></div><div class="app-label">笔记</div></div>
+        <div><div class="app-icon" style="background:#34c759"></div><div class="app-label">微信</div></div>
+        <div><div class="app-icon" style="background:#5856d6"></div><div class="app-label">淘宝</div></div>
+        <div><div class="app-icon" style="background:#ff9500"></div><div class="app-label">外卖</div></div>
+        <div><div class="app-icon" style="background:#af52de"></div><div class="app-label">音乐</div></div>
+        <div><div class="app-icon" style="background:#00c7be"></div><div class="app-label">地图</div></div>
+        <div><div class="app-icon" style="background:#ff2d55"></div><div class="app-label">视频</div></div>
+      </div>
+      <div class="dock-bar">
+        <div class="dock-icon" style="background:#34c759"></div>
+        <div class="dock-icon" style="background:#5ac8fa"></div>
+        <div class="dock-icon" style="background:#ff9500"></div>
+        <div class="dock-icon" style="background:#007aff"></div>
+      </div>
+    </div>
+    <div class="tap-hint">长按AI键 → 开始录音</div>
+    <div class="progress-dots dark"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- S2-Screen2: 灵动岛录音 -->
+  <div class="screen" id="s2-2" onclick="goTo('s2-3')">
+    <div class="status-bar" style="color:#333">
+      <span class="time">8:12</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <!-- 灵动岛变大 - 录音状态 -->
+    <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:180px;height:38px;background:#1a1a1a;border-radius:22px;z-index:20;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 14px">
+      <div style="width:8px;height:8px;border-radius:50%;background:#34c759;animation:blink 1s infinite"></div>
+      <span style="font-size:12px;color:#fff;font-weight:500">录音中 0:03</span>
+    </div>
+    <style>@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }</style>
+    <div class="desktop-bg">
+      <div class="desktop-date">5月16日周五 七月初九</div>
+      <div class="desktop-clock">8:12</div>
+      <div class="desktop-weather">26° 多云 · 空气优</div>
+      <div style="width:340px;margin:20px auto;background:rgba(255,255,255,.6);backdrop-filter:blur(10px);border-radius:16px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:32px;font-weight:200">26°</div>
+          <div style="font-size:12px;color:#666">多云 · 最高30°</div>
+        </div>
+        <div style="font-size:40px">⛅</div>
+      </div>
+      <div class="app-grid">
+        <div><div class="app-icon" style="background:#ff3b30"></div><div class="app-label">相册</div></div>
+        <div><div class="app-icon" style="background:#007aff"></div><div class="app-label">笔记</div></div>
+        <div><div class="app-icon" style="background:#34c759"></div><div class="app-label">微信</div></div>
+        <div><div class="app-icon" style="background:#5856d6"></div><div class="app-label">淘宝</div></div>
+      </div>
+      <div class="dock-bar" style="margin-top:auto">
+        <div class="dock-icon" style="background:#34c759"></div>
+        <div class="dock-icon" style="background:#5ac8fa"></div>
+        <div class="dock-icon" style="background:#ff9500"></div>
+        <div class="dock-icon" style="background:#007aff"></div>
+      </div>
+    </div>
+    <div class="tap-hint">点击灵动岛 → 打开录音界面</div>
+    <div class="progress-dots dark"><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- S2-Screen3: 录音界面 -->
+  <div class="screen" id="s2-3" onclick="goTo('s2-4')">
+    <div class="status-bar" style="background:#fff5ee;color:#333">
+      <span class="time">8:16</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div class="record-bg">
+      <div class="record-lang">🌐 中英自动 ∨ <span style="float:right;margin-right:16px">⊕</span></div>
+      <div class="record-ring">
+        <span class="time">03:58</span>
+      </div>
+      <div class="wave-bars">
+        <div class="wave-bar" style="--h:12px;animation-delay:0s"></div>
+        <div class="wave-bar" style="--h:28px;animation-delay:.1s"></div>
+        <div class="wave-bar" style="--h:20px;animation-delay:.2s"></div>
+        <div class="wave-bar" style="--h:36px;animation-delay:.3s"></div>
+        <div class="wave-bar" style="--h:24px;animation-delay:.4s"></div>
+        <div class="wave-bar" style="--h:32px;animation-delay:.15s"></div>
+        <div class="wave-bar" style="--h:16px;animation-delay:.25s"></div>
+        <div class="wave-bar" style="--h:28px;animation-delay:.35s"></div>
+        <div class="wave-bar" style="--h:20px;animation-delay:.05s"></div>
+        <div class="wave-bar" style="--h:36px;animation-delay:.2s"></div>
+        <div class="wave-bar" style="--h:12px;animation-delay:.3s"></div>
+        <div class="wave-bar" style="--h:24px;animation-delay:.1s"></div>
+      </div>
+      <div class="record-actions">
+        <span class="action-btn">▶</span>
+        <span class="action-btn active-btn">边录边记</span>
+        <span class="action-btn">📷</span>
+      </div>
+      <div class="record-controls">
+        <div class="ctrl-btn" style="background:#f0f0f0;font-size:18px">✕</div>
+        <div class="stop-btn" style="cursor:pointer"><div class="inner"></div></div>
+        <div class="ctrl-btn" style="background:#f0f0f0;font-size:16px">⏸</div>
+      </div>
+    </div>
+    <div class="tap-hint">点击停止 → 查看转写</div>
+    <div class="progress-dots dark"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- S2-Screen4: 笔记详情 -->
+  <div class="screen" id="s2-4">
+    <div class="status-bar" style="background:#fff;color:#333">
+      <span class="time">8:20</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div class="note-detail">
+      <div class="note-header">
+        <span style="font-size:20px;cursor:pointer" onclick="goBack()">←</span>
+        <span class="title">语音笔记</span>
+        <span style="margin-left:auto;font-size:18px">⋯</span>
+      </div>
+      <div class="note-body">
+        <div class="play-bar">
+          <span style="font-size:18px">▶</span>
+          <span>0:00</span>
+          <div class="track"></div>
+          <span>03:58</span>
+        </div>
+        <h2>会议纪要 - 产品评审</h2>
+        <p><strong>一、上周进展回顾</strong></p>
+        <p>1. 首页改版方案已完成第一版设计稿，合集卡片和普通笔记卡片做了视觉区分</p>
+        <p>2. 语音转写功能优化：中英混合识别准确率提升到 95%</p>
+        <p><strong>二、本周计划</strong></p>
+        <p>1. 周三前完成合集卡片堆叠效果的交互稿</p>
+        <p>2. 周四内部设计评审</p>
+        <p>3. AI 摘要功能上线灰度测试</p>
+        <p><strong>三、待定事项</strong></p>
+        <p>- 是否支持语音笔记导出为文字版？需要和开发确认排期</p>
+      </div>
+      <div class="ai-ask-btn">✨ AI 提问</div>
+    </div>
+    <div class="progress-dots dark"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
+  </div>
+
+  <!-- ==================== 场景三 ==================== -->
+
+  <!-- S3-Screen1: 超级小爱对话 -->
+  <div class="screen" id="s3-1" onclick="goTo('s3-2')">
+    <div class="status-bar" style="background:#fff;color:#333">
+      <span class="time">14:22</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div class="ai-chat-bg">
+      <div class="ai-chat-header">
+        <span style="font-size:20px;cursor:pointer">‹</span>
+        <span class="title">超级小爱</span>
+        <span class="subtitle">内容由 AI 生成</span>
+        <span style="font-size:20px;color:#666">⊕</span>
+      </div>
+      <div class="ai-chat-body">
+        <div class="ai-msg user">
+          <div class="bubble">首页现在合集卡片和普通笔记卡片长得一模一样，分不清点进去是一篇笔记还是一组笔记。</div>
+        </div>
+        <div class="ai-msg bot">
+          <div class="bubble">确实需要做视觉区分。常见的做法有几种：一是卡片左侧加彩色竖条标识，二是用堆叠样式（多张卡片叠在一起的效果暗示"这是一组"），三是右上角加篇数角标（如"3篇"）。你倾向哪种？</div>
+        </div>
+        <div class="ai-msg user">
+          <div class="bubble">堆叠效果比较直观，一眼就知道是多篇。但不能太占空间，毕竟首页寸土寸金。</div>
+        </div>
+        <div class="ai-msg bot">
+          <div class="bubble">可以做轻量堆叠：卡片底部露出2px的第二层边缘，配合右上角的"3篇"角标。空间占用几乎为零，但视觉暗示很明确。需要我帮你拟一版设计要求吗？</div>
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="input-field" style="display:flex;align-items:center;padding-left:14px;color:#999;font-size:13px">发送消息或按住说话</div>
+        <div class="mic-btn">🎤</div>
+      </div>
+    </div>
+    <div class="tap-hint">点击 → 问待办</div>
+    <div class="progress-dots dark"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- S3-Screen2: 问待办 -->
+  <div class="screen" id="s3-2">
+    <div class="status-bar" style="background:#fff;color:#333">
+      <span class="time">14:23</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div class="ai-chat-bg">
+      <div class="ai-chat-header">
+        <span style="font-size:20px;cursor:pointer">‹</span>
+        <span class="title">超级小爱</span>
+        <span class="subtitle">内容由 AI 生成</span>
+        <span style="font-size:20px;color:#666">⊕</span>
+      </div>
+      <div class="ai-chat-body">
+        <div class="ai-msg user">
+          <div class="bubble">堆叠效果比较直观，一眼就知道是多篇。但不能太占空间，毕竟首页寸土寸金。</div>
+        </div>
+        <div class="ai-msg bot">
+          <div class="bubble">可以做轻量堆叠：卡片底部露出2px的第二层边缘，配合右上角的"3篇"角标。</div>
+        </div>
+        <div class="ai-msg user">
+          <div class="bubble">上次首页改版留了什么待办</div>
+        </div>
+        <div class="ai-msg bot">
+          <div class="bubble" style="padding-bottom:4px">上次遗留的待办如下：</div>
+        </div>
+        <!-- 待办卡片 -->
+        <div class="ai-msg bot">
+          <div class="todo-card" style="max-width:280px;cursor:pointer" onclick="event.stopPropagation();goTo('s3-3')">
+            <div class="ai-badge">📋 待办事项</div>
+            <div class="todo-item">
+              <div class="checkbox"></div>
+              <span>周三前出合集卡片设计稿</span>
+            </div>
+            <div class="todo-item">
+              <div class="checkbox"></div>
+              <span>周四设计评审</span>
+            </div>
+            <div style="font-size:12px;color:#3478f6;margin-top:8px;text-align:right">查看全部待办 →</div>
+          </div>
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="input-field" style="display:flex;align-items:center;padding-left:14px;color:#999;font-size:13px">发送消息或按住说话</div>
+        <div class="mic-btn">🎤</div>
+      </div>
+    </div>
+    <div class="tap-hint">点击待办卡片 → 待办中心</div>
+    <div class="progress-dots dark"><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- S3-Screen3: 待办中心 -->
+  <div class="screen" id="s3-3">
+    <div class="status-bar" style="background:#fff;color:#333">
+      <span class="time">14:24</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div class="todo-center">
+      <div class="todo-center-header">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <span style="font-size:20px;cursor:pointer" onclick="goBack()">←</span>
+          <span style="font-size:18px;color:#666">⚙</span>
+        </div>
+        <h1>待办</h1>
+        <div class="todo-search">🔍 搜索待办</div>
+      </div>
+      <div class="todo-list">
+        <!-- 分组1 -->
+        <div class="todo-group">
+          <div class="group-title">
+            <div class="checkbox"></div>
+            笔记首页改版方案
+            <span class="progress">1/2</span>
+            <span style="margin-left:auto;color:#ccc">∨</span>
+          </div>
+          <div style="padding-left:26px">
+            <div class="todo-item">
+              <div class="checkbox"></div>
+              <span>周四设计评审</span>
+            </div>
+            <div class="todo-item done">
+              <div class="checkbox checked"></div>
+              <span>周三前出合集卡片设计稿</span>
+            </div>
+          </div>
+        </div>
+        <!-- 单条 -->
+        <div class="todo-group">
+          <div class="todo-item">
+            <div class="checkbox"></div>
+            <span>去火车站接米粒</span>
+            <span class="todo-time-badge">12/28 13:30 ⏰</span>
+          </div>
+        </div>
+        <div class="todo-group">
+          <div class="todo-item">
+            <div class="checkbox"></div>
+            <span>参观中国美术馆</span>
+          </div>
+        </div>
+        <div class="todo-group">
+          <div class="todo-item">
+            <div class="checkbox"></div>
+            <span>美食探店</span>
+          </div>
+        </div>
+        <div class="todo-group">
+          <div class="todo-item">
+            <div class="checkbox"></div>
+            <span>逛艺术市集</span>
+            <span class="todo-time-badge">12/28 13:30 ⏰</span>
+          </div>
+        </div>
+        <div class="todo-group">
+          <div class="todo-item">
+            <div class="checkbox"></div>
+            <span>去漫展</span>
+            <span class="todo-time-badge">12/28 13:30 ⏰</span>
+          </div>
+        </div>
+      </div>
+      <div class="todo-fab">+</div>
+      <div class="todo-footer">已完成 ∧</div>
+    </div>
+    <div class="progress-dots dark"><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
+  </div>
+
+  <!-- ==================== 场景四 ==================== -->
+
+  <!-- S4-Screen1: 微信聊天 -->
+  <div class="screen" id="s4-1" onclick="goTo('s4-2')">
+    <div class="status-bar" style="background:#ededed;color:#333">
+      <span class="time">20:15</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div class="dynamic-island"></div>
+    <div style="flex:1;display:flex;flex-direction:column">
+      <div class="wechat-header">
+        <span style="font-size:20px;margin-right:12px">‹</span>
+        <span>闺蜜群 💕</span>
+        <span style="margin-left:auto;font-size:18px">⋯</span>
+      </div>
+      <div class="wechat-body">
+        <div class="wechat-msg">
+          <div class="wechat-avatar" style="background:#f8a5c2"></div>
+          <div class="wechat-bubble">姐妹们！下周末团建去哪里呀</div>
+        </div>
+        <div class="wechat-msg">
+          <div class="wechat-avatar" style="background:#7bed9f"></div>
+          <div class="wechat-bubble">我看了一家农家乐超好看，有露营烧烤还有星空房，人均300</div>
+        </div>
+        <div class="wechat-msg">
+          <div class="wechat-avatar" style="background:#70a1ff"></div>
+          <div class="wechat-bubble">发个链接看看！另外要不要顺便去附近的古镇逛逛</div>
+        </div>
+        <div class="wechat-msg right">
+          <div class="wechat-avatar" style="background:#ffa502"></div>
+          <div class="wechat-bubble">好呀好呀！我先记下来</div>
+        </div>
+      </div>
+      <div class="chat-input-bar">
+        <div style="font-size:20px">🎤</div>
+        <div class="input-field"></div>
+        <div style="font-size:20px">😊</div>
+        <div style="font-size:20px">➕</div>
+      </div>
+    </div>
+    <div class="tap-hint">点击 → 唤起小球</div>
+    <div class="progress-dots dark"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- S4-Screen2: 小球弹出 -->
+  <div class="screen" id="s4-2" onclick="goTo('s4-3')">
+    <div class="status-bar" style="background:#ededed;color:#333">
+      <span class="time">20:15</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;filter:blur(2px) brightness(.7)">
+      <div class="wechat-header">
+        <span>闺蜜群 💕</span>
+      </div>
+      <div class="wechat-body" style="background:#ececec">
+        <div class="wechat-msg">
+          <div class="wechat-avatar" style="background:#f8a5c2"></div>
+          <div class="wechat-bubble">姐妹们！下周末团建去哪里呀</div>
+        </div>
+      </div>
+    </div>
+    <div class="ball-overlay" style="background:transparent">
+      <div class="ball-panel">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#ff6b35,#ff9500)"></div>
+          <span style="font-size:14px;font-weight:600">小球助手</span>
+          <span style="font-size:11px;color:#999;margin-left:auto">已读取屏幕内容</span>
+        </div>
+        <h4>📝 识别到以下内容</h4>
+        <p>团建地点讨论 - 农家乐推荐</p>
+        <p>• 露营烧烤 + 星空房，人均300</p>
+        <p>• 附近有古镇可以逛</p>
+        <div class="ball-confirm-btn">保存到笔记</div>
+      </div>
+    </div>
+    <div class="tap-hint">点击保存 → 查看笔记</div>
+    <div class="progress-dots"><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- S4-Screen3: 笔记详情 -->
+  <div class="screen" id="s4-3">
+    <div class="status-bar" style="background:#fff;color:#333">
+      <span class="time">20:16</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div class="note-detail">
+      <div class="note-header">
+        <span style="font-size:20px;cursor:pointer" onclick="goBack()">←</span>
+        <span class="title">团建计划</span>
+        <span style="margin-left:auto;font-size:18px">⋯</span>
+      </div>
+      <div class="note-body">
+        <h2>🏕 下周末团建计划</h2>
+        <p style="color:#999;font-size:12px">来源：微信闺蜜群 · 5月12日</p>
+        <div style="height:1px;background:#f0f0f0;margin:12px 0"></div>
+        <p><strong>地点推荐</strong></p>
+        <p>农家乐 - 露营烧烤 + 星空房</p>
+        <p>预算：人均 300 元</p>
+        <p style="margin-top:12px"><strong>附加行程</strong></p>
+        <p>附近古镇可以顺路逛</p>
+        <div style="margin-top:16px;padding:12px;background:#fff7ed;border-radius:10px;border-left:3px solid #ff9500">
+          <p style="font-size:13px;color:#ff9500;margin:0">💡 待确认：具体哪家农家乐？需要链接</p>
+        </div>
+      </div>
+    </div>
+    <div class="progress-dots dark"><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
+  </div>
+
+  <!-- ==================== 场景五 ==================== -->
+
+  <!-- S5-Screen1: 浏览器文章 -->
+  <div class="screen" id="s5-1" onclick="goTo('s5-2')">
+    <div class="status-bar" style="background:#f8f8f8;color:#333">
+      <span class="time">21:30</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column">
+      <div class="browser-header">
+        <span style="font-size:16px;color:#666">‹</span>
+        <div class="browser-url">
+          <span style="margin-right:4px">🔒</span> mp.weixin.qq.com
+        </div>
+        <span style="font-size:16px;color:#666">⋯</span>
+      </div>
+      <div class="browser-body">
+        <div style="font-size:11px;color:#999;margin-bottom:6px">少数派 · 2026-05-10</div>
+        <h2>2026 年最值得关注的 10 个生产力工具</h2>
+        <p>在 AI 浪潮席卷一切的今天，传统的笔记工具正在被重新定义。我们精心挑选了 10 个在效率提升方面表现突出的工具...</p>
+        <p><strong>1. 小米笔记</strong> - 凭借 MiClaw 内容助手的深度整合，实现了从"记录"到"理解"的跃迁。语音速记 + AI 摘要的组合拳让会议记录效率提升了 3 倍...</p>
+        <p><strong>2. Notion AI</strong> - 老牌选手继续进化...</p>
+        <p><strong>3. Obsidian + Copilot</strong> - 本地优先策略赢得隐私敏感用户...</p>
+      </div>
+    </div>
+    <div class="tap-hint">点击 → 分享到笔记</div>
+    <div class="progress-dots dark"><div class="dot active"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- S5-Screen2: 分享菜单+保存成功 -->
+  <div class="screen" id="s5-2">
+    <div class="status-bar" style="background:#f8f8f8;color:#333">
+      <span class="time">21:30</span>
+      <div class="icons"><span>●●●●</span> <span>WiFi</span> <span>🔋</span></div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column">
+      <div class="browser-header">
+        <span style="font-size:16px;color:#666">‹</span>
+        <div class="browser-url">
+          <span style="margin-right:4px">🔒</span> mp.weixin.qq.com
+        </div>
+        <span style="font-size:16px;color:#666">⋯</span>
+      </div>
+      <div class="browser-body" style="filter:blur(2px) brightness(.9)">
+        <h2>2026 年最值得关注的 10 个生产力工具</h2>
+        <p>在 AI 浪潮席卷一切的今天...</p>
+      </div>
+      <!-- 成功提示 -->
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.75);color:#fff;padding:16px 24px;border-radius:12px;text-align:center;z-index:20">
+        <div style="font-size:36px;margin-bottom:8px">✅</div>
+        <div style="font-size:15px;font-weight:500">已保存到笔记</div>
+        <div style="font-size:12px;color:#aaa;margin-top:4px">文档剪贴板 · 自动摘要中</div>
+      </div>
+      <!-- 分享菜单 -->
+      <div class="share-menu">
+        <h4>分享到</h4>
+        <div class="share-apps">
+          <div class="share-app">
+            <div class="icon" style="background:#007aff;color:#fff;font-size:16px;font-weight:700">📝</div>
+            小米笔记
+          </div>
+          <div class="share-app">
+            <div class="icon" style="background:#34c759;color:#fff">💬</div>
+            微信
+          </div>
+          <div class="share-app">
+            <div class="icon" style="background:#5ac8fa;color:#fff">🐦</div>
+            微博
+          </div>
+          <div class="share-app">
+            <div class="icon" style="background:#ff9500;color:#fff">📋</div>
+            复制链接
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-dots dark"><div class="dot"></div><div class="dot active"></div></div>
+  </div>
+
+</div>
+
+<script>
+// ======= 场景和Screen配置 =======
+const scenes = {
+  1: ['s1-1','s1-2','s1-3','s1-4'],
+  2: ['s2-1','s2-2','s2-3','s2-4'],
+  3: ['s3-1','s3-2','s3-3'],
+  4: ['s4-1','s4-2','s4-3'],
+  5: ['s5-1','s5-2']
+};
+
+let currentScene = 1;
+let history = ['s1-1'];
+
+// ======= 切换场景 =======
+function switchScene(n) {
+  currentScene = n;
+  const firstScreen = scenes[n][0];
+  history = [firstScreen];
+
+  // 更新按钮
+  document.querySelectorAll('.scene-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i + 1 === n);
+  });
+
+  // 显示screen
+  showScreen(firstScreen, false);
+}
+
+// ======= 显示Screen =======
+function showScreen(id, animate) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active','slide-in');
+    s.style.display = 'none';
+  });
+  const el = document.getElementById(id);
+  if (el) {
+    el.style.display = 'flex';
+    el.classList.add('active');
+    if (animate) el.classList.add('slide-in');
+  }
+}
+
+// ======= 前进 =======
+function goTo(screenId) {
+  history.push(screenId);
+  showScreen(screenId, true);
+}
+
+// ======= 后退 =======
+function goBack() {
+  if (history.length > 1) {
+    history.pop();
+    showScreen(history[history.length - 1], false);
+  }
+}
+
+// ======= 键盘导航 =======
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') {
+    e.preventDefault();
+    const sceneScreens = scenes[currentScene];
+    const currentId = history[history.length - 1];
+    const idx = sceneScreens.indexOf(currentId);
+    if (idx < sceneScreens.length - 1) {
+      goTo(sceneScreens[idx + 1]);
+    }
+  } else if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    goBack();
+  } else if (e.key >= '1' && e.key <= '5') {
+    switchScene(parseInt(e.key));
+  }
+});
+</script>
+
+</body>
+</html>
