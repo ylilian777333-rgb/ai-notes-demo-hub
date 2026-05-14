@@ -175,7 +175,16 @@ const DEMOS = [
   {file:"demos/vp-demo-v2-v9.html",title:"AI Notes · VP Demo",desc:"",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-04-13",time:"12:59",ver:"v2"},
   {file:"demos/vp-demo-v2.html",title:"AI Notes · VP Demo",desc:"",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-04-13",time:"12:59",ver:"v2"},
   {file:"demos/xiaomi-ai-note(1.html",title:"小米 AI Note：系统级数字记忆",desc:"",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-04-18",time:"20:39",ver:"04-18"},
-  {file:"demos/xiaomi-ai-note.html",title:"小米 AI Note：系统级数字记忆",desc:"",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-04-18",time:"20:39",ver:"04-18"}
+  {file:"demos/xiaomi-ai-note.html",title:"小米 AI Note：系统级数字记忆",desc:"",cat:"interaction",catName:"交互演示",color:"bl",date:"2026-04-18",time:"20:39",ver:"04-18"},
+  {file:"demos/ai-key-notes-ppt-v2.html",title:"AI键+记事 PPT（6页）",desc:"OS4 AI体验汇报用，手机端mockup",cat:"ppt",catName:"PPT演示",color:"pu",date:"2026-05-11",time:"23:00",ver:"v2"},
+  {file:"demos/note-user-journey.html",title:"笔记用户场景全链路",desc:"4种来源×8个明星场景，记→存→整→用→闭环",cat:"ppt",catName:"PPT演示",color:"pu",date:"2026-05-11",time:"22:00",ver:"v1"},
+  {file:"demos/note-retrieval-ppt.html",title:"存了就能用，问了就能答",desc:"笔记知识库索引与检索一页总览",cat:"ppt",catName:"PPT演示",color:"pu",date:"2026-05-13",time:"00:30",ver:"v3"},
+  {file:"demos/note-retrieval-keynote.html",title:"存了就能用 · Keynote版",desc:"三圆布局Uber风格",cat:"ppt",catName:"PPT演示",color:"pu",date:"2026-05-12",time:"23:00",ver:"v1"},
+  {file:"demos/note-index-retrieval-ppt.html",title:"笔记索引与检索 · 详细版",desc:"左右双面板：存入索引+三层检索+触发方式",cat:"ppt",catName:"PPT演示",color:"pu",date:"2026-05-12",time:"01:00",ver:"v1"},
+  {file:"demos/pad-notes-competitiveness.html",title:"PAD笔记核心竞争力",desc:"四列版：随时能记/AI理解/知识库/笔×AI",cat:"ppt",catName:"PPT演示",color:"pu",date:"2026-05-13",time:"22:00",ver:"v1"},
+  {file:"demos/pad-notes-v1-purchase.html",title:"让笔记成为PAD的购机理由",desc:"VP汇报版，补短板→建壁垒→拉差距→占先机",cat:"ppt",catName:"PPT演示",color:"pu",date:"2026-05-14",time:"00:00",ver:"v1"},
+  {file:"demos/pad-notes-v1-with-cases.html",title:"PAD笔记购机理由 · 带场景案例",desc:"每条能力附用户场景，学生/会议场景",cat:"ppt",catName:"PPT演示",color:"pu",date:"2026-05-14",time:"01:00",ver:"v1"},
+  {file:"demos/pad-notes-v2-productivity.html",title:"一支笔+一个AI，重新定义平板生产力",desc:"公式风格：触控笔+笔记+MiClaw=最强体验",cat:"ppt",catName:"PPT演示",color:"pu",date:"2026-05-13",time:"23:00",ver:"v1"}
 ];
 
 const CATS = [
@@ -185,6 +194,7 @@ const CATS = [
   {id:"serious",name:"严肃创作",icon:"✍️",count:DEMOS.filter(d=>d.cat==="serious").length,color:"pu"},
   {id:"combined",name:"完整版",icon:"📦",count:DEMOS.filter(d=>d.cat==="combined").length,color:"gn"},
   {id:"claw",name:"Claw光线",icon:"✨",count:DEMOS.filter(d=>d.cat==="claw").length,color:"cy"},
+  {id:"ppt",name:"PPT演示",icon:"📊",count:DEMOS.filter(d=>d.cat==="ppt").length,color:"pu"},
 ];
 
 let activeCat = "all";
