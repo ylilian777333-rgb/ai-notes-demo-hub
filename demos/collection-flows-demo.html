@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能合集 · 交互流程总览</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+  background: #ffffff;
+  width: 1920px;
+  margin: 0 auto;
+  padding: 60px 80px;
+  color: #333;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.page-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.page-header p {
+  font-size: 18px;
+  color: #666;
+}
+
+.flow-section {
+  margin-bottom: 60px;
+}
+
+.flow-title {
+  width: 100%;
+  background: #e8a838;
+  padding: 14px 24px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+
+.flow-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: nowrap;
+}
+
+.phone-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.phone-label {
+  font-size: 12px;
+  color: #999;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.arrow {
+  font-size: 28px;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  margin-top: 280px;
+}
+
+.phone {
+  width: 300px;
+  height: 620px;
+  border-radius: 32px;
+  border: 2px solid #e0e0e0;
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.status-bar {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-size: 12px;
+  color: #333;
+  flex-shrink: 0;
+}
+
+.phone-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.nav-bar .back {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.nav-bar .more {
+  font-size: 18px;
+  color: #666;
+}
+
+.tab-bar {
+  display: flex;
+  padding: 0 16px;
+  gap: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 8px;
+}
+
+.tab-bar .tab {
+  font-size: 14px;
+  padding: 8px 0;
+  color: #999;
+  position: relative;
+}
+
+.tab-bar .tab.active {
+  color: #333;
+  font-weight: 600;
+}
+
+.tab-bar .tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #2563eb;
+}
+
+.suggest-card {
+  margin: 8px 16px;
+  padding: 14px;
+  background: #fffbf0;
+  border: 1px solid #f0d68a;
+  border-radius: 12px;
+}
+
+.suggest-card p {
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.suggest-card .btns {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.suggest-card .btns button {
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.suggest-card .btns .btn-primary {
+  background: #e8a838;
+  color: #fff;
+}
+
+.suggest-card .btns .btn-secondary {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.note-card {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 12px;
+}
+
+.note-card .note-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.note-card .note-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.note-card .note-desc {
+  font-size: 12px;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.note-card .note-time {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 3px;
+}
+
+.note-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.thumb-blue {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.thumb-orange {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+.thumb-green {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.thumb-flower {
+  background: linear-gradient(135deg, #f6d365, #fda085);
+}
+
+.ai-summary {
+  margin: 8px 16px;
+  padding: 12px 16px;
+  background: #f8faff;
+  border-left: 3px solid #2563eb;
+  border-radius: 0 8px 8px 0;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #444;
+}
+
+.ai-summary .ai-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 6px;
+}
+
+.ai-disclaimer {
+  font-size: 11px;
+  color: #bbb;
+  padding: 4px 16px 8px;
+  text-align: center;
+}
+
+.collection-header {
+  padding: 12px 16px 4px;
+}
+
+.collection-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.collection-header .meta {
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+}
+
+.float-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 14px;
+  color: #333;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.bottom-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  padding: 20px 16px;
+}
+
+.bottom-sheet .sheet-item {
+  padding: 14px 0;
+  font-size: 15px;
+  color: #333;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.bottom-sheet .sheet-item:last-child {
+  border-bottom: none;
+}
+
+.confirm-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  width: 260px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.confirm-dialog h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.confirm-dialog p {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.confirm-dialog .dialog-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.confirm-dialog .dialog-btns button {
+  flex: 1;
+  padding: 8px 0;
+  border-radius: 8px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.confirm-dialog .dialog-btns .btn-cancel {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.confirm-dialog .dialog-btns .btn-danger {
+  background: #ff4d4f;
+  color: #fff;
+}
+
+.toast-msg {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  font-size: 13px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.chat-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f8f8f8;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  padding: 16px;
+  max-height: 340px;
+}
+
+.chat-bubble {
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.chat-bubble.user {
+  justify-content: flex-end;
+}
+
+.chat-bubble .bubble {
+  max-width: 200px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.chat-bubble.user .bubble {
+  background: #2563eb;
+  color: #fff;
+}
+
+.chat-bubble.ai .bubble {
+  background: #fff;
+  color: #333;
+  border: 1px solid #e0e0e0;
+}
+
+.collection-list-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 12px;
+}
+
+.collection-list-item .icon {
+  font-size: 20px;
+}
+
+.collection-list-item .info {
+  flex: 1;
+}
+
+.collection-list-item .info .name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.collection-list-item .info .count {
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.page-footer {
+  margin-top: 60px;
+  text-align: center;
+  padding: 30px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.page-footer p {
+  font-size: 14px;
+  color: #999;
+  line-height: 2;
+}
+
+.phone-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.3);
+}
+
+.scheme-label {
+  font-size: 13px;
+  color: #666;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.note-content {
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #333;
+}
+
+.note-content h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 10px 0 6px;
+}
+
+.note-content ul {
+  padding-left: 16px;
+}
+
+.note-content li {
+  margin-bottom: 4px;
+}
+
+.switch-tab {
+  display: flex;
+  margin: 8px 16px;
+  gap: 0;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.switch-tab .stab {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  padding: 7px 0;
+  border-radius: 6px;
+  color: #999;
+}
+
+.switch-tab .stab.active {
+  background: #fff;
+  color: #333;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+</style>
+</head>
+<body>
+
+<!-- Page Header -->
+<div class="page-header">
+  <h1>智能合集 · 交互流程总览</h1>
+  <p>笔记自动归类成专题，AI总结+问答+管理</p>
+</div>
+
+<!-- Flow 1: 推荐合集 → 确认保存 -->
+<div class="flow-section">
+  <div class="flow-title">后台自动整理 → 生成建议合集</div>
+  <div class="flow-row">
+    <!-- 屏幕1 -->
+    <div class="phone-wrapper">
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span>笔记</span>
+            <span style="font-size:16px;">🔍</span>
+          </div>
+          <div class="tab-bar">
+            <div class="tab active">全部</div>
+            <div class="tab">文件夹</div>
+            <div class="tab">合集</div>
+          </div>
+          <div class="suggest-card">
+            <p>🤖 AI发现3篇南京相关笔记，建议创建合集</p>
+            <div class="btns">
+              <button class="btn-secondary">忽略</button>
+              <button class="btn-primary">查看</button>
+            </div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">南京4日游真实感受</div>
+              <div class="note-desc">第一天到达南京站，打车去酒店...</div>
+              <div class="note-time">周二 13:38</div>
+            </div>
+            <div class="note-thumb thumb-blue"></div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">南京钟山高尔夫绝美秘境</div>
+              <div class="note-desc">偶然发现的宝藏地方...</div>
+              <div class="note-time">周一 09:15</div>
+            </div>
+            <div class="note-thumb thumb-orange"></div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">南京美食探店合集</div>
+              <div class="note-desc">觅炙烧烤真的太好吃了...</div>
+              <div class="note-time">上周五</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">笔记首页</div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- 屏幕2 -->
+    <div class="phone-wrapper">
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span class="back">←</span>
+            <span></span>
+          </div>
+          <div class="collection-header">
+            <h2>南京旅游</h2>
+            <div class="meta">13条笔记，推荐保存为合集</div>
+          </div>
+          <div class="ai-summary">
+            <div class="ai-label">✨ AI总结</div>
+            <div>1. 景点：有梧桐大道、音乐台、夫子庙等</div>
+            <div>2. 行程：有4日和3日游行程</div>
+            <div>3. 美食：有觅炙烧烤海鲜粥火锅等</div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">南京4日游真实感受</div>
+              <div class="note-time">周二 13:38</div>
+            </div>
+            <div class="note-thumb thumb-blue"></div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">南京钟山高尔夫绝美秘境</div>
+              <div class="note-time">周一 09:15</div>
+            </div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">南京美食探店合集</div>
+              <div class="note-time">上周五</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">合集预览</div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- 屏幕3 -->
+    <div class="phone-wrapper">
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span class="back">←</span>
+            <span></span>
+          </div>
+          <div class="collection-header">
+            <h2>南京旅游</h2>
+            <div class="meta">13条笔记，推荐保存为合集</div>
+          </div>
+          <div class="ai-summary">
+            <div class="ai-label">✨ AI总结</div>
+            <div>1. 景点：有梧桐大道、音乐台、夫子庙等</div>
+            <div>2. 行程：有4日和3日游行程</div>
+            <div>3. 美食：有觅炙烧烤海鲜粥火锅等</div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">南京4日游真实感受</div>
+              <div class="note-time">周二 13:38</div>
+            </div>
+            <div class="note-thumb thumb-blue"></div>
+          </div>
+        </div>
+        <div class="toast-msg">已保存为合集「南京旅游」</div>
+      </div>
+      <div class="phone-label">确认保存</div>
+    </div>
+  </div>
+</div>
+
+<!-- Flow 2: 合集详情页三方案 -->
+<div class="flow-section">
+  <div class="flow-title">合集详情页 · 三个方案</div>
+  <div class="flow-row">
+    <!-- 方案A -->
+    <div class="phone-wrapper">
+      <div class="scheme-label">方案A - 上下结构（AI总结展开）</div>
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span class="back">←</span>
+            <span class="more">⋮</span>
+          </div>
+          <div class="collection-header">
+            <h2>南京旅游</h2>
+            <div class="meta">13条笔记 | 最近更新：5月9日 12:23</div>
+          </div>
+          <div class="ai-summary">
+            <div class="ai-label">✨ AI总结</div>
+            <div>1. 景点：梧桐大道、音乐台、夫子庙</div>
+            <div>2. 行程：4日游和3日游行程</div>
+            <div>3. 美食：觅炙烧烤、海鲜粥、火锅</div>
+            <div>4. 交通：地铁+打车结合最优</div>
+            <div>5. 天气：5月适宜，带薄外套</div>
+          </div>
+          <div class="ai-disclaimer">以上由AI大模型生成，可能包含不准确的信息。</div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">南京4日游真实感受</div>
+              <div class="note-time">周二 13:38</div>
+            </div>
+            <div class="note-thumb thumb-blue"></div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">南京钟山高尔夫绝美秘境</div>
+              <div class="note-time">周一 09:15</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">方案A · AI总结展开</div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- 方案B -->
+    <div class="phone-wrapper">
+      <div class="scheme-label">方案B - 无总结，纯笔记列表</div>
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span class="back">←</span>
+            <span class="more">⋮</span>
+          </div>
+          <div class="collection-header">
+            <h2>课堂笔记</h2>
+            <div class="meta">13条笔记 | 最近更新：5月9日 12:23</div>
+          </div>
+          <div style="height:24px;"></div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">计算机网络</div>
+              <div class="note-desc">传输层协议概述与TCP详解</div>
+              <div class="note-time">周三 10:00</div>
+            </div>
+            <div class="note-thumb thumb-green"></div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">课堂笔记</div>
+              <div class="note-desc">数据结构与算法课程要点</div>
+              <div class="note-time">周二 14:30</div>
+            </div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">计算机网络课程提纲</div>
+              <div class="note-desc">第一章到第五章内容梳理</div>
+              <div class="note-time">周一 08:45</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">方案B · 纯列表</div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- 方案C -->
+    <div class="phone-wrapper">
+      <div class="scheme-label">方案C - 双Tab切换</div>
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span class="back">←</span>
+            <span class="more">⋮</span>
+          </div>
+          <div class="collection-header">
+            <h2>课堂笔记</h2>
+            <div class="meta">13条笔记 | 最近更新：5月9日 12:23</div>
+          </div>
+          <div class="switch-tab">
+            <div class="stab">智能总结</div>
+            <div class="stab active">笔记列表</div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">计算机网络</div>
+              <div class="note-desc">传输层协议概述与TCP详解</div>
+              <div class="note-time">周三 10:00</div>
+            </div>
+            <div class="note-thumb thumb-green"></div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">课堂笔记</div>
+              <div class="note-desc">数据结构与算法课程要点</div>
+              <div class="note-time">周二 14:30</div>
+            </div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">计算机网络课程提纲</div>
+              <div class="note-desc">第一章到第五章内容梳理</div>
+              <div class="note-time">周一 08:45</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">方案C · 双Tab</div>
+    </div>
+  </div>
+</div>
+
+<!-- Flow 3: 合集内浏览 → AI提问 -->
+<div class="flow-section">
+  <div class="flow-title">合集内浏览 → AI提问</div>
+  <div class="flow-row">
+    <!-- 屏幕1 -->
+    <div class="phone-wrapper">
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span class="back">←</span>
+            <span class="more">⋮</span>
+          </div>
+          <div class="collection-header">
+            <h2>南京赏花</h2>
+            <div class="meta">13条笔记 | 最近更新：5月9日 12:23</div>
+          </div>
+          <div class="ai-summary">
+            <div class="ai-label">✨ AI总结</div>
+            <div>南京5月赏花和周末出行攻略合集：绣球花9大拍摄地（明孝陵/中山植物园/老门东等）、全月花期时间表、江心洲日落花海...</div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">南京绣球花9大拍摄地</div>
+              <div class="note-time">5月8日</div>
+            </div>
+            <div class="note-thumb thumb-flower"></div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">南京5月赏花时间表</div>
+              <div class="note-time">5月6日</div>
+            </div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">江心洲日落月见草花海</div>
+              <div class="note-time">5月5日</div>
+            </div>
+            <div class="note-thumb thumb-orange"></div>
+          </div>
+          <div class="note-card">
+            <div class="note-info">
+              <div class="note-title">流徽榭-紫金山绿野秘境</div>
+              <div class="note-time">5月3日</div>
+            </div>
+          </div>
+        </div>
+        <div class="float-btn">✨ AI提问</div>
+      </div>
+      <div class="phone-label">合集详情页</div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- 屏幕2 -->
+    <div class="phone-wrapper">
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span class="back">←</span>
+            <span class="more">⋮</span>
+          </div>
+          <div class="collection-header">
+            <h2>南京赏花</h2>
+            <div class="meta">13条笔记 | 最近更新：5月9日 12:23</div>
+          </div>
+          <div style="flex:1;"></div>
+        </div>
+        <div class="chat-panel">
+          <div class="chat-bubble user">
+            <div class="bubble">哪个地方最适合拍照？</div>
+          </div>
+          <div class="chat-bubble ai">
+            <div class="bubble">根据合集内容，明孝陵和中山植物园最适合拍照。明孝陵有绣球花长廊，光影效果好；中山植物园品种多，适合微距拍摄。</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">AI提问对话</div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- 屏幕3 -->
+    <div class="phone-wrapper">
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span class="back">←</span>
+            <span class="more">⋮</span>
+          </div>
+          <div style="padding: 8px 16px;">
+            <div style="font-size:17px; font-weight:600;">课堂笔记</div>
+          </div>
+          <div class="note-content">
+            <h3>核心概念</h3>
+            <ul>
+              <li>传输层作用：为应用进程提供端到端的通信服务</li>
+              <li>两个核心协议：TCP、UDP</li>
+              <li>端口号：16位整数</li>
+            </ul>
+            <h3>TCP协议详解</h3>
+            <ul>
+              <li>特点：面向连接、可靠传输</li>
+              <li>三次握手：SYN→SYN+ACK→ACK</li>
+              <li>四次挥手：FIN→ACK→FIN→ACK</li>
+              <li>流量控制：滑动窗口协议</li>
+            </ul>
+          </div>
+        </div>
+        <div class="float-btn">✨ AI提问</div>
+      </div>
+      <div class="phone-label">笔记详情</div>
+    </div>
+  </div>
+</div>
+
+<!-- Flow 4: 合集管理 -->
+<div class="flow-section">
+  <div class="flow-title">合集管理 · 编辑/删除/重命名</div>
+  <div class="flow-row">
+    <!-- 屏幕1 -->
+    <div class="phone-wrapper">
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span>笔记</span>
+            <span style="font-size:16px;">🔍</span>
+          </div>
+          <div class="tab-bar">
+            <div class="tab">全部</div>
+            <div class="tab">文件夹</div>
+            <div class="tab active">合集</div>
+          </div>
+          <div class="collection-list-item">
+            <div class="icon">📚</div>
+            <div class="info">
+              <div class="name">南京旅游</div>
+              <div class="count">13篇</div>
+            </div>
+          </div>
+          <div class="collection-list-item">
+            <div class="icon">📖</div>
+            <div class="info">
+              <div class="name">课堂笔记</div>
+              <div class="count">8篇</div>
+            </div>
+          </div>
+          <div class="collection-list-item">
+            <div class="icon">💰</div>
+            <div class="info">
+              <div class="name">黄金投资</div>
+              <div class="count">5篇</div>
+            </div>
+          </div>
+          <div class="collection-list-item">
+            <div class="icon">🏥</div>
+            <div class="info">
+              <div class="name">健康管理</div>
+              <div class="count">3篇</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">笔记首页（合集tab）</div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- 屏幕2 -->
+    <div class="phone-wrapper">
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span>笔记</span>
+            <span style="font-size:16px;">🔍</span>
+          </div>
+          <div class="tab-bar">
+            <div class="tab">全部</div>
+            <div class="tab">文件夹</div>
+            <div class="tab active">合集</div>
+          </div>
+          <div class="collection-list-item">
+            <div class="icon">📚</div>
+            <div class="info">
+              <div class="name">南京旅游</div>
+              <div class="count">13篇</div>
+            </div>
+          </div>
+          <div class="collection-list-item">
+            <div class="icon">📖</div>
+            <div class="info">
+              <div class="name">课堂笔记</div>
+              <div class="count">8篇</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-overlay"></div>
+        <div class="bottom-sheet">
+          <div class="sheet-item">重命名</div>
+          <div class="sheet-item">删除合集</div>
+          <div class="sheet-item">移出笔记</div>
+        </div>
+      </div>
+      <div class="phone-label">长按弹出菜单</div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- 屏幕3 -->
+    <div class="phone-wrapper">
+      <div class="phone">
+        <div class="status-bar">
+          <span>2:36</span>
+          <span>...ll 📶 🔋100</span>
+        </div>
+        <div class="phone-content">
+          <div class="nav-bar">
+            <span>笔记</span>
+            <span style="font-size:16px;">🔍</span>
+          </div>
+          <div class="tab-bar">
+            <div class="tab">全部</div>
+            <div class="tab">文件夹</div>
+            <div class="tab active">合集</div>
+          </div>
+          <div class="collection-list-item">
+            <div class="icon">📚</div>
+            <div class="info">
+              <div class="name">南京旅游</div>
+              <div class="count">13篇</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-overlay"></div>
+        <div class="confirm-dialog">
+          <h3>删除合集「南京旅游」？</h3>
+          <p>删除合集不会删除笔记，笔记将回到未归类状态</p>
+          <div class="dialog-btns">
+            <button class="btn-cancel">取消</button>
+            <button class="btn-danger">确认删除</button>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">删除确认弹窗</div>
+    </div>
+  </div>
+</div>
+
+<!-- Page Footer -->
+<div class="page-footer">
+  <p>智能合集 · 小米笔记APP</p>
+  <p>核心流程：AI自动归类 → 合集预览确认 → AI总结&问答 → 管理编辑</p>
+  <p style="color:#ccc; font-size:12px; margin-top:12px;">MiClaw Content Assistant · 2026.05</p>
+</div>
+
+</body>
+</html>
