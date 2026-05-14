@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;background:#f5f5f7;font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;color:#1a1a1a;position:relative}
+
+/* Top title */
+.top{text-align:center;padding-top:52px;position:relative;z-index:10}
+.supra{font-size:46px;font-weight:700;letter-spacing:1px}
+.supra .gold{color:#c8850a}
+.sub-line{font-size:20px;color:#888;margin-top:8px;font-style:italic}
+
+/* 3 circles row */
+.circles{display:flex;justify-content:center;align-items:center;gap:60px;margin-top:48px;position:relative;z-index:2}
+
+.circle{border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;position:relative}
+
+.c1{width:380px;height:380px;background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 20px 60px rgba(37,99,235,0.25)}
+.c2{width:380px;height:380px;background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 20px 60px rgba(124,58,237,0.25)}
+.c3{width:380px;height:380px;background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 20px 60px rgba(217,119,6,0.25)}
+
+.c-icon{font-size:40px;margin-bottom:6px}
+.c-title{font-size:26px;font-weight:700;margin-bottom:14px;letter-spacing:1px}
+.c-items{font-size:15px;color:rgba(255,255,255,0.85);line-height:2.2}
+.c-items strong{color:#fff;font-size:16px;font-weight:600}
+
+/* Arrows between circles */
+.arrow-link{display:flex;align-items:center;font-size:36px;color:#ccc;flex-shrink:0;margin:0 -10px}
+
+/* Bottom */
+.bottom{position:absolute;bottom:44px;text-align:center;width:100%;z-index:3}
+.bottom-text{font-size:17px;color:#999;font-style:italic}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="supra">存了就能用，<span class="gold">问了就能答</span></div>
+  <div class="sub-line">笔记知识库：存入自动索引 → 三层检索保障 → 多种入口调用</div>
+</div>
+
+<div class="circles">
+  <!-- Circle 1: 存 -->
+  <div class="circle c1">
+    <div class="c-icon">📥</div>
+    <div class="c-title">存入建索引</div>
+    <div class="c-items">
+      <strong>AI 摘要 + 关键词</strong><br>
+      <strong>二次提炼 + 分类标签</strong><br>
+      <strong>资料库目录常驻</strong><br>
+      存入即建索引
+    </div>
+  </div>
+
+  <div class="arrow-link">→</div>
+
+  <!-- Circle 2: 搜 -->
+  <div class="circle c2">
+    <div class="c-icon">🔍</div>
+    <div class="c-title">三层检索</div>
+    <div class="c-items">
+      <strong>目录直接答</strong><br>
+      <strong>语义 + 关键词搜索</strong><br>
+      <strong>按需读全文</strong><br>
+      三层保障找得到
+    </div>
+  </div>
+
+  <div class="arrow-link">→</div>
+
+  <!-- Circle 3: 用 -->
+  <div class="circle c3">
+    <div class="c-icon">💡</div>
+    <div class="c-title">多种入口</div>
+    <div class="c-items">
+      <strong>小白条提问</strong><br>
+      <strong>智能补全</strong><br>
+      <strong>系统主动提醒</strong><br>
+      不用想怎么搜
+    </div>
+  </div>
+</div>
+
+<div class="bottom">
+  <div class="bottom-text">用户不需要记住存在哪，不需要想怎么搜。存过的东西，AI 随时能找到、能用上。</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>存了就能用 — 笔记知识库索引与检索</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;background:#1a1a1a;color:#fff;width:100vw;height:100vh;overflow:hidden;display:flex;flex-direction:column;padding:40px 60px}
+
+.top{text-align:center;margin-bottom:30px}
+.title{font-size:42px;font-weight:700;font-style:italic}
+.title span{color:#e8a838}
+.subtitle{font-size:18px;color:#999;margin-top:6px;font-style:italic}
+
+.main{display:flex;gap:30px;flex:1;overflow:hidden}
+
+/* Left: Index */
+.panel{flex:1;display:flex;flex-direction:column;gap:14px}
+.panel-title{font-size:20px;font-weight:700;padding:10px 18px;border-radius:10px;display:flex;align-items:center;gap:8px}
+.panel-title.left{background:linear-gradient(135deg,#1a3a6a,#1a5a9a);color:#7cb8ff}
+.panel-title.right{background:linear-gradient(135deg,#4a1a6a,#7a2a9a);color:#c8a0ff}
+
+.index-row{display:flex;gap:10px}
+.index-card{flex:1;background:#222;border-radius:14px;padding:14px;border:1px solid #333}
+.index-label{font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:8px}
+.index-label.basic{background:#1a73e8;color:#fff}
+.index-label.enhance{background:#e8a838;color:#fff}
+.index-label.hot{background:#ef4444;color:#fff}
+.index-what{font-size:13px;font-weight:600;color:#ddd;line-height:1.5;margin-bottom:6px}
+.index-example{font-size:11px;color:#888;line-height:1.5}
+
+/* Right: Retrieval layers */
+.layer-card{background:#222;border-radius:14px;padding:14px;border:1px solid #333;display:flex;gap:12px;align-items:flex-start}
+.layer-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.layer-num.l1{background:#7c3aed;color:#fff}
+.layer-num.l2{background:#1a73e8;color:#fff}
+.layer-num.l3{background:#e8a838;color:#fff}
+.layer-info{flex:1}
+.layer-name{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
+.layer-how{font-size:12px;color:#aaa;margin-bottom:3px}
+.layer-scene{font-size:11px;color:#e8a838;font-style:italic}
+
+/* Bottom: Trigger methods */
+.bottom{margin-top:14px}
+.bottom-title{font-size:14px;font-weight:700;color:#999;margin-bottom:10px;text-align:center}
+.triggers{display:flex;gap:12px;justify-content:center}
+.trigger{background:#222;border:1px solid #333;border-radius:12px;padding:12px 16px;flex:1;max-width:280px;text-align:center}
+.trigger-icon{font-size:24px;margin-bottom:4px}
+.trigger-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.trigger-desc{font-size:11px;color:#888;line-height:1.4}
+
+.tagline{text-align:center;margin-top:16px;font-size:16px;color:#e8a838;font-weight:600;font-style:italic}
+
+/* Arrow between panels */
+.arrow-col{display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.arrow-col .arrow{font-size:36px;color:#555}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="title"><span>存了就能用</span> — 笔记知识库的索引与检索</div>
+  <div class="subtitle">存入自动建索引 → 三层保障找得到 → 多种方式用得上</div>
+</div>
+
+<div class="main">
+  <!-- Left: 存入时建索引 -->
+  <div class="panel">
+    <div class="panel-title left">📥 存入时自动建索引（三层）</div>
+
+    <div class="index-row">
+      <div class="index-card">
+        <div class="index-label basic">基础索引</div>
+        <div class="index-what">标题 + 摘要 + 关键词<br>来源APP + 时间</div>
+        <div class="index-example">例："黄金ETF分析"<br>"金价2380建议定投"<br>[黄金, ETF, 央行]<br>小红书 · 2026-04</div>
+      </div>
+      <div class="index-card">
+        <div class="index-label enhance">增强索引</div>
+        <div class="index-what">二次提炼：结构化数据<br>+ 多维标签 + 分类</div>
+        <div class="index-example">证件→护照号E12345678<br>机票→CA925/6月15日/¥3200<br>标签：[行程] [账单] [证件]</div>
+      </div>
+      <div class="index-card">
+        <div class="index-label hot">热度索引</div>
+        <div class="index-what">查看次数 + 分享记录<br>最近查看时间</div>
+        <div class="index-example">"常看的那篇"→按查看数<br>"发过微信的"→按分享渠道<br>"最近一直看的"→按时间</div>
+      </div>
+    </div>
+
+    <div style="background:#222;border-radius:12px;padding:12px 16px;border:1px solid #333">
+      <div style="font-size:12px;font-weight:700;color:#7cb8ff;margin-bottom:6px">资料库目录（常驻MiClaw context）</div>
+      <div style="font-size:11px;color:#999;font-family:monospace;line-height:1.7">
+        [健康] #123 2025体检报告 — 血糖5.8正常 (微信PDF, 看5次)<br>
+        [投资] #201 黄金ETF分析 — 金价2380定投 (小红书, 看12次)<br>
+        [行程] #301 CA925北京→东京 — 6/15 08:30 (截图)<br>
+        [证件] #401 护照 — 有效期2028-03 (AI键)<br>
+        [工作] #501 首页改版结论 — 卡片流+推荐 (对话)
+      </div>
+      <div style="font-size:11px;color:#e8a838;margin-top:6px">模型看目录就知道用户有什么，大部分问题看一行就能答</div>
+    </div>
+  </div>
+
+  <!-- Arrow -->
+  <div class="arrow-col">
+    <div class="arrow">→</div>
+  </div>
+
+  <!-- Right: 检索 -->
+  <div class="panel">
+    <div class="panel-title right">🔍 用的时候三层检索</div>
+
+    <div class="layer-card">
+      <div class="layer-num l1">1</div>
+      <div class="layer-info">
+        <div class="layer-name">资料库目录直接命中</div>
+        <div class="layer-how">模型看context目录就能回答，0次工具调用</div>
+        <div class="layer-scene">"我血糖多少" → 目录有体检报告 → 直接答"5.8正常"</div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-num l2">2</div>
+      <div class="layer-info">
+        <div class="layer-name">笔记搜索（语义+关键词双路）</div>
+        <div class="layer-how">目录信息不够时，调note_search深度检索</div>
+        <div class="layer-scene">"上周那个预算表" → 搜索命中 → 返回"Q3预算表 320万"</div>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-num l3">3</div>
+      <div class="layer-info">
+        <div class="layer-name">读取全文</div>
+        <div class="layer-how">需要具体细节时，调note_read读原文</div>
+        <div class="layer-scene">"冰岛攻略住的哪个酒店" → 摘要没写 → 读全文找到酒店名</div>
+      </div>
+    </div>
+
+    <div style="background:#222;border-radius:12px;padding:12px 16px;border:1px solid #333">
+      <div style="font-size:12px;font-weight:700;color:#c8a0ff;margin-bottom:6px">回答展示</div>
+      <div style="display:flex;gap:10px">
+        <div style="flex:1;background:#2a2a2a;border-radius:8px;padding:10px">
+          <div style="font-size:11px;color:#fff;font-weight:600">目录命中</div>
+          <div style="font-size:10px;color:#aaa;margin-top:3px">融入回答正文<br>"根据你的体检报告，血糖5.8正常"</div>
+        </div>
+        <div style="flex:1;background:#2a2a2a;border-radius:8px;padding:10px">
+          <div style="font-size:11px;color:#fff;font-weight:600">搜索命中</div>
+          <div style="font-size:10px;color:#aaa;margin-top:3px">正文回答 + 底部引用卡片<br>笔记标题+来源+时间 · 最多3张</div>
+        </div>
+        <div style="flex:1;background:#2a2a2a;border-radius:8px;padding:10px">
+          <div style="font-size:11px;color:#fff;font-weight:600">冲突处理</div>
+          <div style="font-size:10px;color:#aaa;margin-top:3px">记忆和笔记都命中→取更完整的<br>内容矛盾→以笔记为准</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom: Trigger methods -->
+<div class="bottom">
+  <div class="bottom-title">用户怎么触发检索——不只是说话</div>
+  <div class="triggers">
+    <div class="trigger">
+      <div class="trigger-icon">💬</div>
+      <div class="trigger-name">小白条提问</div>
+      <div class="trigger-desc">长按小白条说<br>"我的护照号""今天作业是什么"</div>
+    </div>
+    <div class="trigger">
+      <div class="trigger-icon">🔤</div>
+      <div class="trigger-name">智能补全</div>
+      <div class="trigger-desc">输入"周末"→弹出<br>"周末去处（3篇）"</div>
+    </div>
+    <div class="trigger">
+      <div class="trigger-icon">🔔</div>
+      <div class="trigger-name">系统主动提醒</div>
+      <div class="trigger-desc">出发前一天上岛<br>"明天CA925去东京 08:30"</div>
+    </div>
+    <div class="trigger">
+      <div class="trigger-icon">👆</div>
+      <div class="trigger-name">小球指向</div>
+      <div class="trigger-desc">指向合集卡片<br>"给我讲讲这个"</div>
+    </div>
+  </div>
+</div>
+
+<div class="tagline">用户不需要记住存在哪、不需要想怎么搜。存过的东西，AI随时能找到、能用上。</div>
+
+</body>
+</html>

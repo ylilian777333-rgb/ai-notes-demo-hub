@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>存了就能用</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;background:#ffffff;color:#1a1a1a;width:1920px;height:1080px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+
+.page{width:100%;padding:0 80px}
+
+.top{text-align:center;margin-bottom:44px}
+.title{font-size:64px;font-weight:700;letter-spacing:2px}
+.title .hl{color:#2563eb}
+
+.content{display:flex;gap:0;margin-bottom:40px}
+
+.col{flex:1;padding:0 40px}
+.col:first-child{padding-left:0}
+.col:last-child{padding-right:0}
+
+.col-header{display:flex;align-items:center;gap:12px;margin-bottom:28px;padding-bottom:14px;border-bottom:2.5px solid #e8e8e8}
+.col-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;color:#fff;font-weight:700;flex-shrink:0}
+.col-icon.blue{background:#2563eb}
+.col-icon.indigo{background:#4f46e5}
+.col-icon.teal{background:#0d9488}
+.col-title{font-size:26px;font-weight:700;color:#1a1a1a}
+
+.item{margin-bottom:24px}
+.item:last-child{margin-bottom:0}
+.item-head{display:flex;align-items:center;gap:10px;margin-bottom:5px}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.item-name{font-size:22px;font-weight:700;color:#1a1a1a}
+.item-desc{font-size:17px;color:#666;line-height:1.6;padding-left:19px}
+.item-example{font-size:16px;color:#2563eb;padding-left:19px;margin-top:4px;font-style:italic;opacity:0.7}
+.item-note{font-size:16px;color:#888;font-style:italic;padding-left:19px;margin-top:20px}
+
+.divider{width:1px;background:#ebebeb;flex-shrink:0;align-self:stretch}
+
+.bottom{text-align:center;padding-top:36px;border-top:2px solid #f0f0f0}
+.bottom-text{font-size:28px;color:#1a1a1a;font-weight:700}
+.bottom-text .hl{color:#2563eb}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="top">
+    <div class="title">存了就能用，<span class="hl">问了就能答</span></div>
+  </div>
+
+  <div class="content">
+    <!-- Col 1 -->
+    <div class="col">
+      <div class="col-header">
+        <div class="col-icon blue">存</div>
+        <span class="col-title">存入时 — 自动建索引</span>
+      </div>
+      <div class="item">
+        <div class="item-head"><div class="dot" style="background:#2563eb"></div><div class="item-name">AI 摘要 + 关键词</div></div>
+        <div class="item-desc">每篇笔记存入时，AI 自动生成标题、摘要、关键词</div>
+        <div class="item-example">"黄金ETF分析" → "金价2380，建议定投"</div>
+      </div>
+      <div class="item">
+        <div class="item-head"><div class="dot" style="background:#2563eb"></div><div class="item-name">二次提炼 + 分类标签</div></div>
+        <div class="item-desc">自动识别内容类型，提取结构化信息，打标签归类</div>
+        <div class="item-example">机票截图 → CA925 / 6月15日 / ¥3200 → [行程]</div>
+      </div>
+      <div class="item">
+        <div class="item-head"><div class="dot" style="background:#2563eb"></div><div class="item-name">使用数据记录</div></div>
+        <div class="item-desc">记录查看次数、分享记录，支持"常看的""发过微信的"</div>
+      </div>
+      <div class="item">
+        <div class="item-head"><div class="dot" style="background:#2563eb"></div><div class="item-name">资料库目录常驻</div></div>
+        <div class="item-desc">全量笔记目录注入小爱 context，模型随时知道用户有什么</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Col 2 -->
+    <div class="col">
+      <div class="col-header">
+        <div class="col-icon indigo">搜</div>
+        <span class="col-title">找的时候 — 三层保障</span>
+      </div>
+      <div class="item">
+        <div class="item-head"><div class="dot" style="background:#4f46e5"></div><div class="item-name">看目录直接答</div></div>
+        <div class="item-desc">大部分问题，模型看目录一行摘要就能回答</div>
+        <div class="item-example">"我血糖多少" → 目录有体检报告 → 直接答"5.8"</div>
+      </div>
+      <div class="item">
+        <div class="item-head"><div class="dot" style="background:#4f46e5"></div><div class="item-name">搜索深度匹配</div></div>
+        <div class="item-desc">目录不够时，语义 + 关键词双路搜索</div>
+        <div class="item-example">"上周那个预算表" → 搜索命中 → 返回摘要 + 原文件</div>
+      </div>
+      <div class="item">
+        <div class="item-head"><div class="dot" style="background:#4f46e5"></div><div class="item-name">按需读全文</div></div>
+        <div class="item-desc">需要具体细节时，读笔记原文回答</div>
+        <div class="item-example">"冰岛攻略住哪个酒店" → 读全文找到酒店名</div>
+        <div class="item-note">逐层递进：目录能答就不搜索，搜索能答就不读全文</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Col 3 -->
+    <div class="col">
+      <div class="col-header">
+        <div class="col-icon teal">用</div>
+        <span class="col-title">用的时候 — 多种入口</span>
+      </div>
+      <div class="item">
+        <div class="item-head"><div class="dot" style="background:#0d9488"></div><div class="item-name">小白条提问</div></div>
+        <div class="item-desc">长按小白条直接问</div>
+        <div class="item-example">"我的护照号" → 立刻回答</div>
+      </div>
+      <div class="item">
+        <div class="item-head"><div class="dot" style="background:#0d9488"></div><div class="item-name">智能补全</div></div>
+        <div class="item-desc">输入关键词，系统联想笔记和合集</div>
+        <div class="item-example">输入"周末" → 弹出"周末去处（3篇）"</div>
+      </div>
+      <div class="item">
+        <div class="item-head"><div class="dot" style="background:#0d9488"></div><div class="item-name">系统主动提醒</div></div>
+        <div class="item-desc">识别到时间的内容，到期自动上岛提醒</div>
+        <div class="item-example">出发前一天 → "明天CA925去东京 08:30"</div>
+      </div>
+      <div class="item">
+        <div class="item-head"><div class="dot" style="background:#0d9488"></div><div class="item-name">小球指向合集</div></div>
+        <div class="item-desc">指向合集后，基于合集内所有笔记进行问答</div>
+        <div class="item-example">指向"行程"合集 → "下周有什么安排？" → 汇总回答</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="bottom-text">用户不需要记住存在哪，不需要想怎么搜。存过的东西，<span class="hl">AI 随时能找到、能用上</span>。</div>
+  </div>
+</div>
+
+</body>
+</html>
