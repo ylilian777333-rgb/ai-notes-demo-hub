@@ -96,6 +96,17 @@ tr:hover:not(.group-row) td { background: #fafbff; }
 .ai-suggestion { background: #f0f4ff; color: #3b82f6; padding: 4px 8px; border-radius: 4px; font-size: 13px; }
 td.editable { cursor: text; }
 td.editable:hover { background: #f8f9ff; }
+/* Context menu */
+.ctx-menu{position:fixed;background:#fff;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:1000;min-width:180px;padding:4px 0;display:none}
+.ctx-menu.show{display:block}
+.ctx-item{padding:8px 16px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px}
+.ctx-item:hover{background:#f0f4ff;color:#2563eb}
+.ctx-item.danger{color:#ef4444}
+.ctx-item.danger:hover{background:#fee2e2}
+.ctx-sep{height:1px;background:#f0f0f0;margin:4px 0}
+/* Add column btn */
+.add-col-btn{background:none;border:1px dashed #ccc;color:#999;font-size:12px;padding:4px 12px;border-radius:4px;cursor:pointer;white-space:nowrap}
+.add-col-btn:hover{border-color:#3b82f6;color:#3b82f6}
 td .edit-marker {
   position: absolute;
   top: 0;
@@ -527,6 +538,95 @@ async function runAIAnalysis() {
   btn.disabled = false;
   btn.textContent = '🤖 AI分析';
 }
+
+// ── Right-click context menu ──
+let ctxTarget = null;
+const ctxMenu = document.createElement('div');
+ctxMenu.className = 'ctx-menu';
+ctxMenu.innerHTML = `
+  <div class="ctx-item" data-action="insert-above">⬆ 在上方插入行</div>
+  <div class="ctx-item" data-action="insert-below">⬇ 在下方插入行</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" data-action="duplicate">📋 复制本行</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item danger" data-action="delete">🗑 删除本行</div>
+`;
+document.body.appendChild(ctxMenu);
+
+document.addEventListener('contextmenu', function(e) {
+  const tr = e.target.closest('tr[data-gi][data-ii]');
+  if (!tr) { ctxMenu.classList.remove('show'); return; }
+  e.preventDefault();
+  ctxTarget = tr;
+  ctxMenu.style.left = e.pageX + 'px';
+  ctxMenu.style.top = e.pageY + 'px';
+  ctxMenu.classList.add('show');
+});
+
+document.addEventListener('click', () => ctxMenu.classList.remove('show'));
+
+ctxMenu.addEventListener('click', function(e) {
+  const action = e.target.closest('.ctx-item')?.dataset.action;
+  if (!action || !ctxTarget) return;
+  const gi = parseInt(ctxTarget.dataset.gi);
+  const ii = parseInt(ctxTarget.dataset.ii);
+  const group = DATA[gi];
+  const emptyItem = {name:'',time:'',owner:'',progress:'',eta:'',risk:'',conclusion:'',aiRisk:'',aiSuggestion:''};
+
+  if (action === 'insert-above') {
+    group.items.splice(ii, 0, {...emptyItem, name:'新需求'});
+  } else if (action === 'insert-below') {
+    group.items.splice(ii + 1, 0, {...emptyItem, name:'新需求'});
+  } else if (action === 'duplicate') {
+    group.items.splice(ii + 1, 0, {...group.items[ii]});
+  } else if (action === 'delete') {
+    if (confirm('确认删除「' + (group.items[ii].name || '该行') + '」？')) {
+      group.items.splice(ii, 1);
+    } else return;
+  }
+  saveData();
+  renderTable();
+  ctxMenu.classList.remove('show');
+});
+
+// ── Add column ──
+function addCustomColumn() {
+  const name = prompt('输入新列名：');
+  if (!name) return;
+  // Add to header
+  const thead = document.querySelector('thead tr');
+  const th = document.createElement('th');
+  th.textContent = name;
+  th.style.minWidth = '150px';
+  thead.appendChild(th);
+  // Add cells to all rows
+  document.querySelectorAll('#tracker-body tr:not(.group-row)').forEach(tr => {
+    const td = document.createElement('td');
+    td.className = 'editable';
+    td.innerHTML = '<div class="edit-marker"></div>';
+    td.addEventListener('dblclick', function() {
+      const input = document.createElement('input');
+      input.value = this.textContent;
+      this.textContent = '';
+      this.appendChild(input);
+      input.focus();
+      const save = () => { this.textContent = input.value; this.classList.add('modified'); this.innerHTML = '<div class="edit-marker"></div>' + input.value; };
+      input.addEventListener('blur', save);
+      input.addEventListener('keydown', e => { if(e.key==='Enter') save(); });
+    });
+    tr.appendChild(td);
+  });
+  // Update group rows colspan
+  document.querySelectorAll('.group-row td').forEach(td => {
+    td.colSpan = thead.children.length;
+  });
+}
+
+// Add "+" button to header
+const addColBtn = document.createElement('th');
+addColBtn.innerHTML = '<button class="add-col-btn" onclick="addCustomColumn()">+ 添加列</button>';
+addColBtn.style.background = '#ffc73a';
+document.querySelector('thead tr').appendChild(addColBtn);
 
 // Init
 loadSaved();
