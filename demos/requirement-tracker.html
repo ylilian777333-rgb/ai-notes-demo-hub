@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记需求跟踪看板</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+  background: #f5f5f5;
+  padding: 24px;
+  min-height: 100vh;
+}
+.header {
+  text-align: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+.header h1 { font-size: 28px; color: #1a1a1a; margin-bottom: 4px; }
+.header p { font-size: 14px; color: #666; }
+.ai-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+.ai-btn:hover { transform: translateY(-50%) scale(1.05); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5); }
+.ai-btn:active { transform: translateY(-50%) scale(0.98); }
+.table-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  overflow-x: auto;
+  width: 100%;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1400px;
+}
+thead th {
+  background: #ffc73a;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 12px 12px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+}
+tbody td {
+  padding: 8px 12px;
+  font-size: 13px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: top;
+  position: relative;
+}
+tr.group-row td {
+  background: #e8f0fe;
+  color: #1a73e8;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #d0e0f8;
+}
+tr:hover:not(.group-row) td { background: #fafbff; }
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.tag-p0 { background: #ef4444; color: #fff; }
+.tag-p1 { background: #f59e0b; color: #fff; }
+.tag-p2 { background: #22c55e; color: #fff; }
+.tag-hc { background: #dc2626; color: #fff; }
+.tag-unsure { background: #9ca3af; color: #fff; }
+.risk-high { background: #fee2e2; color: #dc2626; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.risk-mid { background: #fef3c7; color: #d97706; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.risk-low { background: #d1fae5; color: #16a34a; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.ai-suggestion { background: #f0f4ff; color: #3b82f6; padding: 4px 8px; border-radius: 4px; font-size: 13px; }
+td.editable { cursor: text; }
+td.editable:hover { background: #f8f9ff; }
+td .edit-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 8px solid #3b82f6;
+  border-bottom: 8px solid transparent;
+  display: none;
+}
+td.modified .edit-marker { display: block; }
+td input, td textarea {
+  width: 100%;
+  border: 2px solid #3b82f6;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  background: #f8f9ff;
+}
+td textarea { resize: vertical; min-height: 40px; }
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #3b82f6, transparent);
+  animation: scanMove 0.6s ease-in-out;
+  z-index: 5;
+}
+@keyframes scanMove { from { left: 0; } to { left: 100%; } }
+.fade-in { animation: fadeIn 0.4s ease-in; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.stats-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 16px 32px;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.1);
+  display: none;
+  justify-content: center;
+  gap: 32px;
+  font-size: 15px;
+  font-weight: 600;
+  z-index: 100;
+  border-top: 2px solid #e5e7eb;
+  animation: slideUp 0.4s ease;
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.stats-bar span { display: inline-flex; align-items: center; gap: 6px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>笔记需求跟踪看板</h1>
+  <p>可编辑 · AI自动校准风险 · 优先级建议</p>
+  <button class="ai-btn" onclick="runAIAnalysis()">🤖 AI分析</button>
+</div>
+<div class="table-wrapper">
+  <table id="tracker-table">
+    <thead>
+      <tr>
+        <th style="width:100px">类别</th>
+        <th style="width:300px">事项</th>
+        <th style="width:100px">交付时间</th>
+        <th style="width:120px">Owner</th>
+        <th style="width:300px">最新进展 & 风险</th>
+        <th style="width:120px">预计完成时间</th>
+        <th style="width:150px">风险点</th>
+        <th style="width:200px">AI建议</th>
+        <th style="width:200px">产品结论</th>
+      </tr>
+    </thead>
+    <tbody id="tracker-body"></tbody>
+  </table>
+</div>
+<div class="stats-bar" id="stats-bar">
+  <span>🔴 <span id="stat-high">0</span> 项高风险</span>
+  <span>🟡 <span id="stat-mid">0</span> 项中风险</span>
+  <span>🟢 <span id="stat-low">0</span> 项低风险</span>
+</div>
+
+<script>
+const DATA = [
+  { group: "os4 手机适配", items: [
+    { name: "OS 4适配", time: "P0 5.28", owner: "@张洋", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "设计还原", time: "P0 5.28", owner: "@张洋", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "基础体验", time: "P0 5.28", owner: "@张洋", progress: "下周一出数据（启动内存/流畅度）", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "claw 效果评测", time: "-", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "AI 交互", time: "P0 5.28", owner: "@Yang5 Zhao 赵洋", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "旧版本笔记-必要功能补齐", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "入力缺口", ai: "", conclusion: "-" },
+    { name: "低端设备（功能体验+基础体验）", time: "P1 (6.11)", owner: "-", progress: "-", eta: "-", risk: "入力缺口", ai: "", conclusion: "-" },
+    { name: "深色模式", time: "P0 5.28", owner: "@张洋", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "RTL 适配", time: "P0 5.28", owner: "@王波", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "新增翻译", time: "P0 5.28", owner: "@倪佳萱", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "需求确认", time: "-", owner: "-", progress: "-", eta: "-", risk: "入力缺口", ai: "", conclusion: "-" },
+  ]},
+  { group: "os4 国际手机", items: [
+    { name: "开发评估", time: "-", owner: "-", progress: "-", eta: "-", risk: "入力缺口", ai: "", conclusion: "-" },
+  ]},
+  { group: "os4 Q18适配", items: [
+    { name: "OS 4适配", time: "P0 5.28", owner: "@赵永杰", progress: "建新中", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "设计还原", time: "P0 5.28", owner: "@赵永杰", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "基础体验", time: "P0 5.28", owner: "@赵永杰", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "文件夹-侧边悬浮效果", time: "P1 (6.11)", owner: "@张洋", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "os4 fold适配", items: [
+    { name: "OS 4适配", time: "P0", owner: "@李鹏飞", progress: "Q1已交付 @刘翔飞，这是设计稿地址，设计师@段宗晨", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "设计还原", time: "-", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "基础体验", time: "P1 (6.11)", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "os4 pad竞争力需求", items: [
+    { name: "pad-封面/模版", time: "HC-需要确认排期", owner: "@宋世超 @杨李莲", progress: "6.11 系统更新以后交付，产品评测可延期交付", eta: "待下次更新", risk: "", ai: "", conclusion: "@宋怡帆" },
+    { name: "pad-封面/模板（新交互）", time: "-", owner: "@宋世超", progress: "6.11 系统更新以后交付，产品评测可延期交付", eta: "待下次更新", risk: "入力缺口", ai: "", conclusion: "-" },
+    { name: "首页 @刘羽权", time: "P1 (6.11)", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "首页-数据/动态", time: "-", owner: "-", progress: "以设计稿最终确认为准 @李贝贝", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "首页-数据展出 移动到侧栏需求", time: "-", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "首页-收藏拖拽 移动到侧栏需求 -多级交互", time: "-", owner: "-", progress: "待产品评估", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "首页-导入图片/导入文档需求", time: "P0 5.28", owner: "@张超飞", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "首页-语音速记（无交互）", time: "-", owner: "-", progress: "待产品评估", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "首页-导入图片导入文档 上传文档", time: "P0 5.28", owner: "@张超飞 @刘翔飞", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "文件夹", time: "P0 5.28", owner: "@刘翔飞", progress: "-", eta: "@刘翔飞", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "os4 pad功能适配", items: [
+    { name: "编辑页 @宋世超", time: "-", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "编辑页-AI对话 入口迁移到顶部 & 开启交互& AI动效调整", time: "HC-需要确认排期", owner: "@张念文", progress: "待确认是否放在顶部", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "编辑页-工具栏对标系统EditToolbar（可行性待评估）", time: "HC-需要确认排期", owner: "@朱杨远", progress: "miuix无现有能力，需评估 @李贝贝", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "编辑页-录音关联事直合名", time: "OS4交付不确定", owner: "-", progress: "涉及云同步，产品评估是否需要", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "编辑页-选中AI消失 交互", time: "HC-需要确认排期", owner: "@朱杨远", progress: "技术风险 需要native先有demo后评估 @李鹏飞", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "编辑页-格式浮窗是否记忆缓存", time: "OS4交付不确定", owner: "-", progress: "无法注册webview自带键盘，需要pad端跟方案", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "编辑页-录音支持全局（语言编辑器接口）", time: "OS4交付不确定", owner: "@张念文", progress: "设计还得需求，需评估", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "AI问答 @李群恩", time: "-", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "录音", time: "-", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "录音页-语音录音（支持全局，pad 4G场景效果）", time: "P0 5.28", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "pad-录音页-边录边记", time: "OS4交付不确定", owner: "@朱杨远", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "翻译页 @朱杨远", time: "-", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "新需求-笔记导入", items: [
+    { name: "只做 图片/语音导入", time: "P0 5.28", owner: "@崔超飞 @刘翔飞", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "笔记内导入（图片OCR识别、上传文档）", time: "P0 5.28", owner: "@崔超飞", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "笔记内导入（网址也能解析）", time: "OS4交付不确定", owner: "-", progress: "1.效果 2.前端解析技术卡片适配", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "文档/PDF/链接导入+AI自动OCR结构化", time: "OS4交付不确定", owner: "-", progress: "能力支持: 小爱-文档解析能力/小爱-识图能力/小爱-链接解析能力 确认中", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "新需求-外出/穿戴", items: [
+    { name: "跨端采集-手机互联（Q18）", time: "P0 5.28", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "跨端采集-手表/手环", time: "P0 5.28", owner: "-", progress: "导入音频开发完成后重启开发，目前进度30%", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "跨端采集-耳机", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "新需求-编辑页", items: [
+    { name: "对话框输入交互优化，一句话指令修改笔记", time: "-", owner: "UI交互 @李翔飞", progress: "507已合入", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "导出Markdown（自然到所有快速分享）(指其他苹果文+互AI输入)", time: "-", owner: "@朱杨远", progress: "已日更外发", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "AI编辑整体优化", time: "P0 5.28", owner: "-", progress: "虚 bugfix", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "边录边记", time: "P0 5.28", owner: "-", progress: "虚 bugfix", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "录音页互动优化-设计评估倒", time: "P1 (6.11)", owner: "-", progress: "共识6月开发完成交付", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "录音页互动优化-前置加速效果", time: "P0 5.28", owner: "-", progress: "5.28自不确，以后基础体验相关解释", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "录音详情页修改，录音详情页可修改，预设进版入P1", time: "P0 5.28", owner: "-", progress: "开发中", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "新需求-录音", items: [
+    { name: "模型对转录音文本高质量的，点击直接支持翻转，自动", time: "P0 5.28", owner: "@崔超飞", progress: "已进版", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "录音对话记忆 产品确认->自动加短标记->AI总结标记内容->P1", time: "P1 (6.11)", owner: "@倪佳萱", progress: "是否可以OS4 手机不做?", eta: "-", risk: "", ai: "", conclusion: "是否可以os4 手机不做?——不可以,ping是必须做的" },
+    { name: "识别的分享首版APP内容分类", time: "HC-需要确认排期", owner: "-", progress: "不允发布这，配置会调试", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "低版本是自升级附送 新增端自动检功能完整排期 AI类", time: "OS4交付不确定", owner: "-", progress: "需新完善版，资源配置中", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "新需求-体验", items: [
+    { name: "AI自动关联+相关笔记推荐 的 详请他/AI 米大笔记", time: "OS4交付不确定", owner: "-", progress: "入口缺口", eta: "-", risk: "", ai: "", conclusion: "产品评估：主要看结果准确性满意度和使用率，可能会存在概率风险" },
+    { name: "Agent产出滚动更新到已有笔记记账入miclaw来源内容", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "特力+系统待办中心+日历三端同步优化 @ AI笔记持久", time: "OS4交付不确定", owner: "-", progress: "重要不紧急，不选5.28点", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "检索联动", items: [
+    { name: "检索联动", time: "HC-需要确认排期", owner: "@Yang5 Zhao 赵洋", progress: "-", eta: "-", risk: "", ai: "", conclusion: "产品5.15已输出方案" },
+  ]},
+  { group: "编辑联动", items: [
+    { name: "编辑联动", time: "P0 5.28", owner: "@Yang5 Zhao 赵洋", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "pad 新需求-AI页", items: [
+    { name: "Android 17 16KB大页需求", time: "P0 5.28", owner: "-", progress: "5.14 导入需求 / Android 17 16KB大页需求", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "ai 键", time: "P0 5.28", owner: "-", progress: "5.14 导入需求", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "适配脑图", time: "P0 5.28", owner: "@李帅帆", progress: "迁移到pad，5.28 完成", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "适配AI 总结（产品效果来确定）", time: "P0 5.28", owner: "-", progress: "已支持", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "知识卡片问答卡", time: "OS4交付不确定", owner: "-", progress: "不在4.0版本交付/已延展内", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "播客", time: "OS4交付不确定", owner: "-", progress: "依赖方/小爱", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "存量功能适配", items: [
+    { name: "无", time: "-", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "功能缺失", items: [
+    { name: "主题管理", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "速记", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "语音笔记创建", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "录音画需求跳笔记", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "功能适配", items: [
+    { name: "负一屏搜索", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "新建笔记/小组件", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "书签文件夹", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "置顶文件夹", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "图片拖动排序", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+  { group: "前端", items: [
+    { name: "Markdown风格快速输入", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+    { name: "字体大小/设置", time: "OS4交付不确定", owner: "-", progress: "-", eta: "-", risk: "", ai: "", conclusion: "-" },
+  ]},
+];
+
+const EDITABLE_COLS = [1, 3, 4, 5, 8]; // name, owner, progress, eta, conclusion (0-indexed within item cols)
+const STORAGE_KEY = 'req-tracker-data';
+
+function getTimeTag(time) {
+  if (!time || time === '-') return '-';
+  if (time.includes('P0')) return `<span class="tag tag-p0">${time}</span>`;
+  if (time.includes('P1')) return `<span class="tag tag-p1">${time}</span>`;
+  if (time.includes('P2')) return `<span class="tag tag-p2">${time}</span>`;
+  if (time.includes('HC')) return `<span class="tag tag-hc">${time}</span>`;
+  if (time.includes('OS4交付不确定')) return `<span class="tag tag-unsure">${time}</span>`;
+  return time;
+}
+
+function loadSaved() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      parsed.forEach((group, gi) => {
+        if (DATA[gi]) {
+          group.items.forEach((item, ii) => {
+            if (DATA[gi].items[ii]) {
+              Object.assign(DATA[gi].items[ii], item);
+            }
+          });
+        }
+      });
+    }
+  } catch(e) {}
+}
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA.map(g => ({
+    items: g.items.map(item => ({
+      name: item.name, owner: item.owner, progress: item.progress,
+      eta: item.eta, conclusion: item.conclusion
+    }))
+  }))));
+}
+
+function renderTable() {
+  const tbody = document.getElementById('tracker-body');
+  tbody.innerHTML = '';
+  let rowIndex = 0;
+  DATA.forEach((group, gi) => {
+    const groupRow = document.createElement('tr');
+    groupRow.className = 'group-row';
+    groupRow.innerHTML = `<td colspan="9">${group.group}</td>`;
+    tbody.appendChild(groupRow);
+    group.items.forEach((item, ii) => {
+      const tr = document.createElement('tr');
+      tr.dataset.gi = gi;
+      tr.dataset.ii = ii;
+      tr.innerHTML = `
+        <td></td>
+        <td class="editable" data-field="name"><span class="edit-marker"></span>${item.name}</td>
+        <td>${getTimeTag(item.time)}</td>
+        <td class="editable" data-field="owner"><span class="edit-marker"></span>${item.owner}</td>
+        <td class="editable" data-field="progress"><span class="edit-marker"></span>${item.progress}</td>
+        <td class="editable" data-field="eta"><span class="edit-marker"></span>${item.eta}</td>
+        <td class="risk-cell" data-field="risk">${item.risk ? renderRisk(item.risk) : ''}</td>
+        <td class="ai-cell" data-field="ai">${item.ai ? `<span class="ai-suggestion">${item.ai}</span>` : ''}</td>
+        <td class="editable" data-field="conclusion"><span class="edit-marker"></span>${item.conclusion}</td>
+      `;
+      tbody.appendChild(tr);
+      rowIndex++;
+    });
+  });
+  attachEditListeners();
+}
+
+function renderRisk(risk) {
+  if (!risk) return '';
+  if (risk.includes('高风险')) return `<span class="risk-high">${risk}</span>`;
+  if (risk.includes('中风险')) return `<span class="risk-mid">${risk}</span>`;
+  if (risk.includes('低风险')) return `<span class="risk-low">${risk}</span>`;
+  return risk;
+}
+
+function attachEditListeners() {
+  document.querySelectorAll('td.editable').forEach(td => {
+    td.addEventListener('dblclick', function() {
+      if (td.querySelector('input, textarea')) return;
+      const field = td.dataset.field;
+      const tr = td.closest('tr');
+      const gi = parseInt(tr.dataset.gi);
+      const ii = parseInt(tr.dataset.ii);
+      const currentVal = DATA[gi].items[ii][field] || '';
+      const marker = td.querySelector('.edit-marker');
+      td.innerHTML = '';
+      if (marker) td.appendChild(marker);
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = currentVal === '-' ? '' : currentVal;
+      td.appendChild(input);
+      input.focus();
+      input.select();
+      const save = () => {
+        const newVal = input.value.trim() || '-';
+        DATA[gi].items[ii][field] = newVal;
+        td.innerHTML = `<span class="edit-marker"></span>${newVal}`;
+        td.classList.add('modified');
+        saveData();
+      };
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') { save(); } });
+      input.addEventListener('blur', save);
+    });
+  });
+}
+
+function assessRisk(item) {
+  const time = item.time || '';
+  const progress = item.progress || '';
+  const risk = item.risk || '';
+  // Has 入力缺口
+  if (risk.includes('入力缺口') || progress.includes('入力缺口') || progress.includes('入口缺口')) {
+    return { level: 'high', label: '🔴 高风险' };
+  }
+  // HC-需要确认排期
+  if (time.includes('HC')) {
+    return { level: 'high', label: '🔴 高风险' };
+  }
+  // P0 5.28
+  if (time.includes('P0')) {
+    const doneKeywords = ['已合入', '已进版', '已外发', '已完成', '已支持', 'Q1已交付'];
+    const progressKeywords = ['开发中', '进行中', '建新中', '迁移到pad', '进度'];
+    if (doneKeywords.some(k => progress.includes(k))) {
+      return { level: 'low', label: '🟢 低风险' };
+    }
+    if (progressKeywords.some(k => progress.includes(k))) {
+      return { level: 'mid', label: '🟡 中风险' };
+    }
+    // P0 with no progress or empty
+    if (!progress || progress === '-' || progress.includes('虚')) {
+      return { level: 'high', label: '🔴 高风险' };
+    }
+    return { level: 'mid', label: '🟡 中风险' };
+  }
+  // OS4交付不确定
+  if (time.includes('OS4交付不确定')) {
+    return { level: 'mid', label: '🟡 中风险' };
+  }
+  // P1
+  if (time.includes('P1')) {
+    return { level: 'low', label: '🟢 低风险' };
+  }
+  return { level: 'low', label: '🟢 低风险' };
+}
+
+function generateSuggestion(item, riskResult) {
+  const time = item.time || '';
+  const progress = item.progress || '';
+  const risk = item.risk || '';
+  // Done
+  const doneKeywords = ['已合入', '已进版', '已外发', '已完成', '已支持', 'Q1已交付', '已日更外发'];
+  if (doneKeywords.some(k => progress.includes(k))) {
+    return '✅ 已完成';
+  }
+  if (riskResult.level === 'high') {
+    if (risk.includes('入力缺口') || progress.includes('入力缺口') || progress.includes('入口缺口')) {
+      return '🆘 需协调资源，入力缺口阻塞';
+    }
+    if (time.includes('HC')) {
+      return '📞 需确认排期，阻塞决策';
+    }
+    if (time.includes('P0')) {
+      return '⚡ 最高优先级，需立即推进';
+    }
+    return '⚡ 最高优先级，需立即推进';
+  }
+  if (riskResult.level === 'mid') {
+    if (time.includes('OS4交付不确定')) {
+      return '🤔 需PM决策：做/砍/延';
+    }
+    if (progress.includes('开发中') || progress.includes('进行中') || progress.includes('建新中')) {
+      return '👀 跟进交付，关注时间线';
+    }
+    return '👀 跟进交付，关注时间线';
+  }
+  return '✅ 正常推进';
+}
+
+async function runAIAnalysis() {
+  const btn = document.querySelector('.ai-btn');
+  btn.disabled = true;
+  btn.textContent = '🤖 分析中...';
+  const rows = document.querySelectorAll('#tracker-body tr:not(.group-row)');
+  let highCount = 0, midCount = 0, lowCount = 0;
+  for (let i = 0; i < rows.length; i++) {
+    const tr = rows[i];
+    const gi = parseInt(tr.dataset.gi);
+    const ii = parseInt(tr.dataset.ii);
+    const item = DATA[gi].items[ii];
+    // Scan animation
+    const riskCell = tr.querySelector('.risk-cell');
+    const aiCell = tr.querySelector('.ai-cell');
+    tr.style.position = 'relative';
+    const scanLine = document.createElement('div');
+    scanLine.className = 'scan-line';
+    tr.appendChild(scanLine);
+    await new Promise(r => setTimeout(r, 80));
+    scanLine.remove();
+    // Assess
+    const riskResult = assessRisk(item);
+    const suggestion = generateSuggestion(item, riskResult);
+    if (riskResult.level === 'high') highCount++;
+    else if (riskResult.level === 'mid') midCount++;
+    else lowCount++;
+    // Render
+    riskCell.innerHTML = `<span class="${riskResult.level === 'high' ? 'risk-high' : riskResult.level === 'mid' ? 'risk-mid' : 'risk-low'} fade-in">${riskResult.label}</span>`;
+    aiCell.innerHTML = `<span class="ai-suggestion fade-in">${suggestion}</span>`;
+    item.aiRisk = riskResult.label;
+    item.aiSuggestion = suggestion;
+  }
+  // Show stats
+  document.getElementById('stat-high').textContent = highCount;
+  document.getElementById('stat-mid').textContent = midCount;
+  document.getElementById('stat-low').textContent = lowCount;
+  const statsBar = document.getElementById('stats-bar');
+  statsBar.style.display = 'flex';
+  btn.disabled = false;
+  btn.textContent = '🤖 AI分析';
+}
+
+// Init
+loadSaved();
+renderTable();
+</script>
+</body>
+</html>
