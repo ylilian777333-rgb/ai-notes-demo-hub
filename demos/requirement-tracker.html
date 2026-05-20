@@ -47,7 +47,7 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 1400px;
+  min-width: 1300px;
 }
 thead th {
   background: #ffc73a;
@@ -173,15 +173,14 @@ td textarea { resize: vertical; min-height: 40px; }
   <table id="tracker-table">
     <thead>
       <tr>
-        <th style="width:100px">类别</th>
-        <th style="width:300px">事项</th>
-        <th style="width:100px">交付时间</th>
-        <th style="width:120px">Owner</th>
-        <th style="width:300px">最新进展 & 风险</th>
-        <th style="width:120px">预计完成时间</th>
-        <th style="width:150px">风险点</th>
-        <th style="width:200px">AI建议</th>
-        <th style="width:200px">产品结论</th>
+        <th style="min-width:220px">事项</th>
+        <th style="min-width:100px">交付时间</th>
+        <th style="min-width:100px">Owner</th>
+        <th style="min-width:280px">最新进展 & 风险</th>
+        <th style="min-width:100px">预计完成时间</th>
+        <th style="min-width:90px">风险点</th>
+        <th style="min-width:180px">AI建议</th>
+        <th style="min-width:160px">产品结论</th>
       </tr>
     </thead>
     <tbody id="tracker-body"></tbody>
@@ -362,14 +361,13 @@ function renderTable() {
   DATA.forEach((group, gi) => {
     const groupRow = document.createElement('tr');
     groupRow.className = 'group-row';
-    groupRow.innerHTML = `<td colspan="9">${group.group}</td>`;
+    groupRow.innerHTML = `<td colspan="8">${group.group}</td>`;
     tbody.appendChild(groupRow);
     group.items.forEach((item, ii) => {
       const tr = document.createElement('tr');
       tr.dataset.gi = gi;
       tr.dataset.ii = ii;
       tr.innerHTML = `
-        <td></td>
         <td class="editable" data-field="name"><span class="edit-marker"></span>${item.name}</td>
         <td>${getTimeTag(item.time)}</td>
         <td class="editable" data-field="owner"><span class="edit-marker"></span>${item.owner}</td>
