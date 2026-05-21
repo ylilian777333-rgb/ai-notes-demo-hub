@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小爱记忆迁移引导</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","SF Pro Display",sans-serif;background:#f0f0f5;min-height:100vh;display:flex;justify-content:center;padding:32px 20px}
+.phone{width:390px;height:844px;background:#fff;border-radius:46px;box-shadow:0 24px 80px rgba(0,0,0,.18);overflow:hidden;position:relative;border:9px solid #1c1c1e}
+.ph-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#1c1c1e;border-radius:0 0 20px 20px;z-index:30}
+.ph-status{height:52px;display:flex;align-items:center;justify-content:space-between;padding:18px 26px 0;font-size:11px;font-weight:600;position:relative;z-index:20}
+.ph-status .time{font-size:15px;font-weight:700}
+
+/* 笔记首页（背景） */
+.notes-bg{position:absolute;inset:52px 0 0;overflow:hidden;filter:blur(1px);opacity:.4}
+.notes-bg-header{padding:16px;font-size:24px;font-weight:700}
+.notes-bg-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px}
+.notes-bg-card{background:#f8f8f8;border-radius:12px;padding:12px;height:90px}
+
+/* 引导弹窗 */
+.guide-overlay{position:absolute;inset:52px 0 0;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);z-index:40;display:flex;align-items:center;justify-content:center;transition:opacity .3s}
+.guide-overlay.hidden{opacity:0;pointer-events:none}
+.guide-card{width:320px;background:#fff;border-radius:20px;padding:28px 24px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:slideUp .4s ease}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.guide-icon{width:72px;height:72px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:32px}
+.guide-title{font-size:20px;font-weight:700;color:#1c1c1e;margin-bottom:10px}
+.guide-desc{font-size:14px;color:#636366;line-height:1.6;margin-bottom:6px}
+.guide-count{font-size:28px;font-weight:800;color:#667eea;margin:12px 0}
+.guide-count-label{font-size:12px;color:#8e8e93;margin-bottom:20px}
+.guide-btn{width:100%;padding:14px;background:#1c1c1e;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;margin-bottom:10px;transition:transform .1s}
+.guide-btn:active{transform:scale(.97)}
+.guide-skip{font-size:13px;color:#8e8e93;cursor:pointer;padding:8px}
+.guide-skip:hover{color:#636366}
+
+/* 迁移完成态 */
+.migrate-done{position:absolute;inset:52px 0 0;background:#fff;z-index:35;display:flex;flex-direction:column;transition:opacity .3s}
+.migrate-done.hidden{opacity:0;pointer-events:none}
+.md-header{display:flex;align-items:center;padding:14px 16px;gap:8px}
+.md-header .back{font-size:20px;cursor:pointer;color:#1c1c1e}
+.md-header h1{font-size:20px;font-weight:700;flex:1}
+.md-success{text-align:center;padding:40px 24px 24px}
+.md-success-icon{width:64px;height:64px;background:linear-gradient(135deg,#30d158,#34c759);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;color:#fff}
+.md-success h2{font-size:18px;font-weight:700;color:#1c1c1e;margin-bottom:8px}
+.md-success p{font-size:14px;color:#636366;line-height:1.5}
+.md-categories{padding:24px 16px 0}
+.md-categories h3{font-size:13px;color:#8e8e93;margin-bottom:10px}
+.md-cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.md-cat-card{background:#f8f8fa;border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px}
+.md-cat-card .mcc-icon{font-size:20px}
+.md-cat-card .mcc-info h4{font-size:13px;font-weight:600;color:#1c1c1e}
+.md-cat-card .mcc-info p{font-size:11px;color:#8e8e93}
+.md-enter-btn{margin:24px 16px;padding:14px;background:#667eea;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;text-align:center;transition:transform .1s}
+.md-enter-btn:active{transform:scale(.97)}
+
+/* 步骤指示器 */
+.steps{display:flex;justify-content:center;gap:6px;margin-bottom:20px}
+.steps .dot{width:8px;height:8px;border-radius:50%;background:#e5e5ea}
+.steps .dot.active{background:#667eea;width:20px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="ph-notch"></div>
+  <div class="ph-status">
+    <span class="time">9:41</span>
+    <span>● ● ● WiFi 🔋</span>
+  </div>
+
+  <!-- 笔记首页背景（模糊） -->
+  <div class="notes-bg">
+    <div class="notes-bg-header">笔记</div>
+    <div class="notes-bg-grid">
+      <div class="notes-bg-card"></div>
+      <div class="notes-bg-card"></div>
+      <div class="notes-bg-card"></div>
+      <div class="notes-bg-card"></div>
+      <div class="notes-bg-card"></div>
+      <div class="notes-bg-card"></div>
+    </div>
+  </div>
+
+  <!-- 引导弹窗 Step 1 -->
+  <div class="guide-overlay" id="guide1">
+    <div class="guide-card">
+      <div class="guide-icon">💜</div>
+      <div class="guide-title">小爱记忆已升级</div>
+      <div class="guide-desc">你在小爱积累的记忆内容，已整理并迁移至笔记</div>
+      <div class="guide-count">42</div>
+      <div class="guide-count-label">条记忆已整理完成</div>
+      <div class="steps"><div class="dot active"></div><div class="dot"></div></div>
+      <button class="guide-btn" onclick="showStep2()">查看我的记忆</button>
+      <div class="guide-skip" onclick="closeAll()">稍后再看</div>
+    </div>
+  </div>
+
+  <!-- 迁移完成页 Step 2 -->
+  <div class="migrate-done hidden" id="guide2">
+    <div class="md-header">
+      <span class="back" onclick="backToStep1()">←</span>
+      <h1>记忆迁移完成</h1>
+    </div>
+    <div class="md-success">
+      <div class="md-success-icon">✓</div>
+      <h2>42条记忆已就位</h2>
+      <p>已按类型自动分类，你可以随时在<br>"小爱记忆档案"中查看和管理</p>
+    </div>
+    <div class="md-categories">
+      <h3>已整理的内容</h3>
+      <div class="md-cat-grid">
+        <div class="md-cat-card"><span class="mcc-icon">🌐</span><div class="mcc-info"><h4>链接收藏</h4><p>18条</p></div></div>
+        <div class="md-cat-card"><span class="mcc-icon">🪪</span><div class="mcc-info"><h4>卡证信息</h4><p>5条</p></div></div>
+        <div class="md-cat-card"><span class="mcc-icon">📍</span><div class="mcc-info"><h4>地址</h4><p>8条</p></div></div>
+        <div class="md-cat-card"><span class="mcc-icon">💍</span><div class="mcc-info"><h4>纪念日</h4><p>4条</p></div></div>
+        <div class="md-cat-card"><span class="mcc-icon">📷</span><div class="mcc-info"><h4>相册识别</h4><p>5条</p></div></div>
+        <div class="md-cat-card"><span class="mcc-icon">💬</span><div class="mcc-info"><h4>对话记录</h4><p>2条</p></div></div>
+      </div>
+    </div>
+    <button class="md-enter-btn" onclick="closeAll()">进入小爱记忆档案 →</button>
+  </div>
+</div>
+
+<script>
+function showStep2() {
+  document.getElementById('guide1').classList.add('hidden');
+  document.getElementById('guide2').classList.remove('hidden');
+}
+function backToStep1() {
+  document.getElementById('guide2').classList.add('hidden');
+  document.getElementById('guide1').classList.remove('hidden');
+}
+function closeAll() {
+  document.getElementById('guide1').classList.add('hidden');
+  document.getElementById('guide2').classList.add('hidden');
+}
+</script>
+</body>
+</html>
