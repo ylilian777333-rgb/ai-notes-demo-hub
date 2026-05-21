@@ -3,409 +3,852 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>笔记侧边栏 · 三级交互Demo</title>
+<title>小米笔记 · 侧边栏三级交互Demo</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif; background: #f5f5f5; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, 'PingFang SC', sans-serif;
+  background: #1a1a1a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 20px 48px;
+}
+.page-header { text-align: center; margin-bottom: 24px; }
+.page-header h1 { color: #fff; font-size: 17px; font-weight: 600; margin-bottom: 5px; }
+.page-header p { color: #666; font-size: 13px; }
+.device-toggle {
+  display: flex; background: #2a2a2a; border-radius: 12px;
+  padding: 4px; margin-bottom: 28px; gap: 4px;
+  border: 1px solid #333;
+}
+.device-toggle button {
+  padding: 10px 32px; border: none; background: transparent;
+  border-radius: 9px; font-size: 15px; cursor: pointer;
+  color: #888; transition: all 0.25s; font-family: inherit;
+}
+.device-toggle button.active {
+  background: #ff6900; color: #fff; font-weight: 600;
+  box-shadow: 0 2px 10px rgba(255,105,0,0.4);
+}
+.frames-container { width: 100%; display: flex; justify-content: center; }
 
-/* Tab Switch */
-.device-tabs { display: flex; justify-content: center; gap: 12px; padding: 20px; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-.device-tabs button { padding: 8px 24px; border: 1px solid #ddd; border-radius: 20px; background: #fff; font-size: 14px; cursor: pointer; transition: all 0.2s; }
-.device-tabs button.active { background: #000; color: #fff; border-color: #000; }
+/* PHONE */
+.phone-frame {
+  width: 393px; height: 780px; background: #fff;
+  border-radius: 48px; overflow: hidden;
+  box-shadow: 0 0 0 2px #333, 0 0 0 4px #222, 0 30px 80px rgba(0,0,0,0.6);
+  position: relative; display: none;
+}
+.phone-frame.active { display: block; }
+.phone-frame::before {
+  content: ''; position: absolute;
+  top: 12px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 28px;
+  background: #111; border-radius: 14px; z-index: 100;
+}
 
-.demo-container { display: flex; justify-content: center; padding: 40px 20px; }
+/* PAD */
+.pad-frame {
+  width: 960px; height: 680px; background: #fff;
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 0 0 2px #333, 0 0 0 4px #222, 0 30px 80px rgba(0,0,0,0.6);
+  display: none;
+}
+.pad-frame.active { display: flex; }
 
-/* ========== PHONE ========== */
-.phone-frame { width: 390px; height: 844px; background: #fff; border-radius: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); overflow: hidden; position: relative; border: 8px solid #1a1a1a; }
-.phone-status { height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font-size: 12px; font-weight: 600; }
-.phone-content { height: calc(100% - 54px); position: relative; overflow: hidden; }
-
-/* Phone: Main List */
-.phone-main { position: absolute; inset: 0; background: #fff; transition: transform 0.3s ease; padding: 0 16px; overflow-y: auto; }
-.phone-main.shifted { transform: translateX(70%); }
-.phone-main h1 { font-size: 28px; font-weight: 700; margin: 16px 0 12px; }
-.phone-search { background: #f2f2f7; border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: #8e8e93; font-size: 15px; }
-.phone-tags { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
-.phone-tags span { padding: 6px 14px; border-radius: 16px; font-size: 13px; white-space: nowrap; background: #f2f2f7; color: #333; cursor: pointer; }
-.phone-tags span.active { background: #FFF3E0; color: #F57C00; border: 1px solid #FFB74D; }
-
-.note-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-bottom: 80px; }
-.note-card { background: #fff; border-radius: 12px; padding: 14px; border: 1px solid #f0f0f0; cursor: pointer; transition: transform 0.1s; }
-.note-card:active { transform: scale(0.97); }
-.note-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
-.note-card p { font-size: 12px; color: #666; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-.note-card .card-img { width: 100%; height: 80px; border-radius: 8px; object-fit: cover; margin-top: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-.note-card .card-img.img2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-.note-card .card-img.img3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-.note-card .card-meta { font-size: 11px; color: #999; margin-top: 8px; }
-.note-card.pinned { border-color: #FFB74D; }
-.note-card.pinned::before { content: "置顶 ⭐"; font-size: 10px; color: #F57C00; }
-
-/* Phone: Sidebar */
-.phone-sidebar { position: absolute; left: 0; top: 0; bottom: 0; width: 75%; background: #f8f8fa; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 10; padding: 20px; overflow-y: auto; }
+/* PHONE INNER */
+.phone-inner { width: 100%; height: 100%; position: relative; overflow: hidden; background: #f7f7f7; }
+.phone-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.45);
+  z-index: 20; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.phone-overlay.open { opacity: 1; pointer-events: all; }
+.phone-sidebar {
+  position: absolute; top: 0; left: 0; bottom: 0; width: 290px;
+  background: #fff; z-index: 30; transform: translateX(-100%);
+  transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+  display: flex; flex-direction: column;
+  box-shadow: 6px 0 24px rgba(0,0,0,0.18);
+}
 .phone-sidebar.open { transform: translateX(0); }
-.phone-sidebar h2 { font-size: 13px; color: #8e8e93; margin: 20px 0 8px; font-weight: 500; }
-.sidebar-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 12px; border-radius: 10px; margin-bottom: 4px; cursor: pointer; transition: background 0.2s; }
-.sidebar-item:hover { background: #e8e8ed; }
-.sidebar-item.active { background: #e8e8ed; }
-.sidebar-item .item-left { display: flex; align-items: center; gap: 10px; }
-.sidebar-item .item-icon { width: 20px; text-align: center; font-size: 16px; }
-.sidebar-item .item-name { font-size: 15px; }
-.sidebar-item .item-count { font-size: 13px; color: #8e8e93; }
-.sidebar-close { position: absolute; top: 16px; left: 16px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; border-radius: 50%; }
-.sidebar-close:hover { background: #e8e8ed; }
+.sidebar-header { padding: 60px 20px 16px; border-bottom: 1px solid #f2f2f2; }
+.sidebar-header h2 { font-size: 22px; font-weight: 700; color: #111; }
+.sidebar-header .sub { font-size: 12px; color: #aaa; margin-top: 3px; }
+.sidebar-body { flex: 1; overflow-y: auto; padding: 8px 0 20px; }
+.sec-title {
+  font-size: 11px; color: #bbb; font-weight: 600;
+  padding: 12px 20px 6px; letter-spacing: 0.8px; text-transform: uppercase;
+}
+.si {
+  display: flex; align-items: center; padding: 12px 20px;
+  cursor: pointer; transition: background 0.15s; gap: 12px;
+}
+.si:hover { background: #f8f8f8; }
+.si.active { background: #fff4ee; }
+.si .ico { font-size: 19px; width: 28px; text-align: center; }
+.si .lbl { flex: 1; font-size: 15px; color: #222; font-weight: 500; }
+.si.active .lbl { color: #ff6900; font-weight: 600; }
+.si .cnt {
+  font-size: 12px; color: #ccc; background: #f5f5f5;
+  padding: 2px 8px; border-radius: 10px; min-width: 28px; text-align: center;
+}
+.si.active .cnt { background: #ffe8d6; color: #ff6900; }
 
-/* Phone: Detail */
-.phone-detail { position: absolute; inset: 0; background: #fff; transform: translateX(100%); transition: transform 0.3s ease; z-index: 20; padding: 16px; overflow-y: auto; }
-.phone-detail.open { transform: translateX(0); }
-.phone-detail .back-btn { font-size: 14px; color: #007AFF; cursor: pointer; margin-bottom: 16px; display: flex; align-items: center; gap: 4px; }
-.phone-detail h2 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
-.phone-detail .detail-meta { font-size: 12px; color: #999; margin-bottom: 16px; }
-.phone-detail .detail-content { font-size: 15px; line-height: 1.8; color: #333; }
-.phone-detail .detail-content p { margin-bottom: 12px; }
+.phone-main { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.phone-topbar {
+  display: flex; align-items: center;
+  padding: 54px 16px 12px; background: #fff;
+  border-bottom: 1px solid #f0f0f0; gap: 10px; min-height: 98px;
+}
+.hbg {
+  width: 38px; height: 38px; display: flex; align-items: center;
+  justify-content: center; cursor: pointer; border-radius: 10px;
+  transition: background 0.15s; flex-shrink: 0;
+}
+.hbg:hover { background: #f5f5f5; }
+.hbg svg { width: 22px; height: 22px; }
+.phone-topbar .ptitle { font-size: 19px; font-weight: 700; color: #111; flex: 1; }
+.top-btn {
+  width: 34px; height: 34px; display: flex; align-items: center;
+  justify-content: center; border: none; background: #f5f5f5;
+  border-radius: 10px; cursor: pointer; font-size: 16px;
+}
+.phone-content { flex: 1; overflow-y: auto; }
+.phone-bar {
+  display: flex; align-items: center; justify-content: space-around;
+  padding: 10px 32px 28px; background: #fff; border-top: 1px solid #f0f0f0;
+}
+.bbar-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px; border-radius: 14px;
+  border: none; cursor: pointer; font-size: 20px; transition: transform 0.15s;
+}
+.bbar-btn:active { transform: scale(0.9); }
+.bbar-btn.create { background: #f5f5f5; color: #333; font-size: 24px; }
+.bbar-btn.mic {
+  background: #e53935; color: #fff; width: 56px; height: 56px;
+  border-radius: 18px; font-size: 22px;
+  box-shadow: 0 4px 16px rgba(229,57,53,0.45);
+}
+.bbar-btn.edit { background: #f5f5f5; color: #333; }
 
-/* Phone: Bottom Bar */
-.phone-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 70px; background: #fff; border-top: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-around; padding: 0 40px; }
-.phone-bottom .btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; border-radius: 50%; }
-.phone-bottom .btn.mic { width: 44px; height: 44px; background: #FF5722; color: #fff; border-radius: 50%; font-size: 16px; }
-.sidebar-toggle { position: absolute; top: 16px; right: 16px; cursor: pointer; font-size: 18px; }
+/* PAD COLUMNS */
+.pad-col-sidebar {
+  width: 225px; background: #f9f9f9;
+  border-right: 1px solid #ebebeb; display: flex; flex-direction: column; flex-shrink: 0;
+}
+.pad-col-sidebar .sidebar-header { padding: 22px 16px 14px; }
+.pad-col-sidebar .sidebar-header h2 { font-size: 17px; }
+.pad-col-sidebar .sidebar-body { flex: 1; overflow-y: auto; padding: 6px 0; }
+.pad-col-sidebar .sec-title { font-size: 10px; padding: 10px 14px 4px; }
+.pad-col-sidebar .si { padding: 9px 14px; gap: 9px; }
+.pad-col-sidebar .si .ico { font-size: 16px; width: 22px; }
+.pad-col-sidebar .si .lbl { font-size: 13px; }
+.pad-col-sidebar .si .cnt { font-size: 10px; padding: 1px 6px; }
 
-/* ========== PAD ========== */
-.pad-frame { width: 1024px; height: 720px; background: #fff; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); overflow: hidden; border: 6px solid #1a1a1a; display: flex; }
+.pad-col-list {
+  width: 295px; background: #fff;
+  border-right: 1px solid #ebebeb; display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden;
+}
+.pad-list-hdr {
+  padding: 18px 14px 12px; border-bottom: 1px solid #f2f2f2;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.pad-list-hdr h3 { font-size: 16px; font-weight: 700; }
+.pad-list-body { flex: 1; overflow-y: auto; }
 
-.pad-sidebar { width: 220px; background: #f8f8fa; border-right: 1px solid #e8e8e8; padding: 20px 12px; overflow-y: auto; flex-shrink: 0; }
-.pad-sidebar h1 { font-size: 18px; font-weight: 700; padding: 0 8px; margin-bottom: 16px; }
+.pad-col-detail { flex: 1; background: #fff; display: flex; flex-direction: column; overflow: hidden; }
+.pad-detail-body { flex: 1; overflow-y: auto; }
+.pad-placeholder {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 100%; color: #ddd; gap: 12px;
+}
+.pad-placeholder .pi { font-size: 44px; }
+.pad-placeholder p { font-size: 14px; }
 
-.pad-list { width: 300px; border-right: 1px solid #e8e8e8; overflow-y: auto; flex-shrink: 0; }
-.pad-list-header { padding: 16px; border-bottom: 1px solid #f0f0f0; }
-.pad-list-header h2 { font-size: 16px; font-weight: 600; }
-.pad-list-header .list-count { font-size: 12px; color: #999; }
-.pad-list-item { padding: 14px 16px; border-bottom: 1px solid #f5f5f5; cursor: pointer; transition: background 0.2s; }
-.pad-list-item:hover { background: #f8f8fa; }
-.pad-list-item.active { background: #e8f0fe; }
-.pad-list-item h3 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
-.pad-list-item p { font-size: 12px; color: #666; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.pad-list-item .item-time { font-size: 11px; color: #999; margin-top: 4px; }
+/* SHARED */
+.search-bar {
+  margin: 12px 14px; background: #f5f5f5; border-radius: 12px;
+  padding: 9px 14px; display: flex; align-items: center; gap: 8px;
+}
+.search-bar input {
+  border: none; background: transparent; outline: none;
+  font-size: 14px; flex: 1; color: #333; font-family: inherit;
+}
+.tags-row {
+  display: flex; gap: 8px; padding: 4px 14px 12px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.tags-row::-webkit-scrollbar { display: none; }
+.chip {
+  padding: 5px 14px; border-radius: 20px; font-size: 13px;
+  white-space: nowrap; cursor: pointer; background: #f0f0f0; color: #666;
+  border: none; font-family: inherit; transition: all 0.15s; flex-shrink: 0;
+}
+.chip.active { background: #ff6900; color: #fff; }
+.chip.purple { background: #7c3aed; color: #fff; }
 
-.pad-detail { flex: 1; padding: 24px 32px; overflow-y: auto; }
-.pad-detail h2 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
-.pad-detail .detail-meta { font-size: 12px; color: #999; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #f0f0f0; }
-.pad-detail .detail-content { font-size: 15px; line-height: 1.8; color: #333; }
-.pad-detail .detail-content p { margin-bottom: 12px; }
-.pad-detail .detail-content h3 { font-size: 16px; font-weight: 600; margin: 16px 0 8px; }
-.pad-detail .detail-content ul { padding-left: 20px; margin-bottom: 12px; }
-.pad-detail .detail-content li { margin-bottom: 6px; }
+/* NOTE GRID */
+.notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 14px 20px; }
+.nc {
+  background: #fff; border-radius: 14px; padding: 13px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07); cursor: pointer;
+  transition: transform 0.15s; position: relative; overflow: hidden;
+}
+.nc:active { transform: scale(0.97); }
+.nc .pin { position: absolute; top: 10px; right: 10px; font-size: 12px; }
+.nc .ct { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 6px; line-height: 1.4; padding-right: 14px; }
+.nc .cp { font-size: 12px; color: #999; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.nc .ci {
+  width: 100%; height: 72px; border-radius: 8px; margin: 8px 0;
+  display: flex; align-items: center; justify-content: center; font-size: 26px;
+}
+.ci.blu { background: linear-gradient(135deg,#e8f4fd,#cce5f8); }
+.ci.grn { background: linear-gradient(135deg,#e8f8f0,#c7edd8); }
+.ci.orn { background: linear-gradient(135deg,#fff0e5,#ffd9b3); }
+.ci.pur { background: linear-gradient(135deg,#f0e8fc,#ddc6f8); }
+.nc .cm { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.nc .cd { font-size: 10px; color: #ccc; }
+.nc .ctag { font-size: 10px; background: #f5f5f5; padding: 2px 6px; border-radius: 5px; color: #aaa; }
 
-.pad-sidebar .sidebar-item { padding: 10px 8px; font-size: 14px; }
-.pad-sidebar .sidebar-item .item-name { font-size: 14px; }
+/* WIDE CARD */
+.ncw {
+  background: #fff; border-radius: 14px; padding: 13px 14px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07); cursor: pointer;
+  margin: 0 14px 10px; display: flex; gap: 12px;
+  align-items: flex-start; transition: transform 0.15s;
+}
+.ncw:active { transform: scale(0.98); }
+.ncw .nb { flex: 1; min-width: 0; }
+.ncw .nbt { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 4px; }
+.ncw .nbp { font-size: 12px; color: #999; line-height: 1.6; }
+.ncw .nbi {
+  width: 48px; height: 48px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+}
+.ncw .nbf { display: flex; gap: 8px; margin-top: 6px; }
+.ncw .nbd { font-size: 10px; color: #ccc; }
+.ncw .nbta { font-size: 10px; background: #f5f5f5; padding: 2px 6px; border-radius: 5px; color: #aaa; }
 
-.hidden { display: none; }
+/* SECTION HDR */
+.sec-hdr { display: flex; align-items: center; justify-content: space-between; padding: 14px 14px 10px; }
+.sec-hdr h4 { font-size: 15px; font-weight: 700; color: #111; }
+.sec-hdr .sa { font-size: 13px; color: #ff6900; cursor: pointer; }
 
-/* Overlay for phone sidebar */
-.phone-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); z-index: 5; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-.phone-overlay.visible { opacity: 1; pointer-events: all; }
+/* COLLECTION SCROLL */
+.col-scroll { display: flex; gap: 10px; padding: 0 14px 14px; overflow-x: auto; scrollbar-width: none; }
+.col-scroll::-webkit-scrollbar { display: none; }
+.colc {
+  flex-shrink: 0; width: 136px; border-radius: 14px; padding: 14px;
+  cursor: pointer; transition: transform 0.15s;
+}
+.colc:active { transform: scale(0.94); }
+.colc.o { background: linear-gradient(135deg,#fff4ee,#ffe4cc); border: 1px solid rgba(255,105,0,0.12); }
+.colc.p { background: linear-gradient(135deg,#f3e8ff,#e9d5ff); border: 1px solid rgba(124,58,237,0.12); }
+.colc .ce { font-size: 22px; margin-bottom: 8px; }
+.colc .ctt { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 3px; }
+.colc.o .cn { font-size: 12px; color: #ff6900; }
+.colc.p .cn { font-size: 12px; color: #7c3aed; }
+
+/* PODCAST */
+.pod {
+  display: flex; align-items: center; padding: 13px 14px;
+  background: #fff; border-radius: 14px; margin: 0 14px 10px;
+  gap: 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  cursor: pointer; transition: transform 0.15s;
+}
+.pod:active { transform: scale(0.98); }
+.pod-cov { width: 52px; height: 52px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.pod-inf { flex: 1; min-width: 0; }
+.pod-t { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 3px; }
+.pod-s { font-size: 11px; color: #aaa; margin-bottom: 5px; }
+.pod-m { display: flex; gap: 8px; }
+.pod-d { font-size: 11px; color: #ccc; }
+.pod-play {
+  width: 34px; height: 34px; background: #ff6900; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 13px; flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(255,105,0,0.4); cursor: pointer;
+}
+
+/* TODO */
+.tg-title { font-size: 12px; font-weight: 600; color: #bbb; padding: 12px 16px 7px; letter-spacing: 0.3px; }
+.tdi {
+  display: flex; align-items: flex-start; padding: 12px 14px;
+  background: #fff; margin: 0 14px 8px; border-radius: 14px;
+  gap: 11px; box-shadow: 0 1px 5px rgba(0,0,0,0.06); cursor: pointer;
+}
+.tck {
+  width: 22px; height: 22px; border-radius: 50%; border: 2px solid #ddd;
+  flex-shrink: 0; margin-top: 1px; display: flex; align-items: center;
+  justify-content: center; transition: all 0.2s; cursor: pointer;
+}
+.tck.done { background: #ff6900; border-color: #ff6900; color: #fff; font-size: 12px; }
+.tb { flex: 1; }
+.tt { font-size: 13px; font-weight: 500; color: #111; margin-bottom: 3px; }
+.tt.done { text-decoration: line-through; color: #ccc; }
+.tdl { font-size: 11px; color: #ff6900; margin-bottom: 4px; }
+.ttags { display: flex; gap: 5px; flex-wrap: wrap; }
+.tst { font-size: 10px; background: #f5f5f5; padding: 2px 7px; border-radius: 5px; color: #999; }
+
+/* MEMORY */
+.mem-dh { font-size: 11px; color: #bbb; font-weight: 600; padding: 13px 14px 7px; letter-spacing: 0.5px; }
+.memi {
+  background: #fff; border-radius: 14px; padding: 13px 14px;
+  margin: 0 14px 10px; box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  cursor: pointer; transition: transform 0.15s;
+}
+.memi:active { transform: scale(0.98); }
+.memi-inner { display: flex; gap: 10px; }
+.memi-body { flex: 1; min-width: 0; }
+.memi-t { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 4px; }
+.memi-d { font-size: 12px; color: #888; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.memi-thumb {
+  width: 46px; height: 46px; border-radius: 8px;
+  background: linear-gradient(135deg,#ede9fe,#ddd6fe);
+  display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+}
+.memi-foot { display: flex; align-items: center; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.mem-src { font-size: 10px; background: #f5f5f5; padding: 2px 7px; border-radius: 5px; color: #999; }
+.mem-ht { font-size: 10px; color: #7c3aed; }
+.mem-ex { font-size: 13px; color: #ddd; margin-left: auto; }
+
+/* DETAIL */
+.det-hdr {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 14px 10px; border-bottom: 1px solid #f0f0f0;
+  background: #fff; position: sticky; top: 0; z-index: 5;
+}
+.back-btn {
+  width: 30px; height: 30px; background: #f5f5f5; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px; color: #444; flex-shrink: 0;
+}
+.det-hdr h3 { font-size: 16px; font-weight: 700; }
+.det-meta { font-size: 11px; color: #bbb; padding: 7px 14px 12px; }
+.ai-block { margin: 0 14px 14px; border-radius: 14px; padding: 14px; }
+.ai-block.o { background: linear-gradient(135deg,#fff4ee,#fff9f5); border: 1px solid rgba(255,105,0,0.1); }
+.ai-block.p { background: linear-gradient(135deg,#f3e8ff,#faf5ff); border: 1px solid rgba(124,58,237,0.1); }
+.ai-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+.ai-block.o .ai-title { color: #ff6900; }
+.ai-block.p .ai-title { color: #7c3aed; }
+.ai-pt { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+.ai-num {
+  width: 18px; height: 18px; border-radius: 50%; color: #fff;
+  font-size: 10px; font-weight: 700; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; margin-top: 1px;
+}
+.ai-block.o .ai-num { background: #ff6900; }
+.ai-block.p .ai-num { background: #7c3aed; }
+.ai-tx { font-size: 12px; color: #555; line-height: 1.6; }
+
+/* PAD LIST ITEMS */
+.pli {
+  padding: 13px 14px; border-bottom: 1px solid #f5f5f5;
+  cursor: pointer; transition: background 0.15s;
+}
+.pli:hover { background: #fafafa; }
+.pli.active { background: #fff4ee; border-left: 3px solid #ff6900; padding-left: 11px; }
+.pli.activep { background: #f5f0ff; border-left: 3px solid #7c3aed; padding-left: 11px; }
+.pli h4 { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 4px; }
+.pli p { font-size: 11px; color: #aaa; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pli .im { display: flex; gap: 6px; margin-top: 5px; flex-wrap: wrap; }
+.pli .id { font-size: 10px; color: #ccc; }
+.pli .it { font-size: 10px; background: #f0f0f0; padding: 1px 6px; border-radius: 4px; color: #aaa; }
+.pli .itp { font-size: 10px; background: #ede9fe; padding: 1px 6px; border-radius: 4px; color: #7c3aed; }
+
+.pal-sec { padding: 9px 14px 5px; font-size: 10px; color: #bbb; font-weight: 600; background: #fafafa; letter-spacing: 0.5px; text-transform: uppercase; }
+.pad-col-scroll { display: flex; gap: 8px; padding: 10px 12px 12px; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid #f0f0f0; }
+.pad-col-scroll::-webkit-scrollbar { display: none; }
+.pcc { flex-shrink: 0; width: 110px; border-radius: 12px; padding: 11px; cursor: pointer; transition: transform 0.15s; }
+.pcc:active { transform: scale(0.94); }
+.pcc.o { background: linear-gradient(135deg,#fff4ee,#ffe4cc); border: 1px solid rgba(255,105,0,0.1); }
+.pcc.p { background: linear-gradient(135deg,#f3e8ff,#e9d5ff); border: 1px solid rgba(124,58,237,0.1); }
+.pcc .pce { font-size: 18px; margin-bottom: 5px; }
+.pcc .pct { font-size: 11px; font-weight: 600; color: #111; margin-bottom: 2px; }
+.pcc.o .pccn { font-size: 10px; color: #ff6900; }
+.pcc.p .pccn { font-size: 10px; color: #7c3aed; }
+
+.pad-srch { margin: 10px 12px; background: #f5f5f5; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; gap: 6px; }
+.pad-srch span { font-size: 12px; color: #ccc; }
+.pad-srch input { border:none;background:transparent;outline:none;font-size:12px;color:#333;font-family:inherit;flex:1; }
+
+.pad-tchips { display: flex; gap: 6px; padding: 4px 12px 10px; overflow-x: auto; scrollbar-width: none; }
+.pad-tchips::-webkit-scrollbar { display: none; }
+.pchip { padding: 4px 10px; border-radius: 16px; font-size: 11px; white-space: nowrap; cursor: pointer; background: #f0f0f0; color: #666; border: none; font-family: inherit; transition: all 0.15s; flex-shrink: 0; }
+.pchip.active { background: #ff6900; color: #fff; }
+.pchip.purple { background: #7c3aed; color: #fff; }
+
+/* UTIL */
+.hidden { display: none !important; }
+.cpanel { display: none; }
+.cpanel.active { display: block; }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 4px; }
 </style>
 </head>
 <body>
 
-<div class="device-tabs">
-  <button class="active" onclick="switchDevice('phone')">📱 手机</button>
-  <button onclick="switchDevice('pad')">📟 Pad</button>
+<div class="page-header">
+  <h1>小米笔记 · 侧边栏交互 Demo</h1>
+  <p>手机 + Pad 双端 · 品类切换 · 智能合集 · 三级导航</p>
 </div>
 
-<!-- ===== PHONE ===== -->
-<div class="demo-container" id="phone-demo">
-<div class="phone-frame">
-  <div class="phone-status">
-    <span>2:36</span>
-    <span>⦁⦁⦁⦁ 📶 🔋100</span>
-  </div>
-  <div class="phone-content">
-    <!-- Overlay -->
-    <div class="phone-overlay" id="phoneOverlay" onclick="closeSidebar()"></div>
-
-    <!-- Sidebar (Level 1) -->
-    <div class="phone-sidebar" id="phoneSidebar">
-      <div style="height: 20px"></div>
-      <h2>品类</h2>
-      <div class="sidebar-item active" onclick="selectCategory('notes')">
-        <div class="item-left"><span class="item-icon">📝</span><span class="item-name">我的笔记</span></div>
-        <span class="item-count">36</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('quicknote')">
-        <div class="item-left"><span class="item-icon">⚡</span><span class="item-name">AI速记</span></div>
-        <span class="item-count">24</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('podcast')">
-        <div class="item-left"><span class="item-icon">🎧</span><span class="item-name">播客</span></div>
-        <span class="item-count">8</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('todo')">
-        <div class="item-left"><span class="item-icon">☑️</span><span class="item-name">待办</span></div>
-        <span class="item-count">12</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('knowledge')">
-        <div class="item-left"><span class="item-icon">🧠</span><span class="item-name">AI知识库</span></div>
-        <span class="item-count">15</span>
-      </div>
-
-      <h2>文件夹</h2>
-      <div class="sidebar-item" onclick="selectCategory('personal')">
-        <div class="item-left"><span class="item-icon">📁</span><span class="item-name">个人</span></div>
-        <span class="item-count">19</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('life')">
-        <div class="item-left"><span class="item-icon">📁</span><span class="item-name">生活</span></div>
-        <span class="item-count">19</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('study')">
-        <div class="item-left"><span class="item-icon">📁</span><span class="item-name">学习</span></div>
-        <span class="item-count">19</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('deleted')">
-        <div class="item-left"><span class="item-icon">🗑️</span><span class="item-name">最近删除</span></div>
-        <span class="item-count">25</span>
-      </div>
-    </div>
-
-    <!-- Main List (Level 2) -->
-    <div class="phone-main" id="phoneMain">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h1 id="phoneTitle">笔记</h1>
-        <span class="sidebar-toggle" onclick="openSidebar()">☰</span>
-      </div>
-      <div class="phone-search">🔍 搜索</div>
-      <div class="phone-tags">
-        <span class="active">全部</span>
-        <span>个人</span>
-        <span>生活</span>
-        <span>学习</span>
-        <span>未分类</span>
-      </div>
-      <div class="note-grid" id="noteGrid">
-        <div class="note-card pinned" onclick="openDetail('note1')">
-          <h3>读雷军的小米创业思考</h3>
-          <p>雷军不是在上升电梯中做俯卧撑的人。在看到这里的时候，我能够理解雷军试图复盘整体企业的发展而总结出来一个方法论…</p>
-          <div class="card-img"></div>
-          <div class="card-meta">置顶 ⭐</div>
-        </div>
-        <div class="note-card pinned" onclick="openDetail('note2')">
-          <h3>雷军：我喜欢并推崇任天堂</h3>
-          <p>在上一篇《小米创业思考》系列文章中，我分享了我对极致的理解：极致就是做到自己能力的极限…</p>
-          <div class="card-meta">置顶 ⭐</div>
-        </div>
-        <div class="note-card" onclick="openDetail('note3')">
-          <h3>雨夜咖啡馆</h3>
-          <p>· 工业设计<br>· 建筑设计<br>· 雕塑设计<br>· 平面设计<br>· 视觉传达</p>
-          <div class="card-meta">周二 13:38</div>
-        </div>
-        <div class="note-card" onclick="openDetail('note4')">
-          <h3>生活点滴</h3>
-          <p>生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱</p>
-          <div class="card-img img2"></div>
-          <div class="card-meta">周二 13:38</div>
-        </div>
-        <div class="note-card" onclick="openDetail('note5')">
-          <h3>南京旅行攻略整理</h3>
-          <p>景点：有梧桐大道、音乐台、夫子庙等，还有钟山秋水湖等小众景点…</p>
-          <div class="card-img img3"></div>
-          <div class="card-meta">周一 09:15</div>
-        </div>
-        <div class="note-card" onclick="openDetail('note6')">
-          <h3>产品周会纪要 5/19</h3>
-          <p>议题一：首页改版进度<br>议题二：推荐算法AB测试<br>议题三：Q3新增需求</p>
-          <div class="card-meta">周一 15:00</div>
-        </div>
-      </div>
-      <div class="phone-bottom">
-        <span class="btn">＋</span>
-        <span class="btn mic">🎙</span>
-        <span class="btn">✏️</span>
-      </div>
-    </div>
-
-    <!-- Detail (Level 3) -->
-    <div class="phone-detail" id="phoneDetail">
-      <div class="back-btn" onclick="closeDetail()">← 返回</div>
-      <h2 id="detailTitle">读雷军的小米创业思考</h2>
-      <div class="detail-meta">2026-05-19 · 来自：我的笔记</div>
-      <div class="detail-content" id="detailContent">
-        <p>雷军不是在上升电梯中做俯卧撑的人。在看到这里的时候，我能够理解雷军试图复盘整体企业的发展而总结出来一个方法论，并且试图从中验证。</p>
-        <p>一个方法论的提出，核心是"顺势而为"——找到风口，然后用极致的产品抓住机会。</p>
-        <p>这不是投机主义，而是对时机的敬畏。很多创业者失败不是因为不够努力，而是因为在错误的时间做了正确的事。</p>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="device-toggle">
+  <button id="btn-phone" class="active" onclick="switchDev('phone')">📱 手机</button>
+  <button id="btn-pad" onclick="switchDev('pad')">📟 Pad</button>
 </div>
 
-<!-- ===== PAD ===== -->
-<div class="demo-container hidden" id="pad-demo">
-<div class="pad-frame">
-  <!-- Pad Sidebar (Level 1) -->
-  <div class="pad-sidebar">
-    <h1>笔记</h1>
-    <div class="sidebar-item active" onclick="padSelectCategory('notes')">
-      <div class="item-left"><span class="item-icon">📝</span><span class="item-name">我的笔记</span></div>
-      <span class="item-count">36</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('quicknote')">
-      <div class="item-left"><span class="item-icon">⚡</span><span class="item-name">AI速记</span></div>
-      <span class="item-count">24</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('podcast')">
-      <div class="item-left"><span class="item-icon">🎧</span><span class="item-name">播客</span></div>
-      <span class="item-count">8</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('todo')">
-      <div class="item-left"><span class="item-icon">☑️</span><span class="item-name">待办</span></div>
-      <span class="item-count">12</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('knowledge')">
-      <div class="item-left"><span class="item-icon">🧠</span><span class="item-name">AI知识库</span></div>
-      <span class="item-count">15</span>
-    </div>
-    <h2 style="font-size:12px;color:#8e8e93;margin:16px 8px 8px;">文件夹</h2>
-    <div class="sidebar-item" onclick="padSelectCategory('personal')">
-      <div class="item-left"><span class="item-icon">📁</span><span class="item-name">个人</span></div>
-      <span class="item-count">19</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('life')">
-      <div class="item-left"><span class="item-icon">📁</span><span class="item-name">生活</span></div>
-      <span class="item-count">19</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('study')">
-      <div class="item-left"><span class="item-icon">📁</span><span class="item-name">学习</span></div>
-      <span class="item-count">19</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('deleted')">
-      <div class="item-left"><span class="item-icon">🗑️</span><span class="item-name">最近删除</span></div>
-      <span class="item-count">25</span>
-    </div>
-  </div>
+<div class="frames-container">
 
-  <!-- Pad List (Level 2) -->
-  <div class="pad-list">
-    <div class="pad-list-header">
-      <h2 id="padListTitle">我的笔记</h2>
-      <span class="list-count">36篇</span>
+<!-- PHONE -->
+<div class="phone-frame active" id="phone-frame">
+  <div class="phone-inner">
+    <div class="phone-overlay" id="ph-overlay" onclick="closeSB()"></div>
+    <div class="phone-sidebar" id="ph-sb">
+      <div class="sidebar-header">
+        <h2>小米笔记</h2><div class="sub">所有内容，一目了然</div>
+      </div>
+      <div class="sidebar-body">
+        <div class="sec-title">品类</div>
+        <div class="si active" id="ps-mynotes" onclick="phoneGo('mynotes')"><span class="ico">📝</span><span class="lbl">我的笔记</span><span class="cnt">36</span></div>
+        <div class="si" id="ps-ai" onclick="phoneGo('ai')"><span class="ico">⚡</span><span class="lbl">AI速记</span><span class="cnt">24</span></div>
+        <div class="si" id="ps-podcast" onclick="phoneGo('podcast')"><span class="ico">🎧</span><span class="lbl">播客</span><span class="cnt">8</span></div>
+        <div class="si" id="ps-todo" onclick="phoneGo('todo')"><span class="ico">☑️</span><span class="lbl">待办</span><span class="cnt">12</span></div>
+        <div class="si" id="ps-aiknow" onclick="phoneGo('aiknow')"><span class="ico">🧠</span><span class="lbl">AI知识库</span><span class="cnt">15</span></div>
+        <div class="si" id="ps-memory" onclick="phoneGo('memory')"><span class="ico">💜</span><span class="lbl">小爱记忆</span><span class="cnt">42</span></div>
+        <div class="sec-title">文件夹</div>
+        <div class="si" id="ps-folder" onclick="phoneGo('folder')"><span class="ico">📁</span><span class="lbl">个人</span><span class="cnt">19</span></div>
+        <div class="si" onclick="phoneGo('folder')"><span class="ico">📁</span><span class="lbl">生活</span><span class="cnt">19</span></div>
+        <div class="si" onclick="phoneGo('folder')"><span class="ico">📁</span><span class="lbl">学习</span><span class="cnt">19</span></div>
+        <div class="si" onclick="phoneGo('folder')"><span class="ico">🗑️</span><span class="lbl">最近删除</span><span class="cnt">25</span></div>
+      </div>
     </div>
-    <div class="pad-list-item active" onclick="padSelectNote(0)">
-      <h3>读雷军的小米创业思考</h3>
-      <p>雷军不是在上升电梯中做俯卧撑的人…</p>
-      <span class="item-time">5/19 14:30 · 置顶</span>
-    </div>
-    <div class="pad-list-item" onclick="padSelectNote(1)">
-      <h3>雷军：我喜欢并推崇任天堂</h3>
-      <p>极致就是做到自己能力的极限…</p>
-      <span class="item-time">5/19 10:22 · 置顶</span>
-    </div>
-    <div class="pad-list-item" onclick="padSelectNote(2)">
-      <h3>南京旅行攻略整理</h3>
-      <p>景点：梧桐大道、音乐台、夫子庙…</p>
-      <span class="item-time">5/18 09:15</span>
-    </div>
-    <div class="pad-list-item" onclick="padSelectNote(3)">
-      <h3>产品周会纪要 5/19</h3>
-      <p>议题一：首页改版进度 议题二：推荐算法…</p>
-      <span class="item-time">5/19 15:00</span>
-    </div>
-    <div class="pad-list-item" onclick="padSelectNote(4)">
-      <h3>生活点滴</h3>
-      <p>生命是有色彩的，并不是存在的变幻无常…</p>
-      <span class="item-time">5/17 13:38</span>
-    </div>
-    <div class="pad-list-item" onclick="padSelectNote(5)">
-      <h3>雨夜咖啡馆</h3>
-      <p>工业设计、建筑设计、雕塑设计…</p>
-      <span class="item-time">5/17 13:38</span>
-    </div>
-  </div>
+    <div class="phone-main">
+      <div class="phone-topbar">
+        <div class="hbg" onclick="openSB()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </div>
+        <span class="ptitle" id="ph-title">我的笔记</span>
+        <div style="display:flex;gap:6px;"><button class="top-btn">🔍</button><button class="top-btn">⋯</button></div>
+      </div>
+      <div class="phone-content">
 
-  <!-- Pad Detail (Level 3) -->
-  <div class="pad-detail">
-    <h2 id="padDetailTitle">读雷军的小米创业思考</h2>
-    <div class="detail-meta" id="padDetailMeta">2026-05-19 14:30 · 我的笔记 · 个人</div>
-    <div class="detail-content" id="padDetailContent">
-      <p>雷军不是在上升电梯中做俯卧撑的人。在看到这里的时候，我能够理解雷军试图复盘整体企业的发展而总结出来一个方法论，并且试图从中验证。</p>
-      <h3>核心观点</h3>
-      <p>一个方法论的提出，核心是"顺势而为"——找到风口，然后用极致的产品抓住机会。</p>
-      <p>这不是投机主义，而是对时机的敬畏。很多创业者失败不是因为不够努力，而是因为在错误的时间做了正确的事。</p>
-      <h3>我的思考</h3>
-      <ul>
-        <li>时机判断比执行力更重要</li>
-        <li>"极致"不是完美主义，是在约束条件下做到最好</li>
-        <li>小米的成功本质上是供应链效率革命</li>
-      </ul>
-      <p>这对我们做AI笔记的启示是：不是功能做得多就好，是在用户最痛的点上做到极致。录音转写这一个点如果做到体验碾压，就够了。</p>
+        <!-- 我的笔记 -->
+        <div class="cpanel active" id="panel-mynotes">
+          <div class="search-bar"><span style="font-size:14px;color:#ccc;">🔍</span><input type="text" placeholder="搜索笔记内容…"></div>
+          <div class="tags-row">
+            <button class="chip active" onclick="chipSwitch(this,'orange')">全部</button>
+            <button class="chip" onclick="chipSwitch(this,'orange')">工作</button>
+            <button class="chip" onclick="chipSwitch(this,'orange')">个人</button>
+            <button class="chip" onclick="chipSwitch(this,'orange')">学习</button>
+            <button class="chip" onclick="chipSwitch(this,'orange')">未分类</button>
+          </div>
+          <div class="notes-grid">
+            <div class="nc"><span class="pin">⭐</span><div class="ct">Q2产品规划复盘</div><div class="cp">本季度完成笔记2.0架构升级，AI速记DAU提升34%，下季度优先推进多端协同…</div><div class="cm"><span class="cd">今天 14:32</span><span class="ctag">工作</span></div></div>
+            <div class="nc"><span class="pin">⭐</span><div class="ct">南京旅游攻略</div><div class="ci orn">🏯</div><div class="cp">中华门、秦淮河、夫子庙，三天两晚完美行程…</div><div class="cm"><span class="cd">5月9日</span><span class="ctag">个人</span></div></div>
+            <div class="nc"><div class="ct">Python异步编程笔记</div><div class="cp">asyncio事件循环、async/await语法、并发任务管理最佳实践…</div><div class="cm"><span class="cd">5月8日</span><span class="ctag">学习</span></div></div>
+            <div class="nc"><div class="ct">健身计划 Week 3</div><div class="ci grn">💪</div><div class="cp">周一胸背、周三腿肩、周五有氧，热量控1800kcal…</div><div class="cm"><span class="cd">5月7日</span><span class="ctag">个人</span></div></div>
+            <div class="nc"><div class="ct">黄金投资笔记</div><div class="cp">当前金价走势，美联储加息预期，配置比例建议不超15%…</div><div class="cm"><span class="cd">5月6日</span><span class="ctag">个人</span></div></div>
+            <div class="nc"><div class="ct">《原子习惯》摘录</div><div class="ci pur">📚</div><div class="cp">习惯叠加法则、1%改进原则、身份认同型目标设定…</div><div class="cm"><span class="cd">5月5日</span><span class="ctag">学习</span></div></div>
+          </div>
+        </div>
+
+        <!-- AI速记 -->
+        <div class="cpanel" id="panel-ai">
+          <div id="ai-main">
+            <div class="sec-hdr"><h4>✨ 智能合集</h4><span class="sa">全部 ›</span></div>
+            <div class="col-scroll">
+              <div class="colc o" onclick="phoneDetail('nanjing','ai')"><div class="ce">🏯</div><div class="ctt">南京旅游</div><div class="cn">5篇笔记</div></div>
+              <div class="colc o" onclick="phoneDetail('gold','ai')"><div class="ce">🥇</div><div class="ctt">黄金投资</div><div class="cn">5篇笔记</div></div>
+              <div class="colc o" onclick="phoneDetail('fitness','ai')"><div class="ce">🏋️</div><div class="ctt">健身记录</div><div class="cn">6篇笔记</div></div>
+              <div class="colc o" onclick="phoneDetail('python','ai')"><div class="ce">🐍</div><div class="ctt">Python学习</div><div class="cn">4篇笔记</div></div>
+            </div>
+            <div class="sec-hdr"><h4>全部笔记</h4><span style="font-size:12px;color:#ccc;">24条</span></div>
+            <div class="notes-grid" style="padding-top:0;">
+              <div class="nc"><div class="ct">南京玄武湖游记</div><div class="ci blu">🌸</div><div class="cp">湖光山色，春花盛开，适合周末出行…</div><div class="cm"><span class="cd">5月9日</span><span class="ctag">⚡速记</span></div></div>
+              <div class="nc"><div class="ct">黄金ETF vs 实物金</div><div class="cp">ETF流动性强，实物金保值，建议7:3配置…</div><div class="cm"><span class="cd">5月6日</span><span class="ctag">⚡速记</span></div></div>
+              <div class="nc"><div class="ct">协程与线程对比</div><div class="cp">协程无切换开销，适合IO密集高并发…</div><div class="cm"><span class="cd">5月8日</span><span class="ctag">⚡速记</span></div></div>
+              <div class="nc"><div class="ct">HIIT训练30分钟</div><div class="ci orn">🔥</div><div class="cp">4组间歇，1:2恢复比，燃脂效率极高…</div><div class="cm"><span class="cd">5月7日</span><span class="ctag">⚡速记</span></div></div>
+            </div>
+          </div>
+          <div id="ai-det" class="hidden" style="height:100%;overflow-y:auto;"></div>
+        </div>
+
+        <!-- 播客 -->
+        <div class="cpanel" id="panel-podcast">
+          <div class="sec-hdr" style="padding-top:16px;"><h4>🎧 播客笔记</h4><span style="font-size:12px;color:#ccc;">8条</span></div>
+          <div style="padding-bottom:20px;">
+            <div class="pod"><div class="pod-cov" style="background:linear-gradient(135deg,#fee2e2,#fca5a5);">🎙</div><div class="pod-inf"><div class="pod-t">硅谷101：AI创业者的第一课</div><div class="pod-s">硅谷101 · 科技商业</div><div class="pod-m"><span class="pod-d">⏱ 47:23</span><span class="pod-d">5月10日</span></div></div><div class="pod-play">▶</div></div>
+            <div class="pod"><div class="pod-cov" style="background:linear-gradient(135deg,#d1fae5,#6ee7b7);">🎵</div><div class="pod-inf"><div class="pod-t">得到头条：2025最值得关注的10个趋势</div><div class="pod-s">得到App · 知识付费</div><div class="pod-m"><span class="pod-d">⏱ 23:11</span><span class="pod-d">5月9日</span></div></div><div class="pod-play">▶</div></div>
+            <div class="pod"><div class="pod-cov" style="background:linear-gradient(135deg,#e0e7ff,#a5b4fc);">📻</div><div class="pod-inf"><div class="pod-t">经济学人：美联储降息深度解读</div><div class="pod-s">The Economist · 财经</div><div class="pod-m"><span class="pod-d">⏱ 31:55</span><span class="pod-d">5月8日</span></div></div><div class="pod-play">▶</div></div>
+            <div class="pod"><div class="pod-cov" style="background:linear-gradient(135deg,#fef9c3,#fde68a);">🧘</div><div class="pod-inf"><div class="pod-t">小宇宙：为什么高效人士都在冥想</div><div class="pod-s">小宇宙 · 生活方式</div><div class="pod-m"><span class="pod-d">⏱ 18:44</span><span class="pod-d">5月7日</span></div></div><div class="pod-play">▶</div></div>
+            <div class="pod"><div class="pod-cov" style="background:linear-gradient(135deg,#fce7f3,#f9a8d4);">💡</div><div class="pod-inf"><div class="pod-t">产品沉思录：大模型落地的10个坑</div><div class="pod-s">产品沉思录 · 产品设计</div><div class="pod-m"><span class="pod-d">⏱ 54:02</span><span class="pod-d">5月5日</span></div></div><div class="pod-play">▶</div></div>
+          </div>
+        </div>
+
+        <!-- 待办 -->
+        <div class="cpanel" id="panel-todo">
+          <div class="tg-title" style="padding-top:16px;">今天</div>
+          <div class="tdi" onclick="toggleTodo(this)"><div class="tck done">✓</div><div class="tb"><div class="tt done">回复李楠关于Q2 OKR的邮件</div><div class="ttags"><span class="tst">📧 邮件</span><span class="tst">🏢 工作</span></div></div></div>
+          <div class="tdi" onclick="toggleTodo(this)"><div class="tck"></div><div class="tb"><div class="tt">完成笔记侧边栏交互Demo</div><div class="tdl">⏰ 今天 18:00</div><div class="ttags"><span class="tst">📝 笔记</span><span class="tst">🏢 工作</span></div></div></div>
+          <div class="tdi" onclick="toggleTodo(this)"><div class="tck"></div><div class="tb"><div class="tt">去超市买食材：牛肉、西兰花、鸡蛋</div><div class="tdl">⏰ 今天 19:30</div><div class="ttags"><span class="tst">🏠 生活</span></div></div></div>
+          <div class="tg-title">明天</div>
+          <div class="tdi" onclick="toggleTodo(this)"><div class="tck"></div><div class="tb"><div class="tt">产品评审会议 — 小米笔记3.0</div><div class="tdl">⏰ 明天 10:00</div><div class="ttags"><span class="tst">📅 日历</span><span class="tst">🏢 工作</span></div></div></div>
+          <div class="tdi" onclick="toggleTodo(this)"><div class="tck"></div><div class="tb"><div class="tt">健身房 — 腿日训练</div><div class="tdl">⏰ 明天 19:00</div><div class="ttags"><span class="tst">💪 健身</span></div></div></div>
+          <div class="tg-title">本周</div>
+          <div class="tdi" onclick="toggleTodo(this)"><div class="tck"></div><div class="tb"><div class="tt">完成《原子习惯》读书笔记整理</div><div class="tdl">⏰ 周五</div><div class="ttags"><span class="tst">📚 阅读</span></div></div></div>
+          <div class="tdi" onclick="toggleTodo(this)"><div class="tck"></div><div class="tb"><div class="tt">给妈妈打电话，询问端午节安排</div><div class="ttags"><span class="tst">👨‍👩‍👧 家庭</span></div></div></div>
+        </div>
+
+        <!-- AI知识库 -->
+        <div class="cpanel" id="panel-aiknow">
+          <div id="aiknow-main">
+            <div class="sec-hdr" style="padding-top:16px;"><h4>🧠 智能合集</h4><span class="sa">全部 ›</span></div>
+            <div class="col-scroll">
+              <div class="colc p" onclick="phoneDetail('llm','aiknow')"><div class="ce">🤖</div><div class="ctt">大模型研究</div><div class="cn">6篇笔记</div></div>
+              <div class="colc p" onclick="phoneDetail('product','aiknow')"><div class="ce">📊</div><div class="ctt">产品方法论</div><div class="cn">4篇笔记</div></div>
+              <div class="colc p" onclick="phoneDetail('invest','aiknow')"><div class="ce">📈</div><div class="ctt">投资理财</div><div class="cn">5篇笔记</div></div>
+            </div>
+            <div class="sec-hdr"><h4>全部笔记</h4><span style="font-size:12px;color:#ccc;">15条</span></div>
+            <div class="notes-grid" style="padding-top:0;">
+              <div class="nc"><div class="ct">GPT-4o多模态能力评测</div><div class="ci pur">🤖</div><div class="cp">视觉、语音、文档分析横向对比…</div><div class="cm"><span class="cd">5月9日</span><span class="ctag">🧠知识库</span></div></div>
+              <div class="nc"><div class="ct">北极星指标体系搭建</div><div class="cp">从用户价值逆向推导，避免虚荣指标陷阱…</div><div class="cm"><span class="cd">5月8日</span><span class="ctag">🧠知识库</span></div></div>
+              <div class="nc"><div class="ct">Prompt工程最佳实践</div><div class="cp">CoT、Few-shot、ReAct框架详解…</div><div class="cm"><span class="cd">5月7日</span><span class="ctag">🧠知识库</span></div></div>
+              <div class="nc"><div class="ct">价值投资与成长股</div><div class="ci blu">📈</div><div class="cp">DCF估值，安全边际，PEG筛选…</div><div class="cm"><span class="cd">5月6日</span><span class="ctag">🧠知识库</span></div></div>
+            </div>
+          </div>
+          <div id="aiknow-det" class="hidden" style="height:100%;overflow-y:auto;"></div>
+        </div>
+
+        <!-- 小爱记忆 -->
+        <div class="cpanel" id="panel-memory">
+          <div class="tags-row" style="padding-top:14px;">
+            <button class="chip purple" onclick="chipSwitch(this,'purple')">全部</button>
+            <button class="chip" onclick="chipSwitch(this,'purple')">链接</button>
+            <button class="chip" onclick="chipSwitch(this,'purple')">卡证</button>
+            <button class="chip" onclick="chipSwitch(this,'purple')">地址</button>
+            <button class="chip" onclick="chipSwitch(this,'purple')">纪念日</button>
+          </div>
+          <div class="mem-dh">05-11</div>
+          <div class="memi"><div class="memi-inner"><div class="memi-body"><div class="memi-t">手机桌面图标整理方案</div><div class="memi-d">将常用App归类到不同文件夹，按使用频率排列，保持首屏简洁。工作、生活、效率工具分三排展示。</div></div><div class="memi-thumb">📱</div></div><div class="memi-foot"><span class="mem-src">🏠 系统桌面</span><span class="mem-ht">#手机桌面</span><span class="mem-ht">#应用整理</span><span class="mem-ex">›</span></div></div>
+          <div class="memi"><div class="memi-inner"><div class="memi-body"><div class="memi-t">小红书：减脂期营养餐计划</div><div class="memi-d">30天减脂方案，早餐燕麦+蛋白质，配合间歇禁食16:8，已坚持2周降2.3kg。</div></div><div class="memi-thumb">🥗</div></div><div class="memi-foot"><span class="mem-src">📱 小红书</span><span class="mem-ht">#减脂</span><span class="mem-ht">#健康饮食</span><span class="mem-ex">›</span></div></div>
+          <div class="mem-dh">04-30</div>
+          <div class="memi"><div class="memi-inner"><div class="memi-body"><div class="memi-t">微信收藏：Python自动化脚本合集</div><div class="memi-d">20个实用脚本：文件批量重命名、PDF合并、图片压缩、数据清洗，附详细中文注释。</div></div><div class="memi-thumb">🐍</div></div><div class="memi-foot"><span class="mem-src">💬 微信收藏</span><span class="mem-ht">#Python</span><span class="mem-ht">#自动化</span><span class="mem-ex">›</span></div></div>
+          <div class="memi"><div class="memi-inner"><div class="memi-body"><div class="memi-t">家庭地址：南京市栖霞区…</div><div class="memi-d">高德地图标注：家、公司、健身房、父母家四个常用地点已保存，一键导航。</div></div><div class="memi-thumb">📍</div></div><div class="memi-foot"><span class="mem-src">🗺 高德地图</span><span class="mem-ht">#地址</span><span class="mem-ht">#常用地点</span><span class="mem-ex">›</span></div></div>
+          <div class="mem-dh">04-22</div>
+          <div class="memi"><div class="memi-inner"><div class="memi-body"><div class="memi-t">结婚纪念日 — 5月15日</div><div class="memi-d">每年自动提醒，今年计划鼓浪屿度假，已预订民宿，需提前订餐厅和准备礼物。</div></div><div class="memi-thumb">💍</div></div><div class="memi-foot"><span class="mem-src">📅 日历</span><span class="mem-ht">#纪念日</span><span class="mem-ht">#提醒</span><span class="mem-ex">›</span></div></div>
+        </div>
+
+        <!-- 文件夹 -->
+        <div class="cpanel" id="panel-folder">
+          <div class="sec-hdr" style="padding-top:16px;"><h4>📁 个人文件夹</h4><span style="font-size:12px;color:#ccc;">19条</span></div>
+          <div class="notes-grid">
+            <div class="nc"><div class="ct">个人年度计划2025</div><div class="cp">健康、财务、学习三大目标，季度分解执行…</div><div class="cm"><span class="cd">1月1日</span><span class="ctag">个人</span></div></div>
+            <div class="nc"><div class="ct">家庭预算表</div><div class="ci blu">💰</div><div class="cp">月度收支记录，储蓄目标年存72000元…</div><div class="cm"><span class="cd">4月30日</span><span class="ctag">生活</span></div></div>
+            <div class="nc"><div class="ct">旅行清单</div><div class="cp">鼓浪屿、稻城亚丁、三亚，年内完成2个…</div><div class="cm"><span class="cd">3月12日</span><span class="ctag">个人</span></div></div>
+            <div class="nc"><div class="ct">读书计划</div><div class="ci orn">📖</div><div class="cp">年读24本，本月：《被讨厌的勇气》…</div><div class="cm"><span class="cd">1月5日</span><span class="ctag">学习</span></div></div>
+          </div>
+        </div>
+
+      </div><!-- phone-content -->
+      <div class="phone-bar">
+        <button class="bbar-btn create">＋</button>
+        <button class="bbar-btn mic">🎙</button>
+        <button class="bbar-btn edit">✏️</button>
+      </div>
     </div>
   </div>
-</div>
-</div>
+</div><!-- phone-frame -->
+
+
+<!-- PAD -->
+<div class="pad-frame" id="pad-frame">
+  <!-- Sidebar -->
+  <div class="pad-col-sidebar">
+    <div class="sidebar-header"><h2>小米笔记</h2><div class="sub">所有内容，一目了然</div></div>
+    <div class="sidebar-body">
+      <div class="sec-title">品类</div>
+      <div class="si active" id="pad-ps-mynotes" onclick="padGo('mynotes')"><span class="ico">📝</span><span class="lbl">我的笔记</span><span class="cnt">36</span></div>
+      <div class="si" id="pad-ps-ai" onclick="padGo('ai')"><span class="ico">⚡</span><span class="lbl">AI速记</span><span class="cnt">24</span></div>
+      <div class="si" id="pad-ps-podcast" onclick="padGo('podcast')"><span class="ico">🎧</span><span class="lbl">播客</span><span class="cnt">8</span></div>
+      <div class="si" id="pad-ps-todo" onclick="padGo('todo')"><span class="ico">☑️</span><span class="lbl">待办</span><span class="cnt">12</span></div>
+      <div class="si" id="pad-ps-aiknow" onclick="padGo('aiknow')"><span class="ico">🧠</span><span class="lbl">AI知识库</span><span class="cnt">15</span></div>
+      <div class="si" id="pad-ps-memory" onclick="padGo('memory')"><span class="ico">💜</span><span class="lbl">小爱记忆</span><span class="cnt">42</span></div>
+      <div class="sec-title">文件夹</div>
+      <div class="si" id="pad-ps-folder" onclick="padGo('folder')"><span class="ico">📁</span><span class="lbl">个人</span><span class="cnt">19</span></div>
+      <div class="si" onclick="padGo('folder')"><span class="ico">📁</span><span class="lbl">生活</span><span class="cnt">19</span></div>
+      <div class="si" onclick="padGo('folder')"><span class="ico">📁</span><span class="lbl">学习</span><span class="cnt">19</span></div>
+      <div class="si" onclick="padGo('folder')"><span class="ico">🗑️</span><span class="lbl">最近删除</span><span class="cnt">25</span></div>
+    </div>
+  </div>
+  <!-- List -->
+  <div class="pad-col-list"><div class="pad-list-hdr"><h3 id="pad-list-title">我的笔记</h3><button style="background:none;border:none;font-size:16px;color:#ccc;cursor:pointer;">⋯</button></div><div class="pad-list-body" id="pad-list-body"></div></div>
+  <!-- Detail -->
+  <div class="pad-col-detail"><div class="pad-detail-body" id="pad-detail-body"><div class="pad-placeholder"><div class="pi">📄</div><p>选择一条笔记查看详情</p></div></div></div>
+</div><!-- pad-frame -->
+
+</div><!-- frames-container -->
 
 <script>
-// Device switching
-function switchDevice(device) {
-  document.querySelectorAll('.device-tabs button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  document.getElementById('phone-demo').classList.toggle('hidden', device !== 'phone');
-  document.getElementById('pad-demo').classList.toggle('hidden', device !== 'pad');
+const COLS = {
+  nanjing:{title:'南京旅游',emoji:'🏯',count:13,updated:'5月9日 12:23',cls:'o',
+    summary:['南京作为六朝古都，中华门、明城墙是必游历史景点，建议安排半天深度游览。','秦淮河夜游是南京最热门体验，傍晚7点后乘船欣赏夫子庙灯光秀，约1.5小时。','南京鸭血粉丝汤、盐水鸭、小笼包是本地三大必吃美食，老门东步行街最集中。','交通推荐地铁，西安门站至夫子庙换乘方便；南京南站高铁直达，约2.5小时。','住宿推荐新街口商圈，价格适中，交通便利，建议提前3天预订。'],
+    notes:[{t:'南京玄武湖公园游记',p:'湖光山色，春花盛开，免费入园，停车便利…',d:'5月9日'},{t:'中华门历史文化解读',p:'中国最大瓮城，明代建筑精华，藏兵洞可容3000士兵…',d:'5月8日'},{t:'秦淮河夜游攻略',p:'傍晚7点出发，1.5小时全程，沿岸灯光璀璨…',d:'5月7日'},{t:'南京美食打卡清单',p:'鸭血粉丝汤首选回味（老门东店），排队约30分钟…',d:'5月6日'},{t:'南京交通出行全指南',p:'地铁覆盖主要景点，单日票18元无限次乘坐…',d:'5月5日'}]},
+  gold:{title:'黄金投资',emoji:'🥇',count:8,updated:'5月6日 09:15',cls:'o',
+    summary:['2025年黄金在地缘政治风险和美联储政策预期下持续上涨，年初涨幅超18%。','主要有实物金、黄金ETF、黄金股票三种，各有不同风险收益特征。','黄金ETF流动性强、费率低（0.5%），实物金保值稳健，建议7:3比例配置。','专业建议：黄金配置不宜超过个人资产的15%，作为对冲工具。','历史数据：标普500回调超10%时，黄金往往同步上涨，对冲效果显著。'],
+    notes:[{t:'黄金ETF vs 实物金对比分析',p:'ETF交易便捷，实物金无对手方风险，建议7:3配置…',d:'5月6日'},{t:'2025年黄金走势预测',p:'机构看涨至2800美元/盎司，地缘政治溢价是主驱动…',d:'5月5日'},{t:'购买黄金的正确方式',p:'银行积存金门槛低，交易所黄金需开户，实物金选国家金币…',d:'5月4日'}]},
+  fitness:{title:'健身记录',emoji:'🏋️',count:6,updated:'5月7日 21:00',cls:'o',
+    summary:['本月完成3次胸背、2次腿日、1次有氧，总训练量达预期目标85%。','HIIT每次30分钟，4组间歇冲刺（1冲刺+2恢复），燃脂效率超匀速有氧35%。','热量控制1800kcal/天，蛋白质达体重×1.8g标准，体脂从22%降至19.5%。','建议增加深蹲重量，当前1RM 80kg，目标本月达到90kg。'],
+    notes:[{t:'HIIT训练30分钟燃脂计划',p:'4组间歇，1:2恢复比，心率75-85%最大心率…',d:'5月7日'},{t:'健身饮食计划Week3',p:'早餐燕麦+鸡蛋，午餐鸡胸+蔬菜，晚餐控碳水…',d:'5月6日'},{t:'深蹲技术要点笔记',p:'脚宽肩同宽，膝盖追脚尖，核心收紧，臀部向下…',d:'5月5日'}]},
+  python:{title:'Python学习',emoji:'🐍',count:4,updated:'5月8日 20:14',cls:'o',
+    summary:['Python异步编程核心是asyncio事件循环，通过async/await实现非阻塞IO操作。','协程比线程更轻量，创建成本低，适合高并发网络请求等IO密集型场景。','Pydantic v2提供更高性能的数据验证，与FastAPI深度集成，是现代后端开发标配。','类型提示到Python 3.10已趋于成熟，mypy静态检查能有效减少运行时错误。'],
+    notes:[{t:'Python异步编程完全指南',p:'asyncio事件循环、async/await语法、并发任务管理…',d:'5月8日'},{t:'协程 vs 线程 vs 进程对比',p:'协程适合IO密集、线程适合轻量并发、进程适合CPU密集…',d:'5月7日'},{t:'FastAPI + Pydantic最佳实践',p:'Pydantic v2性能提升5倍，类型验证、序列化…',d:'5月6日'}]},
+  llm:{title:'大模型研究',emoji:'🤖',count:6,updated:'5月9日 16:30',cls:'p',
+    summary:['GPT-4o、Claude 3.5、Gemini 1.5 Pro三大旗舰在多模态能力上已趋于成熟，差距缩小。','RAG（检索增强生成）是企业落地大模型的主流方案，能解决知识时效性和幻觉问题。','Prompt工程：CoT、Few-shot、ReAct是提升推理能力的三大核心技术。','大模型应用竞争已从单纯模型能力转向产品体验、垂直场景深度和生态绑定。'],
+    notes:[{t:'GPT-4o多模态能力评测',p:'视觉理解91%，语音延迟<500ms，文档分析超越Claude…',d:'5月9日'},{t:'RAG架构设计最佳实践',p:'向量DB选型：Pinecone vs Milvus，分块策略与检索优化…',d:'5月8日'},{t:'Prompt工程系统指南',p:'CoT提升推理准确率23%，Few-shot控制在5条以内…',d:'5月7日'}]},
+  product:{title:'产品方法论',emoji:'📊',count:4,updated:'5月8日 11:20',cls:'p',
+    summary:['北极星指标应聚焦用户核心价值，DAU只是结果，需寻找驱动DAU的先行指标。','OKR中Key Result必须可量化有挑战性，O要鼓舞人心，两者缺一不可。','用户旅程地图是发现体验断点的最佳工具，建议每季度更新一次。','A/B测试需p<0.05，样本量不足是最常见失效原因，需提前用功效分析计算。'],
+    notes:[{t:'北极星指标体系搭建方法论',p:'从用户价值逆向推导，避免虚荣指标，建立二级驱动指标树…',d:'5月8日'},{t:'A/B测试完整操作手册',p:'假设设定、样本计算、分流策略、显著性检验…',d:'5月7日'}]},
+  invest:{title:'投资理财',emoji:'📈',count:5,updated:'5月6日 10:00',cls:'p',
+    summary:['价值投资核心：以低于内在价值的价格买入优质资产，安全边际保持30%以上。','DCF估值模型最严谨，关键假设是自由现金流增长率和折现率（WACC）。','成长股关注"PEG<1"，叠加行业赛道空间和管理层质量双维度判断。','资产配置：50%A股指数基金+20%美股ETF+15%债券+15%黄金，年化再平衡。'],
+    notes:[{t:'价值投资与成长股策略对比',p:'DCF估值详解，安全边际计算，PE/PB/PEG综合运用…',d:'5月6日'},{t:'资产配置股债黄金比例优化',p:'基于历史回测，50/30/20配置夏普比率最优…',d:'5月5日'}]}
+};
+
+const TITLES = {mynotes:'我的笔记',ai:'AI速记',podcast:'播客',todo:'待办',aiknow:'AI知识库',memory:'小爱记忆',folder:'个人文件夹'};
+
+// DEVICE
+function switchDev(t) {
+  ['phone','pad'].forEach(d=>{
+    document.getElementById(d+'-frame').classList.toggle('active',t===d);
+    document.getElementById('btn-'+d).classList.toggle('active',t===d);
+  });
 }
 
-// Phone: Sidebar
-function openSidebar() {
-  document.getElementById('phoneSidebar').classList.add('open');
-  document.getElementById('phoneMain').classList.add('shifted');
-  document.getElementById('phoneOverlay').classList.add('visible');
-}
-function closeSidebar() {
-  document.getElementById('phoneSidebar').classList.remove('open');
-  document.getElementById('phoneMain').classList.remove('shifted');
-  document.getElementById('phoneOverlay').classList.remove('visible');
+// PHONE SIDEBAR
+function openSB(){ document.getElementById('ph-sb').classList.add('open'); document.getElementById('ph-overlay').classList.add('open'); }
+function closeSB(){ document.getElementById('ph-sb').classList.remove('open'); document.getElementById('ph-overlay').classList.remove('open'); }
+
+let phoneCat='mynotes';
+function phoneGo(cat) {
+  phoneCat=cat;
+  document.querySelectorAll('.phone-sidebar .si').forEach(e=>e.classList.remove('active'));
+  (document.getElementById('ps-'+cat)||document.getElementById('ps-folder')).classList.add('active');
+  document.querySelectorAll('.cpanel').forEach(e=>e.classList.remove('active'));
+  (document.getElementById('panel-'+cat)||document.getElementById('panel-folder')).classList.add('active');
+  document.getElementById('ph-title').textContent=TITLES[cat]||'文件夹';
+  closeSB();
 }
 
-// Phone: Category selection
-function selectCategory(cat) {
-  const titles = { notes: '我的笔记', quicknote: 'AI速记', podcast: '播客', todo: '待办', knowledge: 'AI知识库', personal: '个人', life: '生活', study: '学习', deleted: '最近删除' };
-  document.getElementById('phoneTitle').textContent = titles[cat] || '笔记';
-  document.querySelectorAll('#phoneSidebar .sidebar-item').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  closeSidebar();
+// CHIPS
+function chipSwitch(chip,mode) {
+  const row=chip.closest('.tags-row');
+  row.querySelectorAll('.chip').forEach(c=>c.className='chip');
+  chip.classList.add(mode==='purple'?'purple':'active');
 }
 
-// Phone: Detail
-function openDetail(noteId) {
-  document.getElementById('phoneDetail').classList.add('open');
-}
-function closeDetail() {
-  document.getElementById('phoneDetail').classList.remove('open');
-}
-
-// Pad: Category selection
-function padSelectCategory(cat) {
-  const titles = { notes: '我的笔记', quicknote: 'AI速记', podcast: '播客', todo: '待办', knowledge: 'AI知识库', personal: '个人', life: '生活', study: '学习', deleted: '最近删除' };
-  document.getElementById('padListTitle').textContent = titles[cat] || '笔记';
-  document.querySelectorAll('.pad-sidebar .sidebar-item').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+// TODO
+function toggleTodo(item) {
+  const ck=item.querySelector('.tck'), tt=item.querySelector('.tt');
+  const done=ck.classList.contains('done');
+  ck.classList.toggle('done',!done); ck.textContent=done?'':'✓';
+  tt.classList.toggle('done',!done);
 }
 
-// Pad: Note selection
-function padSelectNote(idx) {
-  document.querySelectorAll('.pad-list-item').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  const notes = [
-    { title: '读雷军的小米创业思考', meta: '2026-05-19 14:30 · 我的笔记 · 个人', content: '<p>雷军不是在上升电梯中做俯卧撑的人。在看到这里的时候，我能够理解雷军试图复盘整体企业的发展而总结出来一个方法论。</p><h3>核心观点</h3><p>"顺势而为"——找到风口，然后用极致的产品抓住机会。</p><h3>我的思考</h3><ul><li>时机判断比执行力更重要</li><li>"极致"不是完美主义，是在约束条件下做到最好</li><li>小米的成功本质上是供应链效率革命</li></ul>' },
-    { title: '雷军：我喜欢并推崇任天堂', meta: '2026-05-19 10:22 · 我的笔记 · 个人', content: '<p>在上一篇《小米创业思考》系列文章中，我分享了我对极致的理解：极致就是做到自己能力的极限，做到别人做不到的高度。</p><p>任天堂的哲学是"用枯萎的技术做横向思维"——不追求最新最强的硬件，而是用成熟技术创造全新体验。</p>' },
-    { title: '南京旅行攻略整理', meta: '2026-05-18 09:15 · 我的笔记 · 生活', content: '<h3>景点推荐</h3><ul><li>梧桐大道、音乐台、夫子庙</li><li>钟山秋水湖（小众）</li><li>部分景点需提前预约</li></ul><h3>行程建议</h3><p>4日游：红山动物园→鸡鸣寺→南京博物院→大报恩寺</p><h3>美食</h3><p>觅炙烧烤、十朝酥、泥炉烧肉师</p>' },
-    { title: '产品周会纪要 5/19', meta: '2026-05-19 15:00 · 我的笔记 · 工作', content: '<h3>议题一：首页改版进度</h3><p>设计稿已完成，本周五交付开发</p><h3>议题二：推荐算法AB测试</h3><p>CTR提升12%，但停留时长下降。保持当前策略再跑一周。</p><h3>待办</h3><ul><li>□ 张三：首页设计稿交付 · 5/23</li><li>□ 李四：搜索调研报告 · 5/23</li></ul>' },
-    { title: '生活点滴', meta: '2026-05-17 13:38 · 我的笔记 · 生活', content: '<p>生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱与温度。</p><p>今天在公园散步的时候突然想到：我们总是在追求效率，但有些时候，慢下来才能看见真正重要的东西。</p>' },
-    { title: '雨夜咖啡馆', meta: '2026-05-17 13:38 · 我的笔记 · 个人', content: '<h3>设计领域分类</h3><ul><li>工业设计</li><li>建筑设计</li><li>雕塑设计</li><li>平面设计</li><li>视觉传达</li></ul><p>工业设计是一种创造性的活动，其目的是为物品、过程、服务以及它们在整个生命周期中构成的系统建立起多方面的品质。</p>' }
-  ];
-  const note = notes[idx];
-  document.getElementById('padDetailTitle').textContent = note.title;
-  document.getElementById('padDetailMeta').textContent = note.meta;
-  document.getElementById('padDetailContent').innerHTML = note.content;
+// COLLECTION DETAIL (PHONE)
+function buildSummaryHTML(d) {
+  return d.summary.map((s,i)=>`<div class="ai-pt"><span class="ai-num">${i+1}</span><span class="ai-tx">${s}</span></div>`).join('');
 }
+function phoneDetail(key, panel) {
+  const d=COLS[key];
+  if(!d) return;
+  const notesH=d.notes.map(n=>`<div class="ncw"><div class="nb"><div class="nbt">${n.t}</div><div class="nbp">${n.p}</div><div class="nbf"><span class="nbd">${n.d}</span></div></div></div>`).join('');
+  const html=`
+    <div style="position:sticky;top:0;background:#fff;z-index:5;border-bottom:1px solid #f0f0f0;">
+      <div class="det-hdr"><div class="back-btn" onclick="phoneBack('${panel}')">‹</div><h3>${d.emoji} ${d.title}</h3></div>
+      <div class="det-meta">${d.count}条笔记 · 最近更新：${d.updated}</div>
+    </div>
+    <div class="ai-block ${d.cls}"><div class="ai-title">✨ AI总结</div>${buildSummaryHTML(d)}</div>
+    <div class="sec-hdr"><h4>包含笔记</h4></div>${notesH}<div style="height:16px;"></div>`;
+  document.getElementById(panel+'-main').classList.add('hidden');
+  const det=document.getElementById(panel+'-det');
+  det.innerHTML=html; det.classList.remove('hidden');
+}
+function phoneBack(panel) {
+  document.getElementById(panel+'-det').classList.add('hidden');
+  document.getElementById(panel+'-main').classList.remove('hidden');
+}
+
+// PAD
+let padCat='mynotes';
+function padGo(cat) {
+  padCat=cat;
+  document.querySelectorAll('.pad-col-sidebar .si').forEach(e=>e.classList.remove('active'));
+  (document.getElementById('pad-ps-'+cat)||document.getElementById('pad-ps-folder')).classList.add('active');
+  renderPadList(cat);
+  document.getElementById('pad-detail-body').innerHTML='<div class="pad-placeholder"><div class="pi">📄</div><p>选择一条笔记查看详情</p></div>';
+}
+
+function renderPadList(cat) {
+  const lb=document.getElementById('pad-list-body');
+  document.getElementById('pad-list-title').textContent=TITLES[cat]||'文件夹';
+
+  if(cat==='mynotes') {
+    lb.innerHTML=`
+      <div class="pad-srch"><span>🔍</span><input placeholder="搜索笔记…"></div>
+      <div class="pad-tchips">
+        <button class="pchip active" onclick="pchipSwitch(this,'o')">全部</button>
+        <button class="pchip" onclick="pchipSwitch(this,'o')">工作</button>
+        <button class="pchip" onclick="pchipSwitch(this,'o')">个人</button>
+        <button class="pchip" onclick="pchipSwitch(this,'o')">学习</button>
+      </div>
+      ${[['⭐ Q2产品规划复盘','本季度完成笔记2.0架构升级，AI速记DAU提升34%…','今天 14:32','工作',true],
+         ['⭐ 南京旅游攻略','中华门、秦淮河夜游、夫子庙美食街三大必游…','5月9日','个人',false],
+         ['Python异步编程笔记','asyncio事件循环、async/await语法、并发任务管理…','5月8日','学习',false],
+         ['健身计划 Week 3','周一胸背、周三腿肩、周五有氧，热量控1800kcal…','5月7日','个人',false],
+         ['黄金投资笔记','当前金价走势，美联储加息预期，配置建议…','5月6日','个人',false],
+         ['《原子习惯》摘录','习惯叠加法则、1%改进原则、身份认同型目标…','5月5日','学习',false],
+      ].map(([t,p,d,tag,active])=>`<div class="pli${active?' active':''}" onclick="padSelect(this,'${t}','${d}',\`${p.replace(/`/g,"'")}\`)"><h4>${t}</h4><p>${p}</p><div class="im"><span class="id">${d}</span><span class="it">${tag}</span></div></div>`).join('')}`;
+    setTimeout(()=>padShowNote('Q2产品规划复盘','今天 14:32','本季度完成了笔记2.0架构升级，AI速记功能DAU提升34%。\n\n核心成果\n• AI速记DAU +34%\n• 笔记创建转化率 +12%\n• 用户留存率（D7）提升至68%\n\n下季度优先级\n1. AI知识库智能关联\n2. 播客笔记深度整合\n3. Pad端三栏布局上线'),0);
+  }
+  else if(cat==='ai') {
+    lb.innerHTML=`
+      <div class="pal-sec">智能合集</div>
+      <div class="pad-col-scroll">
+        <div class="pcc o" onclick="padDetail('nanjing')"><div class="pce">🏯</div><div class="pct">南京旅游</div><div class="pccn">5篇笔记</div></div>
+        <div class="pcc o" onclick="padDetail('gold')"><div class="pce">🥇</div><div class="pct">黄金投资</div><div class="pccn">5篇笔记</div></div>
+        <div class="pcc o" onclick="padDetail('fitness')"><div class="pce">🏋️</div><div class="pct">健身记录</div><div class="pccn">6篇笔记</div></div>
+        <div class="pcc o" onclick="padDetail('python')"><div class="pce">🐍</div><div class="pct">Python</div><div class="pccn">4篇笔记</div></div>
+      </div>
+      <div class="pal-sec">全部笔记</div>
+      ${[['南京玄武湖游记','湖光山色，春花盛开，适合周末出行…','5月9日','⚡速记'],
+         ['黄金ETF vs 实物金','ETF流动性强，实物金保值功能突出…','5月6日','⚡速记'],
+         ['协程与线程对比','协程无切换开销，适合IO密集高并发…','5月8日','⚡速记'],
+         ['HIIT训练30分钟计划','4组间歇冲刺，燃脂效率高于匀速35%…','5月7日','⚡速记'],
+      ].map(([t,p,d,tag])=>`<div class="pli" onclick="padSelect(this,'${t}','${d}',\`${p}\`)"><h4>${t}</h4><p>${p}</p><div class="im"><span class="id">${d}</span><span class="it">${tag}</span></div></div>`).join('')}`;
+  }
+  else if(cat==='podcast') {
+    lb.innerHTML=[['🎙','硅谷101：AI创业者的第一课','硅谷101 · 科技商业','47:23','5月10日'],
+      ['🎵','得到头条：2025年10大趋势','得到App · 知识付费','23:11','5月9日'],
+      ['📻','经济学人：美联储降息解读','The Economist · 财经','31:55','5月8日'],
+      ['🧘','小宇宙：高效人士都在冥想','小宇宙 · 生活方式','18:44','5月7日'],
+      ['💡','产品沉思录：大模型的10个坑','产品沉思录 · 产品设计','54:02','5月5日'],
+    ].map(([e,t,s,dur,d])=>`<div class="pli" onclick="padSelect(this,'${t}','${d}','${s}')"><div style="display:flex;gap:8px;align-items:center;"><span style="font-size:18px;">${e}</span><div><h4>${t}</h4><p>${s}</p><div class="im"><span class="id">⏱ ${dur}</span><span class="id">${d}</span></div></div></div></div>`).join('');
+  }
+  else if(cat==='todo') {
+    lb.innerHTML=`
+      <div class="pal-sec" style="color:#ff6900;">今天</div>
+      ${[['回复李楠关于Q2 OKR的邮件','今天','📧 邮件',true],
+         ['完成笔记侧边栏交互Demo','今天 18:00','📝 笔记',false],
+         ['去超市买食材','今天 19:30','🏠 生活',false],
+      ].map(([t,time,tag,done])=>`<div class="pli" onclick="padTogTodo(this)" style="cursor:pointer;"><div style="display:flex;gap:8px;align-items:flex-start;"><div style="width:17px;height:17px;border-radius:50%;border:2px solid ${done?'#ff6900':'#ddd'};background:${done?'#ff6900':'transparent'};color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">${done?'✓':''}</div><div><h4 style="${done?'text-decoration:line-through;color:#ccc':''}">${t}</h4><div class="im"><span class="id">${time}</span><span class="it">${tag}</span></div></div></div></div>`).join('')}
+      <div class="pal-sec" style="margin-top:4px;">明天</div>
+      ${[['产品评审会议 — 小米笔记3.0','明天 10:00','📅 日历'],
+         ['健身房 — 腿日训练','明天 19:00','💪 健身'],
+      ].map(([t,time,tag])=>`<div class="pli" onclick="padTogTodo(this)" style="cursor:pointer;"><div style="display:flex;gap:8px;align-items:flex-start;"><div style="width:17px;height:17px;border-radius:50%;border:2px solid #ddd;flex-shrink:0;margin-top:2px;"></div><div><h4>${t}</h4><div class="im"><span class="id">${time}</span><span class="it">${tag}</span></div></div></div></div>`).join('')}`;
+  }
+  else if(cat==='aiknow') {
+    lb.innerHTML=`
+      <div class="pal-sec">智能合集</div>
+      <div class="pad-col-scroll">
+        <div class="pcc p" onclick="padDetail('llm')"><div class="pce">🤖</div><div class="pct">大模型研究</div><div class="pccn">6篇笔记</div></div>
+        <div class="pcc p" onclick="padDetail('product')"><div class="pce">📊</div><div class="pct">产品方法论</div><div class="pccn">4篇笔记</div></div>
+        <div class="pcc p" onclick="padDetail('invest')"><div class="pce">📈</div><div class="pct">投资理财</div><div class="pccn">5篇笔记</div></div>
+      </div>
+      <div class="pal-sec">全部笔记</div>
+      ${[['GPT-4o多模态能力评测','视觉、语音、文档分析横向对比…','5月9日','🧠知识库'],
+         ['北极星指标体系搭建','从用户价值逆向推导，避免虚荣指标…','5月8日','🧠知识库'],
+         ['Prompt工程最佳实践','CoT、Few-shot、ReAct框架详解…','5月7日','🧠知识库'],
+         ['价值投资与成长股','DCF估值，安全边际，PEG筛选…','5月6日','🧠知识库'],
+      ].map(([t,p,d,tag])=>`<div class="pli" onclick="padSelect(this,'${t}','${d}',\`${p}\`)"><h4>${t}</h4><p>${p}</p><div class="im"><span class="id">${d}</span><span class="itp">${tag}</span></div></div>`).join('')}`;
+  }
+  else if(cat==='memory') {
+    lb.innerHTML=`
+      <div class="pad-tchips" style="padding:10px 12px 10px;">
+        <button class="pchip purple" onclick="pchipSwitch(this,'p')">全部</button>
+        <button class="pchip" onclick="pchipSwitch(this,'p')">链接</button>
+        <button class="pchip" onclick="pchipSwitch(this,'p')">卡证</button>
+        <button class="pchip" onclick="pchipSwitch(this,'p')">地址</button>
+        <button class="pchip" onclick="pchipSwitch(this,'p')">纪念日</button>
+      </div>
+      <div class="pal-sec">05-11</div>
+      ${[['手机桌面图标整理方案','将常用App归类文件夹，按频率排列，首屏简洁…','🏠 系统桌面','#手机桌面'],
+         ['小红书：减脂营养餐计划','16:8间歇禁食+减脂餐，已坚持2周降2.3kg…','📱 小红书','#减脂'],
+      ].map(([t,p,src,tag])=>`<div class="pli" onclick="padSelect(this,'${t}','',\`${p}\`)"><h4>${t}</h4><p>${p}</p><div class="im"><span class="it">${src}</span><span class="itp">${tag}</span></div></div>`).join('')}
+      <div class="pal-sec">04-30</div>
+      ${[['微信收藏：Python自动化脚本','20个实用脚本，文件重命名、PDF合并等…','💬 微信收藏','#Python'],
+         ['结婚纪念日 — 5月15日','每年自动提醒，今年鼓浪屿度假，已订民宿…','📅 日历','#纪念日'],
+      ].map(([t,p,src,tag])=>`<div class="pli" onclick="padSelect(this,'${t}','',\`${p}\`)"><h4>${t}</h4><p>${p}</p><div class="im"><span class="it">${src}</span><span class="itp">${tag}</span></div></div>`).join('')}`;
+  }
+  else if(cat==='folder') {
+    lb.innerHTML=[['个人年度计划2025','健康、财务、学习三大目标，季度分解执行…','1月1日'],
+      ['家庭预算表','月收支记录，储蓄目标年存72000元…','4月30日'],
+      ['旅行清单','鼓浪屿、稻城亚丁、三亚…','3月12日'],
+      ['读书计划','年读24本，本月《被讨厌的勇气》…','1月5日'],
+    ].map(([t,p,d])=>`<div class="pli" onclick="padSelect(this,'${t}','${d}',\`${p}\`)"><h4>${t}</h4><p>${p}</p><div class="im"><span class="id">${d}</span></div></div>`).join('');
+  }
+}
+
+function padSelect(el,title,date,preview) {
+  document.querySelectorAll('#pad-list-body .pli').forEach(i=>i.classList.remove('active','activep'));
+  el.classList.add(padCat==='aiknow'||padCat==='memory'?'activep':'active');
+  padShowNote(title,date,preview);
+}
+
+function padShowNote(title,date,body) {
+  document.getElementById('pad-detail-body').innerHTML=`
+    <div style="padding:24px 26px 0;">
+      <h2 style="font-size:20px;font-weight:700;color:#111;margin-bottom:5px;">${title}</h2>
+      <div style="font-size:12px;color:#ccc;margin-bottom:22px;display:flex;gap:14px;">
+        ${date?`<span>📅 ${date}</span>`:''}
+        <span style="cursor:pointer;color:#bbb;">✏️ 编辑</span>
+        <span style="cursor:pointer;color:#bbb;">⋯ 更多</span>
+      </div>
+      <div style="font-size:14px;line-height:1.9;color:#333;">${body.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>')}</div>
+    </div>`;
+}
+
+function padDetail(key) {
+  const d=COLS[key];
+  if(!d) return;
+  const sumH=d.summary.map((s,i)=>`<div class="ai-pt"><span class="ai-num">${i+1}</span><span class="ai-tx">${s}</span></div>`).join('');
+  const notesH=d.notes.map(n=>`<div style="padding:12px 0;border-bottom:1px solid #f5f5f5;cursor:pointer;"><div style="font-size:14px;font-weight:600;color:#111;margin-bottom:4px;">${n.t}</div><div style="font-size:12px;color:#aaa;line-height:1.6;margin-bottom:5px;">${n.p}</div><div style="font-size:11px;color:#ccc;">${n.d}</div></div>`).join('');
+  document.getElementById('pad-detail-body').innerHTML=`
+    <div style="padding:22px 24px 0;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:5px;">
+        <span style="font-size:26px;">${d.emoji}</span>
+        <h2 style="font-size:20px;font-weight:700;color:#111;">${d.title}</h2>
+      </div>
+      <div style="font-size:12px;color:#bbb;margin-bottom:18px;">${d.count}条笔记 · 最近更新：${d.updated}</div>
+      <div class="ai-block ${d.cls}" style="margin:0 0 18px;"><div class="ai-title">✨ AI总结</div>${sumH}</div>
+      <div style="font-size:12px;font-weight:700;color:#aaa;margin-bottom:10px;letter-spacing:0.5px;text-transform:uppercase;">包含笔记</div>
+      ${notesH}
+    </div>`;
+}
+
+function padTogTodo(item) {
+  const c=item.querySelector('div > div'), h=item.querySelector('h4');
+  if(!c) return;
+  const done=c.textContent==='✓';
+  c.style.background=done?'transparent':'#ff6900'; c.style.borderColor=done?'#ddd':'#ff6900'; c.textContent=done?'':'✓';
+  if(h){h.style.textDecoration=done?'none':'line-through'; h.style.color=done?'#111':'#ccc';}
+}
+
+function pchipSwitch(chip,mode) {
+  const row=chip.closest('.pad-tchips');
+  row.querySelectorAll('.pchip').forEach(c=>c.className='pchip');
+  chip.classList.add(mode==='p'?'purple':'active');
+}
+
+// INIT
+renderPadList('mynotes');
+setTimeout(()=>padShowNote('Q2产品规划复盘','今天 14:32','本季度完成了笔记2.0架构升级，AI速记功能DAU提升34%。\n\n核心成果\n• AI速记DAU +34%\n• 笔记创建转化率 +12%\n• 用户留存率（D7）提升至68%\n\n下季度优先级\n1. AI知识库智能关联\n2. 播客笔记深度整合\n3. Pad端三栏布局上线'),50);
 </script>
 </body>
 </html>
