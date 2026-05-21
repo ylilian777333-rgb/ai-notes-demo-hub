@@ -86,7 +86,6 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
 .note-card .nc-title{font-size:12px;font-weight:600;color:#1c1c1e;line-height:1.3;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .note-card .nc-preview{font-size:10.5px;color:#8e8e93;line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .note-card .nc-date{font-size:9.5px;color:#c7c7cc}
-.note-card.full-width{grid-column:span 2}
 
 /* ===========================
    PHONE - AI笔记
@@ -563,10 +562,10 @@ const CONTENT = {
           <div class="nc-preview">客厅想做奶油风，主卧偏日式简约，预算控制在20万…</div>
           <div class="nc-date">5月17日</div>
         </div>
-        <div class="note-card full-width">
+        <div class="note-card">
           <div class="nc-emoji">💼</div>
-          <div class="nc-title">Q2工作复盘 — 五月中期</div>
-          <div class="nc-preview">420版本按时交付，AI搜索二期P0需求已定稿，6月ROM推进中，团队协作顺畅，需要提升数据驱动能力…</div>
+          <div class="nc-title">Q2工作复盘</div>
+          <div class="nc-preview">420按时交付，AI搜索二期已定稿…</div>
           <div class="nc-date">5月15日</div>
         </div>
         <div class="note-card">
@@ -643,26 +642,30 @@ const CONTENT = {
         </div>
       </div>
       <div class="section-label">最近AI笔记</div>
-      <div class="ai-note-list">
-        <div class="ai-note-item">
-          <div class="ani-header"><span class="ani-type">会议纪要</span><span class="ani-date">5月19日</span></div>
-          <div class="ani-title">产品周会纪要 5/19</div>
-          <div class="ani-preview">议题一：首页改版，结论是保留导航结构在顶部增加AI入口；议题二：AI搜索二期5月底提测…</div>
+      <div class="notes-grid">
+        <div class="note-card">
+          <div class="nc-emoji">📋</div>
+          <div class="nc-title">产品周会纪要 5/19</div>
+          <div class="nc-preview">首页改版+AI搜索二期5月底提测…</div>
+          <div class="nc-date">5月19日</div>
         </div>
-        <div class="ai-note-item">
-          <div class="ani-header"><span class="ani-type">课程笔记</span><span class="ani-date">5月17日</span></div>
-          <div class="ani-title">经济学第12讲 — 泰勒展开</div>
-          <div class="ani-preview">泰勒展开定义与工程应用，从函数逼近到实际场景的建模思路…</div>
+        <div class="note-card">
+          <div class="nc-emoji">📖</div>
+          <div class="nc-title">经济学第12讲</div>
+          <div class="nc-preview">泰勒展开定义与工程应用…</div>
+          <div class="nc-date">5月17日</div>
         </div>
-        <div class="ai-note-item">
-          <div class="ani-header"><span class="ani-type">通话摘要</span><span class="ani-date">5月15日</span></div>
-          <div class="ani-title">张总通话摘要</div>
-          <div class="ani-preview">讨论Q3合作报价，张总希望在现有价格基础上压低15%，需要给出成本分析…</div>
+        <div class="note-card">
+          <div class="nc-emoji">📞</div>
+          <div class="nc-title">张总通话摘要</div>
+          <div class="nc-preview">Q3合作报价，压低15%…</div>
+          <div class="nc-date">5月15日</div>
         </div>
-        <div class="ai-note-item">
-          <div class="ani-header"><span class="ani-type">AI合集</span><span class="ani-date">5月13日</span></div>
-          <div class="ani-title">5月采访总结报告</div>
-          <div class="ani-preview">基于5篇采访笔记生成，核心观点：用户对AI笔记最大期待是"主动帮我整理"…</div>
+        <div class="note-card">
+          <div class="nc-emoji">📊</div>
+          <div class="nc-title">5月采访总结报告</div>
+          <div class="nc-preview">基于5篇采访笔记生成…</div>
+          <div class="nc-date">5月13日</div>
         </div>
       </div>`;
     },
@@ -862,23 +865,15 @@ const CONTENT = {
   voice: {
     title: '随口记',
     ph: function() {
-      const items = [
-        {text:'明天带身份证去办事，别忘了9点前到窗口', time:'今天 17:42'},
-        {text:'买牛奶面包鸡蛋洗衣液，超市还有优惠券', time:'今天 12:11'},
-        {text:'下周一给张总打电话确认Q3合同细节，他让我主动联系', time:'昨天 20:30'},
-        {text:'产品方向可以往AI个性化方面多探索，用户记忆是差异化核心', time:'昨天 15:08'},
-        {text:'周末约小王打羽毛球，她说在河西体育馆', time:'5月18日 9:30'},
-        {text:'看看能不能买到六月十五号去成都的机票', time:'5月17日 21:44'},
-        {text:'奶奶说想吃红烧肉，下次回家做给她', time:'5月15日 11:20'},
-      ];
-      return `<div class="voice-list">` + items.map(i=>`
-        <div class="voice-item">
-          <div class="vi-dot">🎙</div>
-          <div class="vi-body">
-            <div class="vi-text">${i.text}</div>
-            <div class="vi-footer"><span class="vi-time">${i.time}</span><span class="vi-badge">语音</span></div>
-          </div>
-        </div>`).join('') + `</div>`;
+      return `<div class="notes-grid">
+        <div class="note-card"><div class="nc-emoji">🎙</div><div class="nc-title">明天带身份证</div><div class="nc-preview">别忘了9点前到窗口</div><div class="nc-date">今天 17:42</div></div>
+        <div class="note-card"><div class="nc-emoji">🛒</div><div class="nc-title">买牛奶面包鸡蛋</div><div class="nc-preview">超市还有优惠券</div><div class="nc-date">今天 12:11</div></div>
+        <div class="note-card"><div class="nc-emoji">📞</div><div class="nc-title">给张总打电话</div><div class="nc-preview">确认Q3合同细节</div><div class="nc-date">昨天 20:30</div></div>
+        <div class="note-card"><div class="nc-emoji">💡</div><div class="nc-title">产品方向想法</div><div class="nc-preview">往AI个性化探索，记忆是核心</div><div class="nc-date">昨天 15:08</div></div>
+        <div class="note-card"><div class="nc-emoji">🏸</div><div class="nc-title">约小王打羽毛球</div><div class="nc-preview">河西体育馆，周末下午</div><div class="nc-date">5月18日</div></div>
+        <div class="note-card"><div class="nc-emoji">✈️</div><div class="nc-title">买成都机票</div><div class="nc-preview">六月十五号，看有没有特价</div><div class="nc-date">5月17日</div></div>
+        <div class="note-card"><div class="nc-emoji">🍖</div><div class="nc-title">给奶奶做红烧肉</div><div class="nc-preview">下次回家做给她吃</div><div class="nc-date">5月15日</div></div>
+      </div>`;
     },
     padList: [
       {id:'v1', title:'明天带身份证去办事', preview:'别忘了9点前到窗口，提前准备好材料', date:'今天 17:42', badge:'voice', badgeLabel:'语音'},
