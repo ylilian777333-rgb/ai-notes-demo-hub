@@ -623,6 +623,7 @@ const CONTENT = {
     title: 'AI笔记',
     ph: function() {
       return `
+      <div class="tag-row"><span class="tag-pill active">全部</span><span class="tag-pill">工作</span><span class="tag-pill">个人</span><span class="tag-pill">学习</span><span class="tag-pill">未分类</span></div>
       <div class="section-label">智能合集</div>
       <div class="ai-collection-row">
         <div class="ai-coll-card" onclick="openCollDetail('nanjing')">
@@ -865,7 +866,8 @@ const CONTENT = {
   voice: {
     title: '随口记',
     ph: function() {
-      return `<div class="notes-grid">
+      return `<div class="tag-row"><span class="tag-pill active">全部</span><span class="tag-pill">工作</span><span class="tag-pill">个人</span><span class="tag-pill">学习</span><span class="tag-pill">未分类</span></div>
+      <div class="notes-grid">
         <div class="note-card"><div class="nc-emoji">🎙</div><div class="nc-title">明天带身份证</div><div class="nc-preview">别忘了9点前到窗口</div><div class="nc-date">今天 17:42</div></div>
         <div class="note-card"><div class="nc-emoji">🛒</div><div class="nc-title">买牛奶面包鸡蛋</div><div class="nc-preview">超市还有优惠券</div><div class="nc-date">今天 12:11</div></div>
         <div class="note-card"><div class="nc-emoji">📞</div><div class="nc-title">给张总打电话</div><div class="nc-preview">确认Q3合同细节</div><div class="nc-date">昨天 20:30</div></div>
