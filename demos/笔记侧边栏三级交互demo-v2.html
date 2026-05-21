@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记侧边栏 · 三级交互Demo v2（含记忆迁移优化）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",sans-serif;background:#f0f0f5;min-height:100vh}
+
+/* ===== DEVICE TABS ===== */
+.device-tabs{display:flex;justify-content:center;gap:10px;padding:14px 20px;background:#fff;border-bottom:1px solid #e8e8e8;position:sticky;top:0;z-index:999;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.device-tabs button{padding:8px 28px;border:1.5px solid #ddd;border-radius:22px;background:#fff;font-size:14px;cursor:pointer;font-weight:500;color:#666;transition:all .2s;font-family:inherit}
+.device-tabs button.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.demo-wrap{display:flex;justify-content:center;padding:32px 20px;gap:24px;align-items:flex-start}
+.cat-info-panel{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);width:320px;flex-shrink:0}
+.cat-info-panel h3{font-size:14px;font-weight:700;margin-bottom:12px;color:#1c1c1e}
+.cat-info-panel table{width:100%;border-collapse:collapse;font-size:12px}
+.cat-info-panel th,.cat-info-panel td{padding:8px 10px;text-align:left;border-bottom:1px solid #f0f0f0}
+.cat-info-panel th{font-weight:600;color:#1c1c1e;background:#f9f9f9}
+.cat-info-panel td:first-child{font-weight:600;color:#1c1c1e;white-space:nowrap}
+.cat-info-panel td:last-child{color:#636366;white-space:nowrap}
+.hidden{display:none!important}
+
+/* ===========================
+   PHONE FRAME
+=========================== */
+.phone-frame{width:390px;height:844px;background:#fff;border-radius:46px;box-shadow:0 24px 80px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.08);overflow:hidden;position:relative;border:9px solid #1c1c1e;flex-shrink:0}
+.ph-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#1c1c1e;border-radius:0 0 20px 20px;z-index:30}
+.ph-status{height:52px;display:flex;align-items:center;justify-content:space-between;padding:18px 26px 0;font-size:11px;font-weight:600;position:relative;z-index:20}
+.ph-status .time{font-size:15px;font-weight:700}
+.ph-status .icons{display:flex;gap:5px;align-items:center;font-size:12px}
+.ph-body{height:calc(100% - 52px);position:relative;overflow:hidden}
+
+/* OVERLAY */
+.ph-overlay{position:absolute;inset:0;background:rgba(0,0,0,.38);z-index:15;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(1px)}
+.ph-overlay.show{opacity:1;pointer-events:all}
+
+/* SIDEBAR */
+.ph-sidebar{position:absolute;left:0;top:0;bottom:0;width:75%;background:#f7f7f9;transform:translateX(-100%);transition:transform .3s cubic-bezier(.25,.46,.45,.94);z-index:20;display:flex;flex-direction:column}
+.ph-sidebar.open{transform:translateX(0)}
+.sb-header{padding:20px 16px 12px;display:flex;align-items:center;gap:10px}
+.sb-header .sb-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;flex-shrink:0}
+.sb-header .sb-name{font-size:15px;font-weight:600;color:#1c1c1e}
+.sb-header .sb-sub{font-size:11px;color:#8e8e93;margin-top:1px}
+.sb-scroll{flex:1;overflow-y:auto;padding:0 10px 20px}
+.sb-section{font-size:11px;font-weight:600;color:#8e8e93;letter-spacing:.04em;padding:14px 8px 5px;text-transform:uppercase}
+.sb-item{display:flex;align-items:center;justify-content:space-between;padding:11px 10px;border-radius:11px;margin-bottom:2px;cursor:pointer;transition:background .15s}
+.sb-item:hover{background:rgba(0,0,0,.04)}
+.sb-item.active{background:#e8e8ed}
+.sb-item .si-left{display:flex;align-items:center;gap:9px}
+.sb-item .si-icon{font-size:16px;width:24px;text-align:center}
+.sb-item .si-name{font-size:15px;color:#1c1c1e;font-weight:400}
+.sb-item .si-count{font-size:13px;color:#aeaeb2}
+
+/* MAIN CONTENT */
+.ph-main{position:absolute;inset:0;background:#fff;transition:transform .3s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column}
+.ph-main.shifted{transform:translateX(75%)}
+
+/* HEADER */
+.ph-header{display:flex;align-items:center;padding:12px 16px 4px;gap:0}
+.ph-header .menu-btn{font-size:20px;cursor:pointer;padding:6px;margin-right:4px;color:#1c1c1e;line-height:1}
+.ph-header h1{font-size:24px;font-weight:700;flex:1;color:#1c1c1e}
+.ph-header .hdr-icons{display:flex;gap:0}
+.ph-header .hdr-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;border-radius:50%}
+.ph-header .hdr-icon:hover{background:#f2f2f7}
+
+/* SEARCH */
+.ph-search-wrap{padding:6px 16px 10px}
+.ph-search{background:#f2f2f7;border-radius:11px;padding:9px 14px;color:#8e8e93;font-size:14px;display:flex;align-items:center;gap:8px}
+.ph-search span{color:#aeaeb2}
+
+/* BOTTOM BAR */
+.ph-bottom{position:absolute;bottom:0;left:0;right:0;height:72px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-around;padding:0 44px 8px;z-index:3}
+.ph-bottom .bb-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border-radius:50%;color:#1c1c1e}
+.ph-bottom .bb-mic{width:48px;height:48px;background:#FF3B30;color:#fff;border-radius:50%;font-size:20px;box-shadow:0 4px 14px rgba(255,59,48,.4)}
+
+/* CONTENT AREA */
+.ph-content{flex:1;overflow-y:auto;padding-bottom:76px}
+
+/* ===========================
+   PHONE - 我的笔记
+=========================== */
+.tag-row{display:flex;gap:8px;padding:8px 16px 14px;overflow-x:auto;scrollbar-width:none}
+.tag-row::-webkit-scrollbar{display:none}
+.tag-pill{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;cursor:pointer;border:1.5px solid transparent;transition:all .18s}
+.tag-pill.active{background:#FF9500;color:#fff;border-color:#FF9500}
+.tag-pill:not(.active){background:#f2f2f7;color:#3c3c43}
+.notes-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px}
+.note-card{background:#fff;border-radius:12px;padding:10px;border:1px solid #f0f0f0;cursor:pointer;transition:all .2s}
+.note-card:active{transform:scale(.97)}
+.note-card .nc-emoji{font-size:16px;margin-bottom:4px}
+.note-card .nc-title{font-size:12px;font-weight:600;color:#1c1c1e;line-height:1.3;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.note-card .nc-preview{font-size:10.5px;color:#8e8e93;line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.note-card .nc-date{font-size:9.5px;color:#c7c7cc}
+
+/* ===========================
+   PHONE - AI笔记
+=========================== */
+.section-label{font-size:14px;font-weight:500;color:#FF9500;padding:4px 16px 10px;display:flex;justify-content:space-between;align-items:center}
+.section-label::after{content:'›';font-size:16px;color:#FF9500;padding-right:4px}
+.ai-collection-row{padding:0 16px 16px;display:flex;gap:10px;overflow-x:auto;scrollbar-width:none}
+.ai-collection-row::-webkit-scrollbar{display:none}
+.ai-coll-card{flex-shrink:0;min-width:140px;background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .18s}
+.ai-coll-card:hover{border-color:#ddd;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.ai-coll-card .acc-icon{display:none}
+.ai-coll-card .acc-title{font-size:14px;font-weight:600;color:#1c1c1e;margin-bottom:4px}
+.ai-coll-card .acc-count{font-size:12px;color:#8e8e93}
+.ai-note-list{padding:0 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ai-note-item{background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:10px;cursor:pointer;transition:all .18s}
+.ai-note-item:active{transform:scale(.97)}
+.ai-note-item .ani-header{display:flex;align-items:center;gap:4px;margin-bottom:3px}
+.ai-note-item .ani-type{font-size:9px;background:#e8f4fd;color:#007aff;padding:1px 6px;border-radius:5px;font-weight:500}
+.ai-note-item .ani-date{font-size:9.5px;color:#aeaeb2}
+.ai-note-item .ani-title{font-size:12px;font-weight:600;color:#1c1c1e;margin-bottom:3px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ai-note-item .ani-preview{font-size:10.5px;color:#8e8e93;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* PODCAST DETAIL */
+.pod-detail{position:absolute;inset:0;background:#fff;z-index:25;transform:translateX(100%);transition:transform .3s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column}
+.pod-detail.show{transform:translateX(0)}
+.pod-detail-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+.pod-detail-header .pd-back{font-size:22px;cursor:pointer;color:#1c1c1e}
+.pod-detail-header .pd-share{font-size:18px;cursor:pointer;color:#1c1c1e}
+.pod-detail-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center}
+.pod-cover-large{width:220px;height:220px;border-radius:24px;background:linear-gradient(135deg,#a18cd1,#fbc2eb);display:flex;align-items:center;justify-content:center;margin-bottom:28px;box-shadow:0 12px 40px rgba(161,140,209,.4)}
+.pod-cover-large .pcl-icon{font-size:64px;opacity:.9}
+.pod-detail-title{font-size:20px;font-weight:700;color:#1c1c1e;margin-bottom:10px}
+.pod-detail-desc{font-size:14px;color:#8e8e93;line-height:1.6;margin-bottom:24px}
+.pod-progress-bar{width:100%;display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.pod-progress-bar .ppb-time{font-size:11px;color:#8e8e93;min-width:46px}
+.pod-progress-bar .ppb-track{flex:1;height:4px;background:#e5e5ea;border-radius:2px;position:relative}
+.pod-progress-bar .ppb-fill{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:2px}
+.pod-controls{display:flex;align-items:center;gap:32px}
+.pod-controls .pc-btn{font-size:18px;color:#636366;cursor:pointer}
+.pod-controls .pc-play{width:56px;height:56px;background:#1c1c1e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+
+/* COLLECTION DETAIL */
+.coll-detail{position:absolute;inset:0;background:#fff;z-index:25;transform:translateX(100%);transition:transform .3s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column}
+.coll-detail.show{transform:translateX(0)}
+.cd-header{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #f0f0f0;gap:10px}
+.cd-back{font-size:15px;cursor:pointer;color:#007aff;display:flex;align-items:center;gap:3px}
+.cd-title{font-size:17px;font-weight:700;flex:1;color:#1c1c1e}
+.cd-body{flex:1;overflow-y:auto;padding:16px}
+.cd-ai-summary{background:linear-gradient(135deg,rgba(102,126,234,.1),rgba(118,75,162,.1));border-radius:14px;padding:14px;margin-bottom:16px;border:1px solid rgba(102,126,234,.2)}
+.cd-ai-summary .cas-header{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.cd-ai-summary .cas-icon{width:24px;height:24px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.cd-ai-summary .cas-title{font-size:13px;font-weight:600;color:#5856d6}
+.cd-ai-summary p{font-size:13px;color:#3c3c43;line-height:1.6}
+.cd-note-item{padding:13px 0;border-bottom:1px solid #f5f5f5;cursor:pointer}
+.cd-note-item:last-child{border-bottom:none}
+.cd-note-item .cni-title{font-size:14px;font-weight:600;color:#1c1c1e;margin-bottom:4px}
+.cd-note-item .cni-date{font-size:11px;color:#aeaeb2;margin-top:5px}
+
+/* ===========================
+   PHONE - 小爱记忆档案
+=========================== */
+.mem-tabs{display:flex;gap:6px;padding:8px 16px 12px;overflow-x:auto;scrollbar-width:none}
+.mem-tabs::-webkit-scrollbar{display:none}
+.mem-tab{padding:6px 13px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;cursor:pointer;border:none;background:#f2f2f7;color:#3c3c43;transition:all .18s}
+.mem-tab.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.mem-list{padding:0 16px}
+.mem-date-header{font-size:12px;font-weight:600;color:#8e8e93;padding:12px 0 6px;letter-spacing:.02em}
+.mem-item{background:#fff;border:1px solid #f0f0f0;border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .18s}
+.mem-item:hover{border-color:#e0e0e0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.mem-item .mi-title{font-size:14px;font-weight:600;color:#1c1c1e;margin-bottom:5px}
+.mem-item .mi-desc{font-size:12.5px;color:#636366;line-height:1.55;margin-bottom:8px}
+.mem-item .mi-thumb{width:100%;height:80px;background:linear-gradient(135deg,#f8f9fa,#e9ecef);border-radius:9px;margin-bottom:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:28px;color:#6c757d}
+.mem-item .mi-source{font-size:11.5px;color:#007aff;margin-bottom:6px}
+.mem-item .mi-tags{display:flex;gap:5px;flex-wrap:wrap}
+.mem-item .mi-tag{font-size:11px;background:#f0f0f5;color:#5856d6;padding:3px 9px;border-radius:8px;font-weight:500}
+.mem-item .mi-kv{margin-bottom:6px}
+.mem-item .mi-kv p{font-size:12.5px;color:#636366;line-height:1.6}
+.mem-item .mi-kv span{color:#1c1c1e;font-weight:500}
+
+/* ===========================
+   PHONE - 语音速记
+=========================== */
+.voice-list{padding:0 16px}
+.voice-item{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid #f5f5f5;cursor:pointer}
+.voice-item:last-child{border-bottom:none}
+.vi-dot{width:36px;height:36px;background:#fff0f0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:1px}
+.vi-body{flex:1}
+.vi-text{font-size:14px;color:#1c1c1e;line-height:1.5;margin-bottom:5px}
+.vi-footer{display:flex;align-items:center;gap:8px}
+.vi-time{font-size:11.5px;color:#aeaeb2}
+.vi-badge{font-size:10.5px;background:#fff0f0;color:#FF3B30;padding:2px 8px;border-radius:6px;font-weight:500}
+
+/* ===========================
+   PHONE - 播客
+=========================== */
+.podcast-list{padding:0 16px}
+.podcast-item{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #f5f5f5;cursor:pointer;transition:all .18s}
+.podcast-item:last-child{border-bottom:none}
+.pi-cover{width:52px;height:52px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff}
+.pi-cover.c1{background:linear-gradient(135deg,#FF6B35,#F7C59F)}
+.pi-cover.c2{background:linear-gradient(135deg,#4ECDC4,#45B7D1)}
+.pi-cover.c3{background:linear-gradient(135deg,#A8E063,#56AB2F)}
+.pi-cover.c4{background:linear-gradient(135deg,#764ba2,#667eea)}
+.pi-body{flex:1;min-width:0}
+.pi-show{font-size:11px;color:#8e8e93;margin-bottom:2px}
+.pi-title{font-size:14px;font-weight:600;color:#1c1c1e;line-height:1.35;margin-bottom:4px}
+.pi-meta{display:flex;align-items:center;gap:8px}
+.pi-dur{font-size:12px;color:#8e8e93}
+.pi-status{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:500}
+.pi-status.done{background:#e8fdf5;color:#30d158}
+.pi-status.partial{background:#fff3cd;color:#FF9500}
+.pi-status.unplayed{background:#f2f2f7;color:#8e8e93}
+.pi-play{width:36px;height:36px;background:#f2f2f7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.pi-setting{width:28px;height:28px;background:#f2f2f7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#8e8e93;flex-shrink:0;cursor:pointer}
+.podcast-actions{display:flex;gap:8px;padding:8px 16px 12px}
+.podcast-actions button{padding:6px 14px;border-radius:18px;font-size:12px;border:1px solid #e8e8e8;background:#fff;cursor:pointer;font-family:inherit}
+.podcast-actions button.primary{background:#1c1c1e;color:#fff;border-color:#1c1c1e}
+.migrate-banner{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:14px 16px;margin:0 14px 12px;border-radius:12px;font-size:13px;line-height:1.5;position:relative}
+.migrate-banner .mb-title{font-weight:600;margin-bottom:4px;font-size:14px}
+.migrate-banner .mb-close{position:absolute;top:10px;right:12px;font-size:16px;cursor:pointer;opacity:.7}
+
+/* ===========================
+   PHONE - 待办
+=========================== */
+.todo-list{padding:0 16px}
+.todo-card{background:#fff;border:1px solid #f0f0f0;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.tc-header{display:flex;align-items:center;gap:10px;padding:14px;cursor:pointer}
+.tc-check{width:22px;height:22px;border:2px solid #c7c7cc;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.tc-check.done{background:#30d158;border-color:#30d158;color:#fff;font-size:12px}
+.tc-title{flex:1;font-size:14px;font-weight:600;color:#1c1c1e;line-height:1.35}
+.tc-progress{font-size:12px;color:#8e8e93;flex-shrink:0}
+.tc-arrow{font-size:16px;color:#c7c7cc;flex-shrink:0;transition:transform .2s}
+.tc-arrow.open{transform:rotate(180deg)}
+.tc-sub{padding:0 14px 12px 46px;display:none}
+.tc-sub.show{display:block}
+.tc-subitem{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-top:1px solid #f5f5f5}
+.tc-subcheck{width:18px;height:18px;border:1.5px solid #c7c7cc;border-radius:4px;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.tc-subcheck.done{background:#007aff;border-color:#007aff;color:#fff;font-size:11px}
+.tc-subtext{font-size:12.5px;color:#636366;line-height:1.5}
+.todo-fab{position:absolute;bottom:82px;right:16px;width:46px;height:46px;background:#FFB800;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;box-shadow:0 4px 16px rgba(255,184,0,.45);cursor:pointer;font-weight:300;z-index:2}
+
+/* ===========================
+   PAD FRAME
+=========================== */
+.pad-frame{width:1100px;height:740px;background:#fff;border-radius:18px;box-shadow:0 20px 80px rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.08);overflow:hidden;display:flex;flex-direction:column;flex-shrink:0}
+.pad-status{height:36px;background:#f7f7f9;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:12px;color:#636366;border-bottom:1px solid #e8e8e8;flex-shrink:0}
+.pad-status .ps-left{display:flex;align-items:center;gap:8px}
+.pad-status .ps-cam{width:8px;height:8px;background:#1c1c1e;border-radius:50%;margin-right:4px}
+.pad-status .ps-btn{display:flex;gap:6px}
+.pad-status .ps-dot{width:12px;height:12px;border-radius:50%}
+.pad-body{flex:1;display:flex;overflow:hidden}
+
+/* PAD COLUMNS */
+.pad-sidebar{width:200px;background:#f7f7f9;border-right:1px solid #e8e8e8;overflow-y:auto;flex-shrink:0;padding:8px}
+.pad-list-col{width:300px;border-right:1px solid #e8e8e8;display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.pad-detail-col{flex:1;overflow-y:auto;background:#fff}
+
+/* PAD SIDEBAR */
+.psb-section{font-size:10px;font-weight:600;color:#8e8e93;letter-spacing:.05em;padding:12px 8px 4px;text-transform:uppercase}
+.psb-item{display:flex;align-items:center;justify-content:space-between;padding:9px 10px;border-radius:9px;margin-bottom:1px;cursor:pointer;transition:background .15s}
+.psb-item:hover{background:rgba(0,0,0,.04)}
+.psb-item.active{background:#e4e4eb}
+.psb-item .psi-left{display:flex;align-items:center;gap:7px}
+.psb-item .psi-icon{font-size:14px;width:20px;text-align:center}
+.psb-item .psi-name{font-size:13px;color:#1c1c1e}
+.psb-item .psi-count{font-size:11px;color:#aeaeb2}
+
+/* PAD LIST COL HEADER */
+.plc-header{padding:14px 16px 8px;flex-shrink:0;border-bottom:1px solid #f0f0f0}
+.plc-title{font-size:18px;font-weight:700;color:#1c1c1e;margin-bottom:8px}
+.plc-search{background:#f2f2f7;border-radius:9px;padding:8px 12px;font-size:13px;color:#8e8e93;display:flex;align-items:center;gap:6px}
+.plc-search span{color:#aeaeb2}
+
+/* PAD LIST ITEMS */
+.plc-scroll{flex:1;overflow-y:auto}
+.pad-list-item{padding:12px 16px;border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background .15s}
+.pad-list-item:hover{background:#f9f9f9}
+.pad-list-item.active{background:#eef2ff}
+.pli-title{font-size:14px;font-weight:600;color:#1c1c1e;margin-bottom:3px;line-height:1.35}
+.pli-preview{font-size:12.5px;color:#8e8e93;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+.pli-date{font-size:11px;color:#c7c7cc}
+.pli-badge{display:inline-block;font-size:10px;padding:1px 7px;border-radius:5px;margin-bottom:4px;font-weight:500}
+.pli-badge.ai{background:#e8f4fd;color:#007aff}
+.pli-badge.voice{background:#fff0f0;color:#FF3B30}
+.pli-badge.done{background:#e8fdf5;color:#30d158}
+.pli-badge.partial{background:#fff3cd;color:#FF9500}
+
+/* PAD AI COLLECTION SECTION */
+.pad-coll-section{padding:8px 12px;background:#f8f4ff;border-bottom:2px solid #e8e8f5;flex-shrink:0}
+.pcs-title{font-size:10px;font-weight:600;color:#764ba2;margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase}
+.pcs-row{display:flex;gap:5px}
+.pcs-card{flex:1;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:8px;padding:9px;color:#fff;cursor:pointer;transition:transform .18s}
+.pcs-card:hover{transform:scale(1.02)}
+.pcs-card .pcc-title{font-size:11px;font-weight:600;line-height:1.3}
+.pcs-card .pcc-count{font-size:10px;opacity:.75;margin-top:2px}
+
+/* PAD MEMORY TABS */
+.pad-mem-tabs-wrap{flex-shrink:0;border-bottom:1px solid #f0f0f0;padding:6px 10px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.pad-mem-tabs-wrap::-webkit-scrollbar{display:none}
+.pmt{padding:5px 10px;border-radius:16px;font-size:11.5px;font-weight:500;cursor:pointer;border:none;background:#f2f2f7;color:#3c3c43;transition:all .18s;white-space:nowrap}
+.pmt.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+
+/* PAD DETAIL */
+.pdc-header{padding:20px 24px 12px;border-bottom:1px solid #f0f0f0}
+.pdc-header .pdch-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.pdc-header .pdch-type{font-size:11px;padding:3px 9px;border-radius:7px;font-weight:500}
+.pdch-type.personal{background:#fff3e0;color:#FF9500}
+.pdch-type.ai{background:#e8f4fd;color:#007aff}
+.pdch-type.memory{background:#f0eaff;color:#764ba2}
+.pdch-type.voice{background:#fff0f0;color:#FF3B30}
+.pdch-type.podcast{background:#e8fdf5;color:#30d158}
+.pdch-type.todo{background:#fff3cd;color:#FF9500}
+.pdc-header h2{font-size:22px;font-weight:700;color:#1c1c1e;margin-bottom:6px;line-height:1.3}
+.pdc-header .pdch-date{font-size:13px;color:#8e8e93}
+.pdc-body{padding:20px 24px;font-size:14px;color:#3c3c43;line-height:1.7}
+.pdc-body h3{font-size:16px;font-weight:600;color:#1c1c1e;margin:20px 0 8px}
+.pdc-body h3:first-child{margin-top:0}
+.pdc-body p{margin-bottom:12px}
+.pdc-body ul{padding-left:20px;margin-bottom:12px}
+.pdc-body li{margin-bottom:5px}
+.pdc-body .detail-quote{background:#f7f7f9;border-left:3px solid #c7c7cc;padding:12px 16px;border-radius:0 10px 10px 0;font-style:italic;color:#636366;margin:12px 0;font-size:13px}
+.pdc-body .detail-tag{display:inline-block;background:#f0f0f5;color:#5856d6;font-size:12px;padding:3px 10px;border-radius:7px;margin:2px 3px;font-weight:500}
+.pdc-body .detail-section{background:#f8f9fa;border-radius:12px;padding:14px;margin:12px 0;border:1px solid #f0f0f0}
+.pdc-body .detail-section .ds-title{font-size:11px;font-weight:600;color:#8e8e93;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+.pdc-body .ds-kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px}
+.pdc-body .ds-kv .k{color:#8e8e93;white-space:nowrap}
+.pdc-body .ds-kv .v{color:#1c1c1e;font-weight:500}
+.pdc-body .todo-detail-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #f5f5f5}
+.pdc-body .todo-detail-item:last-child{border-bottom:none}
+.tdi-check{width:20px;height:20px;border:2px solid #c7c7cc;border-radius:5px;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px}
+.tdi-check.done{background:#007aff;border-color:#007aff;color:#fff}
+.tdi-text{font-size:13.5px;color:#3c3c43;line-height:1.5}
+.podcast-progress{background:#f2f2f7;border-radius:10px;height:6px;margin:10px 0;position:relative}
+.podcast-progress .prog-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#007aff,#5ac8fa)}
+</style>
+</head>
+<body>
+
+<div class="device-tabs">
+  <button class="active" onclick="showDevice('phone',this)">📱 手机端</button>
+  <button onclick="showDevice('pad',this)">🖥 平板端</button>
+</div>
+
+<!-- ========== PHONE ========== -->
+<div class="demo-wrap" id="phone-demo">
+  <div class="cat-info-panel">
+    <h3>侧边栏品类定义</h3>
+    <table>
+      <tr><th>品类</th><th>内容</th></tr>
+      <tr><td>我的笔记</td><td>用户自己写的（文字/手写）</td></tr>
+      <tr><td>AI 笔记</td><td>小爱/MiClaw 等生成的笔记内容</td></tr>
+      <tr><td>语音速记</td><td>AI 键触发的语音碎片速记</td></tr>
+      <tr><td>小爱记忆档案</td><td>小爱积累的关于用户的记忆存档</td></tr>
+      <tr><td>播客</td><td>AI 从内容生成的音频+文字稿</td></tr>
+    </table>
+  </div>
+  <div class="phone-frame">
+    <div class="ph-notch"></div>
+    <div class="ph-status">
+      <span class="time">9:41</span>
+      <div class="icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+    </div>
+    <div class="ph-body">
+      <div class="ph-overlay" id="ph-overlay" onclick="closeSidebar()"></div>
+
+      <!-- Sidebar -->
+      <div class="ph-sidebar" id="ph-sidebar">
+        <div class="sb-header">
+          <div class="sb-avatar">杨</div>
+          <div>
+            <div class="sb-name">杨李莲</div>
+            <div class="sb-sub">小米 · 内容助手PM</div>
+          </div>
+        </div>
+        <div class="sb-scroll">
+          <div class="sb-section">品类</div>
+          <div class="sb-item active" id="sb-personal" onclick="phoneSelectCat('personal',this)">
+            <div class="si-left"><span class="si-icon">📝</span><span class="si-name">我的笔记</span></div>
+            <span class="si-count">36</span>
+          </div>
+          <div class="sb-item" id="sb-ai" onclick="phoneSelectCat('ai',this)">
+            <div class="si-left"><span class="si-icon">⚡</span><span class="si-name">AI笔记</span></div>
+            <span class="si-count">24</span>
+          </div>
+          <div class="sb-item" id="sb-voice" onclick="phoneSelectCat('voice',this)">
+            <div class="si-left"><span class="si-icon">🎙</span><span class="si-name">语音速记</span></div>
+            <span class="si-count">18</span>
+          </div>
+          <div class="sb-item" id="sb-memory" onclick="phoneSelectCat('memory',this)">
+            <div class="si-left"><span class="si-icon">💜</span><span class="si-name">小爱记忆档案</span></div>
+            <span class="si-count">42</span>
+          </div>
+          <div class="sb-item" id="sb-podcast" onclick="phoneSelectCat('podcast',this)">
+            <div class="si-left"><span class="si-icon">🎧</span><span class="si-name">播客</span></div>
+            <span class="si-count">8</span>
+          </div>
+          <div class="sb-item hidden" id="sb-todo" onclick="phoneSelectCat('todo',this)">
+            <div class="si-left"><span class="si-icon">☑️</span><span class="si-name">待办</span></div>
+            <span class="si-count">12</span>
+          </div>
+          <div class="sb-section">文件夹</div>
+          <div class="sb-item" onclick="closeSidebar()">
+            <div class="si-left"><span class="si-icon">📁</span><span class="si-name">个人</span></div>
+            <span class="si-count">19</span>
+          </div>
+          <div class="sb-item" onclick="closeSidebar()">
+            <div class="si-left"><span class="si-icon">📁</span><span class="si-name">生活</span></div>
+            <span class="si-count">19</span>
+          </div>
+          <div class="sb-item" onclick="closeSidebar()">
+            <div class="si-left"><span class="si-icon">📁</span><span class="si-name">学习</span></div>
+            <span class="si-count">19</span>
+          </div>
+          <div class="sb-section">其他</div>
+          <div class="sb-item" onclick="closeSidebar()">
+            <div class="si-left"><span class="si-icon">🗑️</span><span class="si-name">最近删除</span></div>
+            <span class="si-count">25</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main -->
+      <div class="ph-main" id="ph-main">
+        <div class="ph-header">
+          <div class="menu-btn" onclick="openSidebar()">☰</div>
+          <h1 id="ph-title">我的笔记</h1>
+          <div class="hdr-icons">
+            <div class="hdr-icon" onclick="phoneSelectCat('todo',document.getElementById('sb-todo'))">☑️</div>
+            <div class="hdr-icon">⋯</div>
+          </div>
+        </div>
+        <div class="ph-search-wrap">
+          <div class="ph-search"><span>🔍</span> 搜索笔记</div>
+        </div>
+        <div class="ph-content" id="ph-content"></div>
+        <div class="todo-fab hidden" id="ph-todo-fab">＋</div>
+
+        <!-- Collection Detail -->
+        <div class="coll-detail" id="coll-detail">
+          <div class="cd-header">
+            <div class="cd-back" onclick="closeCollDetail()">‹ 返回</div>
+            <div class="cd-title" id="cd-title"></div>
+          </div>
+          <div class="cd-body" id="cd-body"></div>
+        </div>
+
+        <!-- Podcast Detail -->
+        <div class="pod-detail" id="pod-detail">
+          <div class="pod-detail-header">
+            <span class="pd-back" onclick="closePodDetail()">←</span>
+            <span class="pd-share">⬆</span>
+          </div>
+          <div class="pod-detail-body">
+            <div class="pod-cover-large"><span class="pcl-icon">🎯</span></div>
+            <div class="pod-detail-title" id="pod-detail-title">Agent生态与"卖铲子"蓝海</div>
+            <div class="pod-detail-desc" id="pod-detail-desc">Claude Skills因解决AI执行特定任务缺专业SOP问题破圈，其逻辑是将专业知识封装在SKILL.md文件按需加载。</div>
+            <div class="pod-progress-bar">
+              <span class="ppb-time">00:23:54</span>
+              <div class="ppb-track"><div class="ppb-fill" style="width:28%"></div></div>
+              <span class="ppb-time">01:23:11</span>
+            </div>
+            <div class="pod-controls">
+              <span class="pc-btn">≡</span>
+              <div class="pc-play">▶</div>
+              <span class="pc-btn">1×</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="ph-bottom">
+        <div class="bb-btn">＋</div>
+        <div class="bb-btn bb-mic">🎙</div>
+        <div class="bb-btn">✏️</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PAD ========== -->
+<div class="demo-wrap hidden" id="pad-demo">
+  <div class="cat-info-panel">
+    <h3>侧边栏品类定义</h3>
+    <table>
+      <tr><th>品类</th><th>内容</th></tr>
+      <tr><td>我的笔记</td><td>用户自己写的（文字/手写）</td></tr>
+      <tr><td>AI 笔记</td><td>小爱/MiClaw 等生成的笔记内容</td></tr>
+      <tr><td>语音速记</td><td>AI 键触发的语音碎片速记</td></tr>
+      <tr><td>小爱记忆档案</td><td>小爱积累的关于用户的记忆存档</td></tr>
+      <tr><td>播客</td><td>AI 从内容生成的音频+文字稿</td></tr>
+    </table>
+  </div>
+  <div class="pad-frame">
+    <div class="pad-status">
+      <div class="ps-left">
+        <div class="ps-cam"></div>
+        <span>小米笔记</span>
+      </div>
+      <span>9:41 · 周三</span>
+      <div class="ps-btn">
+        <div class="ps-dot" style="background:#FF5F57"></div>
+        <div class="ps-dot" style="background:#FEBC2E"></div>
+        <div class="ps-dot" style="background:#28C840"></div>
+      </div>
+    </div>
+    <div class="pad-body">
+      <!-- Left Sidebar -->
+      <div class="pad-sidebar">
+        <div class="psb-section">品类</div>
+        <div class="psb-item active" id="psb-personal" onclick="padSelectCat('personal',this)">
+          <div class="psi-left"><span class="psi-icon">📝</span><span class="psi-name">我的笔记</span></div>
+          <span class="psi-count">36</span>
+        </div>
+        <div class="psb-item" id="psb-ai" onclick="padSelectCat('ai',this)">
+          <div class="psi-left"><span class="psi-icon">⚡</span><span class="psi-name">AI笔记</span></div>
+          <span class="psi-count">24</span>
+        </div>
+        <div class="psb-item" id="psb-voice" onclick="padSelectCat('voice',this)">
+          <div class="psi-left"><span class="psi-icon">🎙</span><span class="psi-name">语音速记</span></div>
+          <span class="psi-count">18</span>
+        </div>
+        <div class="psb-item" id="psb-memory" onclick="padSelectCat('memory',this)">
+          <div class="psi-left"><span class="psi-icon">💜</span><span class="psi-name">小爱记忆档案</span></div>
+          <span class="psi-count">42</span>
+        </div>
+        <div class="psb-item" id="psb-podcast" onclick="padSelectCat('podcast',this)">
+          <div class="psi-left"><span class="psi-icon">🎧</span><span class="psi-name">播客</span></div>
+          <span class="psi-count">8</span>
+        </div>
+        <div class="psb-item hidden" id="psb-todo" onclick="padSelectCat('todo',this)">
+          <div class="psi-left"><span class="psi-icon">☑️</span><span class="psi-name">待办</span></div>
+          <span class="psi-count">12</span>
+        </div>
+        <div class="psb-section">文件夹</div>
+        <div class="psb-item">
+          <div class="psi-left"><span class="psi-icon">📁</span><span class="psi-name">个人</span></div>
+          <span class="psi-count">19</span>
+        </div>
+        <div class="psb-item">
+          <div class="psi-left"><span class="psi-icon">📁</span><span class="psi-name">生活</span></div>
+          <span class="psi-count">19</span>
+        </div>
+        <div class="psb-item">
+          <div class="psi-left"><span class="psi-icon">📁</span><span class="psi-name">学习</span></div>
+          <span class="psi-count">19</span>
+        </div>
+        <div class="psb-section">其他</div>
+        <div class="psb-item">
+          <div class="psi-left"><span class="psi-icon">🗑️</span><span class="psi-name">最近删除</span></div>
+          <span class="psi-count">25</span>
+        </div>
+      </div>
+
+      <!-- Middle List Column -->
+      <div class="pad-list-col">
+        <div id="pad-list-header"></div>
+        <div class="plc-scroll" id="pad-list-scroll"></div>
+      </div>
+
+      <!-- Detail Column -->
+      <div class="pad-detail-col" id="pad-detail-col"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== DATA ====================
+const CONTENT = {
+  personal: {
+    title: '我的笔记',
+    ph: function() {
+      return `
+      <div class="tag-row">
+        <div class="tag-pill active" onclick="activateTag(this)">全部</div>
+        <div class="tag-pill" onclick="activateTag(this)">工作</div>
+        <div class="tag-pill" onclick="activateTag(this)">个人</div>
+        <div class="tag-pill" onclick="activateTag(this)">学习</div>
+        <div class="tag-pill" onclick="activateTag(this)">未分类</div>
+      </div>
+      <div class="notes-grid">
+        <div class="note-card">
+          <div class="nc-emoji">📚</div>
+          <div class="nc-title">周末读书笔记</div>
+          <div class="nc-preview">《认知觉醒》第五章，关于元认知的重要性，潜意识与前意识的差异让我重新思考…</div>
+          <div class="nc-date">今天 · 14:32</div>
+        </div>
+        <div class="note-card">
+          <div class="nc-emoji">☎️</div>
+          <div class="nc-title">和妈妈通话感想</div>
+          <div class="nc-preview">妈妈说想来南京看我，聊了很多家里的事…</div>
+          <div class="nc-date">昨天 · 20:15</div>
+        </div>
+        <div class="note-card">
+          <div class="nc-emoji">🏋️</div>
+          <div class="nc-title">减肥计划第3周</div>
+          <div class="nc-preview">本周跑步4次，总计32km，体重下降0.8kg…</div>
+          <div class="nc-date">5月18日</div>
+        </div>
+        <div class="note-card">
+          <div class="nc-emoji">🏠</div>
+          <div class="nc-title">新租房装修想法</div>
+          <div class="nc-preview">客厅想做奶油风，主卧偏日式简约，预算控制在20万…</div>
+          <div class="nc-date">5月17日</div>
+        </div>
+        <div class="note-card">
+          <div class="nc-emoji">💼</div>
+          <div class="nc-title">Q2工作复盘</div>
+          <div class="nc-preview">420按时交付，AI搜索二期已定稿…</div>
+          <div class="nc-date">5月15日</div>
+        </div>
+        <div class="note-card">
+          <div class="nc-emoji">✈️</div>
+          <div class="nc-title">云南旅行攻略</div>
+          <div class="nc-preview">大理+丽江7日游，民宿已预订…</div>
+          <div class="nc-date">5月10日</div>
+        </div>
+        <div class="note-card">
+          <div class="nc-emoji">🎯</div>
+          <div class="nc-title">2026年个人OKR</div>
+          <div class="nc-preview">目标1：完成MiClaw内容助手…</div>
+          <div class="nc-date">1月1日</div>
+        </div>
+      </div>`;
+    },
+    padList: [
+      {id:'p1', title:'周末读书笔记 — 《认知觉醒》', preview:'第五章：关于元认知的重要性，潜意识与前意识的差异…', date:'今天 14:32'},
+      {id:'p2', title:'和妈妈通话感想', preview:'妈妈说想来南京看我，聊了很多家里的事和弟弟近况…', date:'昨天 20:15'},
+      {id:'p3', title:'减肥计划第3周记录', preview:'本周跑步4次，总计32km，体重较上周下降0.8kg…', date:'5月18日'},
+      {id:'p4', title:'新租房子的装修想法', preview:'客厅想做奶油风，主卧偏日式简约，预算控制在20万…', date:'5月17日'},
+      {id:'p5', title:'Q2工作复盘 — 五月中期', preview:'420版本已交付，AI搜索二期推进中，6月ROM继续…', date:'5月15日'},
+      {id:'p6', title:'云南旅行攻略 · 7日行程', preview:'大理+丽江行程规划，民宿已预订，需要安排包车…', date:'5月10日'},
+      {id:'p7', title:'2026年个人OKR', preview:'目标1：完成MiClaw内容助手核心功能上线…', date:'1月1日'},
+    ],
+    padDetail: {
+      type:'personal', typeLabel:'我的笔记',
+      title:'周末读书笔记 — 《认知觉醒》',
+      date:'2026年5月21日 · 14:32',
+      body:`<h3>第五章 · 元认知</h3>
+<p>今天读完了《认知觉醒》第五章，核心概念是"元认知"——对自己思维过程的觉察和监控能力。作者把它比作人类超越其他动物的关键能力。</p>
+<div class="detail-quote">你是否真的在思考，还是只是在对过去的经验做出反应？</div>
+<h3>关键洞见</h3>
+<ul>
+  <li>大脑天生喜欢走捷径，大多数"思考"其实是自动驾驶模式</li>
+  <li>元认知需要刻意练习，建立"观察者"视角</li>
+  <li>冥想是训练元认知最高效的方式之一</li>
+  <li>写作能强迫思维显化，从而更容易被觉察</li>
+</ul>
+<h3>联系到自己</h3>
+<p>最近在做AI笔记产品，我们的核心价值其实也是帮用户从信息洪流中提炼出真正有价值的思考。笔记不只是记录，而是思考的外化。</p>
+<div class="detail-section">
+  <div class="ds-title">行动计划</div>
+  <ul style="padding-left:18px;font-size:13px;color:#3c3c43;line-height:1.8">
+    <li>每天晚上睡前10分钟冥想</li>
+    <li>用笔记记录"今天我做了哪些自动驾驶决策"</li>
+    <li>下周读第六章，主题是情感与理性的平衡</li>
+  </ul>
+</div>
+<p style="margin-top:12px"><span class="detail-tag">#读书笔记</span><span class="detail-tag">#认知</span><span class="detail-tag">#个人成长</span></p>`
+    }
+  },
+
+  ai: {
+    title: 'AI笔记',
+    ph: function() {
+      return `
+      <div class="section-label">智能合集</div>
+      <div class="ai-collection-row">
+        <div class="ai-coll-card" onclick="openCollDetail('nanjing')">
+          <div class="acc-title">南京旅游</div>
+          <div class="acc-count">5篇笔记</div>
+        </div>
+        <div class="ai-coll-card" onclick="openCollDetail('product')">
+          <div class="acc-title">产品方案</div>
+          <div class="acc-count">3篇笔记</div>
+        </div>
+        <div class="ai-coll-card" onclick="openCollDetail('interview')">
+          <div class="acc-title">5月采访</div>
+          <div class="acc-count">5篇笔记</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:#8e8e93;padding:12px 16px 4px">全部笔记</div>
+      <div class="tag-row"><span class="tag-pill active">全部</span><span class="tag-pill">工作</span><span class="tag-pill">个人</span><span class="tag-pill">学习</span><span class="tag-pill">未分类</span></div>
+      <div class="notes-grid">
+        <div class="note-card">
+          <div class="nc-emoji">📋</div>
+          <div class="nc-title">产品周会纪要 5/19</div>
+          <div class="nc-preview">首页改版+AI搜索二期5月底提测…</div>
+          <div class="nc-date">5月19日</div>
+        </div>
+        <div class="note-card">
+          <div class="nc-emoji">📖</div>
+          <div class="nc-title">经济学第12讲</div>
+          <div class="nc-preview">泰勒展开定义与工程应用…</div>
+          <div class="nc-date">5月17日</div>
+        </div>
+        <div class="note-card">
+          <div class="nc-emoji">📞</div>
+          <div class="nc-title">张总通话摘要</div>
+          <div class="nc-preview">Q3合作报价，压低15%…</div>
+          <div class="nc-date">5月15日</div>
+        </div>
+        <div class="note-card">
+          <div class="nc-emoji">📊</div>
+          <div class="nc-title">5月采访总结报告</div>
+          <div class="nc-preview">基于5篇采访笔记生成…</div>
+          <div class="nc-date">5月13日</div>
+        </div>
+      </div>`;
+    },
+    padList: [
+      {id:'a1', title:'产品周会纪要 5/19', preview:'议题一：首页改版，结论是保留导航结构增加AI入口…', date:'5月19日', badge:'ai', badgeLabel:'会议纪要'},
+      {id:'a2', title:'经济学第12讲 — 泰勒展开', preview:'泰勒展开定义与工程应用，从函数逼近到实际场景建模…', date:'5月17日', badge:'ai', badgeLabel:'课程笔记'},
+      {id:'a3', title:'张总通话摘要', preview:'讨论Q3合作报价，张总希望在现有价格上压低15%…', date:'5月15日', badge:'ai', badgeLabel:'通话摘要'},
+      {id:'a4', title:'5月采访总结报告', preview:'基于5篇采访笔记AI生成，用户对AI笔记最大期待是…', date:'5月13日', badge:'ai', badgeLabel:'AI合集'},
+      {id:'a5', title:'小米PAD产品调研笔记', preview:'竞品分析：苹果Notes、GoodNotes、Notability核心差异…', date:'5月10日', badge:'ai', badgeLabel:'调研'},
+      {id:'a6', title:'AI搜索二期需求评审', preview:'评审结论：P0功能锁定，开发排期5月底上线，UI选方案B…', date:'5月8日', badge:'ai', badgeLabel:'会议纪要'},
+    ],
+    padDetail: {
+      type:'ai', typeLabel:'AI笔记',
+      title:'产品周会纪要 5/19',
+      date:'2026年5月19日 · 16:30 · AI生成',
+      body:`<div class="detail-section">
+  <div class="ds-title">AI 摘要</div>
+  <p style="font-size:13px;color:#3c3c43;line-height:1.7">本次产品周会讨论了首页改版、AI搜索二期进度及6月ROM排期三大议题，最终确定首页结构保留、AI搜索二期5月底提测、6月ROM不做大改动。</p>
+</div>
+<h3>议题一：首页改版讨论</h3>
+<p>主要结论是保留现有导航结构，在顶部增加AI入口。具体实施方案：</p>
+<ul>
+  <li>顶部搜索栏改为"搜索/问AI"融合入口</li>
+  <li>首页feed流保持瀑布流布局</li>
+  <li>底部导航栏精简为4个tab</li>
+</ul>
+<h3>议题二：AI搜索二期进度</h3>
+<p>当前进度：开发已完成60%，测试用例编写中。关键节点：</p>
+<ul>
+  <li>5月23日：开发完成，进入自测</li>
+  <li>5月28日：提测，进入QA测试</li>
+  <li>6月5日：灰度发布</li>
+</ul>
+<h3>议题三：6月ROM</h3>
+<p>已和产研团队对齐，6月主要交付：AI搜索二期上线+记忆档案优化，不安排大版本改动，保持稳定性。</p>
+<div class="detail-section">
+  <div class="ds-title">待跟进事项</div>
+  <div class="ds-kv">
+    <span class="k">杨李莲</span><span class="v">准备AI搜索二期上线前用户测试方案</span>
+    <span class="k">产研</span><span class="v">5月23日提供自测报告</span>
+    <span class="k">下次会议</span><span class="v">5月26日 16:00</span>
+  </div>
+</div>
+<p style="margin-top:12px"><span class="detail-tag">#产品</span><span class="detail-tag">#会议纪要</span><span class="detail-tag">#AI搜索</span></p>`
+    }
+  },
+
+  memory: {
+    title: '小爱记忆档案',
+    ph: function(tab) {
+      tab = tab || '全部';
+      const tabs = ['全部','链接','卡证','地址','纪念日'];
+      const banner = `<div class="migrate-banner"><div class="mb-close" onclick="this.parentNode.remove()">✕</div><div class="mb-title">小爱记忆已迁移至笔记</div>你的42条记忆内容已自动整理到这里，可随时查看和管理。</div>`;
+      const tabsHtml = `<div class="tag-row">${tabs.map(t=>`<span class="tag-pill${t===tab?' active':''}" onclick="phoneMemTab('${t}')">${t}</span>`).join('')}</div>`;
+      const cards = {
+        '全部': `
+          <div class="note-card"><div class="nc-emoji">🌐</div><div class="nc-title">美伊局势动态</div><div class="nc-preview">来自：浏览器</div><div class="nc-date">5月11日</div></div>
+          <div class="note-card"><div class="nc-emoji">🪪</div><div class="nc-title">你的身份证</div><div class="nc-preview">来自：超级小爱</div><div class="nc-date">5月8日</div></div>
+          <div class="note-card"><div class="nc-emoji">📱</div><div class="nc-title">小米PAD 7 Pro测评</div><div class="nc-preview">来自：小红书</div><div class="nc-date">4月28日</div></div>
+          <div class="note-card"><div class="nc-emoji">📍</div><div class="nc-title">你公司的地址</div><div class="nc-preview">来自：超级小爱</div><div class="nc-date">4月30日</div></div>
+          <div class="note-card"><div class="nc-emoji">💍</div><div class="nc-title">结婚纪念日</div><div class="nc-preview">来自：超级小爱</div><div class="nc-date">4月20日</div></div>
+          <div class="note-card"><div class="nc-emoji">🏠</div><div class="nc-title">家的地址</div><div class="nc-preview">来自：超级小爱</div><div class="nc-date">4月15日</div></div>`,
+        '链接': `
+          <div class="note-card"><div class="nc-emoji">🌐</div><div class="nc-title">美伊局势动态</div><div class="nc-preview">来自：浏览器</div><div class="nc-date">5月11日</div></div>
+          <div class="note-card"><div class="nc-emoji">📱</div><div class="nc-title">小米PAD 7 Pro测评</div><div class="nc-preview">来自：小红书</div><div class="nc-date">4月28日</div></div>
+          <div class="note-card"><div class="nc-emoji">🍎</div><div class="nc-title">Apple Intelligence发布</div><div class="nc-preview">来自：微信</div><div class="nc-date">4月25日</div></div>`,
+        '卡证': `
+          <div class="note-card"><div class="nc-emoji">🪪</div><div class="nc-title">你的身份证</div><div class="nc-preview">来自：超级小爱</div><div class="nc-date">5月8日</div></div>
+          <div class="note-card"><div class="nc-emoji">🪪</div><div class="nc-title">公司员工证</div><div class="nc-preview">来自：相册识别</div><div class="nc-date">4月10日</div></div>`,
+        '地址': `
+          <div class="note-card"><div class="nc-emoji">📍</div><div class="nc-title">你公司的地址</div><div class="nc-preview">来自：超级小爱</div><div class="nc-date">4月30日</div></div>
+          <div class="note-card"><div class="nc-emoji">🏠</div><div class="nc-title">家的地址</div><div class="nc-preview">来自：超级小爱</div><div class="nc-date">4月15日</div></div>
+          <div class="note-card"><div class="nc-emoji">👩</div><div class="nc-title">妈妈家地址</div><div class="nc-preview">来自：超级小爱</div><div class="nc-date">3月20日</div></div>`,
+        '纪念日': `
+          <div class="note-card"><div class="nc-emoji">💍</div><div class="nc-title">结婚纪念日</div><div class="nc-preview">每年6月15日 · 还有25天</div><div class="nc-date">设置于1月</div></div>
+          <div class="note-card"><div class="nc-emoji">🎂</div><div class="nc-title">妈妈生日</div><div class="nc-preview">每年3月22日 · 已过</div><div class="nc-date">设置于1月</div></div>
+          <div class="note-card"><div class="nc-emoji">🏢</div><div class="nc-title">入职小米纪念日</div><div class="nc-preview">每年7月3日 · 第4年</div><div class="nc-date">设置于1月</div></div>`
+      };
+      return banner + tabsHtml + `<div class="notes-grid">${cards[tab]}</div>`;
+    },
+    padList: [
+      {id:'m1', title:'美伊局势动态及伊朗对华能源协议', preview:'浏览器收藏 · 今天 10:23 收集', date:'今天'},
+      {id:'m2', title:'你的身份证', preview:'关系：本人 · 号码：32010619···1234', date:'4月15日'},
+      {id:'m3', title:'你公司的地址', preview:'南京市玄武区小米科技园A栋', date:'3月20日'},
+      {id:'m4', title:'结婚纪念日', preview:'每年6月15日 · 距今还有25天', date:'存储于3月'},
+      {id:'m5', title:'妈妈生日', preview:'每年3月22日 · 今年已过', date:'存储于1月'},
+      {id:'m6', title:'公司员工证', preview:'姓名：杨李莲 · 工号：MI-20-3872', date:'2月10日'},
+    ],
+    padDetail: {
+      type:'memory', typeLabel:'小爱记忆档案',
+      title:'美伊局势动态及伊朗对华能源协议',
+      date:'2026年5月21日 · 浏览器收集',
+      body:`<div class="detail-section">
+  <div class="ds-title">来源信息</div>
+  <div class="ds-kv">
+    <span class="k">来源</span><span class="v">🌐 浏览器-原文</span>
+    <span class="k">收集时间</span><span class="v">2026年5月21日 10:23</span>
+    <span class="k">原始链接</span><span class="v" style="color:#007aff">news.xinhua.com ›</span>
+  </div>
+</div>
+<h3>摘要</h3>
+<p>据最新报道，在美国对伊朗制裁持续收紧的背景下，伊朗与中国之间的能源合作协议出现新进展。双方就石油进口价格及支付机制达成初步共识，预计每年新增原油输华量约1200万吨。</p>
+<h3>关键信息</h3>
+<ul>
+  <li>协议预计在2026年Q3正式签署</li>
+  <li>人民币结算占比将提升至70%</li>
+  <li>美方已发表声明表示关切</li>
+</ul>
+<p style="margin-top:16px"><span class="detail-tag">#美伊局势</span><span class="detail-tag">#国际时事</span><span class="detail-tag">#能源</span></p>`
+    }
+  },
+
+  voice: {
+    title: '语音速记',
+    ph: function() {
+      return `<div class="tag-row"><span class="tag-pill active">全部</span><span class="tag-pill">工作</span><span class="tag-pill">个人</span><span class="tag-pill">学习</span><span class="tag-pill">未分类</span></div>
+      <div class="notes-grid">
+        <div class="note-card"><div class="nc-emoji">🎙</div><div class="nc-title">明天带身份证</div><div class="nc-preview">别忘了9点前到窗口</div><div class="nc-date">今天 17:42</div></div>
+        <div class="note-card"><div class="nc-emoji">🛒</div><div class="nc-title">买牛奶面包鸡蛋</div><div class="nc-preview">超市还有优惠券</div><div class="nc-date">今天 12:11</div></div>
+        <div class="note-card"><div class="nc-emoji">📞</div><div class="nc-title">给张总打电话</div><div class="nc-preview">确认Q3合同细节</div><div class="nc-date">昨天 20:30</div></div>
+        <div class="note-card"><div class="nc-emoji">💡</div><div class="nc-title">产品方向想法</div><div class="nc-preview">往AI个性化探索，记忆是核心</div><div class="nc-date">昨天 15:08</div></div>
+        <div class="note-card"><div class="nc-emoji">🏸</div><div class="nc-title">约小王打羽毛球</div><div class="nc-preview">河西体育馆，周末下午</div><div class="nc-date">5月18日</div></div>
+        <div class="note-card"><div class="nc-emoji">✈️</div><div class="nc-title">买成都机票</div><div class="nc-preview">六月十五号，看有没有特价</div><div class="nc-date">5月17日</div></div>
+        <div class="note-card"><div class="nc-emoji">🍖</div><div class="nc-title">给奶奶做红烧肉</div><div class="nc-preview">下次回家做给她吃</div><div class="nc-date">5月15日</div></div>
+      </div>`;
+    },
+    padList: [
+      {id:'v1', title:'明天带身份证去办事', preview:'别忘了9点前到窗口，提前准备好材料', date:'今天 17:42', badge:'voice', badgeLabel:'语音'},
+      {id:'v2', title:'买牛奶面包鸡蛋洗衣液', preview:'超市还有优惠券，顺便买点水果', date:'今天 12:11', badge:'voice', badgeLabel:'语音'},
+      {id:'v3', title:'下周一给张总打电话', preview:'确认Q3合同细节，他说让我主动联系', date:'昨天 20:30', badge:'voice', badgeLabel:'语音'},
+      {id:'v4', title:'产品方向往AI个性化探索', preview:'用户记忆是差异化核心能力，可以深挖', date:'昨天 15:08', badge:'voice', badgeLabel:'语音'},
+      {id:'v5', title:'周末约小王打羽毛球', preview:'河西体育馆，周六下午三点', date:'5月18日 9:30', badge:'voice', badgeLabel:'语音'},
+      {id:'v6', title:'买六月十五号成都机票', preview:'看看还有没有特价票，提前订比较稳', date:'5月17日 21:44', badge:'voice', badgeLabel:'语音'},
+    ],
+    padDetail: {
+      type:'voice', typeLabel:'语音速记',
+      title:'明天带身份证去办事',
+      date:'2026年5月21日 · 17:42 · 语音输入',
+      body:`<div class="detail-section">
+  <div class="ds-title">语音原文</div>
+  <p style="font-size:13px;color:#636366;line-height:1.7;font-style:italic">"明天带身份证去办事，别忘了9点前到窗口，那个地方挺远的，坐地铁要40分钟左右，早点出发，要带的材料提前准备好。"</p>
+</div>
+<h3>事项清单</h3>
+<ul>
+  <li>✅ 准备好身份证原件+复印件</li>
+  <li>□ 查好办事地点和所需材料清单</li>
+  <li>□ 早上7:30出发，坐地铁10号线</li>
+  <li>□ 8:50前到，在1号窗口排队</li>
+</ul>
+<div class="detail-section">
+  <div class="ds-title">小爱识别</div>
+  <div class="ds-kv">
+    <span class="k">时间提醒</span><span class="v">明天 8:00 提醒</span>
+    <span class="k">相关档案</span><span class="v">你的身份证 →</span>
+  </div>
+</div>`
+    }
+  },
+
+  podcast: {
+    title: '播客',
+    ph: function() {
+      return `<div class="podcast-actions"><button class="primary">▶ 一键播放</button><button>多选连播</button><button>⚙ 条件播放</button></div><div class="podcast-list">
+        <div class="podcast-item" onclick="openPodDetail('AI Agent的未来：从工具到协作伙伴','本期探讨AI Agent从RPA式工具演化为能主动思考、分解任务的协作伙伴的路径，对比AutoGPT、Claude Code等方案的差异。')">
+          <div class="pi-cover c1">科技</div>
+          <div class="pi-body">
+            <div class="pi-show">科技早知道</div>
+            <div class="pi-title">AI Agent的未来：从工具到协作伙伴</div>
+            <div class="pi-meta"><span class="pi-dur">45:23</span><span class="pi-status done">已听完</span></div>
+          </div>
+          <div class="pi-play">▶</div><div class="pi-setting">⚙</div>
+        </div>
+        <div class="podcast-item" onclick="openPodDetail('小米造车这一年：SU7的得与失','从发布到交付，SU7经历了什么？价格战下如何守住利润？智能驾驶的差异化在哪？本期深度复盘。')">
+          <div class="pi-cover c2">商业</div>
+          <div class="pi-body">
+            <div class="pi-show">商业就是这样</div>
+            <div class="pi-title">小米造车这一年：SU7的得与失</div>
+            <div class="pi-meta"><span class="pi-dur">32:10</span><span class="pi-status partial">听到 12:30</span></div>
+          </div>
+          <div class="pi-play">▶</div><div class="pi-setting">⚙</div>
+        </div>
+        <div class="podcast-item" onclick="openPodDetail('Google IO 2026：Gemini统一战略解析','谷歌全面押注Gemini，从搜索到Android到Workspace，AI First战略如何落地？对开发者意味着什么？')">
+          <div class="pi-cover c3">硅谷</div>
+          <div class="pi-body">
+            <div class="pi-show">硅谷101</div>
+            <div class="pi-title">Google IO 2026：Gemini统一战略解析</div>
+            <div class="pi-meta"><span class="pi-dur">58:45</span><span class="pi-status unplayed">未听</span></div>
+          </div>
+          <div class="pi-play">▶</div><div class="pi-setting">⚙</div>
+        </div>
+        <div class="podcast-item" onclick="openPodDetail('为什么笔记软件都做不大？','Notion、Obsidian、Bear……笔记软件赛道拥挤但天花板低，本期分析根因：工具属性vs平台属性的矛盾。')">
+          <div class="pi-cover c4">产品</div>
+          <div class="pi-body">
+            <div class="pi-show">产品沉思录</div>
+            <div class="pi-title">为什么笔记软件都做不大？</div>
+            <div class="pi-meta"><span class="pi-dur">39:58</span><span class="pi-status done">已听完</span></div>
+          </div>
+          <div class="pi-play">▶</div><div class="pi-setting">⚙</div>
+        </div>
+        <div class="podcast-item">
+          <div class="pi-cover c1">科技</div>
+          <div class="pi-body">
+            <div class="pi-show">科技早知道</div>
+            <div class="pi-title">OpenAI o3发布：推理模型的代际飞跃</div>
+            <div class="pi-meta"><span class="pi-dur">41:12</span><span class="pi-status partial">听到 20:00</span></div>
+          </div>
+          <div class="pi-play">▶</div><div class="pi-setting">⚙</div>
+        </div>
+      </div>`;
+    },
+    padList: [
+      {id:'pod1', title:'AI Agent的未来：从工具到协作伙伴', preview:'科技早知道 · 45:23', date:'5月20日', badge:'done', badgeLabel:'已听完', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
+      {id:'pod2', title:'小米造车这一年：SU7的得与失', preview:'商业就是这样 · 32:10', date:'5月19日', badge:'partial', badgeLabel:'听到12:30', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
+      {id:'pod3', title:'Google IO 2026：Gemini统一战略解析', preview:'硅谷101 · 58:45', date:'5月18日', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
+      {id:'pod4', title:'为什么笔记软件都做不大？', preview:'产品沉思录 · 39:58', date:'5月16日', badge:'done', badgeLabel:'已听完', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
+      {id:'pod5', title:'OpenAI o3发布：推理模型的代际飞跃', preview:'科技早知道 · 41:12', date:'5月14日', badge:'partial', badgeLabel:'听到20:00', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
+      {id:'pod6', title:'苹果Intelligence全功能上线回顾', preview:'硅谷101 · 52:30', date:'5月10日', badge:'done', badgeLabel:'已听完', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
+    ],
+    padDetail: {
+      type:'podcast', typeLabel:'播客',
+      title:'AI Agent的未来：从工具到协作伙伴',
+      date:'科技早知道 · 45:23 · 2026年5月20日',
+      body:`<div class="detail-section">
+  <div class="ds-title">播放进度</div>
+  <div class="podcast-progress"><div class="prog-fill" style="width:100%"></div></div>
+  <div style="display:flex;justify-content:space-between;font-size:11px;color:#8e8e93;margin-top:4px"><span>00:00</span><span>已听完 ✓</span><span>45:23</span></div>
+</div>
+<h3>AI 摘要（小爱生成）</h3>
+<p>本期讨论了AI Agent从单一工具向多步骤协作伙伴的进化路径，重点分析了记忆、规划、工具调用三大核心能力，以及未来一年内最可能落地的应用场景。</p>
+<h3>核心观点</h3>
+<ul>
+  <li>Agent的核心竞争力在于"持久记忆"，而非单次对话能力</li>
+  <li>2026年最值得关注的是"个人Agent"赛道</li>
+  <li>小米的超级小爱路线是国内最有可能率先突破的方向之一</li>
+  <li>企业级Agent普及会比C端慢2-3年</li>
+</ul>
+<h3>我的笔记</h3>
+<div class="detail-quote">小米的方向是对的：先做个人记忆，再做个人Agent。这和我们产品的长期愿景高度一致。</div>
+<p style="margin-top:12px"><span class="detail-tag">#AI Agent</span><span class="detail-tag">#产品</span><span class="detail-tag">#科技</span></p>`
+    }
+  },
+
+  todo: {
+    title: '待办',
+    ph: function() {
+      return `<div class="todo-list" id="ph-todo-list">
+        <div class="todo-card">
+          <div class="tc-header" onclick="toggleTodo(this)">
+            <div class="tc-check" onclick="event.stopPropagation();toggleCheck(this)"></div>
+            <div class="tc-title">产品设计评审会议记录</div>
+            <span class="tc-progress">1/3</span>
+            <div class="tc-arrow open">⌄</div>
+          </div>
+          <div class="tc-sub show">
+            <div class="tc-subitem">
+              <div class="tc-subcheck done" onclick="toggleSubCheck(this)">✓</div>
+              <div class="tc-subtext">确认评审时间，通知相关同学（已完成）</div>
+            </div>
+            <div class="tc-subitem">
+              <div class="tc-subcheck" onclick="toggleSubCheck(this)"></div>
+              <div class="tc-subtext">明日提供包含导入音频和文档功能的完整设计稿</div>
+            </div>
+            <div class="tc-subitem">
+              <div class="tc-subcheck" onclick="toggleSubCheck(this)"></div>
+              <div class="tc-subtext">准备竞品分析对比材料（Apple Notes / GoodNotes）</div>
+            </div>
+          </div>
+        </div>
+        <div class="todo-card">
+          <div class="tc-header" onclick="toggleTodo(this)">
+            <div class="tc-check" onclick="event.stopPropagation();toggleCheck(this)"></div>
+            <div class="tc-title">边录边记场景优化方案</div>
+            <span class="tc-progress">0/2</span>
+            <div class="tc-arrow">⌄</div>
+          </div>
+          <div class="tc-sub">
+            <div class="tc-subitem">
+              <div class="tc-subcheck" onclick="toggleSubCheck(this)"></div>
+              <div class="tc-subtext">在边录边记场景下隐藏不必要的工具栏，提升沉浸感</div>
+            </div>
+            <div class="tc-subitem">
+              <div class="tc-subcheck" onclick="toggleSubCheck(this)"></div>
+              <div class="tc-subtext">录音结束后自动跳转AI整理页，减少操作步骤</div>
+            </div>
+          </div>
+        </div>
+        <div class="todo-card">
+          <div class="tc-header" onclick="toggleTodo(this)">
+            <div class="tc-check done" onclick="event.stopPropagation();toggleCheck(this)">✓</div>
+            <div class="tc-title" style="text-decoration:line-through;color:#aeaeb2">AI搜索二期需求文档</div>
+            <span class="tc-progress">3/3</span>
+            <div class="tc-arrow">⌄</div>
+          </div>
+          <div class="tc-sub">
+            <div class="tc-subitem">
+              <div class="tc-subcheck done" onclick="toggleSubCheck(this)">✓</div>
+              <div class="tc-subtext" style="text-decoration:line-through;color:#aeaeb2">撰写需求文档初稿</div>
+            </div>
+          </div>
+        </div>
+        <div class="todo-card">
+          <div class="tc-header" onclick="toggleTodo(this)">
+            <div class="tc-check" onclick="event.stopPropagation();toggleCheck(this)"></div>
+            <div class="tc-title">6月ROM排期对齐会议</div>
+            <span class="tc-progress">0/3</span>
+            <div class="tc-arrow">⌄</div>
+          </div>
+          <div class="tc-sub">
+            <div class="tc-subitem">
+              <div class="tc-subcheck" onclick="toggleSubCheck(this)"></div>
+              <div class="tc-subtext">整理6月需要交付的功能清单</div>
+            </div>
+            <div class="tc-subitem">
+              <div class="tc-subcheck" onclick="toggleSubCheck(this)"></div>
+              <div class="tc-subtext">和产研团队确认技术评估结果</div>
+            </div>
+            <div class="tc-subitem">
+              <div class="tc-subcheck" onclick="toggleSubCheck(this)"></div>
+              <div class="tc-subtext">向李楠汇报排期方案</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    },
+    padList: [
+      {id:'t1', title:'产品设计评审会议记录', preview:'明日提供包含导入音频和文档功能的完整设计稿…', date:'明天', badge:'partial', badgeLabel:'1/3'},
+      {id:'t2', title:'边录边记场景优化方案', preview:'在边录边记场景下隐藏不必要的工具栏…', date:'本周五', badge:'partial', badgeLabel:'0/2'},
+      {id:'t3', title:'AI搜索二期需求文档', preview:'撰写、评审、提交开发 — 已全部完成', date:'5月18日', badge:'done', badgeLabel:'3/3'},
+      {id:'t4', title:'6月ROM排期对齐', preview:'整理功能清单，和产研确认技术评估，向李楠汇报…', date:'5月25日', badge:'partial', badgeLabel:'0/3'},
+      {id:'t5', title:'PAD笔记竞品分析报告', preview:'Apple Notes / GoodNotes / Samsung Notes对比…', date:'5月28日'},
+      {id:'t6', title:'Q2数据复盘PPT', preview:'核心指标：DAU/MAU/留存，与Q1对比分析…', date:'6月1日'},
+    ],
+    padDetail: {
+      type:'todo', typeLabel:'待办',
+      title:'产品设计评审会议记录',
+      date:'截止时间：明天 · 进度 1/3',
+      body:`<div class="detail-section">
+  <div class="ds-title">子任务</div>
+  <div class="todo-detail-item">
+    <div class="tdi-check done" onclick="toggleTdiCheck(this)">✓</div>
+    <div class="tdi-text">确认评审时间，通知相关同学参加（已完成）</div>
+  </div>
+  <div class="todo-detail-item">
+    <div class="tdi-check" onclick="toggleTdiCheck(this)"></div>
+    <div class="tdi-text">明日提供包含导入音频和文档功能的完整设计稿</div>
+  </div>
+  <div class="todo-detail-item">
+    <div class="tdi-check" onclick="toggleTdiCheck(this)"></div>
+    <div class="tdi-text">准备竞品分析对比材料（Apple Notes / GoodNotes）</div>
+  </div>
+</div>
+<h3>背景说明</h3>
+<p>本次评审将在本周五下午3点进行，参与人：产品、设计、前端、后端。重点对齐以下三个功能的交互逻辑：</p>
+<ul>
+  <li>音频导入后的AI整理流程</li>
+  <li>文档导入的格式兼容性</li>
+  <li>边录边记场景下的UI精简方案</li>
+</ul>
+<div class="detail-section">
+  <div class="ds-title">相关资料</div>
+  <div class="ds-kv">
+    <span class="k">设计稿</span><span class="v" style="color:#007aff">Figma链接 ›</span>
+    <span class="k">会议室</span><span class="v">南京园区 B座 302</span>
+    <span class="k">时间</span><span class="v">5月22日 15:00</span>
+  </div>
+</div>`
+    }
+  }
+};
+
+// ==================== PHONE ====================
+let phoneCat = 'personal';
+let phoneMemActiveTab = '全部';
+
+function openSidebar() {
+  document.getElementById('ph-sidebar').classList.add('open');
+  document.getElementById('ph-overlay').classList.add('show');
+  document.getElementById('ph-main').classList.add('shifted');
+}
+function closeSidebar() {
+  document.getElementById('ph-sidebar').classList.remove('open');
+  document.getElementById('ph-overlay').classList.remove('show');
+  document.getElementById('ph-main').classList.remove('shifted');
+}
+
+function phoneSelectCat(cat, el) {
+  phoneCat = cat;
+  phoneMemActiveTab = '全部';
+  document.querySelectorAll('#ph-sidebar .sb-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('sb-'+cat).classList.add('active');
+  const titles = {personal:'我的笔记',ai:'AI笔记',memory:'小爱记忆档案',voice:'语音速记',podcast:'播客',todo:'待办'};
+  document.getElementById('ph-title').textContent = titles[cat];
+  renderPhoneContent(cat);
+  document.getElementById('ph-todo-fab').classList.toggle('hidden', cat !== 'todo');
+  closeSidebar();
+}
+
+function renderPhoneContent(cat) {
+  const ph = cat === 'memory' ? CONTENT[cat].ph(phoneMemActiveTab) : CONTENT[cat].ph();
+  document.getElementById('ph-content').innerHTML = ph;
+}
+
+function activateTag(el) {
+  el.closest('.tag-row').querySelectorAll('.tag-pill').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function phoneMemTab(tab) {
+  phoneMemActiveTab = tab;
+  document.getElementById('ph-content').innerHTML = CONTENT.memory.ph(tab);
+}
+
+function openCollDetail(type) {
+  const details = {
+    nanjing: {
+      title: '南京旅游 · 智能合集',
+      summary: '你在南京旅游期间产生了5篇笔记，AI已为你整理出完整游记：共游览了9处景点，推荐玄武湖日落和先锋书店文艺氛围，总结了4条实用交通建议。',
+      notes: [{title:'玄武湖日落太美了',date:'3月15日'},{title:'先锋书店探店笔记',date:'3月14日'},{title:'南京周末两日行程规划',date:'3月12日'},{title:'总统府历史感受',date:'3月15日'},{title:'南京美食：鸭血粉丝汤测评',date:'3月16日'}]
+    },
+    product: {
+      title: '产品方案 · 智能合集',
+      summary: '3篇产品方案笔记聚焦AI笔记核心功能。AI梳理出关键共识：用户记忆档案是最高价值功能，边录边记场景需要大幅简化UI，AI合集是差异化竞争点。',
+      notes: [{title:'AI笔记核心功能讨论',date:'5月10日'},{title:'用户记忆档案方向对齐',date:'5月8日'},{title:'边录边记场景优化思路',date:'5月6日'}]
+    },
+    interview: {
+      title: '5月采访 · 智能合集',
+      summary: '本月5篇采访笔记均来自用户调研。AI发现核心共同点：受访者均期望笔记能"主动帮我整理"，对语音输入的接受度高达90%，但对AI输出质量要求严格。',
+      notes: [{title:'受访者A - 大学生用户',date:'5月5日'},{title:'受访者B - 产品经理',date:'5月7日'},{title:'受访者C - 内容创作者',date:'5月10日'},{title:'受访者D - 在职研究生',date:'5月13日'},{title:'受访者E - 自由职业者',date:'5月15日'}]
+    }
+  };
+  const d = details[type];
+  document.getElementById('cd-title').textContent = d.title;
+  document.getElementById('cd-body').innerHTML = `
+    <div class="cd-ai-summary">
+      <div class="cas-header"><div class="cas-icon">✨</div><span class="cas-title">AI 智能总结</span></div>
+      <p>${d.summary}</p>
+    </div>
+    <div style="font-size:13px;font-weight:600;color:#8e8e93;margin-bottom:10px;letter-spacing:.04em">包含 ${d.notes.length} 篇笔记</div>
+    ${d.notes.map(n=>`<div class="cd-note-item"><div class="cni-title">${n.title}</div><div class="cni-date">${n.date}</div></div>`).join('')}
+  `;
+  document.getElementById('coll-detail').classList.add('show');
+}
+function closeCollDetail() {
+  document.getElementById('coll-detail').classList.remove('show');
+}
+
+function openPodDetail(title, desc) {
+  document.getElementById('pod-detail-title').textContent = title;
+  document.getElementById('pod-detail-desc').textContent = desc;
+  document.getElementById('pod-detail').classList.add('show');
+}
+function closePodDetail() {
+  document.getElementById('pod-detail').classList.remove('show');
+}
+
+function toggleTodo(header) {
+  const sub = header.nextElementSibling;
+  const arrow = header.querySelector('.tc-arrow');
+  sub.classList.toggle('show');
+  arrow.classList.toggle('open');
+}
+function toggleCheck(el) {
+  el.classList.toggle('done');
+  el.textContent = el.classList.contains('done') ? '✓' : '';
+  const title = el.parentElement.querySelector('.tc-title');
+  if(title) { title.style.textDecoration = el.classList.contains('done') ? 'line-through' : ''; title.style.color = el.classList.contains('done') ? '#aeaeb2' : ''; }
+}
+function toggleSubCheck(el) {
+  el.classList.toggle('done');
+  el.textContent = el.classList.contains('done') ? '✓' : '';
+  const text = el.nextElementSibling;
+  if(text) { text.style.textDecoration = el.classList.contains('done') ? 'line-through' : ''; text.style.color = el.classList.contains('done') ? '#aeaeb2' : ''; }
+}
+
+// ==================== PAD ====================
+let padCat = 'personal';
+let padMemTab = '全部';
+
+function padSelectCat(cat, el) {
+  padCat = cat;
+  padMemTab = '全部';
+  document.querySelectorAll('.pad-sidebar .psb-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('psb-'+cat).classList.add('active');
+  renderPadListCol(cat);
+  renderPadDetail(cat);
+}
+
+function renderPadListCol(cat) {
+  const content = CONTENT[cat];
+  const titles = {personal:'我的笔记',ai:'AI笔记',memory:'小爱记忆档案',voice:'语音速记',podcast:'播客',todo:'待办'};
+
+  let headerExtras = '';
+  // Pad上不显示合集
+  if(cat === 'memory') {
+    const tabs = ['全部','链接','卡证','地址','纪念日'];
+    headerExtras = `<div class="pad-mem-tabs-wrap">${tabs.map(t=>`<button class="pmt${t===padMemTab?' active':''}" onclick="padMemTabClick('${t}')">${t}</button>`).join('')}</div>`;
+  }
+
+  document.getElementById('pad-list-header').innerHTML = `
+    <div class="plc-header">
+      <div class="plc-title">${titles[cat]}</div>
+      <div class="plc-search"><span>🔍</span> 搜索</div>
+    </div>
+    ${headerExtras}
+  `;
+
+  renderPadListItems(content.padList);
+}
+
+function renderPadListItems(items) {
+  document.getElementById('pad-list-scroll').innerHTML = items.map((item,idx)=>`
+    <div class="pad-list-item${idx===0?' active':''}" onclick="padSelectItem(this, '${item.id}')">
+      ${item.badge ? `<div class="pli-badge ${item.badge}">${item.badgeLabel}</div>` : ''}
+      <div class="pli-title">${item.title}</div>
+      <div class="pli-preview">${item.preview}</div>
+      <div class="pli-date">${item.date}${item.extra||''}</div>
+    </div>
+  `).join('');
+}
+
+function renderPadAiCollSection() {
+  return `<div class="pad-coll-section">
+    <div class="pcs-title">智能合集</div>
+    <div class="pcs-row">
+      <div class="pcs-card" onclick="padSelectCollDetail('nanjing')"><div class="pcc-title">🗺 南京旅游</div><div class="pcc-count">5篇笔记</div></div>
+      <div class="pcs-card" onclick="padSelectCollDetail('product')"><div class="pcc-title">💡 产品方案</div><div class="pcc-count">3篇笔记</div></div>
+      <div class="pcs-card" onclick="padSelectCollDetail('interview')"><div class="pcc-title">🎤 5月采访</div><div class="pcc-count">5篇笔记</div></div>
+    </div>
+  </div>`;
+}
+
+function padSelectItem(el, id) {
+  document.querySelectorAll('.pad-list-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  renderPadDetail(padCat);
+}
+
+function renderPadDetail(cat) {
+  const d = CONTENT[cat].padDetail;
+  document.getElementById('pad-detail-col').innerHTML = `
+    <div class="pdc-header">
+      <div class="pdch-meta"><span class="pdch-type ${d.type}">${d.typeLabel}</span></div>
+      <h2>${d.title}</h2>
+      <div class="pdch-date">${d.date}</div>
+    </div>
+    <div class="pdc-body">${d.body}</div>
+  `;
+}
+
+function padMemTabClick(tab) {
+  padMemTab = tab;
+  const tabs = ['全部','链接','卡证','地址','纪念日'];
+  document.querySelector('.pad-mem-tabs-wrap').innerHTML = tabs.map(t=>`<button class="pmt${t===tab?' active':''}" onclick="padMemTabClick('${t}')">${t}</button>`).join('');
+  const filterMap = {
+    '全部': CONTENT.memory.padList,
+    '链接': [{id:'m1', title:'美伊局势动态及伊朗对华能源协议', preview:'浏览器收藏 · 今天 10:23 收集', date:'今天'},{id:'m1b', title:'小米PAD 7 Pro详细测评', preview:'来源：36氪 · 浏览器收藏', date:'5月18日'}],
+    '卡证': [{id:'m2', title:'你的身份证', preview:'关系：本人 · 号码：32010619···1234', date:'4月15日'},{id:'m2b', title:'公司员工证', preview:'姓名：杨李莲 · 工号：MI-20-3872', date:'2月10日'}],
+    '地址': [{id:'m3', title:'你公司的地址', preview:'南京市玄武区小米科技园A栋', date:'3月20日'},{id:'m3b', title:'家的地址', preview:'南京市建邺区河西中央公园附近', date:'2月5日'}],
+    '纪念日': [{id:'m4', title:'结婚纪念日', preview:'每年6月15日 · 距今还有25天', date:'存储于3月'},{id:'m5', title:'妈妈生日', preview:'每年3月22日 · 今年已过', date:'存储于1月'}]
+  };
+  renderPadListItems(filterMap[tab] || CONTENT.memory.padList);
+}
+
+function padSelectCollDetail(type) {
+  const details = {
+    nanjing: {title:'南京旅游 · 智能合集',date:'5篇笔记 · AI自动归集',summary:'你在南京旅游期间产生了5篇笔记，AI为你整理出完整游记：共游览9处景点，推荐玄武湖日落和先锋书店，总结4条实用交通建议。',notes:['玄武湖日落太美了','先锋书店探店笔记','南京周末两日行程规划','总统府历史感受','南京美食：鸭血粉丝汤测评']},
+    product: {title:'产品方案 · 智能合集',date:'3篇笔记 · AI自动归集',summary:'3篇产品方案笔记聚焦AI笔记核心功能。AI梳理关键共识：用户记忆档案是最高价值功能，边录边记场景需大幅简化UI，AI合集是差异化竞争点。',notes:['AI笔记核心功能讨论','用户记忆档案方向对齐','边录边记场景优化思路']},
+    interview: {title:'5月采访 · 智能合集',date:'5篇笔记 · AI自动归集',summary:'本月5篇采访笔记均来自用户调研。AI发现核心共同点：受访者均期望笔记能"主动帮我整理"，语音输入接受度高达90%。',notes:['受访者A - 大学生用户','受访者B - 产品经理','受访者C - 内容创作者','受访者D - 在职研究生','受访者E - 自由职业者']}
+  };
+  const d = details[type];
+  document.getElementById('pad-detail-col').innerHTML = `
+    <div class="pdc-header">
+      <div class="pdch-meta"><span class="pdch-type ai">智能合集</span></div>
+      <h2>${d.title}</h2>
+      <div class="pdch-date">${d.date}</div>
+    </div>
+    <div class="pdc-body">
+      <div class="detail-section">
+        <div class="ds-title">AI 智能总结</div>
+        <p>${d.summary}</p>
+      </div>
+      <h3>包含笔记</h3>
+      ${d.notes.map(n=>`<div class="todo-detail-item"><div class="tdi-check done" style="background:#667eea;border-color:#667eea;font-size:12px">📄</div><div class="tdi-text" style="font-weight:500">${n}</div></div>`).join('')}
+    </div>
+  `;
+}
+
+function toggleTdiCheck(el) {
+  el.classList.toggle('done');
+  el.textContent = el.classList.contains('done') ? '✓' : '';
+  const text = el.nextElementSibling;
+  if(text) { text.style.textDecoration = el.classList.contains('done') ? 'line-through' : ''; text.style.color = el.classList.contains('done') ? '#aeaeb2' : ''; }
+}
+
+// ==================== DEVICE SWITCH ====================
+function showDevice(device, btn) {
+  document.getElementById('phone-demo').classList.toggle('hidden', device !== 'phone');
+  document.getElementById('pad-demo').classList.toggle('hidden', device !== 'pad');
+  document.querySelectorAll('.device-tabs button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ==================== INIT ====================
+renderPhoneContent('personal');
+renderPadListCol('personal');
+renderPadDetail('personal');
+</script>
+</body>
+</html>
