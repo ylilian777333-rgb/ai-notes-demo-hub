@@ -745,40 +745,32 @@ const CONTENT = {
     ph: function(tab) {
       tab = tab || '全部';
       const tabs = ['全部','链接','卡证','地址','纪念日'];
-      const tabsHtml = `<div class="mem-tabs">${tabs.map(t=>`<div class="mem-tab${t===tab?' active':''}" onclick="phoneMemTab('${t}')">${t}</div>`).join('')}</div>`;
-      let content = '';
-      if(tab==='全部') {
-        content = `<div class="mem-list">
-          <div class="mem-date-header">05-11</div>
-          <div class="mem-item"><div class="mi-title">美伊局势动态及伊朗对华能源协议</div><div class="mi-desc">这是一篇来自浏览器的国际局势分析内容，包含美伊局势走向、伊朗相关应…</div><div class="mi-source">🌐 浏览器-原文 ›</div><div class="mi-tags"><span class="mi-tag">#美伊局势</span><span class="mi-tag">#国际时事</span></div></div>
-          <div class="mem-item"><div class="mi-title">小米PAD 7 Pro详细测评</div><div class="mi-desc">这是一张手机系统桌面截图，包含多个应用图标、应用文件夹及底部常用功…</div><div class="mi-source">🌐 浏览器-原文 ›</div><div class="mi-tags"><span class="mi-tag">#小米</span><span class="mi-tag">#产品</span></div></div>
-          <div class="mem-date-header">04-30</div>
-          <div class="mem-item"><div class="mi-title">你的身份证</div><div class="mi-kv"><p>关系：<span>本人</span></p><p>号码：<span>32010619···1234</span></p></div><div class="mi-source">🔮 超级小爱</div><div class="mi-tags"><span class="mi-tag">#卡证</span><span class="mi-tag">#身份证</span></div></div>
-          <div class="mem-item"><div class="mi-title">你公司的地址</div><div class="mi-kv"><p>关系：<span>本人</span></p><p>详细地址：<span>南京小米科技园</span></p></div><div class="mi-source">🔮 超级小爱</div><div class="mi-tags"><span class="mi-tag">#地址</span></div></div>
-        </div>`;
-      } else if(tab==='链接') {
-        content = `<div class="mem-list">
-          <div class="mem-date-header">今天</div>
-          <div class="mem-item"><div class="mi-title">美伊局势动态及伊朗对华相关举…</div><div class="mi-desc">这是一篇来自浏览器的国际局势分析内容，包含美伊局势走向、伊朗相关应…</div><div class="mi-source">🌐 浏览器-原文 ›</div><div class="mi-tags"><span class="mi-tag">#美伊局势</span><span class="mi-tag">#国际时事</span></div></div>
-        </div>`;
-      } else if(tab==='卡证') {
-        content = `<div class="mem-list">
-          <div class="mem-date-header">今天</div>
-          <div class="mem-item"><div class="mi-title">你的身份证</div><div class="mi-kv"><p>关系：<span>本人</span></p><p>号码：<span>12345678</span></p></div><div class="mi-source">🔮 超级小爱</div><div class="mi-tags"><span class="mi-tag">#卡证</span><span class="mi-tag">#身份证</span></div></div>
-        </div>`;
-      } else if(tab==='地址') {
-        content = `<div class="mem-list">
-          <div class="mem-date-header">今天</div>
-          <div class="mem-item"><div class="mi-title">你公司的地址</div><div class="mi-kv"><p>关系：<span>本人</span></p><p>详细地址：<span>南京小米科技园</span></p></div><div class="mi-source">🔮 超级小爱</div><div class="mi-tags"><span class="mi-tag">#地址</span></div></div>
-        </div>`;
-      } else if(tab==='纪念日') {
-        content = `<div class="mem-list">
-          <div class="mem-date-header">记录</div>
-          <div class="mem-item"><div class="mi-title">结婚纪念日 💍</div><div class="mi-kv"><p>日期：<span>每年6月15日</span></p><p>距今：<span>还有25天</span></p></div><div class="mi-source">🔮 超级小爱</div><div class="mi-tags"><span class="mi-tag">#纪念日</span></div></div>
-          <div class="mem-item"><div class="mi-title">妈妈生日 🎂</div><div class="mi-kv"><p>日期：<span>每年3月22日</span></p></div><div class="mi-source">🔮 超级小爱</div><div class="mi-tags"><span class="mi-tag">#纪念日</span><span class="mi-tag">#家人</span></div></div>
-        </div>`;
-      }
-      return tabsHtml + content;
+      const tabsHtml = `<div class="tag-row">${tabs.map(t=>`<span class="tag-pill${t===tab?' active':''}" onclick="phoneMemTab('${t}')">${t}</span>`).join('')}</div>`;
+      const cards = {
+        '全部': `
+          <div class="note-card"><div class="nc-emoji">🌐</div><div class="nc-title">美伊局势动态</div><div class="nc-preview">国际局势分析，美伊走向…</div><div class="nc-date">5月11日</div></div>
+          <div class="note-card"><div class="nc-emoji">🪪</div><div class="nc-title">你的身份证</div><div class="nc-preview">本人 · 32010619···1234</div><div class="nc-date">5月8日</div></div>
+          <div class="note-card"><div class="nc-emoji">📱</div><div class="nc-title">小米PAD 7 Pro测评</div><div class="nc-preview">36氪 · 详细硬件对比…</div><div class="nc-date">4月28日</div></div>
+          <div class="note-card"><div class="nc-emoji">📍</div><div class="nc-title">你公司的地址</div><div class="nc-preview">南京小米科技园A栋</div><div class="nc-date">4月30日</div></div>
+          <div class="note-card"><div class="nc-emoji">💍</div><div class="nc-title">结婚纪念日</div><div class="nc-preview">每年6月15日 · 还有25天</div><div class="nc-date">4月20日</div></div>
+          <div class="note-card"><div class="nc-emoji">🏠</div><div class="nc-title">家的地址</div><div class="nc-preview">南京建邺区河西中央公园</div><div class="nc-date">4月15日</div></div>`,
+        '链接': `
+          <div class="note-card"><div class="nc-emoji">🌐</div><div class="nc-title">美伊局势动态</div><div class="nc-preview">国际局势分析，美伊走向…</div><div class="nc-date">5月11日</div></div>
+          <div class="note-card"><div class="nc-emoji">📱</div><div class="nc-title">小米PAD 7 Pro测评</div><div class="nc-preview">36氪 · 详细硬件对比…</div><div class="nc-date">4月28日</div></div>
+          <div class="note-card"><div class="nc-emoji">🍎</div><div class="nc-title">Apple Intelligence发布</div><div class="nc-preview">The Verge · AI功能全览…</div><div class="nc-date">4月25日</div></div>`,
+        '卡证': `
+          <div class="note-card"><div class="nc-emoji">🪪</div><div class="nc-title">你的身份证</div><div class="nc-preview">本人 · 32010619···1234</div><div class="nc-date">5月8日</div></div>
+          <div class="note-card"><div class="nc-emoji">🪪</div><div class="nc-title">公司员工证</div><div class="nc-preview">杨李莲 · MI-20-3872</div><div class="nc-date">4月10日</div></div>`,
+        '地址': `
+          <div class="note-card"><div class="nc-emoji">📍</div><div class="nc-title">你公司的地址</div><div class="nc-preview">南京玄武区小米科技园A栋</div><div class="nc-date">4月30日</div></div>
+          <div class="note-card"><div class="nc-emoji">🏠</div><div class="nc-title">家的地址</div><div class="nc-preview">南京建邺区河西中央公园</div><div class="nc-date">4月15日</div></div>
+          <div class="note-card"><div class="nc-emoji">👩</div><div class="nc-title">妈妈家地址</div><div class="nc-preview">江苏南通市崇川区…</div><div class="nc-date">3月20日</div></div>`,
+        '纪念日': `
+          <div class="note-card"><div class="nc-emoji">💍</div><div class="nc-title">结婚纪念日</div><div class="nc-preview">每年6月15日 · 还有25天</div><div class="nc-date">设置于1月</div></div>
+          <div class="note-card"><div class="nc-emoji">🎂</div><div class="nc-title">妈妈生日</div><div class="nc-preview">每年3月22日 · 已过</div><div class="nc-date">设置于1月</div></div>
+          <div class="note-card"><div class="nc-emoji">🏢</div><div class="nc-title">入职小米纪念日</div><div class="nc-preview">每年7月3日 · 第4年</div><div class="nc-date">设置于1月</div></div>`
+      };
+      return tabsHtml + `<div class="notes-grid">${cards[tab]}</div>`;
     },
     padList: [
       {id:'m1', title:'美伊局势动态及伊朗对华能源协议', preview:'浏览器收藏 · 今天 10:23 收集', date:'今天'},
