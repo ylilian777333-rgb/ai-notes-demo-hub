@@ -72,7 +72,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
 .ph-content{flex:1;overflow-y:auto;padding-bottom:76px}
 
 /* ===========================
-   PHONE - 个人笔记
+   PHONE - 我的笔记
 =========================== */
 .tag-row{display:flex;gap:8px;padding:8px 16px 14px;overflow-x:auto;scrollbar-width:none}
 .tag-row::-webkit-scrollbar{display:none}
@@ -90,15 +90,15 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
 /* ===========================
    PHONE - AI笔记
 =========================== */
-.section-label{font-size:17px;font-weight:700;color:#1c1c1e;padding:4px 16px 10px}
+.section-label{font-size:14px;font-weight:500;color:#FF9500;padding:4px 16px 10px;display:flex;justify-content:space-between;align-items:center}
+.section-label::after{content:'›';font-size:16px;color:#FF9500;padding-right:4px}
 .ai-collection-row{padding:0 16px 16px;display:flex;gap:10px;overflow-x:auto;scrollbar-width:none}
 .ai-collection-row::-webkit-scrollbar{display:none}
-.ai-coll-card{flex-shrink:0;width:130px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:14px;padding:14px;color:#fff;cursor:pointer;position:relative;overflow:hidden;transition:transform .2s}
-.ai-coll-card:hover{transform:scale(1.02)}
-.ai-coll-card::before{content:'';position:absolute;right:-10px;top:-10px;width:60px;height:60px;background:rgba(255,255,255,.1);border-radius:50%}
-.ai-coll-card .acc-icon{font-size:22px;margin-bottom:8px}
-.ai-coll-card .acc-title{font-size:12px;font-weight:600;line-height:1.3;margin-bottom:4px}
-.ai-coll-card .acc-count{font-size:10px;opacity:.75}
+.ai-coll-card{flex-shrink:0;min-width:140px;background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .18s}
+.ai-coll-card:hover{border-color:#ddd;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.ai-coll-card .acc-icon{display:none}
+.ai-coll-card .acc-title{font-size:14px;font-weight:600;color:#1c1c1e;margin-bottom:4px}
+.ai-coll-card .acc-count{font-size:12px;color:#8e8e93}
 .ai-note-list{padding:0 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .ai-note-item{background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:10px;cursor:pointer;transition:all .18s}
 .ai-note-item:active{transform:scale(.97)}
@@ -166,7 +166,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
 .mem-item .mi-kv span{color:#1c1c1e;font-weight:500}
 
 /* ===========================
-   PHONE - 随口记
+   PHONE - 语音速记
 =========================== */
 .voice-list{padding:0 16px}
 .voice-item{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid #f5f5f5;cursor:pointer}
@@ -345,20 +345,20 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
         <div class="sb-scroll">
           <div class="sb-section">品类</div>
           <div class="sb-item active" id="sb-personal" onclick="phoneSelectCat('personal',this)">
-            <div class="si-left"><span class="si-icon">📝</span><span class="si-name">个人笔记</span></div>
+            <div class="si-left"><span class="si-icon">📝</span><span class="si-name">我的笔记</span></div>
             <span class="si-count">36</span>
           </div>
           <div class="sb-item" id="sb-ai" onclick="phoneSelectCat('ai',this)">
             <div class="si-left"><span class="si-icon">⚡</span><span class="si-name">AI笔记</span></div>
             <span class="si-count">24</span>
           </div>
+          <div class="sb-item" id="sb-voice" onclick="phoneSelectCat('voice',this)">
+            <div class="si-left"><span class="si-icon">🎙</span><span class="si-name">语音速记</span></div>
+            <span class="si-count">18</span>
+          </div>
           <div class="sb-item" id="sb-memory" onclick="phoneSelectCat('memory',this)">
             <div class="si-left"><span class="si-icon">💜</span><span class="si-name">小爱记忆档案</span></div>
             <span class="si-count">42</span>
-          </div>
-          <div class="sb-item" id="sb-voice" onclick="phoneSelectCat('voice',this)">
-            <div class="si-left"><span class="si-icon">🎙</span><span class="si-name">随口记</span></div>
-            <span class="si-count">18</span>
           </div>
           <div class="sb-item" id="sb-podcast" onclick="phoneSelectCat('podcast',this)">
             <div class="si-left"><span class="si-icon">🎧</span><span class="si-name">播客</span></div>
@@ -393,7 +393,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
       <div class="ph-main" id="ph-main">
         <div class="ph-header">
           <div class="menu-btn" onclick="openSidebar()">☰</div>
-          <h1 id="ph-title">个人笔记</h1>
+          <h1 id="ph-title">我的笔记</h1>
           <div class="hdr-icons">
             <div class="hdr-icon" onclick="phoneSelectCat('todo',document.getElementById('sb-todo'))">☑️</div>
             <div class="hdr-icon">⋯</div>
@@ -468,20 +468,20 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
       <div class="pad-sidebar">
         <div class="psb-section">品类</div>
         <div class="psb-item active" id="psb-personal" onclick="padSelectCat('personal',this)">
-          <div class="psi-left"><span class="psi-icon">📝</span><span class="psi-name">个人笔记</span></div>
+          <div class="psi-left"><span class="psi-icon">📝</span><span class="psi-name">我的笔记</span></div>
           <span class="psi-count">36</span>
         </div>
         <div class="psb-item" id="psb-ai" onclick="padSelectCat('ai',this)">
           <div class="psi-left"><span class="psi-icon">⚡</span><span class="psi-name">AI笔记</span></div>
           <span class="psi-count">24</span>
         </div>
+        <div class="psb-item" id="psb-voice" onclick="padSelectCat('voice',this)">
+          <div class="psi-left"><span class="psi-icon">🎙</span><span class="psi-name">语音速记</span></div>
+          <span class="psi-count">18</span>
+        </div>
         <div class="psb-item" id="psb-memory" onclick="padSelectCat('memory',this)">
           <div class="psi-left"><span class="psi-icon">💜</span><span class="psi-name">小爱记忆档案</span></div>
           <span class="psi-count">42</span>
-        </div>
-        <div class="psb-item" id="psb-voice" onclick="padSelectCat('voice',this)">
-          <div class="psi-left"><span class="psi-icon">🎙</span><span class="psi-name">随口记</span></div>
-          <span class="psi-count">18</span>
         </div>
         <div class="psb-item" id="psb-podcast" onclick="padSelectCat('podcast',this)">
           <div class="psi-left"><span class="psi-icon">🎧</span><span class="psi-name">播客</span></div>
@@ -527,7 +527,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
 // ==================== DATA ====================
 const CONTENT = {
   personal: {
-    title: '个人笔记',
+    title: '我的笔记',
     ph: function() {
       return `
       <div class="tag-row">
@@ -592,7 +592,7 @@ const CONTENT = {
       {id:'p7', title:'2026年个人OKR', preview:'目标1：完成MiClaw内容助手核心功能上线…', date:'1月1日'},
     ],
     padDetail: {
-      type:'personal', typeLabel:'个人笔记',
+      type:'personal', typeLabel:'我的笔记',
       title:'周末读书笔记 — 《认知觉醒》',
       date:'2026年5月21日 · 14:32',
       body:`<h3>第五章 · 元认知</h3>
@@ -623,26 +623,23 @@ const CONTENT = {
     title: 'AI笔记',
     ph: function() {
       return `
-      <div class="tag-row"><span class="tag-pill active">全部</span><span class="tag-pill">工作</span><span class="tag-pill">个人</span><span class="tag-pill">学习</span><span class="tag-pill">未分类</span></div>
       <div class="section-label">智能合集</div>
       <div class="ai-collection-row">
         <div class="ai-coll-card" onclick="openCollDetail('nanjing')">
-          <div class="acc-icon">🗺</div>
           <div class="acc-title">南京旅游</div>
           <div class="acc-count">5篇笔记</div>
         </div>
         <div class="ai-coll-card" onclick="openCollDetail('product')">
-          <div class="acc-icon">💡</div>
           <div class="acc-title">产品方案</div>
           <div class="acc-count">3篇笔记</div>
         </div>
         <div class="ai-coll-card" onclick="openCollDetail('interview')">
-          <div class="acc-icon">🎤</div>
           <div class="acc-title">5月采访</div>
           <div class="acc-count">5篇笔记</div>
         </div>
       </div>
-      <div class="section-label">最近AI笔记</div>
+      <div style="font-size:13px;color:#8e8e93;padding:12px 16px 4px">全部笔记</div>
+      <div class="tag-row"><span class="tag-pill active">全部</span><span class="tag-pill">工作</span><span class="tag-pill">个人</span><span class="tag-pill">学习</span><span class="tag-pill">未分类</span></div>
       <div class="notes-grid">
         <div class="note-card">
           <div class="nc-emoji">📋</div>
@@ -864,7 +861,7 @@ const CONTENT = {
   },
 
   voice: {
-    title: '随口记',
+    title: '语音速记',
     ph: function() {
       return `<div class="tag-row"><span class="tag-pill active">全部</span><span class="tag-pill">工作</span><span class="tag-pill">个人</span><span class="tag-pill">学习</span><span class="tag-pill">未分类</span></div>
       <div class="notes-grid">
@@ -886,7 +883,7 @@ const CONTENT = {
       {id:'v6', title:'买六月十五号成都机票', preview:'看看还有没有特价票，提前订比较稳', date:'5月17日 21:44', badge:'voice', badgeLabel:'语音'},
     ],
     padDetail: {
-      type:'voice', typeLabel:'随口记',
+      type:'voice', typeLabel:'语音速记',
       title:'明天带身份证去办事',
       date:'2026年5月21日 · 17:42 · 语音输入',
       body:`<div class="detail-section">
@@ -1141,7 +1138,7 @@ function phoneSelectCat(cat, el) {
   phoneMemActiveTab = '全部';
   document.querySelectorAll('#ph-sidebar .sb-item').forEach(i=>i.classList.remove('active'));
   document.getElementById('sb-'+cat).classList.add('active');
-  const titles = {personal:'个人笔记',ai:'AI笔记',memory:'小爱记忆档案',voice:'随口记',podcast:'播客',todo:'待办'};
+  const titles = {personal:'我的笔记',ai:'AI笔记',memory:'小爱记忆档案',voice:'语音速记',podcast:'播客',todo:'待办'};
   document.getElementById('ph-title').textContent = titles[cat];
   renderPhoneContent(cat);
   document.getElementById('ph-todo-fab').classList.toggle('hidden', cat !== 'todo');
@@ -1240,7 +1237,7 @@ function padSelectCat(cat, el) {
 
 function renderPadListCol(cat) {
   const content = CONTENT[cat];
-  const titles = {personal:'个人笔记',ai:'AI笔记',memory:'小爱记忆档案',voice:'随口记',podcast:'播客',todo:'待办'};
+  const titles = {personal:'我的笔记',ai:'AI笔记',memory:'小爱记忆档案',voice:'语音速记',podcast:'播客',todo:'待办'};
 
   let headerExtras = '';
   if(cat === 'ai') headerExtras = renderPadAiCollSection();
