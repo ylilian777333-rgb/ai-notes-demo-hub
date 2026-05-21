@@ -959,12 +959,12 @@ const CONTENT = {
       </div>`;
     },
     padList: [
-      {id:'pod1', title:'AI Agent的未来：从工具到协作伙伴', preview:'科技早知道 · 45:23', date:'5月20日', badge:'done', badgeLabel:'已听完'},
-      {id:'pod2', title:'小米造车这一年：SU7的得与失', preview:'商业就是这样 · 32:10', date:'5月19日', badge:'partial', badgeLabel:'听到12:30'},
-      {id:'pod3', title:'Google IO 2026：Gemini统一战略解析', preview:'硅谷101 · 58:45', date:'5月18日'},
-      {id:'pod4', title:'为什么笔记软件都做不大？', preview:'产品沉思录 · 39:58', date:'5月16日', badge:'done', badgeLabel:'已听完'},
-      {id:'pod5', title:'OpenAI o3发布：推理模型的代际飞跃', preview:'科技早知道 · 41:12', date:'5月14日', badge:'partial', badgeLabel:'听到20:00'},
-      {id:'pod6', title:'苹果Intelligence全功能上线回顾', preview:'硅谷101 · 52:30', date:'5月10日', badge:'done', badgeLabel:'已听完'},
+      {id:'pod1', title:'AI Agent的未来：从工具到协作伙伴', preview:'科技早知道 · 45:23', date:'5月20日', badge:'done', badgeLabel:'已听完', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
+      {id:'pod2', title:'小米造车这一年：SU7的得与失', preview:'商业就是这样 · 32:10', date:'5月19日', badge:'partial', badgeLabel:'听到12:30', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
+      {id:'pod3', title:'Google IO 2026：Gemini统一战略解析', preview:'硅谷101 · 58:45', date:'5月18日', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
+      {id:'pod4', title:'为什么笔记软件都做不大？', preview:'产品沉思录 · 39:58', date:'5月16日', badge:'done', badgeLabel:'已听完', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
+      {id:'pod5', title:'OpenAI o3发布：推理模型的代际飞跃', preview:'科技早知道 · 41:12', date:'5月14日', badge:'partial', badgeLabel:'听到20:00', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
+      {id:'pod6', title:'苹果Intelligence全功能上线回顾', preview:'硅谷101 · 52:30', date:'5月10日', badge:'done', badgeLabel:'已听完', extra:' <span style="float:right;font-size:14px;margin-top:-14px">▶</span>'},
     ],
     padDetail: {
       type:'podcast', typeLabel:'播客',
@@ -1240,7 +1240,7 @@ function renderPadListCol(cat) {
   const titles = {personal:'我的笔记',ai:'AI笔记',memory:'小爱记忆档案',voice:'语音速记',podcast:'播客',todo:'待办'};
 
   let headerExtras = '';
-  if(cat === 'ai') headerExtras = renderPadAiCollSection();
+  // Pad上不显示合集
   if(cat === 'memory') {
     const tabs = ['全部','链接','卡证','地址','纪念日'];
     headerExtras = `<div class="pad-mem-tabs-wrap">${tabs.map(t=>`<button class="pmt${t===padMemTab?' active':''}" onclick="padMemTabClick('${t}')">${t}</button>`).join('')}</div>`;
@@ -1258,26 +1258,14 @@ function renderPadListCol(cat) {
 }
 
 function renderPadListItems(items) {
-  const useGrid = ['personal','ai','voice'].includes(padCat);
-  if (useGrid) {
-    document.getElementById('pad-list-scroll').innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 10px">${items.map((item,idx)=>`
-      <div class="note-card" onclick="padSelectItem(this,'${item.id}')" style="padding:10px;border-radius:10px;border:1px solid #f0f0f0;cursor:pointer">
-        ${item.badge ? `<div style="font-size:9px;background:#e8f4fd;color:#007aff;padding:1px 6px;border-radius:4px;display:inline-block;margin-bottom:3px">${item.badgeLabel}</div>` : ''}
-        <div style="font-size:12px;font-weight:600;color:#1c1c1e;line-height:1.3;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${item.title}</div>
-        <div style="font-size:10px;color:#8e8e93;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:3px">${item.preview}</div>
-        <div style="font-size:9px;color:#c7c7cc">${item.date}</div>
-      </div>
-    `).join('')}</div>`;
-  } else {
-    document.getElementById('pad-list-scroll').innerHTML = items.map((item,idx)=>`
-      <div class="pad-list-item${idx===0?' active':''}" onclick="padSelectItem(this, '${item.id}')">
-        ${item.badge ? `<div class="pli-badge ${item.badge}">${item.badgeLabel}</div>` : ''}
-        <div class="pli-title">${item.title}</div>
-        <div class="pli-preview">${item.preview}</div>
-        <div class="pli-date">${item.date}</div>
-      </div>
-    `).join('');
-  }
+  document.getElementById('pad-list-scroll').innerHTML = items.map((item,idx)=>`
+    <div class="pad-list-item${idx===0?' active':''}" onclick="padSelectItem(this, '${item.id}')">
+      ${item.badge ? `<div class="pli-badge ${item.badge}">${item.badgeLabel}</div>` : ''}
+      <div class="pli-title">${item.title}</div>
+      <div class="pli-preview">${item.preview}</div>
+      <div class="pli-date">${item.date}${item.extra||''}</div>
+    </div>
+  `).join('');
 }
 
 function renderPadAiCollSection() {
