@@ -12,7 +12,14 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
 .device-tabs{display:flex;justify-content:center;gap:10px;padding:14px 20px;background:#fff;border-bottom:1px solid #e8e8e8;position:sticky;top:0;z-index:999;box-shadow:0 1px 8px rgba(0,0,0,.06)}
 .device-tabs button{padding:8px 28px;border:1.5px solid #ddd;border-radius:22px;background:#fff;font-size:14px;cursor:pointer;font-weight:500;color:#666;transition:all .2s;font-family:inherit}
 .device-tabs button.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.demo-wrap{display:flex;justify-content:center;padding:32px 20px}
+.demo-wrap{display:flex;justify-content:center;padding:32px 20px;gap:24px;align-items:flex-start}
+.cat-info-panel{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);width:260px;flex-shrink:0}
+.cat-info-panel h3{font-size:14px;font-weight:700;margin-bottom:12px;color:#1c1c1e}
+.cat-info-panel table{width:100%;border-collapse:collapse;font-size:12px}
+.cat-info-panel th,.cat-info-panel td{padding:8px 10px;text-align:left;border-bottom:1px solid #f0f0f0}
+.cat-info-panel th{font-weight:600;color:#1c1c1e;background:#f9f9f9}
+.cat-info-panel td:first-child{font-weight:600;color:#1c1c1e;white-space:nowrap}
+.cat-info-panel td:last-child{color:#636366}
 .hidden{display:none!important}
 
 /* ===========================
@@ -324,6 +331,17 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
 
 <!-- ========== PHONE ========== -->
 <div class="demo-wrap" id="phone-demo">
+  <div class="cat-info-panel">
+    <h3>侧边栏品类定义</h3>
+    <table>
+      <tr><th>品类</th><th>内容</th></tr>
+      <tr><td>我的笔记</td><td>用户自己写的（文字/手写）</td></tr>
+      <tr><td>AI 笔记</td><td>小爱/MiClaw 等生成的笔记内容</td></tr>
+      <tr><td>语音速记</td><td>AI 键触发的语音碎片速记</td></tr>
+      <tr><td>小爱记忆档案</td><td>小爱积累的关于用户的记忆存档</td></tr>
+      <tr><td>播客</td><td>AI 从内容生成的音频+文字稿</td></tr>
+    </table>
+  </div>
   <div class="phone-frame">
     <div class="ph-notch"></div>
     <div class="ph-status">
@@ -450,6 +468,17 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
 
 <!-- ========== PAD ========== -->
 <div class="demo-wrap hidden" id="pad-demo">
+  <div class="cat-info-panel">
+    <h3>侧边栏品类定义</h3>
+    <table>
+      <tr><th>品类</th><th>内容</th></tr>
+      <tr><td>我的笔记</td><td>用户自己写的（文字/手写）</td></tr>
+      <tr><td>AI 笔记</td><td>小爱/MiClaw 等生成的笔记内容</td></tr>
+      <tr><td>语音速记</td><td>AI 键触发的语音碎片速记</td></tr>
+      <tr><td>小爱记忆档案</td><td>小爱积累的关于用户的记忆存档</td></tr>
+      <tr><td>播客</td><td>AI 从内容生成的音频+文字稿</td></tr>
+    </table>
+  </div>
   <div class="pad-frame">
     <div class="pad-status">
       <div class="ps-left">
