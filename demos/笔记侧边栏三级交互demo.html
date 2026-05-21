@@ -365,7 +365,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
             <div class="si-left"><span class="si-icon">🎧</span><span class="si-name">播客</span></div>
             <span class="si-count">8</span>
           </div>
-          <div class="sb-item" id="sb-todo" onclick="phoneSelectCat('todo',this)">
+          <div class="sb-item hidden" id="sb-todo" onclick="phoneSelectCat('todo',this)">
             <div class="si-left"><span class="si-icon">☑️</span><span class="si-name">待办</span></div>
             <span class="si-count">12</span>
           </div>
@@ -396,7 +396,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
           <div class="menu-btn" onclick="openSidebar()">☰</div>
           <h1 id="ph-title">个人笔记</h1>
           <div class="hdr-icons">
-            <div class="hdr-icon">🔍</div>
+            <div class="hdr-icon" onclick="phoneSelectCat('todo',document.getElementById('sb-todo'))">☑️</div>
             <div class="hdr-icon">⋯</div>
           </div>
         </div>
@@ -488,7 +488,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",s
           <div class="psi-left"><span class="psi-icon">🎧</span><span class="psi-name">播客</span></div>
           <span class="psi-count">8</span>
         </div>
-        <div class="psb-item" id="psb-todo" onclick="padSelectCat('todo',this)">
+        <div class="psb-item hidden" id="psb-todo" onclick="padSelectCat('todo',this)">
           <div class="psi-left"><span class="psi-icon">☑️</span><span class="psi-name">待办</span></div>
           <span class="psi-count">12</span>
         </div>
@@ -1264,14 +1264,26 @@ function renderPadListCol(cat) {
 }
 
 function renderPadListItems(items) {
-  document.getElementById('pad-list-scroll').innerHTML = items.map((item,idx)=>`
-    <div class="pad-list-item${idx===0?' active':''}" onclick="padSelectItem(this, '${item.id}')">
-      ${item.badge ? `<div class="pli-badge ${item.badge}">${item.badgeLabel}</div>` : ''}
-      <div class="pli-title">${item.title}</div>
-      <div class="pli-preview">${item.preview}</div>
-      <div class="pli-date">${item.date}</div>
-    </div>
-  `).join('');
+  const useGrid = ['personal','ai','voice'].includes(padCat);
+  if (useGrid) {
+    document.getElementById('pad-list-scroll').innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 10px">${items.map((item,idx)=>`
+      <div class="note-card" onclick="padSelectItem(this,'${item.id}')" style="padding:10px;border-radius:10px;border:1px solid #f0f0f0;cursor:pointer">
+        ${item.badge ? `<div style="font-size:9px;background:#e8f4fd;color:#007aff;padding:1px 6px;border-radius:4px;display:inline-block;margin-bottom:3px">${item.badgeLabel}</div>` : ''}
+        <div style="font-size:12px;font-weight:600;color:#1c1c1e;line-height:1.3;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${item.title}</div>
+        <div style="font-size:10px;color:#8e8e93;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:3px">${item.preview}</div>
+        <div style="font-size:9px;color:#c7c7cc">${item.date}</div>
+      </div>
+    `).join('')}</div>`;
+  } else {
+    document.getElementById('pad-list-scroll').innerHTML = items.map((item,idx)=>`
+      <div class="pad-list-item${idx===0?' active':''}" onclick="padSelectItem(this, '${item.id}')">
+        ${item.badge ? `<div class="pli-badge ${item.badge}">${item.badgeLabel}</div>` : ''}
+        <div class="pli-title">${item.title}</div>
+        <div class="pli-preview">${item.preview}</div>
+        <div class="pli-date">${item.date}</div>
+      </div>
+    `).join('');
+  }
 }
 
 function renderPadAiCollSection() {
