@@ -5,406 +5,267 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>笔记侧边栏 · 三级交互Demo</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif; background: #f5f5f5; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;background:#f5f5f5}
+.device-tabs{display:flex;justify-content:center;gap:12px;padding:16px;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:200}
+.device-tabs button{padding:8px 24px;border:1px solid #ddd;border-radius:20px;background:#fff;font-size:14px;cursor:pointer}
+.device-tabs button.active{background:#000;color:#fff;border-color:#000}
+.demo-wrap{display:flex;justify-content:center;padding:30px 20px}
+.hidden{display:none!important}
 
-/* Tab Switch */
-.device-tabs { display: flex; justify-content: center; gap: 12px; padding: 20px; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-.device-tabs button { padding: 8px 24px; border: 1px solid #ddd; border-radius: 20px; background: #fff; font-size: 14px; cursor: pointer; transition: all 0.2s; }
-.device-tabs button.active { background: #000; color: #fff; border-color: #000; }
+/* Phone Frame */
+.phone{width:390px;height:844px;background:#fff;border-radius:44px;box-shadow:0 20px 60px rgba(0,0,0,.12);overflow:hidden;position:relative;border:8px solid #1a1a1a}
+.ph-status{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:11px;font-weight:600}
+.ph-body{height:calc(100% - 50px);position:relative;overflow:hidden}
 
-.demo-container { display: flex; justify-content: center; padding: 40px 20px; }
+/* Phone Sidebar */
+.ph-overlay{position:absolute;inset:0;background:rgba(0,0,0,.3);z-index:5;opacity:0;pointer-events:none;transition:opacity .3s}
+.ph-overlay.show{opacity:1;pointer-events:all}
+.ph-sidebar{position:absolute;left:0;top:0;bottom:0;width:72%;background:#f7f7f9;transform:translateX(-100%);transition:transform .3s;z-index:10;padding:24px 16px;overflow-y:auto}
+.ph-sidebar.open{transform:translateX(0)}
+.sb-section{font-size:12px;color:#8e8e93;margin:18px 0 6px;padding-left:4px}
+.sb-item{display:flex;align-items:center;justify-content:space-between;padding:12px 10px;border-radius:10px;margin-bottom:2px;cursor:pointer;transition:background .15s}
+.sb-item:hover,.sb-item.active{background:#e5e5ea}
+.sb-item .left{display:flex;align-items:center;gap:10px}
+.sb-item .icon{font-size:16px;width:22px;text-align:center}
+.sb-item .name{font-size:15px}
+.sb-item .count{font-size:13px;color:#8e8e93}
 
-/* ========== PHONE ========== */
-.phone-frame { width: 390px; height: 844px; background: #fff; border-radius: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); overflow: hidden; position: relative; border: 8px solid #1a1a1a; }
-.phone-status { height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font-size: 12px; font-weight: 600; }
-.phone-content { height: calc(100% - 54px); position: relative; overflow: hidden; }
+/* Phone Main */
+.ph-main{position:absolute;inset:0;background:#fff;transition:transform .3s;overflow-y:auto;padding-bottom:72px}
+.ph-main.shifted{transform:translateX(72%)}
+.ph-header{display:flex;align-items:center;padding:12px 16px;gap:12px}
+.ph-header .menu-btn{font-size:20px;cursor:pointer;padding:4px}
+.ph-header h1{font-size:24px;font-weight:700;flex:1}
+.ph-header .actions{display:flex;gap:12px;font-size:18px}
 
-/* Phone: Main List */
-.phone-main { position: absolute; inset: 0; background: #fff; transition: transform 0.3s ease; padding: 0 16px; overflow-y: auto; }
-.phone-main.shifted { transform: translateX(70%); }
-.phone-main h1 { font-size: 28px; font-weight: 700; margin: 16px 0 12px; }
-.phone-search { background: #f2f2f7; border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: #8e8e93; font-size: 15px; }
-.phone-tags { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
-.phone-tags span { padding: 6px 14px; border-radius: 16px; font-size: 13px; white-space: nowrap; background: #f2f2f7; color: #333; cursor: pointer; }
-.phone-tags span.active { background: #FFF3E0; color: #F57C00; border: 1px solid #FFB74D; }
+/* Phone Bottom */
+.ph-bottom{position:absolute;bottom:0;left:0;right:0;height:68px;background:#fff;border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-around;padding:0 50px;z-index:3}
+.ph-bottom .b{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border-radius:50%}
+.ph-bottom .mic{width:44px;height:44px;background:#FF5722;color:#fff;border-radius:50%}
 
-.note-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-bottom: 80px; }
-.note-card { background: #fff; border-radius: 12px; padding: 14px; border: 1px solid #f0f0f0; cursor: pointer; transition: transform 0.1s; }
-.note-card:active { transform: scale(0.97); }
-.note-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
-.note-card p { font-size: 12px; color: #666; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-.note-card .card-img { width: 100%; height: 80px; border-radius: 8px; object-fit: cover; margin-top: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-.note-card .card-img.img2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-.note-card .card-img.img3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-.note-card .card-meta { font-size: 11px; color: #999; margin-top: 8px; }
-.note-card.pinned { border-color: #FFB74D; }
-.note-card.pinned::before { content: "置顶 ⭐"; font-size: 10px; color: #F57C00; }
+/* Category Views */
+.cat-view{padding:0 16px}
+.search-bar{background:#f2f2f7;border-radius:10px;padding:10px 14px;color:#8e8e93;font-size:14px;margin-bottom:12px}
 
-/* Phone: Sidebar */
-.phone-sidebar { position: absolute; left: 0; top: 0; bottom: 0; width: 75%; background: #f8f8fa; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 10; padding: 20px; overflow-y: auto; }
-.phone-sidebar.open { transform: translateX(0); }
-.phone-sidebar h2 { font-size: 13px; color: #8e8e93; margin: 20px 0 8px; font-weight: 500; }
-.sidebar-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 12px; border-radius: 10px; margin-bottom: 4px; cursor: pointer; transition: background 0.2s; }
-.sidebar-item:hover { background: #e8e8ed; }
-.sidebar-item.active { background: #e8e8ed; }
-.sidebar-item .item-left { display: flex; align-items: center; gap: 10px; }
-.sidebar-item .item-icon { width: 20px; text-align: center; font-size: 16px; }
-.sidebar-item .item-name { font-size: 15px; }
-.sidebar-item .item-count { font-size: 13px; color: #8e8e93; }
-.sidebar-close { position: absolute; top: 16px; left: 16px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; border-radius: 50%; }
-.sidebar-close:hover { background: #e8e8ed; }
+/* Notes View */
+.tags-row{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
+.tags-row span{padding:5px 13px;border-radius:16px;font-size:12px;white-space:nowrap;background:#f2f2f7;color:#555;cursor:pointer}
+.tags-row span.active{background:#FFF3E0;color:#F57C00;border:1px solid #FFCC80}
+.collection-section{margin-bottom:16px}
+.collection-section .sec-title{font-size:13px;color:#F57C00;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.collection-section .sec-title span{color:#999;font-size:12px;cursor:pointer}
+.coll-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px}
+.coll-card{min-width:140px;padding:12px;background:#f9f9f9;border-radius:10px;border:1px solid #eee;cursor:pointer;flex-shrink:0}
+.coll-card h4{font-size:13px;font-weight:600;margin-bottom:4px}
+.coll-card p{font-size:11px;color:#999}
+.notes-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.n-card{background:#fff;border-radius:12px;padding:12px;border:1px solid #f0f0f0;cursor:pointer}
+.n-card.pinned{border-color:#FFB74D}
+.n-card .pin-tag{font-size:10px;color:#F57C00;margin-bottom:4px}
+.n-card h3{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:4px}
+.n-card p{font-size:11px;color:#666;line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.n-card .thumb{width:100%;height:60px;border-radius:8px;margin-top:8px;background:linear-gradient(135deg,#667eea,#764ba2)}
+.n-card .meta{font-size:10px;color:#999;margin-top:6px}
 
-/* Phone: Detail */
-.phone-detail { position: absolute; inset: 0; background: #fff; transform: translateX(100%); transition: transform 0.3s ease; z-index: 20; padding: 16px; overflow-y: auto; }
-.phone-detail.open { transform: translateX(0); }
-.phone-detail .back-btn { font-size: 14px; color: #007AFF; cursor: pointer; margin-bottom: 16px; display: flex; align-items: center; gap: 4px; }
-.phone-detail h2 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
-.phone-detail .detail-meta { font-size: 12px; color: #999; margin-bottom: 16px; }
-.phone-detail .detail-content { font-size: 15px; line-height: 1.8; color: #333; }
-.phone-detail .detail-content p { margin-bottom: 12px; }
+/* Podcast View */
+.pod-item{display:flex;align-items:center;padding:14px 0;border-bottom:1px solid #f5f5f5;gap:12px;cursor:pointer}
+.pod-item .pod-cover{width:52px;height:52px;border-radius:8px;background:linear-gradient(135deg,#a18cd1,#fbc2eb);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+.pod-item .pod-info{flex:1}
+.pod-item .pod-info h4{font-size:14px;font-weight:500;margin-bottom:4px}
+.pod-item .pod-info .pod-meta{font-size:11px;color:#999}
+.pod-item .pod-play{width:32px;height:32px;border-radius:50%;background:#f2f2f7;display:flex;align-items:center;justify-content:center;font-size:12px}
 
-/* Phone: Bottom Bar */
-.phone-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 70px; background: #fff; border-top: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-around; padding: 0 40px; }
-.phone-bottom .btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; border-radius: 50%; }
-.phone-bottom .btn.mic { width: 44px; height: 44px; background: #FF5722; color: #fff; border-radius: 50%; font-size: 16px; }
-.sidebar-toggle { position: absolute; top: 16px; right: 16px; cursor: pointer; font-size: 18px; }
+/* Todo View */
+.todo-group{margin-bottom:20px}
+.todo-group h3{font-size:13px;color:#8e8e93;margin-bottom:8px;padding-left:4px}
+.todo-item{display:flex;align-items:flex-start;gap:10px;padding:10px 4px;cursor:pointer}
+.todo-item .checkbox{width:20px;height:20px;border:2px solid #ccc;border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s}
+.todo-item.done .checkbox{background:#FF9800;border-color:#FF9800;color:#fff}
+.todo-item.done .todo-text{text-decoration:line-through;color:#999}
+.todo-item .todo-text{font-size:14px;flex:1}
+.todo-item .todo-deadline{font-size:11px;color:#FF9800;margin-top:2px}
+.todo-item .todo-source{font-size:10px;color:#999;margin-top:2px}
 
-/* ========== PAD ========== */
-.pad-frame { width: 1024px; height: 720px; background: #fff; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); overflow: hidden; border: 6px solid #1a1a1a; display: flex; }
+/* Memory View */
+.mem-tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid #f0f0f0}
+.mem-tabs span{padding:8px 16px;font-size:13px;color:#666;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.mem-tabs span.active{color:#7C4DFF;border-bottom-color:#7C4DFF;font-weight:500}
+.mem-date{font-size:12px;color:#7C4DFF;margin:12px 0 8px}
+.mem-card{background:#fff;border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid #f0f0f0}
+.mem-card-top{display:flex;gap:12px}
+.mem-card-top .mem-text{flex:1}
+.mem-card-top .mem-text h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.mem-card-top .mem-text p{font-size:12px;color:#666;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mem-card-top .mem-thumb{width:64px;height:64px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);flex-shrink:0}
+.mem-card-bottom{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.mem-card-bottom .source{font-size:11px;color:#333;display:flex;align-items:center;gap:4px}
+.mem-card-bottom .tag{font-size:11px;color:#7C4DFF;background:#f3eeff;padding:2px 8px;border-radius:10px}
 
-.pad-sidebar { width: 220px; background: #f8f8fa; border-right: 1px solid #e8e8e8; padding: 20px 12px; overflow-y: auto; flex-shrink: 0; }
-.pad-sidebar h1 { font-size: 18px; font-weight: 700; padding: 0 8px; margin-bottom: 16px; }
+/* Collection Detail */
+.ph-coll-detail{position:absolute;inset:0;background:#fff;transform:translateX(100%);transition:transform .3s;z-index:30;padding:16px;overflow-y:auto}
+.ph-coll-detail.open{transform:translateX(0)}
+.back-btn{font-size:14px;color:#007AFF;cursor:pointer;margin-bottom:12px;display:flex;align-items:center;gap:4px}
+.coll-meta{font-size:12px;color:#999;margin-bottom:14px}
+.ai-summary{background:#f8f9ff;border-radius:12px;padding:14px;margin-bottom:16px}
+.ai-summary .sum-title{font-size:13px;font-weight:600;margin-bottom:8px;color:#5B6DF8}
+.ai-summary p{font-size:13px;line-height:1.6;color:#333}
+.coll-note-item{padding:12px 0;border-bottom:1px solid #f5f5f5}
+.coll-note-item h4{font-size:14px;font-weight:500;margin-bottom:4px}
+.coll-note-item p{font-size:12px;color:#666;line-height:1.4}
+.coll-note-item .cnm{font-size:11px;color:#999;margin-top:4px}
 
-.pad-list { width: 300px; border-right: 1px solid #e8e8e8; overflow-y: auto; flex-shrink: 0; }
-.pad-list-header { padding: 16px; border-bottom: 1px solid #f0f0f0; }
-.pad-list-header h2 { font-size: 16px; font-weight: 600; }
-.pad-list-header .list-count { font-size: 12px; color: #999; }
-.pad-list-item { padding: 14px 16px; border-bottom: 1px solid #f5f5f5; cursor: pointer; transition: background 0.2s; }
-.pad-list-item:hover { background: #f8f8fa; }
-.pad-list-item.active { background: #e8f0fe; }
-.pad-list-item h3 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
-.pad-list-item p { font-size: 12px; color: #666; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.pad-list-item .item-time { font-size: 11px; color: #999; margin-top: 4px; }
-
-.pad-detail { flex: 1; padding: 24px 32px; overflow-y: auto; }
-.pad-detail h2 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
-.pad-detail .detail-meta { font-size: 12px; color: #999; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #f0f0f0; }
-.pad-detail .detail-content { font-size: 15px; line-height: 1.8; color: #333; }
-.pad-detail .detail-content p { margin-bottom: 12px; }
-.pad-detail .detail-content h3 { font-size: 16px; font-weight: 600; margin: 16px 0 8px; }
-.pad-detail .detail-content ul { padding-left: 20px; margin-bottom: 12px; }
-.pad-detail .detail-content li { margin-bottom: 6px; }
-
-.pad-sidebar .sidebar-item { padding: 10px 8px; font-size: 14px; }
-.pad-sidebar .sidebar-item .item-name { font-size: 14px; }
-
-.hidden { display: none; }
-
-/* Overlay for phone sidebar */
-.phone-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); z-index: 5; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-.phone-overlay.visible { opacity: 1; pointer-events: all; }
+/* ===== PAD ===== */
+.pad{width:1100px;height:740px;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.12);overflow:hidden;border:6px solid #1a1a1a;display:flex}
+.pad-sb{width:220px;background:#f7f7f9;border-right:1px solid #e8e8e8;padding:20px 12px;overflow-y:auto;flex-shrink:0}
+.pad-sb h1{font-size:17px;font-weight:700;padding:0 8px 12px}
+.pad-list{width:300px;border-right:1px solid #e8e8e8;overflow-y:auto;flex-shrink:0}
+.pad-list-hdr{padding:14px 16px;border-bottom:1px solid #f0f0f0}
+.pad-list-hdr h2{font-size:15px;font-weight:600}
+.pad-detail{flex:1;overflow-y:auto;padding:24px 28px}
 </style>
 </head>
 <body>
 
 <div class="device-tabs">
-  <button class="active" onclick="switchDevice('phone')">📱 手机</button>
-  <button onclick="switchDevice('pad')">📟 Pad</button>
+  <button class="active" onclick="switchDev('phone')">📱 手机</button>
+  <button onclick="switchDev('pad')">📟 Pad</button>
 </div>
 
-<!-- ===== PHONE ===== -->
-<div class="demo-container" id="phone-demo">
-<div class="phone-frame">
-  <div class="phone-status">
-    <span>2:36</span>
-    <span>⦁⦁⦁⦁ 📶 🔋100</span>
-  </div>
-  <div class="phone-content">
-    <!-- Overlay -->
-    <div class="phone-overlay" id="phoneOverlay" onclick="closeSidebar()"></div>
-
-    <!-- Sidebar (Level 1) -->
-    <div class="phone-sidebar" id="phoneSidebar">
-      <div style="height: 20px"></div>
-      <h2>品类</h2>
-      <div class="sidebar-item active" onclick="selectCategory('notes')">
-        <div class="item-left"><span class="item-icon">📝</span><span class="item-name">我的笔记</span></div>
-        <span class="item-count">36</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('quicknote')">
-        <div class="item-left"><span class="item-icon">⚡</span><span class="item-name">AI速记</span></div>
-        <span class="item-count">24</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('podcast')">
-        <div class="item-left"><span class="item-icon">🎧</span><span class="item-name">播客</span></div>
-        <span class="item-count">8</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('todo')">
-        <div class="item-left"><span class="item-icon">☑️</span><span class="item-name">待办</span></div>
-        <span class="item-count">12</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('knowledge')">
-        <div class="item-left"><span class="item-icon">🧠</span><span class="item-name">AI知识库</span></div>
-        <span class="item-count">15</span>
-      </div>
-
-      <h2>文件夹</h2>
-      <div class="sidebar-item" onclick="selectCategory('personal')">
-        <div class="item-left"><span class="item-icon">📁</span><span class="item-name">个人</span></div>
-        <span class="item-count">19</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('life')">
-        <div class="item-left"><span class="item-icon">📁</span><span class="item-name">生活</span></div>
-        <span class="item-count">19</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('study')">
-        <div class="item-left"><span class="item-icon">📁</span><span class="item-name">学习</span></div>
-        <span class="item-count">19</span>
-      </div>
-      <div class="sidebar-item" onclick="selectCategory('deleted')">
-        <div class="item-left"><span class="item-icon">🗑️</span><span class="item-name">最近删除</span></div>
-        <span class="item-count">25</span>
-      </div>
+<!-- ====== PHONE ====== -->
+<div class="demo-wrap" id="dPhone">
+<div class="phone">
+  <div class="ph-status"><span>2:36</span><span>📶 🔋100</span></div>
+  <div class="ph-body">
+    <div class="ph-overlay" id="overlay" onclick="closeSB()"></div>
+    <div class="ph-sidebar" id="sidebar">
+      <div class="sb-section">品类</div>
+      <div class="sb-item active" data-cat="notes" onclick="pickCat(this)"><div class="left"><span class="icon">📝</span><span class="name">我的笔记</span></div><span class="count">36</span></div>
+      <div class="sb-item" data-cat="ai" onclick="pickCat(this)"><div class="left"><span class="icon">⚡</span><span class="name">AI速记</span></div><span class="count">24</span></div>
+      <div class="sb-item" data-cat="podcast" onclick="pickCat(this)"><div class="left"><span class="icon">🎧</span><span class="name">播客</span></div><span class="count">8</span></div>
+      <div class="sb-item" data-cat="todo" onclick="pickCat(this)"><div class="left"><span class="icon">☑️</span><span class="name">待办</span></div><span class="count">12</span></div>
+      <div class="sb-item" data-cat="knowledge" onclick="pickCat(this)"><div class="left"><span class="icon">🧠</span><span class="name">AI知识库</span></div><span class="count">15</span></div>
+      <div class="sb-item" data-cat="memory" onclick="pickCat(this)"><div class="left"><span class="icon">💜</span><span class="name">小爱记忆</span></div><span class="count">42</span></div>
+      <div class="sb-section">文件夹</div>
+      <div class="sb-item" data-cat="notes" onclick="pickCat(this)"><div class="left"><span class="icon">📁</span><span class="name">个人</span></div><span class="count">19</span></div>
+      <div class="sb-item" data-cat="notes" onclick="pickCat(this)"><div class="left"><span class="icon">📁</span><span class="name">生活</span></div><span class="count">19</span></div>
+      <div class="sb-item" data-cat="notes" onclick="pickCat(this)"><div class="left"><span class="icon">📁</span><span class="name">学习</span></div><span class="count">19</span></div>
+      <div class="sb-item" data-cat="notes" onclick="pickCat(this)"><div class="left"><span class="icon">🗑️</span><span class="name">最近删除</span></div><span class="count">25</span></div>
     </div>
 
-    <!-- Main List (Level 2) -->
-    <div class="phone-main" id="phoneMain">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h1 id="phoneTitle">笔记</h1>
-        <span class="sidebar-toggle" onclick="openSidebar()">☰</span>
+    <div class="ph-main" id="main">
+      <div class="ph-header">
+        <span class="menu-btn" onclick="openSB()">☰</span>
+        <h1 id="catTitle">笔记</h1>
+        <div class="actions"><span>☑</span><span>⋮</span></div>
       </div>
-      <div class="phone-search">🔍 搜索</div>
-      <div class="phone-tags">
-        <span class="active">全部</span>
-        <span>个人</span>
-        <span>生活</span>
-        <span>学习</span>
-        <span>未分类</span>
-      </div>
-      <div class="note-grid" id="noteGrid">
-        <div class="note-card pinned" onclick="openDetail('note1')">
-          <h3>读雷军的小米创业思考</h3>
-          <p>雷军不是在上升电梯中做俯卧撑的人。在看到这里的时候，我能够理解雷军试图复盘整体企业的发展而总结出来一个方法论…</p>
-          <div class="card-img"></div>
-          <div class="card-meta">置顶 ⭐</div>
-        </div>
-        <div class="note-card pinned" onclick="openDetail('note2')">
-          <h3>雷军：我喜欢并推崇任天堂</h3>
-          <p>在上一篇《小米创业思考》系列文章中，我分享了我对极致的理解：极致就是做到自己能力的极限…</p>
-          <div class="card-meta">置顶 ⭐</div>
-        </div>
-        <div class="note-card" onclick="openDetail('note3')">
-          <h3>雨夜咖啡馆</h3>
-          <p>· 工业设计<br>· 建筑设计<br>· 雕塑设计<br>· 平面设计<br>· 视觉传达</p>
-          <div class="card-meta">周二 13:38</div>
-        </div>
-        <div class="note-card" onclick="openDetail('note4')">
-          <h3>生活点滴</h3>
-          <p>生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱</p>
-          <div class="card-img img2"></div>
-          <div class="card-meta">周二 13:38</div>
-        </div>
-        <div class="note-card" onclick="openDetail('note5')">
-          <h3>南京旅行攻略整理</h3>
-          <p>景点：有梧桐大道、音乐台、夫子庙等，还有钟山秋水湖等小众景点…</p>
-          <div class="card-img img3"></div>
-          <div class="card-meta">周一 09:15</div>
-        </div>
-        <div class="note-card" onclick="openDetail('note6')">
-          <h3>产品周会纪要 5/19</h3>
-          <p>议题一：首页改版进度<br>议题二：推荐算法AB测试<br>议题三：Q3新增需求</p>
-          <div class="card-meta">周一 15:00</div>
-        </div>
-      </div>
-      <div class="phone-bottom">
-        <span class="btn">＋</span>
-        <span class="btn mic">🎙</span>
-        <span class="btn">✏️</span>
-      </div>
+      <div id="catContent"></div>
     </div>
 
-    <!-- Detail (Level 3) -->
-    <div class="phone-detail" id="phoneDetail">
-      <div class="back-btn" onclick="closeDetail()">← 返回</div>
-      <h2 id="detailTitle">读雷军的小米创业思考</h2>
-      <div class="detail-meta">2026-05-19 · 来自：我的笔记</div>
-      <div class="detail-content" id="detailContent">
-        <p>雷军不是在上升电梯中做俯卧撑的人。在看到这里的时候，我能够理解雷军试图复盘整体企业的发展而总结出来一个方法论，并且试图从中验证。</p>
-        <p>一个方法论的提出，核心是"顺势而为"——找到风口，然后用极致的产品抓住机会。</p>
-        <p>这不是投机主义，而是对时机的敬畏。很多创业者失败不是因为不够努力，而是因为在错误的时间做了正确的事。</p>
+    <div class="ph-coll-detail" id="collDetail">
+      <div class="back-btn" onclick="closeCollDetail()">← 返回</div>
+      <h2>南京旅游</h2>
+      <div class="coll-meta">13条笔记 ｜ 最近更新：5月9日 12:23</div>
+      <div class="ai-summary">
+        <div class="sum-title">✨ AI总结</div>
+        <p>1.景点：有梧桐大道、音乐台、夫子庙等，还有钟山秋水湖等小众景点，部分景点需提前预约<br>2.行程：有4日和3日游行程，4日游涵盖红山动物园、鸡鸣寺等<br>3.美食：有觅炙烧烤海鲜粥火锅、十朝酥等<br>4.交通：首选地铁，建议办理地铁卡</p>
       </div>
+      <div class="coll-note-item"><h4>南京4日游真实感受</h4><p>雷军不是在上升电梯中做俯卧撑的人。在看到这里的时候，我能够理解…</p><div class="cnm">周二 13:38</div></div>
+      <div class="coll-note-item"><h4>南京钟山高尔夫绝美秘境</h4><p>在上一篇《小米创业思考》系列文章中，我分享了我对极致的理解…</p><div class="cnm">周二 13:38</div></div>
+      <div class="coll-note-item"><h4>南京小西湖春日私藏攻略</h4><p>计算机网络 · 课程目标…</p><div class="cnm">周二 13:38</div></div>
+      <div class="coll-note-item"><h4>网课截图</h4><p>生命是有色彩的，并不是存在的变幻无常…</p><div class="cnm">周二 13:38</div></div>
+    </div>
+
+    <div class="ph-bottom">
+      <span class="b">＋</span>
+      <span class="b mic">🎙</span>
+      <span class="b">✏️</span>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ===== PAD ===== -->
-<div class="demo-container hidden" id="pad-demo">
-<div class="pad-frame">
-  <!-- Pad Sidebar (Level 1) -->
-  <div class="pad-sidebar">
+<!-- ====== PAD ====== -->
+<div class="demo-wrap hidden" id="dPad">
+<div class="pad">
+  <div class="pad-sb">
     <h1>笔记</h1>
-    <div class="sidebar-item active" onclick="padSelectCategory('notes')">
-      <div class="item-left"><span class="item-icon">📝</span><span class="item-name">我的笔记</span></div>
-      <span class="item-count">36</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('quicknote')">
-      <div class="item-left"><span class="item-icon">⚡</span><span class="item-name">AI速记</span></div>
-      <span class="item-count">24</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('podcast')">
-      <div class="item-left"><span class="item-icon">🎧</span><span class="item-name">播客</span></div>
-      <span class="item-count">8</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('todo')">
-      <div class="item-left"><span class="item-icon">☑️</span><span class="item-name">待办</span></div>
-      <span class="item-count">12</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('knowledge')">
-      <div class="item-left"><span class="item-icon">🧠</span><span class="item-name">AI知识库</span></div>
-      <span class="item-count">15</span>
-    </div>
-    <h2 style="font-size:12px;color:#8e8e93;margin:16px 8px 8px;">文件夹</h2>
-    <div class="sidebar-item" onclick="padSelectCategory('personal')">
-      <div class="item-left"><span class="item-icon">📁</span><span class="item-name">个人</span></div>
-      <span class="item-count">19</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('life')">
-      <div class="item-left"><span class="item-icon">📁</span><span class="item-name">生活</span></div>
-      <span class="item-count">19</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('study')">
-      <div class="item-left"><span class="item-icon">📁</span><span class="item-name">学习</span></div>
-      <span class="item-count">19</span>
-    </div>
-    <div class="sidebar-item" onclick="padSelectCategory('deleted')">
-      <div class="item-left"><span class="item-icon">🗑️</span><span class="item-name">最近删除</span></div>
-      <span class="item-count">25</span>
-    </div>
+    <div class="sb-section">品类</div>
+    <div class="sb-item active" data-cat="notes" onclick="padPick(this)"><div class="left"><span class="icon">📝</span><span class="name">我的笔记</span></div><span class="count">36</span></div>
+    <div class="sb-item" data-cat="ai" onclick="padPick(this)"><div class="left"><span class="icon">⚡</span><span class="name">AI速记</span></div><span class="count">24</span></div>
+    <div class="sb-item" data-cat="podcast" onclick="padPick(this)"><div class="left"><span class="icon">🎧</span><span class="name">播客</span></div><span class="count">8</span></div>
+    <div class="sb-item" data-cat="todo" onclick="padPick(this)"><div class="left"><span class="icon">☑️</span><span class="name">待办</span></div><span class="count">12</span></div>
+    <div class="sb-item" data-cat="knowledge" onclick="padPick(this)"><div class="left"><span class="icon">🧠</span><span class="name">AI知识库</span></div><span class="count">15</span></div>
+    <div class="sb-item" data-cat="memory" onclick="padPick(this)"><div class="left"><span class="icon">💜</span><span class="name">小爱记忆</span></div><span class="count">42</span></div>
+    <div class="sb-section">文件夹</div>
+    <div class="sb-item" data-cat="notes" onclick="padPick(this)"><div class="left"><span class="icon">📁</span><span class="name">个人</span></div><span class="count">19</span></div>
+    <div class="sb-item" data-cat="notes" onclick="padPick(this)"><div class="left"><span class="icon">📁</span><span class="name">生活</span></div><span class="count">19</span></div>
+    <div class="sb-item" data-cat="notes" onclick="padPick(this)"><div class="left"><span class="icon">📁</span><span class="name">学习</span></div><span class="count">19</span></div>
+    <div class="sb-item" data-cat="notes" onclick="padPick(this)"><div class="left"><span class="icon">🗑️</span><span class="name">最近删除</span></div><span class="count">25</span></div>
   </div>
-
-  <!-- Pad List (Level 2) -->
-  <div class="pad-list">
-    <div class="pad-list-header">
-      <h2 id="padListTitle">我的笔记</h2>
-      <span class="list-count">36篇</span>
-    </div>
-    <div class="pad-list-item active" onclick="padSelectNote(0)">
-      <h3>读雷军的小米创业思考</h3>
-      <p>雷军不是在上升电梯中做俯卧撑的人…</p>
-      <span class="item-time">5/19 14:30 · 置顶</span>
-    </div>
-    <div class="pad-list-item" onclick="padSelectNote(1)">
-      <h3>雷军：我喜欢并推崇任天堂</h3>
-      <p>极致就是做到自己能力的极限…</p>
-      <span class="item-time">5/19 10:22 · 置顶</span>
-    </div>
-    <div class="pad-list-item" onclick="padSelectNote(2)">
-      <h3>南京旅行攻略整理</h3>
-      <p>景点：梧桐大道、音乐台、夫子庙…</p>
-      <span class="item-time">5/18 09:15</span>
-    </div>
-    <div class="pad-list-item" onclick="padSelectNote(3)">
-      <h3>产品周会纪要 5/19</h3>
-      <p>议题一：首页改版进度 议题二：推荐算法…</p>
-      <span class="item-time">5/19 15:00</span>
-    </div>
-    <div class="pad-list-item" onclick="padSelectNote(4)">
-      <h3>生活点滴</h3>
-      <p>生命是有色彩的，并不是存在的变幻无常…</p>
-      <span class="item-time">5/17 13:38</span>
-    </div>
-    <div class="pad-list-item" onclick="padSelectNote(5)">
-      <h3>雨夜咖啡馆</h3>
-      <p>工业设计、建筑设计、雕塑设计…</p>
-      <span class="item-time">5/17 13:38</span>
-    </div>
+  <div class="pad-list" id="padList">
+    <div class="pad-list-hdr"><h2 id="padTitle">我的笔记</h2></div>
+    <div id="padListContent"></div>
   </div>
-
-  <!-- Pad Detail (Level 3) -->
-  <div class="pad-detail">
-    <h2 id="padDetailTitle">读雷军的小米创业思考</h2>
-    <div class="detail-meta" id="padDetailMeta">2026-05-19 14:30 · 我的笔记 · 个人</div>
-    <div class="detail-content" id="padDetailContent">
-      <p>雷军不是在上升电梯中做俯卧撑的人。在看到这里的时候，我能够理解雷军试图复盘整体企业的发展而总结出来一个方法论，并且试图从中验证。</p>
-      <h3>核心观点</h3>
-      <p>一个方法论的提出，核心是"顺势而为"——找到风口，然后用极致的产品抓住机会。</p>
-      <p>这不是投机主义，而是对时机的敬畏。很多创业者失败不是因为不够努力，而是因为在错误的时间做了正确的事。</p>
-      <h3>我的思考</h3>
-      <ul>
-        <li>时机判断比执行力更重要</li>
-        <li>"极致"不是完美主义，是在约束条件下做到最好</li>
-        <li>小米的成功本质上是供应链效率革命</li>
-      </ul>
-      <p>这对我们做AI笔记的启示是：不是功能做得多就好，是在用户最痛的点上做到极致。录音转写这一个点如果做到体验碾压，就够了。</p>
-    </div>
+  <div class="pad-detail" id="padDetail">
+    <h2>选择一篇笔记查看</h2>
   </div>
 </div>
 </div>
 
 <script>
-// Device switching
-function switchDevice(device) {
-  document.querySelectorAll('.device-tabs button').forEach(b => b.classList.remove('active'));
+const VIEWS = {
+  notes: `<div class="cat-view"><div class="search-bar">🔍 搜索</div><div class="collection-section"><div class="sec-title">智能合集 <span onclick="openCollDetail()">查看全部 ›</span></div><div class="coll-row"><div class="coll-card" onclick="openCollDetail()"><h4>南京旅游</h4><p>5篇笔记</p></div><div class="coll-card"><h4>黄金投资</h4><p>5篇笔记</p></div><div class="coll-card"><h4>产品方案</h4><p>3篇笔记</p></div></div></div><div class="tags-row"><span class="active">全部</span><span>工作</span><span>个人</span><span>学习</span><span>未分类</span></div><div class="notes-grid"><div class="n-card pinned"><div class="pin-tag">置顶 ⭐</div><h3>读雷军的小米创业思考</h3><p>雷军不是在上升电梯中做俯卧撑的人。在看到这里的时候，能够理解雷军试图复盘整体企业…</p><div class="thumb"></div></div><div class="n-card pinned"><div class="pin-tag">置顶 ⭐</div><h3>雷军：我喜欢并推崇任天堂</h3><p>在上一篇《小米创业思考》系列文章中，我分享了我对极致的理解：极致就是做到自己能力的极限…</p></div><div class="n-card"><h3>雨夜咖啡馆</h3><p>· 工业设计<br>· 建筑设计<br>· 雕塑设计<br>· 平面设计</p><div class="meta">周二 13:38</div></div><div class="n-card"><h3>生活点滴</h3><p>生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱</p><div class="thumb" style="background:linear-gradient(135deg,#f093fb,#f5576c)"></div><div class="meta">周二 13:38</div></div></div></div>`,
+
+  ai: `<div class="cat-view"><div class="search-bar">🔍 搜索</div><div class="collection-section"><div class="sec-title">智能合集 <span onclick="openCollDetail()">查看全部 ›</span></div><div class="coll-row"><div class="coll-card" onclick="openCollDetail()"><h4>南京旅游</h4><p>5篇笔记</p></div><div class="coll-card"><h4>美伊局势</h4><p>5篇笔记</p></div><div class="coll-card"><h4>首页改版</h4><p>3篇笔记</p></div></div></div><div style="font-size:13px;color:#666;margin-bottom:8px;padding:0 4px">全部速记</div><div class="notes-grid"><div class="n-card"><h3>产品周会要点速记</h3><p>首页改版周五交付；AB测试继续跑一周；李四出搜索调研报告</p><div class="meta">今天 15:00 · 录音32分钟</div></div><div class="n-card"><h3>明天带身份证</h3><p>明天去办事需要带身份证</p><div class="meta">今天 18:30 · 语音速记</div></div><div class="n-card"><h3>买牛奶面包鸡蛋</h3><p>周末购物清单</p><div class="meta">昨天 20:15 · 语音速记</div></div><div class="n-card"><h3>经济学第12讲笔记</h3><p>泰勒展开的定义与应用，常见函数展开式…</p><div class="meta">周一 10:00 · 录音45分钟</div></div></div></div>`,
+
+  podcast: `<div class="cat-view"><div class="search-bar">🔍 搜索播客</div><div style="font-size:13px;color:#666;margin-bottom:12px">8期播客</div><div class="pod-item"><div class="pod-cover">🎵</div><div class="pod-info"><h4>科技早知道 · AI Agent的未来</h4><div class="pod-meta">45:23 · 5月18日 · 已听完</div></div><div class="pod-play">▶</div></div><div class="pod-item"><div class="pod-cover" style="background:linear-gradient(135deg,#f5af19,#f12711)">🎵</div><div class="pod-info"><h4>商业就是这样 · 小米造车这一年</h4><div class="pod-meta">32:10 · 5月15日 · 听到 12:30</div></div><div class="pod-play">▶</div></div><div class="pod-item"><div class="pod-cover" style="background:linear-gradient(135deg,#36d1dc,#5b86e5)">🎵</div><div class="pod-info"><h4>硅谷101 · Google IO 2026亮点解读</h4><div class="pod-meta">58:45 · 5月14日 · 未听</div></div><div class="pod-play">▶</div></div><div class="pod-item"><div class="pod-cover" style="background:linear-gradient(135deg,#11998e,#38ef7d)">🎵</div><div class="pod-info"><h4>得到头条 · 为什么我们需要第二大脑</h4><div class="pod-meta">22:18 · 5月12日 · 已听完</div></div><div class="pod-play">▶</div></div><div class="pod-item"><div class="pod-cover" style="background:linear-gradient(135deg,#6a3093,#a044ff)">🎵</div><div class="pod-info"><h4>疯投圈 · 笔记工具的商业化困局</h4><div class="pod-meta">41:05 · 5月10日 · 未听</div></div><div class="pod-play">▶</div></div></div>`,
+
+  todo: `<div class="cat-view"><div class="todo-group"><h3>今天</h3><div class="todo-item" onclick="this.classList.toggle('done')"><div class="checkbox">✓</div><div><div class="todo-text">带身份证去办事</div><div class="todo-source">来自：语音速记</div></div></div><div class="todo-item" onclick="this.classList.toggle('done')"><div class="checkbox">✓</div><div><div class="todo-text">课后习题 P45 第3-8题</div><div class="todo-deadline">截止：今天</div><div class="todo-source">来自：高数第12讲</div></div></div></div><div class="todo-group"><h3>明天</h3><div class="todo-item" onclick="this.classList.toggle('done')"><div class="checkbox">✓</div><div><div class="todo-text">发报价单给张总</div><div class="todo-deadline">截止：明天</div><div class="todo-source">来自：通话摘要</div></div></div></div><div class="todo-group"><h3>本周</h3><div class="todo-item" onclick="this.classList.toggle('done')"><div class="checkbox">✓</div><div><div class="todo-text">读教材第六章+200字读后感</div><div class="todo-deadline">截止：周五</div><div class="todo-source">来自：班群消息</div></div></div><div class="todo-item" onclick="this.classList.toggle('done')"><div class="checkbox">✓</div><div><div class="todo-text">李四：搜索调研报告</div><div class="todo-deadline">截止：5/23</div><div class="todo-source">来自：产品周会纪要</div></div></div><div class="todo-item" onclick="this.classList.toggle('done')"><div class="checkbox">✓</div><div><div class="todo-text">王五：AB测试结论</div><div class="todo-deadline">截止：5/26</div><div class="todo-source">来自：产品周会纪要</div></div></div></div></div>`,
+
+  knowledge: `<div class="cat-view"><div class="search-bar">🔍 搜索知识库</div><div style="font-size:13px;color:#666;margin-bottom:12px">4个合集 ｜ 更新时间：1天前</div><div class="notes-grid"><div class="coll-card" onclick="openCollDetail()" style="padding:16px;border-radius:12px"><h4>美伊局势</h4><p>关联5篇笔记</p></div><div class="coll-card" style="padding:16px;border-radius:12px"><h4>首页改版</h4><p>关联5篇笔记</p></div><div class="coll-card" onclick="openCollDetail()" style="padding:16px;border-radius:12px"><h4>南京旅游</h4><p>关联5篇笔记</p></div><div class="coll-card" style="padding:16px;border-radius:12px"><h4>黄金投资</h4><p>关联5篇笔记</p></div><div class="coll-card" style="padding:16px;border-radius:12px;border:1px dashed #ccc"><h4>+ 创建合集</h4><p>根据合集名称自动整理</p></div></div></div>`,
+
+  memory: `<div class="cat-view"><div class="mem-tabs"><span class="active">全部</span><span>链接</span><span>卡证</span><span>地址</span><span>纪念日</span></div><div class="mem-date">05-11</div><div class="mem-card"><div class="mem-card-top"><div class="mem-text"><h4>手机系统桌面应用布局展示</h4><p>这是一张手机系统桌面截图，包含多个应用图标、应用文件夹及底部常用功…</p></div><div class="mem-thumb"></div></div><div class="mem-card-bottom"><span class="source">🏠 系统桌面</span><span class="tag">#手机桌面</span><span class="tag">#应用整理</span></div></div><div class="mem-card"><div class="mem-card-top"><div class="mem-text"><h4>手机桌面应用图标排列展示</h4><p>这是一张手机系统桌面截图，包含应用文件夹、单独应用图标与底部快捷…</p></div><div class="mem-thumb" style="background:linear-gradient(135deg,#f093fb,#f5576c)"></div></div><div class="mem-card-bottom"><span class="source">🏠 系统桌面</span><span class="tag">#手机桌面</span><span class="tag">#应用整理</span></div></div><div class="mem-date">04-30</div><div class="mem-card"><div class="mem-card-top"><div class="mem-text"><h4>手机笔记应用内各类生活记录汇总</h4><p>这是手机笔记应用的内容列表页，包含语音记录、生活贴士、待办事项等多…</p></div><div class="mem-thumb" style="background:linear-gradient(135deg,#4facfe,#00f2fe)"></div></div><div class="mem-card-bottom"><span class="source">📋 笔记</span><span class="tag">#生活记录</span><span class="tag">#笔记汇总</span></div></div><div class="mem-card"><div class="mem-card-top"><div class="mem-text"><h4>周末烘焙食谱收藏</h4><p>抹茶芝士蛋糕配方、低糖全麦面包做法、意式提拉米苏简易版…</p></div><div class="mem-thumb" style="background:linear-gradient(135deg,#f5af19,#f12711)"></div></div><div class="mem-card-bottom"><span class="source">🔗 小红书</span><span class="tag">#烘焙</span><span class="tag">#食谱</span></div></div></div>`
+};
+
+const TITLES = {notes:'笔记',ai:'AI速记',podcast:'播客',todo:'待办',knowledge:'AI知识库',memory:'小爱记忆'};
+
+// Init
+document.getElementById('catContent').innerHTML = VIEWS.notes;
+
+function switchDev(d){
+  document.querySelectorAll('.device-tabs button').forEach(b=>b.classList.remove('active'));
   event.target.classList.add('active');
-  document.getElementById('phone-demo').classList.toggle('hidden', device !== 'phone');
-  document.getElementById('pad-demo').classList.toggle('hidden', device !== 'pad');
+  document.getElementById('dPhone').classList.toggle('hidden',d!=='phone');
+  document.getElementById('dPad').classList.toggle('hidden',d!=='pad');
 }
 
-// Phone: Sidebar
-function openSidebar() {
-  document.getElementById('phoneSidebar').classList.add('open');
-  document.getElementById('phoneMain').classList.add('shifted');
-  document.getElementById('phoneOverlay').classList.add('visible');
-}
-function closeSidebar() {
-  document.getElementById('phoneSidebar').classList.remove('open');
-  document.getElementById('phoneMain').classList.remove('shifted');
-  document.getElementById('phoneOverlay').classList.remove('visible');
+// Phone sidebar
+function openSB(){document.getElementById('sidebar').classList.add('open');document.getElementById('main').classList.add('shifted');document.getElementById('overlay').classList.add('show')}
+function closeSB(){document.getElementById('sidebar').classList.remove('open');document.getElementById('main').classList.remove('shifted');document.getElementById('overlay').classList.remove('show')}
+
+function pickCat(el){
+  document.querySelectorAll('#sidebar .sb-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  const cat=el.dataset.cat;
+  document.getElementById('catTitle').textContent=TITLES[cat]||'笔记';
+  document.getElementById('catContent').innerHTML=VIEWS[cat]||VIEWS.notes;
+  closeSB();
 }
 
-// Phone: Category selection
-function selectCategory(cat) {
-  const titles = { notes: '我的笔记', quicknote: 'AI速记', podcast: '播客', todo: '待办', knowledge: 'AI知识库', personal: '个人', life: '生活', study: '学习', deleted: '最近删除' };
-  document.getElementById('phoneTitle').textContent = titles[cat] || '笔记';
-  document.querySelectorAll('#phoneSidebar .sidebar-item').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  closeSidebar();
-}
+function openCollDetail(){document.getElementById('collDetail').classList.add('open')}
+function closeCollDetail(){document.getElementById('collDetail').classList.remove('open')}
 
-// Phone: Detail
-function openDetail(noteId) {
-  document.getElementById('phoneDetail').classList.add('open');
-}
-function closeDetail() {
-  document.getElementById('phoneDetail').classList.remove('open');
-}
+// Pad
+const padListContent=document.getElementById('padListContent');
+padListContent.innerHTML=VIEWS.notes;
 
-// Pad: Category selection
-function padSelectCategory(cat) {
-  const titles = { notes: '我的笔记', quicknote: 'AI速记', podcast: '播客', todo: '待办', knowledge: 'AI知识库', personal: '个人', life: '生活', study: '学习', deleted: '最近删除' };
-  document.getElementById('padListTitle').textContent = titles[cat] || '笔记';
-  document.querySelectorAll('.pad-sidebar .sidebar-item').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-}
-
-// Pad: Note selection
-function padSelectNote(idx) {
-  document.querySelectorAll('.pad-list-item').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  const notes = [
-    { title: '读雷军的小米创业思考', meta: '2026-05-19 14:30 · 我的笔记 · 个人', content: '<p>雷军不是在上升电梯中做俯卧撑的人。在看到这里的时候，我能够理解雷军试图复盘整体企业的发展而总结出来一个方法论。</p><h3>核心观点</h3><p>"顺势而为"——找到风口，然后用极致的产品抓住机会。</p><h3>我的思考</h3><ul><li>时机判断比执行力更重要</li><li>"极致"不是完美主义，是在约束条件下做到最好</li><li>小米的成功本质上是供应链效率革命</li></ul>' },
-    { title: '雷军：我喜欢并推崇任天堂', meta: '2026-05-19 10:22 · 我的笔记 · 个人', content: '<p>在上一篇《小米创业思考》系列文章中，我分享了我对极致的理解：极致就是做到自己能力的极限，做到别人做不到的高度。</p><p>任天堂的哲学是"用枯萎的技术做横向思维"——不追求最新最强的硬件，而是用成熟技术创造全新体验。</p>' },
-    { title: '南京旅行攻略整理', meta: '2026-05-18 09:15 · 我的笔记 · 生活', content: '<h3>景点推荐</h3><ul><li>梧桐大道、音乐台、夫子庙</li><li>钟山秋水湖（小众）</li><li>部分景点需提前预约</li></ul><h3>行程建议</h3><p>4日游：红山动物园→鸡鸣寺→南京博物院→大报恩寺</p><h3>美食</h3><p>觅炙烧烤、十朝酥、泥炉烧肉师</p>' },
-    { title: '产品周会纪要 5/19', meta: '2026-05-19 15:00 · 我的笔记 · 工作', content: '<h3>议题一：首页改版进度</h3><p>设计稿已完成，本周五交付开发</p><h3>议题二：推荐算法AB测试</h3><p>CTR提升12%，但停留时长下降。保持当前策略再跑一周。</p><h3>待办</h3><ul><li>□ 张三：首页设计稿交付 · 5/23</li><li>□ 李四：搜索调研报告 · 5/23</li></ul>' },
-    { title: '生活点滴', meta: '2026-05-17 13:38 · 我的笔记 · 生活', content: '<p>生命是有色彩的，并不是存在的变幻无常，而是生命本身所蕴含的爱与温度。</p><p>今天在公园散步的时候突然想到：我们总是在追求效率，但有些时候，慢下来才能看见真正重要的东西。</p>' },
-    { title: '雨夜咖啡馆', meta: '2026-05-17 13:38 · 我的笔记 · 个人', content: '<h3>设计领域分类</h3><ul><li>工业设计</li><li>建筑设计</li><li>雕塑设计</li><li>平面设计</li><li>视觉传达</li></ul><p>工业设计是一种创造性的活动，其目的是为物品、过程、服务以及它们在整个生命周期中构成的系统建立起多方面的品质。</p>' }
-  ];
-  const note = notes[idx];
-  document.getElementById('padDetailTitle').textContent = note.title;
-  document.getElementById('padDetailMeta').textContent = note.meta;
-  document.getElementById('padDetailContent').innerHTML = note.content;
+function padPick(el){
+  document.querySelectorAll('.pad-sb .sb-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  const cat=el.dataset.cat;
+  document.getElementById('padTitle').textContent=TITLES[cat]||'笔记';
+  padListContent.innerHTML=VIEWS[cat]||VIEWS.notes;
 }
 </script>
 </body>
