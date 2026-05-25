@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>AI笔记场景串联流程</title>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;font-family:-apple-system,"PingFang SC",sans-serif;padding:60px;width:4000px}
+.scene{margin-bottom:80px}
+.scene-title{background:#e8a838;color:#fff;font-size:20px;font-weight:700;padding:14px 24px;border-radius:8px;margin-bottom:20px}
+.flow-row{display:flex;align-items:center;gap:0}
+.phone-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.phone-img{width:220px;height:478px;border-radius:24px;object-fit:cover;border:2px solid #e0e0e0}
+.phone-label{font-size:11px;color:#999;text-align:center;margin-top:6px;max-width:220px}
+.arrow{font-size:28px;color:#ccc;margin:0 12px;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <div class="scene-title">场景A · 学生上课 — 课前提醒→课中录音拍照→课后笔记已生成→复习问答</div>
+  <div class="flow-row">
+    <div class="phone-wrap"><img class="phone-img" src="screens/s7.png"><div class="phone-label">课前 · 桌面提醒</div></div>
+    <div class="arrow">→</div>
+    <div class="phone-wrap"><img class="phone-img" src="screens/s10.png"><div class="phone-label">课中 · 录音+拍照</div></div>
+    <div class="arrow">→</div>
+    <div class="phone-wrap"><img class="phone-img" src="screens/s16.png"><div class="phone-label">课后 · 笔记已生成（AI总结+照片对位+待办）</div></div>
+    <div class="arrow">→</div>
+    <div class="phone-wrap"><img class="phone-img" src="screens/sa_homepage.png"><div class="phone-label">复习 · 按科目翻历史</div></div>
+    <div class="arrow">→</div>
+    <div class="phone-wrap"><img class="phone-img" src="screens/s_miclaw_todo.png"><div class="phone-label">复习 · 问MiClaw</div></div>
+  </div>
+</div>
+
+<div class="scene">
+  <div class="scene-title">场景B · 办公总结 — 日常采访积累→触发聚合→报告产出→分享</div>
+  <div class="flow-row">
+    <div class="phone-wrap"><img class="phone-img" src="screens/s17.png"><div class="phone-label">日常 · 单次采访笔记</div></div>
+    <div class="arrow">→</div>
+    <div class="phone-wrap"><img class="phone-img" src="screens/sb_homepage_coll.png"><div class="phone-label">积累 · 首页5篇+建议合集</div></div>
+    <div class="arrow">→</div>
+    <div class="phone-wrap"><img class="phone-img" src="screens/s_miclaw_budget.png"><div class="phone-label">触发 · "帮我总结这个月的采访"</div></div>
+    <div class="arrow">→</div>
+    <div class="phone-wrap"><img class="phone-img" src="screens/s16.png"><div class="phone-label">产出 · 聚合报告</div></div>
+  </div>
+</div>
+
+<div class="scene">
+  <div class="scene-title">场景C · 会议记录 — 会前通知→会中录音拍白板→会后纪要+待办→跨次回忆</div>
+  <div class="flow-row">
+    <div class="phone-wrap"><img class="phone-img" src="screens/s7.png"><div class="phone-label">会前 · 通知提醒</div></div>
+    <div class="arrow">→</div>
+    <div class="phone-wrap"><img class="phone-img" src="screens/s8.png"><div class="phone-label">会中 · 上岛录音中</div></div>
+    <div class="arrow">→</div>
+    <div class="phone-wrap"><img class="phone-img" src="screens/s10.png"><div class="phone-label">会中 · 录音+拍白板</div></div>
+    <div class="arrow">→</div>
+    <div class="phone-wrap"><img class="phone-img" src="screens/s16.png"><div class="phone-label">会后 · 纪要已生成（议题+照片+待办）</div></div>
+    <div class="arrow">→</div>
+    <div class="phone-wrap"><img class="phone-img" src="screens/s_miclaw_todo.png"><div class="phone-label">跨次 · "上次定了什么"</div></div>
+  </div>
+</div>
+
+</body>
+</html>

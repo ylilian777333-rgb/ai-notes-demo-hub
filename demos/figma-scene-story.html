@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=4000">
+  <title>场景方案 - VP汇报</title>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, "PingFang SC", sans-serif;
+      background: #ffffff;
+      width: 4000px;
+      padding: 80px;
+      color: #333;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .scene {
+      margin-bottom: 120px;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: #e8e8e8;
+      margin-bottom: 120px;
+    }
+
+    /* 第一层：用户规模 */
+    .scale-tag {
+      font-size: 16px;
+      color: #666;
+      background: #f0f4ff;
+      border-radius: 8px;
+      padding: 12px 20px;
+      display: inline-block;
+      margin-bottom: 32px;
+    }
+
+    /* 第二层：痛点 */
+    .pain-title {
+      font-size: 32px;
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 12px;
+    }
+    .pain-desc {
+      font-size: 16px;
+      color: #555;
+      max-width: 1200px;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    /* 第三层：解决思路 */
+    .solution-row {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .solution-card {
+      width: 400px;
+      padding: 24px;
+      background: #ffffff;
+      border: 1px solid #e8e8e8;
+      border-radius: 12px;
+    }
+    .solution-card h4 {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #000;
+    }
+    .solution-card p {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* 第四层：用户链路 */
+    .flow-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      color: #000;
+    }
+    .flow-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+    .flow-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .step-label {
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 4px;
+      padding: 4px 12px;
+      margin-bottom: 8px;
+    }
+    .phone-frame {
+      width: 280px;
+      height: 608px;
+      border-radius: 32px;
+      border: 2px solid #e0e0e0;
+      overflow: hidden;
+      background: #ffffff;
+      position: relative;
+    }
+    .phone-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .step-desc {
+      font-size: 11px;
+      color: #888;
+      max-width: 280px;
+      text-align: center;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+    .flow-arrow {
+      font-size: 28px;
+      color: #d1d5db;
+      margin: 0 16px;
+      align-self: center;
+      padding-top: 20px;
+    }
+
+    /* 手机屏幕内部样式 */
+    .screen-camera {
+      width: 100%;
+      height: 100%;
+      background: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px 20px 30px;
+    }
+    .camera-toast {
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      font-size: 11px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .camera-viewfinder {
+      width: 220px;
+      height: 340px;
+      background: #3a3a3a;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .camera-viewfinder-content {
+      width: 180px;
+      height: 260px;
+      background: #e8e8e8;
+      border-radius: 2px;
+    }
+    .camera-shutter {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 3px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .camera-shutter-inner {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #ffffff;
+    }
+
+    /* 处理中界面 */
+    .screen-processing {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .proc-status-bar {
+      font-size: 10px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 40px;
+    }
+    .proc-title {
+      font-size: 14px;
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .proc-items {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      padding: 0 10px;
+    }
+    .proc-item {
+      font-size: 12px;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .proc-item .done {
+      color: #22c55e;
+    }
+    .proc-item .pending {
+      color: #999;
+    }
+    .proc-progress {
+      width: 100%;
+      height: 6px;
+      background: #e5e7eb;
+      border-radius: 3px;
+      margin-top: 16px;
+      overflow: hidden;
+    }
+    .proc-progress-bar {
+      width: 60%;
+      height: 100%;
+      background: #3b82f6;
+      border-radius: 3px;
+    }
+    .proc-footer {
+      font-size: 11px;
+      color: #999;
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    /* 笔记详情界面 */
+    .screen-note {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .note-statusbar {
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #333;
+    }
+    .note-nav {
+      padding: 4px 12px;
+      font-size: 16px;
+      color: #333;
+    }
+    .note-header {
+      padding: 8px 16px;
+    }
+    .note-header h3 {
+      font-size: 14px;
+      font-weight: bold;
+      color: #000;
+    }
+    .note-header .note-meta {
+      font-size: 10px;
+      color: #999;
+      margin-top: 2px;
+    }
+    .note-player {
+      margin: 8px 16px;
+      background: #f5f5f5;
+      border-radius: 12px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      font-size: 9px;
+      color: #666;
+      gap: 6px;
+    }
+    .note-ai-summary {
+      margin: 8px 16px;
+      border-left: 2px solid #2563eb;
+      background: #f8faff;
+      padding: 8px 10px;
+      font-size: 9px;
+      color: #333;
+      line-height: 1.6;
+    }
+    .note-body {
+      padding: 8px 16px;
+      flex: 1;
+      overflow: hidden;
+    }
+    .note-body h4 {
+      font-size: 11px;
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 4px;
+    }
+    .note-body p {
+      font-size: 10px;
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 6px;
+    }
+    .note-photo-placeholder {
+      background: #f0f0f0;
+      border-radius: 4px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #888;
+      margin: 6px 0;
+    }
+    .note-divider {
+      height: 1px;
+      background: #e8e8e8;
+      margin: 8px 0;
+    }
+    .note-todo {
+      font-size: 9px;
+      color: #333;
+      padding: 4px 0;
+    }
+
+    /* MiClaw对话界面 */
+    .screen-miclaw {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .miclaw-header {
+      padding: 36px 16px 8px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+    }
+    .miclaw-body {
+      flex: 1;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+    }
+    .miclaw-user {
+      align-self: flex-end;
+      background: #d1e3ff;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 11px;
+      color: #333;
+      max-width: 200px;
+    }
+    .miclaw-ai {
+      align-self: flex-start;
+      background: #f5f5f5;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 11px;
+      color: #333;
+      max-width: 220px;
+      line-height: 1.5;
+    }
+    .miclaw-input {
+      height: 40px;
+      border-top: 1px solid #e8e8e8;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      font-size: 11px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============ 场景一 ============ -->
+<section class="scene">
+  <!-- 第一层：用户规模 -->
+  <div class="scale-tag">每天有2000万次录音场景发生在小米设备上</div>
+
+  <!-- 第二层：痛点 -->
+  <h2 class="pain-title">录音的时候拍了照，录完以后照片和录音是断开的</h2>
+  <p class="pain-desc">开会拍了白板、上课拍了PPT，但回去整理的时候——录音是录音，照片是照片，两个东西完全没有关联。你不记得哪张照片对应录音里的哪段话，最后照片在相册吃灰，纪要只有干巴巴的文字。</p>
+
+  <!-- 第三层：解决思路 -->
+  <div class="solution-row">
+    <div class="solution-card">
+      <h4>时间戳自动关联</h4>
+      <p>录音时拍的照片，系统自动记录拍摄时间对应录音的第几分几秒</p>
+    </div>
+    <div class="solution-card">
+      <h4>AI智能去重</h4>
+      <p>同一个白板拍了5张，自动筛选最清晰的，重复的不放进来</p>
+    </div>
+    <div class="solution-card">
+      <h4>照片按内容对位</h4>
+      <p>不是把照片堆在底部，而是插在对应讨论到那个话题的位置旁边</p>
+    </div>
+  </div>
+
+  <!-- 第四层：用户链路 -->
+  <div class="flow-title">用户链路</div>
+  <div class="flow-row">
+    <!-- 步骤1 -->
+    <div class="flow-step">
+      <div class="step-label" style="background:#fef3c7;">开始</div>
+      <div class="phone-frame">
+        <img src="screens/s10.png" alt="录音界面">
+      </div>
+      <div class="step-desc">长按AI键或手动开始录音</div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- 步骤2 -->
+    <div class="flow-step">
+      <div class="step-label" style="background:#fef3c7;">拍照</div>
+      <div class="phone-frame">
+        <div class="screen-camera">
+          <div class="camera-toast">已关联到录音 08:15</div>
+          <div class="camera-viewfinder">
+            <div class="camera-viewfinder-content"></div>
+          </div>
+          <div class="camera-shutter">
+            <div class="camera-shutter-inner"></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-desc">拍的时候系统默默记下：这张照片对应录音第8分15秒</div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- 步骤3 -->
+    <div class="flow-step">
+      <div class="step-label" style="background:#dbeafe;">处理</div>
+      <div class="phone-frame">
+        <div class="screen-processing">
+          <div class="proc-status-bar">2:36</div>
+          <div class="proc-title">正在生成笔记</div>
+          <div class="proc-items">
+            <div class="proc-item"><span class="done">✓</span> 录音转写完成</div>
+            <div class="proc-item"><span class="done">✓</span> 照片去重（6张→3张）</div>
+            <div class="proc-item"><span class="pending">○</span> 正在匹配照片位置...</div>
+            <div class="proc-progress">
+              <div class="proc-progress-bar"></div>
+            </div>
+          </div>
+          <div class="proc-footer">稍等，正在生成笔记...</div>
+        </div>
+      </div>
+      <div class="step-desc">AI去重+时间戳对位+按议题分段</div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- 步骤4 -->
+    <div class="flow-step">
+      <div class="step-label" style="background:#d1fae5;">结果</div>
+      <div class="phone-frame">
+        <img src="screens/s16.png" alt="笔记详情">
+      </div>
+      <div class="step-desc">照片就在讨论到那个话题的位置，不用自己找不用自己贴</div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- 步骤5 -->
+    <div class="flow-step">
+      <div class="step-label" style="background:#e0e7ff;">使用</div>
+      <div class="phone-frame">
+        <img src="screens/s_miclaw_todo.png" alt="MiClaw对话">
+      </div>
+      <div class="step-desc">"上次那个架构图在哪？"——MiClaw从笔记里找到照片返回</div>
+    </div>
+  </div>
+</section>
+
+<!-- 分割线 -->
+<div class="divider"></div>
+
+<!-- ============ 场景二 ============ -->
+<section class="scene">
+  <!-- 第一层：用户规模 -->
+  <div class="scale-tag">全国4000万大学生，无纸化学习是购买平板的第一动机</div>
+
+  <!-- 第二层：痛点 -->
+  <h2 class="pain-title">低头记笔记就漏听，抬头听课笔记就断了</h2>
+  <p class="pain-desc">学生最难受的是「一边听一边记」的不可能三角——听课、手写、拍板书不能同时做好。选了一个，另外两个必然漏掉。45分钟的课结束，要么笔记残缺不全，要么根本没记。</p>
+
+  <!-- 第三层：解决思路 -->
+  <div class="solution-row">
+    <div class="solution-card">
+      <h4>录音代替手写</h4>
+      <p>上课只管听，录音在后台跑，下课AI帮你整理成结构化笔记</p>
+    </div>
+    <div class="solution-card">
+      <h4>照片自动对位</h4>
+      <p>拍的板书/PPT自动插到讲那个知识点的段落旁边</p>
+    </div>
+    <div class="solution-card">
+      <h4>作业自动提取</h4>
+      <p>从录音和群消息中识别作业内容+截止时间→生成待办</p>
+    </div>
+  </div>
+
+  <!-- 第四层：用户链路 -->
+  <div class="flow-title">用户链路</div>
+  <div class="flow-row">
+    <!-- 步骤1 -->
+    <div class="flow-step">
+      <div class="step-label" style="background:#fef3c7;">课前</div>
+      <div class="phone-frame">
+        <img src="screens/s7.png" alt="桌面">
+      </div>
+      <div class="step-desc">长按AI键，录音自动开始</div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- 步骤2 -->
+    <div class="flow-step">
+      <div class="step-label" style="background:#fef3c7;">课中</div>
+      <div class="phone-frame">
+        <div class="screen-camera">
+          <div class="camera-toast">已关联到录音 03:28</div>
+          <div class="camera-viewfinder">
+            <div class="camera-viewfinder-content"></div>
+          </div>
+          <div class="camera-shutter">
+            <div class="camera-shutter-inner"></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-desc">照片自动标记对应录音时间点</div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- 步骤3 -->
+    <div class="flow-step">
+      <div class="step-label" style="background:#d1fae5;">课后</div>
+      <div class="phone-frame">
+        <div class="screen-note">
+          <div class="note-statusbar">
+            <span>2:36</span>
+            <span>●●● ⚡</span>
+          </div>
+          <div class="note-nav">←</div>
+          <div class="note-header">
+            <h3>高等数学 · 第12讲</h3>
+            <div class="note-meta">05/19 | 课堂录音 45:20</div>
+          </div>
+          <div class="note-player">▶ 00:00 ━━━━━━━━ 45:20</div>
+          <div class="note-ai-summary">
+            ✨ AI总结<br>
+            1. 泰勒公式定义<br>
+            2. 常见展开式<br>
+            3. 求极限应用
+          </div>
+          <div class="note-body">
+            <h4>一、泰勒公式</h4>
+            <p>设函数f(x)在x₀处具有n阶导数...</p>
+            <div class="note-photo-placeholder">📸 [03:28] 板书</div>
+            <p>由此可得常见函数的展开式...</p>
+            <div class="note-photo-placeholder">📸 [15:42] 板书2</div>
+            <div class="note-divider"></div>
+            <div class="note-todo">☐ P45第3-8题 · 截止5/21</div>
+          </div>
+        </div>
+      </div>
+      <div class="step-desc">一篇完整笔记：转写+照片+待办</div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- 步骤4 -->
+    <div class="flow-step">
+      <div class="step-label" style="background:#e0e7ff;">复习</div>
+      <div class="phone-frame">
+        <img src="screens/sa_homepage.png" alt="笔记首页列表">
+      </div>
+      <div class="step-desc">24节课按科目排好，AI帮划重点</div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- 步骤5 -->
+    <div class="flow-step">
+      <div class="step-label" style="background:#e0e7ff;">检索</div>
+      <div class="phone-frame">
+        <img src="screens/s_miclaw_budget.png" alt="MiClaw回答">
+      </div>
+      <div class="step-desc">"第三章讲了什么重点？"</div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- 步骤6 -->
+    <div class="flow-step">
+      <div class="step-label" style="background:#f3e8ff;">出题</div>
+      <div class="phone-frame">
+        <div class="screen-miclaw">
+          <div class="miclaw-header">超级小爱</div>
+          <div class="miclaw-body">
+            <div class="miclaw-user">帮我出几道泰勒展开的题</div>
+            <div class="miclaw-ai">
+              根据你的课堂笔记，为你出题：<br><br>
+              1. 求e^x在x=0处的3阶展开<br>
+              2. 用泰勒展开求lim(sinx-x)/x³<br>
+              3. 判断级数收敛性...
+            </div>
+          </div>
+          <div class="miclaw-input">输入消息...</div>
+        </div>
+      </div>
+      <div class="step-desc">基于你整学期的笔记出考题</div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

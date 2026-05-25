@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小爱记忆迁移引导方案</title>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",sans-serif;background:#fafafa;padding:60px 80px;color:#1a1a1a}
+
+/* Title */
+.page-title{font-size:32px;font-weight:700;margin-bottom:8px;letter-spacing:-0.5px}
+.page-subtitle{font-size:15px;color:#888;margin-bottom:56px}
+
+/* Section */
+.section{margin-bottom:72px}
+.section-header{display:flex;align-items:baseline;gap:12px;margin-bottom:24px}
+.section-tag{background:#6366f1;color:#fff;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600}
+.section-title{font-size:18px;font-weight:600}
+.section-desc{font-size:13px;color:#888;margin-left:auto}
+
+/* Flow */
+.flow-row{display:flex;align-items:center;gap:32px}
+.flow-arrow{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
+.flow-arrow .arr{font-size:28px;color:#6366f1}
+.flow-arrow .arr-label{font-size:10px;color:#999;white-space:nowrap}
+
+/* Phone */
+.phone-wrap{flex-shrink:0}
+.phone-label{font-size:11px;color:#999;text-align:center;margin-bottom:8px}
+.phone{width:280px;height:600px;background:#fff;border-radius:36px;border:7px solid #1a1a1a;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.15),0 0 0 1px rgba(0,0,0,.05)}
+.phone::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:100px;height:26px;background:#1a1a1a;border-radius:0 0 16px 16px;z-index:10}
+.ph-status{height:36px;display:flex;align-items:center;justify-content:space-between;padding:14px 20px 0;font-size:11px;font-weight:600;color:#000}
+.ph-body{padding-top:4px;height:calc(100% - 36px);overflow:hidden}
+
+/* --- SCREEN STYLES --- */
+
+/* Homepage */
+.scr-title{font-size:24px;font-weight:400;padding:6px 16px;color:#000}
+.scr-search{margin:4px 12px 8px;background:rgba(0,0,0,.04);border-radius:18px;padding:9px 14px;font-size:13px;color:rgba(0,0,0,.3)}
+.scr-banner{margin:4px 12px 8px;background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 100%);border-radius:12px;padding:12px 14px;color:#fff;position:relative}
+.scr-banner h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.scr-banner p{font-size:11px;opacity:.85}
+.scr-banner .x{position:absolute;right:12px;top:10px;font-size:12px;opacity:.6}
+.scr-label{font-size:11px;color:#8c9db0;font-weight:500;padding:6px 16px 4px}
+.scr-cards{display:flex;gap:8px;padding:0 12px;margin-bottom:4px}
+.scr-card{flex:1;background:#fff;border-radius:12px;padding:10px 12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.scr-card h5{font-size:12px;font-weight:600}
+.scr-card p{font-size:10px;color:rgba(0,0,0,.45);margin-top:2px}
+.scr-tags{display:flex;gap:6px;padding:4px 12px 6px}
+.scr-tag{padding:4px 10px;border-radius:12px;font-size:11px;font-weight:500}
+.scr-tag.active{background:#ffc73a;color:#fff}
+.scr-tag:not(.active){background:#fff;color:rgba(0,0,0,.5);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.scr-notes{display:flex;gap:8px;padding:0 12px}
+.scr-note{flex:1;background:#fff;border-radius:12px;padding:10px;height:90px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.scr-note h5{font-size:11px;font-weight:600;line-height:1.4}
+
+/* Memory archive page */
+.mem-back{font-size:16px;padding:4px 16px;color:#000}
+.mem-title{font-size:22px;font-weight:400;padding:2px 16px 6px}
+.mem-search{margin:0 12px 6px;background:rgba(0,0,0,.04);border-radius:18px;padding:8px 14px;font-size:12px;color:rgba(0,0,0,.3)}
+.mem-tags{display:flex;gap:6px;padding:4px 12px 8px}
+.mem-tag{padding:4px 10px;border-radius:12px;font-size:11px;font-weight:500}
+.mem-tag.active{background:#ffc73a;color:#fff}
+.mem-tag:not(.active){background:#fff;color:rgba(0,0,0,.5);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.mem-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px}
+.mem-item{background:#fff;border-radius:12px;padding:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.mem-item .emoji{font-size:16px;margin-bottom:4px}
+.mem-item h5{font-size:11px;font-weight:600;margin-bottom:3px}
+.mem-item p{font-size:9px;color:rgba(0,0,0,.4)}
+
+/* Guide page */
+.guide-page{display:flex;flex-direction:column;align-items:center;text-align:center;padding:60px 24px 24px;height:100%;background:#fff}
+.guide-page .back{position:absolute;top:42px;left:16px;font-size:16px;color:#000}
+.guide-icon{width:64px;height:64px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:20px;box-shadow:0 8px 24px rgba(99,102,241,.25)}
+.guide-h1{font-size:20px;font-weight:700;margin-bottom:8px}
+.guide-desc{font-size:12px;color:#666;line-height:1.6;margin-bottom:20px}
+.guide-stats{display:flex;gap:20px;background:#f8f8fc;border-radius:12px;padding:14px 20px;margin-bottom:16px}
+.guide-stat .num{font-size:22px;font-weight:700;color:#6366f1}
+.guide-stat .lbl{font-size:9px;color:#999;margin-top:2px}
+.guide-cats{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:20px}
+.guide-cat{padding:4px 10px;background:#f5f5fa;border-radius:8px;font-size:10px;color:#555}
+.guide-btn{width:100%;padding:13px;background:#1a1a1a;color:#fff;border-radius:12px;font-size:13px;font-weight:600;text-align:center}
+.guide-skip{font-size:11px;color:#bbb;margin-top:10px}
+
+/* Old entry */
+.old-entry{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:0 30px;background:#f8f8f8}
+.old-entry .back{position:absolute;top:42px;left:16px;font-size:16px;color:#000}
+.old-entry .old-title{position:absolute;top:44px;left:50%;transform:translateX(-50%);font-size:14px;font-weight:500}
+.old-entry .icon{font-size:40px;margin-bottom:16px}
+.old-entry h4{font-size:15px;font-weight:600;margin-bottom:8px}
+.old-entry p{font-size:11px;color:#666;line-height:1.5;margin-bottom:18px}
+.old-entry .btn{padding:10px 24px;background:#6366f1;color:#fff;border-radius:20px;font-size:12px;font-weight:500}
+
+/* Ref text */
+.ref-text{text-align:center;font-size:11px;color:#bbb;padding:8px;width:80px;flex-shrink:0}
+
+/* Comparison */
+.compare{margin-top:24px}
+.compare h2{font-size:18px;font-weight:700;margin-bottom:16px}
+.compare table{width:100%;border-collapse:collapse;font-size:13px;border-radius:12px;overflow:hidden;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.compare th{text-align:left;padding:12px 16px;background:#f8f8fa;color:#666;font-weight:500;font-size:12px}
+.compare td{padding:12px 16px;border-top:1px solid #f0f0f0;color:#333}
+.compare td:first-child{font-weight:600;color:#1a1a1a}
+.compare .rec{display:inline-block;padding:2px 8px;background:#ecfdf5;color:#059669;border-radius:4px;font-size:10px;font-weight:600;margin-left:4px}
+</style>
+</head>
+<body>
+
+<div class="page-title">小爱记忆迁移至笔记 · 引导方案</div>
+<p class="page-subtitle">穷举3种方案，覆盖不同用户入口场景，选择最优路径</p>
+
+<!-- ===== 方案A ===== -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">方案 A</span>
+    <span class="section-title">首页横幅 → 直达记忆档案</span>
+    <span class="section-desc">2步 · 最轻量 · 适用于日常打开笔记APP</span>
+  </div>
+  <div class="flow-row">
+    <div class="phone-wrap">
+      <div class="phone-label">① 笔记首页（带迁移横幅）</div>
+      <div class="phone">
+        <div class="ph-status"><span>9:41</span><span>● ● ● WiFi 🔋</span></div>
+        <div class="ph-body">
+          <div class="scr-title">笔记</div>
+          <div class="scr-search">🔍  搜索</div>
+          <div class="scr-banner">
+            <h4>小爱记忆已迁移至笔记</h4>
+            <p>42条记忆内容已自动整理，点击查看 →</p>
+            <span class="x">✕</span>
+          </div>
+          <div class="scr-label">智能合集</div>
+          <div class="scr-cards">
+            <div class="scr-card"><h5>南京旅游</h5><p>5篇笔记</p></div>
+            <div class="scr-card"><h5>黄金投资</h5><p>5篇笔记</p></div>
+          </div>
+          <div class="scr-label">全部笔记</div>
+          <div class="scr-tags">
+            <span class="scr-tag active">全部</span>
+            <span class="scr-tag">工作</span>
+            <span class="scr-tag">个人</span>
+            <span class="scr-tag">学习</span>
+          </div>
+          <div class="scr-notes">
+            <div class="scr-note"><h5>读雷军的小米<br>创业思考</h5></div>
+            <div class="scr-note"><h5>雷军：我喜欢<br>并推崇任天堂</h5></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow"><span class="arr">→</span><span class="arr-label">点击横幅</span></div>
+    <div class="phone-wrap">
+      <div class="phone-label">② 小爱记忆档案</div>
+      <div class="phone">
+        <div class="ph-status"><span>9:41</span><span>● ● ● WiFi 🔋</span></div>
+        <div class="ph-body">
+          <div class="mem-back">←</div>
+          <div class="mem-title">小爱记忆档案</div>
+          <div class="mem-search">🔍  搜索记忆</div>
+          <div class="mem-tags">
+            <span class="mem-tag active">全部</span>
+            <span class="mem-tag">链接</span>
+            <span class="mem-tag">卡证</span>
+            <span class="mem-tag">地址</span>
+            <span class="mem-tag">纪念日</span>
+          </div>
+          <div class="mem-grid">
+            <div class="mem-item"><div class="emoji">🌐</div><h5>美伊局势动态</h5><p>来自：浏览器 · 5月11日</p></div>
+            <div class="mem-item"><div class="emoji">🪪</div><h5>你的身份证</h5><p>来自：超级小爱 · 5月8日</p></div>
+            <div class="mem-item"><div class="emoji">📱</div><h5>小米PAD 7 Pro</h5><p>来自：小红书 · 4月28日</p></div>
+            <div class="mem-item"><div class="emoji">📍</div><h5>你公司的地址</h5><p>来自：超级小爱 · 4月30日</p></div>
+            <div class="mem-item"><div class="emoji">💍</div><h5>结婚纪念日</h5><p>来自：超级小爱 · 4月20日</p></div>
+            <div class="mem-item"><div class="emoji">🏠</div><h5>家的地址</h5><p>来自：超级小爱 · 4月15日</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 方案B ===== -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">方案 B</span>
+    <span class="section-title">首页横幅 → 引导过渡页 → 记忆档案</span>
+    <span class="section-desc">3步 · 有价值展示 · 适用于首次升级</span>
+  </div>
+  <div class="flow-row">
+    <div class="phone-wrap">
+      <div class="phone-label">① 笔记首页（同方案A）</div>
+      <div class="phone">
+        <div class="ph-status"><span>9:41</span><span>● ● ● WiFi 🔋</span></div>
+        <div class="ph-body">
+          <div class="scr-title">笔记</div>
+          <div class="scr-search">🔍  搜索</div>
+          <div class="scr-banner">
+            <h4>小爱记忆已迁移至笔记</h4>
+            <p>42条记忆内容已自动整理，点击查看 →</p>
+            <span class="x">✕</span>
+          </div>
+          <div class="scr-label">智能合集</div>
+          <div class="scr-cards">
+            <div class="scr-card"><h5>南京旅游</h5><p>5篇笔记</p></div>
+            <div class="scr-card"><h5>黄金投资</h5><p>5篇笔记</p></div>
+          </div>
+          <div class="scr-label">全部笔记</div>
+          <div class="scr-tags">
+            <span class="scr-tag active">全部</span>
+            <span class="scr-tag">工作</span>
+            <span class="scr-tag">个人</span>
+          </div>
+          <div class="scr-notes">
+            <div class="scr-note"><h5>读雷军的小米<br>创业思考</h5></div>
+            <div class="scr-note"><h5>雷军：我喜欢<br>并推崇任天堂</h5></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow"><span class="arr">→</span><span class="arr-label">点击横幅</span></div>
+    <div class="phone-wrap">
+      <div class="phone-label">② 引导过渡页（仅首次展示）</div>
+      <div class="phone">
+        <div class="ph-status"><span>9:41</span><span>● ● ● WiFi 🔋</span></div>
+        <div class="ph-body" style="position:relative">
+          <div class="guide-page">
+            <span class="back">←</span>
+            <div class="guide-icon">📋</div>
+            <div class="guide-h1">小爱记忆已升级</div>
+            <div class="guide-desc">你的记忆内容已迁移至笔记<br>现在可以在这里统一查看和管理</div>
+            <div class="guide-stats">
+              <div class="guide-stat"><div class="num">42</div><div class="lbl">总条数</div></div>
+              <div class="guide-stat"><div class="num">18</div><div class="lbl">链接</div></div>
+              <div class="guide-stat"><div class="num">5</div><div class="lbl">卡证</div></div>
+              <div class="guide-stat"><div class="num">8</div><div class="lbl">地址</div></div>
+              <div class="guide-stat"><div class="num">4</div><div class="lbl">纪念日</div></div>
+            </div>
+            <div class="guide-cats">
+              <span class="guide-cat">🌐 链接收藏</span>
+              <span class="guide-cat">🪪 卡证信息</span>
+              <span class="guide-cat">📍 地址</span>
+              <span class="guide-cat">💍 纪念日</span>
+              <span class="guide-cat">📷 相册识别</span>
+            </div>
+            <div class="guide-btn">进入小爱记忆档案</div>
+            <div class="guide-skip">稍后再看</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow"><span class="arr">→</span><span class="arr-label">点击按钮</span></div>
+    <div class="ref-text">同方案A<br>②记忆档案页</div>
+  </div>
+</div>
+
+<!-- ===== 方案C ===== -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">方案 C</span>
+    <span class="section-title">旧小爱记忆入口 → 迁移提示 → 记忆档案</span>
+    <span class="section-desc">2步 · 兜底方案 · 从旧入口进入时</span>
+  </div>
+  <div class="flow-row">
+    <div class="phone-wrap">
+      <div class="phone-label">① 旧小爱记忆入口（空态）</div>
+      <div class="phone">
+        <div class="ph-status"><span>9:41</span><span>● ● ● WiFi 🔋</span></div>
+        <div class="ph-body" style="position:relative">
+          <div class="old-entry">
+            <span class="back">←</span>
+            <span class="old-title">超级小爱记忆</span>
+            <div class="icon">📋</div>
+            <h4>记忆内容已迁移</h4>
+            <p>你的记忆已整理并迁移至<br>笔记「小爱记忆档案」中</p>
+            <div class="btn">前往笔记查看 →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow"><span class="arr">→</span><span class="arr-label">点击按钮</span></div>
+    <div class="ref-text">同方案A<br>②记忆档案页</div>
+  </div>
+</div>
+
+<!-- ===== 对比表 ===== -->
+<div class="compare">
+  <h2>方案对比</h2>
+  <table>
+    <tr><th>方案</th><th>步数</th><th>触发场景</th><th>优势</th><th>劣势</th><th>建议</th></tr>
+    <tr><td>A 直达</td><td>2步</td><td>日常打开笔记APP</td><td>路径最短，无干扰</td><td>用户可能忽略横幅</td><td><span class="rec">推荐</span> 作为默认路径</td></tr>
+    <tr><td>B 引导</td><td>3步</td><td>首次升级后打开</td><td>展示数据量和价值感</td><td>多一步跳转</td><td>仅首次展示一次，后续走A</td></tr>
+    <tr><td>C 旧入口</td><td>2步</td><td>从旧小爱记忆入口进入</td><td>旧用户不迷路</td><td>仅覆盖旧入口场景</td><td>必做，兜底方案</td></tr>
+  </table>
+</div>
+
+</body>
+</html>
