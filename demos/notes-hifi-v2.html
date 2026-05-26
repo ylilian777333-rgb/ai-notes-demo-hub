@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记产品方案V2</title>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","SF Pro Text","SF Pro Display",system-ui,sans-serif;background:#000;padding:48px 32px;-webkit-font-smoothing:antialiased}
+
+/* Layout */
+.title-block{margin-bottom:40px}
+.title-block h1{font-size:20px;font-weight:600;color:#f5f5f7;letter-spacing:-0.3px}
+.title-block p{font-size:12px;color:#86868b;margin-top:4px;line-height:1.5;max-width:600px}
+
+.section{margin-bottom:72px}
+.section-label{font-size:10px;font-weight:600;color:#6e6e73;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px}
+.section-title{font-size:16px;font-weight:600;color:#f5f5f7;margin-bottom:20px}
+
+.screens{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.screen-wrap{display:flex;flex-direction:column;gap:10px}
+.screen-note{font-size:11px;color:#86868b;max-width:390px;line-height:1.5}
+
+/* iPhone Frame - Ultra realistic */
+.iphone{width:390px;height:844px;background:#000;border-radius:54px;padding:12px;position:relative;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 40px 100px rgba(0,0,0,.8)}
+.iphone-screen{width:100%;height:100%;background:#fff;border-radius:44px;overflow:hidden;position:relative}
+.iphone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:36px;background:#000;border-radius:0 0 20px 20px;z-index:50}
+
+/* Status Bar */
+.statusbar{height:54px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 28px 8px;position:relative;z-index:10}
+.statusbar .time{font-size:15px;font-weight:600;color:#000;font-variant-numeric:tabular-nums}
+.statusbar .right{display:flex;align-items:center;gap:5px}
+.statusbar .signal{width:17px;height:11px;display:flex;align-items:flex-end;gap:1px}
+.statusbar .signal span{width:3px;background:#000;border-radius:1px}
+.statusbar .wifi{font-size:12px}
+.statusbar .battery{width:25px;height:12px;border:1.5px solid rgba(0,0,0,.35);border-radius:3px;position:relative;padding:2px}
+.statusbar .battery::after{content:'';position:absolute;right:-3px;top:3px;width:2px;height:5px;background:rgba(0,0,0,.35);border-radius:0 1px 1px 0}
+.statusbar .battery-fill{height:100%;background:#000;border-radius:1px;width:90%}
+
+/* Navigation */
+.nav{height:44px;display:flex;align-items:center;padding:0 16px}
+.nav-back{font-size:28px;color:#007AFF;font-weight:300;line-height:1}
+.nav-title-center{flex:1;text-align:center;font-size:17px;font-weight:600;color:#000}
+.nav-actions{display:flex;gap:4px}
+.nav-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:16px}
+
+/* Home Page */
+.home-nav{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.home-nav-title{font-size:32px;font-weight:700;color:#000;letter-spacing:-0.5px}
+.home-nav-right{display:flex;gap:4px}
+.home-nav-right .icon-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#3c3c43}
+
+.search{margin:8px 16px 0;height:36px;background:rgba(118,118,128,.12);border-radius:10px;display:flex;align-items:center;padding:0 8px;gap:6px}
+.search svg{width:16px;height:16px;fill:#8e8e93}
+.search span{font-size:15px;color:#8e8e93}
+
+.seg-control{display:flex;padding:12px 16px 8px;gap:8px;overflow-x:auto}
+.seg-control::-webkit-scrollbar{display:none}
+.seg-folder{width:30px;height:30px;border-radius:8px;background:rgba(118,118,128,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.seg-pill{height:30px;padding:0 14px;border-radius:15px;display:flex;align-items:center;font-size:13px;font-weight:500;white-space:nowrap;flex-shrink:0}
+.seg-pill.active{background:#FF9500;color:#fff}
+.seg-pill:not(.active){background:rgba(118,118,128,.08);color:#3c3c43}
+
+/* Note List Items */
+.list{padding:0 16px}
+.list-item{padding:14px 0;border-bottom:0.33px solid rgba(60,60,67,.12);display:flex;gap:12px}
+.list-item:last-child{border-bottom:none}
+.list-body{flex:1;min-width:0}
+.list-title{font-size:16px;font-weight:600;color:#000;margin-bottom:3px;line-height:1.3}
+.list-desc{font-size:14px;color:rgba(60,60,67,.6);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.list-chips{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
+.chip{height:22px;padding:0 8px;border-radius:5px;font-size:11px;font-weight:500;display:inline-flex;align-items:center;gap:3px}
+.chip-orange{background:rgba(255,149,0,.1);color:#C77700}
+.chip-green{background:rgba(52,199,89,.1);color:#248A3D}
+.chip-blue{background:rgba(0,122,255,.1);color:#0055D4}
+.chip-purple{background:rgba(175,82,222,.1);color:#7B2CBF}
+.list-meta{font-size:12px;color:rgba(60,60,67,.33);margin-top:6px;display:flex;align-items:center;gap:6px}
+.list-thumb{width:64px;height:64px;border-radius:8px;background:rgba(118,118,128,.08);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+/* Tab Bar */
+.tabbar{position:absolute;bottom:0;left:0;right:0;height:83px;background:rgba(249,249,249,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:0.33px solid rgba(60,60,67,.12);display:flex;align-items:center;justify-content:center;gap:56px;padding-bottom:20px}
+.tabbar-item{display:flex;flex-direction:column;align-items:center;gap:2px}
+.tabbar-item .icon{font-size:22px}
+.tabbar-btn{width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.tabbar-mic{width:42px;height:42px;border-radius:50%;background:rgba(255,149,0,.12);display:flex;align-items:center;justify-content:center;font-size:18px}
+
+/* Detail Page */
+.detail-scroll{height:calc(100% - 54px - 44px - 60px);overflow-y:auto;padding-bottom:20px}
+.detail-title-area{padding:4px 20px 12px}
+.detail-title-area h1{font-size:24px;font-weight:700;color:#000;letter-spacing:-0.4px;line-height:1.2}
+.detail-title-area .meta{font-size:13px;color:rgba(60,60,67,.6);margin-top:6px}
+.detail-title-area .source-badge{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:4px 10px;background:rgba(118,118,128,.06);border-radius:6px;font-size:12px;color:rgba(60,60,67,.6)}
+
+/* AI Outputs in Detail */
+.outputs-area{margin:8px 16px 16px;background:rgba(118,118,128,.04);border-radius:16px;padding:14px}
+.outputs-header{font-size:13px;font-weight:600;color:#6366f1;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.output-row{display:flex;align-items:center;padding:11px 12px;background:#fff;border-radius:12px;margin-bottom:6px;box-shadow:0 0.5px 2px rgba(0,0,0,.04)}
+.output-row:last-child{margin-bottom:0}
+.output-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-right:10px}
+.output-info{flex:1}
+.output-info h5{font-size:14px;font-weight:600;color:#000}
+.output-info p{font-size:12px;color:rgba(60,60,67,.6);margin-top:1px}
+.output-action{font-size:12px;color:#6366f1;font-weight:500;padding:4px 10px;background:rgba(99,102,241,.08);border-radius:6px}
+
+/* Note content */
+.note-body{padding:0 20px}
+.note-body h3{font-size:15px;font-weight:600;color:#000;margin:16px 0 8px}
+.note-body p{font-size:15px;color:#1d1d1f;line-height:1.7}
+.note-body li{font-size:15px;color:#1d1d1f;line-height:1.7;margin-left:16px;margin-bottom:2px}
+
+/* Original fold */
+.fold-section{margin:20px 16px;border:0.5px solid rgba(60,60,67,.1);border-radius:12px;padding:12px 14px}
+.fold-header{display:flex;align-items:center;justify-content:space-between}
+.fold-label{font-size:13px;color:rgba(60,60,67,.6);font-weight:500}
+.fold-chevron{font-size:14px;color:rgba(60,60,67,.3)}
+
+/* Bottom AI Bar */
+.ai-bar{position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(249,249,249,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:0.33px solid rgba(60,60,67,.12);display:flex;align-items:center;padding:0 12px;gap:8px}
+.ai-bar-input{flex:1;height:38px;background:rgba(118,118,128,.08);border-radius:19px;display:flex;align-items:center;padding:0 14px;font-size:14px;color:rgba(60,60,67,.6)}
+.ai-bar-btn{width:34px;height:34px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center}
+.ai-bar-btn span{color:#fff;font-size:14px;font-weight:700}
+
+/* Sidebar */
+.sidebar-screen .iphone-screen{display:flex}
+.sidebar-panel{width:300px;background:#f2f2f7;height:100%;padding:54px 0 0;overflow-y:auto;flex-shrink:0}
+.sidebar-content{position:relative;width:90px;background:#fff;height:100%;opacity:.3}
+.sb-section{padding:0 12px;margin-bottom:16px}
+.sb-section-title{font-size:11px;font-weight:600;color:rgba(60,60,67,.6);letter-spacing:0.3px;text-transform:uppercase;padding:16px 12px 6px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;margin-bottom:1px}
+.sb-item.active{background:rgba(0,122,255,.1)}
+.sb-item-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.sb-item-label{font-size:14px;color:#1d1d1f;flex:1}
+.sb-item.active .sb-item-label{color:#007AFF;font-weight:600}
+.sb-item-count{font-size:12px;color:rgba(60,60,67,.3)}
+.sb-divider{height:0.33px;background:rgba(60,60,67,.12);margin:8px 24px}
+
+/* Logic notes */
+.logic-box{margin-top:20px;padding:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;max-width:800px}
+.logic-box h4{font-size:12px;font-weight:600;color:#a78bfa;margin-bottom:8px}
+.logic-box p,.logic-box li{font-size:11px;color:rgba(255,255,255,.6);line-height:1.7}
+.logic-box ul{list-style:none;margin-top:6px}
+.logic-box li{padding-left:10px;position:relative}
+.logic-box li::before{content:"→";position:absolute;left:0;color:#a78bfa}
+</style>
+</head>
+<body>
+
+<div class="title-block">
+  <h1>笔记产品方案 · 消费导向设计</h1>
+  <p>核心逻辑：笔记内容通过底部AI对话框生成最终消费产物。产物既挂在笔记内，也聚合到侧边栏。侧边栏分类与首页筛选一一对应。</p>
+</div>
+
+<!-- ===== 1. HOME ===== -->
+<div class="section">
+  <div class="section-label">Screen 01</div>
+  <div class="section-title">首页 · 笔记列表</div>
+  <div class="screens">
+    <div class="screen-wrap">
+      <div class="iphone">
+        <div class="iphone-screen">
+          <div class="statusbar">
+            <span class="time">9:41</span>
+            <div class="right">
+              <div class="signal"><span style="height:3px"></span><span style="height:5px"></span><span style="height:8px"></span><span style="height:11px"></span></div>
+              <span class="wifi" style="font-size:13px;color:#000">📶</span>
+              <div class="battery"><div class="battery-fill"></div></div>
+            </div>
+          </div>
+          <div class="home-nav">
+            <div class="home-nav-title">笔记</div>
+            <div class="home-nav-right">
+              <div class="icon-btn">☑</div>
+              <div class="icon-btn">⋯</div>
+            </div>
+          </div>
+          <div class="search"><span>🔍 搜索</span></div>
+          <div class="seg-control">
+            <div class="seg-folder">📁</div>
+            <div class="seg-pill active">全部</div>
+            <div class="seg-pill">会议摘要</div>
+            <div class="seg-pill">课堂</div>
+            <div class="seg-pill">生活</div>
+          </div>
+          <div class="list">
+            <div class="list-item">
+              <div class="list-body">
+                <div class="list-title">高等数学 · 第12章 级数</div>
+                <div class="list-desc">比值判别法推导、根值判别法应用、绝对收敛与条件收敛</div>
+                <div class="list-chips">
+                  <span class="chip chip-purple">📋 考点5</span>
+                  <span class="chip chip-green">🎧 播客</span>
+                  <span class="chip chip-orange">📝 3题</span>
+                </div>
+                <div class="list-meta"><span>今天 10:30</span><span>·</span><span>🎙 录音</span></div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-body">
+                <div class="list-title">产品评审会 · 首页改版</div>
+                <div class="list-desc">采用卡片流方案，瀑布流留存率高12%</div>
+                <div class="list-chips">
+                  <span class="chip chip-orange">✅ 待办2</span>
+                  <span class="chip chip-blue">📊 PPT</span>
+                </div>
+                <div class="list-meta"><span>昨天 15:00</span><span>·</span><span>🎙 会议</span></div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-body">
+                <div class="list-title">产品方向思考</div>
+                <div class="list-desc">今天和楠哥聊完，笔记核心应该让用户感受到AI在帮他做事</div>
+                <div class="list-meta"><span>5月23日</span><span>·</span><span>✍️ 手写</span><span style="color:#FF9500">★</span></div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="list-body">
+                <div class="list-title">黄金ETF持仓量分析</div>
+                <div class="list-desc">Q3央行增持847吨创新高，短期看2500</div>
+                <div class="list-chips">
+                  <span class="chip chip-green">🎧 8:32</span>
+                  <span class="chip chip-purple">💳 卡片</span>
+                </div>
+                <div class="list-meta"><span>5月24日</span><span>·</span><span>📱 小红书</span></div>
+              </div>
+              <div class="list-thumb" style="background:linear-gradient(135deg,#ffd700,#ff9500);font-size:28px">📊</div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="tabbar-btn" style="font-size:20px">📎</div>
+            <div class="tabbar-mic">🎙</div>
+            <div class="tabbar-btn" style="font-size:24px;font-weight:200">＋</div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-note">首页保持现有框架。新增：每张卡片底部标注已生成的产出物标签。用户一眼看到「这篇能帮我干什么」。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2. DETAIL ===== -->
+<div class="section">
+  <div class="section-label">Screen 02</div>
+  <div class="section-title">笔记详情页 · 底部AI对话框生成产出物</div>
+  <div class="screens">
+    <div class="screen-wrap">
+      <div class="iphone">
+        <div class="iphone-screen">
+          <div class="statusbar">
+            <span class="time">9:41</span>
+            <div class="right">
+              <div class="signal"><span style="height:3px"></span><span style="height:5px"></span><span style="height:8px"></span><span style="height:11px"></span></div>
+              <span class="wifi" style="font-size:13px;color:#000">📶</span>
+              <div class="battery"><div class="battery-fill"></div></div>
+            </div>
+          </div>
+          <div class="nav">
+            <div class="nav-back">‹</div>
+            <div class="nav-title-center"></div>
+            <div class="nav-actions">
+              <div class="nav-btn">🔄</div>
+              <div class="nav-btn">↗</div>
+              <div class="nav-btn">⋯</div>
+            </div>
+          </div>
+          <div class="detail-scroll">
+            <div class="detail-title-area">
+              <h1>高等数学 · 第12章 级数</h1>
+              <div class="meta">今天 10:30 · 录音 45:20 · 拍照 2张</div>
+              <div class="source-badge">🎙 来自录音笔记</div>
+            </div>
+            <!-- 已生成的产出物 -->
+            <div class="outputs-area">
+              <div class="outputs-header">✨ 已生成的产物</div>
+              <div class="output-row">
+                <div class="output-icon" style="background:rgba(175,82,222,.1)">📋</div>
+                <div class="output-info"><h5>考点清单（5个）</h5><p>比值判别法·根值·绝对收敛·级数求和·幂级数</p></div>
+                <div class="output-action">查看</div>
+              </div>
+              <div class="output-row">
+                <div class="output-icon" style="background:rgba(52,199,89,.1)">🎧</div>
+                <div class="output-info"><h5>播客</h5><p>8分32秒</p></div>
+                <div class="output-action">▶</div>
+              </div>
+              <div class="output-row">
+                <div class="output-icon" style="background:rgba(255,149,0,.1)">📝</div>
+                <div class="output-info"><h5>模拟题（3道）</h5><p>选择题2 + 计算题1</p></div>
+                <div class="output-action">做题</div>
+              </div>
+              <div class="output-row">
+                <div class="output-icon" style="background:rgba(255,149,0,.12)">✅</div>
+                <div class="output-info"><h5>待办</h5><p>完成p45习题 · 明天交</p></div>
+                <div class="output-action">查看</div>
+              </div>
+            </div>
+            <!-- 笔记正文 -->
+            <div class="note-body">
+              <h3>会议共识：</h3>
+              <p>• 比值判别法：lim(aₙ₊₁/aₙ)=ρ，ρ<1收敛，ρ>1发散</p>
+              <p>• 根值判别法：lim ⁿ√aₙ=ρ，判定规则同上</p>
+              <p>• 绝对收敛必收敛，反之不成立</p>
+              <p>• 幂级数收敛域求法：先求收敛半径R</p>
+            </div>
+            <!-- 原文折叠 -->
+            <div class="fold-section">
+              <div class="fold-header">
+                <span class="fold-label">📄 原文（录音转写 45:20 + 照片2张）</span>
+                <span class="fold-chevron">›</span>
+              </div>
+            </div>
+          </div>
+          <!-- Bottom AI Dialog Bar -->
+          <div class="ai-bar">
+            <div class="ai-bar-input">生成播客、出题、做PPT...</div>
+            <div class="ai-bar-btn"><span>↑</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-note">
+        <strong>核心逻辑：</strong>底部AI对话框是产出物的生成入口。用户在这里输入"帮我出考题"/"生成播客"/"做个PPT"，AI基于当前笔记内容产出。已生成的产物展示在正文上方。
+      </div>
+    </div>
+
+    <!-- Detail with dialog open -->
+    <div class="screen-wrap">
+      <div class="iphone">
+        <div class="iphone-screen">
+          <div class="statusbar">
+            <span class="time">9:41</span>
+            <div class="right">
+              <div class="signal"><span style="height:3px"></span><span style="height:5px"></span><span style="height:8px"></span><span style="height:11px"></span></div>
+              <span class="wifi" style="font-size:13px;color:#000">📶</span>
+              <div class="battery"><div class="battery-fill"></div></div>
+            </div>
+          </div>
+          <div class="nav">
+            <div class="nav-back">‹</div>
+            <div class="nav-title-center"></div>
+            <div class="nav-actions">
+              <div class="nav-btn">🔄</div>
+              <div class="nav-btn">↗</div>
+              <div class="nav-btn">⋯</div>
+            </div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end">
+            <!-- AI Dialog expanded -->
+            <div style="padding:0 16px 0;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:8px">
+              <!-- Suggestion chips -->
+              <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+                <div style="padding:8px 14px;background:rgba(99,102,241,.08);border-radius:18px;font-size:13px;color:#6366f1;font-weight:500">📋 提炼考点</div>
+                <div style="padding:8px 14px;background:rgba(99,102,241,.08);border-radius:18px;font-size:13px;color:#6366f1;font-weight:500">📝 生成模拟题</div>
+                <div style="padding:8px 14px;background:rgba(99,102,241,.08);border-radius:18px;font-size:13px;color:#6366f1;font-weight:500">🎧 生成播客</div>
+                <div style="padding:8px 14px;background:rgba(99,102,241,.08);border-radius:18px;font-size:13px;color:#6366f1;font-weight:500">📊 生成PPT</div>
+                <div style="padding:8px 14px;background:rgba(99,102,241,.08);border-radius:18px;font-size:13px;color:#6366f1;font-weight:500">🧠 生成脑图</div>
+                <div style="padding:8px 14px;background:rgba(99,102,241,.08);border-radius:18px;font-size:13px;color:#6366f1;font-weight:500">✅ 提取待办</div>
+                <div style="padding:8px 14px;background:rgba(99,102,241,.08);border-radius:18px;font-size:13px;color:#6366f1;font-weight:500">💬 问问题</div>
+              </div>
+            </div>
+            <div class="ai-bar" style="position:relative">
+              <div class="ai-bar-input" style="color:#000">基于这篇笔记，你想做什么？</div>
+              <div class="ai-bar-btn"><span>↑</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-note">
+        <strong>AI对话框展开态：</strong>点击底部输入框后，上方展示智能推荐的操作chip。用户点击即触发对应产出物生成。也可自由输入"帮我总结一下重点"等自然语言。
+      </div>
+    </div>
+  </div>
+  <div class="logic-box">
+    <h4>详情页逻辑说明</h4>
+    <ul>
+      <li>笔记详情页结构从上到下：标题/meta → 已生成产出物卡片区 → 笔记正文 → 原文折叠区 → 底部AI对话框</li>
+      <li>底部AI对话框是唯一的产出物生成入口（和现有设计一致），用户在这里触发：生成播客/PPT/考题/待办/脑图</li>
+      <li>生成后的产出物以卡片形式挂在笔记内（正文上方），同时聚合到侧边栏对应分类</li>
+      <li>原文（录音转写/原始截图）折叠在最底部，大部分时间用户不需要看</li>
+      <li>层级：产出物（C位，可直接消费）> 正文（AI整理的结构化内容）> 原文（原始数据，折叠）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== 3. SIDEBAR ===== -->
+<div class="section">
+  <div class="section-label">Screen 03</div>
+  <div class="section-title">侧边栏 · 三段式分类</div>
+  <div class="screens">
+    <div class="screen-wrap">
+      <div class="iphone sidebar-screen">
+        <div class="iphone-screen" style="display:flex">
+          <div class="sidebar-panel">
+            <div class="sb-section">
+              <div class="sb-section-title">笔记</div>
+              <div class="sb-item active">
+                <div class="sb-item-icon" style="background:rgba(0,122,255,.1)">📒</div>
+                <div class="sb-item-label">全部</div>
+                <div class="sb-item-count">42</div>
+              </div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(118,118,128,.06)">✍️</div>
+                <div class="sb-item-label">我的创作</div>
+                <div class="sb-item-count">12</div>
+              </div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(118,118,128,.06)">🎙</div>
+                <div class="sb-item-label">录音笔记</div>
+                <div class="sb-item-count">18</div>
+              </div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(118,118,128,.06)">⚡</div>
+                <div class="sb-item-label">AI速记</div>
+                <div class="sb-item-count">12</div>
+              </div>
+            </div>
+            <div class="sb-divider"></div>
+            <div class="sb-section">
+              <div class="sb-section-title">消费产物</div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(255,149,0,.1)">✅</div>
+                <div class="sb-item-label">待办</div>
+                <div class="sb-item-count">8</div>
+              </div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(52,199,89,.1)">🎧</div>
+                <div class="sb-item-label">播客</div>
+                <div class="sb-item-count">5</div>
+              </div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(0,122,255,.1)">📊</div>
+                <div class="sb-item-label">PPT</div>
+                <div class="sb-item-count">3</div>
+              </div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(175,82,222,.1)">📋</div>
+                <div class="sb-item-label">考点 / 出题</div>
+                <div class="sb-item-count">6</div>
+              </div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(175,82,222,.08)">💳</div>
+                <div class="sb-item-label">知识卡片</div>
+                <div class="sb-item-count">4</div>
+              </div>
+            </div>
+            <div class="sb-divider"></div>
+            <div class="sb-section">
+              <div class="sb-section-title">文件夹</div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(118,118,128,.06)">📁</div>
+                <div class="sb-item-label">高等数学</div>
+                <div class="sb-item-count">5</div>
+              </div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(118,118,128,.06)">📁</div>
+                <div class="sb-item-label">产品工作</div>
+                <div class="sb-item-count">14</div>
+              </div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(118,118,128,.06)">📁</div>
+                <div class="sb-item-label">投资理财</div>
+                <div class="sb-item-count">6</div>
+              </div>
+              <div class="sb-item">
+                <div class="sb-item-icon" style="background:rgba(118,118,128,.06)">📁</div>
+                <div class="sb-item-label">个人</div>
+                <div class="sb-item-count">4</div>
+              </div>
+              <div class="sb-item" style="opacity:.5">
+                <div class="sb-item-icon" style="background:rgba(118,118,128,.06)">＋</div>
+                <div class="sb-item-label" style="color:rgba(60,60,67,.6)">新建文件夹</div>
+              </div>
+            </div>
+          </div>
+          <div class="sidebar-content"></div>
+        </div>
+      </div>
+      <div class="screen-note">
+        <strong>三段式侧边栏：</strong><br>
+        ① 笔记（数据源）→ 对应首页列表<br>
+        ② 消费产物（聚合视图）→ 所有笔记生成的产出物汇总<br>
+        ③ 文件夹（用户管理）→ 用户自建的分组
+      </div>
+    </div>
+  </div>
+  <div class="logic-box">
+    <h4>侧边栏与首页的对应关系</h4>
+    <ul>
+      <li>侧边栏第一段「笔记」= 首页列表的筛选维度（全部/我的创作/录音/速记）</li>
+      <li>侧边栏第二段「消费产物」= 跨所有笔记的产出物聚合。点"播客"看到的是所有笔记产出的播客列表</li>
+      <li>侧边栏第三段「文件夹」= 首页filter栏的文件夹图标点开后的分类</li>
+      <li>三段逻辑不混用：笔记归笔记，产物归产物，文件夹归文件夹</li>
+      <li>产出物从哪来？→ 用户在笔记详情页底部AI对话框触发生成 → 挂在笔记内 + 同步到侧边栏聚合</li>
+      <li>李楠反馈："内容类型和文件夹同时出现在侧边栏会让用户很奇怪" → 三段明确分割，不交叉</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
