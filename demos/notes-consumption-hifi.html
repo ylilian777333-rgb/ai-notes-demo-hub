@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记产品方案 · 消费导向高保真</title>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","SF Pro Display","Helvetica Neue",sans-serif;background:#1a1a1a;padding:60px 40px;color:#fff}
+.page-title{font-size:24px;font-weight:700;margin-bottom:4px}
+.page-sub{font-size:13px;color:#888;margin-bottom:48px}
+
+/* Layout */
+.row{display:flex;gap:24px;margin-bottom:64px;align-items:flex-start;flex-wrap:wrap}
+.screen-group{display:flex;flex-direction:column;gap:8px}
+.screen-label{font-size:11px;color:#999;font-weight:500;letter-spacing:0.3px}
+.screen-desc{font-size:11px;color:#666;max-width:392px;line-height:1.5;margin-top:4px}
+
+/* Phone frame */
+.phone{width:392px;height:851px;background:#fff;border-radius:36px;overflow:hidden;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.4)}
+
+/* Status bar */
+.status{height:46px;display:flex;align-items:center;justify-content:space-between;padding:14px 24px 0;background:#fff}
+.status .time{font-size:14px;font-weight:600;color:#000}
+.status .icons{font-size:11px;color:#000;letter-spacing:1px}
+
+/* Nav bar */
+.navbar{height:56px;display:flex;align-items:center;padding:0 16px;background:#fff}
+.navbar .nav-left{width:40px;display:flex;align-items:center;justify-content:center}
+.navbar .nav-title{flex:1;font-size:17px;font-weight:600;color:#000;text-align:center}
+.navbar .nav-right{display:flex;gap:4px}
+.navbar .nav-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.nav-back{font-size:20px;color:#000}
+
+/* Home specific */
+.home-title{font-size:28px;font-weight:700;color:#000;padding:4px 20px 12px}
+.search-bar{margin:0 16px 12px;background:#f5f5f7;border-radius:22px;padding:11px 16px;display:flex;align-items:center;gap:8px;font-size:14px;color:#8e8e93}
+.filter-row{display:flex;align-items:center;gap:8px;padding:8px 16px;overflow:hidden}
+.filter-folder{width:32px;height:32px;border-radius:8px;background:#f5f5f7;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.filter-pill{padding:6px 14px;border-radius:16px;font-size:13px;font-weight:500;white-space:nowrap;flex-shrink:0}
+.filter-pill.active{background:#FF9500;color:#fff}
+.filter-pill:not(.active){background:#f5f5f7;color:#3c3c43}
+
+/* Note list */
+.note-list{padding:0 16px}
+.note-item{padding:16px 0;border-bottom:0.5px solid #f0f0f0;display:flex;gap:12px}
+.note-content{flex:1;min-width:0}
+.note-title{font-size:16px;font-weight:600;color:#000;margin-bottom:4px;line-height:1.3}
+.note-preview{font-size:14px;color:#666;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:6px}
+.note-thumb{width:72px;height:72px;border-radius:8px;background:#f0f0f0;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:24px}
+.note-meta{font-size:12px;color:#aaa;display:flex;align-items:center;gap:6px}
+.note-pin{color:#FF9500;font-size:10px}
+.note-outputs{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.output-tag{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:500}
+.tag-orange{background:#FFF3E0;color:#E65100}
+.tag-green{background:#E8F5E9;color:#2E7D32}
+.tag-blue{background:#E3F2FD;color:#1565C0}
+.tag-purple{background:#F3E5F5;color:#6A1B9A}
+.tag-red{background:#FCE4EC;color:#C62828}
+
+/* Bottom bar */
+.bottombar{position:absolute;bottom:0;left:0;right:0;height:80px;background:#fff;display:flex;align-items:center;justify-content:center;gap:48px;border-top:0.5px solid #f0f0f0}
+.bottombar .btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;border-radius:50%}
+.bottombar .btn-mic{background:#FFF3E0}
+.bottombar .btn-plus{font-size:26px;color:#333}
+
+/* Detail page */
+.detail-header{padding:0 20px 12px}
+.detail-title{font-size:22px;font-weight:700;color:#000;line-height:1.3;margin-bottom:4px}
+.detail-meta{font-size:13px;color:#8e8e93}
+.detail-source{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:#f5f5f7;border-radius:6px;font-size:12px;color:#666;margin-top:8px}
+
+/* Output section */
+.output-section{margin:16px;padding:16px;background:#FAFAFA;border-radius:16px}
+.output-section-header{display:flex;align-items:center;gap:6px;margin-bottom:12px;font-size:13px;font-weight:600;color:#6366f1}
+.output-card{display:flex;align-items:center;justify-content:space-between;padding:12px;background:#fff;border-radius:12px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.output-card:last-child{margin-bottom:0}
+.output-card-left{display:flex;align-items:center;gap:10px}
+.output-card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.output-card-info h4{font-size:14px;font-weight:600;color:#1a1a1a}
+.output-card-info p{font-size:12px;color:#8e8e93;margin-top:1px}
+.output-card-action{font-size:12px;color:#6366f1;font-weight:500;padding:4px 10px;background:#EDE9FE;border-radius:6px}
+
+/* Original content (collapsed) */
+.original-section{margin:16px;padding:14px 16px;border:1px solid #f0f0f0;border-radius:12px}
+.original-header{display:flex;align-items:center;justify-content:space-between}
+.original-label{font-size:13px;color:#8e8e93;font-weight:500}
+.original-arrow{font-size:12px;color:#c7c7cc}
+.original-body{margin-top:12px;padding-top:12px;border-top:1px solid #f5f5f5}
+.original-text{font-size:14px;color:#333;line-height:1.8}
+.original-text .timestamp{color:#8e8e93;font-size:12px;font-weight:500}
+.original-text .photo-tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:#f5f5f7;border-radius:4px;font-size:12px;color:#666;margin:4px 0}
+
+/* Sidebar */
+.sidebar-phone{position:relative}
+.sidebar-overlay{position:absolute;top:46px;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);z-index:1}
+.sidebar{position:absolute;top:46px;left:0;bottom:0;width:300px;background:#fff;z-index:2;padding:16px 0;overflow-y:auto;border-radius:0 16px 0 0}
+.sidebar-section{padding:0 16px;margin-bottom:20px}
+.sidebar-section-title{font-size:11px;color:#8e8e93;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;padding:8px 12px 6px}
+.sidebar-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;font-size:14px;color:#1a1a1a;margin-bottom:2px}
+.sidebar-item.active{background:#F5F3FF;color:#6366f1;font-weight:600}
+.sidebar-item-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;background:#f5f5f7}
+.sidebar-item-count{margin-left:auto;font-size:12px;color:#c7c7cc}
+.sidebar-divider{height:1px;background:#f0f0f0;margin:8px 16px}
+
+/* Section titles for the presentation */
+.section-block{margin-bottom:56px}
+.section-header{margin-bottom:20px}
+.section-num{font-size:11px;color:#6366f1;font-weight:600;letter-spacing:1px;margin-bottom:4px}
+.section-name{font-size:18px;font-weight:700;color:#fff}
+.section-logic{margin-top:24px;padding:20px;background:#222;border-radius:12px;max-width:800px}
+.section-logic h4{font-size:13px;color:#6366f1;font-weight:600;margin-bottom:8px}
+.section-logic p{font-size:12px;color:#aaa;line-height:1.7}
+.section-logic ul{list-style:none;padding:0;margin-top:8px}
+.section-logic li{font-size:12px;color:#ccc;line-height:1.8;padding-left:12px;position:relative}
+.section-logic li::before{content:"·";position:absolute;left:0;color:#6366f1}
+</style>
+</head>
+<body>
+
+<div class="page-title">笔记产品方案 · 消费导向设计</div>
+<p class="page-sub">基于李楠方向：笔记是中间态，最终消费物是用户留下来的理由。原文和产出物分离。</p>
+
+<!-- ==================== SECTION 1: 首页 ==================== -->
+<div class="section-block">
+<div class="section-header">
+  <div class="section-num">SCREEN 01</div>
+  <div class="section-name">首页 · 笔记列表（保持现有框架）</div>
+</div>
+
+<div class="row">
+<div class="screen-group">
+  <div class="screen-label">默认状态</div>
+  <div class="phone">
+    <div class="status"><span class="time">2:36</span><span class="icons">●●●  ‹ll  ▐ 100</span></div>
+    <div style="padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:48px">
+      <div style="font-size:28px;font-weight:700;color:#000">笔记</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="font-size:18px">☑️</span>
+        <span style="font-size:18px">⋮</span>
+      </div>
+    </div>
+    <div class="search-bar">🔍 搜索</div>
+    <div class="filter-row">
+      <div class="filter-folder">📁</div>
+      <div class="filter-pill active">全部</div>
+      <div class="filter-pill">会议摘要</div>
+      <div class="filter-pill">课堂</div>
+      <div class="filter-pill">生活</div>
+    </div>
+    <div class="note-list">
+      <!-- Card 1: 课堂笔记 with outputs -->
+      <div class="note-item">
+        <div class="note-content">
+          <div class="note-title">高等数学 · 第12章 级数</div>
+          <div class="note-preview">比值判别法推导过程、根值判别法应用、绝对收敛与条件收敛的区别</div>
+          <div class="note-outputs">
+            <span class="output-tag tag-purple">📋 考点 5</span>
+            <span class="output-tag tag-green">🎧 播客</span>
+            <span class="output-tag tag-orange">📝 3题</span>
+          </div>
+          <div class="note-meta"><span>今天 10:30</span><span>·</span><span>🎙 录音</span></div>
+        </div>
+      </div>
+      <!-- Card 2: 会议 -->
+      <div class="note-item">
+        <div class="note-content">
+          <div class="note-title">产品评审会 · 首页改版方案</div>
+          <div class="note-preview">结论：采用卡片流方案，数据显示瀑布流留存率高12%</div>
+          <div class="note-outputs">
+            <span class="output-tag tag-orange">✅ 待办 2</span>
+            <span class="output-tag tag-blue">📊 PPT</span>
+          </div>
+          <div class="note-meta"><span>昨天 15:00</span><span>·</span><span>🎙 会议</span></div>
+        </div>
+      </div>
+      <!-- Card 3: 用户手写 - 无产出物 -->
+      <div class="note-item">
+        <div class="note-content">
+          <div class="note-title">产品方向思考</div>
+          <div class="note-preview">今天和楠哥聊完之后的想法，笔记最终应该让用户感受到AI在帮他做事...</div>
+          <div class="note-meta"><span>5月23日</span><span>·</span><span>✍️ 手写</span><span class="note-pin">★</span></div>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="note-item">
+        <div class="note-content">
+          <div class="note-title">黄金ETF持仓量分析</div>
+          <div class="note-preview">2025Q3央行增持黄金847吨创新高</div>
+          <div class="note-outputs">
+            <span class="output-tag tag-green">🎧 播客 8:32</span>
+            <span class="output-tag tag-purple">💳 卡片</span>
+          </div>
+          <div class="note-meta"><span>5月24日</span><span>·</span><span>📱 小红书</span></div>
+        </div>
+        <div class="note-thumb">📊</div>
+      </div>
+    </div>
+    <div class="bottombar">
+      <div class="btn">📎</div>
+      <div class="btn btn-mic">🎙</div>
+      <div class="btn btn-plus">＋</div>
+    </div>
+  </div>
+  <div class="screen-desc">
+    <strong>设计逻辑：</strong>首页保持现有笔记列表框架不变。唯一增加的是每张卡片底部的「产出物标签」——用户一眼看到这篇笔记已经产出了什么可消费的内容（考点/播客/PPT/待办）。用户手写的笔记没有产出物标签，保持干净。
+  </div>
+</div>
+</div>
+
+<div class="section-logic">
+  <h4>首页设计决策</h4>
+  <ul>
+    <li>首页框架不变：保持用户已有心智，不做大改动</li>
+    <li>唯一新增：每张笔记卡片底部展示已生成的产出物标签（彩色chip）</li>
+    <li>用户手写的笔记不强制生成产出物，保持纯净</li>
+    <li>筛选tab保持按用户分类（文件夹逻辑），不按内容类型分</li>
+    <li>产出物标签的作用：告诉用户"这篇不只是文字，已经帮你准备好了可以直接用的东西"</li>
+  </ul>
+</div>
+</div>
+
+<!-- ==================== SECTION 2: 详情页 ==================== -->
+<div class="section-block">
+<div class="section-header">
+  <div class="section-num">SCREEN 02</div>
+  <div class="section-name">笔记详情页 · 产出物在上，原文在下</div>
+</div>
+
+<div class="row">
+<div class="screen-group">
+  <div class="screen-label">课堂笔记详情</div>
+  <div class="phone">
+    <div class="status"><span class="time">2:36</span><span class="icons">●●●  ‹ll  ▐ 100</span></div>
+    <div class="navbar">
+      <div class="nav-left"><span class="nav-back">‹</span></div>
+      <div class="nav-title"></div>
+      <div class="nav-right">
+        <div class="nav-icon">🔄</div>
+        <div class="nav-icon">↗</div>
+        <div class="nav-icon">⋮</div>
+      </div>
+    </div>
+    <div style="overflow-y:auto;height:calc(100% - 102px)">
+      <div class="detail-header">
+        <div class="detail-title">高等数学 · 第12章 级数</div>
+        <div class="detail-meta">今天 10:30 · 录音 45:20 · 拍照 2张</div>
+        <div class="detail-source">🎙 来自录音笔记</div>
+      </div>
+
+      <!-- 产出物区 - C位 -->
+      <div class="output-section">
+        <div class="output-section-header">✨ 可消费产物</div>
+        <div class="output-card">
+          <div class="output-card-left">
+            <div class="output-card-icon" style="background:#F3E5F5">📋</div>
+            <div class="output-card-info">
+              <h4>考点清单</h4>
+              <p>5个核心考点已提炼</p>
+            </div>
+          </div>
+          <div class="output-card-action">查看</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-left">
+            <div class="output-card-icon" style="background:#FCE4EC">📝</div>
+            <div class="output-card-info">
+              <h4>模拟题</h4>
+              <p>选择题2道 + 计算题1道</p>
+            </div>
+          </div>
+          <div class="output-card-action">开始做</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-left">
+            <div class="output-card-icon" style="background:#E8F5E9">🎧</div>
+            <div class="output-card-info">
+              <h4>播客</h4>
+              <p>8分32秒 · 本节核心内容</p>
+            </div>
+          </div>
+          <div class="output-card-action">▶ 播放</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-left">
+            <div class="output-card-icon" style="background:#E3F2FD">🧠</div>
+            <div class="output-card-info">
+              <h4>思维导图</h4>
+              <p>级数收敛判定方法</p>
+            </div>
+          </div>
+          <div class="output-card-action">查看</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-left">
+            <div class="output-card-icon" style="background:#FFF3E0">✅</div>
+            <div class="output-card-info">
+              <h4>待办</h4>
+              <p>完成p45习题 · 明天交</p>
+            </div>
+          </div>
+          <div class="output-card-action">查看</div>
+        </div>
+      </div>
+
+      <!-- 原文区 - 折叠状态 -->
+      <div class="original-section">
+        <div class="original-header">
+          <span class="original-label">📄 原文内容（录音转写 + 拍照）</span>
+          <span class="original-arrow">▾</span>
+        </div>
+        <div class="original-body">
+          <div class="original-text">
+            <p><span class="timestamp">[00:00]</span> 今天我们讲级数的收敛性判断，首先回顾一下上节课...</p>
+            <p style="margin-top:8px"><span class="timestamp">[03:28]</span> <span class="photo-tag">📸 PPT截图：比值判别法定理</span></p>
+            <p style="margin-top:8px"><span class="timestamp">[15:42]</span> 比值判别法的证明思路是这样的...</p>
+            <p style="margin-top:8px"><span class="timestamp">[15:42]</span> <span class="photo-tag">📸 板书：lim|a(n+1)/a(n)| = ρ</span></p>
+            <p style="margin-top:12px;color:#8e8e93;font-size:13px">... 点击展开全部转写内容</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-desc">
+    <strong>核心逻辑：</strong>打开一篇笔记，用户首先看到的不是原始转写文本，而是「已为你准备好的可消费产物」。考点可以直接复习、题可以直接做、播客可以直接听。原文折叠在下方——用户需要时展开，但大部分时间不看。这就是李楠说的"笔记是中间态，消费物才是终态"。
+  </div>
+</div>
+
+<!-- 会议纪要详情 -->
+<div class="screen-group">
+  <div class="screen-label">会议纪要详情</div>
+  <div class="phone">
+    <div class="status"><span class="time">2:36</span><span class="icons">●●●  ‹ll  ▐ 100</span></div>
+    <div class="navbar">
+      <div class="nav-left"><span class="nav-back">‹</span></div>
+      <div class="nav-title"></div>
+      <div class="nav-right">
+        <div class="nav-icon">🔄</div>
+        <div class="nav-icon">↗</div>
+        <div class="nav-icon">⋮</div>
+      </div>
+    </div>
+    <div style="overflow-y:auto;height:calc(100% - 102px)">
+      <div class="detail-header">
+        <div class="detail-title">产品评审会 · 首页改版方案</div>
+        <div class="detail-meta">昨天 15:00 · 录音 35:12 · 参会 4人</div>
+        <div class="detail-source">🎙 来自会议录音</div>
+      </div>
+
+      <div class="output-section">
+        <div class="output-section-header">✨ 可消费产物</div>
+        <div class="output-card">
+          <div class="output-card-left">
+            <div class="output-card-icon" style="background:#FFF3E0">✅</div>
+            <div class="output-card-info">
+              <h4>待办事项（2项）</h4>
+              <p>李四 · 周五出排序方案 | 王五 · 下周一设计评审</p>
+            </div>
+          </div>
+          <div class="output-card-action">查看</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-left">
+            <div class="output-card-icon" style="background:#E3F2FD">📊</div>
+            <div class="output-card-info">
+              <h4>PPT（会议结论）</h4>
+              <p>3页 · 议题+结论+下一步</p>
+            </div>
+          </div>
+          <div class="output-card-action">打开</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-left">
+            <div class="output-card-icon" style="background:#E8F5E9">🎧</div>
+            <div class="output-card-info">
+              <h4>播客（会议回顾）</h4>
+              <p>5分钟 · 核心讨论音频化</p>
+            </div>
+          </div>
+          <div class="output-card-action">▶ 播放</div>
+        </div>
+      </div>
+
+      <!-- 纪要正文 -->
+      <div style="padding:0 20px;margin-top:4px">
+        <div style="font-size:15px;font-weight:600;color:#000;margin-bottom:12px">会议纪要</div>
+        <div style="font-size:14px;color:#333;line-height:1.8">
+          <p style="font-weight:600;margin-bottom:4px">议题一：首页布局方案</p>
+          <p>• 结论：采用卡片流方案</p>
+          <p>• 依据：数据显示瀑布流留存率高12%</p>
+          <p style="font-weight:600;margin-top:12px;margin-bottom:4px">议题二：推荐算法</p>
+          <p>• 结论：下周出排序方案</p>
+          <p>• 负责人：李四</p>
+        </div>
+      </div>
+
+      <div class="original-section" style="margin-top:16px">
+        <div class="original-header">
+          <span class="original-label">📄 原文（录音转写 35:12）</span>
+          <span class="original-arrow">›</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-desc">
+    <strong>会议场景：</strong>产出物包含待办（直接同步日历）+ PPT（结论可分享）+ 播客（回顾可听）。会议纪要本身作为正文展示（不折叠），但原始录音转写折叠。李楠说"会议纪要的终态是待办+后续工作上下文"。
+  </div>
+</div>
+</div>
+
+<div class="section-logic">
+  <h4>详情页设计决策</h4>
+  <ul>
+    <li>产出物区在最上方，灰色背景区分，每个产出物可独立打开/使用</li>
+    <li>产出物和原文之间是"正文区"——课堂笔记的正文是AI生成的结构化总结，会议的正文是纪要</li>
+    <li>原始录音转写/截图放在最下方折叠——用户大部分时间不需要看</li>
+    <li>层级关系：产出物（可直接消费）> 正文（AI整理的中间态）> 原文（原始数据）</li>
+    <li>李楠原话："播客点了就听，PPT打开就分享——这才是最终态"</li>
+  </ul>
+</div>
+</div>
+
+<!-- ==================== SECTION 3: 侧边栏 ==================== -->
+<div class="section-block">
+<div class="section-header">
+  <div class="section-num">SCREEN 03</div>
+  <div class="section-name">侧边栏 · 分类逻辑</div>
+</div>
+
+<div class="row">
+<div class="screen-group">
+  <div class="screen-label">侧边栏展开态</div>
+  <div class="phone sidebar-phone">
+    <div class="status"><span class="time">2:36</span><span class="icons">●●●  ‹ll  ▐ 100</span></div>
+    <div class="sidebar-overlay"></div>
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">全部笔记</div>
+        <div class="sidebar-item active">
+          <div class="sidebar-item-icon">📒</div>
+          全部
+          <span class="sidebar-item-count">42</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon">✍️</div>
+          我的创作
+          <span class="sidebar-item-count">12</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon">🎙</div>
+          录音笔记
+          <span class="sidebar-item-count">18</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon">⚡</div>
+          AI速记
+          <span class="sidebar-item-count">12</span>
+        </div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">消费产物</div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon" style="background:#FFF3E0">✅</div>
+          待办
+          <span class="sidebar-item-count">8</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon" style="background:#E8F5E9">🎧</div>
+          播客
+          <span class="sidebar-item-count">5</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon" style="background:#E3F2FD">📊</div>
+          PPT
+          <span class="sidebar-item-count">3</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon" style="background:#F3E5F5">📋</div>
+          考点 / 出题
+          <span class="sidebar-item-count">6</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon" style="background:#FCE4EC">💳</div>
+          知识卡片
+          <span class="sidebar-item-count">4</span>
+        </div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">我的文件夹</div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon">📁</div>
+          高等数学
+          <span class="sidebar-item-count">5</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon">📁</div>
+          产品工作
+          <span class="sidebar-item-count">14</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon">📁</div>
+          投资理财
+          <span class="sidebar-item-count">6</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-item-icon">📁</div>
+          个人
+          <span class="sidebar-item-count">4</span>
+        </div>
+        <div class="sidebar-item" style="color:#8e8e93">
+          <div class="sidebar-item-icon">＋</div>
+          新建文件夹
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-desc">
+    <strong>侧边栏三段式分类：</strong><br>
+    第一段「全部笔记」：按笔记来源区分——我手写的 / 录音生成的 / AI速记的<br>
+    第二段「消费产物」：按产出物类型聚合——所有笔记产出的待办/播客/PPT/考题/卡片<br>
+    第三段「我的文件夹」：用户自建的文件夹结构，一篇笔记只属于一个文件夹
+  </div>
+</div>
+</div>
+
+<div class="section-logic">
+  <h4>侧边栏分类逻辑（关键设计决策）</h4>
+  <p style="margin-bottom:12px">李楠反馈：<strong>"内容类型和文件夹同时出现在侧边栏会让用户觉得很奇怪。"</strong> 解决方案：明确三段各自的定位，逻辑不混用。</p>
+  <ul>
+    <li><strong>第一段"全部笔记"</strong> → 回答"我有多少笔记、从哪来的"。这是数据视角。</li>
+    <li><strong>第二段"消费产物"</strong> → 回答"AI帮我产出了什么可以直接用的东西"。这是价值视角。点击进去看到的不是笔记列表，是产物列表（所有播客、所有PPT等）。</li>
+    <li><strong>第三段"我的文件夹"</strong> → 回答"我按自己的方式怎么组织"。这是管理视角。用户自建，一篇笔记只属于一个文件夹。</li>
+    <li>三段之间不混用：文件夹只管笔记本身，不管产出物；产出物跨所有笔记聚合，不受文件夹限制。</li>
+    <li>参考Obsidian：侧边栏锚着"最终可消费的东西"，不只是MD文件列表。</li>
+  </ul>
+</div>
+</div>
+
+<!-- ==================== SECTION 4: 产出物独立页 ==================== -->
+<div class="section-block">
+<div class="section-header">
+  <div class="section-num">SCREEN 04</div>
+  <div class="section-name">产出物独立页 · 点了就能直接消费</div>
+</div>
+
+<div class="row">
+<!-- 考点清单页 -->
+<div class="screen-group">
+  <div class="screen-label">考点清单</div>
+  <div class="phone">
+    <div class="status"><span class="time">2:36</span><span class="icons">●●●  ‹ll  ▐ 100</span></div>
+    <div class="navbar">
+      <div class="nav-left"><span class="nav-back">‹</span></div>
+      <div class="nav-title">考点清单</div>
+      <div class="nav-right"><div class="nav-icon">↗</div></div>
+    </div>
+    <div style="padding:20px;height:calc(100% - 102px);overflow-y:auto">
+      <div style="font-size:13px;color:#8e8e93;margin-bottom:16px">来自：高等数学 · 第12章 级数</div>
+
+      <div style="background:#FAFAFA;border-radius:12px;padding:16px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="background:#6366f1;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600">考点 1</span>
+          <span style="font-size:11px;color:#8e8e93">高频考点</span>
+        </div>
+        <div style="font-size:15px;font-weight:600;color:#000;margin-bottom:6px">比值判别法</div>
+        <div style="font-size:13px;color:#555;line-height:1.6">设正项级数∑aₙ，若lim(aₙ₊₁/aₙ)=ρ，则ρ<1时收敛，ρ>1时发散，ρ=1时失效。</div>
+      </div>
+
+      <div style="background:#FAFAFA;border-radius:12px;padding:16px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="background:#6366f1;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600">考点 2</span>
+          <span style="font-size:11px;color:#8e8e93">高频考点</span>
+        </div>
+        <div style="font-size:15px;font-weight:600;color:#000;margin-bottom:6px">根值判别法</div>
+        <div style="font-size:13px;color:#555;line-height:1.6">设正项级数∑aₙ，若lim ⁿ√aₙ=ρ，判定规则与比值法相同。适用于含n次方的级数。</div>
+      </div>
+
+      <div style="background:#FAFAFA;border-radius:12px;padding:16px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="background:#6366f1;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600">考点 3</span>
+        </div>
+        <div style="font-size:15px;font-weight:600;color:#000;margin-bottom:6px">绝对收敛与条件收敛</div>
+        <div style="font-size:13px;color:#555;line-height:1.6">绝对收敛：∑|aₙ|收敛。条件收敛：∑aₙ收敛但∑|aₙ|发散。绝对收敛必收敛，反之不成立。</div>
+      </div>
+
+      <div style="margin-top:20px;padding:14px;background:#6366f1;border-radius:12px;text-align:center;color:#fff;font-size:14px;font-weight:600">开始做模拟题（3道）</div>
+    </div>
+  </div>
+  <div class="screen-desc">考点清单是课堂笔记的「最终消费态」——学生打开直接复习，底部可一键进入模拟题。</div>
+</div>
+
+<!-- 播客播放页 -->
+<div class="screen-group">
+  <div class="screen-label">播客播放</div>
+  <div class="phone">
+    <div class="status"><span class="time">2:36</span><span class="icons">●●●  ‹ll  ▐ 100</span></div>
+    <div class="navbar">
+      <div class="nav-left"><span class="nav-back">‹</span></div>
+      <div class="nav-title">播客</div>
+      <div class="nav-right"><div class="nav-icon">⋮</div></div>
+    </div>
+    <div style="padding:40px 20px;text-align:center;height:calc(100% - 102px);display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div style="width:200px;height:200px;border-radius:24px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;margin-bottom:32px;box-shadow:0 16px 48px rgba(99,102,241,.3)">
+        <span style="font-size:64px">🎧</span>
+      </div>
+      <div style="font-size:18px;font-weight:700;color:#000;margin-bottom:4px">高等数学 · 级数</div>
+      <div style="font-size:13px;color:#8e8e93;margin-bottom:32px">8分32秒 · 来自课堂笔记</div>
+
+      <!-- Progress bar -->
+      <div style="width:100%;height:4px;background:#f0f0f0;border-radius:2px;margin-bottom:8px;position:relative">
+        <div style="width:35%;height:100%;background:#6366f1;border-radius:2px"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;width:100%;font-size:11px;color:#8e8e93;margin-bottom:32px">
+        <span>2:58</span><span>8:32</span>
+      </div>
+
+      <!-- Controls -->
+      <div style="display:flex;align-items:center;gap:32px">
+        <span style="font-size:24px;color:#666">⏮</span>
+        <div style="width:64px;height:64px;border-radius:50%;background:#000;display:flex;align-items:center;justify-content:center">
+          <span style="font-size:24px;color:#fff;margin-left:4px">▶</span>
+        </div>
+        <span style="font-size:24px;color:#666">⏭</span>
+      </div>
+
+      <div style="margin-top:32px;display:flex;gap:16px">
+        <div style="padding:8px 16px;background:#f5f5f7;border-radius:8px;font-size:12px;color:#666">1.5x</div>
+        <div style="padding:8px 16px;background:#f5f5f7;border-radius:8px;font-size:12px;color:#666">定时关闭</div>
+        <div style="padding:8px 16px;background:#f5f5f7;border-radius:8px;font-size:12px;color:#666">上车播放</div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-desc">播客是李楠认为的「最纯粹的最终态」——点了就播，不需要任何其他操作。</div>
+</div>
+
+<!-- 待办页 -->
+<div class="screen-group">
+  <div class="screen-label">待办清单</div>
+  <div class="phone">
+    <div class="status"><span class="time">2:36</span><span class="icons">●●●  ‹ll  ▐ 100</span></div>
+    <div class="navbar">
+      <div class="nav-left"><span class="nav-back">‹</span></div>
+      <div class="nav-title">待办</div>
+      <div class="nav-right"><div class="nav-icon">＋</div></div>
+    </div>
+    <div style="padding:16px 20px;height:calc(100% - 102px);overflow-y:auto">
+      <div style="font-size:13px;color:#8e8e93;margin-bottom:16px;font-weight:500">今天 · 3项</div>
+
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:0.5px solid #f5f5f5">
+        <div style="width:22px;height:22px;border-radius:50%;border:2px solid #FF9500;flex-shrink:0;margin-top:1px"></div>
+        <div>
+          <div style="font-size:15px;color:#000;font-weight:500">完成p45习题第3题</div>
+          <div style="font-size:12px;color:#8e8e93;margin-top:3px">来自：高等数学·级数 · 明天交</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:0.5px solid #f5f5f5">
+        <div style="width:22px;height:22px;border-radius:50%;border:2px solid #FF9500;flex-shrink:0;margin-top:1px"></div>
+        <div>
+          <div style="font-size:15px;color:#000;font-weight:500">出排序方案</div>
+          <div style="font-size:12px;color:#8e8e93;margin-top:3px">来自：产品评审会 · 周五前 · @李四</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:0.5px solid #f5f5f5">
+        <div style="width:22px;height:22px;border-radius:50%;border:2px solid #FF9500;flex-shrink:0;margin-top:1px"></div>
+        <div>
+          <div style="font-size:15px;color:#000;font-weight:500">设计评审</div>
+          <div style="font-size:12px;color:#8e8e93;margin-top:3px">来自：产品评审会 · 下周一 · @王五</div>
+        </div>
+      </div>
+
+      <div style="font-size:13px;color:#8e8e93;margin:24px 0 16px;font-weight:500">已完成 · 2项</div>
+
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:0.5px solid #f5f5f5;opacity:.5">
+        <div style="width:22px;height:22px;border-radius:50%;background:#34C759;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px">
+          <span style="color:#fff;font-size:12px">✓</span>
+        </div>
+        <div>
+          <div style="font-size:15px;color:#000;text-decoration:line-through">提交周报</div>
+          <div style="font-size:12px;color:#8e8e93;margin-top:3px">来自：语音速记 · 已完成</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-desc">待办是另一个「最终态」——从各个笔记中自动提取的行动项汇聚在一起，用户直接执行。每条待办标注来源笔记。</div>
+</div>
+</div>
+
+<div class="section-logic">
+  <h4>产出物设计决策</h4>
+  <ul>
+    <li>每种产出物都有独立的展示页，点了就能直接消费，不需要回到笔记原文</li>
+    <li>所有产出物都标注"来自哪篇笔记"——保持和原文的关联，但不强制用户回去看</li>
+    <li>播客：点了就播，支持倍速/条件播放（上车播/闹钟后播）</li>
+    <li>考点：结构化展示，底部可直接进入模拟题</li>
+    <li>待办：从所有笔记中聚合，按时间排序，标注来源+截止时间+负责人</li>
+    <li>PPT：打开即可分享/演示，不需要再编辑</li>
+    <li>李楠原话："待办是最终产物，因为我已经不能再帮它做什么了"</li>
+  </ul>
+</div>
+</div>
+
+</body>
+</html>
