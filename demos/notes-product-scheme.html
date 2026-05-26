@@ -148,31 +148,33 @@ li{font-size:14px;color:#444;margin-bottom:6px}
 
 <div class="note-structure">
   <div class="note-layer">
-    <span class="note-layer-badge badge-gold">终态 · C位</span>
+    <span class="note-layer-badge badge-gray">原文</span>
     <div class="note-layer-content">
-      <div class="note-layer-title">产出物 / 衍生物</div>
-      <div class="note-layer-desc">基于原文经AI处理后形成的可直接消费内容。如：考点清单、播客、PPT、待办、脑图。用户打开笔记首先看到这里。</div>
+      <div class="note-layer-title">原始内容（录音转写 / 截图 / 用户手写）</div>
+      <div class="note-layer-desc">用户手动记录或系统录入的原始数据。录音带时间线，照片带时间戳。这是笔记的"素材层"。</div>
     </div>
   </div>
   <div class="note-layer">
     <span class="note-layer-badge badge-blue">正文</span>
     <div class="note-layer-content">
       <div class="note-layer-title">笔记正文（AI整理后的结构化内容）</div>
-      <div class="note-layer-desc">如：课堂总结的知识点列表、会议纪要的议题和结论。是AI加工后的结构化文本，用户阅读时在这里。</div>
+      <div class="note-layer-desc">如：课堂总结的知识点列表、会议纪要的议题和结论。AI加工后的结构化文本，是用户日常阅读的主体。</div>
     </div>
   </div>
   <div class="note-layer">
-    <span class="note-layer-badge badge-gray">原文 · 折叠</span>
+    <span class="note-layer-badge badge-gold">消费内容卡片</span>
     <div class="note-layer-content">
-      <div class="note-layer-title">原始内容（录音转写 / 截图 / 用户手写）</div>
-      <div class="note-layer-desc">用户手动记录或系统录入的原始数据。默认折叠，需要时展开查看。是"中间态"的底层数据。</div>
+      <div class="note-layer-title">最终消费物（考点 / 播客 / PPT / 待办 / 脑图）</div>
+      <div class="note-layer-desc">基于正文经AI二次创作后生成的可直接消费内容。每个卡片可独立打开使用。放在页面底部，保证与现有笔记页面视觉一致性。</div>
     </div>
   </div>
 </div>
 
+<p><strong>为什么这个顺序：</strong>保持与现有笔记详情页的视觉一致性。用户打开笔记首先看到的仍然是内容本身（原文+正文），消费内容卡片在底部作为"基于这篇笔记，AI帮你做了什么"的延伸——逻辑自然、不突兀。</p>
+
 <p><strong>产出物与笔记的关系：</strong></p>
 <ul>
-  <li>产出物挂在对应笔记内（详情页上方卡片区）</li>
+  <li>产出物挂在对应笔记内（详情页底部卡片区）</li>
   <li>同时聚合到侧边栏（全局可查，跨笔记浏览）</li>
   <li>产出物可独立打开、独立操作（播放/做题/分享），不需要回到笔记原文</li>
   <li>产出物标注来源笔记，用户随时可追溯</li>
@@ -184,12 +186,12 @@ li{font-size:14px;color:#444;margin-bottom:6px}
 <h3>4.1 详情页结构</h3>
 <p>用户打开一篇笔记，从上到下看到的是：</p>
 <table>
-  <tr><th>层级</th><th>内容</th><th>用户行为</th></tr>
+  <tr><th>层级（从上到下）</th><th>内容</th><th>用户行为</th></tr>
   <tr><td>标题区</td><td>笔记标题 + 时间 + 来源标记</td><td>知道这是什么</td></tr>
-  <tr><td>产出物卡片区</td><td>已生成的终态消费物列表（每个可独立操作）</td><td>点击直接使用</td></tr>
-  <tr><td>笔记正文</td><td>AI整理后的结构化内容</td><td>需要深入看时阅读</td></tr>
-  <tr><td>原文（折叠）</td><td>录音转写/原始截图/手写</td><td>需要追溯时展开</td></tr>
-  <tr><td>AI对话框（底部）</td><td>"生成播客、出题、做PPT..."</td><td>触发新的产出物生成</td></tr>
+  <tr><td>原文区</td><td>录音播放条 / 原始手写 / 照片</td><td>回听录音、查看素材</td></tr>
+  <tr><td>笔记正文</td><td>AI整理后的结构化内容（总结/纪要/知识点）</td><td>日常阅读的主体</td></tr>
+  <tr><td>消费内容卡片</td><td>已生成的终态消费物（考点/播客/PPT/待办）</td><td>点击直接使用</td></tr>
+  <tr><td>AI对话框（底部固定）</td><td>"生成播客、出题、做PPT..."</td><td>触发新的产出物生成</td></tr>
 </table>
 
 <h3>4.2 AI对话框 = 产出物生成入口</h3>
