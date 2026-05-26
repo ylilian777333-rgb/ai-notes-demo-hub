@@ -7,244 +7,192 @@
 <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,"PingFang SC","SF Pro Display",system-ui,sans-serif;background:#141414;color:#fff;padding:0;width:2800px;-webkit-font-smoothing:antialiased}
+body{font-family:-apple-system,"PingFang SC","SF Pro Display",system-ui,sans-serif;background:#1a1a1a;color:#fff;padding:64px;width:2800px;-webkit-font-smoothing:antialiased}
 
-/* Full-width sections with internal padding */
-.block{padding:48px 80px;border-bottom:1px solid rgba(255,255,255,.04)}
-.block-hero{padding:72px 80px 60px}
-.block-dark{background:#0a0a0a}
+.tag{font-size:22px;font-weight:700;color:#C9A96E;margin-bottom:32px}
+.spacer{height:64px}
 
-/* Typography */
-.kicker{font-size:14px;font-weight:600;color:#C9A96E;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
-.headline{font-size:48px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:16px;max-width:2400px;letter-spacing:-0.5px}
-.subhead{font-size:20px;color:rgba(255,255,255,.5);line-height:1.7;max-width:2000px}
-.section-title{font-size:28px;font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:-0.3px}
-.section-desc{font-size:16px;color:rgba(255,255,255,.4);line-height:1.8;margin-bottom:16px;max-width:2000px}
+/* Hero */
+.hero-row{display:flex;align-items:stretch;gap:20px;margin-bottom:64px}
+.hero-left{flex:1;background:#111;border-radius:16px;padding:40px;display:flex;flex-direction:column;justify-content:center}
+.hero-left h1{font-size:36px;font-weight:700;line-height:1.35;margin-bottom:12px;color:#fff}
+.hero-left p{font-size:15px;color:rgba(255,255,255,.4);line-height:1.7}
+.hero-right{width:600px;background:#111;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px}
+.hero-right .change{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:#1a1a1a;border-radius:10px}
+.hero-right .change .n{font-size:20px;font-weight:800;color:rgba(201,169,110,.3);line-height:1;flex-shrink:0;width:28px}
+.hero-right .change .t{font-size:14px;font-weight:600;color:#fff}
+.hero-right .change .d{font-size:12px;color:rgba(255,255,255,.4);margin-top:2px}
 
-/* Flow diagram - big and visual */
-.flow-big{display:flex;align-items:center;margin:32px 0 0;gap:0}
-.flow-big-item{padding:20px 36px;background:#1e1e1e;font-size:16px;font-weight:500;color:rgba(255,255,255,.5);border-right:1px solid #2a2a2a;text-align:center}
-.flow-big-item:first-child{border-radius:12px 0 0 12px}
-.flow-big-item:last-child{border-radius:0 12px 12px 0;border-right:none}
-.flow-big-item.active{background:#C9A96E;color:#000;font-weight:700;font-size:17px}
-.flow-big-item .arrow{display:block;font-size:12px;color:rgba(255,255,255,.2);margin-top:4px}
+/* Flow */
+.flow-visual{display:flex;align-items:center;margin-bottom:64px}
+.fv-step{flex:1;text-align:center;padding:18px 12px;background:#222;position:relative}
+.fv-step:first-child{border-radius:10px 0 0 10px}
+.fv-step:last-child{border-radius:0 10px 10px 0}
+.fv-step .label{font-size:14px;font-weight:500;color:rgba(255,255,255,.5)}
+.fv-step .sub{font-size:11px;color:rgba(255,255,255,.25);margin-top:2px}
+.fv-step.active{background:#C9A96E}
+.fv-step.active .label{color:#000;font-weight:700}
+.fv-step.active .sub{color:rgba(0,0,0,.5)}
+.fv-arrow{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.15);font-size:16px;flex-shrink:0}
 
-/* Change cards - horizontal layout */
-.changes{display:flex;gap:14px;margin-top:24px}
-.change-card{flex:1;background:#1a1a1a;border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,.06)}
-.change-card .num{font-size:48px;font-weight:800;color:rgba(201,169,110,.15);margin-bottom:12px;line-height:1}
-.change-card h4{font-size:18px;font-weight:600;color:#fff;margin-bottom:10px}
-.change-card p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.7}
+/* Positioning */
+.pos-bar{display:flex;align-items:stretch;gap:0;background:#111;border-radius:14px;overflow:hidden;margin-bottom:64px}
+.pos-main{flex:1;padding:36px 40px;border-right:1px solid #222}
+.pos-main .label{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.pos-main h2{font-size:26px;font-weight:700;color:#C9A96E;line-height:1.3}
+.pos-item{flex:1;padding:28px 32px;border-right:1px solid #222}
+.pos-item:last-child{border-right:none}
+.pos-item h5{font-size:13px;font-weight:700;color:#fff;margin-bottom:6px}
+.pos-item p{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6}
 
-/* Positioning - big card */
-.pos-hero{background:linear-gradient(135deg,#1a1a1a,#0f0f0f);border:1px solid rgba(201,169,110,.15);border-radius:20px;padding:40px 48px}
-.pos-hero .label{font-size:13px;font-weight:600;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
-.pos-hero h2{font-size:36px;font-weight:700;color:#C9A96E;margin-bottom:16px;letter-spacing:-0.3px}
-.pos-hero .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:20px}
-.pos-hero .item h5{font-size:15px;font-weight:600;color:#fff;margin-bottom:6px}
-.pos-hero .item p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.7}
+/* Mindset */
+.mindset-row{display:flex;gap:14px;margin-bottom:64px}
+.mc{flex:1;background:#222;border-radius:14px;padding:28px;text-align:center;border:1px solid #2a2a2a}
+.mc .icon{font-size:32px;margin-bottom:10px}
+.mc h4{font-size:16px;font-weight:600;color:#fff;margin-bottom:8px}
+.mc p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;text-align:left}
 
-/* Mindset cards */
-.mindset{display:flex;gap:14px;margin-top:24px}
-.mindset-card{flex:1;background:#1a1a1a;border-radius:16px;padding:28px;border:1px solid rgba(255,255,255,.06);text-align:center}
-.mindset-card .icon{font-size:40px;margin-bottom:16px}
-.mindset-card h4{font-size:18px;font-weight:600;color:#fff;margin-bottom:10px}
-.mindset-card p{font-size:15px;color:rgba(255,255,255,.45);line-height:1.7;text-align:left}
-
-/* Tables */
-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;font-size:14px}
-th{background:#1e1e1e;padding:16px 20px;text-align:left;font-weight:600;color:rgba(255,255,255,.5);border-bottom:1px solid #2a2a2a;font-size:13px}
-td{padding:16px 20px;color:rgba(255,255,255,.55);border-bottom:1px solid rgba(255,255,255,.03);background:#161616;line-height:1.6}
+/* Tab bar + Table */
+.tab-bar{display:flex;gap:0;background:#222;border-radius:8px 8px 0 0;overflow:hidden;width:fit-content}
+.tab{padding:10px 24px;font-size:13px;font-weight:500;color:rgba(255,255,255,.4)}
+.tab.on{background:#C9A96E;color:#000;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#1e1e1e;padding:12px 16px;text-align:left;font-weight:600;color:rgba(255,255,255,.45);border-bottom:1px solid #2a2a2a}
+td{padding:12px 16px;color:rgba(255,255,255,.5);border-bottom:1px solid #222;background:#161616}
 td:first-child{font-weight:600;color:#fff}
 tr:last-child td{border-bottom:none}
 .hl td{background:rgba(201,169,110,.03)}
 .hl td:first-child{border-left:3px solid #C9A96E}
-.group-tag{display:inline-block;font-size:14px;font-weight:700;color:#C9A96E;padding:10px 20px;background:rgba(201,169,110,.06);border-radius:10px 10px 0 0;margin-top:36px;margin-bottom:0}
 
-/* Layers */
-.layers{border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;max-width:1800px}
-.layer-row{padding:24px 32px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:14px}
-.layer-row:last-child{border-bottom:none}
-.layer-badge{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;white-space:nowrap}
-.lb-gray{background:rgba(255,255,255,.05);color:rgba(255,255,255,.5)}
-.lb-blue{background:rgba(100,180,255,.08);color:#7CB8FF}
-.lb-gold{background:rgba(201,169,110,.1);color:#C9A96E}
-.layer-info h5{font-size:16px;font-weight:600;color:#fff;margin-bottom:3px}
-.layer-info p{font-size:14px;color:rgba(255,255,255,.4)}
+/* Layers - horizontal */
+.layers-h{display:flex;gap:0;border-radius:12px;overflow:hidden;margin-bottom:64px;border:1px solid #2a2a2a}
+.lh-item{flex:1;padding:24px;text-align:center;border-right:1px solid #2a2a2a;background:#1a1a1a}
+.lh-item:last-child{border-right:none}
+.lh-item .badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700;margin-bottom:10px}
+.lh-item h5{font-size:14px;font-weight:600;color:#fff;margin-bottom:4px}
+.lh-item p{font-size:12px;color:rgba(255,255,255,.35);line-height:1.5}
 
-/* Sidebar */
-.sb{display:flex;gap:0;border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;max-width:2200px}
-.sb-col{flex:1;padding:20px 24px;border-right:1px solid rgba(255,255,255,.04);background:#161616}
-.sb-col:last-child{border-right:none}
-.sb-col h5{font-size:14px;color:#C9A96E;font-weight:700;margin-bottom:4px}
-.sb-col .sub{font-size:13px;color:rgba(255,255,255,.3);margin-bottom:14px}
-.sb-col ul{list-style:none;padding:0}
-.sb-col li{font-size:14px;color:rgba(255,255,255,.6);padding:5px 0}
+/* Sidebar - compact */
+.sb-row{display:flex;gap:0;border:1px solid #2a2a2a;border-radius:12px;overflow:hidden;margin-bottom:64px}
+.sb-c{flex:1;padding:20px 24px;border-right:1px solid #2a2a2a;background:#1a1a1a}
+.sb-c:last-child{border-right:none}
+.sb-c h5{font-size:13px;font-weight:700;color:#C9A96E;margin-bottom:8px}
+.sb-c ul{list-style:none;padding:0}
+.sb-c li{font-size:12px;color:rgba(255,255,255,.5);padding:3px 0}
 
-/* Strategy grid */
-.strat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.strat-card{background:#1a1a1a;border-radius:14px;padding:24px;border:1px solid rgba(255,255,255,.05)}
-.strat-card .num{font-size:32px;font-weight:800;color:rgba(201,169,110,.12);margin-bottom:8px}
-.strat-card h4{font-size:16px;font-weight:600;color:#fff;margin-bottom:8px}
-.strat-card p{font-size:14px;color:rgba(255,255,255,.4);line-height:1.7}
-
-.note{font-size:14px;color:rgba(255,255,255,.35);margin-top:16px;max-width:1800px;line-height:1.6}
+/* Strategy - inline */
+.strat-row{display:flex;gap:14px}
+.st{flex:1;background:#222;border-radius:12px;padding:20px 24px;border:1px solid #2a2a2a}
+.st .n{font-size:24px;font-weight:800;color:rgba(201,169,110,.15);margin-bottom:4px}
+.st h4{font-size:14px;font-weight:600;color:#fff;margin-bottom:4px}
+.st p{font-size:12px;color:rgba(255,255,255,.35);line-height:1.5}
 </style>
 </head>
 <body>
 
-<!-- ======= HERO: 核心洞察 ======= -->
-<div class="block block-hero">
-  <div class="kicker">笔记正在发生什么变化</div>
-  <div class="headline">笔记正在从记录工具，<br>变成用户消费 AI 产出物的入口</div>
-  <div class="subhead">用户记了越来越多的内容，但"记完之后怎么用"始终是断的。<br>笔记不能只帮用户记住——要帮用户拿到可以直接用的结果。</div>
-
-  <div class="flow-big">
-    <div class="flow-big-item">用户 写/说/拍</div>
-    <div class="flow-big-item">笔记沉淀<br><span style="font-size:12px;opacity:.5">中间态</span></div>
-    <div class="flow-big-item">AI 理解加工</div>
-    <div class="flow-big-item active">产出最终消费物<br><span style="font-size:12px">终态</span></div>
-    <div class="flow-big-item">用户直接使用</div>
+<!-- HERO: 2-column layout -->
+<div class="hero-row">
+  <div class="hero-left">
+    <p style="font-size:12px;color:#C9A96E;margin-bottom:12px;font-weight:600;letter-spacing:1px">笔记正在发生什么变化</p>
+    <h1>笔记正在从记录工具，<br>变成用户消费AI产出物的入口</h1>
+    <p>用户记了越来越多内容，但"记完之后怎么用"始终是断的。<br>笔记要帮用户拿到可以直接用的结果。</p>
+  </div>
+  <div class="hero-right">
+    <div class="change"><div class="n">1</div><div><div class="t">内容来源爆发</div><div class="d">MiClaw、AI键、录音转写、穿戴同步</div></div></div>
+    <div class="change"><div class="n">2</div><div><div class="t">笔记正文变成中间态</div><div class="d">生成越多，用户阅读原文频率越低</div></div></div>
+    <div class="change"><div class="n">3</div><div><div class="t">用户消费的是最终产物</div><div class="d">考点/待办/播客/PPT = 终态</div></div></div>
   </div>
 </div>
 
-<!-- ======= 3个变化 ======= -->
-<div class="block">
-  <div class="changes">
-    <div class="change-card">
-      <div class="num">01</div>
-      <h4>内容来源爆发</h4>
-      <p>MiClaw产出、AI键采集、录音转写、穿戴同步——大量内容自动流入笔记。用户手写占比持续下降。</p>
-    </div>
-    <div class="change-card">
-      <div class="num">02</div>
-      <h4>笔记正文变成中间态</h4>
-      <p>AI生成的笔记越多，用户主动阅读原文的频率越低。笔记正文不再是终点，而是过程。</p>
-    </div>
-    <div class="change-card">
-      <div class="num">03</div>
-      <h4>用户真正消费的是最终产物</h4>
-      <p>考点清单、待办、播客、PPT——"点了就能直接用"的东西，才是用户打开笔记的理由。</p>
-    </div>
+<!-- FLOW -->
+<div class="flow-visual">
+  <div class="fv-step"><div class="label">写/说/拍</div><div class="sub">用户输入</div></div>
+  <div class="fv-arrow">→</div>
+  <div class="fv-step"><div class="label">笔记沉淀</div><div class="sub">中间态</div></div>
+  <div class="fv-arrow">→</div>
+  <div class="fv-step"><div class="label">AI加工</div><div class="sub">理解/提炼</div></div>
+  <div class="fv-arrow">→</div>
+  <div class="fv-step active"><div class="label">产出消费物</div><div class="sub">终态</div></div>
+  <div class="fv-arrow">→</div>
+  <div class="fv-step"><div class="label">直接使用</div><div class="sub">点了就用</div></div>
+</div>
+
+<!-- POSITIONING - horizontal bar -->
+<div class="pos-bar">
+  <div class="pos-main">
+    <div class="label">产品定位</div>
+    <h2>自增长可赋能的<br>个人数字资产中枢</h2>
   </div>
+  <div class="pos-item"><h5>自增长</h5><p>记录+采集持续积累<br>AI越来越懂用户</p></div>
+  <div class="pos-item"><h5>可赋能</h5><p>AI产出用户可直接<br>消费的最终内容</p></div>
+  <div class="pos-item"><h5>中枢</h5><p>用户入口 + MiClaw<br>数据底座</p></div>
 </div>
 
-<!-- ======= 产品定位（从变化推导出来）======= -->
-<div class="block block-dark">
-  <div class="kicker">基于以上变化，产品定位</div>
-  <div class="pos-hero">
-    <div class="label">Product Positioning</div>
-    <h2>自增长可赋能的个人数字资产中枢</h2>
-    <div class="grid">
-      <div class="item"><h5>自增长</h5><p>用户每次记录 + 系统自动采集，数据持续积累，AI 对用户理解不断加深</p></div>
-      <div class="item"><h5>可赋能</h5><p>AI 基于积累产出用户可直接消费的最终内容</p></div>
-      <div class="item"><h5>中枢</h5><p>用户侧是创作和消费的入口，MiClaw 侧是调用全量数据的底座</p></div>
-    </div>
-  </div>
+<!-- MINDSET -->
+<div class="tag">用户心智：笔记能帮我做什么</div>
+<div class="mindset-row">
+  <div class="mc"><div class="icon">🎓</div><h4>帮我上课</h4><p>录完音→自动出笔记<br>一键→考点/出题/播客</p></div>
+  <div class="mc"><div class="icon">💼</div><h4>帮我开会</h4><p>开完会→自动出纪要<br>一键→待办/PPT/播客</p></div>
+  <div class="mc"><div class="icon">📱</div><h4>帮我记事</h4><p>随手记→自动归类<br>一键→待办/卡片/提醒</p></div>
 </div>
 
-<!-- ======= 用户心智 ======= -->
-<div class="block">
-  <div class="section-title">用户心智：笔记能帮我做什么</div>
-  <div class="section-desc">用户心中要形成具象的功能认知——不是"一个笔记APP"，而是明确知道它能帮我产出什么。</div>
-  <div class="mindset">
-    <div class="mindset-card">
-      <div class="icon">🎓</div>
-      <h4>它帮我上课</h4>
-      <p>录完音 → 自动出课堂笔记<br>一键 → 考点清单 / 模拟题 / 复习播客</p>
-    </div>
-    <div class="mindset-card">
-      <div class="icon">💼</div>
-      <h4>它帮我开会</h4>
-      <p>开完会 → 自动出纪要<br>一键 → 待办 / 会议PPT / 回顾播客</p>
-    </div>
-    <div class="mindset-card">
-      <div class="icon">📱</div>
-      <h4>它帮我记事</h4>
-      <p>随手记 → 自动归类<br>一键 → 待办 / 知识卡片 / 提醒</p>
-    </div>
-  </div>
+<!-- TABLE with tabs -->
+<div class="tag">用户最终消费什么</div>
+<div class="tab-bar">
+  <div class="tab on">🎓 学生</div>
+  <div class="tab">💼 职场人</div>
+  <div class="tab">📱 普通用户</div>
+</div>
+<table>
+  <tr><th>消费物</th><th>来源</th><th>触发方式</th><th>怎么消费</th></tr>
+  <tr class="hl"><td>考点清单</td><td>课堂录音</td><td>AI对话框"提炼考点"</td><td>打开直接复习</td></tr>
+  <tr><td>模拟题</td><td>课堂录音</td><td>AI对话框"出题"</td><td>做完检验掌握度</td></tr>
+  <tr class="hl"><td>复习播客</td><td>课堂录音</td><td>AI对话框"生成播客"</td><td>通勤听复习</td></tr>
+  <tr><td>脑图</td><td>课堂录音</td><td>AI对话框"生成脑图"</td><td>看结构快速回忆</td></tr>
+  <tr class="hl"><td>待办</td><td>会议/速记</td><td>AI自动提取</td><td>直接执行，到期提醒</td></tr>
+  <tr><td>PPT</td><td>会议/任何</td><td>AI对话框"做PPT"</td><td>打开直接分享</td></tr>
+  <tr class="hl"><td>知识卡片</td><td>跨篇聚合</td><td>AI对话框"生成卡片"</td><td>一张卡说清一件事</td></tr>
+</table>
+
+<div class="spacer"></div>
+
+<!-- LAYERS - horizontal -->
+<div class="tag">笔记内信息层级（从上到下）</div>
+<div class="layers-h">
+  <div class="lh-item"><span class="badge" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.5)">原文</span><h5>原始内容</h5><p>录音转写/截图/手写</p></div>
+  <div class="lh-item"><span class="badge" style="background:rgba(100,180,255,.1);color:#7CB8FF">正文</span><h5>AI结构化内容</h5><p>课堂总结/会议纪要</p></div>
+  <div class="lh-item"><span class="badge" style="background:rgba(201,169,110,.1);color:#C9A96E">消费卡片</span><h5>最终消费物</h5><p>考点/播客/PPT/待办</p></div>
+  <div class="lh-item"><span class="badge" style="background:rgba(99,102,241,.1);color:#818CF8">AI对话框</span><h5>生成入口</h5><p>底部固定，触发产出</p></div>
 </div>
 
-<!-- ======= 消费物清单（按人群）======= -->
-<div class="block">
-  <div class="section-title">用户最终消费什么</div>
-  <div class="section-desc">按用户人群，每种场景对应不同的终态消费物。</div>
-
-  <div class="group-tag">🎓 学生</div>
-  <table>
-    <tr><th>最终消费物</th><th>从什么笔记产出</th><th>怎么触发</th><th>用户怎么消费</th></tr>
-    <tr class="hl"><td>考点清单</td><td>课堂录音笔记</td><td>AI对话框 "提炼考点"</td><td>打开直接复习</td></tr>
-    <tr><td>模拟题</td><td>课堂录音笔记</td><td>AI对话框 "出题"</td><td>做完检验掌握度</td></tr>
-    <tr class="hl"><td>复习播客</td><td>课堂录音笔记</td><td>AI对话框 "生成播客"</td><td>通勤听复习</td></tr>
-    <tr><td>脑图</td><td>课堂录音笔记</td><td>AI对话框 "生成脑图"</td><td>看结构快速回忆</td></tr>
-  </table>
-
-  <div class="group-tag">💼 职场人</div>
-  <table>
-    <tr><th>最终消费物</th><th>从什么笔记产出</th><th>怎么触发</th><th>用户怎么消费</th></tr>
-    <tr class="hl"><td>待办事项</td><td>会议录音笔记</td><td>AI自动提取</td><td>直接执行，到期提醒</td></tr>
-    <tr><td>会议PPT</td><td>会议录音笔记</td><td>AI对话框 "做PPT"</td><td>打开直接分享</td></tr>
-    <tr class="hl"><td>回顾播客</td><td>会议录音笔记</td><td>AI对话框 "生成播客"</td><td>通勤回顾要点</td></tr>
-  </table>
-
-  <div class="group-tag">📱 普通用户</div>
-  <table>
-    <tr><th>最终消费物</th><th>从什么笔记产出</th><th>怎么触发</th><th>用户怎么消费</th></tr>
-    <tr class="hl"><td>待办/提醒</td><td>日常速记</td><td>AI自动识别</td><td>到期主动推送</td></tr>
-    <tr><td>知识卡片</td><td>跨篇聚合</td><td>AI对话框 "生成卡片"</td><td>一张卡说清一件事</td></tr>
-    <tr class="hl"><td>播客</td><td>任何笔记</td><td>AI对话框 "生成播客"</td><td>点了就听</td></tr>
-  </table>
+<!-- SIDEBAR -->
+<div class="tag">侧边栏分类</div>
+<div class="sb-row">
+  <div class="sb-c"><h5>笔记</h5><ul><li>全部笔记</li></ul></div>
+  <div class="sb-c"><h5>小爱速记</h5><ul><li>AI键采集内容</li></ul></div>
+  <div class="sb-c"><h5>AI帮你做的</h5><ul><li>待办</li><li>播客</li><li>PPT</li><li>考点/出题</li><li>知识卡片</li><li>脑图</li></ul></div>
+  <div class="sb-c"><h5>文件夹</h5><ul><li>高等数学</li><li>产品工作</li><li>投资理财</li><li>个人</li></ul></div>
 </div>
 
-<!-- ======= 笔记内信息层级 ======= -->
-<div class="block">
-  <div class="section-title">一篇笔记内的信息层级</div>
-  <div class="section-desc">从上到下三层，保持页面视觉一致性。</div>
-  <div class="layers">
-    <div class="layer-row"><span class="layer-badge lb-gray">原文</span><div class="layer-info"><h5>原始内容（录音转写 / 截图 / 手写）</h5><p>录音带时间线，照片带时间戳。素材层。</p></div></div>
-    <div class="layer-row"><span class="layer-badge lb-blue">正文</span><div class="layer-info"><h5>笔记正文（AI整理后的结构化内容）</h5><p>课堂总结、会议纪要、知识点列表。用户日常阅读主体。</p></div></div>
-    <div class="layer-row"><span class="layer-badge lb-gold">消费卡片</span><div class="layer-info"><h5>最终消费物（考点 / 播客 / PPT / 待办 / 脑图）</h5><p>AI二次创作后的终态。底部呈现，每个卡片可独立打开。</p></div></div>
-  </div>
-  <div class="note">产出物双向存在：① 挂在笔记内底部 ② 聚合到侧边栏全局可查。底部AI对话框是生成入口。</div>
-</div>
+<!-- SCENARIO -->
+<div class="tag">场景串联：课堂笔记从录音到消费</div>
+<table style="margin-bottom:64px">
+  <tr><th>阶段</th><th>用户</th><th>系统</th><th>产出</th></tr>
+  <tr><td>课中</td><td>录音+拍照</td><td>实时转写+照片关联</td><td>—</td></tr>
+  <tr><td>课后</td><td>无需操作</td><td>AI生成结构化笔记</td><td>课堂笔记+待办</td></tr>
+  <tr class="hl"><td>复习</td><td>点"提炼考点"</td><td>AI提炼</td><td>考点清单</td></tr>
+  <tr class="hl"><td>做题</td><td>点"出题"</td><td>AI出题</td><td>模拟题</td></tr>
+  <tr class="hl"><td>通勤</td><td>点"生成播客"</td><td>AI音频化</td><td>播客</td></tr>
+  <tr class="hl"><td>汇报</td><td>点"做PPT"</td><td>AI转文稿</td><td>PPT</td></tr>
+</table>
 
-<!-- ======= 内容怎么组织 ======= -->
-<div class="block">
-  <div class="section-title">内容怎么组织</div>
-  <div class="section-desc">侧边栏四段式，每段回答一个独立问题。</div>
-  <div class="sb">
-    <div class="sb-col"><h5>笔记</h5><div class="sub">所有笔记（用户+AI写的）</div><ul><li>全部笔记</li></ul></div>
-    <div class="sb-col"><h5>小爱速记</h5><div class="sub">AI键采集，独立入口</div><ul><li>速记列表</li></ul></div>
-    <div class="sb-col"><h5>AI帮你做的</h5><div class="sub">产出物聚合</div><ul><li>待办</li><li>播客</li><li>PPT</li><li>考点/出题</li><li>知识卡片</li><li>脑图</li></ul></div>
-    <div class="sb-col"><h5>文件夹</h5><div class="sub">用户自建</div><ul><li>高等数学</li><li>产品工作</li><li>投资理财</li><li>个人</li></ul></div>
-  </div>
-</div>
-
-<!-- ======= 场景串联 ======= -->
-<div class="block">
-  <div class="section-title">场景串联：从录音到消费</div>
-  <div class="section-desc">以课堂笔记为例，完整链路。</div>
-  <table style="max-width:2400px">
-    <tr><th>阶段</th><th>用户做什么</th><th>系统做什么</th><th>产出（终态）</th></tr>
-    <tr><td>课中</td><td>录音 + 拍照</td><td>实时转写 + 照片关联</td><td>—</td></tr>
-    <tr><td>课后</td><td>无需操作</td><td>AI生成结构化笔记 + 提取待办</td><td>课堂笔记 + 待办</td></tr>
-    <tr class="hl"><td>复习</td><td>点"提炼考点"</td><td>AI提炼知识点</td><td>考点清单</td></tr>
-    <tr class="hl"><td>做题</td><td>点"出题"</td><td>AI出模拟题</td><td>模拟题</td></tr>
-    <tr class="hl"><td>通勤</td><td>点"生成播客"</td><td>AI音频化</td><td>播客</td></tr>
-    <tr class="hl"><td>汇报</td><td>点"做PPT"</td><td>AI转演示文稿</td><td>PPT</td></tr>
-  </table>
-</div>
-
-<!-- ======= 设计决策（最后）======= -->
-<div class="block block-dark">
-  <div class="section-title">设计决策</div>
-  <div class="strat-grid" style="margin-top:20px">
-    <div class="strat-card"><div class="num">01</div><h4>首页：保持框架，增加产出物可见性</h4><p>每张笔记卡片新增产出物标签。用户一眼看到"这篇已帮我准备了什么"。</p></div>
-    <div class="strat-card"><div class="num">02</div><h4>详情页：原文→正文→消费卡片</h4><p>保持视觉一致性。底部AI对话框是产出物唯一生成入口。</p></div>
-    <div class="strat-card"><div class="num">03</div><h4>AI对话框：保持现有交互</h4><p>笔记底部对话框触发生成。推荐chip降低操作门槛。</p></div>
-    <div class="strat-card"><div class="num">04</div><h4>侧边栏：四段式，逻辑不混用</h4><p>笔记 / 小爱速记 / AI帮你做的 / 文件夹。与首页一一对应。</p></div>
-  </div>
+<!-- STRATEGY -->
+<div class="tag">设计决策</div>
+<div class="strat-row">
+  <div class="st"><div class="n">01</div><h4>首页加产出物标签</h4><p>一眼看到这篇帮我准备了什么</p></div>
+  <div class="st"><div class="n">02</div><h4>详情页：原文→正文→卡片</h4><p>底部AI对话框触发生成</p></div>
+  <div class="st"><div class="n">03</div><h4>AI对话框保持现有交互</h4><p>推荐chip降低门槛</p></div>
+  <div class="st"><div class="n">04</div><h4>侧边栏四段式</h4><p>笔记/速记/AI产出/文件夹</p></div>
 </div>
 
 </body>
