@@ -8,49 +8,49 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","SF Pro Display",system-ui,sans-serif;background:#fff;color:#1a1a1a;max-width:1000px;margin:0 auto;padding:60px 40px;line-height:1.8;-webkit-font-smoothing:antialiased}
-h1{font-size:28px;font-weight:700;margin-bottom:8px}
-h2{font-size:20px;font-weight:700;margin:48px 0 16px;padding-bottom:8px;border-bottom:2px solid #1a1a1a}
-h3{font-size:16px;font-weight:600;margin:32px 0 12px;color:#333}
-p{font-size:15px;color:#444;margin-bottom:12px}
-.meta{font-size:13px;color:#999;margin-bottom:32px}
-.highlight{background:#FFFBE6;border-left:4px solid #C9A96E;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0}
-.highlight p{margin:0;color:#333}
-.highlight strong{color:#1a1a1a}
-table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:14px}
-th{background:#f8f8f8;padding:12px 16px;text-align:left;font-weight:600;border-bottom:2px solid #eee}
-td{padding:12px 16px;border-bottom:1px solid #f0f0f0;color:#444}
-td:first-child{font-weight:500;color:#1a1a1a}
-tr:hover td{background:#fafafa}
+h1{font-size:32px;font-weight:700;margin-bottom:8px;letter-spacing:-0.5px}
+h2{font-size:22px;font-weight:700;margin:56px 0 20px;padding-bottom:12px;border-bottom:2px solid #1a1a1a;letter-spacing:-0.3px}
+h3{font-size:16px;font-weight:600;margin:36px 0 12px;color:#1a1a1a}
+p{font-size:15px;color:#444;margin-bottom:14px;line-height:1.8}
+.meta{font-size:13px;color:#999;margin-bottom:40px}
+.highlight{background:linear-gradient(135deg,#FFFDF5,#FFF8E1);border-left:4px solid #C9A96E;padding:20px 24px;border-radius:0 12px 12px 0;margin:24px 0;box-shadow:0 2px 8px rgba(201,169,110,.08)}
+.highlight p{margin:0;color:#333;font-size:15px;line-height:1.7}
+.highlight strong{color:#1a1a1a;font-size:16px}
+table{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0 28px;font-size:14px;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+th{background:#f5f5f7;padding:14px 18px;text-align:left;font-weight:600;color:#333;border-bottom:1px solid #e8e8e8;font-size:13px}
+td{padding:14px 18px;border-bottom:1px solid #f5f5f5;color:#444}
+td:first-child{font-weight:600;color:#1a1a1a}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafcff}
 .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 24px}
 .card{background:#f8f8fa;border-radius:12px;padding:20px 24px}
 .card-num{font-size:11px;font-weight:700;color:#C9A96E;margin-bottom:6px}
 .card-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:6px}
 .card-desc{font-size:13px;color:#666;line-height:1.6}
-.flow{display:flex;align-items:center;gap:0;margin:20px 0;flex-wrap:wrap}
-.flow-item{padding:10px 20px;background:#f5f5f7;font-size:13px;font-weight:500;color:#555;border-right:1px solid #e8e8e8}
-.flow-item:first-child{border-radius:8px 0 0 8px}
-.flow-item:last-child{border-radius:0 8px 8px 0;border-right:none}
-.flow-item.active{background:#C9A96E;color:#fff;font-weight:600}
+.flow{display:flex;align-items:center;gap:0;margin:24px 0;flex-wrap:wrap;box-shadow:0 2px 8px rgba(0,0,0,.04);border-radius:10px;overflow:hidden}
+.flow-item{padding:12px 24px;background:#f8f8fa;font-size:13px;font-weight:500;color:#555;border-right:1px solid #eee}
+.flow-item:last-child{border-right:none}
+.flow-item.active{background:#1a1a1a;color:#fff;font-weight:600}
 .flow-arrow{padding:0 4px;color:#ccc}
 ul{padding-left:20px;margin:8px 0 16px}
 li{font-size:14px;color:#444;margin-bottom:6px}
-.sidebar-diagram{display:flex;gap:0;margin:16px 0;border:1px solid #eee;border-radius:12px;overflow:hidden}
-.sidebar-section{flex:1;padding:16px 20px;border-right:1px solid #eee}
+.sidebar-diagram{display:flex;gap:0;margin:20px 0;border:1px solid #eee;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.sidebar-section{flex:1;padding:20px 24px;border-right:1px solid #f0f0f0;background:#fff}
 .sidebar-section:last-child{border-right:none}
-.sidebar-section h4{font-size:12px;color:#999;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
-.sidebar-section ul{padding-left:0;list-style:none}
-.sidebar-section li{font-size:13px;color:#333;padding:4px 0;display:flex;align-items:center;gap:6px}
+.sidebar-section h4{font-size:13px;color:#1a1a1a;font-weight:700;margin-bottom:8px}
+.sidebar-section ul{padding-left:0;list-style:none;margin-top:12px}
+.sidebar-section li{font-size:13px;color:#444;padding:5px 0;display:flex;align-items:center;gap:8px}
 .sidebar-section li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#C9A96E;flex-shrink:0}
-.note-structure{border:1px solid #eee;border-radius:12px;overflow:hidden;margin:16px 0}
-.note-layer{padding:16px 20px;border-bottom:1px solid #f0f0f0;display:flex;align-items:flex-start;gap:16px}
+.note-structure{border:1px solid #eee;border-radius:14px;overflow:hidden;margin:20px 0;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.note-layer{padding:20px 24px;border-bottom:1px solid #f5f5f5;display:flex;align-items:flex-start;gap:16px}
 .note-layer:last-child{border-bottom:none}
-.note-layer-badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.note-layer-badge{padding:5px 12px;border-radius:8px;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0}
 .badge-gold{background:#FFF8E1;color:#A67C00}
-.badge-blue{background:#E3F2FD;color:#1565C0}
-.badge-gray{background:#F5F5F5;color:#666}
+.badge-blue{background:#E8F4FD;color:#1565C0}
+.badge-gray{background:#F5F5F7;color:#555}
 .note-layer-content{flex:1}
-.note-layer-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
-.note-layer-desc{font-size:13px;color:#666}
+.note-layer-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.note-layer-desc{font-size:13px;color:#666;line-height:1.6}
 </style>
 </head>
 <body>
@@ -285,33 +285,6 @@ li{font-size:14px;color:#444;margin-bottom:6px}
 <div class="highlight">
   <p><strong>每个阶段的产出物都是终态</strong>——用户拿到就能直接用，不需要再加工。这就是"消费链路完整"的含义。</p>
 </div>
-
-<!-- ===== 七、产品定位 ===== -->
-<h2>七、产品定位</h2>
-
-<div class="highlight">
-  <p><strong>自增长可赋能的个人数字资产中枢</strong></p>
-</div>
-
-<table>
-  <tr><th>关键词</th><th>含义</th></tr>
-  <tr><td>自增长</td><td>用户每次记录 + 系统自动采集，数据持续积累，AI对用户的理解不断加深</td></tr>
-  <tr><td>可赋能</td><td>AI基于积累产出7种用户可直接消费的最终内容</td></tr>
-  <tr><td>中枢</td><td>用户侧是创作和消费的入口，MiClaw侧是调用全量数据的底座</td></tr>
-</table>
-
-<p><strong>飞轮</strong>：记录越多 → AI越懂用户 → 产出越精准 → 用户越愿意记 → 记录越多</p>
-
-<!-- ===== 八、下一步 ===== -->
-<h2>八、下一步</h2>
-
-<table>
-  <tr><th>事项</th><th>优先级</th><th>说明</th></tr>
-  <tr><td>完善各消费物的生成链路和独立页设计</td><td>P0</td><td>每种消费物如何生成、如何展示、如何打开编辑</td></tr>
-  <tr><td>侧边栏交互细化</td><td>P0</td><td>三段式具体交互，与首页筛选的联动</td></tr>
-  <tr><td>PPT生成能力接入</td><td>P0</td><td>确认技术方案，网页版PPT还是PowerPoint</td></tr>
-  <tr><td>各功能优先级排序</td><td>P1</td><td>基于完整清单和研发资源排优先级</td></tr>
-</table>
 
 </body>
 </html>
