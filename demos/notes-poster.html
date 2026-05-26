@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记产品方案</title>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","SF Pro Display",system-ui,sans-serif;background:#1e1e1e;color:#fff;padding:80px;width:3200px;-webkit-font-smoothing:antialiased}
+
+/* Section styling */
+.section{margin-bottom:100px}
+.section-tag{font-size:28px;font-weight:700;color:#C9A96E;margin-bottom:12px}
+.section-desc{font-size:16px;color:rgba(255,255,255,.5);line-height:1.8;max-width:2400px;margin-bottom:40px}
+
+/* Judgment hero */
+.hero{background:linear-gradient(135deg,rgba(201,169,110,.08),rgba(201,169,110,.02));border:1px solid rgba(201,169,110,.2);border-radius:16px;padding:48px 56px;margin-bottom:48px}
+.hero-main{font-size:36px;font-weight:700;color:#fff;line-height:1.4;margin-bottom:12px}
+.hero-sub{font-size:18px;color:rgba(255,255,255,.5);line-height:1.7}
+
+/* Table */
+.matrix{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;margin-bottom:48px}
+.matrix th{background:#2a2a2a;padding:16px 20px;font-size:14px;font-weight:600;color:rgba(255,255,255,.7);text-align:left;border-bottom:1px solid #333}
+.matrix td{padding:16px 20px;font-size:14px;color:rgba(255,255,255,.6);border-bottom:1px solid #2a2a2a;background:#232323;line-height:1.5}
+.matrix tr:last-child td{border-bottom:none}
+.matrix td:first-child{font-weight:600;color:#fff;width:160px}
+.matrix .highlight-row td{background:rgba(201,169,110,.06);border-left:3px solid #C9A96E}
+
+/* Tab bar */
+.tabs{display:flex;gap:0;margin-bottom:24px;background:#2a2a2a;border-radius:10px;overflow:hidden;width:fit-content}
+.tab{padding:12px 28px;font-size:14px;font-weight:500;color:rgba(255,255,255,.5)}
+.tab.active{background:#C9A96E;color:#000;font-weight:600}
+
+/* Scenario section */
+.scenario{margin-bottom:80px}
+.scenario-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:8px}
+.scenario-desc{font-size:14px;color:rgba(255,255,255,.4);margin-bottom:28px;line-height:1.6}
+.scenario-sub{font-size:16px;font-weight:600;color:rgba(255,255,255,.8);margin-bottom:8px;margin-top:40px}
+.scenario-note{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:20px;line-height:1.6}
+
+/* Phone mockups row */
+.phones-row{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+.phone-mock{width:280px;height:600px;background:#fff;border-radius:32px;border:6px solid #111;overflow:hidden;position:relative;box-shadow:0 16px 48px rgba(0,0,0,.4)}
+.phone-mock::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:90px;height:22px;background:#111;border-radius:0 0 12px 12px;z-index:10}
+.phone-mock-content{padding:36px 12px 12px;height:100%;display:flex;flex-direction:column;font-size:11px;color:#333}
+.phone-mock-label{font-size:11px;color:rgba(255,255,255,.4);margin-top:8px;text-align:center}
+.phone-placeholder{width:280px;height:600px;background:#2a2a2a;border-radius:32px;border:1px solid #333;display:flex;align-items:center;justify-content:center;font-size:13px;color:rgba(255,255,255,.3)}
+
+/* Positioning card */
+.pos-card{background:#232323;border-radius:16px;padding:40px 48px;margin-bottom:40px;border:1px solid #333}
+.pos-label{font-size:12px;font-weight:600;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.pos-main{font-size:28px;font-weight:700;color:#C9A96E;margin-bottom:16px}
+.pos-desc{font-size:15px;color:rgba(255,255,255,.5);line-height:1.8}
+
+/* Strategy cards */
+.strat-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px}
+.strat-card{background:#232323;border-radius:12px;padding:24px 28px;border:1px solid #333}
+.strat-num{font-size:12px;font-weight:700;color:#C9A96E;margin-bottom:8px}
+.strat-title{font-size:16px;font-weight:600;color:#fff;margin-bottom:6px}
+.strat-desc{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6}
+
+/* Flow */
+.flow-bar{display:flex;align-items:center;gap:0;margin:40px 0;background:#232323;border-radius:12px;overflow:hidden;width:fit-content}
+.flow-step{padding:16px 32px;font-size:14px;font-weight:500;color:rgba(255,255,255,.6);position:relative}
+.flow-step::after{content:"→";position:absolute;right:-8px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.2);font-size:16px}
+.flow-step:last-child::after{display:none}
+.flow-step.active{background:rgba(201,169,110,.1);color:#C9A96E;font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- ========== #目标 ========== -->
+<div class="section">
+  <div class="section-tag">#目标</div>
+  <div class="hero">
+    <div class="hero-main">笔记正在从记录工具，变成用户消费 AI 产出物的入口</div>
+    <div class="hero-sub">随着内容来源爆发（MiClaw产出、AI键采集、录音转写、穿戴同步），笔记承载的内容越来越多。<br>但用户主动阅读笔记正文的频率没有上升——他们真正消费的是 AI 基于笔记产出的最终结果：考点、待办、播客、PPT。</div>
+  </div>
+
+  <div class="flow-bar">
+    <div class="flow-step">用户写/说/拍</div>
+    <div class="flow-step">笔记沉淀（中间态）</div>
+    <div class="flow-step">AI 理解加工</div>
+    <div class="flow-step active">产出最终物（终态）</div>
+    <div class="flow-step">用户直接消费</div>
+  </div>
+</div>
+
+<!-- ========== #方案 ========== -->
+<div class="section">
+  <div class="section-tag">#方案</div>
+  <div class="section-desc">围绕"最终消费物"设计产品。每种笔记都有对应的终态产出——点了就用、不需要回看原文。</div>
+
+  <div class="tabs">
+    <div class="tab active">课堂笔记</div>
+    <div class="tab">会议纪要</div>
+    <div class="tab">日常速记</div>
+    <div class="tab">待办</div>
+    <div class="tab">播客</div>
+    <div class="tab">PPT</div>
+  </div>
+
+  <table class="matrix">
+    <tr>
+      <th>功能</th>
+      <th>输入（用户做什么）</th>
+      <th>AI 处理</th>
+      <th>最终产出物（终态）</th>
+      <th>用户怎么消费</th>
+    </tr>
+    <tr class="highlight-row">
+      <td>课堂笔记</td>
+      <td>录音 + 拍照</td>
+      <td>转写 → 结构化 → 考点提炼 → 出题</td>
+      <td>考点清单 / 模拟题 / 播客 / 脑图</td>
+      <td>打开直接复习、做题、听播客</td>
+    </tr>
+    <tr>
+      <td>会议纪要</td>
+      <td>录音 + 拍白板</td>
+      <td>分议题 → 提结论 → 抽待办</td>
+      <td>待办事项 / PPT / 播客</td>
+      <td>待办直接执行、PPT直接分享</td>
+    </tr>
+    <tr>
+      <td>日常速记</td>
+      <td>AI键/语音/分享</td>
+      <td>识别类型 → 结构化 → 归档</td>
+      <td>待办 / 知识卡片 / 播客</td>
+      <td>问AI直接调出、主动提醒</td>
+    </tr>
+    <tr>
+      <td>播客</td>
+      <td>—（基于任何笔记生成）</td>
+      <td>内容音频化 → 条件播放</td>
+      <td>播客音频</td>
+      <td>点了就听、上车自动播</td>
+    </tr>
+    <tr>
+      <td>PPT</td>
+      <td>—（基于任何笔记生成）</td>
+      <td>内容结构转换为演示文稿</td>
+      <td>可分享的PPT</td>
+      <td>打开就能讲解/分享</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ========== 产品定位 ========== -->
+<div class="section">
+  <div class="pos-card">
+    <div class="pos-label">产品定位</div>
+    <div class="pos-main">自增长可赋能的个人数字资产中枢</div>
+    <div class="pos-desc">
+      <strong>自增长</strong>：用户每次记录 + 系统自动采集，数据持续积累，AI 对用户的理解不断加深<br>
+      <strong>可赋能</strong>：AI 基于积累产出用户可直接消费的最终内容（考点 / 待办 / 播客 / PPT / 卡片）<br>
+      <strong>中枢</strong>：用户侧是创作和消费的入口，MiClaw 侧是调用全量数据的底座
+    </div>
+  </div>
+</div>
+
+<!-- ========== 设计策略 ========== -->
+<div class="section">
+  <div class="section-tag">#设计策略</div>
+  <div class="section-desc">4个设计决策，对应4个核心页面。</div>
+  <div class="strat-grid">
+    <div class="strat-card">
+      <div class="strat-num">策略 01</div>
+      <div class="strat-title">首页：保持框架，增加产出物可见性</div>
+      <div class="strat-desc">不改变用户已有心智。每张笔记卡片新增产出物标签，让用户一眼看到"这篇已经帮我准备了什么"。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-num">策略 02</div>
+      <div class="strat-title">详情页：产出物在上，原文在下</div>
+      <div class="strat-desc">用户打开笔记首先看到 AI 帮他准备好的东西（考点/播客/PPT/待办），笔记正文在中间，原始转写折叠在底部。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-num">策略 03</div>
+      <div class="strat-title">AI对话框：产出物生成入口</div>
+      <div class="strat-desc">用户通过笔记底部AI对话框触发生成播客/考题/PPT/待办。保持现有交互模式，零学习成本。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-num">策略 04</div>
+      <div class="strat-title">侧边栏：三段式分类</div>
+      <div class="strat-desc">笔记来源 / AI帮你做的 / 文件夹。三段各答一个问题，逻辑不混用，与首页一一对应。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 设计稿：首页 ========== -->
+<div class="section scenario">
+  <div class="scenario-title">设计稿 1：首页 · 笔记列表</div>
+  <div class="scenario-desc">保持现有框架不变，每张卡片底部新增产出物标签（考点/播客/PPT/待办）。用户一眼看到价值。</div>
+  <div class="phones-row">
+    <div class="phone-placeholder">首页 · 默认态<br>（见右侧设计稿）</div>
+  </div>
+</div>
+
+<!-- ========== 设计稿：详情页 ========== -->
+<div class="section scenario">
+  <div class="scenario-title">设计稿 2：笔记详情页 · 产出物 + AI对话框</div>
+  <div class="scenario-desc">打开笔记首先看到 AI 帮你准备的产出物卡片区。底部 AI 对话框是生成入口。原文折叠在最底部。</div>
+
+  <div class="scenario-sub">1. 详情页 · 产出物展示态</div>
+  <div class="scenario-note">用户打开一篇笔记后看到的默认状态：产出物卡片在正文上方，每个卡片可独立操作（查看/播放/做题）</div>
+  <div class="phones-row">
+    <div class="phone-placeholder">详情页 · 产出物区<br>（见右侧设计稿）</div>
+  </div>
+
+  <div class="scenario-sub">2. AI对话框 · 展开态</div>
+  <div class="scenario-note">用户点击底部输入框后，上方弹出智能推荐chip：提炼考点 / 生成播客 / 做PPT / 提取待办 / 问问题。点击即触发。</div>
+  <div class="phones-row">
+    <div class="phone-placeholder">AI对话框 · 展开态<br>（见右侧设计稿）</div>
+  </div>
+</div>
+
+<!-- ========== 设计稿：侧边栏 ========== -->
+<div class="section scenario">
+  <div class="scenario-title">设计稿 3：侧边栏 · 三段式分类</div>
+  <div class="scenario-desc">侧边栏三段逻辑：<br>第一段「笔记」= 按来源区分（全部/手写/录音/速记）<br>第二段「AI帮你做的」= 所有笔记产出物聚合（待办/播客/PPT/考题/卡片）<br>第三段「文件夹」= 用户自建分组</div>
+
+  <div class="scenario-sub">三段对应关系</div>
+  <table class="matrix" style="max-width:1600px">
+    <tr>
+      <th>侧边栏段落</th>
+      <th>回答什么问题</th>
+      <th>包含什么</th>
+      <th>和首页的关系</th>
+    </tr>
+    <tr>
+      <td>笔记</td>
+      <td>我有多少笔记、从哪来的</td>
+      <td>全部 / 我的创作 / 录音笔记 / AI速记</td>
+      <td>= 首页列表的筛选维度</td>
+    </tr>
+    <tr>
+      <td>AI帮你做的</td>
+      <td>AI从我的笔记里产出了什么</td>
+      <td>待办 / 播客 / PPT / 考点 / 知识卡片</td>
+      <td>= 跨所有笔记的产出物聚合视图</td>
+    </tr>
+    <tr>
+      <td>文件夹</td>
+      <td>我怎么组织我的笔记</td>
+      <td>用户自建文件夹（一篇笔记只属一个）</td>
+      <td>= 首页筛选栏的文件夹图标</td>
+    </tr>
+  </table>
+
+  <div class="phones-row">
+    <div class="phone-placeholder">侧边栏<br>（见右侧设计稿）</div>
+  </div>
+</div>
+
+</body>
+</html>
