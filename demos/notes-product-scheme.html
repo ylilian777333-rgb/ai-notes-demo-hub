@@ -207,14 +207,12 @@ li{font-size:14px;color:#444;margin-bottom:6px}
 
 <div class="sidebar-diagram">
   <div class="sidebar-section">
-    <h4>笔记来源</h4>
-    <p style="font-size:12px;color:#999;margin-bottom:8px">回答：我有多少笔记、从哪来的</p>
+    <h4>笔记</h4>
+    <p style="font-size:12px;color:#999;margin-bottom:8px">用户的所有笔记（含用户写的 + AI帮写的）</p>
     <ul>
-      <li>全部</li>
-      <li>我的创作</li>
-      <li>录音笔记</li>
-      <li>AI速记</li>
+      <li>全部笔记</li>
     </ul>
+    <p style="font-size:11px;color:#bbb;margin-top:8px">注：小爱速记（AI键采集的内容）不在此展示，后台沉淀，搜索可达</p>
   </div>
   <div class="sidebar-section">
     <h4>AI帮你做的</h4>
@@ -244,10 +242,12 @@ li{font-size:14px;color:#444;margin-bottom:6px}
 <p><strong>侧边栏与首页的对应关系：</strong></p>
 <table>
   <tr><th>侧边栏段落</th><th>点击后看到什么</th><th>与首页的关系</th></tr>
-  <tr><td>笔记来源</td><td>对应类型的笔记列表</td><td>= 首页筛选tab的维度</td></tr>
+  <tr><td>笔记</td><td>用户所有笔记列表（用户写的 + AI帮写的）</td><td>= 首页默认列表</td></tr>
   <tr><td>AI帮你做的</td><td>所有笔记产出的该类型消费物列表</td><td>= 跨笔记聚合视图</td></tr>
   <tr><td>文件夹</td><td>该文件夹下的笔记列表</td><td>= 首页文件夹图标点开后的分类</td></tr>
 </table>
+
+<p><strong>关于小爱速记：</strong>AI键短按采集的内容（截图/链接摘要等）不出现在侧边栏，不出现在首页笔记列表。后台沉淀，MiClaw搜索可达，但不干扰用户主视图。</p>
 
 <div class="highlight">
   <p><strong>分类逻辑原则：</strong>三段之间不混用。文件夹只管笔记本身，不管产出物；产出物跨所有笔记聚合，不受文件夹限制。一篇笔记只属于一个文件夹（文件夹逻辑，非标签逻辑）。</p>
