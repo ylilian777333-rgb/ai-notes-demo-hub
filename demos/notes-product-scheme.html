@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记产品方案 · 完整版</title>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","SF Pro Display",system-ui,sans-serif;background:#fff;color:#1a1a1a;max-width:1000px;margin:0 auto;padding:60px 40px;line-height:1.8;-webkit-font-smoothing:antialiased}
+h1{font-size:28px;font-weight:700;margin-bottom:8px}
+h2{font-size:20px;font-weight:700;margin:48px 0 16px;padding-bottom:8px;border-bottom:2px solid #1a1a1a}
+h3{font-size:16px;font-weight:600;margin:32px 0 12px;color:#333}
+p{font-size:15px;color:#444;margin-bottom:12px}
+.meta{font-size:13px;color:#999;margin-bottom:32px}
+.highlight{background:#FFFBE6;border-left:4px solid #C9A96E;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0}
+.highlight p{margin:0;color:#333}
+.highlight strong{color:#1a1a1a}
+table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:14px}
+th{background:#f8f8f8;padding:12px 16px;text-align:left;font-weight:600;border-bottom:2px solid #eee}
+td{padding:12px 16px;border-bottom:1px solid #f0f0f0;color:#444}
+td:first-child{font-weight:500;color:#1a1a1a}
+tr:hover td{background:#fafafa}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 24px}
+.card{background:#f8f8fa;border-radius:12px;padding:20px 24px}
+.card-num{font-size:11px;font-weight:700;color:#C9A96E;margin-bottom:6px}
+.card-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:6px}
+.card-desc{font-size:13px;color:#666;line-height:1.6}
+.flow{display:flex;align-items:center;gap:0;margin:20px 0;flex-wrap:wrap}
+.flow-item{padding:10px 20px;background:#f5f5f7;font-size:13px;font-weight:500;color:#555;border-right:1px solid #e8e8e8}
+.flow-item:first-child{border-radius:8px 0 0 8px}
+.flow-item:last-child{border-radius:0 8px 8px 0;border-right:none}
+.flow-item.active{background:#C9A96E;color:#fff;font-weight:600}
+.flow-arrow{padding:0 4px;color:#ccc}
+ul{padding-left:20px;margin:8px 0 16px}
+li{font-size:14px;color:#444;margin-bottom:6px}
+.sidebar-diagram{display:flex;gap:0;margin:16px 0;border:1px solid #eee;border-radius:12px;overflow:hidden}
+.sidebar-section{flex:1;padding:16px 20px;border-right:1px solid #eee}
+.sidebar-section:last-child{border-right:none}
+.sidebar-section h4{font-size:12px;color:#999;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.sidebar-section ul{padding-left:0;list-style:none}
+.sidebar-section li{font-size:13px;color:#333;padding:4px 0;display:flex;align-items:center;gap:6px}
+.sidebar-section li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#C9A96E;flex-shrink:0}
+.note-structure{border:1px solid #eee;border-radius:12px;overflow:hidden;margin:16px 0}
+.note-layer{padding:16px 20px;border-bottom:1px solid #f0f0f0;display:flex;align-items:flex-start;gap:16px}
+.note-layer:last-child{border-bottom:none}
+.note-layer-badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.badge-gold{background:#FFF8E1;color:#A67C00}
+.badge-blue{background:#E3F2FD;color:#1565C0}
+.badge-gray{background:#F5F5F5;color:#666}
+.note-layer-content{flex:1}
+.note-layer-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
+.note-layer-desc{font-size:13px;color:#666}
+</style>
+</head>
+<body>
+
+<h1>笔记产品方案</h1>
+<p class="meta">2026.05.26 · 杨李莲</p>
+
+<!-- ===== 一、产品定义 ===== -->
+<h2>一、产品定义</h2>
+
+<div class="highlight">
+  <p><strong>笔记 = 用户信息记录的综合性功能，最终产出用户可直接消费的内容形态。</strong></p>
+  <p style="margin-top:8px;font-size:13px;color:#666">不是单纯的文字记录工具，也不是知识库。它是一个让用户形成具象功能心智的产品——用户知道它能产出课堂笔记、会议纪要、待办、播客、PPT。</p>
+</div>
+
+<h3>用户心智</h3>
+<p>类比：用户认为 ChatGPT 是"翻译官"——这是具象的功能心智。笔记也需要这样的具象认知：</p>
+<ul>
+  <li>它帮我上课 → 产出考点、出题、复习播客</li>
+  <li>它帮我开会 → 产出纪要、待办、会议PPT</li>
+  <li>它帮我记事 → 产出待办、提醒、知识卡片</li>
+</ul>
+
+<h3>核心逻辑</h3>
+<div class="flow">
+  <div class="flow-item">用户 写/说/拍</div>
+  <div class="flow-item">笔记沉淀（中间态）</div>
+  <div class="flow-item">AI 理解加工</div>
+  <div class="flow-item active">产出最终消费物（终态）</div>
+  <div class="flow-item">用户直接使用</div>
+</div>
+
+<p><strong>关键认知：</strong>笔记正文是中间产物。AI生成的笔记和收藏内容越多，用户直接阅读原始笔记的频率越低。用户真正打开的是终态消费物——播客点了就听、PPT打开就分享、考点拿来就复习。</p>
+
+<!-- ===== 二、功能清单 ===== -->
+<h2>二、最终消费物清单</h2>
+
+<p>产品围绕 7 种最终消费物设计。每种都是用户可直接使用的终态内容。</p>
+
+<table>
+  <tr>
+    <th>最终消费物</th>
+    <th>从什么笔记产出</th>
+    <th>怎么触发</th>
+    <th>用户怎么消费</th>
+  </tr>
+  <tr>
+    <td>考点清单</td>
+    <td>课堂录音笔记</td>
+    <td>AI对话框 "提炼考点"</td>
+    <td>打开直接复习，结构化知识点</td>
+  </tr>
+  <tr>
+    <td>模拟题</td>
+    <td>课堂录音笔记</td>
+    <td>AI对话框 "出题"</td>
+    <td>做完检验掌握度，错题标记</td>
+  </tr>
+  <tr>
+    <td>待办事项</td>
+    <td>会议 / 课堂 / 速记</td>
+    <td>AI自动提取 或 手动触发</td>
+    <td>直接执行，到期提醒，同步日历</td>
+  </tr>
+  <tr>
+    <td>播客</td>
+    <td>任何笔记</td>
+    <td>AI对话框 "生成播客"</td>
+    <td>点了就听，上车播/闹钟后播</td>
+  </tr>
+  <tr>
+    <td>PPT</td>
+    <td>会议 / 任何笔记</td>
+    <td>AI对话框 "做PPT"</td>
+    <td>打开直接分享、讲解</td>
+  </tr>
+  <tr>
+    <td>知识卡片</td>
+    <td>跨篇聚合</td>
+    <td>AI对话框 "生成卡片"</td>
+    <td>一张卡说清一件事，可分享</td>
+  </tr>
+  <tr>
+    <td>脑图</td>
+    <td>课堂 / 任何笔记</td>
+    <td>AI对话框 "生成脑图"</td>
+    <td>看结构，快速回忆知识框架</td>
+  </tr>
+</table>
+
+<!-- ===== 三、内容结构 ===== -->
+<h2>三、内容结构：原文 vs 产出物</h2>
+
+<p>每篇笔记内部，明确区分三层内容：</p>
+
+<div class="note-structure">
+  <div class="note-layer">
+    <span class="note-layer-badge badge-gold">终态 · C位</span>
+    <div class="note-layer-content">
+      <div class="note-layer-title">产出物 / 衍生物</div>
+      <div class="note-layer-desc">基于原文经AI处理后形成的可直接消费内容。如：考点清单、播客、PPT、待办、脑图。用户打开笔记首先看到这里。</div>
+    </div>
+  </div>
+  <div class="note-layer">
+    <span class="note-layer-badge badge-blue">正文</span>
+    <div class="note-layer-content">
+      <div class="note-layer-title">笔记正文（AI整理后的结构化内容）</div>
+      <div class="note-layer-desc">如：课堂总结的知识点列表、会议纪要的议题和结论。是AI加工后的结构化文本，用户阅读时在这里。</div>
+    </div>
+  </div>
+  <div class="note-layer">
+    <span class="note-layer-badge badge-gray">原文 · 折叠</span>
+    <div class="note-layer-content">
+      <div class="note-layer-title">原始内容（录音转写 / 截图 / 用户手写）</div>
+      <div class="note-layer-desc">用户手动记录或系统录入的原始数据。默认折叠，需要时展开查看。是"中间态"的底层数据。</div>
+    </div>
+  </div>
+</div>
+
+<p><strong>产出物与笔记的关系：</strong></p>
+<ul>
+  <li>产出物挂在对应笔记内（详情页上方卡片区）</li>
+  <li>同时聚合到侧边栏（全局可查，跨笔记浏览）</li>
+  <li>产出物可独立打开、独立操作（播放/做题/分享），不需要回到笔记原文</li>
+  <li>产出物标注来源笔记，用户随时可追溯</li>
+</ul>
+
+<!-- ===== 四、交互形态 ===== -->
+<h2>四、交互形态</h2>
+
+<h3>4.1 详情页结构</h3>
+<p>用户打开一篇笔记，从上到下看到的是：</p>
+<table>
+  <tr><th>层级</th><th>内容</th><th>用户行为</th></tr>
+  <tr><td>标题区</td><td>笔记标题 + 时间 + 来源标记</td><td>知道这是什么</td></tr>
+  <tr><td>产出物卡片区</td><td>已生成的终态消费物列表（每个可独立操作）</td><td>点击直接使用</td></tr>
+  <tr><td>笔记正文</td><td>AI整理后的结构化内容</td><td>需要深入看时阅读</td></tr>
+  <tr><td>原文（折叠）</td><td>录音转写/原始截图/手写</td><td>需要追溯时展开</td></tr>
+  <tr><td>AI对话框（底部）</td><td>"生成播客、出题、做PPT..."</td><td>触发新的产出物生成</td></tr>
+</table>
+
+<h3>4.2 AI对话框 = 产出物生成入口</h3>
+<p>保持现有交互模式——笔记底部的AI对话框。用户在这里触发所有产出物的生成：</p>
+<ul>
+  <li>点击输入框 → 弹出智能推荐chip（提炼考点 / 生成播客 / 做PPT / 提取待办 / 生成脑图 / 问问题）</li>
+  <li>用户点击chip或自由输入 → AI基于当前笔记内容生成对应产出物</li>
+  <li>生成完成 → 产出物卡片出现在详情页上方 + 同步到侧边栏</li>
+</ul>
+
+<h3>4.3 侧边栏分类逻辑</h3>
+<p>侧边栏三段式设计，每段回答一个独立问题，逻辑不混用：</p>
+
+<div class="sidebar-diagram">
+  <div class="sidebar-section">
+    <h4>笔记来源</h4>
+    <p style="font-size:12px;color:#999;margin-bottom:8px">回答：我有多少笔记、从哪来的</p>
+    <ul>
+      <li>全部</li>
+      <li>我的创作</li>
+      <li>录音笔记</li>
+      <li>AI速记</li>
+    </ul>
+  </div>
+  <div class="sidebar-section">
+    <h4>AI帮你做的</h4>
+    <p style="font-size:12px;color:#999;margin-bottom:8px">回答：AI从我的笔记里产出了什么</p>
+    <ul>
+      <li>待办</li>
+      <li>播客</li>
+      <li>PPT</li>
+      <li>考点 / 出题</li>
+      <li>知识卡片</li>
+      <li>脑图</li>
+    </ul>
+  </div>
+  <div class="sidebar-section">
+    <h4>文件夹</h4>
+    <p style="font-size:12px;color:#999;margin-bottom:8px">回答：我怎么组织我的笔记</p>
+    <ul>
+      <li>高等数学</li>
+      <li>产品工作</li>
+      <li>投资理财</li>
+      <li>个人</li>
+      <li style="color:#999">+ 新建文件夹</li>
+    </ul>
+  </div>
+</div>
+
+<p><strong>侧边栏与首页的对应关系：</strong></p>
+<table>
+  <tr><th>侧边栏段落</th><th>点击后看到什么</th><th>与首页的关系</th></tr>
+  <tr><td>笔记来源</td><td>对应类型的笔记列表</td><td>= 首页筛选tab的维度</td></tr>
+  <tr><td>AI帮你做的</td><td>所有笔记产出的该类型消费物列表</td><td>= 跨笔记聚合视图</td></tr>
+  <tr><td>文件夹</td><td>该文件夹下的笔记列表</td><td>= 首页文件夹图标点开后的分类</td></tr>
+</table>
+
+<div class="highlight">
+  <p><strong>分类逻辑原则：</strong>三段之间不混用。文件夹只管笔记本身，不管产出物；产出物跨所有笔记聚合，不受文件夹限制。一篇笔记只属于一个文件夹（文件夹逻辑，非标签逻辑）。</p>
+</div>
+
+<!-- ===== 五、首页设计 ===== -->
+<h2>五、首页设计</h2>
+
+<p>首页保持现有笔记列表框架不变。唯一新增：每张笔记卡片底部标注已生成的产出物标签。</p>
+
+<table>
+  <tr><th>元素</th><th>内容</th><th>作用</th></tr>
+  <tr><td>标题栏</td><td>"笔记" + 编辑/更多图标</td><td>不变</td></tr>
+  <tr><td>搜索栏</td><td>搜索</td><td>不变</td></tr>
+  <tr><td>筛选tab</td><td>文件夹图标 + 分类pill（全部/会议/课堂/生活...）</td><td>不变</td></tr>
+  <tr><td>笔记卡片</td><td>标题 + 摘要 + <strong>产出物标签</strong> + 时间/来源</td><td>新增产出物标签</td></tr>
+  <tr><td>底部栏</td><td>附件 / 录音 / 新建</td><td>不变</td></tr>
+</table>
+
+<p><strong>产出物标签的作用：</strong>用户扫一眼首页列表，就知道"这篇笔记已经帮我准备了什么"——哪篇有考点、哪篇有播客、哪篇有待办。不需要打开才发现。</p>
+
+<!-- ===== 六、消费链路 ===== -->
+<h2>六、完整消费链路（以课堂笔记为例）</h2>
+
+<table>
+  <tr><th>阶段</th><th>用户做什么</th><th>系统做什么</th><th>产出什么</th></tr>
+  <tr><td>课中</td><td>录音 + 拍照</td><td>实时转写 + 照片关联时间线</td><td>—（数据积累中）</td></tr>
+  <tr><td>课后</td><td>无需操作</td><td>AI生成结构化课堂笔记 + 提取待办</td><td>课堂笔记正文 + 待办</td></tr>
+  <tr><td>复习</td><td>打开笔记 → 点"提炼考点"</td><td>AI基于全文提炼知识点</td><td>考点清单</td></tr>
+  <tr><td>做题</td><td>点"出题"</td><td>AI基于考点出模拟题</td><td>模拟题</td></tr>
+  <tr><td>通勤</td><td>点"生成播客"</td><td>AI将内容音频化</td><td>播客（点了就听）</td></tr>
+  <tr><td>汇报</td><td>点"做PPT"</td><td>AI将内容转为演示文稿</td><td>PPT（打开就分享）</td></tr>
+</table>
+
+<div class="highlight">
+  <p><strong>每个阶段的产出物都是终态</strong>——用户拿到就能直接用，不需要再加工。这就是"消费链路完整"的含义。</p>
+</div>
+
+<!-- ===== 七、产品定位 ===== -->
+<h2>七、产品定位</h2>
+
+<div class="highlight">
+  <p><strong>自增长可赋能的个人数字资产中枢</strong></p>
+</div>
+
+<table>
+  <tr><th>关键词</th><th>含义</th></tr>
+  <tr><td>自增长</td><td>用户每次记录 + 系统自动采集，数据持续积累，AI对用户的理解不断加深</td></tr>
+  <tr><td>可赋能</td><td>AI基于积累产出7种用户可直接消费的最终内容</td></tr>
+  <tr><td>中枢</td><td>用户侧是创作和消费的入口，MiClaw侧是调用全量数据的底座</td></tr>
+</table>
+
+<p><strong>飞轮</strong>：记录越多 → AI越懂用户 → 产出越精准 → 用户越愿意记 → 记录越多</p>
+
+<!-- ===== 八、下一步 ===== -->
+<h2>八、下一步</h2>
+
+<table>
+  <tr><th>事项</th><th>优先级</th><th>说明</th></tr>
+  <tr><td>完善各消费物的生成链路和独立页设计</td><td>P0</td><td>每种消费物如何生成、如何展示、如何打开编辑</td></tr>
+  <tr><td>侧边栏交互细化</td><td>P0</td><td>三段式具体交互，与首页筛选的联动</td></tr>
+  <tr><td>PPT生成能力接入</td><td>P0</td><td>确认技术方案，网页版PPT还是PowerPoint</td></tr>
+  <tr><td>各功能优先级排序</td><td>P1</td><td>基于完整清单和研发资源排优先级</td></tr>
+</table>
+
+</body>
+</html>
