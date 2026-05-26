@@ -12,7 +12,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Text","SF Pro Display",syst
 /* Layout */
 .title-block{margin-bottom:40px}
 .title-block h1{font-size:20px;font-weight:600;color:#f5f5f7;letter-spacing:-0.3px}
-.title-block p{font-size:12px;color:#86868b;margin-top:4px;line-height:1.5;max-width:600px}
+.title-block p{font-size:12px;color:rgba(255,255,255,.7);margin-top:4px;line-height:1.5;max-width:600px}
 
 .section{margin-bottom:72px}
 .section-label{font-size:10px;font-weight:600;color:#6e6e73;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px}
@@ -20,7 +20,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Text","SF Pro Display",syst
 
 .screens{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
 .screen-wrap{display:flex;flex-direction:column;gap:10px}
-.screen-note{font-size:11px;color:#86868b;max-width:390px;line-height:1.5}
+.screen-note{font-size:11px;color:rgba(255,255,255,.7);max-width:390px;line-height:1.5}
 
 /* iPhone Frame - Ultra realistic */
 .iphone{width:390px;height:844px;background:#000;border-radius:54px;padding:12px;position:relative;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 40px 100px rgba(0,0,0,.8)}
@@ -138,7 +138,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Text","SF Pro Display",syst
 /* Logic notes */
 .logic-box{margin-top:20px;padding:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;max-width:800px}
 .logic-box h4{font-size:12px;font-weight:600;color:#a78bfa;margin-bottom:8px}
-.logic-box p,.logic-box li{font-size:11px;color:rgba(255,255,255,.6);line-height:1.7}
+.logic-box p,.logic-box li{font-size:11px;color:rgba(255,255,255,.8);line-height:1.7}
 .logic-box ul{list-style:none;margin-top:6px}
 .logic-box li{padding-left:10px;position:relative}
 .logic-box li::before{content:"→";position:absolute;left:0;color:#a78bfa}
@@ -148,7 +148,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Text","SF Pro Display",syst
 
 <div class="title-block">
   <h1>笔记产品方案 · 消费导向设计</h1>
-  <p>核心逻辑：笔记内容通过底部AI对话框生成最终消费产物。产物既挂在笔记内，也聚合到侧边栏。侧边栏分类与首页筛选一一对应。</p>
+  <p>核心逻辑：笔记内容通过底部AI对话框生成最终AI 生成。产物既挂在笔记内，也聚合到侧边栏。侧边栏分类与首页筛选一一对应。</p>
 </div>
 
 <!-- ===== 1. HOME ===== -->
@@ -271,7 +271,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Text","SF Pro Display",syst
             </div>
             <!-- 已生成的产出物 -->
             <div class="outputs-area">
-              <div class="outputs-header">✨ 已生成的产物</div>
+              <div class="outputs-header">✨ AI 帮你准备的</div>
               <div class="output-row">
                 <div class="output-icon" style="background:rgba(175,82,222,.1)">📋</div>
                 <div class="output-info"><h5>考点清单（5个）</h5><p>比值判别法·根值·绝对收敛·级数求和·幂级数</p></div>
@@ -317,7 +317,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Text","SF Pro Display",syst
         </div>
       </div>
       <div class="screen-note">
-        <strong>核心逻辑：</strong>底部AI对话框是产出物的生成入口。用户在这里输入"帮我出考题"/"生成播客"/"做个PPT"，AI基于当前笔记内容产出。已生成的产物展示在正文上方。
+        <strong>核心逻辑：</strong>底部AI对话框是产出物的生成入口。用户在这里输入"帮我出考题"/"生成播客"/"做个PPT"，AI基于当前笔记内容产出。AI 帮你准备的展示在正文上方。
       </div>
     </div>
 
@@ -414,7 +414,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Text","SF Pro Display",syst
             </div>
             <div class="sb-divider"></div>
             <div class="sb-section">
-              <div class="sb-section-title">消费产物</div>
+              <div class="sb-section-title">AI 生成</div>
               <div class="sb-item">
                 <div class="sb-item-icon" style="background:rgba(255,149,0,.1)">✅</div>
                 <div class="sb-item-label">待办</div>
@@ -476,7 +476,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Text","SF Pro Display",syst
       <div class="screen-note">
         <strong>三段式侧边栏：</strong><br>
         ① 笔记（数据源）→ 对应首页列表<br>
-        ② 消费产物（聚合视图）→ 所有笔记生成的产出物汇总<br>
+        ② AI 生成（聚合视图）→ 所有笔记生成的产出物汇总<br>
         ③ 文件夹（用户管理）→ 用户自建的分组
       </div>
     </div>
@@ -485,7 +485,7 @@ body{font-family:-apple-system,"PingFang SC","SF Pro Text","SF Pro Display",syst
     <h4>侧边栏与首页的对应关系</h4>
     <ul>
       <li>侧边栏第一段「笔记」= 首页列表的筛选维度（全部/我的创作/录音/速记）</li>
-      <li>侧边栏第二段「消费产物」= 跨所有笔记的产出物聚合。点"播客"看到的是所有笔记产出的播客列表</li>
+      <li>侧边栏第二段「AI 生成」= 跨所有笔记的产出物聚合。点"播客"看到的是所有笔记产出的播客列表</li>
       <li>侧边栏第三段「文件夹」= 首页filter栏的文件夹图标点开后的分类</li>
       <li>三段逻辑不混用：笔记归笔记，产物归产物，文件夹归文件夹</li>
       <li>产出物从哪来？→ 用户在笔记详情页底部AI对话框触发生成 → 挂在笔记内 + 同步到侧边栏聚合</li>
