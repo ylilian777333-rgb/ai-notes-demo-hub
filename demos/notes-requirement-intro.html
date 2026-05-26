@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小米笔记 · 需求介绍</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#05080D;--s1:#0A1020;--s2:#101828;--s3:#1A2332;
+  --bd:#1E2D3D;--bd2:#2A3F55;
+  --tx:#F0F6FC;--su:#B8C9DB;--mu:#7B8FA3;
+  --accent:#22D3EE;--accent2:#06B6D4;--accent-bg:rgba(34,211,238,.06);
+  --green:#34D399;--green-bg:rgba(52,211,153,.08);
+  --amber:#FBBF24;--amber-bg:rgba(251,191,36,.08);
+  --purple:#A78BFA;--purple-bg:rgba(167,139,250,.08);
+  --red:#F87171;--red-bg:rgba(248,113,113,.06);
+  --grad1:linear-gradient(135deg,#0A1628 0%,#1A0A2E 50%,#0A1628 100%);
+  --grad2:linear-gradient(135deg,rgba(34,211,238,.15),rgba(52,211,153,.1));
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,"SF Pro Display","PingFang SC","Noto Sans SC",system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* Hero */
+.hero{position:relative;padding:100px 60px 80px;background:var(--grad1);overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(34,211,238,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-100px;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(167,139,250,.06) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-bg);border:1px solid rgba(34,211,238,.2);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.5px;margin-bottom:28px}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-size:48px;font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-bottom:16px;background:linear-gradient(135deg,#F0F6FC 0%,#B8C9DB 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:20px;color:var(--mu);font-weight:400;max-width:600px;line-height:1.5}
+
+/* Section */
+.section{padding:64px 60px;border-top:1px solid var(--bd)}
+.section-num{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.section-title{font-size:28px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+.section-desc{font-size:15px;color:var(--mu);max-width:700px;margin-bottom:32px;line-height:1.7}
+
+/* Insight Card */
+.insight{position:relative;background:linear-gradient(135deg,rgba(248,113,113,.04),rgba(251,191,36,.04));border:1px solid rgba(248,113,113,.2);border-radius:16px;padding:32px 36px;margin-bottom:40px;overflow:hidden}
+.insight::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--red),var(--amber))}
+.insight-label{font-size:11px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:12px}
+.insight h3{font-size:20px;font-weight:700;color:var(--tx);line-height:1.4;margin-bottom:8px}
+.insight p{font-size:15px;color:var(--su);line-height:1.7}
+
+/* Flow Steps */
+.flow{display:flex;align-items:center;gap:0;margin:32px 0;flex-wrap:wrap}
+.flow-step{position:relative;padding:12px 20px;background:var(--s2);border:1px solid var(--bd);border-radius:8px;font-size:13px;color:var(--su);font-weight:500}
+.flow-step.active{background:var(--green-bg);border-color:rgba(52,211,153,.4);color:var(--green);font-weight:700}
+.flow-arrow{width:32px;display:flex;align-items:center;justify-content:center;color:var(--bd2);font-size:16px}
+
+/* Cards Grid */
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+.cards-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:24px 0}
+.card{background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:24px;transition:border-color .2s}
+.card:hover{border-color:var(--bd2)}
+.card-icon{font-size:28px;margin-bottom:12px}
+.card h4{font-size:15px;font-weight:700;margin-bottom:8px;color:var(--tx)}
+.card p{font-size:13px;color:var(--mu);line-height:1.6}
+.card-highlight{background:var(--accent-bg);border-color:rgba(34,211,238,.2)}
+.card-highlight h4{color:var(--accent)}
+
+/* Table */
+.tb{width:100%;border-collapse:separate;border-spacing:0;margin:24px 0;border-radius:12px;overflow:hidden;border:1px solid var(--bd)}
+.tb th{background:var(--s1);padding:14px 18px;text-align:left;font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.5px;border-bottom:1px solid var(--bd)}
+.tb td{padding:14px 18px;font-size:13px;color:var(--su);border-bottom:1px solid rgba(30,45,61,.5);background:var(--s2)}
+.tb tr:last-child td{border-bottom:none}
+.tb td:first-child{color:var(--tx);font-weight:600}
+.tb td strong{color:var(--green);font-weight:600}
+.tb-highlight{background:var(--green-bg) !important}
+
+/* Tag */
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 12px;border-radius:6px;margin:24px 0 12px}
+.tag-student{background:var(--purple-bg);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
+.tag-work{background:var(--accent-bg);color:var(--accent);border:1px solid rgba(34,211,238,.2)}
+.tag-daily{background:var(--green-bg);color:var(--green);border:1px solid rgba(52,211,153,.2)}
+
+/* Flywheel */
+.flywheel{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:20px 24px;margin:20px 0;font-size:13px;color:var(--su);line-height:1.7}
+.flywheel strong{color:var(--amber)}
+
+/* Positioning */
+.pos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+.pos-card{background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:24px;text-align:center}
+.pos-card h5{font-size:24px;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.pos-card p{font-size:13px;color:var(--mu);line-height:1.5}
+
+/* Use Methods */
+.method{display:flex;align-items:flex-start;gap:16px;padding:20px 0;border-bottom:1px solid var(--bd)}
+.method:last-child{border-bottom:none}
+.method-num{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:var(--accent-bg);border:1px solid rgba(34,211,238,.2);border-radius:8px;font-size:14px;font-weight:800;color:var(--accent);flex-shrink:0}
+.method-body h5{font-size:14px;font-weight:700;color:var(--tx);margin-bottom:4px}
+.method-body p{font-size:13px;color:var(--mu)}
+.method-example{font-size:12px;color:var(--green);margin-top:4px;font-style:italic}
+
+/* Moat */
+.moat{display:flex;gap:16px;margin:24px 0}
+.moat-item{flex:1;background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:24px;position:relative;overflow:hidden}
+.moat-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--green))}
+.moat-item h5{font-size:14px;font-weight:700;color:var(--tx);margin-bottom:8px}
+.moat-item p{font-size:12px;color:var(--mu);line-height:1.6}
+
+/* Footer CTA */
+.cta{text-align:center;padding:80px 60px;background:var(--grad1);border-top:1px solid var(--bd)}
+.cta-box{display:inline-block;background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(52,211,153,.08));border:1px solid rgba(34,211,238,.2);border-radius:16px;padding:36px 48px}
+.cta-box h3{font-size:22px;font-weight:700;margin-bottom:12px;background:linear-gradient(135deg,var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.cta-box p{font-size:14px;color:var(--su);line-height:1.7}
+
+/* Responsive */
+@media(max-width:900px){
+  .hero{padding:60px 24px 48px}
+  .hero h1{font-size:32px}
+  .section{padding:48px 24px}
+  .cards-3,.pos-grid{grid-template-columns:1fr}
+  .cards-2{grid-template-columns:1fr}
+  .moat{flex-direction:column}
+  .flow{gap:4px}
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">XIAOMI AI NOTES</div>
+  <h1>小米笔记<br>从定位到场景落地</h1>
+  <div class="hero-sub">自增长可赋能的个人数字资产中枢——让用户感受到：用得越久，AI越好用。</div>
+</div>
+
+<!-- Section 1: Core Insight -->
+<div class="section">
+  <div class="section-num">01 · CORE INSIGHT</div>
+  <div class="section-title">核心洞察：笔记的价值重新定义</div>
+  <div class="section-desc">用户不关心"数字资产"，用户关心 AI 基于我的积累帮我干了什么。</div>
+
+  <div class="insight">
+    <div class="insight-label">核心判断</div>
+    <h3>笔记的价值不在"记住"，在"产出"</h3>
+    <p>AI基于用户积累的数据，产出用户可直接消费的功能。<br>如果不让用户看到原始笔记，而是直接看到消费内容，我们应该怎么做？</p>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step">用户写 / 说 / 拍</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">笔记沉淀（中间态）</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">AI 理解加工</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step active">产出最终消费物（终态）</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">用户直接使用</div>
+  </div>
+</div>
+
+<!-- Section 2: Positioning -->
+<div class="section">
+  <div class="section-num">02 · POSITIONING</div>
+  <div class="section-title">产品定位</div>
+  <div class="section-desc">飞轮：记录越多 → AI越懂 → 产出越精准 → 用户越愿意记 → 记录越多</div>
+
+  <div class="pos-grid">
+    <div class="pos-card">
+      <h5>自增长</h5>
+      <p>用户记录 + 系统采集<br>数据持续积累，AI越来越懂用户</p>
+    </div>
+    <div class="pos-card">
+      <h5>可赋能</h5>
+      <p>AI基于积累<br>产出用户可直接消费的最终内容</p>
+    </div>
+    <div class="pos-card">
+      <h5>中枢</h5>
+      <p>用户侧 = 创作和消费入口<br>MiClaw侧 = 调用全量数据底座</p>
+    </div>
+  </div>
+</div>
+
+<!-- Section 3: Consumption Functions -->
+<div class="section">
+  <div class="section-num">03 · CONSUMPTION</div>
+  <div class="section-title">用户消费什么：AI 产出物清单</div>
+  <div class="section-desc">每一个功能都是"数字资产中枢"定位的具象化——资产越厚，产出越精准。</div>
+
+  <table class="tb">
+    <tr><th>用户消费的功能</th><th>AI 做了什么</th><th>用户得到什么</th></tr>
+    <tr><td>课堂笔记</td><td>录音→转写→结构化→<strong>考点</strong>提炼→出题</td><td>打开就能复习，不用自己整理</td></tr>
+    <tr><td>会议纪要</td><td>录音→分议题→提结论→抽<strong>待办</strong>→通知参会人</td><td>开完会纪要就有了，还帮我跟进</td></tr>
+    <tr><td>待办清单</td><td>从录音/截图/对话中识别行动项→生成待办→同步日历→到期提醒</td><td>事情不会漏，AI帮我盯着</td></tr>
+    <tr><td>播客</td><td>基于笔记内容生成音频→条件播放（上车/闹钟后）</td><td>通勤路上能听自己存的东西</td></tr>
+    <tr><td>知识卡片</td><td>跨多篇笔记聚合→提炼核心观点→生成可分享卡片</td><td>积累变成了可分享的认知</td></tr>
+    <tr><td>随口问随口答</td><td>用户提问→MiClaw检索全量资产→基于个人数据精准回答</td><td>AI真的记得我存过什么</td></tr>
+  </table>
+</div>
+
+<!-- Section 4: User Mental Model -->
+<div class="section">
+  <div class="section-num">04 · USER MENTAL MODEL</div>
+  <div class="section-title">用户心智：笔记能帮我做什么</div>
+  <div class="section-desc">用户心中要形成具象的功能认知——不是"一个笔记APP"，而是明确知道它能帮我产出什么。</div>
+
+  <div class="cards-3">
+    <div class="card">
+      <div class="card-icon">🎓</div>
+      <h4>帮我上课</h4>
+      <p>录完音 → 自动出课堂笔记<br>一键 → 考点 / 出题 / 播客</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💼</div>
+      <h4>帮我开会</h4>
+      <p>开完会 → 自动出纪要<br>一键 → 待办 / PPT / 播客</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📱</div>
+      <h4>帮我记事</h4>
+      <p>随手记 → 自动归类<br>一键 → 待办 / 卡片 / 提醒</p>
+    </div>
+  </div>
+</div>
+
+<!-- Section 5: Scene Flows -->
+<div class="section">
+  <div class="section-num">05 · SCENE FLOWS</div>
+  <div class="section-title">场景串联：端到端怎么转</div>
+
+  <!-- Student -->
+  <div class="tag tag-student">🎓 场景一：学生上课</div>
+  <div class="section-desc" style="margin-bottom:16px">用户画像：18-24岁大学生，每天2-4节课，需要高效记录+复习备考</div>
+
+  <table class="tb">
+    <tr><th>阶段</th><th>用户做什么</th><th>系统做什么</th><th>产出</th></tr>
+    <tr><td>课前</td><td>点提醒卡片 / 打开笔记</td><td>日历识别课程→推送提醒→自动新建今日笔记</td><td>—</td></tr>
+    <tr><td>课中</td><td>录音 + 拍PPT/板书 + 标记重点</td><td>实时转写 + 照片按时间线关联</td><td>—（数据积累）</td></tr>
+    <tr><td>课后</td><td>无需操作</td><td>AI转写→分章节→生成总结→照片OCR融入→提取作业</td><td><strong>课堂笔记 + 待办</strong></td></tr>
+    <tr><td>复习</td><td>"帮我复习高数" / 打开合集</td><td>跨多节课笔记汇总→生成考点清单→出模拟题→生成播客</td><td><strong>考点 + 模拟题 + 播客</strong></td></tr>
+  </table>
+
+  <div class="flywheel">
+    <strong>飞轮效果：</strong>学生记了一学期课 → 期末说"帮我复习" → AI基于整学期积累产出完整复习方案。<br>这是NotebookLM做不到的——它需要手动喂文档，我们全程自动积累。
+  </div>
+
+  <!-- Meeting -->
+  <div class="tag tag-work">💼 场景二：会议记录</div>
+  <div class="section-desc" style="margin-bottom:16px">用户画像：25-35岁白领，每周3-5次会议，需要高效跟进待办</div>
+
+  <table class="tb">
+    <tr><th>阶段</th><th>用户做什么</th><th>系统做什么</th><th>产出</th></tr>
+    <tr><td>会前</td><td>—</td><td>推送：会议名+参与人+上次遗留待办</td><td>—</td></tr>
+    <tr><td>会中</td><td>录音 + 拍白板 + 标记关键决策</td><td>录音+照片按时间线关联</td><td>—（数据积累）</td></tr>
+    <tr><td>会后</td><td>无需操作</td><td>按议题生成纪要→提取待办→同步日历→上岛通知</td><td><strong>会议纪要 + 待办</strong></td></tr>
+    <tr><td>跨次回忆</td><td>"上次会定了什么"</td><td>MiClaw检索历史会议笔记→精准回答+附来源</td><td><strong>精准回答</strong></td></tr>
+  </table>
+
+  <div class="flywheel">
+    <strong>飞轮效果：</strong>开了10次产品评审会 → 问"张总这个月都提了什么意见" → AI从10篇纪要中跨篇聚合回答。数据越多越有用。
+  </div>
+
+  <!-- Daily -->
+  <div class="tag tag-daily">📱 场景三：日常速记（AI键 / 随口记）</div>
+  <div class="section-desc" style="margin-bottom:16px">用户画像：任何小米手机用户，日常碎片化记录</div>
+
+  <table class="tb">
+    <tr><th>触发</th><th>用户做什么</th><th>AI 处理</th><th>产出</th></tr>
+    <tr><td>QQ群老师发作业</td><td>按AI键</td><td>识别为待办→提取科目+内容+截止时间</td><td><strong>待办</strong>（晚上问"今天作业"直接答）</td></tr>
+    <tr><td>小红书好文</td><td>按AI键</td><td>抓链接全文→AI摘要→保留原链接</td><td>后台沉淀（问的时候调出来）</td></tr>
+    <tr><td>走路想到idea</td><td>长按AI键说话</td><td>录音+转写+AI摘要+含待办自动生成</td><td><strong>语音笔记</strong>（首页可见）</td></tr>
+    <tr><td>微信收到体检PDF</td><td>分享到笔记</td><td>解析PDF→提取关键指标→结构化存储</td><td>后台沉淀（问"血糖多少"直接答）</td></tr>
+  </table>
+
+  <div class="flywheel">
+    <strong>关键规则：</strong><br>
+    · 短按AI键存的 → 后台沉淀，首页不展示，归到"AI速记"合集<br>
+    · 长按AI键语音笔记 → 首页展示，因为这是用户主动创作<br>
+    · 分享面板存的文件 → 后台沉淀，MiClaw搜索能搜到
+  </div>
+</div>
+
+<!-- Section 6: Five Ways -->
+<div class="section">
+  <div class="section-num">06 · ACCESS METHODS</div>
+  <div class="section-title">"怎么用"——五种调用方式</div>
+  <div class="section-desc">用户不需要学"怎么搜笔记"。资产积累后，五种方式自然触达：</div>
+
+  <div class="method">
+    <div class="method-num">1</div>
+    <div class="method-body">
+      <h5>直接命中</h5>
+      <p>用户问问题→MiClaw看资料库目录就能答，不需要搜索</p>
+      <div class="method-example">"我血糖怎么样" → 直接答</div>
+    </div>
+  </div>
+  <div class="method">
+    <div class="method-num">2</div>
+    <div class="method-body">
+      <h5>自然语言</h5>
+      <p>"今天作业是什么" / "上次会议定了什么"</p>
+      <div class="method-example">用户能描述清楚的内容</div>
+    </div>
+  </div>
+  <div class="method">
+    <div class="method-num">3</div>
+    <div class="method-body">
+      <h5>智能补全</h5>
+      <p>输入框打"上周"→弹出"上周存的旅行攻略（3篇）"</p>
+      <div class="method-example">大概记得但说不清楚</div>
+    </div>
+  </div>
+  <div class="method">
+    <div class="method-num">4</div>
+    <div class="method-body">
+      <h5>系统主动提醒</h5>
+      <p>出发前一天→上岛"明天CA925去东京，08:30起飞"</p>
+      <div class="method-example">有时间属性的行程/待办</div>
+    </div>
+  </div>
+  <div class="method">
+    <div class="method-num">5</div>
+    <div class="method-body">
+      <h5>笔记内"跟AI聊"</h5>
+      <p>打开某篇笔记→点按钮→基于这篇内容深度对话</p>
+      <div class="method-example">正在看某篇想讨论/扩展</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 7: Competitive Moat -->
+<div class="section">
+  <div class="section-num">07 · COMPETITIVE MOAT</div>
+  <div class="section-title">竞争壁垒：为什么是小米做</div>
+
+  <div class="moat">
+    <div class="moat-item">
+      <h5>全生态采集</h5>
+      <p>手机AI键 + 穿戴设备 + 车机 + PAD，全场景无感采集。三方APP做不到系统级入口。</p>
+    </div>
+    <div class="moat-item">
+      <h5>MiClaw 联动</h5>
+      <p>笔记是MiClaw的数据底座，MiClaw对话直接调用笔记内容。通用AI助手没有持久化记忆层。</p>
+    </div>
+    <div class="moat-item">
+      <h5>数据不可迁移</h5>
+      <p>用户三年的原始痕迹 + AI产出的个性化内容，换任何工具都带不走、也复现不了。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer CTA -->
+<div class="cta">
+  <div class="cta-box">
+    <h3>用户不需要理解"数字资产"</h3>
+    <p>他只需要感受到：用得越久，AI越好用。<br>每个场景都在积累数据，每个场景都有AI产出的消费物。<br>所有数据统一沉淀，MiClaw统一调用，用户一个入口搞定。</p>
+  </div>
+</div>
+
+</body>
+</html>
