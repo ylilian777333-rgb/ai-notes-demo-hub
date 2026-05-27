@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记详情页 · 产出物区交互Demo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","MiSans",system-ui,sans-serif;background:#F2F3F5;display:flex;justify-content:center;gap:32px;padding:40px;flex-wrap:wrap}
+
+.phone-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.phone-title{font-size:13px;font-weight:700;color:#333}
+.phone-desc{font-size:11px;color:#999;text-align:center;max-width:300px;line-height:1.5}
+
+/* Phone */
+.phone{width:320px;height:692px;background:#fff;border-radius:44px;border:3px solid #1A1A2E;padding:12px;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.phone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:80px;height:24px;background:#1A1A2E;border-radius:12px;z-index:10}
+
+.screen{width:100%;height:100%;background:#fff;border-radius:34px;overflow:hidden;display:flex;flex-direction:column}
+
+/* Status bar */
+.status{height:48px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:11px;color:#333;font-weight:600}
+
+/* Nav bar */
+.nav{height:44px;display:flex;align-items:center;padding:0 16px;border-bottom:1px solid #F0F0F0}
+.nav .back-btn{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#333}
+.nav .nav-title{flex:1;font-size:15px;font-weight:600;color:#1A1A2E;margin-left:4px}
+.nav .nav-badge{display:flex;align-items:center;gap:4px;padding:4px 10px;background:#F5F3FF;border-radius:12px;font-size:11px;font-weight:600;color:#7C3AED}
+.nav .nav-badge.empty{display:none}
+
+/* Content area */
+.content{flex:1;overflow-y:auto;padding:16px}
+
+/* Attachment zone */
+.attach-zone{background:#FAFAFE;border:1px solid #F0ECF9;border-radius:14px;padding:12px;margin-bottom:16px}
+.attach-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.attach-label{font-size:11px;font-weight:700;color:#7C3AED}
+.attach-toggle{font-size:11px;color:#999;cursor:pointer}
+
+/* Attachment item */
+.attach-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border:1px solid #EAECF0;border-radius:10px;margin-bottom:8px;transition:all .15s}
+.attach-item:last-child{margin-bottom:0}
+.attach-item:active{transform:scale(.98);background:#F8F9FC}
+.attach-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.attach-icon.podcast{background:#EFF6FF}
+.attach-icon.ppt{background:#F5F3FF}
+.attach-icon.mindmap{background:#FEF3C7}
+.attach-icon.todo{background:#F0FDF4}
+.attach-icon.card{background:#FFF1F2}
+.attach-info{flex:1;min-width:0}
+.attach-name{font-size:13px;font-weight:600;color:#1A1A2E;margin-bottom:2px}
+.attach-meta{font-size:11px;color:#999}
+.attach-action{padding:5px 12px;border-radius:14px;font-size:11px;font-weight:600;flex-shrink:0}
+.attach-action.play{background:#EFF6FF;color:#2D5BFF}
+.attach-action.view{background:#F5F3FF;color:#7C3AED}
+.attach-action.progress{background:#F0FDF4;color:#16A34A}
+.attach-action.learn{background:#FFF1F2;color:#E11D48}
+
+/* Collapsed zone */
+.attach-collapsed{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#FAFAFE;border:1px solid #F0ECF9;border-radius:14px;margin-bottom:16px}
+.attach-collapsed .icons{display:flex;gap:4px}
+.attach-collapsed .icons span{font-size:14px}
+.attach-collapsed .count{font-size:11px;color:#7C3AED;font-weight:600}
+.attach-collapsed .expand{font-size:11px;color:#999;margin-left:auto}
+
+/* Note body */
+.note-body{font-size:14px;color:#333;line-height:1.8}
+.note-body h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.note-body p{margin-bottom:12px}
+
+/* Bottom bar */
+.bottom-bar{border-top:1px solid #F0F0F0;padding:10px 16px;background:#fff}
+.chips-row{display:flex;gap:6px;margin-bottom:8px;overflow-x:auto}
+.chip{padding:6px 12px;border-radius:16px;font-size:11px;font-weight:500;background:#F0F4FF;color:#2D5BFF;border:1px solid #D6E4FF;white-space:nowrap;flex-shrink:0}
+.input-bar{display:flex;align-items:center;padding:10px 14px;background:#F5F7FA;border-radius:20px;font-size:12px;color:#999}
+
+/* Long press menu overlay */
+.overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:20;border-radius:34px}
+.menu{background:#fff;border-radius:16px;width:240px;padding:6px;box-shadow:0 12px 40px rgba(0,0,0,.2)}
+.menu-item{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;font-size:14px;color:#333}
+.menu-item:active{background:#F5F7FA}
+.menu-item .mi{font-size:16px;width:24px;text-align:center}
+.menu-item .label{flex:1}
+.menu-item .hint{font-size:11px;color:#999}
+.menu-divider{height:1px;background:#F0F2F5;margin:4px 12px}
+.menu-item.danger .label{color:#DC2626}
+
+/* Player expanded */
+.player-expanded{background:#1A1A2E;border-radius:14px;padding:16px;margin-bottom:8px}
+.player-expanded .title{font-size:13px;font-weight:600;color:#fff;margin-bottom:10px}
+.player-expanded .bar{height:4px;background:#333;border-radius:2px;margin-bottom:4px}
+.player-expanded .bar-fill{height:100%;width:40%;background:#2D5BFF;border-radius:2px}
+.player-expanded .time{display:flex;justify-content:space-between;font-size:10px;color:#666;margin-bottom:10px}
+.player-expanded .controls{display:flex;justify-content:center;gap:20px;font-size:16px;color:#fff}
+.player-expanded .extras{display:flex;justify-content:center;gap:10px;margin-top:10px}
+.player-expanded .extras span{font-size:10px;padding:4px 10px;background:rgba(255,255,255,.08);border-radius:10px;color:#999}
+
+/* Swipe hint */
+.swipe-demo{position:relative;overflow:hidden;border-radius:10px}
+.swipe-reveal{position:absolute;right:0;top:0;bottom:0;width:70px;background:#FEE2E2;display:flex;align-items:center;justify-content:center;border-radius:0 10px 10px 0}
+.swipe-reveal span{font-size:11px;font-weight:600;color:#DC2626}
+.swipe-item{transform:translateX(-20px)}
+</style>
+</head>
+<body>
+
+<!-- State 1: Empty -->
+<div class="phone-wrap">
+  <div class="phone-title">空态：无产出物</div>
+  <div class="phone-desc">产出物区不存在，chips暗示用户可以生成</div>
+  <div class="phone">
+    <div class="screen">
+      <div class="status">9:41</div>
+      <div class="nav">
+        <div class="back-btn">‹</div>
+        <div class="nav-title">产品评审会 05/27</div>
+        <div class="nav-badge empty"></div>
+      </div>
+      <div class="content">
+        <div class="note-body">
+          <h3>会议纪要</h3>
+          <p>一、核心问题：生成→消费链路存在断点，需优先解决。</p>
+          <p>二、决策：产出物做成笔记富媒体，简化方案优先。</p>
+          <p>三、后续动作：串联5个场景的完整链路。</p>
+          <p>四、与司梦雨IM团队对接分享能力。</p>
+          <p>五、暂停新功能开发，聚焦现有闭环。</p>
+        </div>
+      </div>
+      <div class="bottom-bar">
+        <div class="chips-row">
+          <div class="chip">🧠 思维导图</div>
+          <div class="chip">📊 做PPT</div>
+          <div class="chip">🎙️ 播客</div>
+          <div class="chip">✅ 提取待办</div>
+        </div>
+        <div class="input-bar">跟AI聊这篇笔记…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- State 2: 1 item -->
+<div class="phone-wrap">
+  <div class="phone-title">展开态：1个产出物</div>
+  <div class="phone-desc">右上角badge出现，产出物区自动显示在标题下方</div>
+  <div class="phone">
+    <div class="screen">
+      <div class="status">9:41</div>
+      <div class="nav">
+        <div class="back-btn">‹</div>
+        <div class="nav-title">产品评审会 05/27</div>
+        <div class="nav-badge">📎 1</div>
+      </div>
+      <div class="content">
+        <div class="attach-zone">
+          <div class="attach-header">
+            <div class="attach-label">产出物</div>
+            <div class="attach-toggle">收起 ▲</div>
+          </div>
+          <div class="attach-item">
+            <div class="attach-icon podcast">🎙️</div>
+            <div class="attach-info">
+              <div class="attach-name">播客 · 会议要点精选</div>
+              <div class="attach-meta">8:12 · 刚刚生成</div>
+            </div>
+            <div class="attach-action play">▶ 播放</div>
+          </div>
+        </div>
+        <div class="note-body">
+          <h3>会议纪要</h3>
+          <p>一、核心问题：生成→消费链路存在断点…</p>
+          <p>二、决策：产出物做成笔记富媒体…</p>
+        </div>
+      </div>
+      <div class="bottom-bar">
+        <div class="chips-row">
+          <div class="chip">📊 做PPT</div>
+          <div class="chip">🧠 思维导图</div>
+          <div class="chip">✅ 提取待办</div>
+        </div>
+        <div class="input-bar">跟AI聊这篇笔记…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- State 3: 3 items, different types -->
+<div class="phone-wrap">
+  <div class="phone-title">展开态：3个产出物（满）</div>
+  <div class="phone-desc">不同类型有不同的快捷动作和状态信息</div>
+  <div class="phone">
+    <div class="screen">
+      <div class="status">9:41</div>
+      <div class="nav">
+        <div class="back-btn">‹</div>
+        <div class="nav-title">产品评审会 05/27</div>
+        <div class="nav-badge">📎 3</div>
+      </div>
+      <div class="content">
+        <div class="attach-zone">
+          <div class="attach-header">
+            <div class="attach-label">产出物 · 3个</div>
+            <div class="attach-toggle">收起 ▲</div>
+          </div>
+          <div class="attach-item">
+            <div class="attach-icon podcast">🎙️</div>
+            <div class="attach-info">
+              <div class="attach-name">播客 · 会议要点</div>
+              <div class="attach-meta">8:12 · 今天 15:10</div>
+            </div>
+            <div class="attach-action play">▶ 播放</div>
+          </div>
+          <div class="attach-item">
+            <div class="attach-icon todo">✅</div>
+            <div class="attach-info">
+              <div class="attach-name">待办 · 3项</div>
+              <div class="attach-meta">已同步日历</div>
+            </div>
+            <div class="attach-action progress">1/3</div>
+          </div>
+          <div class="attach-item">
+            <div class="attach-icon mindmap">🧠</div>
+            <div class="attach-info">
+              <div class="attach-name">思维导图</div>
+              <div class="attach-meta">今天 15:15</div>
+            </div>
+            <div class="attach-action view">查看</div>
+          </div>
+        </div>
+        <div class="note-body">
+          <h3>会议纪要</h3>
+          <p>一、核心问题…</p>
+        </div>
+      </div>
+      <div class="bottom-bar">
+        <div class="chips-row">
+          <div class="chip">📊 做PPT</div>
+          <div class="chip">🃏 知识卡</div>
+        </div>
+        <div class="input-bar">跟AI聊这篇笔记…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- State 4: Collapsed -->
+<div class="phone-wrap">
+  <div class="phone-title">折叠态：收起后</div>
+  <div class="phone-desc">正文回归全屏阅读，右上badge始终可见</div>
+  <div class="phone">
+    <div class="screen">
+      <div class="status">9:41</div>
+      <div class="nav">
+        <div class="back-btn">‹</div>
+        <div class="nav-title">产品评审会 05/27</div>
+        <div class="nav-badge">📎 3</div>
+      </div>
+      <div class="content">
+        <div class="attach-collapsed">
+          <div class="icons"><span>🎙️</span><span>✅</span><span>🧠</span></div>
+          <div class="count">3个产出物</div>
+          <div class="expand">展开 ▼</div>
+        </div>
+        <div class="note-body">
+          <h3>会议纪要</h3>
+          <p>一、核心问题：生成→消费链路存在断点，需优先解决生成物的可访问性、可分享性。</p>
+          <p>二、决策：产出物做成笔记富媒体，简化方案优先。不增加笔记复杂度。</p>
+          <p>三、后续动作：串联5个场景的完整链路，确保每步无断点。</p>
+          <p>四、与司梦雨IM团队对接一键分享能力。</p>
+          <p>五、暂停新功能开发，聚焦现有场景闭环。</p>
+        </div>
+      </div>
+      <div class="bottom-bar">
+        <div class="chips-row">
+          <div class="chip">📊 做PPT</div>
+          <div class="chip">🃏 知识卡</div>
+        </div>
+        <div class="input-bar">跟AI聊这篇笔记…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- State 5: Tap to play (podcast expanded) -->
+<div class="phone-wrap">
+  <div class="phone-title">点击消费：播客展开播放</div>
+  <div class="phone-desc">点击播客卡片 → 就地展开播放器，不跳页面</div>
+  <div class="phone">
+    <div class="screen">
+      <div class="status">9:41</div>
+      <div class="nav">
+        <div class="back-btn">‹</div>
+        <div class="nav-title">产品评审会 05/27</div>
+        <div class="nav-badge">📎 3</div>
+      </div>
+      <div class="content">
+        <div class="attach-zone">
+          <div class="attach-header">
+            <div class="attach-label">产出物 · 3个</div>
+            <div class="attach-toggle">收起 ▲</div>
+          </div>
+          <div class="player-expanded">
+            <div class="title">🎙️ 播客 · 会议要点精选</div>
+            <div class="bar"><div class="bar-fill"></div></div>
+            <div class="time"><span>3:18</span><span>8:12</span></div>
+            <div class="controls">⏮ &nbsp; ⏸️ &nbsp; ⏭</div>
+            <div class="extras"><span>1.5x</span><span>定时关</span><span>分享</span></div>
+          </div>
+          <div class="attach-item">
+            <div class="attach-icon todo">✅</div>
+            <div class="attach-info">
+              <div class="attach-name">待办 · 3项</div>
+              <div class="attach-meta">已同步日历</div>
+            </div>
+            <div class="attach-action progress">1/3</div>
+          </div>
+          <div class="attach-item">
+            <div class="attach-icon mindmap">🧠</div>
+            <div class="attach-info">
+              <div class="attach-name">思维导图</div>
+              <div class="attach-meta">今天 15:15</div>
+            </div>
+            <div class="attach-action view">查看</div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-bar">
+        <div class="input-bar">跟AI聊这篇笔记…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- State 6: Long press menu -->
+<div class="phone-wrap">
+  <div class="phone-title">长按：管理菜单</div>
+  <div class="phone-desc">长按任意卡片弹出操作菜单</div>
+  <div class="phone">
+    <div class="screen" style="position:relative">
+      <div class="status">9:41</div>
+      <div class="nav">
+        <div class="back-btn">‹</div>
+        <div class="nav-title">产品评审会 05/27</div>
+        <div class="nav-badge">📎 3</div>
+      </div>
+      <div class="content" style="opacity:.3">
+      </div>
+      <div class="overlay">
+        <div class="menu">
+          <div class="menu-item"><span class="mi">📤</span><span class="label">分享</span></div>
+          <div class="menu-item"><span class="mi">🔄</span><span class="label">重新生成</span><span class="hint">基于原文</span></div>
+          <div class="menu-item"><span class="mi">💾</span><span class="label">导出文件</span><span class="hint">.pptx</span></div>
+          <div class="menu-item"><span class="mi">📍</span><span class="label">查看来源</span><span class="hint">跳转原文</span></div>
+          <div class="menu-divider"></div>
+          <div class="menu-item danger"><span class="mi">🗑️</span><span class="label">删除</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- State 7: Swipe to delete -->
+<div class="phone-wrap">
+  <div class="phone-title">左滑：快捷删除</div>
+  <div class="phone-desc">左滑露出删除按钮，与系统交互一致</div>
+  <div class="phone">
+    <div class="screen">
+      <div class="status">9:41</div>
+      <div class="nav">
+        <div class="back-btn">‹</div>
+        <div class="nav-title">产品评审会 05/27</div>
+        <div class="nav-badge">📎 3</div>
+      </div>
+      <div class="content">
+        <div class="attach-zone">
+          <div class="attach-header">
+            <div class="attach-label">产出物 · 3个</div>
+            <div class="attach-toggle">收起 ▲</div>
+          </div>
+          <div class="swipe-demo">
+            <div class="swipe-reveal"><span>删除</span></div>
+            <div class="attach-item swipe-item" style="margin:0">
+              <div class="attach-icon podcast">🎙️</div>
+              <div class="attach-info">
+                <div class="attach-name">播客 · 会议要点</div>
+                <div class="attach-meta">8:12 · 今天</div>
+              </div>
+              <div class="attach-action play">▶ 播放</div>
+            </div>
+          </div>
+          <div class="attach-item">
+            <div class="attach-icon todo">✅</div>
+            <div class="attach-info">
+              <div class="attach-name">待办 · 3项</div>
+              <div class="attach-meta">已同步日历</div>
+            </div>
+            <div class="attach-action progress">1/3</div>
+          </div>
+          <div class="attach-item">
+            <div class="attach-icon mindmap">🧠</div>
+            <div class="attach-info">
+              <div class="attach-name">思维导图</div>
+              <div class="attach-meta">今天 15:15</div>
+            </div>
+            <div class="attach-action view">查看</div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-bar">
+        <div class="input-bar">跟AI聊这篇笔记…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- State 8: Full example with all types -->
+<div class="phone-wrap">
+  <div class="phone-title">完整示例：5种产出物</div>
+  <div class="phone-desc">播客/PPT/脑图/待办/知识卡共存，超过3个自动显示"更多"</div>
+  <div class="phone">
+    <div class="screen">
+      <div class="status">9:41</div>
+      <div class="nav">
+        <div class="back-btn">‹</div>
+        <div class="nav-title">高数第8讲：微积分</div>
+        <div class="nav-badge">📎 5</div>
+      </div>
+      <div class="content">
+        <div class="attach-zone">
+          <div class="attach-header">
+            <div class="attach-label">产出物 · 5个</div>
+            <div class="attach-toggle">收起 ▲</div>
+          </div>
+          <div class="attach-item">
+            <div class="attach-icon card">🃏</div>
+            <div class="attach-info">
+              <div class="attach-name">知识卡 · 12张</div>
+              <div class="attach-meta">正确率 83%</div>
+            </div>
+            <div class="attach-action learn">继续学</div>
+          </div>
+          <div class="attach-item">
+            <div class="attach-icon podcast">🎙️</div>
+            <div class="attach-info">
+              <div class="attach-name">播客 · 微积分复习</div>
+              <div class="attach-meta">15:20 · 昨天</div>
+            </div>
+            <div class="attach-action play">▶ 播放</div>
+          </div>
+          <div class="attach-item">
+            <div class="attach-icon mindmap">🧠</div>
+            <div class="attach-info">
+              <div class="attach-name">思维导图</div>
+              <div class="attach-meta">昨天</div>
+            </div>
+            <div class="attach-action view">查看</div>
+          </div>
+          <div style="text-align:center;padding:6px 0;font-size:11px;color:#7C3AED;font-weight:500">查看全部 5 个 ▼</div>
+        </div>
+        <div class="note-body">
+          <h3>知识点：定积分</h3>
+          <p>定积分的线性性质：∫(af+bg)dx = a∫fdx + b∫gdx…</p>
+        </div>
+      </div>
+      <div class="bottom-bar">
+        <div class="chips-row">
+          <div class="chip">📝 出模拟题</div>
+        </div>
+        <div class="input-bar">跟AI聊这篇笔记…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
