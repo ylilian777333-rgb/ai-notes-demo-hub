@@ -6,175 +6,165 @@
 <title>笔记产品 · 生成→消费→分享 场景串联</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;background:#F5F7FA;color:#1A1A2E;width:2400px;padding:60px}
+body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;background:#F5F7FA;color:#1A1A2E;width:2800px;padding:60px}
 
-/* Header */
 .header{margin-bottom:40px}
 .header h1{font-size:24px;font-weight:700;color:#2D5BFF;margin-bottom:6px}
 .header p{font-size:14px;color:#666;line-height:1.6}
 
-/* Scene Section */
 .scene{background:#fff;border-radius:20px;margin-bottom:40px;padding:40px;box-shadow:0 2px 12px rgba(0,0,0,.04)}
 .scene-title{font-size:20px;font-weight:700;color:#1A1A2E;margin-bottom:4px}
 .scene-meta{font-size:13px;color:#999;margin-bottom:4px}
 .scene-func{font-size:13px;color:#2D5BFF;font-weight:600;margin-bottom:24px}
 
-/* Phone screens row */
-.screens{display:flex;gap:24px;align-items:flex-start}
+.screens{display:flex;gap:16px;align-items:flex-start}
 
-/* Phone frame */
-.phone{width:280px;flex-shrink:0}
+.phone{width:260px;flex-shrink:0}
 .phone-label{font-size:12px;font-weight:600;color:#333;margin-bottom:6px}
 .phone-sublabel{font-size:11px;color:#999;margin-bottom:10px;line-height:1.5}
-.phone-frame{width:280px;height:560px;background:#F8F9FC;border:2px solid #E8ECF2;border-radius:32px;padding:16px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.phone-frame{width:260px;height:520px;background:#F8F9FC;border:2px solid #E8ECF2;border-radius:30px;padding:14px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.phone-frame.miclaw{border-color:#FF6B35;background:#FFF9F5}
+.phone-frame.xiaoi{border-color:#4F46E5;background:#F5F3FF}
 
-/* Phone inner elements */
-.ph-status{height:28px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;margin-bottom:8px}
-.ph-nav{height:32px;display:flex;align-items:center;gap:8px;padding:0 4px;margin-bottom:12px}
-.ph-nav .back{width:20px;height:20px;border-radius:50%;background:#E8ECF2}
-.ph-nav .title{font-size:13px;font-weight:600;color:#333}
-.ph-body{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:8px}
-.ph-bottom{height:48px;display:flex;align-items:center;justify-content:center;margin-top:auto}
+.ph-status{height:24px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;margin-bottom:6px}
+.ph-nav{height:28px;display:flex;align-items:center;gap:8px;padding:0 4px;margin-bottom:10px}
+.ph-nav .back{width:18px;height:18px;border-radius:50%;background:#E8ECF2}
+.ph-nav .title{font-size:12px;font-weight:600;color:#333}
+.ph-nav .title.orange{color:#FF6B35}
+.ph-nav .title.purple{color:#4F46E5}
+.ph-body{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:6px}
+.ph-bottom{height:44px;display:flex;align-items:center;justify-content:center;margin-top:auto}
 
-/* Content blocks inside phone */
-.ph-card{background:#fff;border:1px solid #E8ECF2;border-radius:12px;padding:12px;font-size:11px;color:#555;line-height:1.6}
+.ph-card{background:#fff;border:1px solid #E8ECF2;border-radius:10px;padding:10px;font-size:10px;color:#555;line-height:1.6}
 .ph-card.highlight{border-color:#2D5BFF;background:#F0F4FF}
 .ph-card.green{border-color:#22C55E;background:#F0FDF4}
 .ph-card.amber{border-color:#F59E0B;background:#FFFBEB}
-.ph-card h4{font-size:12px;font-weight:700;color:#1A1A2E;margin-bottom:4px}
-.ph-card .tag{display:inline-block;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;margin-bottom:4px}
+.ph-card h4{font-size:11px;font-weight:700;color:#1A1A2E;margin-bottom:3px}
+.ph-card .tag{display:inline-block;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;margin-bottom:3px}
 .ph-card .tag-blue{background:#EFF6FF;color:#2D5BFF}
 .ph-card .tag-green{background:#F0FDF4;color:#16A34A}
 .ph-card .tag-purple{background:#F5F3FF;color:#7C3AED}
+.ph-card .tag-orange{background:#FFF7ED;color:#EA580C}
 
-/* Chat bubble */
-.ph-chat{display:flex;flex-direction:column;gap:6px}
-.ph-bubble{max-width:85%;padding:8px 12px;border-radius:12px;font-size:11px;line-height:1.5}
+.ph-chat{display:flex;flex-direction:column;gap:5px}
+.ph-bubble{max-width:88%;padding:7px 10px;border-radius:10px;font-size:10px;line-height:1.5}
 .ph-bubble.user{align-self:flex-end;background:#2D5BFF;color:#fff;border-bottom-right-radius:4px}
+.ph-bubble.user.orange{background:#FF6B35}
 .ph-bubble.ai{align-self:flex-start;background:#F0F2F5;color:#333;border-bottom-left-radius:4px}
 
-/* Action bar */
-.ph-actions{display:flex;gap:6px;padding:8px 0}
-.ph-btn{padding:6px 12px;border-radius:8px;font-size:10px;font-weight:600;border:1px solid #E8ECF2;color:#555;background:#fff}
+.ph-actions{display:flex;gap:5px;padding:6px 0;flex-wrap:wrap}
+.ph-btn{padding:5px 10px;border-radius:7px;font-size:9px;font-weight:600;border:1px solid #E8ECF2;color:#555;background:#fff}
 .ph-btn.primary{background:#2D5BFF;color:#fff;border-color:#2D5BFF}
 .ph-btn.green{background:#22C55E;color:#fff;border-color:#22C55E}
+.ph-btn.orange{background:#FF6B35;color:#fff;border-color:#FF6B35}
 
-/* Player card */
-.ph-player{background:#1A1A2E;border-radius:12px;padding:14px;color:#fff}
-.ph-player h4{font-size:12px;font-weight:600;margin-bottom:6px}
-.ph-player .bar{height:4px;background:#333;border-radius:2px;margin:8px 0}
+.ph-player{background:#1A1A2E;border-radius:10px;padding:12px;color:#fff}
+.ph-player h4{font-size:11px;font-weight:600;margin-bottom:5px}
+.ph-player .bar{height:3px;background:#333;border-radius:2px;margin:6px 0}
 .ph-player .bar-fill{height:100%;width:35%;background:#2D5BFF;border-radius:2px}
-.ph-player .controls{display:flex;justify-content:center;gap:16px;font-size:14px;margin-top:6px}
+.ph-player .controls{display:flex;justify-content:center;gap:14px;font-size:12px;margin-top:5px}
 
-/* PPT preview */
-.ph-ppt{background:#fff;border:1px solid #E8ECF2;border-radius:8px;padding:8px;text-align:center}
-.ph-ppt .slide{background:linear-gradient(135deg,#667eea,#764ba2);border-radius:6px;height:100px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600;margin-bottom:6px}
-.ph-ppt .dots{display:flex;gap:4px;justify-content:center}
-.ph-ppt .dot{width:6px;height:6px;border-radius:50%;background:#DDD}
+.ph-ppt{background:#fff;border:1px solid #E8ECF2;border-radius:8px;padding:6px;text-align:center}
+.ph-ppt .slide{background:linear-gradient(135deg,#667eea,#764ba2);border-radius:6px;height:80px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:600;margin-bottom:5px}
+.ph-ppt .dots{display:flex;gap:3px;justify-content:center}
+.ph-ppt .dot{width:5px;height:5px;border-radius:50%;background:#DDD}
 .ph-ppt .dot.active{background:#2D5BFF}
 
-/* Share sheet */
-.ph-share{background:#fff;border-radius:12px 12px 0 0;border:1px solid #E8ECF2;padding:14px;margin-top:auto}
-.ph-share h4{font-size:11px;font-weight:600;color:#333;margin-bottom:8px}
-.ph-share .apps{display:flex;gap:12px}
-.ph-share .app{width:36px;text-align:center}
-.ph-share .app-icon{width:36px;height:36px;border-radius:10px;margin-bottom:3px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.ph-share{background:#fff;border-radius:10px 10px 0 0;border:1px solid #E8ECF2;padding:12px;margin-top:auto}
+.ph-share h4{font-size:10px;font-weight:600;color:#333;margin-bottom:6px}
+.ph-share .apps{display:flex;gap:10px}
+.ph-share .app{width:32px;text-align:center}
+.ph-share .app-icon{width:32px;height:32px;border-radius:8px;margin-bottom:2px;display:flex;align-items:center;justify-content:center;font-size:12px}
 .ph-share .app-name{font-size:8px;color:#999}
 
-/* Chips row */
-.ph-chips{display:flex;gap:6px;flex-wrap:wrap;padding:6px 0}
-.ph-chip{padding:5px 10px;border-radius:16px;font-size:10px;font-weight:500;background:#F0F4FF;color:#2D5BFF;border:1px solid #D6E4FF}
+.ph-chips{display:flex;gap:5px;flex-wrap:wrap;padding:5px 0}
+.ph-chip{padding:4px 8px;border-radius:14px;font-size:9px;font-weight:500;background:#F0F4FF;color:#2D5BFF;border:1px solid #D6E4FF}
 
-/* Flow arrow between phones */
-.flow-arrow{display:flex;align-items:center;justify-content:center;width:40px;flex-shrink:0;color:#CCC;font-size:24px;padding-top:80px}
+.flow-arrow{display:flex;align-items:center;justify-content:center;width:32px;flex-shrink:0;color:#CCC;font-size:20px;padding-top:70px}
+.flow-arrow.highlight{color:#2D5BFF;font-weight:700}
 
-/* Annotation */
-.anno{margin-top:20px;padding:16px 20px;background:#F8F9FC;border-radius:10px;border-left:3px solid #2D5BFF}
-.anno p{font-size:12px;color:#555;line-height:1.7}
+.ph-note{font-size:10px;color:#333;line-height:1.7}
+.ph-note h5{font-size:11px;font-weight:600;margin-bottom:3px}
+.ph-note .rich-embed{margin:6px 0;padding:8px;background:#F8F9FC;border:1px solid #E8ECF2;border-radius:8px;display:flex;align-items:center;gap:7px}
+.ph-note .rich-embed .icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ph-note .rich-embed .info{font-size:9px;color:#555}
+.ph-note .rich-embed .info strong{display:block;font-size:10px;color:#333}
+
+.ph-todo{display:flex;align-items:flex-start;gap:6px;padding:6px 0;border-bottom:1px solid #F0F2F5}
+.ph-todo:last-child{border-bottom:none}
+.ph-todo .check{width:14px;height:14px;border-radius:3px;border:2px solid #CCC;flex-shrink:0;margin-top:1px}
+.ph-todo .check.done{background:#22C55E;border-color:#22C55E}
+.ph-todo .text{font-size:10px;color:#333;line-height:1.4}
+.ph-todo .due{font-size:8px;color:#F59E0B;margin-top:2px}
+
+.ph-flash{background:#1A1A2E;border-radius:10px;padding:14px;color:#fff;text-align:center}
+.ph-flash .q{font-size:12px;font-weight:600;margin-bottom:10px}
+.ph-flash .hint{font-size:9px;color:rgba(255,255,255,.5)}
+
+.anno{margin-top:20px;padding:14px 18px;background:#F8F9FC;border-radius:10px;border-left:3px solid #2D5BFF}
+.anno p{font-size:11px;color:#555;line-height:1.7}
 .anno strong{color:#2D5BFF}
 
-/* Todo card style */
-.ph-todo{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid #F0F2F5}
-.ph-todo:last-child{border-bottom:none}
-.ph-todo .check{width:16px;height:16px;border-radius:4px;border:2px solid #CCC;flex-shrink:0;margin-top:1px}
-.ph-todo .check.done{background:#22C55E;border-color:#22C55E}
-.ph-todo .text{font-size:11px;color:#333;line-height:1.4}
-.ph-todo .due{font-size:9px;color:#F59E0B;margin-top:2px}
-
-/* Flashcard */
-.ph-flash{background:#1A1A2E;border-radius:12px;padding:16px;color:#fff;text-align:center}
-.ph-flash .q{font-size:13px;font-weight:600;margin-bottom:12px}
-.ph-flash .hint{font-size:10px;color:rgba(255,255,255,.5)}
-.ph-flash .reveal{margin-top:10px;padding:8px 16px;background:rgba(255,255,255,.1);border-radius:8px;font-size:11px;color:#fff;display:inline-block}
-
-/* Note content */
-.ph-note{font-size:11px;color:#333;line-height:1.7}
-.ph-note h5{font-size:12px;font-weight:600;margin-bottom:4px}
-.ph-note .rich-embed{margin:8px 0;padding:10px;background:#F8F9FC;border:1px solid #E8ECF2;border-radius:8px;display:flex;align-items:center;gap:8px}
-.ph-note .rich-embed .icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.ph-note .rich-embed .info{font-size:10px;color:#555}
-.ph-note .rich-embed .info strong{display:block;font-size:11px;color:#333}
+/* App badge */
+.app-badge{display:inline-block;font-size:9px;font-weight:700;padding:3px 8px;border-radius:10px;margin-bottom:6px}
+.app-badge.miclaw{background:#FFF7ED;color:#EA580C;border:1px solid #FDBA74}
+.app-badge.notes{background:#EFF6FF;color:#2D5BFF;border:1px solid #93C5FD}
+.app-badge.system{background:#F0FDF4;color:#16A34A;border:1px solid #86EFAC}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>笔记产品 · 生成→消费→分享 场景串联</h1>
-  <p>核心逻辑：笔记是用户的记录 + AI帮你把记录变成可直接消费的内容。以下串联从"生成"到"消费"到"分享"的完整链路，确保每一步无断点。</p>
+  <h1>笔记产品 · 生成→消费→分享 全链路场景串联</h1>
+  <p>核心逻辑：用户在端外（MiClaw/小爱/AI键）触发 → 内容进入笔记 → AI生成消费物 → 用户即时消费 → 一键分享。每一步无断点。</p>
 </div>
 
 <!-- Scene 1: 播客 -->
 <div class="scene">
-  <div class="scene-title">通勤族：收藏了5篇文章，上班路上听</div>
-  <div class="scene-meta">用户需求：不想看屏幕，把文字内容变成能听的东西</div>
-  <div class="scene-func">功能：播客生成 → 即时播放 → 分享</div>
+  <div class="scene-title">通勤族：收藏了5篇文章，上班路上想听</div>
+  <div class="scene-meta">完整链路：小爱对话触发 → 笔记数据调用 → 生成播客 → 存入笔记 → 直接播放 → 分享</div>
+  <div class="scene-func">功能：播客</div>
 
   <div class="screens">
     <div class="phone">
-      <div class="phone-label">1. 打开笔记，底部对话触发</div>
-      <div class="phone-sublabel">笔记详情页，对话框上方有快捷chips</div>
-      <div class="phone-frame">
+      <div class="app-badge miclaw">MiClaw · 端外</div>
+      <div class="phone-label">1. 小爱对话触发</div>
+      <div class="phone-sublabel">用户在任意场景唤起小爱</div>
+      <div class="phone-frame miclaw">
         <div class="ph-status">9:41</div>
-        <div class="ph-nav"><div class="back"></div><div class="title">新疆旅行计划</div></div>
+        <div class="ph-nav"><div class="back"></div><div class="title orange">小爱同学</div></div>
         <div class="ph-body">
-          <div class="ph-note">
-            <h5>Day 1-3：乌鲁木齐→独库公路</h5>
-            <p>第一天到乌鲁木齐休整，第二天走独库公路北段，经乔尔玛到那拉提草原...</p>
-          </div>
-          <div style="margin-top:auto">
-            <div class="ph-chips">
-              <div class="ph-chip">🎙️ 生成播客</div>
-              <div class="ph-chip">📊 做PPT</div>
-              <div class="ph-chip">🧠 思维导图</div>
-            </div>
-            <div style="background:#F0F2F5;border-radius:20px;padding:10px 14px;font-size:11px;color:#999">跟AI聊这篇笔记...</div>
+          <div class="ph-chat">
+            <div class="ph-bubble user orange">把我这两天收藏的文章做个播客</div>
+            <div class="ph-bubble ai">好的，我在你的笔记里找到了5篇近期收藏的文章：<br>• 成都3天攻略<br>• 产品经理必读…<br>• …<br><br>正在为你生成播客…</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow highlight">→</div>
 
     <div class="phone">
-      <div class="phone-label">2. AI生成播客（当场预览）</div>
-      <div class="phone-sublabel">生成完成后直接展示播放卡片，无需跳转</div>
-      <div class="phone-frame">
+      <div class="app-badge miclaw">MiClaw · 端外</div>
+      <div class="phone-label">2. 生成完成，当场试听</div>
+      <div class="phone-sublabel">小爱内直接出播放卡片，无需跳笔记</div>
+      <div class="phone-frame miclaw">
         <div class="ph-status">9:41</div>
-        <div class="ph-nav"><div class="back"></div><div class="title">新疆旅行计划</div></div>
+        <div class="ph-nav"><div class="back"></div><div class="title orange">小爱同学</div></div>
         <div class="ph-body">
           <div class="ph-chat">
-            <div class="ph-bubble user">帮我把这篇笔记生成播客</div>
-            <div class="ph-bubble ai">已为你生成播客「新疆旅行计划」，时长约8分钟 👇</div>
+            <div class="ph-bubble ai">已生成播客「本周收藏精选」，时长12分钟 👇</div>
           </div>
           <div class="ph-player">
-            <h4>🎙️ 新疆旅行计划</h4>
+            <h4>🎙️ 本周收藏精选</h4>
             <div class="bar"><div class="bar-fill"></div></div>
-            <div style="display:flex;justify-content:space-between;font-size:9px;color:#999"><span>2:48</span><span>8:12</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:8px;color:#999"><span>0:00</span><span>12:08</span></div>
             <div class="controls">⏮ &nbsp; ▶️ &nbsp; ⏭</div>
           </div>
           <div class="ph-actions">
-            <div class="ph-btn primary">添加到笔记</div>
-            <div class="ph-btn">设置播放时间</div>
+            <div class="ph-btn orange">存到笔记</div>
+            <div class="ph-btn">上车后播放</div>
+            <div class="ph-btn">分享</div>
           </div>
         </div>
       </div>
@@ -183,19 +173,20 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
     <div class="flow-arrow">→</div>
 
     <div class="phone">
-      <div class="phone-label">3. 笔记内富媒体嵌入</div>
-      <div class="phone-sublabel">播客作为富媒体卡片嵌入笔记顶部，一点就播</div>
+      <div class="app-badge notes">笔记APP · 端内</div>
+      <div class="phone-label">3. 富媒体存入笔记</div>
+      <div class="phone-sublabel">播客作为富媒体卡片自动嵌入笔记</div>
       <div class="phone-frame">
         <div class="ph-status">9:41</div>
-        <div class="ph-nav"><div class="back"></div><div class="title">新疆旅行计划</div></div>
+        <div class="ph-nav"><div class="back"></div><div class="title">本周收藏精选</div></div>
         <div class="ph-body">
           <div class="ph-note">
             <div class="rich-embed">
               <div class="icon" style="background:#EFF6FF">🎙️</div>
-              <div class="info"><strong>播客：新疆旅行计划</strong>8:12 · 点击播放</div>
+              <div class="info"><strong>播客 · 12:08</strong>点击播放 | 来源：5篇收藏</div>
             </div>
-            <h5>Day 1-3：乌鲁木齐→独库公路</h5>
-            <p>第一天到乌鲁木齐休整，第二天走独库公路北段...</p>
+            <h5>内容摘要</h5>
+            <p>• 成都3天2夜：宽窄巷子→春熙路...<br>• 产品经理必读：用户研究方法论...</p>
           </div>
         </div>
       </div>
@@ -204,25 +195,25 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
     <div class="flow-arrow">→</div>
 
     <div class="phone">
-      <div class="phone-label">4. 一键分享</div>
-      <div class="phone-sublabel">长按播客卡片 → 分享给朋友，链路无断点</div>
+      <div class="app-badge notes">笔记APP · 端内</div>
+      <div class="phone-label">4. 消费+分享</div>
+      <div class="phone-sublabel">一点就播，长按就分享</div>
       <div class="phone-frame">
         <div class="ph-status">9:41</div>
-        <div class="ph-nav"><div class="back"></div><div class="title">新疆旅行计划</div></div>
+        <div class="ph-nav"><div class="back"></div><div class="title">本周收藏精选</div></div>
         <div class="ph-body">
-          <div class="ph-note">
-            <div class="rich-embed" style="border-color:#2D5BFF">
-              <div class="icon" style="background:#EFF6FF">🎙️</div>
-              <div class="info"><strong>播客：新疆旅行计划</strong>8:12 · 播放中...</div>
-            </div>
+          <div class="ph-player">
+            <h4>🎙️ 本周收藏精选</h4>
+            <div class="bar"><div class="bar-fill" style="width:60%"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:8px;color:#999"><span>7:15</span><span>12:08</span></div>
+            <div class="controls">⏮ &nbsp; ⏸️ &nbsp; ⏭</div>
           </div>
           <div class="ph-share">
-            <h4>分享到</h4>
+            <h4>分享给</h4>
             <div class="apps">
               <div class="app"><div class="app-icon" style="background:#07C160">💬</div><div class="app-name">微信</div></div>
-              <div class="app"><div class="app-icon" style="background:#FF6B35">📱</div><div class="app-name">短信</div></div>
-              <div class="app"><div class="app-icon" style="background:#3B82F6">🔗</div><div class="app-name">复制链接</div></div>
-              <div class="app"><div class="app-icon" style="background:#E8ECF2">💾</div><div class="app-name">保存</div></div>
+              <div class="app"><div class="app-icon" style="background:#3B82F6">👥</div><div class="app-name">同事群</div></div>
+              <div class="app"><div class="app-icon" style="background:#E8ECF2">🔗</div><div class="app-name">链接</div></div>
             </div>
           </div>
         </div>
@@ -230,60 +221,54 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
     </div>
   </div>
 
-  <div class="anno"><p><strong>链路验证：</strong>生成入口（对话框chips）→ 即时生成+当场预览 → 富媒体嵌入笔记（一点就播）→ 长按分享。全程不跳出笔记，不下载文件，不找文件路径。</p></div>
+  <div class="anno"><p><strong>端外→端内完整链路：</strong>小爱对话触发（端外）→ 调用笔记数据生成 → 小爱内直接试听 → 存入笔记（富媒体）→ 笔记内一点就播 → 分享给人。用户从头到尾不需要"找文件"。</p></div>
 </div>
 
 <!-- Scene 2: PPT -->
 <div class="scene">
-  <div class="scene-title">打工人：会议结束，一键生成PPT发给同事</div>
-  <div class="scene-meta">用户需求：录完音的会议笔记，快速变成可分享的演示文稿</div>
-  <div class="scene-func">功能：PPT生成 → 即时预览 → 分享</div>
+  <div class="scene-title">打工人：跟同事讲了旅行计划，一键变PPT发给他</div>
+  <div class="scene-meta">完整链路：MiClaw对话生成 → 存入笔记 → 预览 → 分享</div>
+  <div class="scene-func">功能：PPT / 演示文稿</div>
 
   <div class="screens">
     <div class="phone">
-      <div class="phone-label">1. 笔记对话框触发生成</div>
-      <div class="phone-sublabel">会议笔记详情页，点chips或自然语言</div>
-      <div class="phone-frame">
+      <div class="app-badge miclaw">MiClaw · 端外</div>
+      <div class="phone-label">1. MiClaw对话触发</div>
+      <div class="phone-sublabel">用户跟MiClaw聊完内容后触发生成</div>
+      <div class="phone-frame miclaw">
         <div class="ph-status">9:41</div>
-        <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
+        <div class="ph-nav"><div class="back"></div><div class="title orange">MiClaw</div></div>
         <div class="ph-body">
-          <div class="ph-note">
-            <h5>议题一：笔记产出物链路</h5>
-            <p>• 核心问题：生成→消费链路存在断点<br>• 决策：产出物做成笔记富媒体...</p>
-          </div>
-          <div style="margin-top:auto">
-            <div class="ph-chips">
-              <div class="ph-chip">📊 做PPT</div>
-              <div class="ph-chip">✅ 提取待办</div>
-              <div class="ph-chip">🎙️ 生成播客</div>
-            </div>
-            <div style="background:#F0F2F5;border-radius:20px;padding:10px 14px;font-size:11px;color:#999">跟AI聊这篇笔记...</div>
+          <div class="ph-chat">
+            <div class="ph-bubble ai" style="font-size:9px">好的，我整理了你的新疆旅行计划：<br>Day1-3 乌鲁木齐→独库公路<br>Day4-6 那拉提→巴音布鲁克...</div>
+            <div class="ph-bubble user orange">帮我做成PPT，我发给杨强</div>
+            <div class="ph-bubble ai">正在生成演示文稿…</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow highlight">→</div>
 
     <div class="phone">
+      <div class="app-badge miclaw">MiClaw · 端外</div>
       <div class="phone-label">2. 生成完成，当场预览</div>
-      <div class="phone-sublabel">生成后直接展示PPT预览，无需下载WPS</div>
-      <div class="phone-frame">
+      <div class="phone-sublabel">MiClaw内直接展示PPT卡片</div>
+      <div class="phone-frame miclaw">
         <div class="ph-status">9:41</div>
-        <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
+        <div class="ph-nav"><div class="back"></div><div class="title orange">MiClaw</div></div>
         <div class="ph-body">
           <div class="ph-chat">
-            <div class="ph-bubble user">帮我做个PPT</div>
-            <div class="ph-bubble ai">已生成4页PPT 👇 点击全屏预览</div>
+            <div class="ph-bubble ai">已生成4页PPT 👇</div>
           </div>
           <div class="ph-ppt">
-            <div class="slide">笔记产品方案<br><span style="font-size:9px;font-weight:400;opacity:.7">生成→消费→分享</span></div>
+            <div class="slide">🏔️ 新疆10天自驾<br><span style="font-size:8px;font-weight:400;opacity:.7">独库公路→那拉提→喀纳斯</span></div>
             <div class="dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
           </div>
           <div class="ph-actions">
-            <div class="ph-btn primary">添加到笔记</div>
-            <div class="ph-btn">全屏预览</div>
-            <div class="ph-btn green">分享</div>
+            <div class="ph-btn orange">存到笔记</div>
+            <div class="ph-btn green">发给杨强</div>
+            <div class="ph-btn">全屏看</div>
           </div>
         </div>
       </div>
@@ -292,63 +277,101 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
     <div class="flow-arrow">→</div>
 
     <div class="phone">
-      <div class="phone-label">3. 嵌入笔记 + 直接分享</div>
-      <div class="phone-sublabel">PPT作为富媒体在笔记内，点击预览，长按分享</div>
+      <div class="app-badge notes">笔记APP · 端内</div>
+      <div class="phone-label">3. 存入笔记，富媒体嵌入</div>
+      <div class="phone-sublabel">PPT作为笔记顶部富媒体，点击预览</div>
       <div class="phone-frame">
         <div class="ph-status">9:41</div>
-        <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
+        <div class="ph-nav"><div class="back"></div><div class="title">新疆旅行计划</div></div>
         <div class="ph-body">
           <div class="ph-note">
             <div class="rich-embed">
               <div class="icon" style="background:#F5F3FF">📊</div>
-              <div class="info"><strong>演示文稿：产品评审会</strong>4页 · 点击预览</div>
+              <div class="info"><strong>演示文稿 · 4页</strong>点击全屏预览</div>
             </div>
-            <h5>议题一：笔记产出物链路</h5>
-            <p>• 核心问题：生成→消费链路存在断点...</p>
+            <h5>Day 1-3：乌鲁木齐→独库公路</h5>
+            <p>第一天到乌鲁木齐休整…<br>第二天走独库公路北段…</p>
           </div>
-          <div class="ph-share">
-            <h4>发送给</h4>
-            <div class="apps">
-              <div class="app"><div class="app-icon" style="background:#07C160">💬</div><div class="app-name">杨强</div></div>
-              <div class="app"><div class="app-icon" style="background:#3B82F6">👥</div><div class="app-name">产品群</div></div>
-              <div class="app"><div class="app-icon" style="background:#E8ECF2">🔗</div><div class="app-name">复制</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <div class="phone">
+      <div class="app-badge system">系统 · IM分享</div>
+      <div class="phone-label">4. 一键分享给杨强</div>
+      <div class="phone-sublabel">直接发送，对方点开即看</div>
+      <div class="phone-frame">
+        <div class="ph-status">9:41</div>
+        <div class="ph-nav"><div class="back"></div><div class="title">杨强</div></div>
+        <div class="ph-body">
+          <div class="ph-chat">
+            <div class="ph-bubble user">给你看看新疆旅行计划 👇</div>
+          </div>
+          <div class="ph-card highlight" style="margin-top:8px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:60px;height:40px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px">PPT</div>
+              <div>
+                <div style="font-size:10px;font-weight:600;color:#333">新疆10天自驾</div>
+                <div style="font-size:9px;color:#999">4页 · 点击查看</div>
+              </div>
             </div>
           </div>
+          <div style="font-size:9px;color:#999;text-align:center;margin-top:12px">对方点开直接全屏预览</div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="anno"><p><strong>链路验证：</strong>对话框生成 → 当场PPT预览（不跳WPS）→ 嵌入笔记顶部 → 一键分享给同事。解决李楠提出的"生成了找不到、看不了、发不出"三个断点。</p></div>
+  <div class="anno"><p><strong>端外→端内→分享：</strong>MiClaw对话生成（端外）→ 当场预览 → 一键"发给杨强"（调用IM）→ 同时存入笔记。解决李楠演示的"生成了找不到+看不了+发不出"三个断点。</p></div>
 </div>
 
 <!-- Scene 3: 待办 -->
 <div class="scene">
   <div class="scene-title">打工人：开完会，待办自动提取，到期提醒</div>
-  <div class="scene-meta">用户需求：开完会不用手抄要点，AI自动帮我盯着待办</div>
-  <div class="scene-func">功能：待办自动提取 → 嵌入笔记 → 同步日历 → 到期提醒</div>
+  <div class="scene-meta">完整链路：AI键录音（端外）→ 生成会议笔记 → 自动提取待办 → 同步日历 → 到期推送</div>
+  <div class="scene-func">功能：待办</div>
 
   <div class="screens">
     <div class="phone">
-      <div class="phone-label">1. 会议笔记生成后，AI自动提取</div>
-      <div class="phone-sublabel">录音结束生成笔记时，自动识别待办项</div>
+      <div class="app-badge system">系统 · AI键（端外）</div>
+      <div class="phone-label">1. AI键录音</div>
+      <div class="phone-sublabel">会议中按AI键开始录音</div>
+      <div class="phone-frame xiaoi">
+        <div class="ph-status">9:41</div>
+        <div class="ph-body" style="justify-content:center;align-items:center">
+          <div style="text-align:center">
+            <div style="font-size:36px;margin-bottom:12px">🎤</div>
+            <div style="font-size:13px;font-weight:600;color:#4F46E5">录音中 · 45:12</div>
+            <div style="font-size:10px;color:#999;margin-top:8px">产品评审会</div>
+            <div class="ph-actions" style="justify-content:center;margin-top:16px">
+              <div class="ph-btn" style="border-color:#4F46E5;color:#4F46E5">结束录音</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow highlight">→</div>
+
+    <div class="phone">
+      <div class="app-badge notes">笔记APP · 端内</div>
+      <div class="phone-label">2. 自动生成笔记+提取待办</div>
+      <div class="phone-sublabel">录音结束后AI自动处理，无需操作</div>
       <div class="phone-frame">
         <div class="ph-status">9:41</div>
         <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
         <div class="ph-body">
-          <div class="ph-note">
-            <h5>议题摘要</h5>
-            <p>• 产出物先做成笔记富媒体<br>• 优先打通消费→分享链路</p>
-          </div>
           <div class="ph-card green">
             <div class="tag tag-green">AI 自动提取</div>
             <h4>识别到 3 条待办</h4>
-            <div class="ph-todo"><div class="check"></div><div class="text">串联生成→消费→分享链路<div class="due">截止：05/30</div></div></div>
-            <div class="ph-todo"><div class="check"></div><div class="text">修复AI对话不读全文Bug<div class="due">截止：05/29</div></div></div>
-            <div class="ph-todo"><div class="check"></div><div class="text">跟司梦雨对接分享功能<div class="due">截止：06/03</div></div></div>
+            <div class="ph-todo"><div class="check"></div><div class="text">串联消费→分享链路<div class="due">05/30</div></div></div>
+            <div class="ph-todo"><div class="check"></div><div class="text">修复AI不读全文Bug<div class="due">05/29</div></div></div>
+            <div class="ph-todo"><div class="check"></div><div class="text">对接司梦雨IM分享<div class="due">06/03</div></div></div>
           </div>
           <div class="ph-actions">
-            <div class="ph-btn primary">确认添加到笔记</div>
+            <div class="ph-btn primary">确认添加</div>
             <div class="ph-btn">编辑</div>
           </div>
         </div>
@@ -358,8 +381,9 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
     <div class="flow-arrow">→</div>
 
     <div class="phone">
-      <div class="phone-label">2. 待办嵌入笔记 + 同步日历</div>
-      <div class="phone-sublabel">待办卡片直接在笔记正文中显示</div>
+      <div class="app-badge notes">笔记APP · 端内</div>
+      <div class="phone-label">3. 嵌入笔记 + 日历同步</div>
+      <div class="phone-sublabel">待办卡片在笔记顶部，自动同步日历</div>
       <div class="phone-frame">
         <div class="ph-status">9:41</div>
         <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
@@ -367,15 +391,15 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
           <div class="ph-note">
             <div class="rich-embed">
               <div class="icon" style="background:#F0FDF4">✅</div>
-              <div class="info"><strong>待办 · 3项</strong>已同步到日历</div>
+              <div class="info"><strong>待办 · 3项</strong>已同步日历</div>
             </div>
-            <div style="padding:8px 0">
-              <div class="ph-todo"><div class="check"></div><div class="text">串联生成→消费→分享链路<div class="due">📅 05/30</div></div></div>
-              <div class="ph-todo"><div class="check"></div><div class="text">修复AI对话不读全文Bug<div class="due">📅 05/29</div></div></div>
-              <div class="ph-todo"><div class="check done"></div><div class="text" style="text-decoration:line-through;color:#999">跟司梦雨对接分享功能</div></div>
+            <div style="padding:6px 0">
+              <div class="ph-todo"><div class="check"></div><div class="text">串联消费→分享链路<div class="due">📅 05/30</div></div></div>
+              <div class="ph-todo"><div class="check done"></div><div class="text" style="text-decoration:line-through;color:#999">修复AI不读全文Bug</div></div>
+              <div class="ph-todo"><div class="check"></div><div class="text">对接司梦雨IM分享<div class="due">📅 06/03</div></div></div>
             </div>
-            <h5>议题摘要</h5>
-            <p>• 产出物先做成笔记富媒体...</p>
+            <h5>会议摘要</h5>
+            <p>• 产出物做成笔记富媒体…</p>
           </div>
         </div>
       </div>
@@ -384,18 +408,18 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
     <div class="flow-arrow">→</div>
 
     <div class="phone">
-      <div class="phone-label">3. 到期主动提醒</div>
-      <div class="phone-sublabel">系统推送提醒，点击直接跳回笔记</div>
+      <div class="app-badge system">系统 · 推送</div>
+      <div class="phone-label">4. 到期提醒，跳回笔记</div>
+      <div class="phone-sublabel">推送通知点击直达原笔记</div>
       <div class="phone-frame">
         <div class="ph-status">9:41</div>
-        <div class="ph-body" style="justify-content:center;align-items:center;padding:40px 20px">
+        <div class="ph-body" style="justify-content:center;padding:20px">
           <div class="ph-card amber" style="width:100%">
-            <div class="tag" style="background:#FFFBEB;color:#D97706">⏰ 提醒</div>
-            <h4>明天截止：修复AI对话不读全文Bug</h4>
-            <p style="margin-top:4px">来自：产品评审会 05/27</p>
+            <div class="tag" style="background:#FFFBEB;color:#D97706">⏰ 明天截止</div>
+            <h4>串联消费→分享链路</h4>
+            <p style="margin-top:3px">来自：产品评审会 05/27</p>
             <div class="ph-actions" style="margin-top:8px">
               <div class="ph-btn primary">打开笔记</div>
-              <div class="ph-btn">延期</div>
               <div class="ph-btn">完成</div>
             </div>
           </div>
@@ -404,63 +428,54 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
     </div>
   </div>
 
-  <div class="anno"><p><strong>链路验证：</strong>会议结束自动提取 → 确认后嵌入笔记+同步日历 → 到期推送提醒→点击跳回原笔记。待办跟笔记强绑定，不脱离上下文。</p></div>
+  <div class="anno"><p><strong>端外→端内→系统推送：</strong>AI键录音（端外）→ 自动生成笔记+提取待办 → 嵌入笔记+同步日历 → 到期系统推送→点击跳回原笔记。从录音到提醒全程自动。</p></div>
 </div>
 
 <!-- Scene 4: 知识卡片 -->
 <div class="scene">
-  <div class="scene-title">学生：12节课录音，期末一键出复习卡</div>
-  <div class="scene-meta">用户需求：不想重听45分钟录音，直接拿到能复习的知识卡</div>
-  <div class="scene-func">功能：知识卡片生成 → 即时学习 → 嵌入笔记</div>
+  <div class="scene-title">学生：12节课录音，问小爱"帮我复习微积分"</div>
+  <div class="scene-meta">完整链路：小爱对话触发（端外）→ 调用笔记数据 → 生成知识卡 → 当场学习 → 存入笔记</div>
+  <div class="scene-func">功能：知识卡片</div>
 
   <div class="screens">
     <div class="phone">
-      <div class="phone-label">1. 课堂笔记内，对话触发</div>
-      <div class="phone-sublabel">对话框上方chips匹配学习场景</div>
-      <div class="phone-frame">
+      <div class="app-badge miclaw">小爱 · 端外</div>
+      <div class="phone-label">1. 小爱对话触发</div>
+      <div class="phone-sublabel">用户随口说"帮我复习"</div>
+      <div class="phone-frame miclaw">
         <div class="ph-status">9:41</div>
-        <div class="ph-nav"><div class="back"></div><div class="title">高数第8讲：微积分</div></div>
+        <div class="ph-nav"><div class="back"></div><div class="title orange">小爱同学</div></div>
         <div class="ph-body">
-          <div class="ph-note">
-            <h5>知识点：定积分的性质</h5>
-            <p>定积分的线性性质：∫(af+bg)dx = a∫f dx + b∫g dx...</p>
-          </div>
-          <div style="margin-top:auto">
-            <div class="ph-chips">
-              <div class="ph-chip">🃏 生成知识卡</div>
-              <div class="ph-chip">📝 提炼考点</div>
-              <div class="ph-chip">🎙️ 生成播客</div>
-            </div>
-            <div style="background:#F0F2F5;border-radius:20px;padding:10px 14px;font-size:11px;color:#999">跟AI聊这篇笔记...</div>
+          <div class="ph-chat">
+            <div class="ph-bubble user orange">帮我复习一下微积分</div>
+            <div class="ph-bubble ai">好的，我在你笔记里找到了3节微积分课堂录音笔记，正在生成知识卡…</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow highlight">→</div>
 
     <div class="phone">
-      <div class="phone-label">2. 生成闪卡，当场学习</div>
-      <div class="phone-sublabel">生成后直接进入闪卡模式，翻卡复习</div>
-      <div class="phone-frame">
+      <div class="app-badge miclaw">小爱 · 端外</div>
+      <div class="phone-label">2. 生成闪卡，当场学</div>
+      <div class="phone-sublabel">小爱内直接进入闪卡模式</div>
+      <div class="phone-frame miclaw">
         <div class="ph-status">9:41</div>
-        <div class="ph-nav"><div class="back"></div><div class="title">知识卡 · 微积分</div></div>
+        <div class="ph-nav"><div class="back"></div><div class="title orange">知识卡 · 微积分</div></div>
         <div class="ph-body">
           <div class="ph-flash">
             <div class="q">定积分的线性性质是什么？</div>
             <div class="hint">点击翻转查看答案</div>
-            <div class="reveal">👆 点击翻转</div>
           </div>
-          <div style="text-align:center;padding:12px 0">
-            <span style="font-size:11px;color:#999">1 / 6 张</span>
-          </div>
+          <div style="text-align:center;padding:8px 0;font-size:9px;color:#999">1 / 8 张 · 来源：3节课笔记</div>
           <div class="ph-actions" style="justify-content:center">
             <div class="ph-btn">😕 再看看</div>
             <div class="ph-btn green">✓ 记住了</div>
           </div>
         </div>
         <div class="ph-bottom">
-          <div class="ph-btn primary">添加到笔记</div>
+          <div class="ph-btn orange">存到笔记</div>
         </div>
       </div>
     </div>
@@ -468,8 +483,9 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
     <div class="flow-arrow">→</div>
 
     <div class="phone">
-      <div class="phone-label">3. 嵌入笔记，随时再学</div>
-      <div class="phone-sublabel">知识卡作为富媒体嵌入，下次打开直接复习</div>
+      <div class="app-badge notes">笔记APP · 端内</div>
+      <div class="phone-label">3. 嵌入课堂笔记</div>
+      <div class="phone-sublabel">知识卡与原课堂笔记强绑定</div>
       <div class="phone-frame">
         <div class="ph-status">9:41</div>
         <div class="ph-nav"><div class="back"></div><div class="title">高数第8讲：微积分</div></div>
@@ -477,37 +493,61 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
           <div class="ph-note">
             <div class="rich-embed">
               <div class="icon" style="background:#F5F3FF">🃏</div>
-              <div class="info"><strong>知识卡：微积分 · 6张</strong>上次正确率 83% · 继续学习</div>
+              <div class="info"><strong>知识卡 · 8张</strong>正确率 75% · 继续学习</div>
             </div>
             <h5>知识点：定积分的性质</h5>
-            <p>定积分的线性性质：∫(af+bg)dx = a∫f dx + b∫g dx...</p>
+            <p>∫(af+bg)dx = a∫f dx + b∫g dx<br>区间可加性…</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <div class="phone">
+      <div class="app-badge notes">笔记APP · 端内</div>
+      <div class="phone-label">4. 再次打开，继续学</div>
+      <div class="phone-sublabel">点击知识卡富媒体直接进入学习</div>
+      <div class="phone-frame">
+        <div class="ph-status">9:41</div>
+        <div class="ph-nav"><div class="back"></div><div class="title">知识卡 · 微积分</div></div>
+        <div class="ph-body">
+          <div class="ph-flash">
+            <div class="q">∫₀¹ x² dx = ?</div>
+            <div class="hint" style="margin-top:8px;padding:8px;background:rgba(255,255,255,.1);border-radius:6px;text-align:left;font-size:9px;color:rgba(255,255,255,.8)">答案：1/3<br><br>解析：[x³/3]₀¹ = 1/3 - 0 = 1/3</div>
+          </div>
+          <div style="text-align:center;padding:8px 0;font-size:9px;color:#999">5 / 8 张 · 已掌握 4 张</div>
+          <div class="ph-actions" style="justify-content:center">
+            <div class="ph-btn">😕 再看看</div>
+            <div class="ph-btn green">✓ 记住了</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="anno"><p><strong>链路验证：</strong>对话框触发 → 当场生成闪卡+即时学习 → 嵌入笔记顶部（下次一点就学）。知识卡跟课堂笔记强绑定，复习时能回看原文上下文。</p></div>
+  <div class="anno"><p><strong>端外→端内闭环：</strong>小爱对话"帮我复习"（端外）→ 调用笔记数据生成闪卡 → 当场学习 → 存入对应课堂笔记 → 下次打开笔记一点继续学。知识卡跟课堂内容强绑定。</p></div>
 </div>
 
-<!-- Scene 5: 速记→笔记→产出 -->
+<!-- Scene 5: 速记 + 问答 -->
 <div class="scene">
-  <div class="scene-title">速记：AI键存了内容，问的时候能答出来</div>
-  <div class="scene-meta">用户需求：随手存的碎片内容，需要时MiClaw能帮我找到</div>
-  <div class="scene-func">功能：速记采集 → 后台沉淀 → 问答调用</div>
+  <div class="scene-title">普通人：AI键存了身份证号，填表时问小爱就行</div>
+  <div class="scene-meta">完整链路：AI键采集（端外）→ 速记后台沉淀 → 小爱问答调用（端外）→ 精准回答</div>
+  <div class="scene-func">功能：速记 + MiClaw问答</div>
 
   <div class="screens">
     <div class="phone">
-      <div class="phone-label">1. 短按AI键，存入速记</div>
-      <div class="phone-sublabel">系统自动采集，不进首页，不打扰用户</div>
-      <div class="phone-frame">
+      <div class="app-badge system">系统 · AI键（端外）</div>
+      <div class="phone-label">1. 短按AI键存入</div>
+      <div class="phone-sublabel">看到重要信息，按一下即存</div>
+      <div class="phone-frame xiaoi">
         <div class="ph-status">9:41</div>
-        <div class="ph-body" style="justify-content:center;padding:20px">
-          <div class="ph-card" style="text-align:center">
-            <div style="font-size:24px;margin-bottom:8px">⚡</div>
-            <h4>已存入速记</h4>
-            <p style="margin-top:4px">"老伴身份证号 310101196503..."</p>
-            <p style="color:#999;margin-top:8px;font-size:10px">不会出现在首页 · 问的时候能答</p>
+        <div class="ph-body" style="justify-content:center;align-items:center">
+          <div style="text-align:center">
+            <div style="font-size:28px;margin-bottom:10px">⚡</div>
+            <div style="font-size:12px;font-weight:600;color:#4F46E5">已存入速记</div>
+            <div style="font-size:10px;color:#666;margin-top:8px;padding:0 20px">"老伴身份证 310101196503XX"</div>
+            <div style="font-size:9px;color:#999;margin-top:12px">不会出现在首页<br>需要时问小爱就行</div>
           </div>
         </div>
       </div>
@@ -516,50 +556,75 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
     <div class="flow-arrow">→</div>
 
     <div class="phone">
-      <div class="phone-label">2. 需要时，问MiClaw就能答</div>
-      <div class="phone-sublabel">MiClaw检索速记内容，精准回答</div>
-      <div class="phone-frame">
-        <div class="ph-status">9:41</div>
-        <div class="ph-nav"><div class="back"></div><div class="title">小爱</div></div>
-        <div class="ph-body">
-          <div class="ph-chat">
-            <div class="ph-bubble user">我老伴身份证号多少？</div>
-            <div class="ph-bubble ai">根据你之前记录的信息：<br><br><strong style="color:#333">310101196503XXXXXX</strong><br><br><span style="font-size:10px;color:#999">来源：速记 · 05/20</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="flow-arrow">→</div>
-
-    <div class="phone">
-      <div class="phone-label">3. 速记统一管理</div>
-      <div class="phone-sublabel">侧边栏"速记"入口，不污染主笔记列表</div>
+      <div class="app-badge notes">笔记APP · 后台</div>
+      <div class="phone-label">2. 后台沉淀，不打扰</div>
+      <div class="phone-sublabel">速记内容在侧边栏统一管理，不上首页</div>
       <div class="phone-frame">
         <div class="ph-status">9:41</div>
         <div class="ph-nav"><div class="back"></div><div class="title">速记</div></div>
         <div class="ph-body">
-          <div class="ph-card" style="margin-bottom:8px">
+          <div class="ph-card" style="margin-bottom:6px">
             <div class="tag tag-blue">截图</div>
-            <p>老伴身份证号 310101196503...</p>
-            <p style="font-size:9px;color:#999;margin-top:4px">05/20 · AI键采集</p>
+            <p>老伴身份证 310101196503XX</p>
+            <p style="font-size:8px;color:#999;margin-top:3px">05/20 · AI键</p>
           </div>
-          <div class="ph-card" style="margin-bottom:8px">
+          <div class="ph-card" style="margin-bottom:6px">
             <div class="tag tag-purple">链接</div>
-            <p>小红书：成都3天2夜攻略（摘要）</p>
-            <p style="font-size:9px;color:#999;margin-top:4px">05/22 · AI键采集</p>
+            <p>成都3天攻略（小红书）</p>
+            <p style="font-size:8px;color:#999;margin-top:3px">05/22 · AI键</p>
           </div>
           <div class="ph-card">
-            <div class="tag tag-blue">截图</div>
-            <p>QQ群作业：高数第9章习题</p>
-            <p style="font-size:9px;color:#999;margin-top:4px">05/26 · AI键采集</p>
+            <div class="tag tag-orange">语音</div>
+            <p>明天10点体检空腹</p>
+            <p style="font-size:8px;color:#999;margin-top:3px">05/26 · AI键</p>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow highlight">→</div>
+
+    <div class="phone">
+      <div class="app-badge miclaw">小爱 · 端外</div>
+      <div class="phone-label">3. 需要时问小爱</div>
+      <div class="phone-sublabel">填表时唤起小爱，直接问</div>
+      <div class="phone-frame miclaw">
+        <div class="ph-status">9:41</div>
+        <div class="ph-nav"><div class="back"></div><div class="title orange">小爱同学</div></div>
+        <div class="ph-body">
+          <div class="ph-chat">
+            <div class="ph-bubble user orange">我老伴身份证号多少？</div>
+            <div class="ph-bubble ai">根据你之前记录：<br><br><strong style="color:#333">310101196503XXXXXX</strong><br><br><span style="font-size:9px;color:#999">来源：速记 · 05/20</span></div>
+          </div>
+          <div class="ph-actions" style="margin-top:auto">
+            <div class="ph-btn primary">复制</div>
+            <div class="ph-btn">查看原记录</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <div class="phone">
+      <div class="app-badge system">系统 · 主动提醒</div>
+      <div class="phone-label">4. 系统主动推送</div>
+      <div class="phone-sublabel">识别到时间信息，到期提醒</div>
+      <div class="phone-frame">
+        <div class="ph-status">7:30 AM</div>
+        <div class="ph-body" style="justify-content:center;padding:20px">
+          <div class="ph-card amber" style="width:100%">
+            <div class="tag" style="background:#FFFBEB;color:#D97706">⏰ 速记提醒</div>
+            <h4>今天10点体检，记得空腹</h4>
+            <p style="margin-top:3px;font-size:9px;color:#999">来源：速记 · 05/26</p>
+          </div>
+          <div style="text-align:center;margin-top:16px;font-size:9px;color:#999">用户不需要打开笔记<br>系统主动把信息推到面前</div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="anno"><p><strong>链路验证：</strong>AI键一按即存（无感） → 后台沉淀不上首页（不打扰） → 需要时问就能答（有价值） → "速记"入口统一管理。碎片内容的价值体现在调用时，不是浏览时。</p></div>
+  <div class="anno"><p><strong>端外采集→端外消费闭环：</strong>AI键存入（端外）→ 笔记后台沉淀（不打扰）→ 小爱问答调用（端外）→ 系统主动提醒（端外）。用户可能全程不打开笔记APP，但数据的价值通过端外场景体现。</p></div>
 </div>
 
 </body>
