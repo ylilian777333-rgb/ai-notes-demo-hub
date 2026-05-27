@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>组合方案 · 首页标签 + 笔记内富媒体</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","MiSans",system-ui,sans-serif;background:#F2F3F5;padding:40px;display:flex;flex-direction:column;gap:40px}
+
+.title-bar{text-align:center;margin-bottom:8px}
+.title-bar h1{font-size:20px;font-weight:700;color:#1A1A2E}
+.title-bar p{font-size:12px;color:#999;margin-top:4px}
+
+.row{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.row-label{font-size:12px;font-weight:700;color:#7C3AED;text-align:center;margin-bottom:16px;letter-spacing:.5px}
+
+.phone-wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+.phone-caption{font-size:10px;color:#999;text-align:center;max-width:300px;line-height:1.5}
+
+.phone{width:320px;height:692px;background:#fff;border-radius:44px;border:3px solid #1A1A2E;padding:12px;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.phone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:80px;height:24px;background:#1A1A2E;border-radius:12px;z-index:10}
+.scr{width:100%;height:100%;background:#fff;border-radius:34px;overflow:hidden;display:flex;flex-direction:column}
+.st{height:48px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:11px;color:#333;font-weight:600}
+.nv{height:44px;display:flex;align-items:center;padding:0 16px;border-bottom:1px solid #F0F0F0}
+.nv .bk{font-size:16px;color:#333;width:24px}
+.nv .tt{flex:1;font-size:15px;font-weight:600;color:#1A1A2E}
+.nv .rt{font-size:18px;color:#999}
+.bd{flex:1;overflow:hidden;padding:14px;display:flex;flex-direction:column}
+.bt{border-top:1px solid #F0F0F0;padding:10px 14px}
+
+/* Note cards in list */
+.note-card{padding:14px;border:1px solid #F0F2F5;border-radius:14px;margin-bottom:10px}
+.nc-title{font-size:13px;font-weight:600;color:#1A1A2E;margin-bottom:3px}
+.nc-preview{font-size:11px;color:#999;line-height:1.4;margin-bottom:6px}
+.nc-tags{display:flex;gap:4px;flex-wrap:wrap}
+.nc-tag{font-size:9px;padding:3px 7px;border-radius:6px;font-weight:600}
+
+/* Note body */
+.nt{font-size:12px;color:#444;line-height:1.8}
+.nt h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#1A1A2E}
+.nt p{margin-bottom:8px;color:#555}
+
+/* Inline rich media card */
+.rich{margin:8px 0;padding:10px 12px;background:#F8F9FC;border:1px solid #E8ECF2;border-radius:10px;display:flex;align-items:center;gap:10px}
+.rich .r-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.rich .r-info{flex:1;font-size:10px;color:#555}
+.rich .r-info b{display:block;font-size:12px;color:#333;margin-bottom:1px}
+.rich .r-act{font-size:11px;font-weight:600;padding:5px 12px;border-radius:8px}
+
+/* Chips */
+.chips{display:flex;gap:5px;margin-bottom:8px}
+.chip{padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F0F4FF;color:#2D5BFF;border:1px solid #D6E4FF;white-space:nowrap}
+.input{padding:10px 14px;background:#F5F7FA;border-radius:20px;font-size:11px;color:#999}
+
+/* Divider */
+.section-div{height:1px;background:#EAECF0;margin:20px 0}
+
+/* Arrow between sections */
+.flow-indicator{display:flex;align-items:center;justify-content:center;padding:12px 0;font-size:13px;color:#BBB}
+</style>
+</head>
+<body>
+
+<div class="title-bar">
+  <h1>组合方案：首页标签 + 笔记内正文富媒体</h1>
+  <p>首页用方案二（卡片加产出物标签）· 笔记内用方案一（产出物就是正文顶部的富媒体，不加额外区域）</p>
+</div>
+
+<!-- Part 1: Homepage -->
+<div class="row-label">━━ 首页：笔记列表 + 产出物标签 ━━</div>
+<div class="row">
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="scr">
+        <div class="st">9:41</div>
+        <div class="nv"><div class="bk">☰</div><div class="tt">笔记</div><div class="rt">+</div></div>
+        <div class="bd">
+          <div class="note-card">
+            <div class="nc-title">产品评审会 05/27</div>
+            <div class="nc-preview">核心问题：生成→消费链路断点，需优先解决…</div>
+            <div class="nc-tags">
+              <div class="nc-tag" style="background:#EFF6FF;color:#2D5BFF">🎙️ 8:12</div>
+              <div class="nc-tag" style="background:#F0FDF4;color:#16A34A">✅ 3</div>
+              <div class="nc-tag" style="background:#F5F3FF;color:#7C3AED">🧠</div>
+            </div>
+          </div>
+          <div class="note-card">
+            <div class="nc-title">高数第8讲：微积分</div>
+            <div class="nc-preview">定积分的线性性质：∫(af+bg)dx = …</div>
+            <div class="nc-tags">
+              <div class="nc-tag" style="background:#FFF1F2;color:#E11D48">🃏 12张</div>
+              <div class="nc-tag" style="background:#EFF6FF;color:#2D5BFF">🎙️ 15:20</div>
+            </div>
+          </div>
+          <div class="note-card">
+            <div class="nc-title">新疆旅行计划</div>
+            <div class="nc-preview">Day1-3 乌鲁木齐→独库公路北段→那拉提…</div>
+            <div class="nc-tags">
+              <div class="nc-tag" style="background:#F5F3FF;color:#7C3AED">📊 4页</div>
+              <div class="nc-tag" style="background:#EFF6FF;color:#2D5BFF">🎙️ 6:40</div>
+            </div>
+          </div>
+          <div class="note-card">
+            <div class="nc-title">本周收藏精选</div>
+            <div class="nc-preview">5篇文章汇总播客…</div>
+            <div class="nc-tags">
+              <div class="nc-tag" style="background:#EFF6FF;color:#2D5BFF">🎙️ 12:08</div>
+            </div>
+          </div>
+          <div class="note-card">
+            <div class="nc-title">今日速记</div>
+            <div class="nc-preview">老伴身份证号 310101…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-caption">首页笔记列表：每张卡片底部显示产出物标签<br>一眼看到哪篇有播客/PPT/待办/知识卡<br>没有产出物的笔记不显示标签（如"今日速记"）</div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="scr">
+        <div class="st">9:41</div>
+        <div class="nv"><div class="bk">☰</div><div class="tt">笔记</div><div class="rt">+</div></div>
+        <div class="bd">
+          <div class="note-card" style="border-color:#BFDBFE;background:#FAFBFF">
+            <div class="nc-title">产品评审会 05/27</div>
+            <div class="nc-preview">核心问题：生成→消费链路断点…</div>
+            <div class="nc-tags">
+              <div class="nc-tag" style="background:#2D5BFF;color:#fff">🎙️ ▶ 播放</div>
+              <div class="nc-tag" style="background:#F0FDF4;color:#16A34A">✅ 3</div>
+              <div class="nc-tag" style="background:#F5F3FF;color:#7C3AED">🧠</div>
+            </div>
+          </div>
+          <div style="padding:8px 12px;font-size:10px;color:#2D5BFF;font-weight:600;text-align:center">↑ 点标签可直接消费（不进笔记也能播）</div>
+          <div class="note-card">
+            <div class="nc-title">高数第8讲：微积分</div>
+            <div class="nc-preview">定积分的线性性质…</div>
+            <div class="nc-tags">
+              <div class="nc-tag" style="background:#FFF1F2;color:#E11D48">🃏 12张</div>
+              <div class="nc-tag" style="background:#EFF6FF;color:#2D5BFF">🎙️ 15:20</div>
+            </div>
+          </div>
+          <div class="note-card">
+            <div class="nc-title">新疆旅行计划</div>
+            <div class="nc-preview">Day1-3 独库公路…</div>
+            <div class="nc-tags">
+              <div class="nc-tag" style="background:#F5F3FF;color:#7C3AED">📊 4页</div>
+              <div class="nc-tag" style="background:#EFF6FF;color:#2D5BFF">🎙️ 6:40</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-caption">进阶交互：点标签直接触发消费<br>🎙️ = 直接播放（底部弹mini播放器）<br>🃏 = 直接进闪卡学习<br>点卡片本体 = 进入笔记详情</div>
+  </div>
+</div>
+
+<div class="flow-indicator">↓ 点击笔记卡片进入详情 ↓</div>
+
+<!-- Part 2: Note detail page -->
+<div class="row-label">━━ 笔记内容页：产出物 = 正文顶部富媒体 ━━</div>
+<div class="row">
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="scr">
+        <div class="st">9:41</div>
+        <div class="nv"><div class="bk">‹</div><div class="tt">产品评审会 05/27</div></div>
+        <div class="bd">
+          <div class="nt">
+            <div class="rich">
+              <div class="r-icon" style="background:#EFF6FF">🎙️</div>
+              <div class="r-info"><b>播客 · 会议要点精选</b>8:12 · 今天生成</div>
+              <div class="r-act" style="background:#EFF6FF;color:#2D5BFF">▶ 播放</div>
+            </div>
+            <div class="rich">
+              <div class="r-icon" style="background:#F0FDF4">✅</div>
+              <div class="r-info"><b>待办 · 3项</b>1/3 完成 · 已同步日历</div>
+              <div class="r-act" style="background:#F0FDF4;color:#16A34A">查看</div>
+            </div>
+            <div class="rich">
+              <div class="r-icon" style="background:#FEF3C7">🧠</div>
+              <div class="r-info"><b>思维导图</b>基于全文生成</div>
+              <div class="r-act" style="background:#F5F3FF;color:#7C3AED">查看</div>
+            </div>
+            <h4 style="margin-top:16px">会议纪要</h4>
+            <p>一、核心问题：生成→消费链路存在断点，需优先解决。</p>
+            <p>二、决策：产出物做成笔记富媒体，简化方案优先。</p>
+            <p>三、后续：串联5个场景…</p>
+          </div>
+        </div>
+        <div class="bt">
+          <div class="chips"><div class="chip">📊 做PPT</div><div class="chip">🃏 知识卡</div></div>
+          <div class="input">跟AI聊这篇笔记…</div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-caption">笔记详情页：产出物就是正文最上面的富媒体卡片<br>没有独立"区域"、没有badge、没有抽屉<br>就是正文内容的一部分，只是排在最前面</div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="scr">
+        <div class="st">9:41</div>
+        <div class="nv"><div class="bk">‹</div><div class="tt">产品评审会 05/27</div></div>
+        <div class="bd">
+          <div class="nt">
+            <!-- 播客展开播放 -->
+            <div style="background:#1A1A2E;border-radius:12px;padding:14px;margin:8px 0">
+              <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:8px">🎙️ 播客 · 会议要点精选</div>
+              <div style="height:4px;background:#333;border-radius:2px;margin-bottom:4px"><div style="height:100%;width:45%;background:#2D5BFF;border-radius:2px"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:9px;color:#666"><span>3:42</span><span>8:12</span></div>
+              <div style="display:flex;justify-content:center;gap:18px;margin-top:8px;font-size:14px;color:#fff">⏮ ⏸️ ⏭</div>
+            </div>
+            <div class="rich">
+              <div class="r-icon" style="background:#F0FDF4">✅</div>
+              <div class="r-info"><b>待办 · 3项</b>1/3 完成</div>
+              <div class="r-act" style="background:#F0FDF4;color:#16A34A">查看</div>
+            </div>
+            <div class="rich">
+              <div class="r-icon" style="background:#FEF3C7">🧠</div>
+              <div class="r-info"><b>思维导图</b>基于全文</div>
+              <div class="r-act" style="background:#F5F3FF;color:#7C3AED">查看</div>
+            </div>
+            <h4 style="margin-top:16px">会议纪要</h4>
+            <p>一、核心问题…</p>
+          </div>
+        </div>
+        <div class="bt">
+          <div class="input">跟AI聊这篇笔记…</div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-caption">点击播客卡片 → 就地展开播放器<br>不跳页面，不弹新窗<br>其他卡片保持原样</div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="scr">
+        <div class="st">9:41</div>
+        <div class="nv"><div class="bk">‹</div><div class="tt">产品评审会 05/27</div></div>
+        <div class="bd">
+          <div class="nt">
+            <div class="rich">
+              <div class="r-icon" style="background:#EFF6FF">🎙️</div>
+              <div class="r-info"><b>播客 · 8:12</b>点击播放</div>
+              <div class="r-act" style="background:#EFF6FF;color:#2D5BFF">▶</div>
+            </div>
+            <div class="rich" style="border-color:#FECACA;background:#FEF2F2">
+              <div class="r-icon" style="background:#FEF2F2">✅</div>
+              <div class="r-info"><b>待办 · 3项</b><span style="color:#DC2626">长按中…</span></div>
+              <div style="display:flex;gap:6px">
+                <span style="font-size:9px;padding:4px 8px;background:#fff;border-radius:6px;color:#555;border:1px solid #E8ECF2">分享</span>
+                <span style="font-size:9px;padding:4px 8px;background:#FEE2E2;border-radius:6px;color:#DC2626">删除</span>
+              </div>
+            </div>
+            <div class="rich">
+              <div class="r-icon" style="background:#FEF3C7">🧠</div>
+              <div class="r-info"><b>思维导图</b>基于全文</div>
+              <div class="r-act" style="background:#F5F3FF;color:#7C3AED">查看</div>
+            </div>
+            <h4 style="margin-top:16px">会议纪要</h4>
+            <p>一、核心问题…</p>
+          </div>
+        </div>
+        <div class="bt">
+          <div class="input">跟AI聊这篇笔记…</div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-caption">长按富媒体卡片 → 露出操作<br>分享 / 删除（跟现有附件交互一致）<br>不引入新的交互范式</div>
+  </div>
+</div>
+
+<div class="flow-indicator">↓ 无产出物的笔记 ↓</div>
+
+<!-- Part 3: Empty state -->
+<div class="row-label">━━ 没有产出物时 ━━</div>
+<div class="row">
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="scr">
+        <div class="st">9:41</div>
+        <div class="nv"><div class="bk">‹</div><div class="tt">今日速记</div></div>
+        <div class="bd">
+          <div class="nt">
+            <h4>速记内容</h4>
+            <p>老伴身份证号 310101196503XXXXXX</p>
+            <p>明天10点体检要空腹</p>
+            <p>周五下午3点牙科复诊</p>
+          </div>
+          <div style="margin-top:auto">
+            <div style="font-size:9px;color:#BBB;margin-bottom:4px">基于这篇笔记，你可以：</div>
+            <div class="chips">
+              <div class="chip">🎙️ 播客</div>
+              <div class="chip">✅ 提取待办</div>
+              <div class="chip">🃏 知识卡</div>
+            </div>
+            <div class="input">跟AI聊这篇笔记…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-caption">没有产出物时：没有富媒体卡片<br>正文从第一行开始<br>底部chips提示可以生成<br>笔记本身就是干净的笔记</div>
+  </div>
+</div>
+
+</body>
+</html>
