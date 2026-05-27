@@ -812,5 +812,269 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
   <span class="fix">规则：单篇来源=嵌入原笔记产出物区 / 多篇来源=创建新笔记（播客/知识卡场景）</span></p></div>
 </div>
 
+<!-- Scene 7: 产出物区呈现与管理 -->
+<div class="scene">
+  <div class="scene-title">笔记内：产出物区的完整呈现与管理逻辑</div>
+  <div class="scene-meta">产出物区独立于正文，不是编辑器内容。每种产出物有不同的卡片样式、消费方式和管理操作。</div>
+  <div class="scene-func">交互规范：产出物区三种状态 + 五种卡片类型 + 操作矩阵</div>
+
+  <div class="screens">
+    <!-- State C: Empty -->
+    <div class="phone">
+      <div class="app-badge notes">状态C · 空态</div>
+      <div class="phone-label">无产出物时</div>
+      <div class="phone-sublabel">产出物区不存在，底部chips暗示"你可以生成"</div>
+      <div class="phone-frame">
+        <div class="ph-status">9:41</div>
+        <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
+        <div class="ph-body">
+          <div class="ph-note">
+            <h5>会议纪要</h5>
+            <p>一、核心问题：链路断点<br>二、决策：富媒体嵌入<br>三、后续：5个场景串联<br>四、与IM对接分享<br>五、暂停新功能…</p>
+          </div>
+          <div style="margin-top:auto">
+            <div style="font-size:9px;color:#999;margin-bottom:4px">基于这篇笔记，你可以：</div>
+            <div class="ph-chips">
+              <div class="ph-chip">🧠 思维导图</div>
+              <div class="ph-chip">📊 做PPT</div>
+              <div class="ph-chip">🎙️ 播客</div>
+              <div class="ph-chip">✅ 提取待办</div>
+            </div>
+            <div style="background:#F0F2F5;border-radius:20px;padding:10px 14px;font-size:10px;color:#999;margin-top:4px">跟AI聊这篇笔记…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- State A: Expanded, 1 item -->
+    <div class="phone">
+      <div class="app-badge notes">状态A · 展开（1个）</div>
+      <div class="phone-label">有产出物时自动出现</div>
+      <div class="phone-sublabel">标题下方独立区域，紫色背景区分正文</div>
+      <div class="phone-frame">
+        <div class="ph-status">9:41</div>
+        <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
+        <div class="ph-body">
+          <!-- 产出物区 -->
+          <div style="background:#FAFAFE;border:1px solid #F0ECF9;border-radius:10px;padding:10px;margin-bottom:8px">
+            <div style="font-size:8px;color:#7C3AED;font-weight:700;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">
+              <span>产出物</span>
+              <span style="color:#BBB;font-weight:400">收起 ▲</span>
+            </div>
+            <!-- 播客卡片 -->
+            <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#fff;border:1px solid #E8ECF2;border-radius:8px">
+              <div style="width:32px;height:32px;background:#1A1A2E;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px">🎙️</div>
+              <div style="flex:1">
+                <div style="font-size:10px;font-weight:600;color:#333">播客 · 会议要点</div>
+                <div style="font-size:8px;color:#999">8:12 · 今天生成</div>
+              </div>
+              <div style="width:24px;height:24px;background:#2D5BFF;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff">▶</div>
+            </div>
+          </div>
+          <div class="ph-note">
+            <h5>会议纪要</h5>
+            <p>一、核心问题…<br>二、决策…</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- State A: Expanded, 3 items (different types) -->
+    <div class="phone">
+      <div class="app-badge notes">状态A · 展开（3个）</div>
+      <div class="phone-label">≤3个时全部展示</div>
+      <div class="phone-sublabel">不同类型有不同的快捷动作按钮</div>
+      <div class="phone-frame">
+        <div class="ph-status">9:41</div>
+        <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
+        <div class="ph-body">
+          <div style="background:#FAFAFE;border:1px solid #F0ECF9;border-radius:10px;padding:10px;margin-bottom:6px">
+            <div style="font-size:8px;color:#7C3AED;font-weight:700;margin-bottom:6px;display:flex;justify-content:space-between">
+              <span>产出物 · 3个</span>
+              <span style="color:#BBB;font-weight:400">收起 ▲</span>
+            </div>
+            <!-- 播客 -->
+            <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;background:#fff;border:1px solid #E8ECF2;border-radius:8px;margin-bottom:5px">
+              <div style="font-size:12px">🎙️</div>
+              <div style="flex:1">
+                <div style="font-size:9px;font-weight:600;color:#333">播客 · 8:12</div>
+              </div>
+              <div style="font-size:8px;padding:3px 8px;background:#EFF6FF;color:#2D5BFF;border-radius:10px;font-weight:600">▶ 播放</div>
+            </div>
+            <!-- 待办 -->
+            <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;background:#fff;border:1px solid #E8ECF2;border-radius:8px;margin-bottom:5px">
+              <div style="font-size:12px">✅</div>
+              <div style="flex:1">
+                <div style="font-size:9px;font-weight:600;color:#333">待办 · 3项</div>
+              </div>
+              <div style="font-size:8px;padding:3px 8px;background:#F0FDF4;color:#16A34A;border-radius:10px;font-weight:600">1/3 完成</div>
+            </div>
+            <!-- 脑图 -->
+            <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;background:#fff;border:1px solid #E8ECF2;border-radius:8px">
+              <div style="font-size:12px">🧠</div>
+              <div style="flex:1">
+                <div style="font-size:9px;font-weight:600;color:#333">思维导图</div>
+              </div>
+              <div style="font-size:8px;padding:3px 8px;background:#F5F3FF;color:#7C3AED;border-radius:10px;font-weight:600">查看</div>
+            </div>
+          </div>
+          <div class="ph-note" style="font-size:9px;color:#999">↓ 正文…</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- State B: Collapsed -->
+    <div class="phone">
+      <div class="app-badge notes">状态B · 折叠态</div>
+      <div class="phone-label">>3个 或 用户手动收起</div>
+      <div class="phone-sublabel">只显示一行摘要，点击展开</div>
+      <div class="phone-frame">
+        <div class="ph-status">9:41</div>
+        <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
+        <div class="ph-body">
+          <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;background:#FAFAFE;border:1px solid #F0ECF9;border-radius:10px;margin-bottom:8px">
+            <div style="font-size:8px;color:#7C3AED;font-weight:700">产出物</div>
+            <div style="display:flex;gap:3px">
+              <span style="font-size:10px">🎙️</span>
+              <span style="font-size:10px">✅</span>
+              <span style="font-size:10px">🧠</span>
+              <span style="font-size:10px">📊</span>
+            </div>
+            <div style="font-size:8px;color:#999;margin-left:auto">4个 · 展开 ▼</div>
+          </div>
+          <div class="ph-note">
+            <h5>会议纪要</h5>
+            <p>一、核心问题：链路断点<br>二、决策：富媒体嵌入<br>三、后续：5场景串联<br>四、与IM对接分享<br>五、暂停新功能…</p>
+          </div>
+          <div style="margin-top:auto;font-size:9px;color:#999;text-align:center">折叠后正文获得更多阅读空间</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- Long press menu -->
+    <div class="phone">
+      <div class="app-badge notes">长按 · 操作菜单</div>
+      <div class="phone-label">长按任意产出物卡片</div>
+      <div class="phone-sublabel">弹出管理菜单：分享/删除/重新生成/导出/查看来源</div>
+      <div class="phone-frame">
+        <div class="ph-status">9:41</div>
+        <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
+        <div class="ph-body">
+          <div style="opacity:.3;font-size:9px;color:#999;padding:8px">（背景模糊）</div>
+          <!-- Menu -->
+          <div style="background:#fff;border-radius:12px;border:1px solid #E8ECF2;box-shadow:0 8px 32px rgba(0,0,0,.12);padding:4px;margin:0 8px">
+            <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px">
+              <span style="font-size:12px">📤</span>
+              <span style="font-size:11px;font-weight:500;color:#333">分享</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px">
+              <span style="font-size:12px">🔄</span>
+              <span style="font-size:11px;font-weight:500;color:#333">重新生成</span>
+              <span style="font-size:9px;color:#999;margin-left:auto">基于原文</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px">
+              <span style="font-size:12px">💾</span>
+              <span style="font-size:11px;font-weight:500;color:#333">导出文件</span>
+              <span style="font-size:9px;color:#999;margin-left:auto">PPT/图片</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px">
+              <span style="font-size:12px">📍</span>
+              <span style="font-size:11px;font-weight:500;color:#333">查看来源</span>
+              <span style="font-size:9px;color:#999;margin-left:auto">跳转原文</span>
+            </div>
+            <div style="height:1px;background:#F0F2F5;margin:2px 12px"></div>
+            <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px">
+              <span style="font-size:12px">🗑️</span>
+              <span style="font-size:11px;font-weight:500;color:#DC2626">删除</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- Consumption mode: podcast expanded -->
+    <div class="phone">
+      <div class="app-badge notes">点击消费 · 播客展开</div>
+      <div class="phone-label">点击播客卡片 → 展开播放器</div>
+      <div class="phone-sublabel">就地展开，不跳转新页面。正文被推下。</div>
+      <div class="phone-frame">
+        <div class="ph-status">9:41</div>
+        <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
+        <div class="ph-body">
+          <div style="background:#FAFAFE;border:1px solid #F0ECF9;border-radius:10px;padding:10px;margin-bottom:6px">
+            <div style="font-size:8px;color:#7C3AED;font-weight:700;margin-bottom:6px">产出物</div>
+            <!-- 播客展开态 -->
+            <div style="background:#1A1A2E;border-radius:10px;padding:12px;margin-bottom:6px">
+              <div style="font-size:10px;font-weight:600;color:#fff;margin-bottom:6px">🎙️ 播客 · 会议要点</div>
+              <div style="height:3px;background:#333;border-radius:2px;margin:4px 0"><div style="height:100%;width:45%;background:#2D5BFF;border-radius:2px"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:8px;color:#666"><span>3:42</span><span>8:12</span></div>
+              <div style="display:flex;justify-content:center;gap:16px;margin-top:6px;font-size:12px;color:#fff">⏮ ⏸️ ⏭</div>
+              <div style="display:flex;justify-content:center;gap:8px;margin-top:8px">
+                <div style="font-size:8px;padding:3px 8px;background:rgba(255,255,255,.1);border-radius:10px;color:#999">1.5x</div>
+                <div style="font-size:8px;padding:3px 8px;background:rgba(255,255,255,.1);border-radius:10px;color:#999">定时</div>
+              </div>
+            </div>
+            <!-- 其他折叠 -->
+            <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:#fff;border:1px solid #E8ECF2;border-radius:6px;margin-bottom:4px">
+              <span style="font-size:10px">✅</span><span style="font-size:8px;color:#555">待办 · 3项</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:#fff;border:1px solid #E8ECF2;border-radius:6px">
+              <span style="font-size:10px">🧠</span><span style="font-size:8px;color:#555">思维导图</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">→</div>
+
+    <!-- Source highlight -->
+    <div class="phone">
+      <div class="app-badge notes">"查看来源" · 正文高亮</div>
+      <div class="phone-label">点"查看来源" → 跳转正文</div>
+      <div class="phone-sublabel">产出物关联的正文段落高亮标注</div>
+      <div class="phone-frame">
+        <div class="ph-status">9:41</div>
+        <div class="ph-nav"><div class="back"></div><div class="title">产品评审会 05/27</div></div>
+        <div class="ph-body">
+          <div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:#FAFAFE;border:1px solid #F0ECF9;border-radius:8px;margin-bottom:8px;font-size:8px;color:#7C3AED">
+            🧠 思维导图的来源段落 ↓
+          </div>
+          <div class="ph-note">
+            <p style="color:#999">一、核心问题…</p>
+            <div style="background:#FEF9C3;border-left:3px solid #EAB308;padding:6px 8px;border-radius:0 6px 6px 0;margin:4px 0">
+              <p style="color:#333"><strong>二、决策：产出物做笔记富媒体</strong><br>• 即时消费+分享<br>• 暂停新功能</p>
+            </div>
+            <div style="background:#FEF9C3;border-left:3px solid #EAB308;padding:6px 8px;border-radius:0 6px 6px 0;margin:4px 0">
+              <p style="color:#333"><strong>三、后续</strong><br>• 串联5场景<br>• 对接IM分享</p>
+            </div>
+            <p style="color:#999">四、暂停新功能…</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="anno"><p><strong>产出物区完整规则：</strong><br>
+  ① <strong>结构</strong>：产出物区独立于正文，位于标题和正文之间，不是编辑器的一部分<br>
+  ② <strong>状态切换</strong>：空态（不显示）→ 展开态（≤3个，默认）→ 折叠态（>3个或手动收起）<br>
+  ③ <strong>卡片差异</strong>：播客=播放键，待办=完成进度，PPT=页数，脑图=预览，知识卡=正确率<br>
+  ④ <strong>点击=就地消费</strong>：播客就地展开播放器，PPT/脑图全屏，待办展开列表，知识卡进入学习模式<br>
+  ⑤ <strong>长按=管理菜单</strong>：分享 / 重新生成 / 导出文件 / 查看来源 / 删除<br>
+  ⑥ <strong>来源关联</strong>：每个产出物记录基于哪些正文段落生成，"查看来源"跳转并高亮<br>
+  ⑦ <strong>内容过期提示</strong>：正文修改后，相关产出物标记"内容已更新，是否重新生成？"<br>
+  ⑧ <strong>排序</strong>：按生成时间倒序（最新在前），v1不做拖拽排序</p></div>
+</div>
+
 </body>
 </html>
