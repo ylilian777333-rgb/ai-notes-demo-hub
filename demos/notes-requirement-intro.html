@@ -3,271 +3,418 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>小米笔记 · 需求方案</title>
+<title>AI笔记 · 产品需求导入</title>
 <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,"PingFang SC","SF Pro Display",system-ui,sans-serif;background:#0D1117;color:#C9D1D9;width:1440px;padding:0;-webkit-font-smoothing:antialiased}
+body{font-family:"MiSans","Inter","PingFang SC",system-ui,sans-serif;background:#0a0a0a;color:#c9d1d9;width:1440px;padding:72px 48px;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;gap:72px}
 
-/* Section base */
-.s{padding:48px 64px;border-bottom:1px solid #1C2433}
-.s:last-child{border-bottom:none}
+/* Chapter */
+.ch{display:flex;flex-direction:column;gap:20px;padding:12px}
+.ch-num{font-size:140px;font-weight:900;color:rgba(87,128,255,.7);line-height:1;font-family:"Inter",sans-serif}
+.ch-title{font-size:42px;font-weight:700;color:#fff;line-height:1.2}
+.ch-divider{height:3px;background:rgba(87,140,255,.6);width:100%}
+.ch-sub{font-size:26px;font-weight:700;color:#fff;margin-top:8px}
+.ch-desc{font-size:16px;color:rgba(255,255,255,.7);line-height:1.8;max-width:720px}
 
-/* Section number */
-.n{font-size:64px;font-weight:900;color:#161B22;-webkit-text-stroke:1px #2D333B;line-height:1;margin-bottom:6px}
+/* Definition card */
+.def-card{display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;padding:36px 56px;background:rgba(87,128,255,.08);border:1px solid rgba(87,128,255,.2);border-radius:24px;text-align:center}
+.def-label{font-size:14px;color:rgba(255,255,255,.5)}
+.def-main{font-size:26px;font-weight:700;color:#fff}
+.def-sub{font-size:15px;color:rgba(255,255,255,.5)}
 
-/* Titles */
-.t{font-size:20px;font-weight:700;color:#F0F6FC;margin-bottom:12px}
-.t2{font-size:15px;font-weight:700;color:#E6EDF3;margin-bottom:8px;margin-top:28px}
+/* Is / Is-not */
+.is-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.is-card{display:flex;flex-direction:column;gap:12px;padding:28px 32px;border-radius:24px;border:1px solid}
+.is-card.no{background:rgba(255,255,255,.03);border-color:rgba(255,59,77,.2)}
+.is-card.yes{background:rgba(51,212,153,.08);border-color:rgba(51,212,153,.25)}
+.is-card h4{font-size:17px;font-weight:700}
+.is-card.no h4{color:#ff6b4d}
+.is-card.yes h4{color:#33d499}
+.is-card ul{list-style:none;font-size:15px;line-height:2}
+.is-card.no ul{color:rgba(255,255,255,.6)}
+.is-card.yes ul{color:rgba(255,255,255,.85)}
 
-/* Body text */
-.d{font-size:13px;color:#8B949E;line-height:1.8;margin-bottom:16px;max-width:900px}
-.d b{color:#C9D1D9;font-weight:600}
-.d .hi{color:#7EE787;font-weight:600}
+/* Persona cards */
+.persona-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.persona{display:flex;flex-direction:column;gap:10px;padding:28px;border-radius:24px;border:1px solid}
+.persona.green{background:rgba(51,212,153,.08);border-color:rgba(51,212,153,.25)}
+.persona.blue{background:rgba(87,128,255,.08);border-color:rgba(87,128,255,.25)}
+.persona.purple{background:rgba(166,140,250,.08);border-color:rgba(166,140,250,.25)}
+.persona h4{font-size:16px;font-weight:700}
+.persona.green h4{color:#33d499}
+.persona.blue h4{color:#5780ff}
+.persona.purple h4{color:#a68cfa}
+.persona .quote{font-size:15px;color:rgba(255,255,255,.9);line-height:1.7}
+.persona .pain{font-size:14px;color:#ff6b6b;font-weight:500}
+.persona .want{font-size:14px;color:#33d499;font-weight:500}
 
-/* Core insight box */
-.core{position:relative;margin:20px 0;padding:24px 28px;background:linear-gradient(135deg,rgba(248,81,73,.04),rgba(210,153,34,.02));border:1px solid rgba(248,81,73,.2);border-radius:10px;overflow:hidden}
-.core::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#F85149,#D2992A)}
-.core .tag{font-size:10px;font-weight:700;letter-spacing:1.5px;color:#F85149;margin-bottom:8px}
-.core p{font-size:14px;color:#E6EDF3;line-height:1.8;margin:0}
-.core p b{color:#fff}
+/* Common pattern card */
+.pattern-card{padding:28px 32px;border-radius:24px;background:rgba(87,128,255,.08);border:1px solid rgba(87,128,255,.25);display:flex;flex-direction:column;gap:12px}
+.pattern-card h4{font-size:17px;font-weight:700;color:#5780ff}
+.pattern-card ul{list-style:none;font-size:15px;color:rgba(255,255,255,.8);line-height:2}
 
-/* Note box */
-.nb{margin:16px 0;padding:16px 20px;background:rgba(56,139,253,.04);border:1px solid rgba(56,139,253,.15);border-radius:8px;font-size:12px;color:#79C0FF;line-height:1.7}
+/* ABC Flow */
+.abc-flow{display:flex;align-items:stretch;gap:0;padding:40px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:24px}
+.abc-stage{flex:1;display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:24px;border:1px solid}
+.abc-stage.a{background:rgba(87,128,255,.08);border-color:rgba(87,128,255,.2)}
+.abc-stage.b{background:rgba(166,140,250,.08);border-color:rgba(166,140,250,.2)}
+.abc-stage.c{background:rgba(51,212,153,.12);border-color:rgba(51,212,153,.5);border-width:2px}
+.abc-stage h4{font-size:20px;font-weight:700}
+.abc-stage.a h4{color:#5780ff}
+.abc-stage.b h4{color:#a68cfa}
+.abc-stage.c h4{color:#33d499}
+.abc-stage .sub{font-size:13px;font-weight:500}
+.abc-stage.a .sub{color:#5780ff}
+.abc-stage.b .sub{color:#a68cfa}
+.abc-stage.c .sub{color:#33d499}
+.abc-stage p{font-size:14px;color:rgba(255,255,255,.7);line-height:1.8}
+.abc-arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 16px;color:#a68cfa;min-width:60px}
+.abc-arrow span{font-size:28px}
+.abc-arrow small{font-size:11px}
+.abc-arrow2{color:#33d499}
+
+/* Judgment card */
+.judge-card{padding:20px 28px;border-radius:16px;background:rgba(255,133,20,.08);border:1px solid rgba(255,133,20,.25);display:flex;flex-direction:column;gap:8px}
+.judge-card h4{font-size:16px;font-weight:700;color:#ff8514}
+.judge-card p{font-size:15px;color:rgba(255,255,255,.85);line-height:1.7}
+
+/* Output categories */
+.out-cat{font-size:16px;font-weight:700;margin-top:16px;margin-bottom:8px}
+.out-cat.listen{color:#578cff}
+.out-cat.look{color:#a68cfa}
+.out-cat.do{color:#33d499}
+.out-cat.learn{color:#ff8514}
+.out-item{padding:16px 24px;border-radius:14px;border:1px solid;margin-bottom:8px;display:flex;flex-direction:column;gap:4px}
+.out-item.listen{background:rgba(87,140,255,.06);border-color:rgba(87,140,255,.18)}
+.out-item.look{background:rgba(166,140,250,.06);border-color:rgba(166,140,250,.18)}
+.out-item.do{background:rgba(51,212,153,.06);border-color:rgba(51,212,153,.18)}
+.out-item.learn{background:rgba(255,133,20,.06);border-color:rgba(255,133,20,.18)}
+.out-item h5{font-size:16px;font-weight:700;color:#fff}
+.out-item p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6}
+
+/* Options row */
+.opt-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.opt-card{display:flex;flex-direction:column;gap:10px;padding:28px;border-radius:24px;border:1px solid}
+.opt-card.a{background:rgba(87,128,255,.08);border-color:rgba(87,128,255,.25)}
+.opt-card.b{background:rgba(166,140,250,.08);border-color:rgba(166,140,250,.25)}
+.opt-card.c{background:rgba(51,212,153,.12);border-color:rgba(51,212,153,.5);border-width:2px}
+.opt-card h4{font-size:18px;font-weight:700}
+.opt-card.a h4{color:#5780ff}
+.opt-card.b h4{color:#a68cfa}
+.opt-card.c h4{color:#33d499}
+.opt-card .desc{font-size:14px;color:rgba(255,255,255,.6)}
+.opt-card p{font-size:14px;color:rgba(255,255,255,.8);line-height:1.7}
+
+/* Sidebar vis */
+.sidebar-vis{padding:28px 32px;border-radius:24px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);font-size:16px;color:rgba(255,255,255,.9);line-height:2.4;font-weight:500;max-width:520px}
+
+/* Logic card */
+.logic-card{padding:28px 32px;border-radius:24px;background:rgba(87,128,255,.08);border:1px solid rgba(87,128,255,.25);display:flex;flex-direction:column;gap:8px}
+.logic-card h4{font-size:16px;font-weight:700;color:#5780ff}
+.logic-card ul{list-style:none;font-size:15px;color:rgba(255,255,255,.8);line-height:2}
+
+/* Roadmap */
+.road-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.road-card{display:flex;flex-direction:column;gap:10px;padding:28px;border-radius:24px;border:1px solid}
+.road-card.mvp{background:rgba(51,212,153,.08);border-color:rgba(51,212,153,.25)}
+.road-card.full{background:rgba(255,133,20,.08);border-color:rgba(255,133,20,.25)}
+.road-card.next{background:rgba(166,140,250,.08);border-color:rgba(166,140,250,.25)}
+.road-card h4{font-size:17px;font-weight:700}
+.road-card.mvp h4{color:#33d499}
+.road-card.full h4{color:#ff8514}
+.road-card.next h4{color:#a68cfa}
+.road-card p{font-size:14px;color:rgba(255,255,255,.8);line-height:1.8}
+
+/* Not-do / risk */
+.dim-card{padding:20px 28px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:6px}
+.dim-card h4{font-size:15px;font-weight:700;color:rgba(255,255,255,.5)}
+.dim-card p{font-size:14px;color:rgba(255,255,255,.35)}
+.risk-card{padding:20px 28px;border-radius:16px;background:rgba(87,128,255,.08);border:1px solid rgba(87,128,255,.25);display:flex;flex-direction:column;gap:6px}
+.risk-card h4{font-size:15px;font-weight:700;color:#5780ff}
+.risk-card ul{list-style:none;font-size:14px;color:rgba(255,255,255,.8);line-height:2}
 
 /* Table */
-table{width:100%;border-collapse:collapse;font-size:12px;margin:14px 0}
-th{background:#161B22;padding:10px 14px;text-align:left;font-weight:600;color:#58A6FF;border-bottom:1px solid #21262D;font-size:11px;letter-spacing:.3px}
-td{padding:10px 14px;border-bottom:1px solid #161B22;color:#8B949E;vertical-align:top}
-td:first-child{color:#C9D1D9;font-weight:500}
-td em{font-style:normal;color:#7EE787;font-weight:600}
-
-/* Flow */
-.flow{display:flex;align-items:center;gap:0;margin:20px 0;flex-wrap:wrap}
-.flow span{padding:10px 16px;font-size:12px;font-weight:500;color:#8B949E;background:#161B22;border:1px solid #21262D;border-radius:6px}
-.flow span.hi{border-color:#238636;background:#0D2818;color:#7EE787;font-weight:700}
-.flow i{font-style:normal;padding:0 8px;color:#30363D;font-size:14px}
-
-/* Cards */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
-.cd{background:#161B22;border:1px solid #21262D;border-radius:8px;padding:18px 20px}
-.cd h5{font-size:13px;font-weight:700;color:#E6EDF3;margin-bottom:6px}
-.cd p{font-size:11px;color:#8B949E;line-height:1.6;margin:0}
-.cd .out{margin-top:8px;font-size:11px;color:#7EE787;font-weight:600}
-
-/* 4-column grid */
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
-.g4 .cd p{font-size:11px}
-
-/* 5-column grid */
-.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0}
-.g5 .cd{padding:16px;text-align:center}
-.g5 .cd .num{font-size:20px;font-weight:800;color:#58A6FF;margin-bottom:6px}
-.g5 .cd h5{font-size:12px}
-
-/* Steps list */
-.steps{margin:14px 0;padding:0;list-style:none;counter-reset:st}
-.steps li{counter-increment:st;position:relative;padding:10px 0 10px 32px;border-bottom:1px solid #161B22;font-size:12px;color:#8B949E;line-height:1.7}
-.steps li:last-child{border-bottom:none}
-.steps li::before{content:counter(st);position:absolute;left:0;top:12px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#58A6FF;background:rgba(56,139,253,.08);border-radius:5px}
-.steps li b{color:#C9D1D9}
-
-/* Flywheel callout */
-.fly{margin:14px 0;padding:14px 18px;background:#0D2818;border:1px solid #238636;border-radius:6px;font-size:12px;color:#7EE787;line-height:1.7}
-
-/* Cols 2 */
-.c2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
-
-/* Scene tag */
-.stag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;margin-top:24px;margin-bottom:8px}
-.stag-s{background:rgba(167,139,250,.1);color:#D2A8FF;border:1px solid rgba(167,139,250,.2)}
-.stag-w{background:rgba(56,139,253,.08);color:#79C0FF;border:1px solid rgba(56,139,253,.15)}
-.stag-d{background:rgba(63,185,80,.08);color:#7EE787;border:1px solid rgba(63,185,80,.15)}
-
-/* Detail layer vis */
-.layers{margin:14px 0}
-.layer{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #161B22}
-.layer:last-child{border-bottom:none}
-.layer .lb{padding:4px 10px;border-radius:4px;font-size:10px;font-weight:700;flex-shrink:0;min-width:72px;text-align:center}
-.layer span{font-size:12px;color:#8B949E}
-.layer b{color:#C9D1D9;font-weight:600}
-
-/* Summary */
-.sum{margin-top:20px;padding:24px 28px;background:linear-gradient(135deg,rgba(56,139,253,.04),rgba(63,185,80,.03));border:1px solid rgba(56,139,253,.15);border-radius:10px}
-.sum p{font-size:13px;color:#C9D1D9;line-height:1.9;margin:0}
-.sum b{color:#F0F6FC}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden}
+th{padding:12px 16px;text-align:left;font-weight:700;color:#ffc73d;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.1);font-size:12px}
+td{padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.03);color:rgba(255,255,255,.7)}
+tr:last-child td{border-bottom:none}
+td:first-child{font-weight:600;color:rgba(255,255,255,.9)}
+td em{font-style:normal;color:#33d499;font-weight:600}
 </style>
 </head>
 <body>
 
-<!-- 01 观察 -->
-<div class="s">
-  <div class="n">01</div>
-  <div class="t">观察：笔记的内容在爆发，但用户不看正文</div>
-  <div class="d">录音转写、AI键采集、穿戴同步、分享面板——<b>系统自动产生的内容正在取代手写，成为笔记主体。</b><br>但数据量增长没带来阅读频率增长。一篇2000字转写，用户可能一次都不会通读。<br>用户实际打开的是什么？是<span class="hi">基于笔记生成的结果</span>——考点清单、待办、播客。这些东西点了就能用，不需要再加工。</div>
-  <div class="core">
-    <div class="tag">CORE INSIGHT</div>
-    <p><b>笔记的价值不在"记住"，在"产出"。</b><br>AI基于用户积累的数据，产出用户可直接消费的功能。笔记正文是中间过程，不是最终结果。<br><b>如果不让用户看到原始笔记，而是直接看到消费内容——产品应该怎么构建？</b></p>
+<!-- 01 产品定义 -->
+<div class="ch">
+  <div class="ch-num">01</div>
+  <div class="ch-title">产品定义</div>
+  <div class="ch-divider"></div>
+
+  <div class="def-card">
+    <div class="def-label">一句话定义</div>
+    <div class="def-main">笔记 = 用户的记录 + AI 帮你把记录变成可直接消费的内容</div>
+    <div class="def-sub">用户负责"喂内容"，AI 负责让这些内容变得能用</div>
+  </div>
+
+  <div class="is-row">
+    <div class="is-card no">
+      <h4>❌ 不是</h4>
+      <ul>
+        <li>· 不是知识库——不做内容收纳、分类管理、合集聚合</li>
+        <li>· 不是团队协作工具——聚焦个人场景，不做飞书/钉钉的事</li>
+        <li>· 不是 Notion——不做强结构化整理，不要求用户学习成本</li>
+        <li>· 不是信息收纳箱——自动内容不污染首页，不让用户管理</li>
+      </ul>
+    </div>
+    <div class="is-card yes">
+      <h4>✅ 是</h4>
+      <ul>
+        <li>· AI 增强的个人记录工具——记录是基础，AI 加工是核心价值</li>
+        <li>· 产出用户可直接消费的内容——播客、PPT、待办、知识卡片、问答</li>
+        <li>· 多形态产出——不只是文字笔记，而是不同形态的最终产物</li>
+        <li>· 极简的记录体验——加号点开就是白纸，快速记是第一需求</li>
+      </ul>
+    </div>
   </div>
 </div>
 
-<!-- 02 定位 -->
-<div class="s">
-  <div class="n">02</div>
-  <div class="t">定位：自增长可赋能的个人数字资产中枢</div>
-  <div class="cards">
-    <div class="cd">
-      <h5>自增长</h5>
-      <p>用户每次录音、拍照、说话、存链接，数据自然积累。系统侧（AI键、穿戴）持续无感采集。不依赖刻意整理。</p>
-    </div>
-    <div class="cd">
-      <h5>可赋能</h5>
-      <p>积累本身没有价值，AI把积累转化为可消费的功能才有价值。数据越多 → AI理解越深 → 产出越精准。飞轮，不是存储。</p>
-    </div>
-    <div class="cd">
-      <h5>中枢</h5>
-      <p>对用户：创作入口 + 消费入口。<br>对MiClaw：长期记忆层和数据底座，对话时直接调用这里的数据。</p>
-    </div>
-  </div>
-  <div class="flow">
-    <span>用户输入（说/写/拍/存）</span><i>→</i>
-    <span>原始数据沉淀</span><i>→</i>
-    <span>AI理解加工</span><i>→</i>
-    <span class="hi">消费物产出（终态）</span><i>→</i>
-    <span>用户直接使用</span>
-  </div>
-  <div class="d"><b>"消费物"不是"换个格式的笔记"。</b>判定标准：用户拿到后不需要再做任何加工就能直接用。</div>
-</div>
+<!-- 02 用户场景 -->
+<div class="ch">
+  <div class="ch-num">02</div>
+  <div class="ch-title">用户场景</div>
+  <div class="ch-divider"></div>
+  <div class="ch-sub">核心洞察</div>
+  <div class="ch-desc">用户记东西不是为了"存着以后翻"，而是为了最终能直接拿到一个可用的产出物。</div>
 
-<!-- 03 消费物 -->
-<div class="s">
-  <div class="n">03</div>
-  <div class="t">消费物清单：用户最终拿到什么</div>
-  <table>
-    <tr><th>消费物</th><th>AI加工链路</th><th>用户终态体验</th></tr>
-    <tr><td>结构化课堂笔记</td><td>转写 → 章节重组 → 重点标注 → 照片OCR嵌入</td><td>打开直接看结论，不用从头整理</td></tr>
-    <tr><td>会议纪要</td><td>录音 → 按议题分段 → 提炼结论 → 抽取待办 → 分配责任人</td><td>会后转发纪要，待办自动跟进</td></tr>
-    <tr><td>待办清单</td><td>录音/截图/对话 → 识别行动项 → 提取截止日 → 同步日历</td><td>到期自动提醒，不怕漏事</td></tr>
-    <tr><td>考点 + 模拟题</td><td>跨多节课聚合 → 提炼高频知识点 → 基于知识点出题</td><td>直接刷题复习，不用自己总结</td></tr>
-    <tr><td>播客</td><td>笔记内容 → 音频化 → 支持条件播放（上车/闹钟后）</td><td>通勤时听，文字变为被动消费形态</td></tr>
-    <tr><td>知识卡片</td><td>跨篇聚合 → 提炼核心观点 → 生成一张可分享卡片</td><td>发朋友圈/群，输出个人认知</td></tr>
-    <tr><td>精准问答</td><td>用户提问 → MiClaw检索全量资产 → 基于个人数据回答</td><td>"我血糖多少" → 直接得到数值</td></tr>
-  </table>
-  <div class="nb">"课堂笔记""会议纪要"仍是文字形态，但已不是原始转写——AI做了重组、提炼、补充，用户看到的是结论不是素材。原始转写折叠进"原文"层，需要时再展开。</div>
-</div>
-
-<!-- 04 场景 -->
-<div class="s">
-  <div class="n">04</div>
-  <div class="t">场景串联：端到端怎么转</div>
-  <div class="d">三个场景覆盖核心用户群。逻辑一致：<b>用户输入越少越好，AI产出越直接越好，时间跨度越长飞轮越强。</b></div>
-
-  <div class="stag stag-s">🎓 学生上课 · 18-24岁 · 高效记录+期末复习</div>
-  <table>
-    <tr><th>阶段</th><th>用户做什么</th><th>系统做什么</th><th>产出</th></tr>
-    <tr><td>课前</td><td>点提醒卡片</td><td>日历识别 → 推送提醒 → 自动新建笔记进入录音待命</td><td>—</td></tr>
-    <tr><td>课中</td><td>录音 + 拍板书</td><td>实时转写 + 照片时间线关联</td><td>—（数据积累）</td></tr>
-    <tr><td>课后</td><td>无需操作</td><td>转写 → 分章节 → 结构化笔记 → OCR融入 → 提取作业</td><td><em>课堂笔记 + 待办</em></td></tr>
-    <tr><td>期末</td><td>"帮我复习高数"</td><td>跨学期汇总 → 考点聚合 → 出题 → 生成播客</td><td><em>考点 + 模拟题 + 播客</em></td></tr>
-  </table>
-  <div class="fly">飞轮：记了一学期课 → 期末一句话 → AI基于整学期积累产出完整复习方案。NotebookLM需要手动喂文档，我们全程自动积累。</div>
-
-  <div class="stag stag-w">💼 职场会议 · 25-35岁 · 待办不跟丢</div>
-  <table>
-    <tr><th>阶段</th><th>用户做什么</th><th>系统做什么</th><th>产出</th></tr>
-    <tr><td>会前</td><td>—</td><td>推送：会议名 + 参与人 + 上次遗留待办</td><td>—</td></tr>
-    <tr><td>会中</td><td>录音 + 拍白板</td><td>录音 + 照片时间线关联</td><td>—（数据积累）</td></tr>
-    <tr><td>会后</td><td>无需操作</td><td>按议题生成纪要 → 提取待办 → 同步日历 → 上岛通知</td><td><em>纪要 + 待办</em></td></tr>
-    <tr><td>跨次</td><td>"张总上次提了什么"</td><td>MiClaw跨篇聚合 → 精准回答+附来源</td><td><em>精准回答</em></td></tr>
-  </table>
-  <div class="fly">飞轮：10次评审会 → "张总这个月提了什么" → AI从10篇纪要聚合回答。单次记录价值有限，跨次聚合才是积累的回报。</div>
-
-  <div class="stag stag-d">📱 日常速记 · 全用户 · 碎片化捕获</div>
-  <table>
-    <tr><th>触发</th><th>操作</th><th>系统处理</th><th>产出 + 呈现</th></tr>
-    <tr><td>短按AI键</td><td>QQ群作业 → 按键</td><td>识别待办 → 提取截止时间</td><td><em>待办</em> · 后台沉淀，不上首页</td></tr>
-    <tr><td>短按AI键</td><td>小红书好文 → 按键</td><td>抓全文 → AI摘要 → 保留原链</td><td>后台沉淀 · MiClaw可调用</td></tr>
-    <tr><td>长按AI键</td><td>走路说话</td><td>录音 + 转写 + 摘要</td><td><em>语音笔记</em> · 首页展示</td></tr>
-    <tr><td>分享面板</td><td>体检PDF → 分享到笔记</td><td>解析 → 提取关键指标</td><td>后台沉淀 · 问"血糖"直接答</td></tr>
-  </table>
-  <div class="nb"><b>呈现规则：</b>用户主动创作（长按说话）→ 首页展示。系统自动采集（短按/分享）→ 后台沉淀。<br>原因：如果碎片内容全上首页，信噪比会被截图和链接摘要拉低。</div>
-</div>
-
-<!-- 05 五种触达 -->
-<div class="s">
-  <div class="n">05</div>
-  <div class="t">五种触达方式：数据积累后怎么消费</div>
-  <div class="d">传统笔记：用户主动打开 → 搜索 → 阅读。积累型产品应该反过来：<b>系统主动把价值推到用户面前。</b></div>
-  <div class="g5">
-    <div class="cd">
-      <div class="num">01</div>
-      <h5>直接命中</h5>
-      <p>目录级定位<br>"血糖多少"→直接答</p>
+  <div class="persona-row">
+    <div class="persona green">
+      <h4>🚗 老陈 · 通勤族</h4>
+      <div class="quote">"收藏了 20 多篇公众号文章，一直没时间看。每天通勤 1 小时，想听但没有合适的音频。"</div>
+      <div class="pain">痛点：收藏了但消化不了，场景不允许"看"</div>
+      <div class="want">想要的：收藏的文章变成播客，上班路上听</div>
     </div>
-    <div class="cd">
-      <div class="num">02</div>
-      <h5>自然语言</h5>
-      <p>语义检索全量数据<br>"上次会定了什么"</p>
+    <div class="persona blue">
+      <h4>👨‍💼 小王 · 产品经理</h4>
+      <div class="quote">"上周开了 4 场会，每场都录了音。今天客户问起上周一的决议，我翻了 5 分钟找不到。"</div>
+      <div class="pain">痛点：记了很多，但找不回要点</div>
+      <div class="want">想要的：问一句就能答 + 自动生成待办</div>
     </div>
-    <div class="cd">
-      <div class="num">03</div>
-      <h5>智能补全</h5>
-      <p>输入触发推荐<br>打"上周"→弹出攻略</p>
-    </div>
-    <div class="cd">
-      <div class="num">04</div>
-      <h5>系统提醒</h5>
-      <p>时间到主动推<br>"明天08:30起飞"</p>
-    </div>
-    <div class="cd">
-      <div class="num">05</div>
-      <h5>笔记内对话</h5>
-      <p>基于上下文深聊<br>"帮我出题"→模拟题</p>
+    <div class="persona purple">
+      <h4>👨‍🎓 小李 · 大学生</h4>
+      <div class="quote">"这学期 12 节课都录了音，期末想复习，打开一看全是 45 分钟的录音，根本没时间重听。"</div>
+      <div class="pain">痛点：原始录音无法直接消费</div>
+      <div class="want">想要的：复习大纲 + 知识卡片 + 播客版</div>
     </div>
   </div>
-  <div class="d">从 pull（用户拉取）到 push（系统推送）的光谱。产品成熟度越高，push占比越大。</div>
-</div>
 
-<!-- 06 页面结构 -->
-<div class="s">
-  <div class="n">06</div>
-  <div class="t">产品结构设计</div>
-
-  <div class="t2">首页：信噪比优先</div>
   <table>
-    <tr><th>区域</th><th>展示内容</th><th>判定规则</th></tr>
-    <tr><td>主列表</td><td>用户笔记 + 语音笔记 + AI结构化内容（课堂笔记/纪要）</td><td>用户主动创作 或 AI加工后的完整消费物</td></tr>
-    <tr><td>轻量入口</td><td>待办数量、最近播客、纪要通知</td><td>高频消费物的快捷入口</td></tr>
-    <tr><td>不在首页</td><td>AI键短按存的截图/链接摘要</td><td>系统自动采集的碎片</td></tr>
+    <tr><th>用户</th><th>记了什么</th><th>真正想要的</th><th>产物形态</th></tr>
+    <tr><td>👨‍💼 产品经理</td><td>4 场会议录音 + 手写要点</td><td>"上周一的决议是什么？"→ 问了就答<br>"帮我列出所有待办"→ 待办清单</td><td><em>✅待办 📊PPT</em></td></tr>
+    <tr><td>👩‍🦳 普通用户</td><td>随口对小爱说"记一下老伴身份证号"</td><td>"我老伴身份证多少？"→ 问了就答</td><td><em>🃏卡片</em></td></tr>
+    <tr><td>👨‍🎓 大学生</td><td>12 节课堂录音 + 课后笔记</td><td>"帮我出一份期末复习大纲"→ 复习大纲<br>"通勤时听一遍重点"→ 播客</td><td><em>📋大纲 🃏卡片 🎙️播客</em></td></tr>
+    <tr><td>🚗 通勤族</td><td>收藏了 5 篇公众号长文</td><td>"开车时听这几篇的要点"→ 播客</td><td><em>🎙️播客</em></td></tr>
+    <tr><td>🧑‍💻 记录者</td><td>出去玩时想记录（感想+照片）</td><td>图文并茂的记录 → 富记录本身就是产物</td><td><em>📝富记录</em></td></tr>
   </table>
 
-  <div class="t2">侧边栏：四段式</div>
-  <div class="g4">
-    <div class="cd"><h5>笔记</h5><p>全部笔记（手写+AI生成）<br>"我的内容库"</p></div>
-    <div class="cd"><h5>小爱速记</h5><p>AI键采集的碎片<br>独立入口不污染主列表</p></div>
-    <div class="cd"><h5>AI帮你做的</h5><p>消费物聚合入口<br>待办/播客/考点/卡片</p></div>
-    <div class="cd"><h5>文件夹</h5><p>用户自建分组<br>一篇笔记只归属一个</p></div>
-  </div>
-
-  <div class="t2">笔记详情页：三层结构</div>
-  <div class="layers">
-    <div class="layer"><span class="lb" style="background:#21262D;color:#8B949E">原文</span><span><b>折叠</b> — 录音转写/截图/手写原稿。极少展开，仅逐字核实时打开。</span></div>
-    <div class="layer"><span class="lb" style="background:#0D2D6B;color:#58A6FF">正文</span><span><b>默认展示</b> — AI结构化内容（课堂总结/纪要）。日常阅读主体，已是加工后结论。</span></div>
-    <div class="layer"><span class="lb" style="background:#0D2818;color:#7EE787">消费卡片</span><span><b>可展开</b> — 考点/播客/待办/PPT。点击直接打开，独立消费。</span></div>
-    <div class="layer"><span class="lb" style="background:#1C1038;color:#A371F7">AI对话框</span><span><b>底部固定</b> — 统一入口：基于当前笔记对话，触发消费物生成。</span></div>
+  <div class="pattern-card">
+    <h4>共同规律</h4>
+    <ul>
+      <li>· 没有人的最终需求是"管理笔记"或"给笔记分类"</li>
+      <li>· 每个人记完之后，都有一个具体的、可直接消费的产出物在等着</li>
+      <li>· 用户自己手写的感想和记录，本身就是最终产物</li>
+      <li>· "问答"几乎覆盖所有场景——记了什么，问就能答出来</li>
+    </ul>
   </div>
 </div>
 
-<!-- 07 总结 -->
-<div class="s">
-  <div class="n">07</div>
-  <div class="t">总结</div>
-  <div class="sum">
-    <p>笔记产品演进方向：从"帮用户记住"到"帮用户产出"。<br><br>
-    <b>自增长</b> — 每个场景都在积累数据，用户无需刻意整理。<br>
-    <b>可赋能</b> — 每个场景都有AI产出的消费物，用户无需再加工。<br>
-    <b>中枢</b> — 所有数据统一沉淀，MiClaw统一调用，一个入口搞定。<br><br>
-    用户不需要理解"数字资产"。他只需要感受到：<b>用得越久，AI越好用。</b></p>
+<!-- 03 产品逻辑 -->
+<div class="ch">
+  <div class="ch-num">03</div>
+  <div class="ch-title">产品逻辑 · 原文 → 中间态 → 最终产物</div>
+  <div class="ch-divider"></div>
+
+  <div class="abc-flow">
+    <div class="abc-stage a">
+      <h4>A · 原文</h4>
+      <div class="sub">用户输入</div>
+      <p>用户主动记录的原始内容<br><br>✍️ 手写笔记 &nbsp; 🎤 录音<br>📷 照片 &nbsp; ⚡ 速记 &nbsp; 🔗 链接<br><br>💡 用户自己手写的感想/记录，本身就是最终产物，不需要再加工</p>
+    </div>
+    <div class="abc-arrow">
+      <span>→</span>
+      <small>AI理解+生成</small>
+    </div>
+    <div class="abc-stage b">
+      <h4>B · 中间态</h4>
+      <div class="sub">还需加工</div>
+      <p>AI 生成但用户不会反复看<br><br>会议纪要 / 课堂笔记 / 结构化摘要<br><br>具体转化：<br>会议纪要 → 待办清单<br>课堂笔记 → 复习大纲 / 知识卡片<br>摘要 → 播客 / PPT</p>
+    </div>
+    <div class="abc-arrow abc-arrow2">
+      <span>→</span>
+      <small>再加工</small>
+    </div>
+    <div class="abc-stage c">
+      <h4>C · 最终产物</h4>
+      <div class="sub">用户直接消费</div>
+      <p>拿到就能用，不需要再做任何事<br><br>📝 考点清单 &nbsp; 📝 模拟题 &nbsp; ✅ 待办<br>🎙️ 播客 &nbsp; 📊 PPT &nbsp; 🃏 知识卡片 &nbsp; 🧠 脑图</p>
+    </div>
+  </div>
+
+  <div class="judge-card">
+    <h4>判断标准</h4>
+    <p>用户拿到后，下一步动作是什么？如果下一步是"再做点什么"，它就不是最终态。<br>播客 = 点了就播 ✅ ｜ 会议纪要 = 还需要变成待办 ❌</p>
+  </div>
+</div>
+
+<!-- 04 产出物清单 -->
+<div class="ch">
+  <div class="ch-num">04</div>
+  <div class="ch-title">产出物清单</div>
+  <div class="ch-divider"></div>
+
+  <div class="out-cat listen">🎧 听 · 不能看屏幕时</div>
+  <div class="out-item listen">
+    <h5>🎙️ 播客</h5>
+    <p>任何笔记 → AI对话框"生成播客" → 点了就听，上车播/闹钟后播</p>
+  </div>
+
+  <div class="out-cat look">👁️ 看 · 需要视觉呈现时</div>
+  <div class="out-item look">
+    <h5>📊 PPT</h5>
+    <p>会议/任何笔记 → AI对话框"做PPT" → 打开直接分享、讲解</p>
+  </div>
+  <div class="out-item look">
+    <h5>🧠 脑图</h5>
+    <p>课堂/任何笔记 → AI对话框"生成脑图" → 看结构，快速回忆知识框架</p>
+  </div>
+
+  <div class="out-cat do">✋ 做 · 需要执行时</div>
+  <div class="out-item do">
+    <h5>✅ 待办事项</h5>
+    <p>会议/课堂/速记 → AI自动提取 或 手动触发 → 直接执行，到期提醒，同步日历</p>
+  </div>
+
+  <div class="out-cat learn">🧠 学 · 需要记忆时</div>
+  <div class="out-item learn">
+    <h5>📝 考点清单</h5>
+    <p>课堂录音笔记 → AI对话框"提炼考点" → 打开直接复习，结构化知识点</p>
+  </div>
+  <div class="out-item learn">
+    <h5>📝 模拟题</h5>
+    <p>课堂录音笔记 → AI对话框"出题" → 做完检验掌握度，错题标记</p>
+  </div>
+  <div class="out-item learn">
+    <h5>🃏 知识卡片</h5>
+    <p>跨篇聚合 → AI对话框"生成卡片" → 一张卡说清一件事，可分享</p>
+  </div>
+</div>
+
+<!-- 05 原文和产出物的关系 -->
+<div class="ch">
+  <div class="ch-num">05</div>
+  <div class="ch-title">原文和产出物的关系</div>
+  <div class="ch-divider"></div>
+  <div class="ch-sub">核心问题</div>
+  <div class="ch-desc">基于一篇笔记生成了 PPT / 播客，这个产出物出现在哪？如何打开？<br>原则：产出物是产出物，原文是原文，二者隔离但互相关联。</div>
+
+  <div class="opt-row">
+    <div class="opt-card a">
+      <h4>方案 A</h4>
+      <div class="desc">产出物挂在原文下方</div>
+      <p>笔记详情页内，正文下方展示"已生成"区域，列出所有产出物卡片。点击跳到产出物详情。<br><br>✅ 关系清晰<br>❌ 页面会长</p>
+    </div>
+    <div class="opt-card b">
+      <h4>方案 B</h4>
+      <div class="desc">产出物独立列表，标注来源</div>
+      <p>从侧边栏进入产出物列表（如"我的播客"），每条标注来源笔记，可跳回原文。<br><br>✅ 独立管理<br>❌ 需跳转</p>
+    </div>
+    <div class="opt-card c">
+      <h4>方案 C（推荐）</h4>
+      <div class="desc">双向存在，互相跳转</div>
+      <p>笔记详情页能看到"已生成播客/PPT"，播客列表页能看到所有播客并跳回原文。两个入口互通。<br><br>✅ 两个入口<br>✅ 互相跳转<br><br>推荐理由：用户从笔记找播客和从播客列表找内容是两种真实路径，都需要支持。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 06 产品结构 -->
+<div class="ch">
+  <div class="ch-num">06</div>
+  <div class="ch-title">产品结构 · 侧边栏按产出物类型组织</div>
+  <div class="ch-divider"></div>
+
+  <div class="sidebar-vis">
+    📝 &nbsp;我的笔记 &emsp;&emsp;&emsp;&emsp;&emsp; 36<br>
+    🎙️ &nbsp;播客 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 4<br>
+    📊 &nbsp;PPT / 演示<br>
+    ✅ &nbsp;待办<br>
+    🃏 &nbsp;知识卡片<br>
+    ─────────────<br>
+    ⚡ &nbsp;速记
+  </div>
+
+  <div class="logic-card">
+    <h4>核心逻辑</h4>
+    <ul>
+      <li>· 侧边栏 = 产出物类型导航（不是文件夹）</li>
+      <li>· 每种类型点进去是该类型的列表</li>
+      <li>· "我的笔记"内部可以有文件夹</li>
+      <li>· 内容类型和文件夹不能同时出现在侧边栏</li>
+      <li>· 自动生成的内容不出现在首页时间线</li>
+      <li>· 搜索默认只搜用户主动创作的内容</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 07 待讨论 -->
+<div class="ch">
+  <div class="ch-num">07</div>
+  <div class="ch-title">待讨论的设计问题</div>
+  <div class="ch-divider"></div>
+
+  <table>
+    <tr><th>#</th><th>问题</th><th>当前倾向</th></tr>
+    <tr><td>1</td><td>侧边栏按产出物类型分 vs 全部当笔记（用文件夹区分）？</td><td>两种都可以，但不能同时出现</td></tr>
+    <tr><td>2</td><td>课堂笔记的最终态是什么？考点？知识卡片？复习大纲？</td><td>需要再往前探一步</td></tr>
+    <tr><td>3</td><td>会议纪要的最终态是什么？待办？上下文问答？</td><td>待办 + 后续工作上下文</td></tr>
+    <tr><td>4</td><td>产出物是自动生成还是用户手动触发？</td><td>播客是手动触发，其他待定</td></tr>
+    <tr><td>5</td><td>如果不让用户看原始笔记，直接消费产出物，交互怎么做？</td><td>待探讨</td></tr>
+    <tr><td>6</td><td>速记（自动记录）内容的入口放在哪？如何不污染首页又可触达？</td><td>侧边栏底部 + 搜索筛选</td></tr>
+  </table>
+</div>
+
+<!-- 08 落地路径 -->
+<div class="ch">
+  <div class="ch-num">08</div>
+  <div class="ch-title">落地路径</div>
+  <div class="ch-divider"></div>
+
+  <div class="road-row">
+    <div class="road-card mvp">
+      <h4>本期 MVP · 最小可验证</h4>
+      <p>验证"产出物"方向是否成立<br><br>🎙️ 播客（已有方案，适配新框架）<br>❓ 问答（已有入口，强化体验）<br>+ 侧边栏重构<br>+ 首页去噪（自动内容隔离）</p>
+    </div>
+    <div class="road-card full">
+      <h4>本期完整版 · MVP 验证后</h4>
+      <p>补齐其他已有能力的适配<br><br>✅ 待办接入<br>📷 富媒体编辑器升级<br>⚡ 速记方案落地</p>
+    </div>
+    <div class="road-card next">
+      <h4>下期 · 需新建能力</h4>
+      <p>需要新的 AI 能力和交互设计<br><br>📊 PPT 生成<br>🃏 知识卡片<br>📋 复习大纲</p>
+    </div>
+  </div>
+
+  <div class="dim-card">
+    <h4>明确不做</h4>
+    <p>❌ 知识库 &emsp; ❌ 合集 &emsp; ❌ 内容管理/分类 &emsp; ❌ 团队协作</p>
+  </div>
+
+  <div class="risk-card">
+    <h4>风险兜底</h4>
+    <ul>
+      <li>· 老用户影响：首页"我的笔记"体验完全不变，新能力通过侧边栏渐进暴露</li>
+      <li>· AI 失误：所有产出物保留原文可查，用户可手动修正</li>
+      <li>· 自动内容：默认不显现、不混排、不污染搜索，用户主动进入才可见</li>
+    </ul>
   </div>
 </div>
 
