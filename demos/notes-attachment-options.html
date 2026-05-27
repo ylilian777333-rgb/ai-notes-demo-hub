@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产出物呈现方案对比</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","MiSans",system-ui,sans-serif;background:#F2F3F5;padding:40px;display:flex;flex-direction:column;gap:48px}
+
+.section{background:#fff;border-radius:20px;padding:32px;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.section-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px}
+.section-title{font-size:20px;font-weight:700;color:#1A1A2E}
+.section-desc{font-size:13px;color:#666;margin-top:4px;line-height:1.6;max-width:600px}
+.section-tag{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
+.tag-a{background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE}
+.tag-b{background:#F5F3FF;color:#7C3AED;border:1px solid #DDD6FE}
+.tag-c{background:#FEF3C7;color:#D97706;border:1px solid #FDE68A}
+.tag-d{background:#F0FDF4;color:#16A34A;border:1px solid #BBF7D0}
+.tag-e{background:#FFF1F2;color:#E11D48;border:1px solid #FECDD3}
+
+.phones{display:flex;gap:20px;flex-wrap:wrap}
+
+.phone-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.phone-label{font-size:11px;color:#999;text-align:center;max-width:280px}
+
+.phone{width:280px;height:580px;background:#fff;border-radius:40px;border:3px solid #1A1A2E;padding:10px;position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.12)}
+.phone::before{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);width:72px;height:22px;background:#1A1A2E;border-radius:11px;z-index:10}
+.screen{width:100%;height:100%;background:#fff;border-radius:32px;overflow:hidden;display:flex;flex-direction:column}
+
+.status{height:44px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-size:11px;color:#333;font-weight:600}
+.nav{height:44px;display:flex;align-items:center;padding:0 14px;border-bottom:1px solid #F0F0F0}
+.nav .back{font-size:16px;color:#333;width:24px}
+.nav .title{flex:1;font-size:14px;font-weight:600;color:#1A1A2E}
+.nav .badge{padding:3px 8px;background:#F5F3FF;border-radius:10px;font-size:10px;font-weight:600;color:#7C3AED}
+.nav .dots{font-size:16px;color:#999}
+
+.body{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.body-scroll{flex:1;overflow:hidden;padding:14px}
+
+/* Note content */
+.note-text{font-size:12px;color:#333;line-height:1.8}
+.note-text h4{font-size:14px;font-weight:700;margin-bottom:6px}
+.note-text p{margin-bottom:8px;color:#555}
+
+/* Bottom bar */
+.bot{border-top:1px solid #F0F0F0;padding:8px 14px}
+.chips{display:flex;gap:5px;margin-bottom:6px;overflow:hidden}
+.chip{padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F0F4FF;color:#2D5BFF;border:1px solid #D6E4FF;white-space:nowrap}
+.input{padding:9px 14px;background:#F5F7FA;border-radius:18px;font-size:11px;color:#999}
+
+/* === Scheme A: 顶部独立区 === */
+.zone-top{background:#FAFAFE;border:1px solid #F0ECF9;border-radius:12px;padding:10px;margin-bottom:12px}
+.zone-label{font-size:9px;font-weight:700;color:#7C3AED;margin-bottom:8px;display:flex;justify-content:space-between}
+.zone-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid #EAECF0;border-radius:8px;margin-bottom:6px}
+.zone-item:last-child{margin-bottom:0}
+.zone-item .icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.zone-item .info{flex:1;font-size:10px}
+.zone-item .info strong{display:block;font-size:11px;color:#333}
+.zone-item .info span{color:#999}
+.zone-item .act{font-size:9px;padding:4px 10px;border-radius:10px;font-weight:600}
+
+/* === Scheme B: 右上角抽屉 === */
+.drawer{position:absolute;top:88px;right:0;width:220px;background:#fff;border-radius:14px 0 0 14px;box-shadow:-4px 4px 20px rgba(0,0,0,.12);padding:12px;z-index:5;border:1px solid #F0F0F0;border-right:none}
+.drawer-title{font-size:10px;font-weight:700;color:#7C3AED;margin-bottom:8px}
+.drawer-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:8px;margin-bottom:4px}
+.drawer-item:hover{background:#F8F9FC}
+.drawer-item .di{font-size:13px}
+.drawer-item .dt{font-size:10px;color:#333;flex:1}
+.drawer-item .da{font-size:9px;color:#2D5BFF}
+
+/* === Scheme C: 内联卡片(正文中) === */
+.inline-card{margin:8px 0;padding:10px 12px;background:#F8F9FC;border:1px solid #E8ECF2;border-radius:10px;display:flex;align-items:center;gap:8px}
+.inline-card .ic-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.inline-card .ic-info{flex:1;font-size:10px;color:#555}
+.inline-card .ic-info strong{display:block;font-size:11px;color:#333}
+.inline-card .ic-act{font-size:9px;color:#2D5BFF;font-weight:600}
+
+/* === Scheme D: 底部tab === */
+.tab-bar{display:flex;border-top:1px solid #F0F0F0;background:#FAFBFC}
+.tab{flex:1;text-align:center;padding:8px 0;font-size:9px;color:#999}
+.tab.active{color:#2D5BFF;font-weight:600}
+.tab .tab-icon{font-size:16px;display:block;margin-bottom:2px}
+
+/* === Scheme E: 浮动按钮 === */
+.fab{position:absolute;bottom:70px;right:20px;width:44px;height:44px;background:#7C3AED;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;box-shadow:0 4px 12px rgba(124,58,237,.3);z-index:5}
+.fab-menu{position:absolute;bottom:124px;right:16px;background:#fff;border-radius:12px;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.15);z-index:5;width:180px}
+.fab-item{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;font-size:11px;color:#333}
+.fab-item .fi{font-size:13px;width:20px;text-align:center}
+
+/* Pros/Cons */
+.eval{margin-top:16px;display:flex;gap:12px;flex-wrap:wrap}
+.eval-item{font-size:11px;padding:4px 10px;border-radius:6px}
+.pro{background:#F0FDF4;color:#16A34A;border:1px solid #BBF7D0}
+.con{background:#FEF2F2;color:#DC2626;border:1px solid #FECACA}
+</style>
+</head>
+<body>
+
+<!-- 方案A: 顶部独立产出物区 -->
+<div class="section">
+  <div class="section-head">
+    <div>
+      <div class="section-title">方案A：顶部独立产出物区</div>
+      <div class="section-desc">标题和正文之间有独立的"产出物区"，可折叠。右上角badge提示数量。</div>
+    </div>
+    <div class="section-tag tag-a">方案 A</div>
+  </div>
+  <div class="phones">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="screen">
+          <div class="status">9:41</div>
+          <div class="nav"><div class="back">‹</div><div class="title">产品评审会 05/27</div><div class="badge">📎 3</div></div>
+          <div class="body">
+            <div class="body-scroll">
+              <div class="zone-top">
+                <div class="zone-label"><span>产出物 · 3个</span><span style="color:#999;font-weight:400">收起 ▲</span></div>
+                <div class="zone-item">
+                  <div class="icon" style="background:#EFF6FF">🎙️</div>
+                  <div class="info"><strong>播客 · 8:12</strong><span>今天生成</span></div>
+                  <div class="act" style="background:#EFF6FF;color:#2D5BFF">▶ 播放</div>
+                </div>
+                <div class="zone-item">
+                  <div class="icon" style="background:#F0FDF4">✅</div>
+                  <div class="info"><strong>待办 · 3项</strong><span>已同步日历</span></div>
+                  <div class="act" style="background:#F0FDF4;color:#16A34A">1/3</div>
+                </div>
+                <div class="zone-item">
+                  <div class="icon" style="background:#FEF3C7">🧠</div>
+                  <div class="info"><strong>思维导图</strong><span>今天生成</span></div>
+                  <div class="act" style="background:#F5F3FF;color:#7C3AED">查看</div>
+                </div>
+              </div>
+              <div class="note-text">
+                <h4>会议纪要</h4>
+                <p>一、核心问题：生成→消费链路断点…</p>
+                <p>二、决策：产出物做笔记富媒体…</p>
+              </div>
+            </div>
+            <div class="bot">
+              <div class="chips"><div class="chip">📊 做PPT</div><div class="chip">🃏 知识卡</div></div>
+              <div class="input">跟AI聊这篇笔记…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">展开态：产出物区占据正文上方</div>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="screen">
+          <div class="status">9:41</div>
+          <div class="nav"><div class="back">‹</div><div class="title">产品评审会 05/27</div><div class="badge">📎 3</div></div>
+          <div class="body">
+            <div class="body-scroll">
+              <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;background:#FAFAFE;border:1px solid #F0ECF9;border-radius:10px;margin-bottom:12px">
+                <span style="font-size:12px">🎙️✅🧠</span>
+                <span style="font-size:10px;color:#7C3AED;font-weight:600">3个产出物</span>
+                <span style="font-size:10px;color:#999;margin-left:auto">展开 ▼</span>
+              </div>
+              <div class="note-text">
+                <h4>会议纪要</h4>
+                <p>一、核心问题：生成→消费链路断点…</p>
+                <p>二、决策：产出物做笔记富媒体…</p>
+                <p>三、后续：串联5个场景完整链路。</p>
+                <p>四、与IM对接分享能力。</p>
+              </div>
+            </div>
+            <div class="bot">
+              <div class="chips"><div class="chip">📊 做PPT</div><div class="chip">🃏 知识卡</div></div>
+              <div class="input">跟AI聊这篇笔记…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">折叠态：一行摘要，正文全屏</div>
+    </div>
+  </div>
+  <div class="eval">
+    <div class="eval-item pro">✓ 位置固定，不用找</div>
+    <div class="eval-item pro">✓ 跟正文分离清晰</div>
+    <div class="eval-item pro">✓ 可折叠不挡阅读</div>
+    <div class="eval-item con">✗ 展开时占空间</div>
+    <div class="eval-item con">✗ 新用户可能不理解这个区域</div>
+  </div>
+</div>
+
+<!-- 方案B: 右侧抽屉 -->
+<div class="section">
+  <div class="section-head">
+    <div>
+      <div class="section-title">方案B：右侧滑出抽屉</div>
+      <div class="section-desc">正文不动，点右上角badge从右侧滑出产出物面板。类似文件管理器侧边栏。</div>
+    </div>
+    <div class="section-tag tag-b">方案 B</div>
+  </div>
+  <div class="phones">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="screen">
+          <div class="status">9:41</div>
+          <div class="nav"><div class="back">‹</div><div class="title">产品评审会 05/27</div><div class="badge">📎 3</div></div>
+          <div class="body">
+            <div class="body-scroll">
+              <div class="note-text">
+                <h4>会议纪要</h4>
+                <p>一、核心问题：生成→消费链路断点…</p>
+                <p>二、决策：产出物做笔记富媒体…</p>
+                <p>三、后续：串联5个场景…</p>
+              </div>
+            </div>
+            <div class="bot">
+              <div class="chips"><div class="chip">🧠 思维导图</div><div class="chip">📊 做PPT</div></div>
+              <div class="input">跟AI聊这篇笔记…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">默认态：正文全屏，badge提示</div>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="screen" style="position:relative">
+          <div class="status">9:41</div>
+          <div class="nav"><div class="back">‹</div><div class="title">产品评审会</div><div class="badge" style="background:#7C3AED;color:#fff">📎 3</div></div>
+          <div class="body" style="opacity:.4">
+            <div class="body-scroll">
+              <div class="note-text"><h4>会议纪要</h4><p>…</p></div>
+            </div>
+          </div>
+          <div class="drawer">
+            <div class="drawer-title">产出物 · 3个</div>
+            <div class="drawer-item"><span class="di">🎙️</span><span class="dt">播客 · 8:12</span><span class="da">▶</span></div>
+            <div class="drawer-item"><span class="di">✅</span><span class="dt">待办 · 3项</span><span class="da">1/3</span></div>
+            <div class="drawer-item"><span class="di">🧠</span><span class="dt">思维导图</span><span class="da">看</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">点badge → 右侧滑出抽屉</div>
+    </div>
+  </div>
+  <div class="eval">
+    <div class="eval-item pro">✓ 正文阅读不受影响</div>
+    <div class="eval-item pro">✓ 随时呼出随时收起</div>
+    <div class="eval-item pro">✓ 像"文件库"概念</div>
+    <div class="eval-item con">✗ 需要主动点击才能看到</div>
+    <div class="eval-item con">✗ 手机屏小，抽屉遮挡内容</div>
+  </div>
+</div>
+
+<!-- 方案C: 正文内联 -->
+<div class="section">
+  <div class="section-head">
+    <div>
+      <div class="section-title">方案C：正文内联嵌入</div>
+      <div class="section-desc">产出物作为富媒体卡片直接插在正文中（标题下方），跟正文内容融为一体。李楠说的"图文混排，增加富媒体类型"。</div>
+    </div>
+    <div class="section-tag tag-c">方案 C</div>
+  </div>
+  <div class="phones">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="screen">
+          <div class="status">9:41</div>
+          <div class="nav"><div class="back">‹</div><div class="title">产品评审会 05/27</div><div class="dots">⋯</div></div>
+          <div class="body">
+            <div class="body-scroll">
+              <div class="note-text">
+                <h4>会议纪要</h4>
+                <div class="inline-card">
+                  <div class="ic-icon" style="background:#EFF6FF">🎙️</div>
+                  <div class="ic-info"><strong>播客 · 会议要点</strong>8:12 · 点击播放</div>
+                  <div class="ic-act">▶</div>
+                </div>
+                <div class="inline-card">
+                  <div class="ic-icon" style="background:#F0FDF4">✅</div>
+                  <div class="ic-info"><strong>待办 · 3项</strong>1/3 完成 · 已同步日历</div>
+                  <div class="ic-act">→</div>
+                </div>
+                <p style="margin-top:8px">一、核心问题：生成→消费链路断点…</p>
+                <p>二、决策：产出物做笔记富媒体…</p>
+                <div class="inline-card">
+                  <div class="ic-icon" style="background:#FEF3C7">🧠</div>
+                  <div class="ic-info"><strong>思维导图</strong>基于第二、三节生成</div>
+                  <div class="ic-act">查看</div>
+                </div>
+                <p>三、后续：串联5个场景…</p>
+              </div>
+            </div>
+            <div class="bot">
+              <div class="chips"><div class="chip">📊 做PPT</div><div class="chip">🃏 知识卡</div></div>
+              <div class="input">跟AI聊这篇笔记…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">产出物嵌在正文里，跟内容关联</div>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="screen">
+          <div class="status">9:41</div>
+          <div class="nav"><div class="back">‹</div><div class="title">高数第8讲</div><div class="dots">⋯</div></div>
+          <div class="body">
+            <div class="body-scroll">
+              <div class="note-text">
+                <h4>微积分 · 定积分</h4>
+                <p>知识点：定积分的线性性质…</p>
+                <div class="inline-card">
+                  <div class="ic-icon" style="background:#FFF1F2">🃏</div>
+                  <div class="ic-info"><strong>知识卡 · 6张</strong>正确率83% · 继续学习</div>
+                  <div class="ic-act">学</div>
+                </div>
+                <p>区间可加性：∫[a,c] = ∫[a,b] + ∫[b,c]…</p>
+                <div class="inline-card">
+                  <div class="ic-icon" style="background:#EFF6FF">🎙️</div>
+                  <div class="ic-info"><strong>播客 · 复习版</strong>12:08 · 通勤听</div>
+                  <div class="ic-act">▶</div>
+                </div>
+              </div>
+            </div>
+            <div class="bot">
+              <div class="chips"><div class="chip">📝 出题</div></div>
+              <div class="input">跟AI聊这篇笔记…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">产出物可以插在内容对应位置</div>
+    </div>
+  </div>
+  <div class="eval">
+    <div class="eval-item pro">✓ 跟内容强关联，上下文清晰</div>
+    <div class="eval-item pro">✓ 最简单，就是增加富媒体类型</div>
+    <div class="eval-item pro">✓ 李楠原话支持的方式</div>
+    <div class="eval-item con">✗ 多了之后正文被打断</div>
+    <div class="eval-item con">✗ 没有统一管理视角</div>
+    <div class="eval-item con">✗ 不好快速定位（要滚动找）</div>
+  </div>
+</div>
+
+<!-- 方案D: 底部tab切换 -->
+<div class="section">
+  <div class="section-head">
+    <div>
+      <div class="section-title">方案D：底部Tab切换视图</div>
+      <div class="section-desc">笔记详情页底部增加tab：「正文」和「产出物」两个视图，点击切换。类似详情页内的二级导航。</div>
+    </div>
+    <div class="section-tag tag-d">方案 D</div>
+  </div>
+  <div class="phones">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="screen">
+          <div class="status">9:41</div>
+          <div class="nav"><div class="back">‹</div><div class="title">产品评审会 05/27</div></div>
+          <div class="body">
+            <div class="body-scroll">
+              <div class="note-text">
+                <h4>会议纪要</h4>
+                <p>一、核心问题：生成→消费链路断点…</p>
+                <p>二、决策：产出物做笔记富媒体…</p>
+                <p>三、后续：串联5个场景…</p>
+              </div>
+            </div>
+            <div class="tab-bar">
+              <div class="tab active"><span class="tab-icon">📝</span>正文</div>
+              <div class="tab"><span class="tab-icon">📎</span>产出物<sup style="color:#E11D48;font-size:8px">3</sup></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">正文Tab（默认）</div>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="screen">
+          <div class="status">9:41</div>
+          <div class="nav"><div class="back">‹</div><div class="title">产品评审会 05/27</div></div>
+          <div class="body">
+            <div class="body-scroll">
+              <div class="zone-item" style="margin-bottom:8px">
+                <div class="icon" style="background:#EFF6FF">🎙️</div>
+                <div class="info"><strong>播客 · 会议要点</strong><span>8:12 · 今天 15:10</span></div>
+                <div class="act" style="background:#EFF6FF;color:#2D5BFF">▶ 播放</div>
+              </div>
+              <div class="zone-item" style="margin-bottom:8px">
+                <div class="icon" style="background:#F0FDF4">✅</div>
+                <div class="info"><strong>待办 · 3项</strong><span>已同步日历 · 1/3完成</span></div>
+                <div class="act" style="background:#F0FDF4;color:#16A34A">查看</div>
+              </div>
+              <div class="zone-item" style="margin-bottom:8px">
+                <div class="icon" style="background:#FEF3C7">🧠</div>
+                <div class="info"><strong>思维导图</strong><span>今天 15:15</span></div>
+                <div class="act" style="background:#F5F3FF;color:#7C3AED">查看</div>
+              </div>
+              <div style="text-align:center;padding:20px;font-size:11px;color:#999">共 3 个产出物</div>
+            </div>
+            <div class="tab-bar">
+              <div class="tab"><span class="tab-icon">📝</span>正文</div>
+              <div class="tab active"><span class="tab-icon">📎</span>产出物<sup style="color:#E11D48;font-size:8px">3</sup></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">产出物Tab：独立列表视图</div>
+    </div>
+  </div>
+  <div class="eval">
+    <div class="eval-item pro">✓ 正文完全不受干扰</div>
+    <div class="eval-item pro">✓ 产出物有独立管理空间</div>
+    <div class="eval-item pro">✓ 数量多也不乱</div>
+    <div class="eval-item con">✗ 需要切换才能看到，不够直觉</div>
+    <div class="eval-item con">✗ 正文和产出物割裂，失去上下文</div>
+    <div class="eval-item con">✗ 增加页面复杂度</div>
+  </div>
+</div>
+
+<!-- 方案E: 浮动按钮+弹出菜单 -->
+<div class="section">
+  <div class="section-head">
+    <div>
+      <div class="section-title">方案E：浮动按钮 + 弹出列表</div>
+      <div class="section-desc">右下角浮动按钮常驻，点击弹出产出物快捷列表。类似笔记APP的"新建"按钮逻辑。</div>
+    </div>
+    <div class="section-tag tag-e">方案 E</div>
+  </div>
+  <div class="phones">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="screen" style="position:relative">
+          <div class="status">9:41</div>
+          <div class="nav"><div class="back">‹</div><div class="title">产品评审会 05/27</div></div>
+          <div class="body">
+            <div class="body-scroll">
+              <div class="note-text">
+                <h4>会议纪要</h4>
+                <p>一、核心问题：生成→消费链路断点…</p>
+                <p>二、决策：产出物做笔记富媒体…</p>
+                <p>三、后续：串联5个场景…</p>
+              </div>
+            </div>
+            <div class="bot">
+              <div class="input">跟AI聊这篇笔记…</div>
+            </div>
+          </div>
+          <div class="fab">📎<span style="position:absolute;top:-2px;right:-2px;width:16px;height:16px;background:#E11D48;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700">3</span></div>
+        </div>
+      </div>
+      <div class="phone-label">默认态：浮动按钮+数量badge</div>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="screen" style="position:relative">
+          <div class="status">9:41</div>
+          <div class="nav"><div class="back">‹</div><div class="title">产品评审会 05/27</div></div>
+          <div class="body" style="opacity:.5">
+          </div>
+          <div class="fab-menu">
+            <div class="fab-item"><span class="fi">🎙️</span>播客 · 8:12<span style="margin-left:auto;font-size:9px;color:#2D5BFF">▶</span></div>
+            <div class="fab-item"><span class="fi">✅</span>待办 · 3项<span style="margin-left:auto;font-size:9px;color:#16A34A">1/3</span></div>
+            <div class="fab-item"><span class="fi">🧠</span>思维导图<span style="margin-left:auto;font-size:9px;color:#7C3AED">看</span></div>
+          </div>
+          <div class="fab" style="background:#333">✕</div>
+        </div>
+      </div>
+      <div class="phone-label">点击浮动按钮 → 弹出列表</div>
+    </div>
+  </div>
+  <div class="eval">
+    <div class="eval-item pro">✓ 不占正文任何空间</div>
+    <div class="eval-item pro">✓ 随时可触达</div>
+    <div class="eval-item pro">✓ 交互轻量</div>
+    <div class="eval-item con">✗ 可能被误解为"新建"按钮</div>
+    <div class="eval-item con">✗ 遮挡正文右下角内容</div>
+    <div class="eval-item con">✗ 弹出列表空间有限</div>
+  </div>
+</div>
+
+</body>
+</html>
