@@ -80,123 +80,6 @@ body{font-family:-apple-system,"PingFang SC","MiSans",system-ui,sans-serif;backg
 </head>
 <body>
 
-<!-- 方案5: 搜索栏筛选chips -->
-<div class="section">
-  <div class="section-num">方案 5</div>
-  <div class="section-title">搜索栏下方加筛选chips</div>
-  <div class="section-desc">首页搜索框下方增加一排筛选chips（全部/🎙️播客/📊PPT/✅待办/🃏知识卡），点击切换筛选视图。不加任何新页面，只是增强现有列表的筛选能力。筛选态下点击卡片可以直接消费（播客直接播、知识卡直接学）。</div>
-  <div class="section-core">原则：不引入新导航，在现有首页结构上增加一层筛选。</div>
-
-  <div class="phones">
-    <div class="phone-wrap">
-      <div class="phone">
-        <div class="scr">
-          <div class="st">9:41</div>
-          <div class="nv"><div class="bk">☰</div><div class="tt">笔记</div><div class="rt">+</div></div>
-          <div class="bd">
-            <div style="margin:10px 0 0;padding:8px 10px;background:#F5F7FA;border-radius:10px;font-size:11px;color:#999;display:flex;align-items:center;gap:6px"><span style="font-size:12px">🔍</span>搜索笔记…</div>
-            <div style="display:flex;gap:5px;padding:8px 0;overflow:hidden">
-              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#2D5BFF;color:#fff;border:1px solid #2D5BFF">全部 36</div>
-              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">🎙️ 播客 4</div>
-              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">📊 PPT 2</div>
-              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">✅ 待办 8</div>
-              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">🃏 3</div>
-            </div>
-            <div class="note-card">
-              <div class="nc-body">
-                <div class="nc-title">产品评审会 05/27</div>
-                <div class="nc-preview">核心问题：链路断点…</div>
-                <div class="nc-tags">
-                  <div class="nc-tag" style="background:#EFF6FF;color:#2D5BFF">🎙️</div>
-                  <div class="nc-tag" style="background:#F0FDF4;color:#16A34A">✅3</div>
-                  <div class="nc-tag" style="background:#F5F3FF;color:#7C3AED">🧠</div>
-                </div>
-              </div>
-            </div>
-            <div class="note-card">
-              <div class="nc-body">
-                <div class="nc-title">高数第8讲：微积分</div>
-                <div class="nc-preview">定积分的线性性质…</div>
-                <div class="nc-tags">
-                  <div class="nc-tag" style="background:#FFF1F2;color:#E11D48">🃏12</div>
-                  <div class="nc-tag" style="background:#EFF6FF;color:#2D5BFF">🎙️</div>
-                </div>
-              </div>
-            </div>
-            <div class="note-card">
-              <div class="nc-body">
-                <div class="nc-title">新疆旅行计划</div>
-                <div class="nc-preview">Day1-3 独库公路…</div>
-                <div class="nc-tags">
-                  <div class="nc-tag" style="background:#F5F3FF;color:#7C3AED">📊4页</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="phone-caption">默认"全部"：笔记列表 + 卡片标签<br>chips带数量提示有多少产出物</div>
-    </div>
-    <div class="phone-wrap">
-      <div class="phone">
-        <div class="scr">
-          <div class="st">9:41</div>
-          <div class="nv"><div class="bk">☰</div><div class="tt">笔记</div><div class="rt">+</div></div>
-          <div class="bd">
-            <div style="margin:10px 0 0;padding:8px 10px;background:#F5F7FA;border-radius:10px;font-size:11px;color:#999;display:flex;align-items:center;gap:6px"><span style="font-size:12px">🔍</span>搜索笔记…</div>
-            <div style="display:flex;gap:5px;padding:8px 0;overflow:hidden">
-              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">全部</div>
-              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#2D5BFF;color:#fff;border:1px solid #2D5BFF">🎙️ 播客 4</div>
-              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">📊 PPT</div>
-              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">✅ 待办</div>
-              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">🃏</div>
-            </div>
-            <div class="note-card" style="border-color:#BFDBFE;background:#FAFBFF">
-              <div class="nc-body">
-                <div class="nc-title">产品评审会 05/27</div>
-                <div class="nc-preview" style="color:#2D5BFF">播客 · 8:12 · 今天生成</div>
-              </div>
-            </div>
-            <div class="note-card">
-              <div class="nc-body">
-                <div class="nc-title">本周收藏精选</div>
-                <div class="nc-preview" style="color:#2D5BFF">播客 · 12:08 · 今天</div>
-              </div>
-            </div>
-            <div class="note-card">
-              <div class="nc-body">
-                <div class="nc-title">高数第8讲</div>
-                <div class="nc-preview" style="color:#2D5BFF">播客 · 15:20 · 昨天</div>
-              </div>
-            </div>
-            <div class="note-card">
-              <div class="nc-body">
-                <div class="nc-title">新疆旅行计划</div>
-                <div class="nc-preview" style="color:#2D5BFF">播客 · 6:40 · 昨天</div>
-              </div>
-            </div>
-            <!-- mini player -->
-            <div style="margin-top:auto;padding:8px 10px;background:#1A1A2E;border-radius:10px;display:flex;align-items:center;gap:8px">
-              <div style="font-size:12px">🎙️</div>
-              <div style="flex:1;font-size:9px;color:#fff">产品评审会<br><span style="color:#999">3:18 / 8:12</span></div>
-              <div style="font-size:12px;color:#fff">⏸️</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="phone-caption">点"🎙️播客"：只显示含播客的笔记<br>点卡片直接播放，底部mini播放器</div>
-    </div>
-  </div>
-  <div class="eval">
-    <div class="ev pro">✓ 不加新页面/导航，改动极小</div>
-    <div class="ev pro">✓ "我的播客在哪"→ 点chip就看到全部</div>
-    <div class="ev pro">✓ 筛选态可直接消费（播放/学习）</div>
-    <div class="ev pro">✓ 切回"全部"恢复正常，无副作用</div>
-    <div class="ev con">✗ chips占一行空间（但可以做成可隐藏）</div>
-    <div class="ev con">✗ 产出物数量为0时chip是否显示需决策</div>
-  </div>
-</div>
-
 <!-- 方案1: 什么都不加 -->
 <div class="section">
   <div class="section-num">方案 1</div>
@@ -595,7 +478,124 @@ body{font-family:-apple-system,"PingFang SC","MiSans",system-ui,sans-serif;backg
   <div class="section-desc" style="max-width:900px">
     <strong>v1 最小可行：</strong>方案1（什么都不加）+ 方案4（小爱兜底）。笔记APP零改动，通勤消费靠小爱。<br><br>
     <strong>v1.5 小成本增强：</strong>+ 方案2（列表加标签）。用户在笔记列表就能看到哪篇有播客，开发成本极低。<br><br>
-    <strong>v2 体验进阶：</strong>+ 方案3（"继续"条）。打开APP直接续听，不用翻找。适合验证"产出物消费频率高"之后再做。
+    <strong>v2 体验进阶：</strong>+ 方案5（搜索筛选chips）。首页加一排筛选，可按类型快速查看+直接消费。
+  </div>
+</div>
+
+<!-- 方案5: 搜索栏筛选chips -->
+<div class="section">
+  <div class="section-num">方案 5</div>
+  <div class="section-title">搜索栏下方加筛选chips</div>
+  <div class="section-desc">首页搜索框下方增加一排筛选chips（全部/🎙️播客/📊PPT/✅待办/🃏知识卡），点击切换筛选视图。不加任何新页面，只是增强现有列表的筛选能力。筛选态下点击卡片可以直接消费（播客直接播、知识卡直接学）。</div>
+  <div class="section-core">原则：不引入新导航，在现有首页结构上增加一层筛选。</div>
+
+  <div class="phones">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="scr">
+          <div class="st">9:41</div>
+          <div class="nv"><div class="bk">☰</div><div class="tt">笔记</div><div class="rt">+</div></div>
+          <div class="bd">
+            <div style="margin:10px 0 0;padding:8px 10px;background:#F5F7FA;border-radius:10px;font-size:11px;color:#999;display:flex;align-items:center;gap:6px"><span style="font-size:12px">🔍</span>搜索笔记…</div>
+            <div style="display:flex;gap:5px;padding:8px 0;overflow:hidden">
+              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#2D5BFF;color:#fff;border:1px solid #2D5BFF">全部 36</div>
+              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">🎙️ 播客 4</div>
+              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">📊 PPT 2</div>
+              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">✅ 待办 8</div>
+              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">🃏 3</div>
+            </div>
+            <div class="note-card">
+              <div class="nc-body">
+                <div class="nc-title">产品评审会 05/27</div>
+                <div class="nc-preview">核心问题：链路断点…</div>
+                <div class="nc-tags">
+                  <div class="nc-tag" style="background:#EFF6FF;color:#2D5BFF">🎙️</div>
+                  <div class="nc-tag" style="background:#F0FDF4;color:#16A34A">✅3</div>
+                  <div class="nc-tag" style="background:#F5F3FF;color:#7C3AED">🧠</div>
+                </div>
+              </div>
+            </div>
+            <div class="note-card">
+              <div class="nc-body">
+                <div class="nc-title">高数第8讲：微积分</div>
+                <div class="nc-preview">定积分的线性性质…</div>
+                <div class="nc-tags">
+                  <div class="nc-tag" style="background:#FFF1F2;color:#E11D48">🃏12</div>
+                  <div class="nc-tag" style="background:#EFF6FF;color:#2D5BFF">🎙️</div>
+                </div>
+              </div>
+            </div>
+            <div class="note-card">
+              <div class="nc-body">
+                <div class="nc-title">新疆旅行计划</div>
+                <div class="nc-preview">Day1-3 独库公路…</div>
+                <div class="nc-tags">
+                  <div class="nc-tag" style="background:#F5F3FF;color:#7C3AED">📊4页</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-caption">默认"全部"：笔记列表 + 卡片标签<br>chips带数量提示有多少产出物</div>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="scr">
+          <div class="st">9:41</div>
+          <div class="nv"><div class="bk">☰</div><div class="tt">笔记</div><div class="rt">+</div></div>
+          <div class="bd">
+            <div style="margin:10px 0 0;padding:8px 10px;background:#F5F7FA;border-radius:10px;font-size:11px;color:#999;display:flex;align-items:center;gap:6px"><span style="font-size:12px">🔍</span>搜索笔记…</div>
+            <div style="display:flex;gap:5px;padding:8px 0;overflow:hidden">
+              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">全部</div>
+              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#2D5BFF;color:#fff;border:1px solid #2D5BFF">🎙️ 播客 4</div>
+              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">📊 PPT</div>
+              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">✅ 待办</div>
+              <div style="padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#F5F7FA;color:#666;border:1px solid #E8ECF2">🃏</div>
+            </div>
+            <div class="note-card" style="border-color:#BFDBFE;background:#FAFBFF">
+              <div class="nc-body">
+                <div class="nc-title">产品评审会 05/27</div>
+                <div class="nc-preview" style="color:#2D5BFF">播客 · 8:12 · 今天生成</div>
+              </div>
+            </div>
+            <div class="note-card">
+              <div class="nc-body">
+                <div class="nc-title">本周收藏精选</div>
+                <div class="nc-preview" style="color:#2D5BFF">播客 · 12:08 · 今天</div>
+              </div>
+            </div>
+            <div class="note-card">
+              <div class="nc-body">
+                <div class="nc-title">高数第8讲</div>
+                <div class="nc-preview" style="color:#2D5BFF">播客 · 15:20 · 昨天</div>
+              </div>
+            </div>
+            <div class="note-card">
+              <div class="nc-body">
+                <div class="nc-title">新疆旅行计划</div>
+                <div class="nc-preview" style="color:#2D5BFF">播客 · 6:40 · 昨天</div>
+              </div>
+            </div>
+            <!-- mini player -->
+            <div style="margin-top:auto;padding:8px 10px;background:#1A1A2E;border-radius:10px;display:flex;align-items:center;gap:8px">
+              <div style="font-size:12px">🎙️</div>
+              <div style="flex:1;font-size:9px;color:#fff">产品评审会<br><span style="color:#999">3:18 / 8:12</span></div>
+              <div style="font-size:12px;color:#fff">⏸️</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-caption">点"🎙️播客"：只显示含播客的笔记<br>点卡片直接播放，底部mini播放器</div>
+    </div>
+  </div>
+  <div class="eval">
+    <div class="ev pro">✓ 不加新页面/导航，改动极小</div>
+    <div class="ev pro">✓ "我的播客在哪"→ 点chip就看到全部</div>
+    <div class="ev pro">✓ 筛选态可直接消费（播放/学习）</div>
+    <div class="ev pro">✓ 切回"全部"恢复正常，无副作用</div>
+    <div class="ev con">✗ chips占一行空间（但可以做成可隐藏）</div>
+    <div class="ev con">✗ 产出物数量为0时chip是否显示需决策</div>
   </div>
 </div>
 
