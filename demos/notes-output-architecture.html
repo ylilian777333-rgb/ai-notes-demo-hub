@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产出物管理架构 · 方案对比</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","MiSans",system-ui,sans-serif;background:#F2F3F5;padding:40px;display:flex;flex-direction:column;gap:48px}
+
+.section{background:#fff;border-radius:20px;padding:36px;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.section-head{margin-bottom:28px}
+.section-num{font-size:11px;font-weight:700;letter-spacing:1px;color:#999;margin-bottom:4px}
+.section-title{font-size:22px;font-weight:700;color:#1A1A2E;margin-bottom:6px}
+.section-desc{font-size:13px;color:#666;line-height:1.7;max-width:800px}
+.section-principle{margin-top:10px;padding:10px 14px;background:#FEF9C3;border-radius:8px;font-size:12px;color:#92400E;line-height:1.6;border:1px solid #FDE68A}
+
+.row{display:flex;gap:20px;align-items:flex-start}
+.col{flex:1}
+.col-label{font-size:11px;font-weight:700;color:#7C3AED;margin-bottom:12px;letter-spacing:.5px}
+
+/* Phone */
+.phone{width:280px;height:560px;background:#fff;border-radius:38px;border:3px solid #1A1A2E;padding:10px;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.1);margin-bottom:8px}
+.phone::before{content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);width:70px;height:20px;background:#1A1A2E;border-radius:10px;z-index:10}
+.scr{width:100%;height:100%;background:#fff;border-radius:30px;overflow:hidden;display:flex;flex-direction:column}
+.st{height:42px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-size:10px;color:#333;font-weight:600}
+.nv{height:40px;display:flex;align-items:center;padding:0 14px;border-bottom:1px solid #F0F0F0}
+.nv .bk{font-size:15px;color:#333;width:20px}
+.nv .tt{flex:1;font-size:13px;font-weight:600;color:#1A1A2E}
+.nv .rt{font-size:10px;color:#999}
+.bd{flex:1;overflow:hidden;padding:12px}
+.bt{border-top:1px solid #F0F0F0;padding:8px 12px}
+
+/* List items */
+.list-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;border:1px solid #F0F2F5}
+.list-item:active{background:#F8F9FC}
+.li-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.li-info{flex:1;min-width:0}
+.li-title{font-size:11px;font-weight:600;color:#1A1A2E}
+.li-meta{font-size:9px;color:#999;margin-top:1px}
+.li-act{font-size:9px;padding:4px 8px;border-radius:8px;font-weight:600}
+
+/* Sidebar */
+.sidebar{width:200px;background:#F8F9FC;border-radius:10px;padding:10px;margin-right:12px;flex-shrink:0}
+.sb-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;font-size:11px;color:#555;margin-bottom:2px}
+.sb-item.active{background:#fff;color:#2D5BFF;font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.sb-item .cnt{margin-left:auto;font-size:9px;color:#999}
+
+/* Inline card */
+.in-card{margin:6px 0;padding:8px 10px;background:#F8F9FC;border:1px solid #E8ECF2;border-radius:8px;display:flex;align-items:center;gap:8px}
+.in-card .ic{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.in-card .inf{flex:1;font-size:9px;color:#555}
+.in-card .inf b{display:block;font-size:10px;color:#333}
+
+/* Note text */
+.nt{font-size:11px;color:#444;line-height:1.8}
+.nt h4{font-size:12px;font-weight:700;margin-bottom:4px;color:#1A1A2E}
+.nt p{margin-bottom:6px}
+
+/* Chips */
+.chips{display:flex;gap:4px;margin-bottom:6px}
+.chip{padding:4px 8px;border-radius:12px;font-size:9px;background:#F0F4FF;color:#2D5BFF;border:1px solid #D6E4FF}
+.input{padding:8px 12px;background:#F5F7FA;border-radius:16px;font-size:10px;color:#999}
+
+/* Tabs */
+.tabs{display:flex;border-bottom:2px solid #F0F0F0;margin-bottom:12px}
+.tab{flex:1;text-align:center;padding:8px 0;font-size:11px;color:#999;font-weight:500}
+.tab.active{color:#2D5BFF;border-bottom:2px solid #2D5BFF;margin-bottom:-2px;font-weight:700}
+
+/* Eval */
+.eval{margin-top:20px;padding:16px;background:#F8F9FC;border-radius:12px}
+.eval-title{font-size:12px;font-weight:700;color:#333;margin-bottom:8px}
+.eval-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ev{font-size:11px;padding:6px 10px;border-radius:6px;line-height:1.5}
+.pro{background:#F0FDF4;color:#166534;border:1px solid #BBF7D0}
+.con{background:#FEF2F2;color:#991B1B;border:1px solid #FECACA}
+
+/* Caption */
+.caption{font-size:10px;color:#999;text-align:center;max-width:280px}
+
+/* Comparison table */
+.cmp{width:100%;border-collapse:collapse;margin-top:24px;font-size:12px}
+.cmp th{text-align:left;padding:10px 14px;background:#F8F9FC;font-weight:600;color:#555;border-bottom:2px solid #EAECF0}
+.cmp td{padding:10px 14px;border-bottom:1px solid #F5F5F5;color:#444;vertical-align:top}
+.cmp td:first-child{font-weight:600;color:#1A1A2E}
+.cmp .rec{background:#F0FDF4}
+</style>
+</head>
+<body>
+
+<!-- 思路一：产出物就是笔记，侧边栏按类型筛选 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">思路一</div>
+    <div class="section-title">产出物 = 笔记，侧边栏按类型筛选</div>
+    <div class="section-desc">每个产出物就是一篇笔记（或嵌入原笔记正文）。APP级通过侧边栏筛选器按类型查看。单篇内没有独立的"产出物区"，产出物就是正文顶部的富媒体卡片。</div>
+    <div class="section-principle">李楠原话："我支持你们先把它做成笔记吧" / "图文混排，增加富媒体类型就行"</div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="col-label">APP级 · 侧边栏筛选</div>
+      <div class="phone">
+        <div class="scr">
+          <div class="st">9:41</div>
+          <div class="nv"><div class="bk">☰</div><div class="tt">我的笔记</div><div class="rt">+</div></div>
+          <div class="bd" style="display:flex;padding:0">
+            <div class="sidebar">
+              <div class="sb-item active">📝 全部<div class="cnt">36</div></div>
+              <div class="sb-item">🎙️ 播客<div class="cnt">4</div></div>
+              <div class="sb-item">📊 PPT<div class="cnt">2</div></div>
+              <div class="sb-item">✅ 待办<div class="cnt">8</div></div>
+              <div class="sb-item">🃏 知识卡<div class="cnt">3</div></div>
+              <div style="height:1px;background:#E8ECF2;margin:8px 0"></div>
+              <div class="sb-item">⚡ 速记<div class="cnt">12</div></div>
+            </div>
+            <div style="flex:1;padding:10px;overflow:hidden">
+              <div class="list-item">
+                <div class="li-icon" style="background:#EFF6FF">🎙️</div>
+                <div class="li-info"><div class="li-title">本周收藏精选</div><div class="li-meta">播客 · 12:08 · 今天</div></div>
+              </div>
+              <div class="list-item">
+                <div class="li-icon" style="background:#F5F3FF">📊</div>
+                <div class="li-info"><div class="li-title">新疆旅行计划</div><div class="li-meta">PPT · 4页 · 今天</div></div>
+              </div>
+              <div class="list-item">
+                <div class="li-icon" style="background:#F0FDF4">📝</div>
+                <div class="li-info"><div class="li-title">产品评审会 05/27</div><div class="li-meta">笔记 · 含播客+待办</div></div>
+              </div>
+              <div class="list-item">
+                <div class="li-icon" style="background:#F0FDF4">📝</div>
+                <div class="li-info"><div class="li-title">高数第8讲</div><div class="li-meta">笔记 · 含知识卡</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">侧边栏 = 类型筛选器<br>点"🎙️ 播客"只看含播客的笔记</div>
+    </div>
+    <div class="col">
+      <div class="col-label">单篇内 · 正文顶部富媒体</div>
+      <div class="phone">
+        <div class="scr">
+          <div class="st">9:41</div>
+          <div class="nv"><div class="bk">‹</div><div class="tt">产品评审会 05/27</div></div>
+          <div class="bd">
+            <div class="nt">
+              <div class="in-card">
+                <div class="ic" style="background:#EFF6FF">🎙️</div>
+                <div class="inf"><b>播客 · 8:12</b>点击播放 · 长按管理</div>
+              </div>
+              <div class="in-card">
+                <div class="ic" style="background:#F0FDF4">✅</div>
+                <div class="inf"><b>待办 · 3项 (1/3完成)</b>已同步日历</div>
+              </div>
+              <h4 style="margin-top:12px">会议纪要</h4>
+              <p>一、核心问题：链路断点…</p>
+              <p>二、决策：富媒体嵌入…</p>
+              <p>三、后续动作…</p>
+            </div>
+          </div>
+          <div class="bt">
+            <div class="chips"><div class="chip">🧠 脑图</div><div class="chip">📊 PPT</div></div>
+            <div class="input">跟AI聊这篇笔记…</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">无独立"区域"，产出物就是正文最前面的卡片<br>长按 = 分享/删除/重新生成</div>
+    </div>
+  </div>
+  <div class="eval">
+    <div class="eval-title">评估</div>
+    <div class="eval-grid">
+      <div class="ev pro">✓ 最简单：不引入新概念，笔记就是笔记</div>
+      <div class="ev pro">✓ 李楠明确认可的方向</div>
+      <div class="ev pro">✓ APP级侧边栏筛选提供"总库"能力</div>
+      <div class="ev pro">✓ 产出物跟笔记强绑定，不割裂</div>
+      <div class="ev con">✗ 单篇内产出物多了会推开正文</div>
+      <div class="ev con">✗ 侧边栏项会越来越多</div>
+    </div>
+  </div>
+</div>
+
+<!-- 思路二：产出物独立管理，双向跳转 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">思路二</div>
+    <div class="section-title">产出物独立管理页，跟笔记双向跳转</div>
+    <div class="section-desc">APP级有独立的"产出物"tab/入口（播客列表、PPT列表等）。单篇笔记内显示"已生成N个产出物"的锚点链接，点击跳到对应列表。产出物列表里也能跳回原笔记。</div>
+    <div class="section-principle">对应之前讨论的"方案C-双向跳转"</div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="col-label">APP级 · 独立产出物入口</div>
+      <div class="phone">
+        <div class="scr">
+          <div class="st">9:41</div>
+          <div class="nv"><div class="bk">‹</div><div class="tt">我的播客</div><div class="rt">共4个</div></div>
+          <div class="bd">
+            <div class="list-item">
+              <div class="li-icon" style="background:#1A1A2E;color:#fff;font-size:11px">🎙️</div>
+              <div class="li-info"><div class="li-title">本周收藏精选</div><div class="li-meta">12:08 · 来源：5篇收藏</div></div>
+              <div class="li-act" style="background:#EFF6FF;color:#2D5BFF">▶</div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon" style="background:#1A1A2E;color:#fff;font-size:11px">🎙️</div>
+              <div class="li-info"><div class="li-title">产品评审会要点</div><div class="li-meta">8:12 · 来源：评审会笔记</div></div>
+              <div class="li-act" style="background:#EFF6FF;color:#2D5BFF">▶</div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon" style="background:#1A1A2E;color:#fff;font-size:11px">🎙️</div>
+              <div class="li-info"><div class="li-title">微积分复习</div><div class="li-meta">15:20 · 来源：3节课笔记</div></div>
+              <div class="li-act" style="background:#EFF6FF;color:#2D5BFF">▶</div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon" style="background:#1A1A2E;color:#fff;font-size:11px">🎙️</div>
+              <div class="li-info"><div class="li-title">新疆旅行计划</div><div class="li-meta">6:40 · 来源：旅行笔记</div></div>
+              <div class="li-act" style="background:#EFF6FF;color:#2D5BFF">▶</div>
+            </div>
+            <div style="text-align:center;padding:16px;font-size:10px;color:#999">每条可跳回来源笔记</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">独立的"我的播客"页面<br>从首页tab/侧边栏进入</div>
+    </div>
+    <div class="col">
+      <div class="col-label">单篇内 · 轻量锚点</div>
+      <div class="phone">
+        <div class="scr">
+          <div class="st">9:41</div>
+          <div class="nv"><div class="bk">‹</div><div class="tt">产品评审会 05/27</div></div>
+          <div class="bd">
+            <div class="nt">
+              <div style="display:flex;gap:6px;margin-bottom:12px;padding:8px 0;border-bottom:1px solid #F0F0F0">
+                <div style="padding:4px 10px;background:#EFF6FF;border-radius:8px;font-size:10px;color:#2D5BFF;font-weight:600">🎙️ 播客</div>
+                <div style="padding:4px 10px;background:#F0FDF4;border-radius:8px;font-size:10px;color:#16A34A;font-weight:600">✅ 待办 3</div>
+              </div>
+              <h4>会议纪要</h4>
+              <p>一、核心问题：链路断点…</p>
+              <p>二、决策：富媒体嵌入…</p>
+              <p>三、后续：5场景串联…</p>
+            </div>
+          </div>
+          <div class="bt">
+            <div class="chips"><div class="chip">🧠 脑图</div><div class="chip">📊 PPT</div></div>
+            <div class="input">跟AI聊这篇笔记…</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">笔记内只有轻量"标签锚点"<br>点击跳到对应产出物列表页</div>
+    </div>
+  </div>
+  <div class="eval">
+    <div class="eval-title">评估</div>
+    <div class="eval-grid">
+      <div class="ev pro">✓ 产出物有独立管理空间，数量多不乱</div>
+      <div class="ev pro">✓ 笔记内极简，不干扰阅读</div>
+      <div class="ev pro">✓ "我的播客"入口直觉（通勤时直接去听）</div>
+      <div class="ev con">✗ 引入新页面，增加APP复杂度</div>
+      <div class="ev con">✗ 跳转会打断上下文</div>
+      <div class="ev con">✗ 跟"笔记就是笔记"理念冲突</div>
+    </div>
+  </div>
+</div>
+
+<!-- 思路三：混合方案 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">思路三</div>
+    <div class="section-title">正文内联 + 首页顶部快捷入口（混合）</div>
+    <div class="section-desc">单篇内：产出物就是正文富媒体，没有独立区域。APP级：首页顶部增加一排快捷入口（播客/待办），不是独立页面，是快捷筛选+快速消费。</div>
+    <div class="section-principle">结合李楠的"简单做成笔记" + 解决"怎么快速找到我的播客"</div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="col-label">APP级 · 首页顶部快捷入口</div>
+      <div class="phone">
+        <div class="scr">
+          <div class="st">9:41</div>
+          <div class="nv"><div class="bk">☰</div><div class="tt">笔记</div><div class="rt">+</div></div>
+          <div class="bd" style="padding:10px">
+            <!-- Quick access bar -->
+            <div style="display:flex;gap:8px;margin-bottom:14px;padding:4px 0;overflow:hidden">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px;min-width:52px">
+                <div style="width:40px;height:40px;background:#EFF6FF;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px">🎙️</div>
+                <span style="font-size:9px;color:#555">播客</span>
+                <span style="font-size:8px;color:#2D5BFF;font-weight:600">4</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px;min-width:52px">
+                <div style="width:40px;height:40px;background:#F0FDF4;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px">✅</div>
+                <span style="font-size:9px;color:#555">待办</span>
+                <span style="font-size:8px;color:#16A34A;font-weight:600">8</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px;min-width:52px">
+                <div style="width:40px;height:40px;background:#F5F3FF;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px">📊</div>
+                <span style="font-size:9px;color:#555">PPT</span>
+                <span style="font-size:8px;color:#7C3AED;font-weight:600">2</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px;min-width:52px">
+                <div style="width:40px;height:40px;background:#FFF1F2;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px">🃏</div>
+                <span style="font-size:9px;color:#555">知识卡</span>
+                <span style="font-size:8px;color:#E11D48;font-weight:600">3</span>
+              </div>
+            </div>
+            <div style="font-size:10px;color:#999;font-weight:600;margin-bottom:8px">最近笔记</div>
+            <div class="list-item">
+              <div class="li-icon" style="background:#F0FDF4">📝</div>
+              <div class="li-info"><div class="li-title">产品评审会 05/27</div><div class="li-meta">今天 · 含🎙️✅</div></div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon" style="background:#F0FDF4">📝</div>
+              <div class="li-info"><div class="li-title">高数第8讲：微积分</div><div class="li-meta">昨天 · 含🃏</div></div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon" style="background:#F0FDF4">📝</div>
+              <div class="li-info"><div class="li-title">新疆旅行计划</div><div class="li-meta">昨天 · 含📊🎙️</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">首页顶部一排快捷入口<br>点"🎙️播客"→ 展开播客列表<br>不是新页面，是首页内的筛选</div>
+    </div>
+    <div class="col">
+      <div class="col-label">单篇内 · 同思路一（正文富媒体）</div>
+      <div class="phone">
+        <div class="scr">
+          <div class="st">9:41</div>
+          <div class="nv"><div class="bk">‹</div><div class="tt">产品评审会 05/27</div></div>
+          <div class="bd">
+            <div class="nt">
+              <div class="in-card">
+                <div class="ic" style="background:#EFF6FF">🎙️</div>
+                <div class="inf"><b>播客 · 8:12</b>点击播放 · 长按管理</div>
+              </div>
+              <div class="in-card">
+                <div class="ic" style="background:#F0FDF4">✅</div>
+                <div class="inf"><b>待办 · 3项</b>1/3完成 · 已同步日历</div>
+              </div>
+              <h4 style="margin-top:12px">会议纪要</h4>
+              <p>一、核心问题…</p>
+              <p>二、决策…</p>
+            </div>
+          </div>
+          <div class="bt">
+            <div class="chips"><div class="chip">🧠 脑图</div><div class="chip">📊 PPT</div></div>
+            <div class="input">跟AI聊这篇笔记…</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">单篇内不变：正文顶部富媒体卡片<br>简洁，不引入新区域</div>
+    </div>
+  </div>
+  <div class="eval">
+    <div class="eval-title">评估</div>
+    <div class="eval-grid">
+      <div class="ev pro">✓ 单篇内最简，不引入新概念</div>
+      <div class="ev pro">✓ APP级有快捷入口解决"我的播客在哪"</div>
+      <div class="ev pro">✓ 不增加深度页面，轻量</div>
+      <div class="ev pro">✓ 通勤时首页点播客图标直接能听</div>
+      <div class="ev con">✗ 首页会变复杂（多一排入口）</div>
+      <div class="ev con">✗ 快捷入口能承载的管理能力有限</div>
+    </div>
+  </div>
+</div>
+
+<!-- 总结对比表 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">总结</div>
+    <div class="section-title">三种架构思路对比</div>
+  </div>
+  <table class="cmp">
+    <tr><th>维度</th><th>思路一：笔记+侧边栏</th><th>思路二：独立管理页</th><th>思路三：正文内联+首页快捷</th></tr>
+    <tr><td>单篇内呈现</td><td>正文顶部富媒体卡片</td><td>轻量标签锚点（跳转）</td><td>正文顶部富媒体卡片</td></tr>
+    <tr><td>APP级入口</td><td>侧边栏筛选器</td><td>独立列表页（我的播客/PPT…）</td><td>首页顶部快捷图标入口</td></tr>
+    <tr><td>产出物身份</td><td>笔记的一部分</td><td>独立实体，关联笔记</td><td>笔记的一部分</td></tr>
+    <tr><td>复杂度</td><td>低</td><td>高（新页面+双向跳转）</td><td>中（首页加一排入口）</td></tr>
+    <tr><td>快速消费</td><td>进笔记→点卡片</td><td>直接进列表页消费</td><td>首页点图标直接消费</td></tr>
+    <tr><td>"通勤想听播客"</td><td>侧边栏→播客→找到→播</td><td>我的播客→直接播</td><td>首页🎙️→直接播</td></tr>
+    <tr class="rec"><td>李楠对齐度</td><td>⭐⭐⭐ 完全对齐"做成笔记"</td><td>⭐ 偏离"先简单"指示</td><td>⭐⭐⭐ 简单+解决快速消费</td></tr>
+    <tr><td>推荐场景</td><td>v1 最小方案</td><td>产出物量大后的v2</td><td>v1 进阶方案</td></tr>
+  </table>
+</div>
+
+</body>
+</html>
