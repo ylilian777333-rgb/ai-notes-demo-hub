@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记产品方案 · 李楠方向</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","MiSans",sans-serif;background:#f5f5f7;color:#1a1a1a;padding:40px}
+h1{font-size:28px;font-weight:700;margin-bottom:8px;text-align:center}
+.subtitle{font-size:14px;color:#999;text-align:center;margin-bottom:48px}
+
+.screen-row{display:flex;gap:40px;margin-bottom:64px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.screen-group{display:flex;flex-direction:column;align-items:center;gap:16px}
+.screen-label{font-size:12px;color:#999;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+
+.phone{width:375px;height:812px;background:#fff;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.12);border:8px solid #1a1a1a}
+.phone-inner{width:100%;height:100%;overflow-y:auto;position:relative}
+.status-bar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:14px 24px 0;font-size:12px;font-weight:600}
+.status-bar .time{font-size:14px;font-weight:700}
+.status-bar .icons{display:flex;gap:4px;font-size:11px}
+
+.nav-bar{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.nav-bar .back{font-size:20px;color:#333;cursor:pointer}
+.nav-bar .title{font-size:17px;font-weight:600}
+.nav-bar .actions{display:flex;gap:12px;font-size:18px}
+
+/* Annotation panel */
+.annotation{flex:1;max-width:420px;min-width:320px}
+.anno-card{background:#fff;border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.anno-card h3{font-size:15px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.anno-card h3 .tag{font-size:10px;padding:2px 6px;border-radius:4px;color:#fff;font-weight:700}
+.tag-linan{background:#ff6b35}
+.tag-new{background:#5780ff}
+.tag-principle{background:#a68cfa}
+.anno-card p{font-size:13px;color:#555;line-height:1.8}
+.anno-card .quote{font-size:12px;color:#999;border-left:3px solid #ff6b35;padding-left:12px;margin-top:8px;font-style:italic;line-height:1.6}
+
+/* Note list page */
+.list-header{padding:12px 16px 0}
+.list-header h2{font-size:28px;font-weight:700}
+.list-tabs{display:flex;gap:8px;padding:12px 16px;overflow-x:auto}
+.list-tabs .tab{padding:6px 14px;border-radius:16px;font-size:13px;background:#f0f0f0;white-space:nowrap;cursor:pointer}
+.list-tabs .tab.active{background:#1a1a1a;color:#fff}
+.filter-bar{display:flex;gap:8px;padding:4px 16px 8px;overflow-x:auto}
+.filter-bar .chip{padding:4px 10px;border-radius:12px;font-size:11px;background:#f0f4ff;color:#5780ff;border:1px solid #d4e0ff;white-space:nowrap}
+.filter-bar .chip.has{background:#5780ff;color:#fff;border-color:#5780ff}
+
+.note-item{padding:14px 16px;border-bottom:1px solid #f0f0f0;display:flex;flex-direction:column;gap:6px}
+.note-item .title-row{display:flex;justify-content:space-between;align-items:center}
+.note-item .title-row h4{font-size:15px;font-weight:600}
+.note-item .output-badges{display:flex;gap:4px}
+.note-item .output-badges span{font-size:9px;padding:2px 5px;border-radius:4px;background:#f0f4ff;color:#5780ff;font-weight:600}
+.note-item .summary{font-size:13px;color:#666;line-height:1.4}
+.note-item .meta{font-size:11px;color:#bbb}
+
+/* Note detail - Li Nan version */
+.detail-content{padding:0 16px 100px}
+.detail-title{font-size:22px;font-weight:700;padding:16px 0 4px}
+.detail-meta{font-size:12px;color:#999;margin-bottom:16px}
+
+.output-section{background:#f8faff;border-radius:16px;padding:16px;margin-bottom:16px;border:1px solid #e8f0ff}
+.output-section .section-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.output-section .section-header h5{font-size:13px;font-weight:600;color:#5780ff}
+.output-section .section-header .badge{font-size:10px;background:#5780ff;color:#fff;padding:2px 6px;border-radius:8px}
+.output-card{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);cursor:pointer}
+.output-card .icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.output-card .icon.ppt{background:#fff3e8}
+.output-card .icon.mindmap{background:#f0f8ff}
+.output-card .icon.podcast{background:#f8f0ff}
+.output-card .info h6{font-size:13px;font-weight:600}
+.output-card .info p{font-size:11px;color:#999}
+.output-card .arrow{margin-left:auto;color:#ccc;font-size:14px}
+
+.update-banner{background:#fff8f0;border:1px solid #ffecd4;border-radius:10px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:8px;font-size:12px;color:#b35c00}
+.update-banner .btn{margin-left:auto;padding:4px 10px;background:#ff8514;color:#fff;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer}
+
+.original-text{padding:12px 0}
+.original-text .label{font-size:11px;color:#bbb;margin-bottom:8px;font-weight:600}
+.original-text p{font-size:14px;color:#444;line-height:1.8}
+
+.ai-bar{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #f0f0f0;padding:12px 16px 28px;display:flex;align-items:center;gap:8px}
+.ai-bar .input{flex:1;height:36px;border-radius:18px;background:#f5f5f5;padding:0 14px;font-size:13px;color:#999;display:flex;align-items:center}
+.ai-bar .quick-actions{display:flex;gap:6px}
+.ai-bar .quick-actions span{font-size:11px;padding:4px 8px;border-radius:12px;background:#f0f4ff;color:#5780ff;white-space:nowrap}
+
+/* Speed notes - time axis */
+.speed-header{padding:16px;display:flex;align-items:center;justify-content:space-between}
+.speed-header h3{font-size:20px;font-weight:700}
+.time-group{padding:0 16px;margin-bottom:20px}
+.time-group .time-label{font-size:12px;color:#999;font-weight:600;margin-bottom:10px;padding-left:4px}
+.time-cluster{background:#fff;border-radius:14px;padding:12px;margin-bottom:10px;border:1px solid #f0f0f0}
+.time-cluster .cluster-header{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.time-cluster .cluster-header .time{font-size:11px;color:#bbb}
+.time-cluster .cluster-header .count{font-size:10px;padding:1px 6px;border-radius:8px;background:#f0f0f0;color:#666}
+.time-cluster .items{display:flex;flex-direction:column;gap:6px}
+.time-cluster .item{font-size:13px;color:#444;padding:6px 10px;background:#fafafa;border-radius:8px;display:flex;align-items:center;gap:6px}
+.time-cluster .item .type-icon{font-size:14px}
+.time-cluster .item.extracted{opacity:.5;text-decoration:line-through}
+.time-cluster .extracted-label{font-size:10px;color:#33d499;background:#f0fdf8;padding:2px 6px;border-radius:4px;margin-left:auto}
+.memory-note{font-size:11px;color:#a68cfa;padding:8px 12px;background:#f9f7ff;border-radius:8px;margin-top:8px;display:flex;align-items:center;gap:6px}
+
+/* Section divider */
+.section-divider{text-align:center;padding:48px 0 24px;font-size:20px;font-weight:700;color:#333}
+.section-divider span{display:block;font-size:12px;color:#999;font-weight:400;margin-top:4px}
+
+/* Connector */
+.connector{display:flex;align-items:center;justify-content:center;font-size:24px;color:#ddd;padding:0 16px}
+</style>
+</head>
+<body>
+
+<h1>笔记产品方案 · 基于李楠0529会议方向</h1>
+<p class="subtitle">核心：生成物离用户更近 ｜ 速记按时间轴聚合 ｜ 附件链路重新设计 ｜ 轻量筛选器</p>
+
+<!-- ====== Screen 1: Note Detail - 生成物前置 ====== -->
+<div class="section-divider">方案一：笔记详情页 · 生成物前置<span>生成物应立刻可被消费，不藏在底部</span></div>
+
+<div class="screen-row">
+  <div class="screen-group">
+    <span class="screen-label">笔记详情页（李楠方向）</span>
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="status-bar"><span class="time">10:29</span><span class="icons">📶 🔋</span></div>
+        <div class="nav-bar">
+          <span class="back">‹</span>
+          <span class="title"></span>
+          <span class="actions">↗ ⋯</span>
+        </div>
+        <div class="detail-content">
+          <div class="detail-title">周五产品评审 · 笔记二期方案</div>
+          <div class="detail-meta">2026年5月29日 20:27 ｜ 来自录音 ｜ 38分钟</div>
+
+          <!-- 生成物区域 - 前置！ -->
+          <div class="output-section">
+            <div class="section-header">
+              <h5>✨ 生成物</h5>
+              <span class="badge">可消费</span>
+            </div>
+            <div class="output-card">
+              <div class="icon ppt">📊</div>
+              <div class="info"><h6>产品方案PPT</h6><p>基于会议内容 · 12页</p></div>
+              <span class="arrow">›</span>
+            </div>
+            <div class="output-card">
+              <div class="icon mindmap">🧠</div>
+              <div class="info"><h6>决策脑图</h6><p>4个核心议题 · 可展开</p></div>
+              <span class="arrow">›</span>
+            </div>
+            <div class="output-card">
+              <div class="icon podcast">🎙️</div>
+              <div class="info"><h6>会议播客</h6><p>精简版 8分钟 · 可分享</p></div>
+              <span class="arrow">›</span>
+            </div>
+          </div>
+
+          <!-- 更新同步提示 -->
+          <div class="update-banner">
+            ⚠️ 原文已修改，生成物可能需要更新
+            <span class="btn">同步更新</span>
+          </div>
+
+          <!-- 待办提取 -->
+          <div style="background:#f8faf8;border-radius:12px;padding:12px;margin-bottom:16px;border:1px solid #e8f4e8">
+            <div style="font-size:12px;font-weight:600;color:#1a8a5c;margin-bottom:8px">✅ 待办（已提取）</div>
+            <div style="font-size:13px;color:#444;line-height:2">
+              ☐ 速记功能重构为时间轴<br>
+              ☐ 生成物展示位置优化<br>
+              ☐ 附件链路体验重设计<br>
+              ☑ 确认轻量筛选器方案
+            </div>
+          </div>
+
+          <!-- 原文区域（下移） -->
+          <div class="original-text">
+            <div class="label">📝 原始录音转写</div>
+            <p>李楠：整体思路是用户记的依然在这里，AI写的不给他看，所以AI写的东西可能都不在这。这个地方只有用户自己最关心的...</p>
+            <p style="margin-top:8px">杨李莲：我知道了，这个我已经感受到了。OK，还有一个就是速记的这个...</p>
+            <p style="color:#bbb;margin-top:8px;font-size:12px">— 点击展开全部转写 —</p>
+          </div>
+        </div>
+
+        <!-- AI对话框 -->
+        <div class="ai-bar">
+          <div class="input">✨ 总结、润色、对话...</div>
+          <div class="quick-actions">
+            <span>做PPT</span>
+            <span>脑图</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotations -->
+  <div class="annotation">
+    <div class="anno-card">
+      <h3><span class="tag tag-linan">李楠</span> 生成物必须离用户更近</h3>
+      <p>生成的PPT/脑图/播客是用户要<strong>消费</strong>的内容，不应藏在页面底部。原始笔记除了用户自己写的，不太会去反复读——所以生成物的优先级应高于原文展示。</p>
+      <div class="quote">"我不想让用户去读那篇原始笔记，因为原始笔记除了我自己写的，我真的不太会去读它。生成的东西才是我消费的，应该离用户更近。"</div>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-new">NEW</span> 同步更新机制</h3>
+      <p>当原文发生修改后，已生成的产出物显示"需要同步更新"提示。用户点击一下即可基于新内容重新生成，无需手动重做。</p>
+      <div class="quote">"我改完这个字以后，下面的PPT变了吗？变完之后点一下更新，相关的内容跟着变就好了。"</div>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-principle">原则</span> 不破坏基础体验</h3>
+      <p>对于不使用AI生成功能的用户，笔记页和原来完全一样——没有输入框、没有生成物区域。只有当用户产生了生成物时，才出现对应展示区。</p>
+      <div class="quote">"我并不是说非要挑战用户现有的习惯，你该进来之后是什么样还是什么样。但当我给使用AI的人提供便利时，不能把需求放在很低的位置上。"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Screen 2: 速记 · 时间轴 ====== -->
+<div class="section-divider">方案二：速记 · 时间轴聚合<span>短期记忆库，重要信息已被MiClaw提炼走，剩余自然消亡</span></div>
+
+<div class="screen-row">
+  <div class="screen-group">
+    <span class="screen-label">速记页（时间轴方案）</span>
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="status-bar"><span class="time">10:29</span><span class="icons">📶 🔋</span></div>
+        <div class="nav-bar">
+          <span class="back">‹</span>
+          <span class="title">速记</span>
+          <span class="actions">⋯</span>
+        </div>
+
+        <div class="speed-header">
+          <h3>时间线</h3>
+        </div>
+
+        <!-- 今天 -->
+        <div class="time-group">
+          <div class="time-label">今天</div>
+          <div class="time-cluster">
+            <div class="cluster-header">
+              <span class="time">14:20 - 14:35</span>
+              <span class="count">3条相似</span>
+            </div>
+            <div class="items">
+              <div class="item"><span class="type-icon">🔗</span> 小红书丝巾合集 · 送妈妈生日</div>
+              <div class="item"><span class="type-icon">🔗</span> 淘宝真丝丝巾对比</div>
+              <div class="item"><span class="type-icon">🔗</span> 大众点评丝绸城地址</div>
+            </div>
+            <div class="memory-note">💜 已提炼 → MiClaw记忆："妈妈下周三生日，想要丝巾"</div>
+          </div>
+
+          <div class="time-cluster">
+            <div class="cluster-header">
+              <span class="time">10:15</span>
+            </div>
+            <div class="items">
+              <div class="item"><span class="type-icon">🎙️</span> 语音备忘：下午三点和设计对接速记方案</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 昨天 -->
+        <div class="time-group">
+          <div class="time-label">昨天</div>
+          <div class="time-cluster">
+            <div class="cluster-header">
+              <span class="time">20:30 - 21:05</span>
+              <span class="count">会议相关</span>
+            </div>
+            <div class="items">
+              <div class="item"><span class="type-icon">📞</span> 和李楠通话 · 笔记产品方向讨论</div>
+              <div class="item"><span class="type-icon">📝</span> 速记：生成物前置、时间轴、附件重做</div>
+            </div>
+            <div class="memory-note">💜 已提炼 → 待办清单（4项）+ 会议纪要</div>
+          </div>
+
+          <div class="time-cluster">
+            <div class="cluster-header">
+              <span class="time">15:00 - 15:20</span>
+              <span class="count">2条相似</span>
+            </div>
+            <div class="items">
+              <div class="item extracted"><span class="type-icon">🪪</span> 护照号：E12345678<span class="extracted-label">已入记忆</span></div>
+              <div class="item extracted"><span class="type-icon">📍</span> 签证中心地址：朝阳区...<span class="extracted-label">已入记忆</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 以前 -->
+        <div class="time-group">
+          <div class="time-label">以前</div>
+          <div style="text-align:center;padding:20px;color:#ccc;font-size:12px">
+            更早的速记内容已自然消亡<br>
+            重要信息均已提炼至 MiClaw 长期记忆库
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotations -->
+  <div class="annotation">
+    <div class="anno-card">
+      <h3><span class="tag tag-linan">李楠</span> 时间轴而非分类标签</h3>
+      <p>速记不需要按标签分类——用户不会来这里浏览。改为<strong>按时间流排序</strong>，相近时间内相似内容做聚合。目的是让碎片化行为产生关联。</p>
+      <div class="quote">"用户不会来这看，所以给他做分类没有意义。但如果用时间做聚合，对他来说是比较容易表达的。"</div>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-linan">李楠</span> 记忆的自然消亡</h3>
+      <p>速记是<strong>2~7天的临时记忆库</strong>。真正重要的信息已被提炼到 MiClaw 长期记忆库（证件、地址等），剩余的碎碎念自然沉淀消亡。</p>
+      <div class="quote">"时间流要解决两个问题：一是相近事情产生关联，二是远期记忆要把它处理掉。真正最重要的早就已经被MiClaw提炼走了。"</div>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-new">NEW</span> 已提炼标记</h3>
+      <p>已被提炼到长期记忆或待办的条目，显示灰色+划线+标记，让用户知道"这条信息已经被系统处理了，不用操心"。默认折叠，可展开查看原始数据。</p>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-principle">原则</span> 老数据统一归入"以前"</h3>
+      <p>历史数据不需要逐条迁移到新结构，统一放入"以前"分类即可。新数据才按时间轴呈现。</p>
+      <div class="quote">"过去的统一成以前就好了，所有的都在下面就可以了。"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Screen 3: 首页 · 轻量筛选器 ====== -->
+<div class="section-divider">方案三：首页 · 产出物筛选器<span>有则出现无则隐藏，不是标签系统</span></div>
+
+<div class="screen-row">
+  <div class="screen-group">
+    <span class="screen-label">笔记首页（含筛选器）</span>
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="status-bar"><span class="time">10:29</span><span class="icons">📶 🔋</span></div>
+
+        <div class="list-header">
+          <h2>笔记</h2>
+        </div>
+
+        <!-- 搜索栏 -->
+        <div style="padding:8px 16px">
+          <div style="background:#f5f5f5;border-radius:10px;padding:10px 14px;font-size:13px;color:#999">🔍 搜索笔记...</div>
+        </div>
+
+        <!-- 分类标签 -->
+        <div class="list-tabs">
+          <div class="tab active">全部</div>
+          <div class="tab">录音</div>
+          <div class="tab">通话</div>
+          <div class="tab">穿戴</div>
+          <div class="tab">图文</div>
+        </div>
+
+        <!-- 产出物筛选器 - 李楠方案 -->
+        <div class="filter-bar">
+          <div class="chip has">📊 PPT (3)</div>
+          <div class="chip has">🧠 脑图 (5)</div>
+          <div class="chip">🎙️ 播客 (2)</div>
+          <div class="chip">📝 待办</div>
+        </div>
+
+        <!-- 笔记列表 -->
+        <div class="note-item">
+          <div class="title-row">
+            <h4>周五产品评审 · 笔记二期方案</h4>
+            <div class="output-badges"><span>PPT</span><span>脑图</span></div>
+          </div>
+          <div class="summary">速记改时间轴、生成物前置、附件链路重设计...</div>
+          <div class="meta">今天 20:27 ｜ 录音 38分钟</div>
+        </div>
+        <div class="note-item">
+          <div class="title-row">
+            <h4>穿戴设备录音方案评审</h4>
+            <div class="output-badges"><span>PPT</span></div>
+          </div>
+          <div class="summary">手表/手环/戒指录音同步笔记，磁吸支架方案确认</div>
+          <div class="meta">昨天 15:00 ｜ 录音 25分钟</div>
+        </div>
+        <div class="note-item">
+          <div class="title-row">
+            <h4>AI搜索二期需求对齐</h4>
+            <div class="output-badges"><span>脑图</span></div>
+          </div>
+          <div class="summary">语义搜索优化、问答式回答、检索范围扩展</div>
+          <div class="meta">周三 10:00 ｜ 通话笔记</div>
+        </div>
+        <div class="note-item">
+          <div class="title-row">
+            <h4>给妈妈买生日礼物</h4>
+          </div>
+          <div class="summary">妈妈下周三生日，她之前说想要一条丝巾</div>
+          <div class="meta">周二 13:38 ｜ 语音备忘</div>
+        </div>
+        <div class="note-item">
+          <div class="title-row">
+            <h4>李楠产品方向梳理</h4>
+            <div class="output-badges"><span>PPT</span><span>播客</span></div>
+          </div>
+          <div class="summary">笔记不只是记录工具，是信息记录的综合性功能...</div>
+          <div class="meta">上周五 ｜ 录音 52分钟</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotations -->
+  <div class="annotation">
+    <div class="anno-card">
+      <h3><span class="tag tag-linan">李楠</span> 产出物类型筛选器</h3>
+      <p>在笔记列表上方增加基于<strong>产出物类型</strong>的轻量筛选。不是完整标签系统，是人为定义的类型：PPT、脑图、播客等。有则出现，没有就不显示。</p>
+      <div class="quote">"我这个地方所讲的其实是产出物的类型标签——PPT、网页、脑图、播客，有就出现，没有就没有。"</div>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-new">NEW</span> 列表项产出物标记</h3>
+      <p>每条笔记右侧显示其包含的产出物类型小标签。用户从列表就能看到"这条笔记有PPT可以看"，解决了"从外面也看不到它"的问题。</p>
+      <div class="quote">"我从外面看不到它，在里面也看不到它，我只有滑到最下面才能看到它，那我怎么消费它？"</div>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-principle">原则</span> 非当前最高优先级</h3>
+      <p>筛选器功能需要有人使用AI生成后才有价值。当前优先级低于"生成物前置"和"速记时间轴"，可后续迭代。</p>
+      <div class="quote">"这个东西不是现阶段最重要的事情，有人用了才有价值。可以先不做。"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 优先级排序 ====== -->
+<div style="max-width:900px;margin:48px auto;background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.06)">
+  <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">📋 落地优先级（基于会议共识）</h2>
+  <table style="width:100%;border-collapse:collapse;font-size:13px">
+    <tr style="background:#f8f8f8">
+      <th style="padding:10px;text-align:left;border-bottom:1px solid #eee">优先级</th>
+      <th style="padding:10px;text-align:left;border-bottom:1px solid #eee">模块</th>
+      <th style="padding:10px;text-align:left;border-bottom:1px solid #eee">核心改动</th>
+      <th style="padding:10px;text-align:left;border-bottom:1px solid #eee">状态</th>
+    </tr>
+    <tr><td style="padding:10px;border-bottom:1px solid #f5f5f5;font-weight:700;color:#ff6b35">P0</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">速记时间轴</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">分类→时间排序+相近聚合+自然消亡</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">需重构数据</td></tr>
+    <tr><td style="padding:10px;border-bottom:1px solid #f5f5f5;font-weight:700;color:#ff6b35">P0</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">生成物前置</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">详情页生成物区上移+更新同步</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">方案确认中</td></tr>
+    <tr><td style="padding:10px;border-bottom:1px solid #f5f5f5;font-weight:700;color:#5780ff">P1</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">附件链路</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">重新设计"附件→笔记"的用户感知</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">方向待定</td></tr>
+    <tr><td style="padding:10px;font-weight:700;color:#999">P2</td><td style="padding:10px">产出物筛选器</td><td style="padding:10px">首页左侧增加类型筛选入口</td><td style="padding:10px">有人用再做</td></tr>
+  </table>
+</div>
+
+</body>
+</html>
