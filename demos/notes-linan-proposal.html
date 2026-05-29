@@ -407,42 +407,45 @@ h1{font-size:28px;font-weight:700;margin-bottom:8px;text-align:center}
   </div>
 </div>
 
-<!-- ====== 需求细拆 ====== -->
+<!-- ====== 需求细拆（仅新增项，已有能力不列入） ====== -->
 <div style="max-width:1100px;margin:48px auto;background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.06)">
-  <h2 style="font-size:20px;font-weight:700;margin-bottom:24px">📋 需求细拆 · 评估用</h2>
+  <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">📋 需求细拆 · 仅列增量（已有能力不含）</h2>
+  <p style="font-size:12px;color:#999;margin-bottom:24px">已实现：PPT大纲生成、知识卡生成、待办提取、AI对话框(streaming)、基础摘要、场景识别、录音转写。以下为本次新增。</p>
 
   <!-- P0: 速记时间轴 -->
   <div style="margin-bottom:32px">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
       <span style="font-size:11px;font-weight:700;color:#fff;background:#ff6b35;padding:2px 8px;border-radius:4px">P0</span>
-      <h3 style="font-size:16px;font-weight:700">速记 · 时间轴重构</h3>
+      <h3 style="font-size:16px;font-weight:700">速记 · 分类→时间轴重构</h3>
+      <span style="font-size:11px;color:#999">当前状态：仅有录音+硬编码分类chips，无时间聚合</span>
     </div>
     <table style="width:100%;border-collapse:collapse;font-size:12px">
-      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:30%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:15%">涉及端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:20%">依赖/风险</th></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">数据结构改造</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">速记条目增加timestamp字段，去掉原有分类tag结构</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需评估历史数据量</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">时间轴排序UI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">今天/昨天/以前分组，每组内按时间倒序排列</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">设计稿待出</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">相近内容聚合算法</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">同一时间窗口（如30min内）相似类型内容合并为一个cluster展示</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+AI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需定义"相似"规则</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">自然消亡机制</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">超过7天的速记自动折叠/隐藏，已提炼的标记为"已入记忆"</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需与MiClaw记忆库打通</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">老数据兼容</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">原分类标签数据统一归入"以前"组，保持可查看</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">迁移脚本</td></tr>
-      <tr><td style="padding:8px 10px;font-weight:600">"已提炼"状态标记</td><td style="padding:8px 10px">条目进入MiClaw/待办后，原条目显示灰色+划线+"已入记忆"标签</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">需MiClaw回写状态</td></tr>
+      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:25%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:12%">端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:28%">依赖/备注</th></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">去掉分类tag结构</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">删除"会议摘要/读后感/读书"硬编码chips，改为纯时间排序</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">HomeScreen TagChip组件替换</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">时间分组UI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">今天/昨天/以前三级分组头，组内按时间倒序</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需出设计稿</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">相近内容聚合</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">30min内同类型条目合并为cluster（如连续收藏3条链接→合为1组）</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需定义时间窗口+相似度规则</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">MiClaw提炼状态回写</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">条目被MiClaw提炼为长期记忆后，回写"已入记忆"状态到速记</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需MiClaw提供回写接口</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">7天自然消亡</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">超7天且已提炼的条目自动折叠/隐藏，未提炼的保留但置灰</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需确认消亡策略是否可配置</td></tr>
+      <tr><td style="padding:8px 10px;font-weight:600">老数据迁移</td><td style="padding:8px 10px">原分类数据统一归入"以前"，一次性脚本</td><td style="padding:8px 10px">后端</td><td style="padding:8px 10px">评估数据量，用户无感迁移</td></tr>
     </table>
   </div>
 
-  <!-- P0: 生成物前置 -->
+  <!-- P0: 生成物展示层重构 -->
   <div style="margin-bottom:32px">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
       <span style="font-size:11px;font-weight:700;color:#fff;background:#ff6b35;padding:2px 8px;border-radius:4px">P0</span>
-      <h3 style="font-size:16px;font-weight:700">笔记详情页 · 生成物前置</h3>
+      <h3 style="font-size:16px;font-weight:700">生成物展示层重构</h3>
+      <span style="font-size:11px;color:#999">当前状态：生成物作为ChatMessage内联，无独立UI/无持久化展示</span>
     </div>
     <table style="width:100%;border-collapse:collapse;font-size:12px">
-      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:30%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:15%">涉及端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:20%">依赖/风险</th></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">生成物区域UI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">详情页标题下方新增"生成物"卡片区，展示PPT/脑图/播客等可消费内容</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">设计稿待确认位置</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">动态显隐逻辑</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">无生成物时不显示该区域（不影响普通笔记使用体验）</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">无</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">点击跳转消费</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">点击生成物卡片→跳转到独立详情页（PPT全屏/脑图展开/播客播放器）</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">各产出物详情页已有</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">同步更新提示</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">原文修改后，生成物区显示"内容已变更，是否同步更新"banner</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需diff检测+重新生成能力</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">一键更新重生成</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">用户点击"同步更新"→基于新原文重新生成对应产出物</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端AI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">大模型调用+耗时</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">AI悬浮对话框</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">页面底部固定悬浮AI输入框，不随内容滚动，快捷操作：做PPT/脑图/播客</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">与现有录入框共存方案</td></tr>
-      <tr><td style="padding:8px 10px;font-weight:600">列表页产出物标记</td><td style="padding:8px 10px">首页笔记列表每条右侧显示已生成的产出物类型icon</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">需后端返回生成物列表</td></tr>
+      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:25%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:12%">端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:28%">依赖/备注</th></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">生成物持久化存储</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">GeneratedOutput从内存ChatMessage→持久化到Note实体关联表</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">数据模型改造，Note增加outputs字段</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">详情页生成物卡片区</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">标题下方独立UI区域：卡片列表展示已生成的PPT/脑图/播客</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">新组件，替代当前内联展示</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">脑图生成能力</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">当前仅有PPT/知识卡，需新增mindmap生成skill+渲染页</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端AI+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">osbot有skill引用但未集成到App</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">播客生成能力</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">基于笔记内容生成音频播客（TTS+精简脚本）</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端AI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">依赖TTS服务，延迟高</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">原文变更检测+同步更新</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">原文编辑后diff检测→提示"生成物需更新"→一键重新生成</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需版本tracking，完全新增能力</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">AI对话框改为底部悬浮</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">现有ChatScreen输入框改为sticky悬浮，不随内容滚动</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">布局调整，评估键盘兼容性</td></tr>
+      <tr><td style="padding:8px 10px;font-weight:600">首页列表产出物icon</td><td style="padding:8px 10px">HomeScreen列表项右侧显示该笔记已生成的产出物类型小图标</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">依赖生成物持久化完成</td></tr>
     </table>
   </div>
 
@@ -450,31 +453,44 @@ h1{font-size:28px;font-weight:700;margin-bottom:8px;text-align:center}
   <div style="margin-bottom:32px">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
       <span style="font-size:11px;font-weight:700;color:#fff;background:#5780ff;padding:2px 8px;border-radius:4px">P1</span>
-      <h3 style="font-size:16px;font-weight:700">附件生成笔记 · 链路优化</h3>
+      <h3 style="font-size:16px;font-weight:700">附件→笔记 链路重设计</h3>
+      <span style="font-size:11px;color:#999">当前状态：有FilePath区分入口但用户无法预知"会生成笔记"</span>
     </div>
     <table style="width:100%;border-collapse:collapse;font-size:12px">
-      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:30%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:15%">涉及端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:20%">依赖/风险</th></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">问题诊断</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">当前"传附件→自动生成笔记"用户无法感知因果，首次使用困惑</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">—</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">李楠判断：惩罚机制</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">方案A：明确前置引导</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">上传前弹出说明"将基于附件生成结构化笔记，是否继续？"</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">增加操作步骤</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">方案B：统一入口</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">不单独提附件入口，创建笔记后可添加附件并选择"解析生成"</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端+后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">链路变更大</td></tr>
-      <tr><td style="padding:8px 10px;font-weight:600">方案C：类闪电贝壳</td><td style="padding:8px 10px">先进入笔记→附件已插入→用户主动点击"AI解析"按钮</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">参考竞品验证</td></tr>
+      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:25%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:12%">端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:28%">依赖/备注</th></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">用户感知问题修复</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">核心问题：用户不知道"传附件=生成笔记"，需在操作前明确传达</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">—</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">方向待定</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">方案A：先进笔记再解析</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">参考闪电贝壳：进入笔记→附件已插入→用户主动点"AI解析"</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">用户有主动控制权</td></tr>
+      <tr><td style="padding:8px 10px;font-weight:600">方案B：上传前确认弹窗</td><td style="padding:8px 10px">选择附件后弹出"是否基于内容生成笔记？"确认框</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">最小改动，但增加步骤</td></tr>
     </table>
-    <div style="margin-top:8px;padding:8px 12px;background:#fff8f0;border-radius:6px;font-size:11px;color:#b35c00">⚠️ 方向待定，需重新设计后再评估工时。李楠核心诉求：用户必须能预知"操作后会发生什么"。</div>
+    <div style="margin-top:8px;padding:8px 12px;background:#fff8f0;border-radius:6px;font-size:11px;color:#b35c00">⚠️ 李楠："不能给用户惩罚机制"——用户必须能预知操作后果。方案需PM重新出后再评估。</div>
   </div>
 
   <!-- P2: 侧边栏筛选器 -->
-  <div>
+  <div style="margin-bottom:32px">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
       <span style="font-size:11px;font-weight:700;color:#fff;background:#999;padding:2px 8px;border-radius:4px">P2</span>
-      <h3 style="font-size:16px;font-weight:700">侧边栏 · 产出物筛选器</h3>
+      <h3 style="font-size:16px;font-weight:700">侧边栏 · 产出物筛选</h3>
+      <span style="font-size:11px;color:#999">当前状态：无侧边栏文件夹层级，无产出物筛选</span>
     </div>
     <table style="width:100%;border-collapse:collapse;font-size:12px">
-      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:30%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:15%">涉及端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:20%">依赖/风险</th></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">侧边栏UI增加"产出物"组</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">文件夹下方新增分隔线+"产出物"区域，展示PPT/脑图/播客等入口</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">侧边栏空间有限</td></tr>
-      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">动态显隐</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">仅当用户有该类型产出物时显示对应入口，右侧显示数量</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需统计接口</td></tr>
-      <tr><td style="padding:8px 10px;font-weight:600">筛选结果列表</td><td style="padding:8px 10px">点击"PPT"→主区域展示所有含PPT的笔记列表（非PPT文件列表）</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">筛选逻辑</td></tr>
+      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:25%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:12%">端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:28%">依赖/备注</th></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">侧边栏基础框架</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">新增Drawer侧边栏：文件夹列表+小爱记忆+产出物区</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">当前HomeScreen无Drawer</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">文件夹管理</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">新建/重命名/删除文件夹，笔记移入/移出</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端+后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">Note实体需增加folderId</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">产出物统计+动态入口</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">统计用户各类产出物数量，有则显示入口(PPT 3/脑图 5)，无则隐藏</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">依赖生成物持久化</td></tr>
+      <tr><td style="padding:8px 10px;font-weight:600">筛选结果视图</td><td style="padding:8px 10px">点击"PPT"→主区域只展示含PPT的笔记（非PPT文件本身）</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">查询条件筛选</td></tr>
     </table>
-    <div style="margin-top:8px;padding:8px 12px;background:#f8f8f8;border-radius:6px;font-size:11px;color:#666">💡 此功能为非紧急优化项，待AI生成功能有一定使用量后再落地。</div>
+  </div>
+
+  <!-- 总结 -->
+  <div style="padding:16px 20px;background:#f8faf8;border-radius:12px;border:1px solid #e8f4e8">
+    <div style="font-size:13px;font-weight:700;color:#1a8a5c;margin-bottom:8px">📊 工时评估摘要</div>
+    <div style="font-size:12px;color:#555;line-height:2">
+      • P0 速记时间轴：<strong>6项</strong>新增（含MiClaw打通，风险最高）<br>
+      • P0 生成物展示层：<strong>7项</strong>新增（含2个全新AI能力：脑图+播客）<br>
+      • P1 附件链路：<strong>2个方案待选</strong>，选定后再拆<br>
+      • P2 侧边栏：<strong>4项</strong>新增（含文件夹管理，当前完全没有）<br>
+      • 已实现不重复做：PPT生成、知识卡、待办提取、AI对话streaming、录音转写、摘要
+    </div>
   </div>
 </div>
 
