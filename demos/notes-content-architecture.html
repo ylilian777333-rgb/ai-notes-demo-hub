@@ -114,13 +114,8 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
         <div class="stage-title">A · 原文</div>
         <div class="stage-subtitle">用户输入 / 系统采集</div>
         <div class="stage-body">
-          <strong>📝 笔记（有内容体）</strong><br>
-          ✍️ 手写笔记 &nbsp; 🎤 录音/会议<br>
-          📷 图文记录 &nbsp; 📞 通话录音<br>
-          ⌚ 穿戴录音<br><br>
-          <strong>⚡ 记忆（碎片条目）</strong><br>
-          🔗 链接 &nbsp; 🪪 卡证 &nbsp; 📍 地址<br><br>
-          💡 用户手写的感想/图文<br>本身就是最终产物
+          📝 笔记（有内容体）<br>
+          ⚡ 记忆（碎片条目）
         </div>
       </div>
       <div class="arrow">
@@ -131,13 +126,8 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
         <div class="stage-title">B · 中间态</div>
         <div class="stage-subtitle">AI加工，还需转化</div>
         <div class="stage-body">
-          AI 生成但用户不会反复看<br><br>
-          <strong>会议纪要</strong> → 还需变成待办<br>
-          <strong>课堂笔记</strong> → 还需变成考点<br>
-          <strong>通话纪要</strong> → 还需提取行动项<br>
-          <strong>穿戴摘要</strong> → 还需去口语化/扩写<br>
-          <strong>链接摘要</strong> → 还需整合为播客<br><br>
-          拿到后下一步还要做事 = 中间态
+          AI生成但用户不会反复看<br>
+          拿到后下一步还要做事
         </div>
       </div>
       <div class="arrow arrow-2">
@@ -148,13 +138,8 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
         <div class="stage-title">C · 最终产物</div>
         <div class="stage-subtitle">用户直接消费</div>
         <div class="stage-body">
-          拿到就能用，不需要再做任何事<br><br>
-          🎙️ <strong>播客</strong> — 点了就听<br>
-          📊 <strong>PPT</strong> — 打开就讲<br>
-          ✅ <strong>待办</strong> — 到期提醒执行<br>
-          🃏 <strong>知识卡片</strong> — 一张说清一事<br>
-          🧠 <strong>脑图</strong> — 看结构快速回忆<br>
-          📝 <strong>考点/模拟题</strong> — 直接复习
+          拿到就能用<br>
+          不需要再做任何事
         </div>
       </div>
     </div>
@@ -172,6 +157,90 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
     </div>
   </div>
 
+  <!-- A层详解 -->
+  <div class="section-sub">A · 两个物理容器</div>
+  <div class="section-desc">按物理位置区分：在笔记APP里的是笔记，在小爱记忆里的是记忆。</div>
+
+  <div class="source-group">
+    <div class="source-card note-type">
+      <h3>📝 笔记 — 笔记APP内，首页可见</h3>
+      <ul class="source-list">
+        <li>✍️ 手写/键入笔记（用户主动创建）</li>
+        <li>🎤 录音笔记 — 会议/课堂/随身</li>
+        <li>📷 图文笔记 — 照片+文字记录</li>
+        <li>📞 通话笔记 — 挂断后自动生成 <span class="tag tag-new">NEW</span></li>
+        <li>⌚ 穿戴笔记 — 戒指/手表录音 <span class="tag tag-new">NEW</span></li>
+      </ul>
+    </div>
+    <div class="source-card memory-type">
+      <h3>⚡ 记忆 — 小爱体系内，不进首页</h3>
+      <ul class="source-list">
+        <li>🔗 链接 — 外部APP收藏存入</li>
+        <li>🪪 卡证 — 身份证/护照/银行卡等</li>
+        <li>📍 地址 — 收货地址/常去地点等</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- B层简介 -->
+  <div class="section-sub" style="margin-top:64px">B · 中间态</div>
+  <div class="section-desc">AI加工后的内容，用户不会反复看，但可以进一步转化为最终产物。</div>
+
+  <div class="source-group">
+    <div class="source-card b-type">
+      <h3>从笔记生成</h3>
+      <ul class="source-list">
+        <li>会议纪要 — 录音 AI 结构化 → 可转为待办/PPT</li>
+        <li>课堂笔记 — 课堂录音 AI 整理 → 可转为考点/卡片/播客</li>
+        <li>通话纪要 — 通话录音 AI 提取 → 可转为待办</li>
+        <li>穿戴摘要 — 穿戴录音去口语化 → 可转为memo/待办</li>
+      </ul>
+    </div>
+    <div class="source-card b-type">
+      <h3>从记忆生成</h3>
+      <ul class="source-list">
+        <li>链接摘要 — 收藏链接 AI 提取要点 → 可转为播客</li>
+        <li>结构化条目 — 卡证/地址归类整理 → 供问答检索</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- C层产出物 -->
+  <div class="section-sub" style="margin-top:64px">C · 产出物清单</div>
+  <div class="section-desc">待办在内容层级上与播客/PPT同级，入口保持在首页右上角（用户习惯）。</div>
+
+  <div class="output-grid">
+    <div class="output-card listen">
+      <div class="icon">🎙️</div>
+      <div class="name">播客</div>
+      <div class="desc">任何笔记/多条收藏 → "生成播客" → 点了就听<br>场景：通勤、运动、做饭时</div>
+    </div>
+    <div class="output-card watch">
+      <div class="icon">📊</div>
+      <div class="name">PPT</div>
+      <div class="desc">会议/笔记 → "做PPT" → 打开直接分享、讲解<br>场景：汇报、分享、对齐</div>
+    </div>
+    <div class="output-card watch">
+      <div class="icon">🧠</div>
+      <div class="name">脑图</div>
+      <div class="desc">任何笔记 → "生成脑图" → 看结构，快速回忆<br>场景：复习、理清思路</div>
+    </div>
+    <div class="output-card do">
+      <div class="icon">✅</div>
+      <div class="name">待办</div>
+      <div class="desc">会议/通话/语音 → AI提取或手动触发 → 到期提醒执行<br>场景：执行跟进<br><span class="note-badge">入口：首页右上角</span></div>
+    </div>
+    <div class="output-card learn">
+      <div class="icon">📝</div>
+      <div class="name">考点清单 / 模拟题</div>
+      <div class="desc">课堂笔记 → "提炼考点"/"出题" → 直接复习<br>场景：期末复习、知识检验</div>
+    </div>
+    <div class="output-card learn">
+      <div class="icon">🃏</div>
+      <div class="name">知识卡片</div>
+      <div class="desc">跨篇聚合 → "生成卡片" → 一张说清一事<br>场景：记忆、分享、速查</div>
+    </div>
+  </div>
 </div>
 
 <!-- 03: 总览 -->
