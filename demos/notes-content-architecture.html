@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记内容层级架构 · 三段式定义</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;background:#0a0a0a;color:#fff;min-width:1800px;padding:80px 120px}
+
+/* Chapter style */
+.chapter{margin-bottom:140px}
+.chapter-num{font-size:280px;font-weight:800;color:rgba(87,128,255,0.7);line-height:1;margin-bottom:-20px;font-family:"Inter",sans-serif}
+.chapter-title{font-size:72px;font-weight:700;margin-bottom:24px}
+.divider{height:6px;background:rgba(87,140,255,0.6);margin-bottom:48px;border-radius:3px}
+
+/* Definition card */
+.def-card{background:rgba(87,128,255,0.08);border:2px solid rgba(87,128,255,0.2);border-radius:40px;padding:56px 96px;text-align:center;margin-bottom:48px}
+.def-label{color:rgba(255,255,255,0.5);font-size:24px;margin-bottom:16px}
+.def-main{font-size:44px;font-weight:700;line-height:1.5}
+.def-sub{color:rgba(255,255,255,0.5);font-size:26px;margin-top:12px}
+
+/* Flow diagram */
+.flow-container{background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.1);border-radius:40px;padding:72px;display:flex;align-items:stretch;gap:0;margin-bottom:48px}
+.stage{border-radius:40px;padding:48px;flex:1;display:flex;flex-direction:column;gap:20px}
+.stage-a{background:rgba(87,128,255,0.08);border:2px solid rgba(87,128,255,0.2)}
+.stage-b{background:rgba(166,140,250,0.08);border:2px solid rgba(166,140,250,0.2)}
+.stage-c{background:rgba(51,212,153,0.12);border:4px solid rgba(51,212,153,0.5)}
+.stage-title{font-size:36px;font-weight:700}
+.stage-a .stage-title{color:#5780ff}
+.stage-b .stage-title{color:#a68cfa}
+.stage-c .stage-title{color:#33d499}
+.stage-subtitle{font-size:22px;font-weight:500}
+.stage-a .stage-subtitle{color:#5780ff}
+.stage-b .stage-subtitle{color:#a68cfa}
+.stage-c .stage-subtitle{color:#33d499}
+.stage-body{color:rgba(255,255,255,0.7);font-size:24px;line-height:2}
+.stage-body strong{color:rgba(255,255,255,0.95);font-weight:600}
+.arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px;min-width:140px}
+.arrow-icon{font-size:48px;color:#a68cfa}
+.arrow-label{font-size:18px;color:#a68cfa;margin-top:8px}
+.arrow-2 .arrow-icon{color:#33d499}
+.arrow-2 .arrow-label{color:#33d499}
+
+/* Source cards group */
+.source-group{display:flex;gap:32px;margin-bottom:48px;flex-wrap:wrap}
+.source-card{background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.1);border-radius:24px;padding:36px 44px;flex:1;min-width:380px}
+.source-card h3{font-size:28px;font-weight:700;margin-bottom:16px}
+.source-card.note-type{border-color:rgba(87,128,255,0.3);background:rgba(87,128,255,0.05)}
+.source-card.note-type h3{color:#5780ff}
+.source-card.memory-type{border-color:rgba(255,199,61,0.3);background:rgba(255,199,61,0.05)}
+.source-card.memory-type h3{color:#ffc73d}
+.source-list{list-style:none;color:rgba(255,255,255,0.75);font-size:22px;line-height:2.2}
+.source-list li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:12px;vertical-align:middle}
+.note-type .source-list li::before{background:#5780ff}
+.memory-type .source-list li::before{background:#ffc73d}
+.tag{display:inline-block;font-size:14px;font-weight:600;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle}
+.tag-new{background:rgba(255,107,77,0.2);color:#ff6b4d}
+.tag-auto{background:rgba(255,199,61,0.15);color:#ffc73d}
+
+/* Output grid */
+.output-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:48px}
+.output-card{border-radius:24px;padding:32px 36px;display:flex;flex-direction:column;gap:8px}
+.output-card .icon{font-size:32px}
+.output-card .name{font-size:24px;font-weight:700;color:#fff}
+.output-card .desc{font-size:18px;color:rgba(255,255,255,0.55);line-height:1.6}
+.output-card.listen{background:rgba(87,140,255,0.06);border:2px solid rgba(87,140,255,0.18)}
+.output-card.watch{background:rgba(166,140,250,0.06);border:2px solid rgba(166,140,250,0.18)}
+.output-card.do{background:rgba(51,212,153,0.06);border:2px solid rgba(51,212,153,0.18)}
+.output-card.learn{background:rgba(255,133,20,0.06);border:2px solid rgba(255,133,20,0.18)}
+
+/* Judgment card */
+.judge-card{background:rgba(255,133,20,0.08);border:2px solid rgba(255,133,20,0.25);border-radius:28px;padding:40px 48px;margin-bottom:48px}
+.judge-card h3{color:#ff8514;font-size:30px;font-weight:700;margin-bottom:16px}
+.judge-card p{color:rgba(255,255,255,0.85);font-size:24px;line-height:1.8}
+
+/* Path table */
+.path-table{width:100%;border-collapse:separate;border-spacing:0;margin-bottom:48px;border-radius:24px;overflow:hidden;border:2px solid rgba(255,255,255,0.1)}
+.path-table th{background:rgba(87,128,255,0.12);color:#5780ff;font-size:20px;font-weight:700;padding:20px 28px;text-align:left}
+.path-table td{padding:18px 28px;font-size:20px;color:rgba(255,255,255,0.8);border-top:1px solid rgba(255,255,255,0.06)}
+.path-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+.path-table .arrow-cell{color:#a68cfa;font-weight:600;text-align:center}
+.path-table .c-cell{color:#33d499;font-weight:600}
+
+/* Is/Not cards */
+.is-not{display:flex;gap:32px;margin-bottom:48px}
+.is-card,.not-card{flex:1;border-radius:40px;padding:48px;font-size:24px;line-height:2.2}
+.not-card{background:rgba(255,255,255,0.03);border:2px solid rgba(255,59,77,0.2)}
+.not-card h3{color:#ff6b4d;font-size:30px;font-weight:700;margin-bottom:16px}
+.not-card p{color:rgba(255,255,255,0.6)}
+.is-card{background:rgba(51,212,153,0.08);border:2px solid rgba(51,212,153,0.25)}
+.is-card h3{color:#33d499;font-size:30px;font-weight:700;margin-bottom:16px}
+.is-card p{color:rgba(255,255,255,0.85)}
+
+/* Section subtitle */
+.section-sub{font-size:44px;font-weight:700;margin-bottom:16px}
+.section-desc{font-size:28px;color:rgba(255,255,255,0.7);margin-bottom:40px;line-height:1.6}
+
+/* Hierarchy visual */
+.hierarchy{background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.1);border-radius:40px;padding:64px;margin-bottom:48px}
+.h-row{display:flex;align-items:center;margin-bottom:32px;gap:24px}
+.h-label{width:120px;font-size:20px;font-weight:700;text-align:right;flex-shrink:0}
+.h-items{display:flex;gap:12px;flex-wrap:wrap}
+.h-item{padding:12px 24px;border-radius:16px;font-size:20px;font-weight:500}
+.h-item.blue{background:rgba(87,128,255,0.15);color:#5780ff;border:1px solid rgba(87,128,255,0.3)}
+.h-item.purple{background:rgba(166,140,250,0.15);color:#a68cfa;border:1px solid rgba(166,140,250,0.3)}
+.h-item.green{background:rgba(51,212,153,0.15);color:#33d499;border:1px solid rgba(51,212,153,0.3)}
+.h-item.yellow{background:rgba(255,199,61,0.15);color:#ffc73d;border:1px solid rgba(255,199,61,0.3)}
+.h-item.orange{background:rgba(255,133,20,0.15);color:#ff8514;border:1px solid rgba(255,133,20,0.3)}
+.h-connector{width:60px;height:2px;background:rgba(255,255,255,0.2);position:relative}
+.h-connector::after{content:"→";position:absolute;right:-8px;top:-10px;color:rgba(255,255,255,0.4);font-size:16px}
+
+/* Note about todo */
+.note-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(51,212,153,0.1);border:1px solid rgba(51,212,153,0.3);border-radius:12px;padding:8px 16px;font-size:16px;color:#33d499;margin-top:8px}
+</style>
+</head>
+<body>
+
+<!-- Chapter 01: 产品定义 -->
+<div class="chapter">
+  <div class="chapter-num">01</div>
+  <div class="chapter-title">产品定义</div>
+  <div class="divider"></div>
+  
+  <div class="def-card">
+    <div class="def-label">一句话定义</div>
+    <div class="def-main">笔记 = 用户的记录 + AI 帮你把记录变成可直接消费的内容</div>
+    <div class="def-sub">用户负责"喂内容"，AI 负责让这些内容变得能用</div>
+  </div>
+
+  <div class="is-not">
+    <div class="not-card">
+      <h3>❌ 记忆不是</h3>
+      <p>· 不是笔记——碎片化信息，没有"内容体"可以打开深度消费<br>
+         · 不是知识库——不做分类管理，只做存取<br>
+         · 不污染首页——在小爱体系内闭环，不混入用户笔记时间线</p>
+    </div>
+    <div class="is-card">
+      <h3>✅ 笔记是</h3>
+      <p>· 有内容体的记录——录音、文字、图文，可以打开、回看、深度消费<br>
+         · 包含通话录音和穿戴录音——有完整音频+纪要，和会议录音同级<br>
+         · 所有产出物的"原料"——笔记是 AI 加工的输入源</p>
+    </div>
+  </div>
+
+  <div class="judge-card">
+    <h3>📝笔记 vs ⚡记忆 的物理区分</h3>
+    <p><strong>笔记</strong> = 笔记APP内的内容，用户可见的时间线，有完整内容体<br>
+       <strong>记忆</strong> = 小爱记忆/速记，在小爱体系内，碎片化条目，不进笔记首页<br><br>
+       不是按"内容重要性"区分，是按<strong>物理位置</strong>区分：在笔记里的就是笔记，在小爱记忆里的就是记忆。</p>
+  </div>
+</div>
+
+<!-- Chapter 02: 三段式内容层级 -->
+<div class="chapter">
+  <div class="chapter-num">02</div>
+  <div class="chapter-title">内容层级 · A原文 → B中间态 → C最终产物</div>
+  <div class="divider"></div>
+
+  <div class="flow-container">
+    <div class="stage stage-a">
+      <div class="stage-title">A · 原文</div>
+      <div class="stage-subtitle">用户输入 / 系统采集</div>
+      <div class="stage-body">
+        <strong>📝 笔记（有内容体）</strong><br>
+        ✍️ 手写笔记 &nbsp; 🎤 录音/会议<br>
+        📷 图文记录 &nbsp; 📞 通话录音<br>
+        ⌚ 穿戴录音<br><br>
+        <strong>⚡ 记忆（碎片条目）</strong><br>
+        🗣️ 语音记忆 &nbsp; 📱 识屏记忆<br>
+        🔗 链接收藏<br><br>
+        💡 用户手写的感想/图文记录<br>本身就是最终产物
+      </div>
+    </div>
+    <div class="arrow">
+      <div class="arrow-icon">→</div>
+      <div class="arrow-label">AI理解+生成</div>
+    </div>
+    <div class="stage stage-b">
+      <div class="stage-title">B · 中间态</div>
+      <div class="stage-subtitle">AI加工，还需转化</div>
+      <div class="stage-body">
+        AI 生成但用户不会反复看的内容<br><br>
+        <strong>会议纪要</strong> → 还需变成待办<br>
+        <strong>课堂笔记</strong> → 还需变成考点<br>
+        <strong>通话纪要</strong> → 还需提取行动项<br>
+        <strong>穿戴摘要</strong> → 还需去口语化/扩写<br>
+        <strong>链接摘要</strong> → 还需整合为播客<br><br>
+        判断：拿到后下一步还要做事 = 中间态
+      </div>
+    </div>
+    <div class="arrow arrow-2">
+      <div class="arrow-icon">→</div>
+      <div class="arrow-label">再加工</div>
+    </div>
+    <div class="stage stage-c">
+      <div class="stage-title">C · 最终产物</div>
+      <div class="stage-subtitle">用户直接消费</div>
+      <div class="stage-body">
+        拿到就能用，不需要再做任何事<br><br>
+        🎙️ <strong>播客</strong> — 点了就听<br>
+        📊 <strong>PPT</strong> — 打开就讲<br>
+        ✅ <strong>待办</strong> — 到期提醒执行<br>
+        🃏 <strong>知识卡片</strong> — 一张说清一事<br>
+        🧠 <strong>脑图</strong> — 看结构快速回忆<br>
+        📝 <strong>考点/模拟题</strong> — 直接复习<br>
+        ❓ <strong>问答</strong> — 问了就答<br><br>
+        <span class="note-badge">✅ 待办：产出物层级，入口在首页右上角</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="judge-card">
+    <h3>判断标准</h3>
+    <p>用户拿到后，下一步动作是什么？如果下一步是"再做点什么"，它就不是最终态。<br>
+       播客 = 点了就播 ✅ ｜ 会议纪要 = 还需要变成待办 ❌ ｜ 通话纪要 = 还需提取行动项 ❌</p>
+  </div>
+</div>
+
+<!-- Chapter 03: A层详细 -->
+<div class="chapter">
+  <div class="chapter-num">03</div>
+  <div class="chapter-title">A层 · 原文来源详解</div>
+  <div class="divider"></div>
+
+  <div class="section-sub">两个物理容器</div>
+  <div class="section-desc">所有用户内容只进两个地方，泾渭分明。</div>
+
+  <div class="source-group">
+    <div class="source-card note-type">
+      <h3>📝 笔记 — 在笔记APP内</h3>
+      <ul class="source-list">
+        <li>✍️ 手写/键入笔记（用户主动创建）</li>
+        <li>🎤 录音笔记 — 会议/课堂/随身录音</li>
+        <li>📷 图文笔记 — 照片+文字记录</li>
+        <li>📞 通话笔记 — 挂断后自动生成 <span class="tag tag-new">NEW</span><span class="tag tag-auto">自动</span></li>
+        <li>⌚ 穿戴笔记 — 戒指/手表录音 <span class="tag tag-new">NEW</span></li>
+      </ul>
+    </div>
+    <div class="source-card memory-type">
+      <h3>⚡ 记忆 — 在小爱体系内</h3>
+      <ul class="source-list">
+        <li>🗣️ 语音记忆 — "帮我记一下同事推荐了螺蛳粉"</li>
+        <li>📱 屏幕记忆 — AI键识屏（身份证/地址/WiFi）</li>
+        <li>🔗 链接收藏 — 小红书/大众点评点收藏存入</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="is-not">
+    <div class="source-card note-type" style="flex:1">
+      <h3>笔记的特征</h3>
+      <ul class="source-list">
+        <li>有完整"内容体"（一段录音、一篇文字、一组图文）</li>
+        <li>可以打开、回看、深度消费</li>
+        <li>出现在笔记首页时间线</li>
+        <li>是产出物的主要"原料"</li>
+        <li>通话/穿戴 = 自动采集的笔记，和手动录音同级</li>
+      </ul>
+    </div>
+    <div class="source-card memory-type" style="flex:1">
+      <h3>记忆的特征</h3>
+      <ul class="source-list">
+        <li>碎片化条目（一句话、一张卡片、一条链接）</li>
+        <li>不需要"打开阅读"，问就能答</li>
+        <li>不进笔记首页（不污染）</li>
+        <li>核心价值是"问答检索"</li>
+        <li>物理上在小爱记忆页，不在笔记APP</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Chapter 04: 完整转化路径 -->
+<div class="chapter">
+  <div class="chapter-num">04</div>
+  <div class="chapter-title">完整转化路径 · A → B → C</div>
+  <div class="divider"></div>
+
+  <div class="section-sub">笔记 → 产出物</div>
+
+  <table class="path-table">
+    <thead>
+      <tr>
+        <th>A · 原文</th>
+        <th></th>
+        <th>B · 中间态</th>
+        <th></th>
+        <th>C · 最终产物</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🎤 会议录音笔记</td>
+        <td class="arrow-cell">→</td>
+        <td>会议纪要（结构化摘要）</td>
+        <td class="arrow-cell">→</td>
+        <td class="c-cell">✅待办 / 📊PPT / ❓问答</td>
+      </tr>
+      <tr>
+        <td>🎤 课堂录音笔记</td>
+        <td class="arrow-cell">→</td>
+        <td>课堂笔记（知识点梳理）</td>
+        <td class="arrow-cell">→</td>
+        <td class="c-cell">📝考点 / 🃏卡片 / 🎙️播客</td>
+      </tr>
+      <tr>
+        <td>📞 通话录音笔记 <span class="tag tag-new">NEW</span></td>
+        <td class="arrow-cell">→</td>
+        <td>通话纪要（提取关键信息）</td>
+        <td class="arrow-cell">→</td>
+        <td class="c-cell">✅待办 / ❓问答</td>
+      </tr>
+      <tr>
+        <td>⌚ 穿戴录音笔记 <span class="tag tag-new">NEW</span></td>
+        <td class="arrow-cell">→</td>
+        <td>去口语化摘要</td>
+        <td class="arrow-cell">→</td>
+        <td class="c-cell">📝memo扩写 / ✅待办</td>
+      </tr>
+      <tr>
+        <td>📷 图文记录</td>
+        <td class="arrow-cell">→</td>
+        <td>（本身即最终态）</td>
+        <td class="arrow-cell">—</td>
+        <td class="c-cell">本身即C / ❓问答</td>
+      </tr>
+      <tr>
+        <td>✍️ 手写笔记</td>
+        <td class="arrow-cell">→</td>
+        <td>（本身即最终态）</td>
+        <td class="arrow-cell">—</td>
+        <td class="c-cell">本身即C / ❓问答</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-sub">记忆 → 产出物</div>
+
+  <table class="path-table">
+    <thead>
+      <tr>
+        <th>A · 记忆来源</th>
+        <th></th>
+        <th>B · 中间态</th>
+        <th></th>
+        <th>C · 最终产物</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🗣️ 语音记忆（"帮我记一下..."）</td>
+        <td class="arrow-cell">→</td>
+        <td>结构化条目</td>
+        <td class="arrow-cell">→</td>
+        <td class="c-cell">❓问答（问了就答）</td>
+      </tr>
+      <tr>
+        <td>📱 屏幕记忆（AI键识屏）</td>
+        <td class="arrow-cell">→</td>
+        <td>结构化卡片（证件/地址）</td>
+        <td class="arrow-cell">→</td>
+        <td class="c-cell">❓问答 / 🃏卡片</td>
+      </tr>
+      <tr>
+        <td>🔗 链接收藏（外部APP存入）</td>
+        <td class="arrow-cell">→</td>
+        <td>内容摘要</td>
+        <td class="arrow-cell">→</td>
+        <td class="c-cell">🎙️播客 / ❓问答</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Chapter 05: C层产出物 -->
+<div class="chapter">
+  <div class="chapter-num">05</div>
+  <div class="chapter-title">C层 · 产出物清单</div>
+  <div class="divider"></div>
+
+  <div class="section-desc">所有产出物按消费场景分类。待办虽然入口在首页右上角（保持用户习惯），但内容层级上与播客/PPT同级。</div>
+
+  <div class="output-grid">
+    <div class="output-card listen">
+      <div class="icon">🎙️</div>
+      <div class="name">播客</div>
+      <div class="desc">任何笔记/多条收藏 → "生成播客" → 点了就听<br>场景：通勤、运动、做饭时</div>
+    </div>
+    <div class="output-card watch">
+      <div class="icon">📊</div>
+      <div class="name">PPT</div>
+      <div class="desc">会议/笔记 → "做PPT" → 打开直接分享、讲解<br>场景：汇报、分享、对齐</div>
+    </div>
+    <div class="output-card watch">
+      <div class="icon">🧠</div>
+      <div class="name">脑图</div>
+      <div class="desc">任何笔记 → "生成脑图" → 看结构，快速回忆<br>场景：复习、理清思路</div>
+    </div>
+    <div class="output-card do">
+      <div class="icon">✅</div>
+      <div class="name">待办</div>
+      <div class="desc">会议/通话/速记 → AI提取或手动触发 → 到期提醒<br>场景：执行跟进<br><span class="note-badge">入口：首页右上角（非侧边栏）</span></div>
+    </div>
+    <div class="output-card learn">
+      <div class="icon">📝</div>
+      <div class="name">考点清单 / 模拟题</div>
+      <div class="desc">课堂笔记 → "提炼考点" → 直接复习<br>场景：期末复习、知识检验</div>
+    </div>
+    <div class="output-card learn">
+      <div class="icon">🃏</div>
+      <div class="name">知识卡片</div>
+      <div class="desc">跨篇聚合 → "生成卡片" → 一张说清一事<br>场景：记忆、分享、速查</div>
+    </div>
+  </div>
+
+  <div class="judge-card">
+    <h3>❓ 问答 — 覆盖全部内容的能力层</h3>
+    <p>问答不是一种"产出物"，而是贯穿所有内容的消费方式。<br>
+       笔记里的信息、记忆里的碎片、产出物的内容 —— 问了就能答。<br>
+       "上周一开会说了什么？" "我老伴身份证号多少？" "那家螺蛳粉店叫什么？"</p>
+  </div>
+</div>
+
+<!-- Chapter 06: 层级总览 -->
+<div class="chapter">
+  <div class="chapter-num">06</div>
+  <div class="chapter-title">内容层级总览</div>
+  <div class="divider"></div>
+
+  <div class="hierarchy">
+    <div class="h-row">
+      <div class="h-label" style="color:#5780ff">A · 笔记</div>
+      <div class="h-items">
+        <div class="h-item blue">✍️ 手写</div>
+        <div class="h-item blue">🎤 录音/会议</div>
+        <div class="h-item blue">📷 图文</div>
+        <div class="h-item blue">📞 通话 <small>NEW</small></div>
+        <div class="h-item blue">⌚ 穿戴 <small>NEW</small></div>
+      </div>
+    </div>
+    <div class="h-row">
+      <div class="h-label" style="color:#ffc73d">A · 记忆</div>
+      <div class="h-items">
+        <div class="h-item yellow">🗣️ 语音记忆</div>
+        <div class="h-item yellow">📱 识屏记忆</div>
+        <div class="h-item yellow">🔗 链接收藏</div>
+      </div>
+    </div>
+    <div class="h-row" style="justify-content:center;opacity:0.4">
+      <div style="font-size:32px;letter-spacing:24px">▼ &nbsp; AI理解 + 生成 &nbsp; ▼</div>
+    </div>
+    <div class="h-row">
+      <div class="h-label" style="color:#a68cfa">B · 中间态</div>
+      <div class="h-items">
+        <div class="h-item purple">会议纪要</div>
+        <div class="h-item purple">课堂笔记</div>
+        <div class="h-item purple">通话纪要</div>
+        <div class="h-item purple">穿戴摘要</div>
+        <div class="h-item purple">链接摘要</div>
+      </div>
+    </div>
+    <div class="h-row" style="justify-content:center;opacity:0.4">
+      <div style="font-size:32px;letter-spacing:24px">▼ &nbsp; 再加工 &nbsp; ▼</div>
+    </div>
+    <div class="h-row">
+      <div class="h-label" style="color:#33d499">C · 产出物</div>
+      <div class="h-items">
+        <div class="h-item green">🎙️ 播客</div>
+        <div class="h-item green">📊 PPT</div>
+        <div class="h-item green">✅ 待办</div>
+        <div class="h-item green">🃏 知识卡片</div>
+        <div class="h-item green">🧠 脑图</div>
+        <div class="h-item green">📝 考点</div>
+      </div>
+    </div>
+    <div class="h-row">
+      <div class="h-label" style="color:rgba(255,255,255,0.5)">能力层</div>
+      <div class="h-items">
+        <div class="h-item" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.15)">❓ 问答 — 贯穿全部，问了就答</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
