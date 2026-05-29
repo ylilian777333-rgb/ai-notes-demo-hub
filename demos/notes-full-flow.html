@@ -1,0 +1,2249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1600">
+<title>笔记APP改版 - 完整交互规格说明书</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'PingFang SC', 'MiSans', 'Helvetica Neue', sans-serif;
+  background: #fff;
+  color: #1a1a1a;
+  line-height: 1.6;
+  padding: 40px 60px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Header */
+.doc-header {
+  border-bottom: 3px solid #1a1a1a;
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+}
+.doc-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.doc-header .meta {
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  gap: 24px;
+}
+.doc-header .meta span { display: flex; align-items: center; gap: 4px; }
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 40px;
+  padding: 16px 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+.legend-dot.blue { background: #4A90D9; }
+.legend-dot.green { background: #27AE60; }
+.legend-dot.orange { background: #F39C12; }
+
+/* Overview */
+.overview-section {
+  margin-bottom: 60px;
+  padding: 32px;
+  background: #fafbfc;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+}
+.overview-section h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.overview-diagram {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+}
+.overview-node {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  min-width: 140px;
+  position: relative;
+}
+.overview-node.core { background: #E8F4FD; border: 2px solid #4A90D9; color: #2C5F8A; }
+.overview-node.new { background: #E8F8F0; border: 2px solid #27AE60; color: #1E7A47; }
+.overview-node.linan { background: #FEF3E2; border: 2px solid #F39C12; color: #B87308; }
+.overview-arrow {
+  font-size: 20px;
+  color: #999;
+}
+.overview-connections {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.overview-conn {
+  font-size: 12px;
+  color: #666;
+  padding: 8px 12px;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+/* Flow Section */
+.flow-section {
+  margin-bottom: 80px;
+  page-break-inside: avoid;
+}
+.flow-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.flow-number {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  background: #1a1a1a;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.flow-title {
+  font-size: 22px;
+  font-weight: 700;
+}
+.flow-desc {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 24px;
+  padding-left: 60px;
+}
+
+/* Flow Container */
+.flow-container {
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding: 20px 0;
+  position: relative;
+}
+.flow-row {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
+/* Phone */
+.phone-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+.phone {
+  width: 180px;
+  height: 390px;
+  border: 2px solid #333;
+  border-radius: 24px;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.phone-notch {
+  width: 60px;
+  height: 20px;
+  background: #333;
+  border-radius: 0 0 10px 10px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+.phone-content {
+  padding: 8px;
+  height: calc(100% - 20px);
+  display: flex;
+  flex-direction: column;
+  font-size: 9px;
+  overflow: hidden;
+}
+.phone-status-bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  color: #666;
+  padding: 2px 4px;
+  margin-bottom: 4px;
+}
+
+/* Phone UI Elements */
+.ph-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 11px;
+}
+.ph-nav .back { font-size: 14px; cursor: pointer; }
+.ph-card {
+  background: #f5f5f5;
+  border-radius: 6px;
+  padding: 6px;
+  margin-bottom: 4px;
+  font-size: 8px;
+}
+.ph-card.highlight-green {
+  background: #E8F8F0;
+  border: 1px solid #27AE60;
+}
+.ph-card.highlight-orange {
+  background: #FEF3E2;
+  border: 1px solid #F39C12;
+}
+.ph-card.highlight-blue {
+  background: #E8F4FD;
+  border: 1px solid #4A90D9;
+}
+.ph-btn {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 8px;
+  font-weight: 600;
+  text-align: center;
+}
+.ph-btn.primary { background: #4A90D9; color: #fff; }
+.ph-btn.success { background: #27AE60; color: #fff; }
+.ph-btn.warning { background: #F39C12; color: #fff; }
+.ph-list-item {
+  padding: 4px 2px;
+  border-bottom: 1px solid #eee;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.ph-fab {
+  position: absolute;
+  bottom: 16px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  background: #4A90D9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+.ph-input {
+  background: #f0f0f0;
+  border-radius: 12px;
+  padding: 5px 8px;
+  font-size: 8px;
+  color: #999;
+  margin-top: auto;
+}
+.ph-input.sticky {
+  background: #fff;
+  border: 1.5px solid #4A90D9;
+  box-shadow: 0 -2px 8px rgba(74,144,217,0.15);
+}
+.ph-tab-bar {
+  display: flex;
+  justify-content: space-around;
+  padding: 4px 0;
+  border-top: 1px solid #eee;
+  margin-top: auto;
+  font-size: 7px;
+  color: #999;
+}
+.ph-tab-bar span.active { color: #4A90D9; font-weight: 600; }
+.ph-section-title {
+  font-size: 8px;
+  font-weight: 700;
+  color: #333;
+  margin: 4px 0 2px;
+}
+.ph-badge {
+  display: inline-block;
+  background: #FF6B6B;
+  color: #fff;
+  font-size: 7px;
+  padding: 1px 4px;
+  border-radius: 8px;
+  margin-left: 4px;
+}
+.ph-avatar {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ddd;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+}
+.ph-progress {
+  height: 3px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  margin: 4px 0;
+  overflow: hidden;
+}
+.ph-progress-bar {
+  height: 100%;
+  background: #4A90D9;
+  border-radius: 2px;
+  animation: progress 2s ease-in-out;
+}
+.ph-timeline-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4A90D9;
+  display: inline-block;
+  margin-right: 4px;
+}
+.ph-timeline-line {
+  width: 1px;
+  height: 100%;
+  background: #ddd;
+  position: absolute;
+  left: 11px;
+  top: 0;
+}
+.ph-cluster {
+  background: #f0f7ff;
+  border-radius: 6px;
+  padding: 4px 6px;
+  margin-bottom: 3px;
+  border-left: 2px solid #4A90D9;
+}
+.ph-banner {
+  background: #FEF3E2;
+  border: 1px solid #F39C12;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+.ph-sidebar {
+  background: #f8f9fa;
+  height: 100%;
+  padding: 8px;
+}
+.ph-sidebar-item {
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 8px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.ph-sidebar-item:hover { background: #e8e8e8; }
+.ph-sidebar-item.active { background: #E8F4FD; color: #4A90D9; font-weight: 600; }
+.ph-output-card {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+.ph-output-item {
+  flex: 1;
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 4px;
+  text-align: center;
+  font-size: 7px;
+}
+.ph-recording {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.ph-recording-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #FF4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 8px;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+@keyframes progress {
+  from { width: 0; }
+  to { width: 70%; }
+}
+.ph-wave {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  margin: 4px 0;
+}
+.ph-wave span {
+  display: block;
+  width: 2px;
+  background: #FF4444;
+  border-radius: 1px;
+}
+
+/* Arrow between phones */
+.arrow-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  padding: 0 4px;
+  flex-shrink: 0;
+  height: 390px;
+}
+.arrow-line {
+  font-size: 20px;
+  color: #999;
+  margin-bottom: 4px;
+}
+.arrow-label {
+  font-size: 9px;
+  color: #666;
+  text-align: center;
+  max-width: 56px;
+  line-height: 1.3;
+  background: #f8f8f8;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+/* Annotation */
+.phone-annotation {
+  margin-top: 8px;
+  font-size: 10px;
+  color: #666;
+  text-align: center;
+  max-width: 180px;
+  line-height: 1.4;
+}
+.phone-annotation .state {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Rules Panel */
+.rules-panel {
+  margin-top: 20px;
+  padding: 16px;
+  background: #fafbfc;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  border-left: 4px solid #F39C12;
+}
+.rules-panel h4 {
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rules-panel ul {
+  list-style: none;
+  padding: 0;
+}
+.rules-panel li {
+  font-size: 11px;
+  color: #555;
+  padding: 4px 0;
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+.rules-panel li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: #F39C12;
+  font-weight: 700;
+}
+.rules-panel li.linan::before { content: '!'; color: #F39C12; }
+.rules-panel li.edge::before { content: '?'; color: #E74C3C; }
+.rules-panel li.logic::before { content: '*'; color: #4A90D9; }
+
+/* Edge Cases Section */
+.edge-cases {
+  margin-top: 60px;
+  padding: 32px;
+  background: #FFF9F0;
+  border-radius: 12px;
+  border: 2px solid #F39C12;
+}
+.edge-cases h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.edge-cases-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.edge-case-item {
+  padding: 12px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+.edge-case-item h5 {
+  font-size: 12px;
+  color: #333;
+  margin-bottom: 4px;
+}
+.edge-case-item p {
+  font-size: 11px;
+  color: #666;
+  line-height: 1.5;
+}
+.edge-case-item .tag {
+  display: inline-block;
+  font-size: 9px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-top: 4px;
+}
+.edge-case-item .tag.error { background: #FDEDED; color: #E74C3C; }
+.edge-case-item .tag.warn { background: #FEF3E2; color: #F39C12; }
+.edge-case-item .tag.info { background: #E8F4FD; color: #4A90D9; }
+
+/* Scrollable flow */
+.flow-scroll {
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
+.flow-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.flow-scroll::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+/* Responsive wrap for multi-row */
+.flow-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+</style>
+</head>
+<body>
+
+<!-- Document Header -->
+<div class="doc-header">
+  <h1>笔记APP改版 - 完整交互规格说明书</h1>
+  <div class="meta">
+    <span>PM: 杨李莲</span>
+    <span>决策人: 李楠</span>
+    <span>版本: v1.0</span>
+    <span>日期: 2026-05-29</span>
+    <span>状态: 交互评审中</span>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot blue"></div> 现有功能/基础交互</div>
+  <div class="legend-item"><div class="legend-dot green"></div> 新增功能</div>
+  <div class="legend-item"><div class="legend-dot orange"></div> 李楠明确要求</div>
+  <div class="legend-item" style="margin-left: auto; font-weight: 600;">共 6 条完整链路 / 41 屏交互</div>
+</div>
+
+<!-- Overview Section -->
+<div class="overview-section">
+  <h2>全局交互地图 - 六条链路关联</h2>
+  <div class="overview-diagram">
+    <div class="overview-node core">Flow 1<br>录音→AI加工→产出物</div>
+    <div class="overview-arrow">--></div>
+    <div class="overview-node linan">Flow 2<br>生成物消费+同步更新</div>
+    <div class="overview-arrow">--></div>
+    <div class="overview-node new">Flow 4<br>侧边栏产出物筛选</div>
+  </div>
+  <div style="height: 16px;"></div>
+  <div class="overview-diagram">
+    <div class="overview-node new">Flow 3<br>速记时间轴</div>
+    <div class="overview-arrow">--></div>
+    <div class="overview-node core">Flow 5<br>附件生成笔记</div>
+    <div class="overview-arrow">--></div>
+    <div class="overview-node new">Flow 6<br>小爱记忆迁移</div>
+  </div>
+  <div class="overview-connections">
+    <div class="overview-conn"><strong>Flow 1 → Flow 2:</strong> 产出物生成后, 进入笔记详情消费, 原文编辑触发同步更新</div>
+    <div class="overview-conn"><strong>Flow 2 → Flow 4:</strong> 产出物累积后, 用户通过侧边栏按类型筛选管理</div>
+    <div class="overview-conn"><strong>Flow 3 → Flow 1:</strong> 速记条目可升级为正式笔记, 触发AI加工链路</div>
+    <div class="overview-conn"><strong>Flow 5 → Flow 2:</strong> 附件生成笔记后, 同样支持AI加工, 产出物走Flow 2消费</div>
+    <div class="overview-conn"><strong>Flow 6 → Flow 3:</strong> 小爱记忆迁入后, 按时间轴排列, 复用速记展示逻辑</div>
+    <div class="overview-conn"><strong>Flow 4 ↔ All:</strong> 侧边栏是所有链路的导航枢纽, 统一管理入口</div>
+  </div>
+</div>
+
+<!-- ==================== FLOW 1 ==================== -->
+<div class="flow-section">
+  <div class="flow-header">
+    <span class="flow-number">FLOW 1</span>
+    <span class="flow-title">录音 → AI加工 → 生成产出物 → 消费</span>
+  </div>
+  <p class="flow-desc">核心价值链路: 用户录音 → 自动转写 → AI摘要 → 按需生成PPT/脑图/播客 → 消费与分享</p>
+
+  <div class="flow-scroll">
+    <div class="flow-row">
+      <!-- Screen 1: 首页 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span>笔记</span><span style="font-size:8px;">...</span></div>
+            <div style="background:#f0f0f0;border-radius:12px;padding:5px 8px;font-size:8px;color:#999;margin-bottom:8px;">搜索笔记...</div>
+            <div class="ph-card">
+              <div style="font-weight:600;margin-bottom:2px;">周会纪要 05/28</div>
+              <div style="color:#999;">讨论了Q3 OKR方向...</div>
+            </div>
+            <div class="ph-card">
+              <div style="font-weight:600;margin-bottom:2px;">产品评审记录</div>
+              <div style="color:#999;">关于首页改版...</div>
+            </div>
+            <div class="ph-card">
+              <div style="font-weight:600;margin-bottom:2px;">读书笔记</div>
+              <div style="color:#999;">《创新者窘境》...</div>
+            </div>
+            <div class="ph-fab">+</div>
+            <div class="ph-tab-bar">
+              <span class="active">笔记</span>
+              <span>速记</span>
+              <span>我的</span>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">首页 - 笔记列表</span>
+          现有列表视图, FAB按钮入口
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击+号</div>
+      </div>
+
+      <!-- Screen 2: 选择录音 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">x</span><span>创建笔记</span><span></span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px;">
+              <div class="ph-card" style="text-align:center;padding:12px 6px;">
+                <div style="font-size:20px;margin-bottom:4px;">📝</div>
+                <div style="font-weight:600;">文字笔记</div>
+              </div>
+              <div class="ph-card highlight-blue" style="text-align:center;padding:12px 6px;">
+                <div style="font-size:20px;margin-bottom:4px;">🎙️</div>
+                <div style="font-weight:600;">录音笔记</div>
+              </div>
+              <div class="ph-card" style="text-align:center;padding:12px 6px;">
+                <div style="font-size:20px;margin-bottom:4px;">📎</div>
+                <div style="font-weight:600;">上传附件</div>
+              </div>
+              <div class="ph-card" style="text-align:center;padding:12px 6px;">
+                <div style="font-size:20px;margin-bottom:4px;">📷</div>
+                <div style="font-weight:600;">拍照记录</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">创建面板</span>
+          底部弹出, 4个入口类型
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">选择录音</div>
+      </div>
+
+      <!-- Screen 3: 录音中 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>录音中</span><span style="font-size:8px;">03:24</span></div>
+            <div class="ph-recording">
+              <div class="ph-recording-circle">🎙</div>
+              <div class="ph-wave">
+                <span style="height:8px;"></span>
+                <span style="height:14px;"></span>
+                <span style="height:20px;"></span>
+                <span style="height:16px;"></span>
+                <span style="height:24px;"></span>
+                <span style="height:18px;"></span>
+                <span style="height:12px;"></span>
+                <span style="height:20px;"></span>
+                <span style="height:10px;"></span>
+              </div>
+              <div style="font-size:20px;font-weight:700;margin:8px 0;">03:24</div>
+              <div style="font-size:8px;color:#999;">正在录音...</div>
+            </div>
+            <div style="display:flex;justify-content:center;gap:20px;margin-top:auto;margin-bottom:16px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;">⏸</div>
+              <div style="width:32px;height:32px;border-radius:50%;background:#FF4444;display:flex;align-items:center;justify-content:center;color:#fff;">⏹</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">录音进行中</span>
+          实时波形, 暂停/停止控制
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">录音结束</div>
+      </div>
+
+      <!-- Screen 4: 转写中 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>录音笔记</span><span></span></div>
+            <div class="ph-card" style="margin-bottom:8px;">
+              <div style="font-weight:600;margin-bottom:4px;">原始录音 03:24</div>
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="color:#4A90D9;">&#9654;</span>
+                <div class="ph-progress" style="flex:1;"><div class="ph-progress-bar" style="width:100%;"></div></div>
+              </div>
+            </div>
+            <div class="ph-card highlight-blue">
+              <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">
+                <span>🔄</span>
+                <span style="font-weight:600;">AI转写中...</span>
+              </div>
+              <div class="ph-progress"><div class="ph-progress-bar" style="width:60%;"></div></div>
+              <div style="color:#999;margin-top:2px;">预计15秒完成</div>
+            </div>
+            <div style="color:#999;font-size:8px;margin-top:8px;padding:4px;">
+              那个我觉得这个方向呢主要是...<br>
+              <span style="color:#ccc;">转写中 |||</span>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">转写处理</span>
+          实时出文字, 进度可见
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">AI自动</div>
+      </div>
+
+      <!-- Screen 5: AI摘要生成 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>录音笔记</span><span style="font-size:8px;">分享</span></div>
+            <div class="ph-card highlight-green">
+              <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">
+                <span>✨</span>
+                <span style="font-weight:600;color:#27AE60;">AI摘要</span>
+              </div>
+              <div>1. Q3重点: 国际化方向</div>
+              <div>2. 技术选型: 确认Flutter</div>
+              <div>3. 排期: 6月底完成P0</div>
+            </div>
+            <div style="font-size:8px;font-weight:600;margin:6px 0 4px;">转写全文</div>
+            <div style="font-size:8px;color:#555;line-height:1.4;">
+              那个我觉得这个方向呢主要是围绕国际化来做的。首先技术选型上我们确认了Flutter方案...
+            </div>
+            <div class="ph-input sticky" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              问AI: 总结待办 / 做PPT / 做脑图...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">AI摘要完成</span>
+          <span style="color:#F39C12;font-weight:600;">底部AI栏悬浮(李楠)</span>
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点"做PPT"</div>
+      </div>
+
+      <!-- Screen 6: 生成中loading -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>录音笔记</span><span></span></div>
+            <div class="ph-card highlight-green" style="text-align:center;padding:16px;">
+              <div style="font-size:24px;margin-bottom:8px;">⏳</div>
+              <div style="font-weight:600;color:#27AE60;">正在生成PPT...</div>
+              <div class="ph-progress" style="margin-top:8px;"><div class="ph-progress-bar" style="width:45%;"></div></div>
+              <div style="color:#999;margin-top:4px;">基于录音内容生成演示文稿</div>
+            </div>
+            <div style="font-size:8px;color:#999;margin-top:8px;">
+              你可以先浏览笔记内容, 生成完成后会通知你
+            </div>
+            <div style="font-size:8px;color:#555;margin-top:8px;line-height:1.4;">
+              那个我觉得这个方向呢主要是围绕国际化来做的...
+            </div>
+            <div class="ph-input sticky" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              问AI: 还可以做什么?
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">生成中 - 非阻塞</span>
+          用户可继续浏览, 生成后通知
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">生成完成</div>
+      </div>
+
+      <!-- Screen 7: 生成物卡片区 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>录音笔记</span><span style="font-size:8px;">分享</span></div>
+            <div class="ph-section-title" style="color:#F39C12;">产出物 (李楠: 置顶展示)</div>
+            <div class="ph-output-card">
+              <div class="ph-output-item" style="background:#E8F8F0;border:1px solid #27AE60;">
+                <div style="font-size:14px;">📊</div>
+                <div style="font-weight:600;">PPT</div>
+                <div style="color:#27AE60;">已生成</div>
+              </div>
+              <div class="ph-output-item">
+                <div style="font-size:14px;">🧠</div>
+                <div style="font-weight:600;">脑图</div>
+                <div style="color:#999;">可生成</div>
+              </div>
+              <div class="ph-output-item">
+                <div style="font-size:14px;">🎧</div>
+                <div style="font-weight:600;">播客</div>
+                <div style="color:#999;">可生成</div>
+              </div>
+            </div>
+            <div class="ph-card highlight-green" style="margin-top:4px;">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span>✨</span><span style="font-weight:600;">AI摘要</span>
+              </div>
+              <div>1. Q3重点: 国际化方向</div>
+            </div>
+            <div style="font-size:8px;color:#555;margin-top:4px;line-height:1.3;">
+              转写全文内容区域...
+            </div>
+            <div class="ph-input sticky" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              问AI...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">生成物卡片区(顶部)</span>
+          <span style="color:#F39C12;font-weight:600;">李楠要求: 产出物置顶, 不埋底部</span>
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击PPT</div>
+      </div>
+
+      <!-- Screen 8: PPT全屏 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content" style="background:#1a1a1a;padding:0;">
+            <div style="display:flex;justify-content:space-between;padding:8px 12px;color:#fff;font-size:9px;">
+              <span>&lt; 返回</span>
+              <span>PPT预览</span>
+              <span>分享</span>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:8px;">
+              <div style="background:#fff;width:90%;aspect-ratio:16/9;border-radius:4px;padding:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+                <div style="font-size:11px;font-weight:700;color:#333;text-align:center;">Q3 国际化方向</div>
+                <div style="font-size:7px;color:#666;margin-top:4px;text-align:center;">基于录音自动生成</div>
+                <div style="display:flex;gap:8px;margin-top:8px;">
+                  <div style="width:30px;height:20px;background:#E8F4FD;border-radius:2px;"></div>
+                  <div style="width:30px;height:20px;background:#E8F8F0;border-radius:2px;"></div>
+                  <div style="width:30px;height:20px;background:#FEF3E2;border-radius:2px;"></div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:center;gap:4px;padding:8px;">
+              <div style="width:6px;height:6px;border-radius:50%;background:#4A90D9;"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:#666;"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:#666;"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:#666;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">PPT全屏查看</span>
+          横滑翻页, 沉浸式阅读
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击分享</div>
+      </div>
+
+      <!-- Screen 9: 分享 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div style="flex:1;"></div>
+            <div style="background:#fff;border-radius:12px 12px 0 0;box-shadow:0 -4px 20px rgba(0,0,0,0.1);padding:12px;margin:-8px;">
+              <div style="width:30px;height:3px;background:#ddd;border-radius:2px;margin:0 auto 12px;"></div>
+              <div style="font-size:10px;font-weight:600;margin-bottom:8px;">分享方式</div>
+              <div style="display:flex;justify-content:space-around;margin-bottom:12px;">
+                <div style="text-align:center;font-size:7px;">
+                  <div style="width:28px;height:28px;background:#07C160;border-radius:8px;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;">W</div>
+                  微信
+                </div>
+                <div style="text-align:center;font-size:7px;">
+                  <div style="width:28px;height:28px;background:#4A90D9;border-radius:8px;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;">🔗</div>
+                  复制链接
+                </div>
+                <div style="text-align:center;font-size:7px;">
+                  <div style="width:28px;height:28px;background:#FF6B6B;border-radius:8px;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;">📤</div>
+                  更多
+                </div>
+              </div>
+              <div style="text-align:center;font-size:8px;color:#999;padding:6px;background:#f5f5f5;border-radius:6px;">取消</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">分享面板</span>
+          支持微信/链接/系统分享
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rules -->
+  <div class="rules-panel">
+    <h4>📋 产品规则与边界条件</h4>
+    <ul>
+      <li class="linan">产出物区域必须在笔记详情页顶部(摘要之上), 不允许放底部或折叠区 -- 李楠明确要求</li>
+      <li class="linan">AI对话栏必须悬浮吸底(sticky), 不随页面滚动消失 -- 李楠明确要求</li>
+      <li class="logic">生成过程非阻塞: 用户可继续编辑/浏览, 完成后Toast通知</li>
+      <li class="logic">单条笔记可生成多种产出物(PPT+脑图+播客), 卡片区横向排列</li>
+      <li class="edge">录音<1分钟: 提示"内容较少, 建议录制更多再生成"</li>
+      <li class="edge">生成失败: 展示重试按钮+失败原因, 不清除已有产出物</li>
+      <li class="edge">网络中断: 本地缓存录音, 恢复后自动上传转写</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== FLOW 2 ==================== -->
+<div class="flow-section">
+  <div class="flow-header">
+    <span class="flow-number">FLOW 2</span>
+    <span class="flow-title">笔记详情页 - 生成物消费 + 同步更新</span>
+  </div>
+  <p class="flow-desc">李楠核心要求: 原文变更时, 产出物应主动提示"需要更新", 而非静默过期</p>
+
+  <div class="flow-scroll">
+    <div class="flow-row">
+      <!-- Screen 1: 打开已有笔记 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>周会纪要</span><span style="font-size:8px;">...</span></div>
+            <div class="ph-section-title" style="color:#F39C12;">产出物</div>
+            <div class="ph-output-card">
+              <div class="ph-output-item" style="background:#E8F8F0;border:1px solid #27AE60;">
+                <div style="font-size:12px;">📊</div>
+                <div style="font-weight:600;font-size:7px;">PPT</div>
+              </div>
+              <div class="ph-output-item" style="background:#E8F8F0;border:1px solid #27AE60;">
+                <div style="font-size:12px;">🧠</div>
+                <div style="font-weight:600;font-size:7px;">脑图</div>
+              </div>
+              <div class="ph-output-item">
+                <div style="font-size:12px;">🎧</div>
+                <div style="font-weight:600;font-size:7px;">播客</div>
+                <div style="color:#999;">可生成</div>
+              </div>
+            </div>
+            <div class="ph-card highlight-green" style="font-size:7px;">
+              <div style="font-weight:600;">✨ AI摘要</div>
+              <div>Q3重点:国际化 / 技术:Flutter / 排期:6月</div>
+            </div>
+            <div style="font-size:8px;font-weight:600;margin:6px 0 2px;">正文</div>
+            <div style="font-size:8px;color:#555;line-height:1.3;">
+              那个我觉得这个方向呢主要是围绕国际化来做的。首先技术选型...
+            </div>
+            <div class="ph-input sticky" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              问AI...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">已有笔记(含产出物)</span>
+          顶部展示已生成的产出物卡片
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击编辑</div>
+      </div>
+
+      <!-- Screen 2: 编辑状态 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>编辑中</span><span style="font-size:8px;color:#4A90D9;">完成</span></div>
+            <div class="ph-output-card" style="opacity:0.5;">
+              <div class="ph-output-item" style="background:#E8F8F0;border:1px solid #27AE60;">
+                <div style="font-size:12px;">📊</div>
+              </div>
+              <div class="ph-output-item" style="background:#E8F8F0;border:1px solid #27AE60;">
+                <div style="font-size:12px;">🧠</div>
+              </div>
+            </div>
+            <div style="font-size:8px;color:#555;line-height:1.4;border:1px solid #4A90D9;border-radius:4px;padding:6px;background:#fafeff;">
+              那个我觉得这个方向呢主要是围绕<span style="background:#FFEB3B;padding:0 2px;">国际化和AI能力</span>来做的。首先技术选型上我们确认了Flutter方案, <span style="color:#4A90D9;text-decoration:underline;">新增: 同时要考虑鸿蒙适配</span>...
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <div style="font-size:16px;">B</div>
+              <div style="font-size:16px;font-style:italic;">I</div>
+              <div style="font-size:16px;text-decoration:underline;">U</div>
+              <div style="font-size:16px;">📋</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">编辑原文</span>
+          用户修改/新增内容
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">保存退出编辑</div>
+      </div>
+
+      <!-- Screen 3: Banner出现 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>周会纪要</span><span style="font-size:8px;">...</span></div>
+            <div class="ph-banner">
+              <span>⚠️</span>
+              <span style="flex:1;font-weight:600;color:#F39C12;">内容已变更, 产出物可能过期</span>
+            </div>
+            <div class="ph-output-card">
+              <div class="ph-output-item" style="background:#FEF3E2;border:1px solid #F39C12;">
+                <div style="font-size:12px;">📊</div>
+                <div style="font-weight:600;font-size:7px;">PPT</div>
+                <div style="color:#F39C12;font-size:6px;">需更新</div>
+              </div>
+              <div class="ph-output-item" style="background:#FEF3E2;border:1px solid #F39C12;">
+                <div style="font-size:12px;">🧠</div>
+                <div style="font-weight:600;font-size:7px;">脑图</div>
+                <div style="color:#F39C12;font-size:6px;">需更新</div>
+              </div>
+              <div class="ph-output-item">
+                <div style="font-size:12px;">🎧</div>
+                <div style="font-weight:600;font-size:7px;">播客</div>
+              </div>
+            </div>
+            <div style="text-align:center;margin-top:6px;">
+              <span class="ph-btn warning">一键同步更新</span>
+            </div>
+            <div style="font-size:8px;color:#555;margin-top:8px;line-height:1.3;">
+              正文内容...
+            </div>
+            <div class="ph-input sticky" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              问AI...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">变更提示Banner</span>
+          <span style="color:#F39C12;font-weight:600;">李楠: 必须主动提示, 不能静默</span>
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击同步更新</div>
+      </div>
+
+      <!-- Screen 4: 重新生成中 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>周会纪要</span><span></span></div>
+            <div class="ph-output-card">
+              <div class="ph-output-item" style="background:#E8F4FD;border:1px solid #4A90D9;">
+                <div style="font-size:12px;">📊</div>
+                <div style="font-size:7px;color:#4A90D9;">更新中</div>
+                <div class="ph-progress" style="margin-top:2px;"><div class="ph-progress-bar" style="width:50%;"></div></div>
+              </div>
+              <div class="ph-output-item" style="background:#E8F4FD;border:1px solid #4A90D9;">
+                <div style="font-size:12px;">🧠</div>
+                <div style="font-size:7px;color:#4A90D9;">更新中</div>
+                <div class="ph-progress" style="margin-top:2px;"><div class="ph-progress-bar" style="width:30%;"></div></div>
+              </div>
+              <div class="ph-output-item">
+                <div style="font-size:12px;">🎧</div>
+              </div>
+            </div>
+            <div style="font-size:8px;color:#999;text-align:center;margin-top:4px;">
+              正在根据最新内容重新生成...
+            </div>
+            <div style="font-size:8px;color:#555;margin-top:12px;line-height:1.3;">
+              正文内容区域, 用户可正常浏览...
+            </div>
+            <div class="ph-input sticky" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              问AI...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">重新生成中</span>
+          非阻塞, 逐个更新
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">更新完成</div>
+      </div>
+
+      <!-- Screen 5: 更新完成 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>周会纪要</span><span style="font-size:8px;">...</span></div>
+            <div class="ph-card highlight-green" style="text-align:center;padding:6px;">
+              <span style="color:#27AE60;font-weight:600;">✅ 产出物已同步到最新内容</span>
+            </div>
+            <div class="ph-output-card" style="margin-top:4px;">
+              <div class="ph-output-item" style="background:#E8F8F0;border:1px solid #27AE60;">
+                <div style="font-size:12px;">📊</div>
+                <div style="font-weight:600;font-size:7px;">PPT</div>
+                <div style="color:#27AE60;font-size:6px;">已更新</div>
+              </div>
+              <div class="ph-output-item" style="background:#E8F8F0;border:1px solid #27AE60;">
+                <div style="font-size:12px;">🧠</div>
+                <div style="font-weight:600;font-size:7px;">脑图</div>
+                <div style="color:#27AE60;font-size:6px;">已更新</div>
+              </div>
+              <div class="ph-output-item">
+                <div style="font-size:12px;">🎧</div>
+                <div style="font-weight:600;font-size:7px;">播客</div>
+                <div style="color:#999;font-size:6px;">可生成</div>
+              </div>
+            </div>
+            <div class="ph-card highlight-green" style="font-size:7px;margin-top:4px;">
+              <div style="font-weight:600;">✨ AI摘要 (已更新)</div>
+              <div>Q3重点:国际化+AI / 技术:Flutter+鸿蒙 / 排期:6月</div>
+            </div>
+            <div style="font-size:8px;color:#555;margin-top:6px;line-height:1.3;">正文...</div>
+            <div class="ph-input sticky" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              问AI...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">更新完成</span>
+          Toast+绿色状态确认
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rules-panel">
+    <h4>📋 产品规则与边界条件</h4>
+    <ul>
+      <li class="linan">原文变更后, 产出物必须显示"需要更新"标记 -- 李楠明确要求, 不能让用户拿着过期PPT去汇报</li>
+      <li class="linan">更新提示必须是显式Banner, 不能只是小红点或角标</li>
+      <li class="logic">变更检测逻辑: 正文内容diff超过阈值(建议20%以上新增/修改)才触发提示</li>
+      <li class="logic">支持选择性更新: 用户可以只更新PPT不更新脑图</li>
+      <li class="logic">更新保留版本: 旧版产出物不删除, 用户可回看历史版本</li>
+      <li class="edge">频繁编辑防抖: 编辑完成5分钟内不重复触发更新提示</li>
+      <li class="edge">更新失败: 保留旧版, 提示重试, 标记"内容基于旧版"</li>
+      <li class="edge">离线编辑: 联网后统一检测变更, 合并触发一次更新提示</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== FLOW 3 ==================== -->
+<div class="flow-section">
+  <div class="flow-header">
+    <span class="flow-number">FLOW 3</span>
+    <span class="flow-title">速记 - 时间轴完整链路</span>
+  </div>
+  <p class="flow-desc">李楠要求: 速记按时间轴排序, 不要分类Tag; 内容自然聚合, 7天后衰减折叠</p>
+
+  <div class="flow-scroll">
+    <div class="flow-row">
+      <!-- Screen 1: 侧边栏点速记 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-sidebar">
+              <div style="font-size:11px;font-weight:700;margin-bottom:8px;">笔记</div>
+              <div class="ph-sidebar-item">📁 工作笔记</div>
+              <div class="ph-sidebar-item">📁 个人学习</div>
+              <div class="ph-sidebar-item">📁 读书笔记</div>
+              <div style="height:8px;border-bottom:1px solid #e0e0e0;margin:4px 0;"></div>
+              <div class="ph-sidebar-item active" style="background:#E8F8F0;border:1px solid #27AE60;">
+                <span>⚡</span>
+                <span style="font-weight:600;color:#27AE60;">速记</span>
+                <span class="ph-badge" style="background:#27AE60;">新</span>
+              </div>
+              <div style="height:8px;border-bottom:1px solid #e0e0e0;margin:4px 0;"></div>
+              <div class="ph-sidebar-item">🧠 小爱记忆</div>
+              <div style="height:8px;border-bottom:1px solid #e0e0e0;margin:4px 0;"></div>
+              <div style="font-size:7px;color:#999;margin:4px 0;">产出物</div>
+              <div class="ph-sidebar-item">📊 PPT (3)</div>
+              <div class="ph-sidebar-item">🧠 脑图 (5)</div>
+              <div class="ph-sidebar-item">🎧 播客 (2)</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">侧边栏</span>
+          速记入口在文件夹下方
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击速记</div>
+      </div>
+
+      <!-- Screen 2: 时间轴首页 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>速记</span><span style="font-size:16px;">+</span></div>
+            <div class="ph-section-title" style="color:#F39C12;">今天 5/29</div>
+            <div class="ph-cluster">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <div class="ph-timeline-dot"></div>
+                <span style="font-size:7px;color:#999;">10:30</span>
+                <span style="font-weight:600;">会议灵感</span>
+              </div>
+              <div style="font-size:7px;color:#555;padding-left:12px;">国际化可以参考Notion的做法...</div>
+            </div>
+            <div class="ph-cluster">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <div class="ph-timeline-dot"></div>
+                <span style="font-size:7px;color:#999;">09:15</span>
+                <span style="font-weight:600;">待办</span>
+              </div>
+              <div style="font-size:7px;color:#555;padding-left:12px;">给设计team发交互稿review邀请</div>
+            </div>
+            <div class="ph-section-title" style="margin-top:6px;">昨天 5/28</div>
+            <div class="ph-cluster" style="border-left-color:#999;">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <div class="ph-timeline-dot" style="background:#999;"></div>
+                <span style="font-size:7px;color:#999;">20:10</span>
+                <span>读书心得</span>
+              </div>
+              <div style="font-size:7px;color:#555;padding-left:12px;">创新者窘境第3章的核心观点...</div>
+            </div>
+            <div class="ph-input" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              快速记录...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">时间轴首页</span>
+          <span style="color:#F39C12;font-weight:600;">李楠: 时间排序, 非Tag分类</span>
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">查看聚合</div>
+      </div>
+
+      <!-- Screen 3: Cluster详情 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>会议灵感</span><span style="font-size:8px;">3条</span></div>
+            <div class="ph-card highlight-green" style="margin-bottom:6px;">
+              <div style="font-size:7px;color:#27AE60;font-weight:600;margin-bottom:2px;">AI聚合摘要</div>
+              <div style="font-size:8px;">关于国际化方案的3条碎片想法, 核心: 参考Notion + 考虑RTL</div>
+            </div>
+            <div style="border-left:2px solid #4A90D9;padding-left:8px;margin-bottom:6px;">
+              <div style="font-size:7px;color:#999;">10:30</div>
+              <div style="font-size:8px;">国际化可以参考Notion的做法, 他们的多语言切换体验很流畅</div>
+            </div>
+            <div style="border-left:2px solid #4A90D9;padding-left:8px;margin-bottom:6px;">
+              <div style="font-size:7px;color:#999;">10:22</div>
+              <div style="font-size:8px;">RTL语言排版要提前调研, 阿拉伯语和希伯来语</div>
+            </div>
+            <div style="border-left:2px solid #4A90D9;padding-left:8px;margin-bottom:6px;">
+              <div style="font-size:7px;color:#999;">10:18</div>
+              <div style="font-size:8px;">翻译API选型: Google vs DeepL, 成本对比</div>
+            </div>
+            <div style="text-align:center;margin-top:8px;">
+              <span class="ph-btn primary" style="font-size:7px;">升级为正式笔记</span>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">Cluster聚合详情</span>
+          AI自动聚合相关碎片, 可升级
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">标记已处理</div>
+      </div>
+
+      <!-- Screen 4: 标记已入记忆 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>速记</span><span></span></div>
+            <div class="ph-section-title" style="color:#F39C12;">今天 5/29</div>
+            <div class="ph-cluster" style="opacity:0.6;border-left-color:#27AE60;">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="color:#27AE60;">✓</span>
+                <span style="font-size:7px;color:#999;">10:30</span>
+                <span style="text-decoration:line-through;color:#999;">会议灵感</span>
+                <span style="font-size:6px;color:#27AE60;background:#E8F8F0;padding:1px 3px;border-radius:2px;">已入笔记</span>
+              </div>
+            </div>
+            <div class="ph-cluster">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <div class="ph-timeline-dot"></div>
+                <span style="font-size:7px;color:#999;">09:15</span>
+                <span style="font-weight:600;">待办</span>
+              </div>
+              <div style="font-size:7px;color:#555;padding-left:12px;">给设计team发交互稿review邀请</div>
+            </div>
+            <div class="ph-section-title" style="margin-top:6px;">昨天 5/28</div>
+            <div class="ph-cluster" style="border-left-color:#999;">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <div class="ph-timeline-dot" style="background:#999;"></div>
+                <span style="font-size:7px;color:#999;">20:10</span>
+                <span>读书心得</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">标记"已入记忆"</span>
+          已处理条目降低优先级显示
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">7天后</div>
+      </div>
+
+      <!-- Screen 5: 自动折叠 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>速记</span><span></span></div>
+            <div class="ph-section-title" style="color:#F39C12;">今天 6/5</div>
+            <div class="ph-cluster">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <div class="ph-timeline-dot"></div>
+                <span style="font-size:7px;color:#999;">14:00</span>
+                <span style="font-weight:600;">新想法</span>
+              </div>
+              <div style="font-size:7px;color:#555;padding-left:12px;">最新的速记内容...</div>
+            </div>
+            <div class="ph-section-title" style="margin-top:6px;">本周</div>
+            <div class="ph-cluster" style="border-left-color:#ccc;opacity:0.7;">
+              <div style="font-size:7px;color:#999;">3条速记</div>
+            </div>
+            <div class="ph-section-title" style="margin-top:6px;color:#999;">以前</div>
+            <div style="background:#f8f8f8;border-radius:4px;padding:6px;text-align:center;font-size:7px;color:#999;">
+              <div>📦 5/28 - 5/29 的速记 (5条)</div>
+              <div style="color:#4A90D9;margin-top:2px;">点击展开</div>
+            </div>
+            <div class="ph-input" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              快速记录...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">自然衰减</span>
+          <span style="color:#F39C12;font-weight:600;">7天后自动折叠(李楠)</span>
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击展开</div>
+      </div>
+
+      <!-- Screen 6: 以前区域 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>速记 - 历史</span><span></span></div>
+            <div class="ph-section-title">5月29日</div>
+            <div style="border-left:1px solid #ddd;padding-left:8px;margin-bottom:4px;">
+              <div style="font-size:7px;color:#999;">10:30 <span style="color:#27AE60;">已入笔记</span></div>
+              <div style="font-size:7px;color:#999;text-decoration:line-through;">会议灵感 (3条)</div>
+            </div>
+            <div style="border-left:1px solid #ddd;padding-left:8px;margin-bottom:4px;">
+              <div style="font-size:7px;color:#999;">09:15</div>
+              <div style="font-size:8px;">待办: 给设计team发交互稿</div>
+            </div>
+            <div class="ph-section-title">5月28日</div>
+            <div style="border-left:1px solid #ddd;padding-left:8px;margin-bottom:4px;">
+              <div style="font-size:7px;color:#999;">20:10</div>
+              <div style="font-size:8px;">读书心得: 创新者窘境</div>
+            </div>
+            <div style="border-left:1px solid #ddd;padding-left:8px;margin-bottom:4px;">
+              <div style="font-size:7px;color:#999;">15:30</div>
+              <div style="font-size:8px;">竞品分析: Bear App的标签...</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">"以前"展开视图</span>
+          完整历史, 已处理项灰化
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rules-panel">
+    <h4>📋 产品规则与边界条件</h4>
+    <ul>
+      <li class="linan">必须按时间轴排序, 严禁使用分类Tag体系 -- 李楠明确否决Tag方案</li>
+      <li class="linan">内容自然衰减: 7天后自动折叠到"以前"区域, 减少信息噪音</li>
+      <li class="logic">AI自动聚合: 10分钟内的相关速记自动归为一个Cluster</li>
+      <li class="logic">Cluster升级: 可一键升级为正式笔记, 进入AI加工链路(连接Flow 1)</li>
+      <li class="logic">时间分组: 今天 / 昨天 / 本周 / 以前 四个层级</li>
+      <li class="edge">"以前"区域数据量大时: 按月分页加载, 不一次性渲染</li>
+      <li class="edge">速记输入为空: 不创建条目, 输入框shake提示</li>
+      <li class="edge">相同内容重复输入: AI识别并提示"已有类似记录"</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== FLOW 4 ==================== -->
+<div class="flow-section">
+  <div class="flow-header">
+    <span class="flow-number">FLOW 4</span>
+    <span class="flow-title">侧边栏 - 产出物筛选</span>
+  </div>
+  <p class="flow-desc">李楠要求: 侧边栏增加产出物类型筛选, 用户能快速找到所有PPT/脑图/播客</p>
+
+  <div class="flow-scroll">
+    <div class="flow-row">
+      <!-- Screen 1: 首页 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav">
+              <span style="font-size:14px;">☰</span>
+              <span>笔记</span>
+              <span style="font-size:8px;">...</span>
+            </div>
+            <div style="background:#f0f0f0;border-radius:12px;padding:5px 8px;font-size:8px;color:#999;margin-bottom:8px;">搜索笔记...</div>
+            <div class="ph-card">
+              <div style="font-weight:600;margin-bottom:2px;">周会纪要</div>
+              <div style="display:flex;gap:4px;">
+                <span style="font-size:7px;background:#E8F8F0;color:#27AE60;padding:1px 3px;border-radius:2px;">PPT</span>
+                <span style="font-size:7px;background:#E8F8F0;color:#27AE60;padding:1px 3px;border-radius:2px;">脑图</span>
+              </div>
+            </div>
+            <div class="ph-card">
+              <div style="font-weight:600;margin-bottom:2px;">产品评审</div>
+              <div style="display:flex;gap:4px;">
+                <span style="font-size:7px;background:#E8F8F0;color:#27AE60;padding:1px 3px;border-radius:2px;">PPT</span>
+              </div>
+            </div>
+            <div class="ph-card">
+              <div style="font-weight:600;margin-bottom:2px;">读书笔记</div>
+              <div style="display:flex;gap:4px;">
+                <span style="font-size:7px;background:#E8F8F0;color:#27AE60;padding:1px 3px;border-radius:2px;">播客</span>
+              </div>
+            </div>
+            <div class="ph-fab">+</div>
+            <div class="ph-tab-bar">
+              <span class="active">笔记</span>
+              <span>速记</span>
+              <span>我的</span>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">首页 - 带产出物标签</span>
+          列表中显示产出物类型标记
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点左上角 ☰</div>
+      </div>
+
+      <!-- Screen 2: 侧边栏展开 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-sidebar">
+              <div style="font-size:11px;font-weight:700;margin-bottom:8px;">笔记</div>
+              <div class="ph-sidebar-item">📁 全部笔记 <span style="font-size:7px;color:#999;margin-left:auto;">(12)</span></div>
+              <div class="ph-sidebar-item">📁 工作笔记 <span style="font-size:7px;color:#999;margin-left:auto;">(5)</span></div>
+              <div class="ph-sidebar-item">📁 个人学习 <span style="font-size:7px;color:#999;margin-left:auto;">(4)</span></div>
+              <div class="ph-sidebar-item">📁 读书笔记 <span style="font-size:7px;color:#999;margin-left:auto;">(3)</span></div>
+              <div style="height:1px;background:#e0e0e0;margin:8px 0;"></div>
+              <div class="ph-sidebar-item">⚡ 速记</div>
+              <div class="ph-sidebar-item">🧠 小爱记忆</div>
+              <div style="height:1px;background:#e0e0e0;margin:8px 0;"></div>
+              <div style="font-size:7px;color:#999;font-weight:600;margin:4px 6px;">产出物筛选</div>
+              <div class="ph-sidebar-item" style="background:#FEF3E2;border:1px solid #F39C12;">
+                📊 PPT <span style="font-size:7px;color:#F39C12;margin-left:auto;font-weight:700;">(3)</span>
+              </div>
+              <div class="ph-sidebar-item">🧠 脑图 <span style="font-size:7px;color:#999;margin-left:auto;">(5)</span></div>
+              <div class="ph-sidebar-item">🎧 播客 <span style="font-size:7px;color:#999;margin-left:auto;">(2)</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">侧边栏展开</span>
+          <span style="color:#F39C12;font-weight:600;">李楠: 产出物筛选在文件夹下方</span>
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击PPT(3)</div>
+      </div>
+
+      <!-- Screen 3: 筛选结果 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>PPT (3)</span><span style="font-size:8px;">排序</span></div>
+            <div style="display:flex;gap:4px;margin-bottom:8px;">
+              <span class="ph-btn warning" style="font-size:7px;">PPT</span>
+              <span class="ph-btn" style="font-size:7px;background:#f0f0f0;color:#666;">脑图</span>
+              <span class="ph-btn" style="font-size:7px;background:#f0f0f0;color:#666;">播客</span>
+            </div>
+            <div class="ph-card" style="margin-bottom:6px;">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="font-size:14px;">📊</span>
+                <div>
+                  <div style="font-weight:600;">Q3规划PPT</div>
+                  <div style="font-size:7px;color:#999;">来源: 周会纪要 | 5/29生成</div>
+                </div>
+              </div>
+            </div>
+            <div class="ph-card" style="margin-bottom:6px;">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="font-size:14px;">📊</span>
+                <div>
+                  <div style="font-weight:600;">产品评审PPT</div>
+                  <div style="font-size:7px;color:#999;">来源: 产品评审 | 5/27生成</div>
+                </div>
+              </div>
+            </div>
+            <div class="ph-card" style="margin-bottom:6px;">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="font-size:14px;">📊</span>
+                <div>
+                  <div style="font-weight:600;">技术选型PPT</div>
+                  <div style="font-size:7px;color:#999;">来源: 选型讨论 | 5/25生成</div>
+                  <div style="font-size:6px;color:#F39C12;">⚠️ 需更新</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">筛选结果列表</span>
+          显示来源笔记+生成时间+状态
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击笔记</div>
+      </div>
+
+      <!-- Screen 4: 进入详情 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>周会纪要</span><span style="font-size:8px;">...</span></div>
+            <div class="ph-section-title">产出物</div>
+            <div class="ph-output-card">
+              <div class="ph-output-item" style="background:#E8F8F0;border:2px solid #27AE60;">
+                <div style="font-size:12px;">📊</div>
+                <div style="font-weight:600;font-size:7px;">PPT</div>
+                <div style="font-size:6px;color:#27AE60;">查看中</div>
+              </div>
+              <div class="ph-output-item" style="background:#E8F8F0;border:1px solid #27AE60;">
+                <div style="font-size:12px;">🧠</div>
+                <div style="font-size:7px;">脑图</div>
+              </div>
+            </div>
+            <div class="ph-card highlight-green" style="font-size:7px;">
+              <div style="font-weight:600;">✨ AI摘要</div>
+              <div>Q3重点:国际化...</div>
+            </div>
+            <div style="font-size:8px;color:#555;margin-top:6px;line-height:1.3;">
+              正文内容...
+            </div>
+            <div class="ph-input sticky" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              问AI...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">进入笔记详情</span>
+          PPT卡片高亮, 可直接查看
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击PPT卡片</div>
+      </div>
+
+      <!-- Screen 5: PPT预览 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content" style="background:#1a1a1a;padding:0;">
+            <div style="display:flex;justify-content:space-between;padding:8px 12px;color:#fff;font-size:9px;">
+              <span>&lt; 返回</span>
+              <span>Q3规划PPT</span>
+              <span>📤</span>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:8px;">
+              <div style="background:#fff;width:90%;aspect-ratio:16/9;border-radius:4px;padding:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+                <div style="font-size:10px;font-weight:700;">Q3 国际化方向</div>
+                <div style="font-size:7px;color:#666;margin-top:4px;">周会纪要摘要</div>
+              </div>
+            </div>
+            <div style="color:#fff;font-size:8px;text-align:center;padding:4px;">1 / 6</div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">PPT全屏预览</span>
+          从筛选列表直达产出物
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rules-panel">
+    <h4>📋 产品规则与边界条件</h4>
+    <ul>
+      <li class="linan">侧边栏产出物筛选必须显示数量计数 -- 李楠要求用户一眼看到"我有多少PPT"</li>
+      <li class="linan">筛选区域放在文件夹列表下方, 与文件夹区分开</li>
+      <li class="logic">筛选结果展示: 产出物名称 + 来源笔记 + 生成时间 + 状态(需更新/正常)</li>
+      <li class="logic">支持切换筛选类型: 顶部Tab可快速切换PPT/脑图/播客</li>
+      <li class="logic">点击结果项: 跳转到来源笔记详情页, 并高亮对应产出物卡片</li>
+      <li class="edge">产出物为0时: 显示空态引导"录制/导入笔记后, AI会自动为你生成"</li>
+      <li class="edge">产出物被用户删除: 侧边栏计数实时更新, 不缓存脏数据</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== FLOW 5 ==================== -->
+<div class="flow-section">
+  <div class="flow-header">
+    <span class="flow-number">FLOW 5</span>
+    <span class="flow-title">附件生成笔记 (方案A)</span>
+  </div>
+  <p class="flow-desc">李楠要求: 附件->笔记的过程需要让用户有清晰感知, 不能"不知不觉就变了"</p>
+
+  <div class="flow-scroll">
+    <div class="flow-row">
+      <!-- Screen 1: 点+号 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span>笔记</span><span></span></div>
+            <div class="ph-card"><div style="font-weight:600;">现有笔记1...</div></div>
+            <div class="ph-card"><div style="font-weight:600;">现有笔记2...</div></div>
+            <div style="flex:1;"></div>
+            <div style="position:absolute;bottom:50px;right:12px;width:28px;height:28px;background:#4A90D9;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:700;box-shadow:0 4px 12px rgba(74,144,217,0.3);">+</div>
+            <div class="ph-tab-bar">
+              <span class="active">笔记</span>
+              <span>速记</span>
+              <span>我的</span>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">首页</span>
+          FAB入口
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点+号</div>
+      </div>
+
+      <!-- Screen 2: 选上传附件 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">x</span><span>创建笔记</span><span></span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px;">
+              <div class="ph-card" style="text-align:center;padding:12px 6px;">
+                <div style="font-size:20px;">📝</div>
+                <div style="font-weight:600;">文字笔记</div>
+              </div>
+              <div class="ph-card" style="text-align:center;padding:12px 6px;">
+                <div style="font-size:20px;">🎙️</div>
+                <div style="font-weight:600;">录音笔记</div>
+              </div>
+              <div class="ph-card highlight-orange" style="text-align:center;padding:12px 6px;">
+                <div style="font-size:20px;">📎</div>
+                <div style="font-weight:600;">上传附件</div>
+                <div style="font-size:6px;color:#F39C12;">AI可解析</div>
+              </div>
+              <div class="ph-card" style="text-align:center;padding:12px 6px;">
+                <div style="font-size:20px;">📷</div>
+                <div style="font-weight:600;">拍照记录</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">创建面板</span>
+          <span style="color:#F39C12;font-weight:600;">"AI可解析"提示(李楠)</span>
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">选择附件</div>
+      </div>
+
+      <!-- Screen 3: 选择文件 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>选择文件</span><span style="font-size:8px;color:#4A90D9;">确定</span></div>
+            <div style="display:flex;gap:4px;margin-bottom:8px;">
+              <span class="ph-btn" style="font-size:7px;background:#E8F4FD;color:#4A90D9;">全部</span>
+              <span class="ph-btn" style="font-size:7px;background:#f0f0f0;color:#666;">照片</span>
+              <span class="ph-btn" style="font-size:7px;background:#f0f0f0;color:#666;">文档</span>
+              <span class="ph-btn" style="font-size:7px;background:#f0f0f0;color:#666;">PDF</span>
+            </div>
+            <div class="ph-list-item" style="background:#E8F4FD;border:1px solid #4A90D9;border-radius:4px;">
+              <span>✓</span>
+              <span style="font-size:12px;">📄</span>
+              <div>
+                <div style="font-weight:600;">产品需求文档.pdf</div>
+                <div style="font-size:7px;color:#999;">2.3MB | 5/28</div>
+              </div>
+            </div>
+            <div class="ph-list-item">
+              <span style="opacity:0;">✓</span>
+              <span style="font-size:12px;">🖼️</span>
+              <div>
+                <div>竞品截图.png</div>
+                <div style="font-size:7px;color:#999;">1.1MB | 5/27</div>
+              </div>
+            </div>
+            <div class="ph-list-item">
+              <span style="opacity:0;">✓</span>
+              <span style="font-size:12px;">📄</span>
+              <div>
+                <div>会议录音.m4a</div>
+                <div style="font-size:7px;color:#999;">15MB | 5/26</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">文件选择器</span>
+          支持多种格式, 显示文件大小
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">确定选择</div>
+      </div>
+
+      <!-- Screen 4: 进入笔记(附件已插入) -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>新笔记</span><span style="font-size:8px;">保存</span></div>
+            <div class="ph-card highlight-blue" style="margin-bottom:8px;">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="font-size:14px;">📄</span>
+                <div>
+                  <div style="font-weight:600;">产品需求文档.pdf</div>
+                  <div style="font-size:7px;color:#999;">2.3MB | 已上传</div>
+                </div>
+              </div>
+            </div>
+            <div class="ph-card highlight-green" style="text-align:center;padding:8px;">
+              <div style="font-size:16px;margin-bottom:4px;">✨</div>
+              <div style="font-weight:600;color:#27AE60;">AI解析此附件</div>
+              <div style="font-size:7px;color:#666;margin-top:2px;">自动提取内容, 生成结构化笔记</div>
+            </div>
+            <div style="font-size:8px;color:#999;margin-top:8px;text-align:center;">
+              或者手动添加笔记内容...
+            </div>
+            <div class="ph-input sticky" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              问AI: 总结这个文档 / 提取要点...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">附件已插入+AI解析入口</span>
+          <span style="color:#F39C12;font-weight:600;">清晰感知(李楠)</span>
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击AI解析</div>
+      </div>
+
+      <!-- Screen 5: 解析中 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>新笔记</span><span></span></div>
+            <div class="ph-card" style="opacity:0.5;">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="font-size:14px;">📄</span>
+                <span>产品需求文档.pdf</span>
+              </div>
+            </div>
+            <div class="ph-card highlight-green" style="text-align:center;padding:12px;">
+              <div style="font-size:20px;margin-bottom:4px;">🔍</div>
+              <div style="font-weight:600;color:#27AE60;">AI正在解析...</div>
+              <div class="ph-progress" style="margin-top:6px;"><div class="ph-progress-bar" style="width:55%;"></div></div>
+              <div style="font-size:7px;color:#999;margin-top:4px;">正在识别文档结构和关键内容</div>
+            </div>
+            <div style="font-size:7px;color:#999;margin-top:8px;">
+              <div style="margin-bottom:2px;">✓ 文档格式识别</div>
+              <div style="margin-bottom:2px;">✓ 文字内容提取</div>
+              <div style="color:#4A90D9;">◌ 结构化整理中...</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">AI解析进行中</span>
+          分步骤展示进度
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">解析完成</div>
+      </div>
+
+      <!-- Screen 6: 生成结构化笔记 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>产品需求文档</span><span style="font-size:8px;">...</span></div>
+            <div class="ph-card" style="opacity:0.4;font-size:7px;">
+              <span>📄 附件: 产品需求文档.pdf</span>
+            </div>
+            <div class="ph-card highlight-green" style="margin-top:4px;">
+              <div style="font-size:7px;color:#27AE60;font-weight:600;">✨ AI解析结果</div>
+            </div>
+            <div style="font-size:8px;margin-top:4px;">
+              <div style="font-weight:700;margin-bottom:2px;">一、项目概述</div>
+              <div style="color:#555;margin-bottom:4px;padding-left:4px;">本次改版目标是提升内容消费...</div>
+              <div style="font-weight:700;margin-bottom:2px;">二、核心需求</div>
+              <div style="color:#555;margin-bottom:4px;padding-left:4px;">1. 产出物前置展示<br>2. 速记时间轴</div>
+              <div style="font-weight:700;margin-bottom:2px;">三、排期规划</div>
+              <div style="color:#555;padding-left:4px;">P0: 6月15日前...</div>
+            </div>
+            <div class="ph-input sticky" style="position:absolute;bottom:8px;left:8px;right:8px;">
+              问AI: 做PPT / 做脑图 / 提取待办...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">结构化笔记生成完成</span>
+          可继续触发产出物生成(连接Flow 1)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rules-panel">
+    <h4>📋 产品规则与边界条件</h4>
+    <ul>
+      <li class="linan">附件生成笔记的过程必须让用户有清晰感知, 不能无声无息 -- 李楠明确要求</li>
+      <li class="linan">"AI解析"按钮必须显眼, 不能藏在菜单里</li>
+      <li class="logic">支持的附件类型: PDF/Word/PPT/图片/音频, 不支持视频(体积限制)</li>
+      <li class="logic">解析结果保留原附件引用, 用户可随时查看原文件</li>
+      <li class="logic">解析完成后自动更名为文件名, 用户可自行修改</li>
+      <li class="edge">附件过大(>50MB): 提示"文件较大, 解析可能需要较长时间"</li>
+      <li class="edge">不支持的格式: 明确提示支持格式列表, 附件仍可作为普通附件保存</li>
+      <li class="edge">解析失败(加密PDF等): 保留附件, 提示"此文件无法解析, 可能有加密保护"</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== FLOW 6 ==================== -->
+<div class="flow-section">
+  <div class="flow-header">
+    <span class="flow-number">FLOW 6</span>
+    <span class="flow-title">小爱记忆迁移</span>
+  </div>
+  <p class="flow-desc">将小爱同学侧的记忆数据迁移到笔记APP, 统一管理入口</p>
+
+  <div class="flow-scroll">
+    <div class="flow-row">
+      <!-- Screen 1: 小爱侧提示 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>小爱同学</span><span></span></div>
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;">
+              <div style="background:#f0f0f0;border-radius:8px;padding:8px;margin-bottom:8px;font-size:8px;">
+                <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">
+                  <div class="ph-avatar">🤖</div>
+                  <span style="font-weight:600;">小爱</span>
+                </div>
+                记住了! 你的WiFi密码是xxx123
+              </div>
+              <div class="ph-banner" style="background:#E8F4FD;border-color:#4A90D9;">
+                <span>💡</span>
+                <div style="flex:1;">
+                  <div style="font-weight:600;color:#4A90D9;">记忆功能已升级</div>
+                  <div style="font-size:7px;color:#666;">你的记忆内容已可在笔记APP中查看管理</div>
+                </div>
+              </div>
+              <div style="text-align:center;margin-top:6px;">
+                <span class="ph-btn primary">了解详情</span>
+              </div>
+            </div>
+            <div class="ph-input" style="margin-top:8px;">
+              对小爱说...
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">小爱侧迁移提示</span>
+          在对话中自然触达
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击了解</div>
+      </div>
+
+      <!-- Screen 2: 引导页 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 16px;">
+            <div style="font-size:40px;margin-bottom:12px;">🧠</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:6px;">小爱记忆 x 笔记</div>
+            <div style="font-size:9px;color:#666;line-height:1.5;margin-bottom:16px;">
+              你让小爱记住的内容<br>现在可以在笔记APP中统一管理<br>
+              <span style="color:#27AE60;font-weight:600;">支持分类、搜索、编辑</span>
+            </div>
+            <div style="display:flex;gap:12px;margin-bottom:16px;">
+              <div style="text-align:center;">
+                <div style="width:32px;height:32px;background:#E8F4FD;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;">🔗</div>
+                <div style="font-size:7px;">链接</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="width:32px;height:32px;background:#E8F8F0;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;">💳</div>
+                <div style="font-size:7px;">卡证</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="width:32px;height:32px;background:#FEF3E2;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;">📍</div>
+                <div style="font-size:7px;">地址</div>
+              </div>
+            </div>
+            <span class="ph-btn success" style="padding:6px 20px;font-size:10px;">前往笔记APP</span>
+            <div style="font-size:8px;color:#999;margin-top:8px;">稍后提醒</div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">引导页</span>
+          说明迁移价值+支持类型
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击前往</div>
+      </div>
+
+      <!-- Screen 3: 跳转笔记APP -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            <div style="font-size:40px;margin-bottom:12px;">📒</div>
+            <div style="font-size:11px;font-weight:600;margin-bottom:4px;">正在打开笔记...</div>
+            <div class="ph-progress" style="width:60%;"><div class="ph-progress-bar" style="width:80%;"></div></div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">跳转过渡</span>
+          deeplink跳转笔记APP
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">APP打开</div>
+      </div>
+
+      <!-- Screen 4: 笔记APP侧边栏 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-sidebar">
+              <div style="font-size:11px;font-weight:700;margin-bottom:8px;">笔记</div>
+              <div class="ph-sidebar-item">📁 全部笔记</div>
+              <div class="ph-sidebar-item">📁 工作笔记</div>
+              <div class="ph-sidebar-item">📁 个人学习</div>
+              <div style="height:1px;background:#e0e0e0;margin:6px 0;"></div>
+              <div class="ph-sidebar-item">⚡ 速记</div>
+              <div class="ph-sidebar-item active" style="background:#E8F8F0;border:1px solid #27AE60;">
+                <span>🧠</span>
+                <span style="font-weight:600;color:#27AE60;">小爱记忆</span>
+                <span class="ph-badge" style="background:#FF6B6B;">12</span>
+              </div>
+              <div style="height:1px;background:#e0e0e0;margin:6px 0;"></div>
+              <div style="font-size:7px;color:#999;margin:4px 6px;">产出物</div>
+              <div class="ph-sidebar-item">📊 PPT (3)</div>
+              <div class="ph-sidebar-item">🧠 脑图 (5)</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">笔记APP侧边栏</span>
+          小爱记忆入口+未读数
+        </div>
+      </div>
+
+      <div class="arrow-group">
+        <div class="arrow-line">--></div>
+        <div class="arrow-label">点击小爱记忆</div>
+      </div>
+
+      <!-- Screen 5: 记忆列表 -->
+      <div class="phone-group">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="ph-nav"><span class="back">&lt;</span><span>小爱记忆</span><span style="font-size:8px;">管理</span></div>
+            <div style="display:flex;gap:4px;margin-bottom:8px;">
+              <span class="ph-btn primary" style="font-size:7px;">全部(12)</span>
+              <span class="ph-btn" style="font-size:7px;background:#f0f0f0;color:#666;">链接(4)</span>
+              <span class="ph-btn" style="font-size:7px;background:#f0f0f0;color:#666;">卡证(5)</span>
+              <span class="ph-btn" style="font-size:7px;background:#f0f0f0;color:#666;">地址(3)</span>
+            </div>
+            <div class="ph-list-item" style="padding:6px 4px;">
+              <span style="font-size:12px;">🔗</span>
+              <div style="flex:1;">
+                <div style="font-weight:600;">那个很好的设计网站</div>
+                <div style="font-size:7px;color:#999;">dribbble.com | 5/20记住</div>
+              </div>
+            </div>
+            <div class="ph-list-item" style="padding:6px 4px;">
+              <span style="font-size:12px;">💳</span>
+              <div style="flex:1;">
+                <div style="font-weight:600;">WiFi密码</div>
+                <div style="font-size:7px;color:#999;">xxx123 | 5/18记住</div>
+              </div>
+            </div>
+            <div class="ph-list-item" style="padding:6px 4px;">
+              <span style="font-size:12px;">📍</span>
+              <div style="flex:1;">
+                <div style="font-weight:600;">公司地址</div>
+                <div style="font-size:7px;color:#999;">海淀区xx路xx号 | 5/15记住</div>
+              </div>
+            </div>
+            <div class="ph-list-item" style="padding:6px 4px;">
+              <span style="font-size:12px;">💳</span>
+              <div style="flex:1;">
+                <div style="font-weight:600;">快递柜密码</div>
+                <div style="font-size:7px;color:#999;">4521 | 5/28记住</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-annotation">
+          <span class="state">记忆列表</span>
+          分类Tab + 时间排序
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rules-panel">
+    <h4>📋 产品规则与边界条件</h4>
+    <ul>
+      <li class="logic">迁移触发: 用户在小爱对话中使用"记住xxx"时, 自动同步到笔记APP</li>
+      <li class="logic">数据分类: 链接/卡证(密码、证件号)/地址/其他, AI自动识别分类</li>
+      <li class="logic">双向同步: 笔记APP中编辑后, 小爱侧回答时使用最新数据</li>
+      <li class="logic">隐私分级: 卡证类数据默认加密存储, 查看需验证指纹/密码</li>
+      <li class="edge">迁移数据量大(>100条): 分批迁移, 显示进度, 不阻塞使用</li>
+      <li class="edge">网络问题导致同步失败: 本地缓存 + 联网后自动重试</li>
+      <li class="edge">用户拒绝迁移: 尊重选择, 7天后再次温和提醒(最多3次)</li>
+      <li class="edge">数据冲突(两端都修改): 以最新修改时间为准, 保留冲突记录可回溯</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== Edge Cases Summary ==================== -->
+<div class="edge-cases">
+  <h2>全局边界条件与异常处理汇总</h2>
+  <div class="edge-cases-grid">
+    <div class="edge-case-item">
+      <h5>网络异常</h5>
+      <p>录音/转写/生成均需要网络。离线时: 录音本地缓存, 联网后自动上传; 生成类操作排队等待; 已生成产出物可离线查看(本地缓存)。</p>
+      <span class="tag error">高优先级</span>
+    </div>
+    <div class="edge-case-item">
+      <h5>并发操作</h5>
+      <p>用户在生成PPT的同时继续编辑原文: 以点击生成时的内容为准生成, 后续编辑触发新的"需更新"提示。不中断生成过程。</p>
+      <span class="tag warn">需对齐</span>
+    </div>
+    <div class="edge-case-item">
+      <h5>存储空间不足</h5>
+      <p>产出物(尤其PPT/播客)可能较大。空间不足时: 提示用户清理, 优先保留最近使用的产出物, 旧产出物可云端存储仅缓存摘要。</p>
+      <span class="tag warn">需对齐</span>
+    </div>
+    <div class="edge-case-item">
+      <h5>AI生成质量问题</h5>
+      <p>PPT内容不准确/摘要遗漏关键点: 每个产出物提供"反馈"按钮, 支持重新生成并指定侧重点(如"突出排期部分")。</p>
+      <span class="tag info">体验优化</span>
+    </div>
+    <div class="edge-case-item">
+      <h5>多端同步</h5>
+      <p>手机编辑后Pad端查看: 产出物状态实时同步, 包括"需更新"标记。避免A端更新了B端还显示旧状态。</p>
+      <span class="tag error">高优先级</span>
+    </div>
+    <div class="edge-case-item">
+      <h5>权限与分享</h5>
+      <p>分享PPT给他人: 接收方看到的是快照版本(非实时更新)。分享链接过期策略: 7天有效, 可设置为永久。</p>
+      <span class="tag info">体验优化</span>
+    </div>
+    <div class="edge-case-item">
+      <h5>速记数据量膨胀</h5>
+      <p>重度用户每天50+条速记: 强制启用聚合, 超过30天的已处理速记自动归档(不删除, 搜索可达)。</p>
+      <span class="tag warn">需对齐</span>
+    </div>
+    <div class="edge-case-item">
+      <h5>小爱记忆隐私</h5>
+      <p>密码/证件号等敏感信息: 默认不在列表预览中明文显示, 需点击才展示。支持单条加锁, 生物识别解锁。</p>
+      <span class="tag error">高优先级</span>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="margin-top:60px;padding-top:20px;border-top:1px solid #e0e0e0;display:flex;justify-content:space-between;font-size:12px;color:#999;">
+  <span>笔记APP改版 - 完整交互规格说明书 v1.0</span>
+  <span>PM: 杨李莲 | 决策人: 李楠 | 2026-05-29</span>
+</div>
+
+</body>
+</html>
