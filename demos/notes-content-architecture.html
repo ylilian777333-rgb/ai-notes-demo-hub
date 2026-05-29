@@ -18,7 +18,7 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
 .def-main{font-size:44px;font-weight:700;line-height:1.5}
 .def-sub{color:rgba(255,255,255,0.5);font-size:26px;margin-top:12px}
 
-.flow-container{background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.1);border-radius:40px;padding:72px;display:flex;align-items:stretch;gap:0;margin-bottom:48px;position:relative}
+.flow-container{background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.1);border-radius:40px;padding:72px;padding-bottom:100px;display:flex;align-items:stretch;gap:0;margin-bottom:48px;position:relative}
 .stage{border-radius:40px;padding:48px;flex:1;display:flex;flex-direction:column;gap:20px}
 .stage-a{background:rgba(87,128,255,0.08);border:2px solid rgba(87,128,255,0.2)}
 .stage-b{background:rgba(166,140,250,0.08);border:2px solid rgba(166,140,250,0.2)}
@@ -90,7 +90,7 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
 .note-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(51,212,153,0.1);border:1px solid rgba(51,212,153,0.3);border-radius:12px;padding:8px 16px;font-size:16px;color:#33d499;margin-top:8px}
 
 /* QA overlay spanning B+C in the flow */
-.qa-overlay{position:absolute;bottom:20px;left:50%;transform:translateX(-25%);width:68%;border:2px dashed rgba(255,255,255,0.2);border-radius:16px;padding:12px 24px;text-align:center;font-size:18px;color:rgba(255,255,255,0.5);background:rgba(0,0,0,0.6)}
+.qa-overlay{position:absolute;bottom:28px;left:50%;transform:translateX(-30%);width:62%;border:2px dashed rgba(166,140,250,0.4);border-radius:16px;padding:14px 24px;text-align:center;font-size:20px;color:rgba(166,140,250,0.9);background:rgba(10,10,10,0.85)}
 </style>
 </head>
 <body>
@@ -162,7 +162,12 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
         📝 <strong>考点/模拟题</strong> — 直接复习
       </div>
     </div>
-    <div class="qa-overlay">❓ 问答 — 贯穿 B 和 C 的能力层，不是产出物，是消费方式</div>
+  </div>
+
+  <div class="qa-bar">
+    <div class="qa-icon">❓</div>
+    <div class="qa-text"><strong>问答</strong> — 不是产出物，是贯穿 B 和 C 的能力层。笔记/记忆/产出物里的信息，问了就能答。</div>
+    <div class="qa-span">贯穿 B + C</div>
   </div>
 
   <div class="judge-card">
@@ -172,12 +177,13 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
   </div>
 </div>
 
-<!-- 03: A层来源 -->
+<!-- 03: A层+B层 -->
 <div class="chapter">
   <div class="chapter-num">03</div>
-  <div class="chapter-title">A层 · 两个物理容器</div>
+  <div class="chapter-title">A层 · 两个物理容器 &nbsp;+&nbsp; B层 · 中间态</div>
   <div class="divider"></div>
 
+  <div class="section-sub">A · 原文来源</div>
   <div class="section-desc">所有用户内容只落两个地方，按物理位置区分：在笔记APP里的是笔记，在小爱记忆里的是记忆。</div>
 
   <div class="source-group">
@@ -197,6 +203,28 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
         <li>🗣️ 语音记忆 — "帮我记一下..."</li>
         <li>📱 屏幕记忆 — AI键识屏（身份证/地址）</li>
         <li>🔗 链接收藏 — 外部APP点收藏存入</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-sub" style="margin-top:64px">B · 中间态</div>
+  <div class="section-desc">AI加工后的内容，用户不会反复看，但可以进一步转化为最终产物。</div>
+
+  <div class="source-group">
+    <div class="source-card" style="border-color:rgba(166,140,250,0.3);background:rgba(166,140,250,0.05)">
+      <h3 style="color:#a68cfa">从笔记生成的中间态</h3>
+      <ul class="source-list">
+        <li style="color:rgba(255,255,255,0.7)">会议纪要 — 录音笔记 AI 结构化 → 可转为待办/PPT</li>
+        <li style="color:rgba(255,255,255,0.7)">课堂笔记 — 课堂录音 AI 整理 → 可转为考点/卡片/播客</li>
+        <li style="color:rgba(255,255,255,0.7)">通话纪要 — 通话录音 AI 提取关键信息 → 可转为待办</li>
+        <li style="color:rgba(255,255,255,0.7)">穿戴摘要 — 穿戴录音 去口语化 → 可转为memo/待办</li>
+      </ul>
+    </div>
+    <div class="source-card" style="border-color:rgba(166,140,250,0.3);background:rgba(166,140,250,0.05)">
+      <h3 style="color:#a68cfa">从记忆生成的中间态</h3>
+      <ul class="source-list">
+        <li style="color:rgba(255,255,255,0.7)">链接摘要 — 收藏链接 AI 提取要点 → 可转为播客</li>
+        <li style="color:rgba(255,255,255,0.7)">结构化条目 — 语音/识屏记忆归类整理 → 供问答检索</li>
       </ul>
     </div>
   </div>
@@ -241,12 +269,6 @@ body{font-family:"MiSans","PingFang SC",-apple-system,system-ui,sans-serif;backg
       <div class="name">知识卡片</div>
       <div class="desc">跨篇聚合 → "生成卡片" → 一张说清一事<br>场景：记忆、分享、速查</div>
     </div>
-  </div>
-
-  <div class="qa-bar">
-    <div class="qa-icon">❓</div>
-    <div class="qa-text"><strong>问答</strong> — 不是产出物，是贯穿 B（中间态）和 C（产出物）的能力层。笔记里的、记忆里的、产出物里的信息——问了就能答。</div>
-    <div class="qa-span">贯穿 B + C</div>
   </div>
 </div>
 
