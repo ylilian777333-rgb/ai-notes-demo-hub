@@ -79,7 +79,7 @@ h1{font-size:28px;font-weight:700;margin-bottom:8px;text-align:center}
 .original-text .label{font-size:11px;color:#bbb;margin-bottom:8px;font-weight:600}
 .original-text p{font-size:14px;color:#444;line-height:1.8}
 
-.ai-bar{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #f0f0f0;padding:12px 16px 28px;display:flex;align-items:center;gap:8px}
+.ai-bar{position:sticky;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #f0f0f0;padding:12px 16px 28px;display:flex;align-items:center;gap:8px;z-index:10;box-shadow:0 -4px 12px rgba(0,0,0,.06)}
 .ai-bar .input{flex:1;height:36px;border-radius:18px;background:#f5f5f5;padding:0 14px;font-size:13px;color:#999;display:flex;align-items:center}
 .ai-bar .quick-actions{display:flex;gap:6px}
 .ai-bar .quick-actions span{font-size:11px;padding:4px 8px;border-radius:12px;background:#f0f4ff;color:#5780ff;white-space:nowrap}
@@ -321,83 +321,69 @@ h1{font-size:28px;font-weight:700;margin-bottom:8px;text-align:center}
   </div>
 </div>
 
-<!-- ====== Screen 3: 首页 · 轻量筛选器 ====== -->
-<div class="section-divider">方案三：首页 · 产出物筛选器<span>有则出现无则隐藏，不是标签系统</span></div>
+<!-- ====== Screen 3: 侧边栏 · 产出物筛选器 ====== -->
+<div class="section-divider">方案三：侧边栏 · 产出物筛选器<span>在文件夹下方增加产出物类型入口，有则出现无则隐藏</span></div>
 
 <div class="screen-row">
   <div class="screen-group">
-    <span class="screen-label">笔记首页（含筛选器）</span>
+    <span class="screen-label">侧边栏（含产出物筛选）</span>
     <div class="phone">
-      <div class="phone-inner">
-        <div class="status-bar"><span class="time">10:29</span><span class="icons">📶 🔋</span></div>
-
-        <div class="list-header">
-          <h2>笔记</h2>
-        </div>
-
-        <!-- 搜索栏 -->
-        <div style="padding:8px 16px">
-          <div style="background:#f5f5f5;border-radius:10px;padding:10px 14px;font-size:13px;color:#999">🔍 搜索笔记...</div>
-        </div>
-
-        <!-- 分类标签 -->
-        <div class="list-tabs">
-          <div class="tab active">全部</div>
-          <div class="tab">录音</div>
-          <div class="tab">通话</div>
-          <div class="tab">穿戴</div>
-          <div class="tab">图文</div>
-        </div>
-
-        <!-- 产出物筛选器 - 李楠方案 -->
-        <div class="filter-bar">
-          <div class="chip has">📊 PPT (3)</div>
-          <div class="chip has">🧠 脑图 (5)</div>
-          <div class="chip">🎙️ 播客 (2)</div>
-          <div class="chip">📝 待办</div>
-        </div>
-
-        <!-- 笔记列表 -->
-        <div class="note-item">
-          <div class="title-row">
-            <h4>周五产品评审 · 笔记二期方案</h4>
-            <div class="output-badges"><span>PPT</span><span>脑图</span></div>
+      <div class="phone-inner" style="display:flex">
+        <!-- 侧边栏 -->
+        <div style="width:280px;height:100%;background:#fff;border-right:1px solid #f0f0f0;padding-top:44px;overflow-y:auto">
+          <!-- 用户头像区 -->
+          <div style="padding:16px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f5f5f5">
+            <div style="width:36px;height:36px;border-radius:50%;background:#e8f0ff;display:flex;align-items:center;justify-content:center;font-size:16px">👤</div>
+            <div><div style="font-size:14px;font-weight:600">杨李莲</div><div style="font-size:11px;color:#999">我的笔记</div></div>
           </div>
-          <div class="summary">速记改时间轴、生成物前置、附件链路重设计...</div>
-          <div class="meta">今天 20:27 ｜ 录音 38分钟</div>
-        </div>
-        <div class="note-item">
-          <div class="title-row">
-            <h4>穿戴设备录音方案评审</h4>
-            <div class="output-badges"><span>PPT</span></div>
+
+          <!-- 文件夹区域 -->
+          <div style="padding:12px 16px">
+            <div style="font-size:11px;color:#bbb;font-weight:600;margin-bottom:8px;padding-left:4px">文件夹</div>
+            <div style="padding:10px 12px;border-radius:8px;background:#f5f8ff;font-size:13px;font-weight:500;margin-bottom:4px;display:flex;align-items:center;gap:8px">📁 全部笔记</div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#444;margin-bottom:4px;display:flex;align-items:center;gap:8px">📁 工作</div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#444;margin-bottom:4px;display:flex;align-items:center;gap:8px">📁 学习</div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#444;margin-bottom:4px;display:flex;align-items:center;gap:8px">📁 生活</div>
           </div>
-          <div class="summary">手表/手环/戒指录音同步笔记，磁吸支架方案确认</div>
-          <div class="meta">昨天 15:00 ｜ 录音 25分钟</div>
-        </div>
-        <div class="note-item">
-          <div class="title-row">
-            <h4>AI搜索二期需求对齐</h4>
-            <div class="output-badges"><span>脑图</span></div>
+
+          <!-- 分隔线 -->
+          <div style="height:1px;background:#f0f0f0;margin:4px 16px"></div>
+
+          <!-- 小爱记忆入口 -->
+          <div style="padding:12px 16px">
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#444;display:flex;align-items:center;gap:8px">💜 小爱记忆</div>
           </div>
-          <div class="summary">语义搜索优化、问答式回答、检索范围扩展</div>
-          <div class="meta">周三 10:00 ｜ 通话笔记</div>
-        </div>
-        <div class="note-item">
-          <div class="title-row">
-            <h4>给妈妈买生日礼物</h4>
+
+          <!-- 分隔线 -->
+          <div style="height:1px;background:#f0f0f0;margin:4px 16px"></div>
+
+          <!-- 产出物筛选器 - 李楠方案：在侧边栏 -->
+          <div style="padding:12px 16px">
+            <div style="font-size:11px;color:#bbb;font-weight:600;margin-bottom:8px;padding-left:4px">产出物</div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#5780ff;margin-bottom:4px;display:flex;align-items:center;gap:8px;justify-content:space-between">
+              <span>📊 PPT</span><span style="font-size:11px;color:#999;background:#f0f0f0;padding:1px 6px;border-radius:8px">3</span>
+            </div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#5780ff;margin-bottom:4px;display:flex;align-items:center;gap:8px;justify-content:space-between">
+              <span>🧠 脑图</span><span style="font-size:11px;color:#999;background:#f0f0f0;padding:1px 6px;border-radius:8px">5</span>
+            </div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#5780ff;margin-bottom:4px;display:flex;align-items:center;gap:8px;justify-content:space-between">
+              <span>🎙️ 播客</span><span style="font-size:11px;color:#999;background:#f0f0f0;padding:1px 6px;border-radius:8px">2</span>
+            </div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#5780ff;margin-bottom:4px;display:flex;align-items:center;gap:8px;justify-content:space-between">
+              <span>🌐 网页</span><span style="font-size:11px;color:#999;background:#f0f0f0;padding:1px 6px;border-radius:8px">1</span>
+            </div>
           </div>
-          <div class="summary">妈妈下周三生日，她之前说想要一条丝巾</div>
-          <div class="meta">周二 13:38 ｜ 语音备忘</div>
-        </div>
-        <div class="note-item">
-          <div class="title-row">
-            <h4>李楠产品方向梳理</h4>
-            <div class="output-badges"><span>PPT</span><span>播客</span></div>
+
+          <!-- 底部 -->
+          <div style="padding:12px 16px;border-top:1px solid #f5f5f5;margin-top:auto">
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#666;display:flex;align-items:center;gap:8px">⚙️ 设置</div>
           </div>
-          <div class="summary">笔记不只是记录工具，是信息记录的综合性功能...</div>
-          <div class="meta">上周五 ｜ 录音 52分钟</div>
         </div>
 
+        <!-- 右侧半透明遮罩表示主内容 -->
+        <div style="flex:1;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center">
+          <div style="font-size:12px;color:#fff;text-align:center;padding:20px">← 侧边栏展开状态<br><br>点击产出物类型<br>筛选含该类型的笔记</div>
+        </div>
       </div>
     </div>
   </div>
@@ -405,38 +391,91 @@ h1{font-size:28px;font-weight:700;margin-bottom:8px;text-align:center}
   <!-- Annotations -->
   <div class="annotation">
     <div class="anno-card">
-      <h3><span class="tag tag-linan">李楠</span> 产出物类型筛选器</h3>
-      <p>在笔记列表上方增加基于<strong>产出物类型</strong>的轻量筛选。不是完整标签系统，是人为定义的类型：PPT、脑图、播客等。有则出现，没有就不显示。</p>
-      <div class="quote">"我这个地方所讲的其实是产出物的类型标签——PPT、网页、脑图、播客，有就出现，没有就没有。"</div>
+      <h3><span class="tag tag-linan">李楠</span> 侧边栏内的产出物筛选</h3>
+      <p>文件夹区域不能动（用户自己的），在文件夹下方增加<strong>产出物类型入口</strong>。点击"PPT"→ 显示所有含PPT的笔记列表。不是标签系统，是人为定义的类型。</p>
+      <div class="quote">"这个地方是用户的文件夹，不能动它。但我们可以形成一些标签类的东西放在这个地方——PPT、网页、脑图、播客，有就出现，没有就没有。"</div>
     </div>
     <div class="anno-card">
-      <h3><span class="tag tag-new">NEW</span> 列表项产出物标记</h3>
-      <p>每条笔记右侧显示其包含的产出物类型小标签。用户从列表就能看到"这条笔记有PPT可以看"，解决了"从外面也看不到它"的问题。</p>
-      <div class="quote">"我从外面看不到它，在里面也看不到它，我只有滑到最下面才能看到它，那我怎么消费它？"</div>
+      <h3><span class="tag tag-new">NEW</span> 动态显隐逻辑</h3>
+      <p>产出物类型只在用户真正生成过时才出现。零PPT则不显示PPT入口，避免空状态。右侧数字表示该类型的数量。</p>
     </div>
     <div class="anno-card">
       <h3><span class="tag tag-principle">原则</span> 非当前最高优先级</h3>
-      <p>筛选器功能需要有人使用AI生成后才有价值。当前优先级低于"生成物前置"和"速记时间轴"，可后续迭代。</p>
+      <p>筛选器功能需要有人使用AI生成后才有价值。优先级低于"生成物前置"和"速记时间轴"，可后续迭代。</p>
       <div class="quote">"这个东西不是现阶段最重要的事情，有人用了才有价值。可以先不做。"</div>
     </div>
   </div>
 </div>
 
-<!-- ====== 优先级排序 ====== -->
-<div style="max-width:900px;margin:48px auto;background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.06)">
-  <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">📋 落地优先级（基于会议共识）</h2>
-  <table style="width:100%;border-collapse:collapse;font-size:13px">
-    <tr style="background:#f8f8f8">
-      <th style="padding:10px;text-align:left;border-bottom:1px solid #eee">优先级</th>
-      <th style="padding:10px;text-align:left;border-bottom:1px solid #eee">模块</th>
-      <th style="padding:10px;text-align:left;border-bottom:1px solid #eee">核心改动</th>
-      <th style="padding:10px;text-align:left;border-bottom:1px solid #eee">状态</th>
-    </tr>
-    <tr><td style="padding:10px;border-bottom:1px solid #f5f5f5;font-weight:700;color:#ff6b35">P0</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">速记时间轴</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">分类→时间排序+相近聚合+自然消亡</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">需重构数据</td></tr>
-    <tr><td style="padding:10px;border-bottom:1px solid #f5f5f5;font-weight:700;color:#ff6b35">P0</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">生成物前置</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">详情页生成物区上移+更新同步</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">方案确认中</td></tr>
-    <tr><td style="padding:10px;border-bottom:1px solid #f5f5f5;font-weight:700;color:#5780ff">P1</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">附件链路</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">重新设计"附件→笔记"的用户感知</td><td style="padding:10px;border-bottom:1px solid #f5f5f5">方向待定</td></tr>
-    <tr><td style="padding:10px;font-weight:700;color:#999">P2</td><td style="padding:10px">产出物筛选器</td><td style="padding:10px">首页左侧增加类型筛选入口</td><td style="padding:10px">有人用再做</td></tr>
-  </table>
+<!-- ====== 需求细拆 ====== -->
+<div style="max-width:1100px;margin:48px auto;background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.06)">
+  <h2 style="font-size:20px;font-weight:700;margin-bottom:24px">📋 需求细拆 · 评估用</h2>
+
+  <!-- P0: 速记时间轴 -->
+  <div style="margin-bottom:32px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span style="font-size:11px;font-weight:700;color:#fff;background:#ff6b35;padding:2px 8px;border-radius:4px">P0</span>
+      <h3 style="font-size:16px;font-weight:700">速记 · 时间轴重构</h3>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:30%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:15%">涉及端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:20%">依赖/风险</th></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">数据结构改造</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">速记条目增加timestamp字段，去掉原有分类tag结构</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需评估历史数据量</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">时间轴排序UI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">今天/昨天/以前分组，每组内按时间倒序排列</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">设计稿待出</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">相近内容聚合算法</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">同一时间窗口（如30min内）相似类型内容合并为一个cluster展示</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+AI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需定义"相似"规则</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">自然消亡机制</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">超过7天的速记自动折叠/隐藏，已提炼的标记为"已入记忆"</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需与MiClaw记忆库打通</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">老数据兼容</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">原分类标签数据统一归入"以前"组，保持可查看</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">迁移脚本</td></tr>
+      <tr><td style="padding:8px 10px;font-weight:600">"已提炼"状态标记</td><td style="padding:8px 10px">条目进入MiClaw/待办后，原条目显示灰色+划线+"已入记忆"标签</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">需MiClaw回写状态</td></tr>
+    </table>
+  </div>
+
+  <!-- P0: 生成物前置 -->
+  <div style="margin-bottom:32px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span style="font-size:11px;font-weight:700;color:#fff;background:#ff6b35;padding:2px 8px;border-radius:4px">P0</span>
+      <h3 style="font-size:16px;font-weight:700">笔记详情页 · 生成物前置</h3>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:30%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:15%">涉及端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:20%">依赖/风险</th></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">生成物区域UI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">详情页标题下方新增"生成物"卡片区，展示PPT/脑图/播客等可消费内容</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">设计稿待确认位置</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">动态显隐逻辑</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">无生成物时不显示该区域（不影响普通笔记使用体验）</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">无</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">点击跳转消费</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">点击生成物卡片→跳转到独立详情页（PPT全屏/脑图展开/播客播放器）</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">各产出物详情页已有</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">同步更新提示</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">原文修改后，生成物区显示"内容已变更，是否同步更新"banner</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需diff检测+重新生成能力</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">一键更新重生成</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">用户点击"同步更新"→基于新原文重新生成对应产出物</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端AI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">大模型调用+耗时</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">AI悬浮对话框</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">页面底部固定悬浮AI输入框，不随内容滚动，快捷操作：做PPT/脑图/播客</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">与现有录入框共存方案</td></tr>
+      <tr><td style="padding:8px 10px;font-weight:600">列表页产出物标记</td><td style="padding:8px 10px">首页笔记列表每条右侧显示已生成的产出物类型icon</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">需后端返回生成物列表</td></tr>
+    </table>
+  </div>
+
+  <!-- P1: 附件链路 -->
+  <div style="margin-bottom:32px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span style="font-size:11px;font-weight:700;color:#fff;background:#5780ff;padding:2px 8px;border-radius:4px">P1</span>
+      <h3 style="font-size:16px;font-weight:700">附件生成笔记 · 链路优化</h3>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:30%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:15%">涉及端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:20%">依赖/风险</th></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">问题诊断</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">当前"传附件→自动生成笔记"用户无法感知因果，首次使用困惑</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">—</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">李楠判断：惩罚机制</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">方案A：明确前置引导</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">上传前弹出说明"将基于附件生成结构化笔记，是否继续？"</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">增加操作步骤</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">方案B：统一入口</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">不单独提附件入口，创建笔记后可添加附件并选择"解析生成"</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端+后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">链路变更大</td></tr>
+      <tr><td style="padding:8px 10px;font-weight:600">方案C：类闪电贝壳</td><td style="padding:8px 10px">先进入笔记→附件已插入→用户主动点击"AI解析"按钮</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">参考竞品验证</td></tr>
+    </table>
+    <div style="margin-top:8px;padding:8px 12px;background:#fff8f0;border-radius:6px;font-size:11px;color:#b35c00">⚠️ 方向待定，需重新设计后再评估工时。李楠核心诉求：用户必须能预知"操作后会发生什么"。</div>
+  </div>
+
+  <!-- P2: 侧边栏筛选器 -->
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span style="font-size:11px;font-weight:700;color:#fff;background:#999;padding:2px 8px;border-radius:4px">P2</span>
+      <h3 style="font-size:16px;font-weight:700">侧边栏 · 产出物筛选器</h3>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:30%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:35%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:15%">涉及端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:20%">依赖/风险</th></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">侧边栏UI增加"产出物"组</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">文件夹下方新增分隔线+"产出物"区域，展示PPT/脑图/播客等入口</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">侧边栏空间有限</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">动态显隐</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">仅当用户有该类型产出物时显示对应入口，右侧显示数量</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需统计接口</td></tr>
+      <tr><td style="padding:8px 10px;font-weight:600">筛选结果列表</td><td style="padding:8px 10px">点击"PPT"→主区域展示所有含PPT的笔记列表（非PPT文件列表）</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">筛选逻辑</td></tr>
+    </table>
+    <div style="margin-top:8px;padding:8px 12px;background:#f8f8f8;border-radius:6px;font-size:11px;color:#666">💡 此功能为非紧急优化项，待AI生成功能有一定使用量后再落地。</div>
+  </div>
 </div>
 
 </body>
