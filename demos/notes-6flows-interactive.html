@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记改版 · 6条交互链路动效演示</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'PingFang SC', 'SF Pro Display', sans-serif;
+  background: #0a0a0f;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  padding: 32px 40px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,15,0.9);
+}
+.header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.header .meta {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* Flow Tabs */
+.flow-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 16px 40px;
+  overflow-x: auto;
+  background: rgba(10,10,15,0.95);
+  position: sticky;
+  top: 88px;
+  z-index: 99;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.flow-tab {
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.6);
+}
+.flow-tab:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+.flow-tab.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(59,130,246,0.3);
+}
+
+/* Demo Area */
+.demo-container {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.flow-info {
+  text-align: center;
+  margin-bottom: 32px;
+  max-width: 700px;
+}
+.flow-info h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.flow-info p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+}
+.flow-info .linan-tag {
+  display: inline-block;
+  background: rgba(245,158,11,0.15);
+  color: #f59e0b;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+/* Phone Display */
+.phone-stage {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+.phone-wrapper {
+  position: relative;
+}
+.phone {
+  width: 375px;
+  height: 812px;
+  border-radius: 54px;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 12px #1a1a2e,
+    0 0 0 14px rgba(255,255,255,0.1),
+    0 40px 80px rgba(0,0,0,0.5);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.phone:hover {
+  transform: scale(1.01);
+}
+
+/* Phone Internal */
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.screen-content {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+.screen-content.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+.screen-content.exit {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+/* Status Bar */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 28px 0;
+  height: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+.status-icons { font-size: 12px; letter-spacing: 2px; }
+
+/* Nav Bar */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  height: 48px;
+}
+.nav-bar .back { font-size: 24px; color: #1a1a1a; cursor: pointer; }
+.nav-bar .title { font-size: 17px; font-weight: 600; color: #1a1a1a; }
+.nav-bar .action { font-size: 14px; color: #3b82f6; font-weight: 500; }
+
+/* Content Area */
+.content-area {
+  flex: 1;
+  padding: 0 20px;
+  overflow-y: auto;
+  color: #1a1a1a;
+}
+
+/* Tab Bar */
+.tab-bar {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0 30px;
+  border-top: 1px solid #f0f0f0;
+  background: #fff;
+}
+.tab-bar span {
+  font-size: 11px;
+  color: #999;
+  text-align: center;
+}
+.tab-bar span.active { color: #3b82f6; font-weight: 600; }
+
+/* Common UI Elements */
+.search-bar {
+  background: #f5f5f7;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #999;
+  margin-bottom: 16px;
+}
+.note-card {
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.note-card h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.note-card p { font-size: 14px; color: #888; }
+.note-card .tags { display: flex; gap: 6px; margin-top: 6px; }
+.tag-chip {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.tag-chip.green { background: #ecfdf5; color: #059669; }
+.tag-chip.blue { background: #eff6ff; color: #2563eb; }
+.tag-chip.orange { background: #fff7ed; color: #d97706; }
+
+.ai-bar {
+  position: absolute;
+  bottom: 80px;
+  left: 16px;
+  right: 16px;
+  background: #fff;
+  border: 1.5px solid #3b82f6;
+  border-radius: 24px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #3b82f6;
+  box-shadow: 0 -4px 20px rgba(59,130,246,0.1);
+}
+
+.output-cards {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+.output-card {
+  flex: 1;
+  padding: 12px 8px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 12px;
+  border: 1px solid #e5e5e5;
+}
+.output-card.done { background: #ecfdf5; border-color: #059669; }
+.output-card.updating { background: #eff6ff; border-color: #3b82f6; }
+.output-card.warn { background: #fff7ed; border-color: #f59e0b; }
+.output-card .icon { font-size: 24px; margin-bottom: 4px; }
+.output-card .label { font-weight: 600; }
+.output-card .status { font-size: 11px; margin-top: 2px; }
+
+.banner {
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.banner.warn { background: #fff7ed; color: #d97706; border: 1px solid #fde68a; }
+.banner.success { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+.banner.info { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+
+.progress-bar {
+  height: 4px;
+  background: #e5e5e5;
+  border-radius: 2px;
+  margin: 8px 0;
+  overflow: hidden;
+}
+.progress-bar .fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1.5s ease;
+}
+.progress-bar .fill.blue { background: #3b82f6; }
+.progress-bar .fill.green { background: #059669; }
+
+.timeline-item {
+  padding: 12px 0;
+  padding-left: 20px;
+  border-left: 2px solid #e5e5e5;
+  position: relative;
+  margin-left: 6px;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 16px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3b82f6;
+}
+.timeline-item.done::before { background: #059669; }
+.timeline-item.old::before { background: #d1d5db; }
+.timeline-item .time { font-size: 12px; color: #999; }
+.timeline-item .text { font-size: 15px; margin-top: 2px; }
+.timeline-item .sub { font-size: 13px; color: #666; margin-top: 2px; }
+
+.btn-primary {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #3b82f6;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  margin: 12px auto;
+  cursor: pointer;
+}
+.btn-success {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #059669;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  margin: 12px auto;
+}
+.btn-warning {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #f59e0b;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Step Indicators */
+.step-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.step-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.6);
+}
+.step-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  transform: scale(1.1);
+}
+.step-btn:active { transform: scale(0.95); }
+.step-btn.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.step-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transition: all 0.3s;
+}
+.step-dot.active {
+  width: 24px;
+  border-radius: 4px;
+  background: #3b82f6;
+}
+
+/* Screen Label */
+.screen-label {
+  text-align: center;
+  margin-top: 20px;
+}
+.screen-label h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.screen-label p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+}
+.screen-label .highlight {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+/* Recording Animation */
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.08);opacity:0.7} }
+@keyframes wave { 0%,100%{height:8px} 50%{height:24px} }
+.recording-circle {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: #ef4444; display: flex; align-items: center; justify-content: center;
+  font-size: 32px; margin: 0 auto 16px;
+  animation: pulse 1.5s infinite;
+}
+.wave-bars { display: flex; align-items: center; justify-content: center; gap: 3px; height: 30px; margin: 12px 0; }
+.wave-bars span {
+  display: block; width: 3px; background: #ef4444; border-radius: 2px;
+  animation: wave 0.8s ease-in-out infinite;
+}
+.wave-bars span:nth-child(2){animation-delay:0.1s}
+.wave-bars span:nth-child(3){animation-delay:0.2s}
+.wave-bars span:nth-child(4){animation-delay:0.3s}
+.wave-bars span:nth-child(5){animation-delay:0.15s}
+.wave-bars span:nth-child(6){animation-delay:0.25s}
+.wave-bars span:nth-child(7){animation-delay:0.05s}
+
+/* Animated Progress */
+@keyframes progressAnim { 0%{width:0} 100%{width:65%} }
+.progress-animated .fill { animation: progressAnim 2s ease forwards; }
+
+/* PPT Dark Mode */
+.ppt-viewer {
+  background: #111;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.ppt-slide {
+  width: 300px;
+  aspect-ratio: 16/9;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.ppt-slide h3 { font-size: 20px; color: #1a1a1a; font-weight: 700; }
+.ppt-slide p { font-size: 12px; color: #888; margin-top: 4px; }
+
+/* Share Panel */
+.share-panel {
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 24px;
+  margin-top: auto;
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.1);
+}
+.share-icons { display: flex; justify-content: space-around; margin: 16px 0; }
+.share-icon { text-align: center; font-size: 11px; color: #666; }
+.share-icon .circle {
+  width: 48px; height: 48px; border-radius: 14px; margin: 0 auto 6px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff;
+}
+
+/* Guide Page */
+.guide-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 30px;
+  color: #1a1a1a;
+}
+.guide-center .icon { font-size: 64px; margin-bottom: 20px; }
+.guide-center h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.guide-center p { font-size: 14px; color: #666; line-height: 1.6; margin-bottom: 20px; }
+
+.memory-list .item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 0; border-bottom: 1px solid #f0f0f0;
+}
+.memory-list .item .emoji { font-size: 20px; }
+.memory-list .item .info h5 { font-size: 15px; font-weight: 600; }
+.memory-list .item .info p { font-size: 12px; color: #999; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .phone { width: 320px; height: 693px; border-radius: 46px; }
+  .phone-stage { flex-direction: column; }
+  .demo-container { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>笔记改版 · 6条交互链路演示</h1>
+  <div class="meta">PM: 杨李莲 ｜ 决策人: 李楠 ｜ v1.0 ｜ 2026-05-29 ｜ 可交互原型</div>
+</div>
+
+<div class="flow-tabs" id="flowTabs">
+  <div class="flow-tab active" data-flow="0">Flow 1 · 录音→产出物</div>
+  <div class="flow-tab" data-flow="1">Flow 2 · 同步更新</div>
+  <div class="flow-tab" data-flow="2">Flow 3 · 速记时间轴</div>
+  <div class="flow-tab" data-flow="3">Flow 4 · 产出物筛选</div>
+  <div class="flow-tab" data-flow="4">Flow 5 · 附件生成笔记</div>
+  <div class="flow-tab" data-flow="5">Flow 6 · 小爱记忆</div>
+</div>
+
+<div class="demo-container">
+  <div class="flow-info" id="flowInfo"></div>
+
+  <div class="phone-stage">
+    <div class="step-nav">
+      <div class="step-btn" id="prevBtn" onclick="prevStep()">‹</div>
+    </div>
+
+    <div class="phone-wrapper">
+      <div class="phone">
+        <div class="phone-screen" id="phoneScreen"></div>
+      </div>
+      <div class="screen-label" id="screenLabel"></div>
+    </div>
+
+    <div class="step-nav">
+      <div class="step-btn" id="nextBtn" onclick="nextStep()">›</div>
+    </div>
+  </div>
+
+  <div class="step-dots" id="stepDots"></div>
+</div>
+
+<script>
+// Flow data
+const flows = [
+  {
+    title: "录音 → AI加工 → 生成产出物 → 消费",
+    desc: "核心价值链路：用户录音 → 自动转写 → AI摘要 → 按需生成PPT/脑图/播客 → 消费与分享",
+    tag: "李楠：产出物置顶 + AI栏吸底",
+    screens: [
+      { label: "首页 - 笔记列表", sub: "现有列表视图，FAB按钮入口", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">☰</span><span class="title">笔记</span><span class="action">⋯</span></div><div class="content-area"><div class="search-bar">🔍 搜索笔记</div><div class="note-card"><h4>周会纪要 05/28</h4><p>讨论了Q3 OKR方向，确认国际化优先...</p><div class="tags"><span class="tag-chip green">PPT</span><span class="tag-chip green">脑图</span></div></div><div class="note-card"><h4>产品评审记录</h4><p>关于首页改版的讨论和结论...</p><div class="tags"><span class="tag-chip green">PPT</span></div></div><div class="note-card"><h4>读书笔记 - 创新者窘境</h4><p>第3章核心观点：破坏性创新的特征...</p><div class="tags"><span class="tag-chip green">播客</span></div></div><div class="note-card"><h4>技术选型讨论</h4><p>Flutter vs RN，最终确认Flutter方案...</p></div></div><div class="tab-bar"><span class="active">笔记</span><span>速记</span><span>我的</span></div>` },
+      { label: "创建面板", sub: "底部弹出，4个入口类型", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">✕</span><span class="title">创建笔记</span><span class="action"></span></div><div class="content-area" style="display:flex;flex-direction:column;gap:0;padding-top:40px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 10px;"><div style="background:#f8f9fa;border-radius:16px;padding:28px 16px;text-align:center;"><div style="font-size:36px;margin-bottom:8px;">📝</div><div style="font-size:16px;font-weight:600;">文字笔记</div></div><div style="background:#eff6ff;border-radius:16px;padding:28px 16px;text-align:center;border:2px solid #3b82f6;"><div style="font-size:36px;margin-bottom:8px;">🎙️</div><div style="font-size:16px;font-weight:600;color:#2563eb;">录音笔记</div></div><div style="background:#f8f9fa;border-radius:16px;padding:28px 16px;text-align:center;"><div style="font-size:36px;margin-bottom:8px;">📎</div><div style="font-size:16px;font-weight:600;">上传附件</div></div><div style="background:#f8f9fa;border-radius:16px;padding:28px 16px;text-align:center;"><div style="font-size:36px;margin-bottom:8px;">📷</div><div style="font-size:16px;font-weight:600;">拍照记录</div></div></div></div>` },
+      { label: "录音进行中", sub: "实时波形，暂停/停止控制", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">录音中</span><span class="action">03:24</span></div><div class="content-area" style="display:flex;flex-direction:column;align-items:center;justify-content:center;"><div class="recording-circle">🎙️</div><div class="wave-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div style="font-size:48px;font-weight:700;margin:16px 0;color:#1a1a1a;">03:24</div><div style="font-size:14px;color:#999;">正在录音...</div><div style="display:flex;gap:32px;margin-top:40px;"><div style="width:56px;height:56px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:24px;">⏸</div><div style="width:56px;height:56px;border-radius:50%;background:#ef4444;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;">⏹</div></div></div>` },
+      { label: "转写处理", sub: "实时出文字，进度可见", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">录音笔记</span><span class="action"></span></div><div class="content-area"><div style="background:#f8f9fa;border-radius:12px;padding:14px;margin-bottom:16px;"><div style="font-weight:600;margin-bottom:6px;">原始录音 03:24</div><div style="display:flex;align-items:center;gap:8px;"><span style="color:#3b82f6;">▶</span><div class="progress-bar" style="flex:1"><div class="fill blue" style="width:100%"></div></div></div></div><div style="background:#eff6ff;border:1px solid #3b82f6;border-radius:12px;padding:14px;margin-bottom:16px;"><div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;"><span>🔄</span><span style="font-weight:600;color:#2563eb;">AI转写中...</span></div><div class="progress-bar progress-animated"><div class="fill blue"></div></div><div style="font-size:12px;color:#888;margin-top:6px;">预计15秒完成</div></div><div style="font-size:14px;color:#444;line-height:1.8;margin-top:16px;">那个我觉得这个方向呢主要是围绕国际化来做的。首先技术选型上我们确认了Flutter方案...<span style="color:#ccc;"> 转写中▌</span></div></div>` },
+      { label: "AI摘要完成", sub: "底部AI栏悬浮吸底（李楠要求）", highlight: true, html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">录音笔记</span><span class="action">分享</span></div><div class="content-area"><div style="background:#ecfdf5;border:1px solid #059669;border-radius:12px;padding:14px;margin-bottom:16px;"><div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;"><span>✨</span><span style="font-weight:600;color:#059669;">AI摘要</span></div><div style="font-size:14px;line-height:1.8;">1. Q3重点：国际化方向<br>2. 技术选型：确认Flutter<br>3. 排期：6月底完成P0</div></div><div style="font-weight:600;margin-bottom:8px;">转写全文</div><div style="font-size:14px;color:#555;line-height:1.8;">那个我觉得这个方向呢主要是围绕国际化来做的。首先技术选型上我们确认了Flutter方案，考虑到跨平台成本和性能需求...</div></div><div class="ai-bar">💡 问AI：总结待办 / 做PPT / 做脑图...</div><div class="tab-bar"><span class="active">笔记</span><span>速记</span><span>我的</span></div>` },
+      { label: "生成中 - 非阻塞", sub: "用户可继续浏览，生成完成后通知", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">录音笔记</span><span class="action"></span></div><div class="content-area"><div style="background:#ecfdf5;border:1px solid #059669;border-radius:12px;padding:20px;text-align:center;margin-bottom:16px;"><div style="font-size:32px;margin-bottom:8px;">⏳</div><div style="font-weight:600;color:#059669;font-size:16px;">正在生成PPT...</div><div class="progress-bar progress-animated" style="margin-top:12px;"><div class="fill green"></div></div><div style="font-size:12px;color:#888;margin-top:8px;">基于录音内容生成演示文稿</div></div><div style="font-size:13px;color:#999;margin-bottom:16px;">你可以先浏览笔记内容，生成完成后会通知你</div><div style="font-size:14px;color:#555;line-height:1.8;">那个我觉得这个方向呢主要是围绕国际化来做的...</div></div><div class="ai-bar">💡 问AI：还可以做什么？</div><div class="tab-bar"><span class="active">笔记</span><span>速记</span><span>我的</span></div>` },
+      { label: "生成物卡片区（顶部）", sub: "李楠要求：产出物置顶，不埋底部", highlight: true, html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">录音笔记</span><span class="action">分享</span></div><div class="content-area"><div style="font-size:12px;font-weight:600;color:#f59e0b;margin-bottom:8px;">产出物（李楠：置顶展示）</div><div class="output-cards"><div class="output-card done"><div class="icon">📊</div><div class="label">PPT</div><div class="status" style="color:#059669;">✅ 已生成</div></div><div class="output-card"><div class="icon">🧠</div><div class="label">脑图</div><div class="status" style="color:#999;">可生成</div></div><div class="output-card"><div class="icon">🎧</div><div class="label">播客</div><div class="status" style="color:#999;">可生成</div></div></div><div style="background:#ecfdf5;border:1px solid #059669;border-radius:12px;padding:12px;margin:12px 0;"><div style="display:flex;align-items:center;gap:6px;"><span>✨</span><span style="font-weight:600;color:#059669;font-size:13px;">AI摘要</span></div><div style="font-size:13px;margin-top:4px;">1. Q3重点：国际化方向</div></div><div style="font-size:14px;color:#555;line-height:1.8;margin-top:8px;">转写全文内容区域...</div></div><div class="ai-bar">💡 问AI...</div><div class="tab-bar"><span class="active">笔记</span><span>速记</span><span>我的</span></div>` },
+      { label: "PPT全屏查看", sub: "横滑翻页，沉浸式阅读", html: `<div class="status-bar" style="color:#fff;"><span>2:36</span><span class="status-icons" style="color:#fff;">●●● ▲ ■</span></div><div style="display:flex;justify-content:space-between;padding:8px 20px;color:#fff;font-size:14px;"><span>‹ 返回</span><span style="font-weight:600;">PPT预览</span><span>分享</span></div><div class="ppt-viewer"><div class="ppt-slide"><h3>Q3 国际化方向</h3><p>基于录音自动生成</p><div style="display:flex;gap:12px;margin-top:16px;"><div style="width:40px;height:28px;background:#eff6ff;border-radius:4px;"></div><div style="width:40px;height:28px;background:#ecfdf5;border-radius:4px;"></div><div style="width:40px;height:28px;background:#fff7ed;border-radius:4px;"></div></div></div><div style="display:flex;gap:8px;margin-top:20px;"><div style="width:8px;height:8px;border-radius:50%;background:#3b82f6;"></div><div style="width:8px;height:8px;border-radius:50%;background:#555;"></div><div style="width:8px;height:8px;border-radius:50%;background:#555;"></div><div style="width:8px;height:8px;border-radius:50%;background:#555;"></div></div></div>` },
+      { label: "分享面板", sub: "支持微信/链接/系统分享", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">录音笔记</span><span class="action"></span></div><div class="content-area" style="display:flex;flex-direction:column;justify-content:flex-end;"></div><div class="share-panel"><div style="width:36px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 16px;"></div><div style="font-size:16px;font-weight:600;margin-bottom:16px;color:#1a1a1a;">分享方式</div><div class="share-icons"><div class="share-icon"><div class="circle" style="background:#07C160;">💬</div>微信</div><div class="share-icon"><div class="circle" style="background:#3b82f6;">🔗</div>复制链接</div><div class="share-icon"><div class="circle" style="background:#ef4444;">📤</div>更多</div></div><div style="text-align:center;padding:12px;background:#f5f5f5;border-radius:10px;color:#666;font-size:14px;">取消</div></div>` }
+    ]
+  },
+  {
+    title: "笔记详情页 - 生成物消费 + 同步更新",
+    desc: "原文变更时，产出物应主动提示"需要更新"，而非静默过期",
+    tag: "李楠：必须主动Banner提示，不能小红点",
+    screens: [
+      { label: "已有笔记（含产出物）", sub: "顶部展示已生成的产出物卡片", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">周会纪要</span><span class="action">⋯</span></div><div class="content-area"><div class="output-cards"><div class="output-card done"><div class="icon">📊</div><div class="label">PPT</div><div class="status" style="color:#059669;">已生成</div></div><div class="output-card done"><div class="icon">🧠</div><div class="label">脑图</div><div class="status" style="color:#059669;">已生成</div></div><div class="output-card"><div class="icon">🎧</div><div class="label">播客</div><div class="status" style="color:#999;">可生成</div></div></div><div style="background:#ecfdf5;border:1px solid #059669;border-radius:12px;padding:12px;margin:12px 0;font-size:13px;"><b>✨ AI摘要</b><br>Q3重点：国际化 / 技术：Flutter / 排期：6月</div><div style="font-weight:600;margin:12px 0 8px;">正文</div><div style="font-size:14px;color:#555;line-height:1.8;">那个我觉得这个方向呢主要是围绕国际化来做的。首先技术选型上我们确认了Flutter方案...</div></div><div class="ai-bar">💡 问AI...</div>` },
+      { label: "编辑原文", sub: "用户修改/新增内容", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">编辑中</span><span class="action" style="color:#3b82f6;">完成</span></div><div class="content-area"><div class="output-cards" style="opacity:0.4;"><div class="output-card done"><div class="icon">📊</div></div><div class="output-card done"><div class="icon">🧠</div></div></div><div style="border:2px solid #3b82f6;border-radius:12px;padding:14px;margin-top:16px;background:#fafeff;font-size:14px;line-height:1.8;color:#333;">那个我觉得这个方向呢主要是围绕<mark style="background:#fef08a;">国际化和AI能力</mark>来做的。首先技术选型上我们确认了Flutter方案，<span style="color:#3b82f6;text-decoration:underline;">新增：同时要考虑鸿蒙适配</span>...</div><div style="display:flex;gap:16px;margin-top:20px;font-size:20px;">B <i>I</i> <u>U</u> 📋</div></div>` },
+      { label: "变更提示Banner", sub: "李楠：必须主动提示，不能静默", highlight: true, html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">周会纪要</span><span class="action">⋯</span></div><div class="content-area"><div class="banner warn">⚠️ 内容已变更，产出物可能过期</div><div class="output-cards"><div class="output-card warn"><div class="icon">📊</div><div class="label">PPT</div><div class="status" style="color:#d97706;">需更新</div></div><div class="output-card warn"><div class="icon">🧠</div><div class="label">脑图</div><div class="status" style="color:#d97706;">需更新</div></div><div class="output-card"><div class="icon">🎧</div><div class="label">播客</div></div></div><div style="text-align:center;margin:16px 0;"><span class="btn-warning">一键同步更新</span></div><div style="font-size:14px;color:#555;line-height:1.8;margin-top:16px;">正文内容...</div></div><div class="ai-bar">💡 问AI...</div>` },
+      { label: "重新生成中", sub: "非阻塞，逐个更新", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">周会纪要</span><span class="action"></span></div><div class="content-area"><div class="output-cards"><div class="output-card updating"><div class="icon">📊</div><div class="label">PPT</div><div class="status" style="color:#2563eb;">更新中</div><div class="progress-bar progress-animated" style="margin-top:4px;"><div class="fill blue"></div></div></div><div class="output-card updating"><div class="icon">🧠</div><div class="label">脑图</div><div class="status" style="color:#2563eb;">更新中</div><div class="progress-bar" style="margin-top:4px;"><div class="fill blue" style="width:30%"></div></div></div><div class="output-card"><div class="icon">🎧</div></div></div><div style="font-size:13px;color:#999;text-align:center;margin:16px 0;">正在根据最新内容重新生成...</div><div style="font-size:14px;color:#555;line-height:1.8;">正文内容区域，用户可正常浏览...</div></div><div class="ai-bar">💡 问AI...</div>` },
+      { label: "更新完成", sub: "Toast+绿色状态确认", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">周会纪要</span><span class="action">⋯</span></div><div class="content-area"><div class="banner success">✅ 产出物已同步到最新内容</div><div class="output-cards"><div class="output-card done"><div class="icon">📊</div><div class="label">PPT</div><div class="status" style="color:#059669;">已更新</div></div><div class="output-card done"><div class="icon">🧠</div><div class="label">脑图</div><div class="status" style="color:#059669;">已更新</div></div><div class="output-card"><div class="icon">🎧</div><div class="label">播客</div><div class="status" style="color:#999;">可生成</div></div></div><div style="background:#ecfdf5;border:1px solid #059669;border-radius:12px;padding:12px;margin:12px 0;font-size:13px;"><b>✨ AI摘要（已更新）</b><br>Q3：国际化+AI / 技术：Flutter+鸿蒙 / 6月</div></div><div class="ai-bar">💡 问AI...</div>` }
+    ]
+  },
+  {
+    title: "速记 - 时间轴完整链路",
+    desc: "速记按时间轴排序，不要分类Tag；内容自然聚合，7天后衰减折叠",
+    tag: "李楠：严禁Tag分类 + 7天自动折叠",
+    screens: [
+      { label: "时间轴首页", sub: "李楠：时间排序，非Tag分类", highlight: true, html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">速记</span><span class="action" style="font-size:24px;">+</span></div><div class="content-area"><div style="font-size:12px;font-weight:600;color:#f59e0b;margin-bottom:12px;">今天 5/29</div><div class="timeline-item"><div class="time">10:30</div><div class="text" style="font-weight:600;">会议灵感</div><div class="sub">国际化可以参考Notion的做法...</div></div><div class="timeline-item"><div class="time">09:15</div><div class="text" style="font-weight:600;">待办</div><div class="sub">给设计team发交互稿review邀请</div></div><div style="font-size:12px;font-weight:600;color:#666;margin:16px 0 12px;">昨天 5/28</div><div class="timeline-item old"><div class="time">20:10</div><div class="text">读书心得</div><div class="sub">创新者窘境第3章的核心观点...</div></div><div class="timeline-item old"><div class="time">15:30</div><div class="text">竞品分析</div><div class="sub">Bear App的标签系统设计...</div></div></div>` },
+      { label: "Cluster聚合详情", sub: "AI自动聚合相关碎片，可升级为笔记", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">会议灵感</span><span class="action">3条</span></div><div class="content-area"><div style="background:#ecfdf5;border:1px solid #059669;border-radius:12px;padding:14px;margin-bottom:20px;"><div style="font-size:12px;font-weight:600;color:#059669;margin-bottom:6px;">AI聚合摘要</div><div style="font-size:14px;color:#333;">关于国际化方案的3条碎片想法<br>核心：参考Notion + 考虑RTL</div></div><div class="timeline-item"><div class="time">10:30</div><div class="text">国际化可以参考Notion的做法，他们的多语言切换体验很流畅</div></div><div class="timeline-item"><div class="time">10:22</div><div class="text">RTL语言排版要提前调研，阿拉伯语和希伯来语</div></div><div class="timeline-item"><div class="time">10:18</div><div class="text">翻译API选型：Google vs DeepL，成本对比</div></div><div style="text-align:center;margin-top:24px;"><span class="btn-primary">升级为正式笔记</span></div></div>` },
+      { label: "自然衰减（7天后）", sub: "7天后自动折叠（李楠要求）", highlight: true, html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">速记</span><span class="action"></span></div><div class="content-area"><div style="font-size:12px;font-weight:600;color:#f59e0b;margin-bottom:12px;">今天 6/5</div><div class="timeline-item"><div class="time">14:00</div><div class="text" style="font-weight:600;">新想法</div><div class="sub">最新的速记内容...</div></div><div style="font-size:12px;font-weight:600;margin:16px 0 8px;">本周</div><div style="font-size:13px;color:#888;padding:8px 0;">3条速记</div><div style="font-size:12px;font-weight:600;color:#999;margin:16px 0 8px;">以前</div><div style="background:#f8f9fa;border-radius:10px;padding:16px;text-align:center;"><div style="font-size:14px;color:#666;">📦 5/28 - 5/29 的速记（5条）</div><div style="color:#3b82f6;font-size:14px;margin-top:6px;cursor:pointer;">点击展开</div></div></div>` }
+    ]
+  },
+  {
+    title: "侧边栏 - 产出物筛选",
+    desc: "侧边栏增加产出物类型筛选，用户能快速找到所有PPT/脑图/播客",
+    tag: "李楠：必须显示数量计数",
+    screens: [
+      { label: "侧边栏展开", sub: "李楠：产出物筛选在文件夹下方", highlight: true, html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="content-area" style="background:#f8f9fa;padding:20px;"><div style="font-size:20px;font-weight:700;margin-bottom:20px;color:#1a1a1a;">笔记</div><div style="padding:10px 12px;border-radius:8px;font-size:15px;color:#333;">📁 全部笔记 <span style="color:#999;float:right;">(12)</span></div><div style="padding:10px 12px;border-radius:8px;font-size:15px;color:#333;">📁 工作笔记 <span style="color:#999;float:right;">(5)</span></div><div style="padding:10px 12px;border-radius:8px;font-size:15px;color:#333;">📁 个人学习 <span style="color:#999;float:right;">(4)</span></div><div style="height:1px;background:#e5e5e5;margin:12px 0;"></div><div style="padding:10px 12px;border-radius:8px;font-size:15px;color:#333;">⚡ 速记</div><div style="padding:10px 12px;border-radius:8px;font-size:15px;color:#333;">🧠 小爱记忆</div><div style="height:1px;background:#e5e5e5;margin:12px 0;"></div><div style="font-size:12px;color:#999;font-weight:600;padding:4px 12px;margin-bottom:8px;">产出物筛选</div><div style="padding:10px 12px;border-radius:8px;font-size:15px;background:#fff7ed;border:1px solid #f59e0b;color:#d97706;font-weight:600;">📊 PPT <span style="float:right;">(3)</span></div><div style="padding:10px 12px;border-radius:8px;font-size:15px;color:#333;">🧠 脑图 <span style="color:#999;float:right;">(5)</span></div><div style="padding:10px 12px;border-radius:8px;font-size:15px;color:#333;">🎧 播客 <span style="color:#999;float:right;">(2)</span></div></div>` },
+      { label: "筛选结果列表", sub: "来源笔记+生成时间+状态", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">PPT (3)</span><span class="action">排序</span></div><div class="content-area"><div style="display:flex;gap:8px;margin-bottom:16px;"><span class="tag-chip orange" style="padding:6px 14px;font-size:13px;">PPT</span><span class="tag-chip" style="padding:6px 14px;font-size:13px;background:#f5f5f5;color:#666;">脑图</span><span class="tag-chip" style="padding:6px 14px;font-size:13px;background:#f5f5f5;color:#666;">播客</span></div><div class="note-card"><h4>📊 Q3规划PPT</h4><p>来源：周会纪要 ｜ 5/29生成</p></div><div class="note-card"><h4>📊 产品评审PPT</h4><p>来源：产品评审 ｜ 5/27生成</p></div><div class="note-card"><h4>📊 技术选型PPT</h4><p>来源：选型讨论 ｜ 5/25生成</p><div class="tags"><span class="tag-chip orange">⚠️ 需更新</span></div></div></div>` }
+    ]
+  },
+  {
+    title: "附件生成笔记",
+    desc: "附件→笔记的过程需要让用户有清晰感知，不能"不知不觉就变了"",
+    tag: "李楠：AI解析按钮必须显眼",
+    screens: [
+      { label: "附件已插入+AI解析入口", sub: "清晰感知（李楠要求）", highlight: true, html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">新笔记</span><span class="action">保存</span></div><div class="content-area"><div style="background:#eff6ff;border:1px solid #3b82f6;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:20px;"><span style="font-size:24px;">📄</span><div><div style="font-weight:600;font-size:15px;">产品需求文档.pdf</div><div style="font-size:12px;color:#888;">2.3MB ｜ 已上传</div></div></div><div style="background:#ecfdf5;border:2px solid #059669;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px;"><div style="font-size:32px;margin-bottom:8px;">✨</div><div style="font-size:18px;font-weight:700;color:#059669;">AI解析此附件</div><div style="font-size:13px;color:#666;margin-top:6px;">自动提取内容，生成结构化笔记</div></div><div style="font-size:14px;color:#999;text-align:center;">或者手动添加笔记内容...</div></div><div class="ai-bar">💡 问AI：总结这个文档 / 提取要点...</div>` },
+      { label: "AI解析进行中", sub: "分步骤展示进度", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">新笔记</span><span class="action"></span></div><div class="content-area"><div style="opacity:0.5;font-size:14px;margin-bottom:16px;">📄 产品需求文档.pdf</div><div style="background:#ecfdf5;border:1px solid #059669;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px;"><div style="font-size:32px;margin-bottom:8px;">🔍</div><div style="font-size:16px;font-weight:600;color:#059669;">AI正在解析...</div><div class="progress-bar progress-animated" style="margin-top:12px;"><div class="fill green"></div></div><div style="font-size:12px;color:#888;margin-top:8px;">正在识别文档结构和关键内容</div></div><div style="font-size:14px;line-height:2;"><div style="color:#059669;">✓ 文档格式识别</div><div style="color:#059669;">✓ 文字内容提取</div><div style="color:#3b82f6;">◌ 结构化整理中...</div></div></div>` },
+      { label: "结构化笔记完成", sub: "可继续触发产出物生成（→Flow 1）", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">产品需求文档</span><span class="action">⋯</span></div><div class="content-area"><div style="font-size:12px;color:#888;margin-bottom:12px;">📄 附件：产品需求文档.pdf</div><div style="background:#ecfdf5;border-radius:8px;padding:8px 12px;font-size:12px;color:#059669;font-weight:600;margin-bottom:16px;">✨ AI解析结果</div><div style="font-size:15px;line-height:2;"><b>一、项目概述</b><div style="color:#555;padding-left:8px;">本次改版目标是提升内容消费效率...</div><b>二、核心需求</b><div style="color:#555;padding-left:8px;">1. 产出物前置展示<br>2. 速记时间轴<br>3. 侧边栏筛选</div><b>三、排期规划</b><div style="color:#555;padding-left:8px;">P0：6月15日前完成...</div></div></div><div class="ai-bar">💡 问AI：做PPT / 做脑图 / 提取待办</div>` }
+    ]
+  },
+  {
+    title: "小爱记忆迁移",
+    desc: "将小爱同学侧的记忆数据迁移到笔记APP，统一管理入口",
+    tag: null,
+    screens: [
+      { label: "小爱侧迁移提示", sub: "在对话中自然触达", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">小爱同学</span><span class="action"></span></div><div class="content-area" style="display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:16px;"><div style="background:#f5f5f5;border-radius:16px;padding:14px;margin-bottom:12px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:16px;">🤖</span><b style="font-size:13px;">小爱</b></div><div style="font-size:14px;color:#333;">记住了！你的WiFi密码是xxx123</div></div><div class="banner info">💡 <div><b>记忆功能已升级</b><div style="font-size:12px;font-weight:400;margin-top:2px;">你的记忆内容已可在笔记APP中查看管理</div></div></div><div style="text-align:center;margin-top:12px;"><span class="btn-primary">了解详情</span></div></div>` },
+      { label: "引导页", sub: "说明迁移价值+支持类型", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="guide-center"><div class="icon">🧠</div><h3>小爱记忆 × 笔记</h3><p>你让小爱记住的内容<br>现在可以在笔记APP中统一管理<br><span style="color:#059669;font-weight:600;">支持分类、搜索、编辑</span></p><div style="display:flex;gap:24px;margin:20px 0;"><div style="text-align:center;"><div style="width:48px;height:48px;background:#eff6ff;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:20px;">🔗</div><span style="font-size:12px;color:#666;">链接</span></div><div style="text-align:center;"><div style="width:48px;height:48px;background:#ecfdf5;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:20px;">💳</div><span style="font-size:12px;color:#666;">卡证</span></div><div style="text-align:center;"><div style="width:48px;height:48px;background:#fff7ed;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:20px;">📍</div><span style="font-size:12px;color:#666;">地址</span></div></div><span class="btn-success">前往笔记APP</span><div style="font-size:13px;color:#999;margin-top:12px;">稍后提醒</div></div>` },
+      { label: "记忆列表", sub: "分类Tab + 时间排序", html: `<div class="status-bar"><span>2:36</span><span class="status-icons">●●● ▲ ■</span></div><div class="nav-bar"><span class="back">‹</span><span class="title">小爱记忆</span><span class="action">管理</span></div><div class="content-area"><div style="display:flex;gap:8px;margin-bottom:16px;"><span class="tag-chip blue" style="padding:6px 14px;font-size:13px;">全部(12)</span><span class="tag-chip" style="padding:6px 14px;font-size:13px;background:#f5f5f5;color:#666;">链接(4)</span><span class="tag-chip" style="padding:6px 14px;font-size:13px;background:#f5f5f5;color:#666;">卡证(5)</span><span class="tag-chip" style="padding:6px 14px;font-size:13px;background:#f5f5f5;color:#666;">地址(3)</span></div><div class="memory-list"><div class="item"><div class="emoji">🔗</div><div class="info"><h5>那个很好的设计网站</h5><p>dribbble.com ｜ 5/20记住</p></div></div><div class="item"><div class="emoji">💳</div><div class="info"><h5>WiFi密码</h5><p>xxx123 ｜ 5/18记住</p></div></div><div class="item"><div class="emoji">📍</div><div class="info"><h5>公司地址</h5><p>海淀区xx路xx号 ｜ 5/15记住</p></div></div><div class="item"><div class="emoji">💳</div><div class="info"><h5>快递柜密码</h5><p>4521 ｜ 5/28记住</p></div></div><div class="item"><div class="emoji">🔗</div><div class="info"><h5>敏捷交付宣贯会议</h5><p>小米汽车预计... ｜ 5/25记住</p></div></div></div></div>` }
+    ]
+  }
+];
+
+let currentFlow = 0;
+let currentStep = 0;
+
+function renderFlow() {
+  const flow = flows[currentFlow];
+  document.getElementById('flowInfo').innerHTML = `
+    <h2>${flow.title}</h2>
+    <p>${flow.desc}</p>
+    ${flow.tag ? `<span class="linan-tag">${flow.tag}</span>` : ''}
+  `;
+
+  // Update tabs
+  document.querySelectorAll('.flow-tab').forEach((tab, i) => {
+    tab.classList.toggle('active', i === currentFlow);
+  });
+
+  currentStep = 0;
+  renderStep();
+}
+
+function renderStep() {
+  const flow = flows[currentFlow];
+  const screen = flow.screens[currentStep];
+  const phoneScreen = document.getElementById('phoneScreen');
+
+  // Animate transition
+  const existing = phoneScreen.querySelector('.screen-content.active');
+  if (existing) {
+    existing.classList.remove('active');
+    existing.classList.add('exit');
+    setTimeout(() => existing.remove(), 400);
+  }
+
+  const newScreen = document.createElement('div');
+  newScreen.className = 'screen-content';
+  newScreen.style.background = screen.html.includes('ppt-viewer') ? '#111' : '#fff';
+  newScreen.innerHTML = screen.html;
+  phoneScreen.appendChild(newScreen);
+  requestAnimationFrame(() => newScreen.classList.add('active'));
+
+  // Update label
+  document.getElementById('screenLabel').innerHTML = `
+    <h3>${screen.label}</h3>
+    <p class="${screen.highlight ? 'highlight' : ''}">${screen.sub}</p>
+  `;
+
+  // Update dots
+  const dots = document.getElementById('stepDots');
+  dots.innerHTML = flow.screens.map((_, i) =>
+    `<div class="step-dot ${i === currentStep ? 'active' : ''}"></div>`
+  ).join('');
+
+  // Update buttons
+  document.getElementById('prevBtn').classList.toggle('disabled', currentStep === 0);
+  document.getElementById('nextBtn').classList.toggle('disabled', currentStep === flow.screens.length - 1);
+}
+
+function nextStep() {
+  const flow = flows[currentFlow];
+  if (currentStep < flow.screens.length - 1) {
+    currentStep++;
+    renderStep();
+  }
+}
+
+function prevStep() {
+  if (currentStep > 0) {
+    currentStep--;
+    renderStep();
+  }
+}
+
+// Tab clicks
+document.querySelectorAll('.flow-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    currentFlow = parseInt(tab.dataset.flow);
+    renderFlow();
+  });
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') nextStep();
+  if (e.key === 'ArrowLeft') prevStep();
+});
+
+// Init
+renderFlow();
+</script>
+</body>
+</html>
