@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>5/13 Ping总点检 · 设计+研发反馈</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC",sans-serif;background:#fff;padding:40px;color:#1a1a1a}
+h1{font-size:22px;font-weight:700;margin-bottom:6px}
+h2{font-size:18px;font-weight:700;margin:32px 0 12px;padding-bottom:8px;border-bottom:2px solid #333}
+.subtitle{font-size:13px;color:#999;margin-bottom:32px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:40px}
+th{background:#f5f5f5;font-weight:600;text-align:left;padding:10px 12px;border:1px solid #e0e0e0}
+td{padding:10px 12px;border:1px solid #e0e0e0;vertical-align:top;line-height:1.6}
+td:first-child{font-weight:500;background:#fafafa;min-width:100px}
+tr:hover td{background:#f9fbff}
+.done{color:#16a34a}
+.pending{color:#d97706}
+</style>
+</head>
+<body>
+<h1>5/13 Ping总点检OS4笔记版本反馈</h1>
+<p class="subtitle">设计部分 + 研发部分 · 完整表格</p>
+<h2>设计部分</h2>
+<table>
+<tr><th>所属范围</th><th>问题描述</th><th>解决方案</th></tr>
+<tr><td rowspan="3">笔记App整体<br><span class="done">✅</span></td><td>统一笔记App颜色风格<span class="done">✅</span><br>「<br>目前有主题色、蓝色，颜色体系混乱<br>」</td><td>目前系统确实有这样情况，但是不在同一个页面出现2种或以上就还好，如果有以前情况，大家都提供下场景<br>有更新方案<br>[对比图]<br>[链接]<br><span class="done">done</span></td></tr>
+<tr><td>统一所有按钮风格<span class="done">✅</span></td><td>调研已明确，设计稿已更新</td></tr>
+<tr><td>考虑增加明确操作指令按钮的触控反馈<span class="done">✅</span><br>「<br>如：开始录音<br>」</td><td>3个加一个点击振动，如老笔记中“新建笔记”的振动效果<br><span class="done">done</span></td></tr>
+<tr><td rowspan="4">首页胶囊<span class="done">✅</span></td><td>胶囊上三个按钮间距太大<span class="done">✅</span></td><td rowspan="3">调研结论明确，设计稿已更新，找姜欣更新下<br>[链接]<br><span class="done">done</span></td></tr>
+<tr><td>图标粗细不一致，有凌乱感<span class="done">✅</span></td></tr>
+<tr><td>胶囊上的icon需要重新设计<span class="done">✅</span></td></tr>
+<tr><td>录音中回到首页：胶囊不要有➕和新建。应该有明确的边录边记的入口提示</td><td>下周一调研完图标选择，收回结论，统一替换，然后再讨论下</td></tr>
+<tr><td>首页列表<br><span class="done">✅</span></td><td>建议笔记卡片标题强化<span class="done">✅</span><br>「<br>如：增大字号<br>」</td><td>UI还原问题<br><span class="done">done</span></td></tr>
+<tr><td rowspan="4">录音页<br><span class="done">✅</span></td><td>重新优化暂停的样式<span class="done">✅</span><br>「<br>如：暂停时圆圈颜色变浅，提示暂停文字变为橙色<br>」</td><td>会调一版<br><span class="done">done</span></td></tr>
+<tr><td>调整弱化录音中的橙色视觉<span class="done">✅</span><br>「<br>当前过于晃眼，页面有撑满之感<br>」</td><td>会调一版<br><span class="done">done</span></td></tr>
+<tr><td>精简边录边记时的工具栏<span class="done">✅</span><br>「<br>如：录音应该隐藏，当前已经处于录音状态，以及其他<br>」</td><td>给个方案：[产品方案](https%3A%2F%2Fwww.figma.com%2Fdesign%2FFcM8fYpuvPyUjb6zMraVyQ%2FAI-Note-%25E4%25BA%258C%25E6%259C%259F%25E9%259C%2580%25E6%25B1%2582%3Fnode-id%3D1937-28970%26p%3Df%26t%3Duusjf3bqcMx2s5YU-0)<br><span class="done">done</span> 录音图标置灰显示</td></tr>
+<tr><td>[图片]</td><td></td></tr>
+<tr><td>~~笔记详情页~~</td><td>~~重新刷AI生成的markdown格式 @ping总给图片示意~~</td><td></td></tr>
+<tr><td rowspan="2">详情页AI问答<br><span class="done">✅</span></td><td>对齐所有界面的AI图标风格<span class="done">✅</span><br>「<br>思考过程图标、AI问答入吧、工具栏AI图标、等等<br>」</td><td>[链接]<br><span class="done">done</span></td></tr>
+<tr><td>AI问答页面插入图片后：<span class="done">✅</span><br>1. R角和背景不一致<br>[图片]<br>1. 录音按钮比发送按钮大<br>1. 点击+弹出的菜单太远，在对话框上方</td><td>UI还原问题<br>R角<span class="done">done</span>，说效果待商讨<br>弹窗需要miuix配合，目前实现有问题<br>弹窗<span class="done">done</span><br>图标大小<span class="done">done</span></td></tr>
+<tr><td rowspan="3">待办<span class="done">✅</span></td><td>优化待办/日程卡片的对齐方式、格式、UI细节（底部投影效果）<span class="done">✅</span><br>这里有具体问题的说明吗，待办没有投影</td><td>UI未还原设计稿[链接]<br><span class="done">done</span></td></tr>
+<tr><td>优化待办页的按钮样式<br>「<br>当前和首页胶囊不统一<br>」</td><td>无需优化</td></tr>
+<tr><td>关注下走查发现的问题：[文档链接]<span class="done">✅</span><br>[图片]</td><td>UI未还原设计稿[链接]<br>已添加按钮文案修改为：取消日程<br><span class="done">done</span></td></tr>
+</table>
+<h2>研发部分</h2>
+<table>
+<tr><th>所属范围</th><th>问题描述</th><th>问题截图/录屏</th><th>优先级</th><th>解决状态</th><th>认领研发</th><th>解决方案</th></tr>
+<tr><td rowspan="5">笔记详情页<br>✅</td><td>语音笔记没有生成总结的时，应该在正文显示转录原文（异常bug）</td><td></td><td></td><td><span class="done">done</span></td><td></td><td>转录文本少于30字，总结显示：字数较少，无法生成总结</td></tr>
+<tr><td>语音笔记未识别完，不应该填充标题为：语音笔记<br>1. 当前录音中进入边录边记会填充标题，从首页列表进入不会填充标题<br>1. 当前编辑过的标题会被AI标题覆盖</td><td></td><td></td><td><span class="done">done</span></td><td></td><td>AI更新标题前先读取当前标题，仅当标题为空或等于默认占位标题时才写入AI生成的标题</td></tr>
+<tr><td>录音转时的卡片暂停时状态、卡片布局需要重新对齐设计稿</td><td></td><td></td><td><span class="done">done</span></td><td></td><td>音频条暂停时，提示用户：录音已暂停</td></tr>
+<tr><td>语音笔记应该先出转写结果，再进行AI next Action，转录时间太久，体验不佳<br>「<br>调研是否可以对接商用模型、调整当前小爱、miclaw模型参数<br>」</td><td></td><td></td><td><span class="pending">待调研</span>商用模型</td><td></td><td>目前已经使用了最好的mimo-pro，miclaw暂无优化空间；<br>帮忙看下是否需要使用豆包的商用的模型<br>⚠️当前按照方案在实施优化：[文档链接]</td></tr>
+<tr><td>详情页有2个AI生成</td><td>[图片]</td><td></td><td><span class="done">done</span></td><td></td><td></td></tr>
+<tr><td rowspan="3">bug<br>✅</td><td>生成的待办卡退出详情页后再次进入，卡片消失</td><td></td><td></td><td><span class="done">done</span></td><td></td><td></td></tr>
+<tr><td>详情页有AI文字总结，打开录音总结面板无总结</td><td></td><td></td><td>na</td><td></td><td></td></tr>
+<tr><td>录音中bar下方有灰色块（测试已提单跟进）</td><td>[图片]</td><td></td><td><span class="done">done</span></td><td></td><td></td></tr>
+</table>
+</body></html>
