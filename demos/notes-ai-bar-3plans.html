@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记详情页AI栏 · 3种方案对比</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','SF Pro Display',sans-serif;background:#0a0a0f;color:#fff;min-height:100vh}
+.header{padding:20px 32px;border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95)}
+.header h1{font-size:18px;font-weight:700}
+.header .meta{font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px}
+.tabs{display:flex;gap:6px;padding:12px 32px;position:sticky;top:60px;z-index:99;background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06)}
+.tab{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);transition:all .3s}
+.tab.active{background:#3b82f6;border-color:#3b82f6;color:#fff}
+.tab:hover{background:rgba(255,255,255,0.08);color:#fff}
+.stage{display:flex;flex-direction:column;align-items:center;padding:28px 20px}
+.plan-info{text-align:center;margin-bottom:20px;max-width:550px}
+.plan-info h2{font-size:16px;margin-bottom:4px}
+.plan-info p{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5}
+.plan-info .badge{display:inline-block;margin-top:6px;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.badge-pro{background:rgba(34,197,94,0.15);color:#22c55e}
+.badge-con{background:rgba(239,68,68,0.15);color:#ef4444}
+.badge-neutral{background:rgba(59,130,246,0.15);color:#60a5fa}
+
+.phone{width:375px;height:812px;border-radius:54px;background:#fff;overflow:hidden;box-shadow:0 0 0 11px #1a1a2e,0 0 0 13px rgba(255,255,255,0.08),0 30px 60px rgba(0,0,0,0.5);position:relative}
+
+/* Common phone UI */
+.sb{display:flex;justify-content:space-between;align-items:center;padding:14px 28px 0;height:50px;font-size:14px;font-weight:600;color:#1a1a1a}
+.sb .r{font-size:11px}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:6px 20px;height:44px}
+.topnav .back{font-size:22px;color:#1a1a1a}
+.topnav .title{font-size:17px;font-weight:600;color:#1a1a1a}
+.topnav .acts{display:flex;gap:16px;font-size:18px;color:#1a1a1a}
+
+/* Note content - shared base */
+.note-body{flex:1;overflow-y:auto;padding:0 20px 120px;color:#1a1a1a}
+.note-title{font-size:22px;font-weight:700;margin:12px 0 4px}
+.note-meta{font-size:12px;color:#999;margin-bottom:16px}
+.audio-card{background:#f8f9fa;border-radius:14px;padding:14px 16px;margin-bottom:16px}
+.audio-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.play-btn{width:36px;height:36px;border-radius:50%;background:#ff3b30;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
+.audio-time{font-size:15px;font-weight:600;color:#1a1a1a}
+.waveform{flex:1;height:24px;display:flex;align-items:center;gap:1.5px}
+.waveform span{display:block;width:2px;background:#ccc;border-radius:1px}
+.ai-summary{border-top:1px solid #eee;padding-top:10px;margin-top:2px}
+.ai-summary .label{font-size:13px;color:#666;display:flex;align-items:center;gap:4px;margin-bottom:4px}
+.ai-summary .label .icon{font-size:14px}
+.ai-summary .text{font-size:14px;color:#333;line-height:1.6}
+.section-h{font-size:16px;font-weight:700;margin:20px 0 8px;display:flex;align-items:center;gap:6px}
+.section-h .emoji{font-size:16px}
+.body-text{font-size:15px;color:#333;line-height:1.8;margin-bottom:12px}
+.body-list{font-size:14px;color:#444;line-height:1.8;padding-left:16px;margin-bottom:12px}
+.body-list li{margin-bottom:4px}
+
+/* Plan A: Action横铺 */
+.bar-a{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #f0f0f0;padding:10px 16px 34px}
+.bar-a .actions{display:flex;gap:8px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px}
+.bar-a .action-chip{padding:7px 12px;border-radius:16px;font-size:12px;font-weight:500;background:#f5f5f7;color:#333;white-space:nowrap;border:1px solid #e5e5e5;display:flex;align-items:center;gap:4px}
+.bar-a .action-chip .ic{font-size:14px}
+.bar-a .input-row{display:flex;align-items:center;gap:8px;background:#f5f5f7;border-radius:22px;padding:10px 14px}
+.bar-a .input-row .mic{font-size:16px}
+.bar-a .input-row .placeholder{flex:1;font-size:13px;color:#999}
+.bar-a .input-row .send{color:#3b82f6;font-weight:600;font-size:13px}
+
+/* Plan B: 正文内嵌AI卡片 */
+.inline-ai-card{background:linear-gradient(135deg,#f8faff,#f0f4ff);border:1px solid #dbeafe;border-radius:16px;padding:14px 16px;margin:16px 0}
+.inline-ai-card .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.inline-ai-card .top .label{font-size:13px;font-weight:600;color:#2563eb;display:flex;align-items:center;gap:4px}
+.inline-ai-card .top .more{font-size:12px;color:#999}
+.inline-ai-card .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.inline-ai-card .grid-item{text-align:center;padding:10px 4px;border-radius:10px;background:#fff;border:1px solid #e5e7eb;font-size:11px;color:#555}
+.inline-ai-card .grid-item .ic{font-size:20px;margin-bottom:3px;display:block}
+.bar-b{position:absolute;bottom:0;left:0;right:0;padding:0 16px 34px 16px;background:#fff}
+.bar-b .input-mini{display:flex;align-items:center;gap:8px;background:#f5f5f7;border-radius:22px;padding:10px 14px}
+.bar-b .input-mini .sparkle{font-size:16px}
+.bar-b .input-mini .ph{flex:1;font-size:13px;color:#999}
+
+/* Plan C: 悬浮小球 */
+.fab-ai{position:absolute;bottom:100px;right:20px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;box-shadow:0 6px 20px rgba(59,130,246,0.35);cursor:pointer;transition:transform .2s}
+.fab-ai:hover{transform:scale(1.08)}
+.fab-ai .badge-count{position:absolute;top:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:#ef4444;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.tab-bar-c{display:flex;justify-content:space-around;align-items:center;padding:8px 0 30px;border-top:1px solid #f0f0f0;position:absolute;bottom:0;left:0;right:0;background:#fff}
+.tab-bar-c span{font-size:10px;color:#999;text-align:center}
+.tab-bar-c span.on{color:#3b82f6;font-weight:600}
+
+/* Expanded fab menu */
+.fab-menu{position:absolute;bottom:160px;right:16px;background:#fff;border-radius:16px;padding:12px;box-shadow:0 8px 32px rgba(0,0,0,0.15);border:1px solid #e5e5e5;width:160px}
+.fab-menu .item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;font-size:13px;color:#333;cursor:pointer}
+.fab-menu .item:hover{background:#f5f5f7}
+.fab-menu .item .ic{font-size:16px}
+
+.pros-cons{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;justify-content:center}
+.pros-cons span{font-size:10px;padding:3px 8px;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>笔记详情页AI栏 · 3种方案对比</h1>
+  <div class="meta">基于6/1李楠指示：既然占了这么大框就把功能给全，或者缩小成入口</div>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-p="0">方案A · Action横铺</div>
+  <div class="tab" data-p="1">方案B · 正文内嵌卡片</div>
+  <div class="tab" data-p="2">方案C · 悬浮小球</div>
+</div>
+<div class="stage">
+  <div class="plan-info" id="planInfo"></div>
+  <div class="phone" id="phone"></div>
+</div>
+
+<script>
+const noteContent = `
+<div class="sb"><span>2:36</span><span class="r">●●● ▲ ■</span></div>
+<div class="topnav"><span class="back">‹</span><span class="title">产品需求讨论会</span><span class="acts"><span>⬆</span><span>⋯</span></span></div>
+<div class="note-body">
+  <div class="note-title">产品需求讨论会</div>
+  <div class="note-meta">9/26 10:29 ｜ 398字 ｜ 来自MiClaw</div>
+  <div class="audio-card">
+    <div class="audio-top">
+      <div class="play-btn">▶</div>
+      <span class="audio-time">00:07</span>
+      <div class="waveform">${Array(30).fill(0).map(()=>`<span style="height:${4+Math.random()*18}px"></span>`).join('')}</div>
+    </div>
+    <div class="ai-summary">
+      <div class="label"><span class="icon">✨</span> AI总结</div>
+      <div class="text">由于项目进度不断变化，我们需要重新审视项目计划以确保我们能够有效地应对...</div>
+    </div>
+  </div>
+  <div class="section-h"><span class="emoji">💡</span> 会议目的：</div>
+  <div class="body-text">宣贯设计部在AI转敏捷交付后的新流程，明确设计主导需求的交付机制、时间节点及跨部门协作规则。</div>
+  <div class="section-h"><span class="emoji">🤝</span> 会议共识：</div>
+  <ul class="body-list">
+    <li>设计部独立建立敏捷需求交付流程，与产品线并行但分工清晰</li>
+    <li>所有设计发起的需求需通过"一句话需求清单"登记</li>
+    <li>需求管理平台为唯一入口，所有设计需求由设计同学自行录入</li>
+    <li>铁三角已共识且资源明确的需求可直接登记，无需重复上SE报备</li>
+  </ul>
+</div>`;
+
+const plans = [
+  {
+    title: "方案A · Action横铺式",
+    desc: "底部常驻AI栏，上方横向铺设常用Action按钮（生成脑图/PPT/播客/待办），下方为自由输入框。用户一眼可见所有AI能力，一点即用。",
+    pros: ["功能发现性最强", "一点即用零门槛"],
+    cons: ["底部占用空间较大(~100px)", "像独立Agent页面"],
+    html: noteContent + `<div class="bar-a"><div class="actions"><div class="action-chip"><span class="ic">🧠</span>生成脑图</div><div class="action-chip"><span class="ic">📊</span>生成PPT</div><div class="action-chip"><span class="ic">🎧</span>生成播客</div><div class="action-chip"><span class="ic">☑️</span>提取待办</div><div class="action-chip"><span class="ic">📝</span>润色</div></div><div class="input-row"><span class="mic">🎙️</span><span class="placeholder">对AI说点什么…</span><span class="send">发送</span></div></div>`
+  },
+  {
+    title: "方案B · 正文内嵌AI卡片",
+    desc: "AI能力以卡片形式嵌入正文流中（AI总结下方），用户浏览时自然看到。底部只保留极简输入框，不抢正文空间。",
+    pros: ["正文阅读体验好", "AI与内容融合自然", "底栏极小不遮挡"],
+    cons: ["需滑到对应位置才看到", "首次进入不可见"],
+    html: noteContent.replace('</div>\n  <div class="section-h"><span class="emoji">💡</span> 会议目的：</div>', `</div><div class="inline-ai-card"><div class="top"><span class="label">✨ AI 可以帮你</span><span class="more">更多 →</span></div><div class="grid"><div class="grid-item"><span class="ic">🧠</span>脑图</div><div class="grid-item"><span class="ic">📊</span>PPT</div><div class="grid-item"><span class="ic">🎧</span>播客</div><div class="grid-item"><span class="ic">☑️</span>待办</div></div></div><div class="section-h"><span class="emoji">💡</span> 会议目的：</div>`) + `<div class="bar-b"><div class="input-mini"><span class="sparkle">✨</span><span class="ph">总结、润色、对话…</span></div></div>`
+  },
+  {
+    title: "方案C · 悬浮小球入口",
+    desc: "AI入口缩小为右下角悬浮小球（带能力数量角标），点击展开快捷菜单。正文区域零遮挡，保持纯粹笔记阅读体验。",
+    pros: ["正文零遮挡", "笔记体验最纯粹", "李楠说的'缩小'方向"],
+    cons: ["AI功能发现性弱", "多一步操作"],
+    html: noteContent + `<div class="fab-ai">✦<span class="badge-count">4</span></div><div class="fab-menu"><div class="item"><span class="ic">🧠</span>生成脑图</div><div class="item"><span class="ic">📊</span>生成PPT</div><div class="item"><span class="ic">🎧</span>生成播客</div><div class="item"><span class="ic">☑️</span>提取待办</div></div><div class="tab-bar-c"><span class="on">正文</span><span>产出物</span><span>原文</span></div>`
+  }
+];
+
+let current = 0;
+
+function render() {
+  const p = plans[current];
+  document.getElementById('planInfo').innerHTML = `
+    <h2>${p.title}</h2>
+    <p>${p.desc}</p>
+    <div class="pros-cons">
+      ${p.pros.map(x=>`<span class="badge-pro">✓ ${x}</span>`).join('')}
+      ${p.cons.map(x=>`<span class="badge-con">✗ ${x}</span>`).join('')}
+    </div>
+  `;
+  document.getElementById('phone').innerHTML = p.html;
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i === current));
+}
+
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => { current = +t.dataset.p; render(); });
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' && current < 2) { current++; render(); }
+  if (e.key === 'ArrowLeft' && current > 0) { current--; render(); }
+});
+
+render();
+</script>
+</body>
+</html>
