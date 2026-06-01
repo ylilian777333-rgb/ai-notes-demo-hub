@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记AI栏 · 4方案可交互原型</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','SF Pro Display',sans-serif;background:#0a0a0f;color:#fff;min-height:100vh;overflow-x:hidden}
+.header{padding:20px 32px;border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95)}
+.header h1{font-size:18px;font-weight:700}
+.header .meta{font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px}
+.tabs{display:flex;gap:6px;padding:12px 32px;position:sticky;top:60px;z-index:99;background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06)}
+.tab{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);transition:all .3s}
+.tab.active{background:#3b82f6;border-color:#3b82f6;color:#fff}
+.tab.recommend{border-color:#f59e0b;color:#f59e0b}
+.tab.recommend.active{background:#f59e0b;border-color:#f59e0b;color:#fff}
+.tab:hover{background:rgba(255,255,255,0.08);color:#fff}
+.stage{display:flex;flex-direction:column;align-items:center;padding:28px 20px}
+.plan-info{text-align:center;margin-bottom:20px;max-width:550px}
+.plan-info h2{font-size:16px;margin-bottom:4px}
+.plan-info p{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5}
+.badge-pro{display:inline-block;background:rgba(34,197,94,0.15);color:#22c55e;font-size:10px;padding:3px 8px;border-radius:8px;margin:3px}
+.badge-con{display:inline-block;background:rgba(239,68,68,0.15);color:#ef4444;font-size:10px;padding:3px 8px;border-radius:8px;margin:3px}
+
+/* Phone */
+.phone-wrap{position:relative}
+.phone{width:375px;height:812px;border-radius:54px;background:#fff;overflow:hidden;box-shadow:0 0 0 11px #1a1a2e,0 0 0 13px rgba(255,255,255,0.08),0 30px 60px rgba(0,0,0,0.5);position:relative}
+
+/* Pages system */
+.page{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .35s;z-index:1}
+.page.hidden-right{transform:translateX(100%);opacity:0;pointer-events:none}
+.page.hidden-left{transform:translateX(-30%);opacity:.5;pointer-events:none}
+.page.active{transform:translateX(0);opacity:1;z-index:2}
+
+/* Status bar */
+.sb{display:flex;justify-content:space-between;align-items:center;padding:14px 28px 0;height:50px;font-size:14px;font-weight:600;color:#1a1a1a;flex-shrink:0}
+.sb .r{font-size:11px}
+
+/* Nav */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:6px 20px;height:44px;flex-shrink:0}
+.nav .back{font-size:22px;color:#1a1a1a;cursor:pointer}
+.nav .title{font-size:17px;font-weight:600;color:#1a1a1a}
+.nav .acts{display:flex;gap:16px;font-size:18px;color:#1a1a1a}
+.nav .act-btn{font-size:14px;color:#3b82f6;font-weight:500;cursor:pointer}
+
+/* Content */
+.content{flex:1;padding:0 20px;color:#1a1a1a;font-size:15px;line-height:1.6;overflow:hidden}
+.note-title{font-size:22px;font-weight:700;margin:12px 0 4px}
+.note-meta{font-size:12px;color:#999;margin-bottom:16px}
+
+/* Audio card */
+.audio-card{background:#f8f9fa;border-radius:14px;padding:14px 16px;margin-bottom:16px}
+.audio-top{display:flex;align-items:center;gap:10px}
+.play-btn{width:36px;height:36px;border-radius:50%;background:#ff3b30;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0}
+.audio-time{font-size:15px;font-weight:600}
+.waveform{flex:1;height:24px;display:flex;align-items:center;gap:1.5px}
+.waveform span{display:block;width:2px;background:#ccc;border-radius:1px}
+.ai-summary{border-top:1px solid #eee;padding-top:10px;margin-top:10px}
+.ai-summary-label{font-size:13px;color:#666;display:flex;align-items:center;gap:4px;margin-bottom:4px}
+.ai-summary-text{font-size:14px;color:#333;line-height:1.6}
+
+/* Sections */
+.section-h{font-size:16px;font-weight:700;margin:20px 0 8px;display:flex;align-items:center;gap:6px}
+.body-text{font-size:15px;color:#333;line-height:1.8;margin-bottom:12px}
+.body-list{font-size:14px;color:#444;line-height:1.8;padding-left:16px;margin-bottom:12px}
+.body-list li{margin-bottom:4px}
+
+/* Bottom bars */
+.bottom-bar{position:absolute;bottom:0;left:0;right:0;background:#fff;z-index:10}
+
+/* Plan A */
+.bar-a{padding:10px 16px 34px;border-top:1px solid #f0f0f0}
+.bar-a .actions{display:flex;gap:8px;margin-bottom:10px}
+.bar-a .chip{padding:7px 12px;border-radius:16px;font-size:12px;font-weight:500;background:#f5f5f7;color:#333;white-space:nowrap;border:1px solid #e5e5e5;cursor:pointer;transition:all .15s}
+.bar-a .chip:active{background:#e8e8e8;transform:scale(.95)}
+.bar-a .input-row{display:flex;align-items:center;gap:8px;background:#f5f5f7;border-radius:22px;padding:10px 14px}
+.bar-a .input-row span{font-size:13px;color:#999;flex:1}
+.bar-a .input-row .send{color:#3b82f6;font-weight:600;flex:none}
+
+/* Plan B */
+.fab{position:absolute;bottom:100px;right:20px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;box-shadow:0 6px 20px rgba(59,130,246,0.35);cursor:pointer;z-index:10}
+.fab .count{position:absolute;top:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:#ef4444;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.fab-panel{position:absolute;bottom:160px;right:16px;background:#fff;border-radius:16px;padding:8px;box-shadow:0 8px 32px rgba(0,0,0,0.15);border:1px solid #e5e5e5;width:160px;z-index:10}
+.fab-panel .item{display:flex;align-items:center;gap:8px;padding:10px;border-radius:8px;font-size:13px;color:#333;cursor:pointer}
+.fab-panel .item:active{background:#f5f5f7}
+
+/* Plan C */
+.bar-c{padding:8px 16px 34px;border-top:1px solid #f0f0f0;display:flex;align-items:center;gap:8px}
+.bar-c .sparkle{font-size:16px;color:#3b82f6}
+.bar-c .chips{display:flex;gap:6px;flex:1}
+.bar-c .chip{padding:6px 12px;border-radius:14px;font-size:12px;font-weight:500;background:#f0f4ff;color:#2563eb;white-space:nowrap;border:1px solid #dbeafe;cursor:pointer}
+.bar-c .chip:active{background:#dbeafe;transform:scale(.95)}
+.bar-c .chip .tag{font-size:9px;color:#f59e0b;background:#fff7ed;padding:1px 4px;border-radius:4px;margin-left:3px}
+.bar-c .more{font-size:12px;color:#999;cursor:pointer;white-space:nowrap}
+
+/* Plan C expanded */
+.bar-c-full{padding:16px 16px 34px;border-top:1px solid #f0f0f0}
+.bar-c-full .label{font-size:11px;font-weight:600;color:#999;margin-bottom:10px}
+.bar-c-full .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bar-c-full .grid .item{text-align:center;padding:10px 4px;border-radius:10px;background:#f8f9fa;border:1px solid #e5e5e5;font-size:11px;color:#333;cursor:pointer}
+.bar-c-full .grid .item:active{background:#eff6ff;border-color:#3b82f6}
+.bar-c-full .grid .item .ic{font-size:18px;display:block;margin-bottom:2px}
+
+/* Plan D */
+.bar-d-inline{margin:16px 0;background:linear-gradient(135deg,#f8faff,#f0f4ff);border:1px solid #dbeafe;border-radius:16px;padding:14px 16px}
+.bar-d-inline .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.bar-d-inline .top .label{font-size:13px;font-weight:600;color:#2563eb}
+.bar-d-inline .top .more{font-size:12px;color:#999;cursor:pointer}
+.bar-d-inline .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bar-d-inline .grid .item{text-align:center;padding:10px 4px;border-radius:10px;background:#fff;border:1px solid #e5e7eb;font-size:11px;color:#555;cursor:pointer}
+.bar-d-inline .grid .item:active{background:#eff6ff;border-color:#3b82f6}
+.bar-d-inline .grid .item .ic{font-size:20px;display:block;margin-bottom:3px}
+
+/* Generating page */
+.gen-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px}
+.gen-icon{font-size:48px;margin-bottom:16px;animation:spin 2s linear infinite}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.gen-title{font-size:18px;font-weight:600;margin-bottom:8px;color:#1a1a1a}
+.gen-sub{font-size:14px;color:#888;text-align:center}
+.progress{width:200px;height:4px;background:#e5e5e5;border-radius:2px;margin-top:16px;overflow:hidden}
+.progress .fill{height:100%;background:#3b82f6;border-radius:2px;animation:loading 2s ease infinite}
+@keyframes loading{0%{width:0}50%{width:70%}100%{width:100%}}
+
+/* Result page */
+.result-card{background:#ecfdf5;border:1px solid #a7f3d0;border-radius:16px;padding:20px;margin:20px;text-align:center}
+.result-card .icon{font-size:40px;margin-bottom:10px}
+.result-card h3{font-size:17px;font-weight:600;color:#059669;margin-bottom:6px}
+.result-card p{font-size:13px;color:#666}
+.result-actions{display:flex;gap:10px;justify-content:center;margin-top:16px}
+.result-actions .btn{padding:8px 20px;border-radius:18px;font-size:13px;font-weight:600;cursor:pointer}
+.result-actions .btn-primary{background:#3b82f6;color:#fff}
+.result-actions .btn-ghost{background:#f5f5f7;color:#333;border:1px solid #e5e5e5}
+
+/* Swipe hint */
+.swipe-hint{position:absolute;top:50%;left:-60px;font-size:11px;color:rgba(255,255,255,0.3);writing-mode:vertical-rl;transform:translateY(-50%)}
+
+@media(max-width:500px){.phone{width:340px;height:736px;border-radius:48px}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>笔记AI栏 · 4方案可交互原型</h1>
+  <div class="meta">支持左滑菜单 + 二级页面跳转 ｜ 基于6/1李楠指示</div>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-p="0">A · Action横铺</div>
+  <div class="tab" data-p="1">B · 悬浮小球</div>
+  <div class="tab recommend" data-p="2">★ C · 极简动态栏</div>
+  <div class="tab" data-p="3">D · 正文内嵌</div>
+</div>
+<div class="stage">
+  <div class="plan-info" id="planInfo"></div>
+  <div class="phone-wrap">
+    <div class="phone" id="phone"></div>
+    <div class="swipe-hint">← 左滑操作菜单</div>
+  </div>
+</div>
+
+<script>
+// Shared note content builder
+function noteHTML(extraContent) {
+  const waves = Array(28).fill(0).map(()=>`<span style="height:${4+Math.random()*16}px"></span>`).join('');
+  return `
+    <div class="sb"><span>2:36</span><span class="r">●●● ▲ ■</span></div>
+    <div class="nav">
+      <span class="back" data-action="back">‹</span>
+      <span class="title">产品需求讨论会</span>
+      <span class="acts"><span>⬆</span> <span>⋯</span></span>
+    </div>
+    <div class="content">
+      <div class="note-title">产品需求讨论会</div>
+      <div class="note-meta">9/26 10:29 ｜ 398字 ｜ 来自MiClaw</div>
+      <div class="audio-card">
+        <div class="audio-top">
+          <div class="play-btn">▶</div>
+          <span class="audio-time">00:07</span>
+          <div class="waveform">${waves}</div>
+        </div>
+        <div class="ai-summary">
+          <div class="ai-summary-label">✨ AI总结</div>
+          <div class="ai-summary-text">由于项目进度不断变化，我们需要重新审视项目计划以确保我们能够有效地应对...</div>
+        </div>
+      </div>
+      ${extraContent || ''}
+      <div class="section-h">💡 会议目的：</div>
+      <div class="body-text">宣贯设计部在AI转敏捷交付后的新流程，明确设计主导需求的交付机制、时间节点及跨部门协作规则。</div>
+      <div class="section-h">🤝 会议共识：</div>
+      <ul class="body-list">
+        <li>设计部独立建立敏捷需求交付流程，与产品线并行但分工清晰</li>
+        <li>所有设计发起的需求需通过"一句话需求清单"登记</li>
+        <li>需求管理平台为唯一入口</li>
+        <li>铁三角已共识且资源明确的需求可直接登记</li>
+      </ul>
+    </div>`;
+}
+
+function genPageHTML(type, icon) {
+  return `
+    <div class="sb"><span>2:36</span><span class="r">●●● ▲ ■</span></div>
+    <div class="nav">
+      <span class="back" data-action="back">‹</span>
+      <span class="title">生成${type}</span>
+      <span class="acts"></span>
+    </div>
+    <div class="gen-center">
+      <div class="gen-icon">${icon}</div>
+      <div class="gen-title">正在生成${type}...</div>
+      <div class="gen-sub">基于「产品需求讨论会」内容<br>预计10秒完成</div>
+      <div class="progress"><div class="fill"></div></div>
+    </div>`;
+}
+
+function resultPageHTML(type, icon) {
+  return `
+    <div class="sb"><span>2:36</span><span class="r">●●● ▲ ■</span></div>
+    <div class="nav">
+      <span class="back" data-action="back">‹</span>
+      <span class="title">${type}预览</span>
+      <span class="act-btn" data-action="back">完成</span>
+    </div>
+    <div class="content" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div class="result-card">
+        <div class="icon">${icon}</div>
+        <h3>${type}生成完成</h3>
+        <p>已基于会议内容生成4页${type}</p>
+        <div class="result-actions">
+          <div class="btn btn-primary">查看</div>
+          <div class="btn btn-ghost">分享</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// Plans definition
+const plans = [
+  {
+    title: "方案A · Action横铺式",
+    desc: "底部常驻AI栏，横向铺设Action按钮+输入框",
+    pros: ["功能发现性最强", "一点即用"],
+    cons: ["底部占用大(~100px)", "像Agent页面"],
+    render(phone) {
+      const main = document.createElement('div');
+      main.className = 'page active';
+      main.dataset.page = 'main';
+      main.innerHTML = noteHTML() + `
+        <div class="bottom-bar bar-a">
+          <div class="actions">
+            <div class="chip" data-gen="脑图" data-icon="🧠">🧠 生成脑图</div>
+            <div class="chip" data-gen="PPT" data-icon="📊">📊 生成PPT</div>
+            <div class="chip" data-gen="播客" data-icon="🎧">🎧 播客</div>
+            <div class="chip" data-gen="待办" data-icon="☑️">☑️ 待办</div>
+          </div>
+          <div class="input-row"><span>🎙️ 对AI说点什么…</span><span class="send">发送</span></div>
+        </div>`;
+      phone.appendChild(main);
+    }
+  },
+  {
+    title: "方案B · 悬浮小球",
+    desc: "右下角小球入口，点击展开菜单。正文零遮挡",
+    pros: ["正文零遮挡", "笔记体验纯粹"],
+    cons: ["发现性弱", "多一步操作"],
+    render(phone) {
+      const main = document.createElement('div');
+      main.className = 'page active';
+      main.dataset.page = 'main';
+      main.innerHTML = noteHTML() + `
+        <div class="fab" data-action="toggle-panel">✦<span class="count">4</span></div>
+        <div class="fab-panel" style="display:none" id="fabPanel">
+          <div class="item" data-gen="脑图" data-icon="🧠">🧠 生成脑图</div>
+          <div class="item" data-gen="PPT" data-icon="📊">📊 生成PPT</div>
+          <div class="item" data-gen="播客" data-icon="🎧">🎧 生成播客</div>
+          <div class="item" data-gen="待办" data-icon="☑️">☑️ 提取待办</div>
+        </div>`;
+      phone.appendChild(main);
+    }
+  },
+  {
+    title: "★ 方案C · 极简动态栏（推荐）",
+    desc: "底栏仅一行(36px)动态推荐Action，点\"更多\"展开全部",
+    pros: ["占用极小(36px)", "动态推荐智能感", "系统级克制气质"],
+    cons: ["动态逻辑需后端"],
+    render(phone) {
+      const main = document.createElement('div');
+      main.className = 'page active';
+      main.dataset.page = 'main';
+      main.dataset.state = 'collapsed';
+      main.innerHTML = noteHTML() + `
+        <div class="bottom-bar bar-c" id="barC">
+          <span class="sparkle">✨</span>
+          <div class="chips">
+            <div class="chip" data-gen="脑图" data-icon="🧠">🧠 脑图<span class="tag">推荐</span></div>
+            <div class="chip" data-gen="PPT" data-icon="📊">📊 PPT</div>
+            <div class="chip" data-gen="待办" data-icon="☑️">☑️ 待办</div>
+          </div>
+          <span class="more" data-action="expand-c">更多 ›</span>
+        </div>
+        <div class="bottom-bar bar-c-full" id="barCFull" style="display:none">
+          <div class="label">基于「会议录音」为你推荐</div>
+          <div class="grid">
+            <div class="item" data-gen="脑图" data-icon="🧠"><span class="ic">🧠</span>脑图</div>
+            <div class="item" data-gen="PPT" data-icon="📊"><span class="ic">📊</span>PPT</div>
+            <div class="item" data-gen="播客" data-icon="🎧"><span class="ic">🎧</span>播客</div>
+            <div class="item" data-gen="待办" data-icon="☑️"><span class="ic">☑️</span>待办</div>
+            <div class="item" data-gen="润色" data-icon="📝"><span class="ic">📝</span>润色</div>
+            <div class="item" data-gen="摘要" data-icon="📋"><span class="ic">📋</span>摘要</div>
+            <div class="item" data-gen="研究" data-icon="🔍"><span class="ic">🔍</span>研究</div>
+            <div class="item" data-gen="网页" data-icon="🌐"><span class="ic">🌐</span>网页</div>
+          </div>
+        </div>`;
+      phone.appendChild(main);
+    }
+  },
+  {
+    title: "方案D · 正文末尾内嵌卡片",
+    desc: "AI卡片嵌入正文末尾，底部无固定栏",
+    pros: ["与内容融合自然", "不占固定空间"],
+    cons: ["首次不可见", "需滑到底部"],
+    render(phone) {
+      const inlineCard = `
+        <div class="bar-d-inline">
+          <div class="top"><span class="label">✨ AI 可以帮你</span><span class="more">更多 →</span></div>
+          <div class="grid">
+            <div class="item" data-gen="脑图" data-icon="🧠"><span class="ic">🧠</span>脑图</div>
+            <div class="item" data-gen="PPT" data-icon="📊"><span class="ic">📊</span>PPT</div>
+            <div class="item" data-gen="播客" data-icon="🎧"><span class="ic">🎧</span>播客</div>
+            <div class="item" data-gen="待办" data-icon="☑️"><span class="ic">☑️</span>待办</div>
+          </div>
+        </div>`;
+      const main = document.createElement('div');
+      main.className = 'page active';
+      main.dataset.page = 'main';
+      main.innerHTML = noteHTML(inlineCard);
+      phone.appendChild(main);
+    }
+  }
+];
+
+let currentPlan = 0;
+
+function renderPlan() {
+  const p = plans[currentPlan];
+  document.getElementById('planInfo').innerHTML = `
+    <h2>${p.title}</h2>
+    <p>${p.desc}</p>
+    <div style="margin-top:6px">
+      ${p.pros.map(x=>`<span class="badge-pro">✓ ${x}</span>`).join('')}
+      ${p.cons.map(x=>`<span class="badge-con">✗ ${x}</span>`).join('')}
+    </div>`;
+  const phone = document.getElementById('phone');
+  phone.innerHTML = '';
+  p.render(phone);
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i === currentPlan));
+  bindEvents();
+}
+
+function navigateTo(pageHTML) {
+  const phone = document.getElementById('phone');
+  const current = phone.querySelector('.page.active');
+  if (current) {
+    current.classList.remove('active');
+    current.classList.add('hidden-left');
+  }
+  const newPage = document.createElement('div');
+  newPage.className = 'page hidden-right';
+  newPage.dataset.page = 'sub';
+  newPage.innerHTML = pageHTML;
+  phone.appendChild(newPage);
+  requestAnimationFrame(() => {
+    newPage.classList.remove('hidden-right');
+    newPage.classList.add('active');
+  });
+  bindEvents();
+}
+
+function navigateBack() {
+  const phone = document.getElementById('phone');
+  const sub = phone.querySelector('.page[data-page="sub"].active');
+  const main = phone.querySelector('.page[data-page="main"]');
+  if (sub && main) {
+    sub.classList.remove('active');
+    sub.classList.add('hidden-right');
+    main.classList.remove('hidden-left');
+    main.classList.add('active');
+    setTimeout(() => sub.remove(), 400);
+  }
+}
+
+function bindEvents() {
+  const phone = document.getElementById('phone');
+
+  // Back buttons
+  phone.querySelectorAll('[data-action="back"]').forEach(el => {
+    el.onclick = (e) => { e.stopPropagation(); navigateBack(); };
+  });
+
+  // Generate actions -> navigate to gen page, then result
+  phone.querySelectorAll('[data-gen]').forEach(el => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      const type = el.dataset.gen;
+      const icon = el.dataset.icon;
+      navigateTo(genPageHTML(type, icon));
+      setTimeout(() => {
+        const phone = document.getElementById('phone');
+        const genPage = phone.querySelector('.page[data-page="sub"].active');
+        if (genPage) {
+          genPage.classList.remove('active');
+          genPage.classList.add('hidden-left');
+          const resultPage = document.createElement('div');
+          resultPage.className = 'page hidden-right';
+          resultPage.dataset.page = 'sub';
+          resultPage.innerHTML = resultPageHTML(type, icon);
+          phone.appendChild(resultPage);
+          requestAnimationFrame(() => {
+            resultPage.classList.remove('hidden-right');
+            resultPage.classList.add('active');
+          });
+          setTimeout(() => genPage.remove(), 400);
+          bindEvents();
+        }
+      }, 2500);
+    };
+  });
+
+  // Fab toggle
+  phone.querySelectorAll('[data-action="toggle-panel"]').forEach(el => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      const panel = phone.querySelector('.fab-panel');
+      if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    };
+  });
+
+  // Plan C expand
+  phone.querySelectorAll('[data-action="expand-c"]').forEach(el => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      const barC = phone.querySelector('#barC');
+      const barCFull = phone.querySelector('#barCFull');
+      if (barC && barCFull) {
+        barC.style.display = 'none';
+        barCFull.style.display = 'block';
+      }
+    };
+  });
+}
+
+// Tab switching
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => { currentPlan = +t.dataset.p; renderPlan(); });
+});
+
+// Swipe support on phone
+let touchStartX = 0;
+document.getElementById('phone').addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.getElementById('phone').addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (diff > 60) {
+    // Swipe left on main page -> show expanded/panel
+    const phone = document.getElementById('phone');
+    const panel = phone.querySelector('.fab-panel');
+    const barCFull = phone.querySelector('#barCFull');
+    const barC = phone.querySelector('#barC');
+    if (panel) panel.style.display = 'block';
+    if (barCFull && barC) { barC.style.display = 'none'; barCFull.style.display = 'block'; }
+  }
+  if (diff < -60) {
+    // Swipe right -> back
+    navigateBack();
+  }
+});
+
+// Mouse swipe for desktop
+let mouseDown = false, mouseStartX = 0;
+document.getElementById('phone').addEventListener('mousedown', e => { mouseDown = true; mouseStartX = e.clientX; });
+document.getElementById('phone').addEventListener('mouseup', e => {
+  if (!mouseDown) return;
+  mouseDown = false;
+  const diff = mouseStartX - e.clientX;
+  if (diff > 60) {
+    const phone = document.getElementById('phone');
+    const panel = phone.querySelector('.fab-panel');
+    const barCFull = phone.querySelector('#barCFull');
+    const barC = phone.querySelector('#barC');
+    if (panel) panel.style.display = 'block';
+    if (barCFull && barC) { barC.style.display = 'none'; barCFull.style.display = 'block'; }
+  }
+  if (diff < -60) { navigateBack(); }
+});
+
+renderPlan();
+</script>
+</body>
+</html>
