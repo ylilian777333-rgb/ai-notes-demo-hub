@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记AI栏 · 4方案可交互原型 v3</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','SF Pro Display',sans-serif;background:#0a0a0f;color:#fff;min-height:100vh;overflow-x:hidden}
+.header{padding:20px 32px;border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95)}
+.header h1{font-size:18px;font-weight:700}
+.header .meta{font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px}
+.tabs{display:flex;gap:6px;padding:12px 32px;position:sticky;top:60px;z-index:99;background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06)}
+.tab{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);transition:all .3s}
+.tab.active{background:#3b82f6;border-color:#3b82f6;color:#fff}
+.tab.recommend{border-color:#f59e0b;color:#f59e0b}
+.tab.recommend.active{background:#f59e0b;border-color:#f59e0b;color:#fff}
+.tab:hover{background:rgba(255,255,255,0.08);color:#fff}
+.stage{display:flex;flex-direction:column;align-items:center;padding:28px 20px}
+.plan-info{text-align:center;margin-bottom:20px;max-width:550px}
+.plan-info h2{font-size:16px;margin-bottom:4px}
+.plan-info p{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5}
+.badge-pro{display:inline-block;background:rgba(34,197,94,0.15);color:#22c55e;font-size:10px;padding:3px 8px;border-radius:8px;margin:3px}
+.badge-con{display:inline-block;background:rgba(239,68,68,0.15);color:#ef4444;font-size:10px;padding:3px 8px;border-radius:8px;margin:3px}
+
+/* Phone */
+.phone{width:375px;height:812px;border-radius:54px;background:#fff;overflow:hidden;box-shadow:0 0 0 11px #1a1a2e,0 0 0 13px rgba(255,255,255,0.08),0 30px 60px rgba(0,0,0,0.5);position:relative}
+
+/* Page system */
+.page{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:#fff;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .35s;z-index:1;overflow:hidden}
+.page.hidden-right{transform:translateX(100%);opacity:0;pointer-events:none}
+.page.hidden-left{transform:translateX(-30%);opacity:.5;pointer-events:none}
+.page.active{transform:translateX(0);opacity:1;z-index:2}
+
+/* Status bar */
+.sb{display:flex;justify-content:space-between;align-items:center;padding:14px 28px 0;height:50px;font-size:14px;font-weight:600;color:#1a1a1a;flex-shrink:0}
+.sb .r{font-size:11px;letter-spacing:1px}
+
+/* Nav */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:6px 20px;height:44px;flex-shrink:0}
+.nav .back{font-size:22px;color:#1a1a1a;cursor:pointer;width:30px}
+.nav .title{font-size:17px;font-weight:600;color:#1a1a1a}
+.nav .acts{display:flex;gap:16px;font-size:18px;color:#1a1a1a;width:60px;justify-content:flex-end}
+
+/* Scrollable content */
+.scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:20px}
+.content-inner{padding:0 20px 100px;color:#1a1a1a;font-size:15px;line-height:1.6}
+
+.note-title{font-size:22px;font-weight:700;margin:12px 0 4px;color:#1a1a1a}
+.note-meta{font-size:12px;color:#999;margin-bottom:16px}
+
+/* Audio card */
+.audio-card{background:#f8f9fa;border-radius:14px;padding:14px 16px;margin-bottom:16px}
+.audio-top{display:flex;align-items:center;gap:10px}
+.play-btn{width:36px;height:36px;border-radius:50%;background:#ff3b30;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0}
+.audio-time{font-size:15px;font-weight:600}
+.waveform{flex:1;height:24px;display:flex;align-items:center;gap:1.5px}
+.waveform span{display:block;width:2px;background:#d1d5db;border-radius:1px}
+.ai-summary{border-top:1px solid #eee;padding-top:10px;margin-top:10px}
+.ai-summary-label{font-size:13px;color:#666;display:flex;align-items:center;gap:4px;margin-bottom:4px}
+.ai-summary-text{font-size:14px;color:#333;line-height:1.6}
+
+/* Sections */
+.section-h{font-size:16px;font-weight:700;margin:20px 0 8px;display:flex;align-items:center;gap:6px;color:#1a1a1a}
+.body-text{font-size:15px;color:#333;line-height:1.8;margin-bottom:12px}
+.body-list{font-size:14px;color:#444;line-height:1.8;padding-left:16px;margin-bottom:12px}
+.body-list li{margin-bottom:6px}
+
+/* Bottom bars */
+.bottom-bar{position:absolute;bottom:0;left:0;right:0;background:#fff;z-index:10}
+
+/* Plan A */
+.bar-a{padding:10px 16px 34px;border-top:1px solid #f0f0f0}
+.bar-a .actions{display:flex;gap:8px;margin-bottom:10px}
+.bar-a .chip{padding:7px 12px;border-radius:16px;font-size:12px;font-weight:500;background:#f5f5f7;color:#333;white-space:nowrap;border:1px solid #e5e5e5;cursor:pointer;transition:all .15s}
+.bar-a .chip:active{background:#e8e8e8;transform:scale(.95)}
+.bar-a .input-row{display:flex;align-items:center;gap:8px;background:#f5f5f7;border-radius:22px;padding:10px 14px}
+.bar-a .input-row span{font-size:13px;color:#999;flex:1}
+.bar-a .input-row .send{color:#3b82f6;font-weight:600;flex:none}
+
+/* Plan B */
+.fab{position:absolute;bottom:100px;right:20px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;box-shadow:0 6px 20px rgba(59,130,246,0.35);cursor:pointer;z-index:10}
+.fab .count{position:absolute;top:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:#ef4444;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.fab-panel{position:absolute;bottom:160px;right:16px;background:#fff;border-radius:16px;padding:8px;box-shadow:0 8px 32px rgba(0,0,0,0.15);border:1px solid #e5e5e5;width:160px;z-index:10}
+.fab-panel .item{display:flex;align-items:center;gap:8px;padding:10px;border-radius:8px;font-size:13px;color:#333;cursor:pointer}
+.fab-panel .item:active{background:#f5f5f7}
+
+/* Plan C */
+.bar-c{padding:8px 16px 34px;border-top:1px solid #f0f0f0;display:flex;align-items:center;gap:8px}
+.bar-c .sparkle{font-size:16px;color:#3b82f6}
+.bar-c .chips{display:flex;gap:6px;flex:1}
+.bar-c .chip{padding:6px 12px;border-radius:14px;font-size:12px;font-weight:500;background:#f0f4ff;color:#2563eb;white-space:nowrap;border:1px solid #dbeafe;cursor:pointer}
+.bar-c .chip:active{background:#dbeafe;transform:scale(.95)}
+.bar-c .chip .tag{font-size:9px;color:#f59e0b;background:#fff7ed;padding:1px 4px;border-radius:4px;margin-left:3px}
+.bar-c .more{font-size:12px;color:#999;cursor:pointer;white-space:nowrap}
+
+/* Plan C expanded */
+.bar-c-full{padding:16px 16px 34px;border-top:1px solid #f0f0f0}
+.bar-c-full .label{font-size:11px;font-weight:600;color:#999;margin-bottom:10px}
+.bar-c-full .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bar-c-full .grid .item{text-align:center;padding:10px 4px;border-radius:10px;background:#f8f9fa;border:1px solid #e5e5e5;font-size:11px;color:#333;cursor:pointer}
+.bar-c-full .grid .item:active{background:#eff6ff;border-color:#3b82f6}
+.bar-c-full .grid .item .ic{font-size:18px;display:block;margin-bottom:2px}
+
+/* Plan D */
+.bar-d-inline{margin:16px 0;background:linear-gradient(135deg,#f8faff,#f0f4ff);border:1px solid #dbeafe;border-radius:16px;padding:14px 16px}
+.bar-d-inline .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.bar-d-inline .top .label{font-size:13px;font-weight:600;color:#2563eb}
+.bar-d-inline .top .more{font-size:12px;color:#999;cursor:pointer}
+.bar-d-inline .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bar-d-inline .grid .item{text-align:center;padding:10px 4px;border-radius:10px;background:#fff;border:1px solid #e5e7eb;font-size:11px;color:#555;cursor:pointer}
+.bar-d-inline .grid .item:active{background:#eff6ff;border-color:#3b82f6}
+.bar-d-inline .grid .item .ic{font-size:20px;display:block;margin-bottom:3px}
+
+/* AI Chat page */
+.chat-page{display:flex;flex-direction:column;flex:1;overflow:hidden}
+.chat-disclaimer{text-align:center;font-size:12px;color:#999;padding:8px 0;flex-shrink:0}
+.chat-body{flex:1;padding:0 16px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.chat-bubble-user{display:flex;justify-content:flex-end;margin-bottom:16px}
+.chat-bubble-user .bubble{background:#eff3ff;color:#333;padding:10px 16px;border-radius:18px 18px 4px 18px;font-size:15px;font-weight:500;max-width:70%}
+.chat-thinking{display:flex;align-items:center;gap:6px;font-size:13px;color:#999;margin-bottom:12px}
+.chat-thinking .icon{font-size:14px;animation:rotate 2s linear infinite}
+@keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+/* Result cards - differentiated by type */
+.chat-card{background:#fff;border:1px solid #e5e5e5;border-radius:16px;padding:14px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.chat-card.type-ppt{border-left:3px solid #f59e0b}
+.chat-card.type-podcast{border-left:3px solid #8b5cf6}
+.chat-card.type-mindmap{border-left:3px solid #3b82f6}
+.chat-card.type-todo{border-left:3px solid #059669}
+.chat-card.type-summary{border-left:3px solid #06b6d4}
+.chat-card.type-rewrite{border-left:3px solid #ec4899}
+.chat-card-row{display:flex;align-items:center;gap:12px}
+.chat-card-thumb{width:48px;height:48px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px}
+.chat-card-thumb.ppt{background:linear-gradient(135deg,#fbbf24,#f59e0b)}
+.chat-card-thumb.podcast{background:linear-gradient(135deg,#a78bfa,#7c3aed)}
+.chat-card-thumb.mindmap{background:linear-gradient(135deg,#60a5fa,#3b82f6)}
+.chat-card-thumb.todo{background:linear-gradient(135deg,#34d399,#059669)}
+.chat-card-thumb.summary{background:linear-gradient(135deg,#67e8f9,#06b6d4)}
+.chat-card-thumb.rewrite{background:linear-gradient(135deg,#f472b6,#ec4899)}
+.chat-card-info{flex:1;min-width:0}
+.chat-card-info h4{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-card-info p{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-card-action{font-size:13px;color:#4f46e5;font-weight:600;cursor:pointer;white-space:nowrap;padding:6px 12px;background:#eff6ff;border-radius:12px}
+.chat-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.chat-card-header h4{font-size:15px;font-weight:600;color:#1a1a1a}
+.chat-card-header .btn-add{font-size:12px;padding:5px 12px;border-radius:14px;background:#ecfdf5;color:#059669;font-weight:600;border:1px solid #a7f3d0;cursor:pointer}
+.chat-card-header .btn-add:active{background:#d1fae5}
+.chat-spinner{width:20px;height:20px;border:2px solid #e5e5e5;border-top-color:#4f46e5;border-radius:50%;animation:rotate 1s linear infinite;flex-shrink:0}
+
+/* Text result (summary/rewrite) */
+.chat-text-result{font-size:14px;color:#333;line-height:1.7;padding:12px 14px;background:#f8fafb;border-radius:12px;margin-top:10px}
+
+/* Todo result */
+.todo-list{margin-top:10px}
+.todo-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f5f5f5;font-size:14px;color:#333}
+.todo-check{width:18px;height:18px;border-radius:50%;border:2px solid #d1d5db;flex-shrink:0}
+
+/* Chat bottom */
+.chat-bottom{flex-shrink:0;padding:8px 16px 34px;background:#fff;border-top:1px solid #f0f0f0}
+.chat-actions{display:flex;gap:8px;margin-bottom:10px;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+.chat-actions::-webkit-scrollbar{display:none}
+.chat-actions .chip{padding:6px 12px;border-radius:16px;font-size:12px;font-weight:500;background:#f5f5f7;color:#333;white-space:nowrap;border:1px solid #e5e5e5;display:flex;align-items:center;gap:4px;cursor:pointer;flex-shrink:0}
+.chat-actions .chip:active{background:#e8e8e8;transform:scale(.95)}
+.chat-actions .chip .ic{font-size:13px}
+.chat-input{display:flex;align-items:center;gap:10px;background:#f5f5f7;border-radius:22px;padding:10px 14px}
+.chat-input .plus{font-size:18px;color:#666;cursor:pointer}
+.chat-input .ph{flex:1;font-size:14px;color:#999}
+.chat-input .mic{font-size:18px;color:#666;cursor:pointer}
+
+/* Preview pages */
+.preview-page{display:flex;flex-direction:column;flex:1}
+.preview-header{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;flex-shrink:0}
+.preview-header .back{font-size:22px;color:#1a1a1a;cursor:pointer}
+.preview-header .title{font-size:15px;font-weight:600;color:#1a1a1a}
+.preview-header .share{font-size:14px;color:#3b82f6;cursor:pointer}
+.preview-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:#f8f9fa}
+.preview-ppt{width:300px;aspect-ratio:16/9;background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.preview-ppt h3{font-size:18px;font-weight:700;color:#1a1a1a}
+.preview-ppt p{font-size:12px;color:#888;margin-top:4px}
+.preview-ppt .slides{display:flex;gap:6px;margin-top:16px}
+.preview-ppt .slides .dot{width:8px;height:8px;border-radius:50%;background:#e5e5e5}
+.preview-ppt .slides .dot.on{background:#f59e0b}
+.preview-audio{width:100%;padding:24px;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.08)}
+.preview-audio .cover{width:80px;height:80px;border-radius:16px;background:linear-gradient(135deg,#a78bfa,#7c3aed);margin:0 auto 16px}
+.preview-audio .name{font-size:16px;font-weight:600;text-align:center;color:#1a1a1a}
+.preview-audio .desc{font-size:13px;color:#888;text-align:center;margin-top:4px}
+.preview-audio .controls{display:flex;align-items:center;justify-content:center;gap:24px;margin-top:20px}
+.preview-audio .controls .play{width:56px;height:56px;border-radius:50%;background:#7c3aed;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px}
+.preview-audio .controls .skip{font-size:20px;color:#999}
+.preview-audio .bar{width:100%;height:3px;background:#e5e5e5;border-radius:2px;margin-top:20px;position:relative}
+.preview-audio .bar .fill{height:100%;width:35%;background:#7c3aed;border-radius:2px}
+.preview-audio .time{display:flex;justify-content:space-between;font-size:11px;color:#999;margin-top:6px}
+.preview-mindmap{width:100%;padding:16px;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.08)}
+.preview-mindmap .node{padding:8px 12px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px}
+.preview-mindmap .node.root{background:#3b82f6;color:#fff;text-align:center;margin-bottom:12px;font-size:15px}
+.preview-mindmap .node.l1{background:#eff6ff;color:#2563eb;margin-left:16px}
+.preview-mindmap .node.l2{background:#f8f9fa;color:#555;margin-left:36px;font-size:12px}
+.preview-bottom{padding:12px 16px 34px;background:#fff;border-top:1px solid #f0f0f0;display:flex;gap:10px;justify-content:center;flex-shrink:0}
+.preview-bottom .btn{padding:10px 24px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer}
+.preview-bottom .btn-primary{background:#4f46e5;color:#fff}
+.preview-bottom .btn-ghost{background:#f5f5f7;color:#333;border:1px solid #e5e5e5}
+
+/* Toast */
+.toast{position:absolute;top:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;z-index:100;animation:toastIn .3s ease}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* Attachment card in note */
+.attach-card{margin-top:16px;padding:12px;background:#f8f9fa;border-radius:12px;border:1px solid #e5e5e5;animation:popIn .3s ease}
+.attach-card .header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.attach-card .header-row span{font-size:11px;color:#059669;font-weight:600}
+.attach-card .file-row{display:flex;align-items:center;gap:10px}
+.attach-card .file-thumb{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.attach-card .file-info{flex:1;min-width:0}
+.attach-card .file-info h5{font-size:14px;font-weight:600;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.attach-card .file-info p{font-size:12px;color:#888}
+.attach-card .open-btn{font-size:12px;color:#4f46e5;font-weight:600;padding:4px 10px;background:#eff6ff;border-radius:10px;cursor:pointer}
+@keyframes popIn{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+
+.added-badge{display:inline-flex;align-items:center;gap:4px;background:#ecfdf5;color:#059669;font-size:12px;font-weight:600;padding:4px 10px;border-radius:10px}
+.swipe-hint{position:absolute;top:50%;left:-60px;font-size:11px;color:rgba(255,255,255,0.3);writing-mode:vertical-rl;transform:translateY(-50%)}
+@media(max-width:500px){.phone{width:340px;height:736px;border-radius:48px}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>笔记AI栏 · 4方案可交互原型</h1>
+  <div class="meta">支持滚动 + 左滑菜单 + 二级页面 + 差异化生成卡片 ｜ v3</div>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-p="0">A · Action横铺</div>
+  <div class="tab" data-p="1">B · 悬浮小球</div>
+  <div class="tab recommend" data-p="2">★ C · 极简动态栏</div>
+  <div class="tab" data-p="3">D · 正文内嵌</div>
+</div>
+<div class="stage">
+  <div class="plan-info" id="planInfo"></div>
+  <div style="position:relative">
+    <div class="phone" id="phone"></div>
+    <div class="swipe-hint">← 左滑菜单</div>
+  </div>
+</div>
+
+<script>
+// Type configs for differentiated cards
+const typeConfig = {
+  '脑图': {cls:'mindmap', thumb:'mindmap', icon:'🧠', ext:'.xmind', action:'查看', color:'#3b82f6', hasFile:true},
+  'PPT': {cls:'ppt', thumb:'ppt', icon:'📊', ext:'.pptx', action:'查看', color:'#f59e0b', hasFile:true},
+  '播客': {cls:'podcast', thumb:'podcast', icon:'🎧', ext:'.mp3', action:'▶ 播放', color:'#7c3aed', hasFile:true},
+  '待办': {cls:'todo', thumb:'todo', icon:'☑️', ext:'', action:'查看', color:'#059669', hasFile:false, isTodo:true},
+  '要点总结': {cls:'summary', thumb:'summary', icon:'📝', ext:'', action:'复制', color:'#06b6d4', hasFile:false, isText:true},
+  '改简洁': {cls:'rewrite', thumb:'rewrite', icon:'✏️', ext:'', action:'替换原文', color:'#ec4899', hasFile:false, isText:true},
+  '行程计划': {cls:'todo', thumb:'todo', icon:'📋', ext:'', action:'添加到日历', color:'#059669', hasFile:false, isTodo:true},
+  '润色': {cls:'rewrite', thumb:'rewrite', icon:'📝', ext:'', action:'替换原文', color:'#ec4899', hasFile:false, isText:true},
+  '摘要': {cls:'summary', thumb:'summary', icon:'📋', ext:'', action:'复制', color:'#06b6d4', hasFile:false, isText:true},
+  '研究': {cls:'summary', thumb:'summary', icon:'🔍', ext:'.pdf', action:'查看', color:'#06b6d4', hasFile:true},
+  '网页': {cls:'ppt', thumb:'ppt', icon:'🌐', ext:'.html', action:'打开', color:'#f59e0b', hasFile:true},
+};
+
+function getTypeConf(type) {
+  return typeConfig[type] || {cls:'summary', thumb:'summary', icon:'✨', ext:'', action:'查看', color:'#3b82f6', hasFile:true};
+}
+
+// Note content
+function noteHTML(extra) {
+  const w = Array(28).fill(0).map(()=>`<span style="height:${4+Math.random()*16}px"></span>`).join('');
+  return `
+<div class="sb"><span>2:36</span><span class="r">●●●  ▲  ■</span></div>
+<div class="nav"><span class="back" data-action="back">‹</span><span class="title">产品需求讨论会</span><span class="acts">⬆ ⋯</span></div>
+<div class="scroll-area"><div class="content-inner">
+  <div class="note-title">产品需求讨论会</div>
+  <div class="note-meta">9/26 10:29 ｜ 398字 ｜ 来自MiClaw</div>
+  <div class="audio-card">
+    <div class="audio-top"><div class="play-btn">▶</div><span class="audio-time">00:07</span><div class="waveform">${w}</div></div>
+    <div class="ai-summary"><div class="ai-summary-label">✨ AI总结</div><div class="ai-summary-text">由于项目进度不断变化，我们需要重新审视项目计划以确保我们能够有效地应对由于项目计划的变更...</div></div>
+  </div>
+  ${extra||''}
+  <div class="section-h">💡 会议目的：</div>
+  <div class="body-text">宣贯设计部在AI转敏捷交付后的新流程，明确设计主导需求的交付机制、时间节点及跨部门协作规则，确保设计需求不被遗漏并顺利纳入敏捷迭代。</div>
+  <div class="section-h">🤝 会议共识：</div>
+  <ul class="body-list">
+    <li>设计部独立建立敏捷需求交付流程，与产品线并行但分工清晰，避免设计需求被遗漏。</li>
+    <li>所有设计发起的需求需通过"一句话需求清单"登记，并按新流程推进。</li>
+    <li>需求管理平台为唯一入口，所有设计需求由设计同学自行录入。</li>
+    <li>铁三角已共识且资源明确的需求可直接登记，无需重复上SE报备；未共识或亮点需求需上SE。</li>
+  </ul>
+  <div class="section-h">📋 下一步行动：</div>
+  <ul class="body-list">
+    <li>各设计组本周内完成存量需求迁移到新平台</li>
+    <li>下周一前确认首批sprint纳入的设计需求清单</li>
+    <li>每周四固定design review时间</li>
+  </ul>
+</div></div>`;
+}
+
+function genPageHTML(type) {
+  const conf = getTypeConf(type);
+  return `
+<div class="sb"><span>2:36</span><span class="r">●●●  ▲  ■</span></div>
+<div class="nav"><span class="back" data-action="back">‹</span><span class="title">AI助手</span><span class="acts"></span></div>
+<div class="chat-page">
+  <div class="chat-disclaimer">内容由AI生成，仅供参考</div>
+  <div class="chat-body">
+    <div class="chat-bubble-user"><div class="bubble">${type}</div></div>
+    <div class="chat-thinking"><span class="icon">✨</span> 正在思考</div>
+    <div class="chat-card type-${conf.cls}">
+      <div class="chat-card-row">
+        <div class="chat-card-thumb ${conf.thumb}">${conf.icon}</div>
+        <div class="chat-card-info"><h4>正在生成${type}...</h4><p>大约需要几秒钟，完成后展示结果</p></div>
+        <div class="chat-spinner"></div>
+      </div>
+    </div>
+  </div>
+  <div class="chat-bottom">
+    <div class="chat-actions">
+      <div class="chip" data-gen="脑图"><span class="ic">🧠</span>脑图</div>
+      <div class="chip" data-gen="PPT"><span class="ic">📊</span>PPT</div>
+      <div class="chip" data-gen="播客"><span class="ic">🎧</span>播客</div>
+      <div class="chip" data-gen="待办"><span class="ic">☑️</span>待办</div>
+      <div class="chip" data-gen="要点总结"><span class="ic">📝</span>总结</div>
+      <div class="chip" data-gen="改简洁"><span class="ic">✏️</span>改简洁</div>
+    </div>
+    <div class="chat-input"><span class="plus">＋</span><span class="ph">发消息或按住说话</span><span class="mic">🎙️</span></div>
+  </div>
+</div>`;
+}
+
+function buildResultCard(type) {
+  const conf = getTypeConf(type);
+  if (conf.isText) {
+    const text = type === '要点总结' || type === '摘要'
+      ? '1. 设计部建立独立敏捷需求交付流程\n2. 需求管理平台为唯一入口\n3. 铁三角共识需求可直接登记\n4. 每周四固定design review'
+      : '宣贯设计部在AI转敏捷交付后的新流程，明确设计主导需求的交付机制及跨部门协作规则。';
+    return `<div class="chat-card-header"><h4>已生成${type}</h4><span class="btn-add" data-action="add-to-note" data-type="${type}">添加到笔记</span></div><div class="chat-text-result">${text.replace(/\n/g,'<br>')}</div>`;
+  }
+  if (conf.isTodo) {
+    return `<div class="chat-card-header"><h4>已提取${type}</h4><span class="btn-add" data-action="add-to-note" data-type="${type}">添加到笔记</span></div><div class="todo-list"><div class="todo-item"><div class="todo-check"></div>各设计组完成存量需求迁移</div><div class="todo-item"><div class="todo-check"></div>确认首批sprint设计需求清单</div><div class="todo-item"><div class="todo-check"></div>每周四固定design review</div></div>`;
+  }
+  return `<div class="chat-card-header"><h4>已生成${type}</h4><span class="btn-add" data-action="add-to-note" data-type="${type}">添加到笔记</span></div><div class="chat-card-row" data-action="preview" data-type="${type}" style="cursor:pointer"><div class="chat-card-thumb ${conf.thumb}">${conf.icon}</div><div class="chat-card-info"><h4>产品需求讨论会${conf.ext}</h4><p>基于会议内容自动生成</p></div><span class="chat-card-action" data-action="preview" data-type="${type}">${conf.action}</span></div>`;
+}
+
+function previewPageHTML(type) {
+  const sb = `<div class="sb"><span>2:36</span><span class="r">●●●  ▲  ■</span></div>`;
+  if (type === 'PPT' || type === '网页') {
+    return sb+`<div class="preview-page"><div class="preview-header"><span class="back" data-action="back">‹</span><span class="title">PPT预览</span><span class="share">分享</span></div><div class="preview-body"><div class="preview-ppt"><h3>产品需求讨论会</h3><p>自动生成 · 4页</p><div class="slides"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div></div><div class="preview-bottom"><div class="btn btn-primary" data-action="back">完成</div><div class="btn btn-ghost">分享</div></div></div>`;
+  }
+  if (type === '播客') {
+    return sb+`<div class="preview-page"><div class="preview-header"><span class="back" data-action="back">‹</span><span class="title">播客</span><span class="share">分享</span></div><div class="preview-body"><div class="preview-audio"><div class="cover"></div><div class="name">产品需求讨论会.mp3</div><div class="desc">5分钟精华版</div><div class="controls"><span class="skip">⏮</span><div class="play">▶</div><span class="skip">⏭</span></div><div class="bar"><div class="fill"></div></div><div class="time"><span>1:24</span><span>5:03</span></div></div></div><div class="preview-bottom"><div class="btn btn-primary" data-action="back">完成</div><div class="btn btn-ghost">分享</div></div></div>`;
+  }
+  return sb+`<div class="preview-page"><div class="preview-header"><span class="back" data-action="back">‹</span><span class="title">${type}预览</span><span class="share">分享</span></div><div class="preview-body"><div class="preview-mindmap"><div class="node root">产品需求讨论会</div><div class="node l1">💡 会议目的</div><div class="node l2">AI转敏捷新流程</div><div class="node l2">交付机制与时间节点</div><div class="node l1">🤝 会议共识</div><div class="node l2">独立敏捷需求交付流程</div><div class="node l2">需求管理平台唯一入口</div><div class="node l1">📋 下一步</div><div class="node l2">存量需求迁移</div></div></div><div class="preview-bottom"><div class="btn btn-primary" data-action="back">完成</div><div class="btn btn-ghost">分享</div></div></div>`;
+}
+
+// Plans
+const plans = [
+  {title:"方案A · Action横铺式",desc:"底部常驻，横向铺Action+输入框",pros:["功能发现性最强","一点即用"],cons:["底部占用大","像Agent页"],render(ph){const m=document.createElement('div');m.className='page active';m.dataset.page='main';m.innerHTML=noteHTML()+`<div class="bottom-bar bar-a"><div class="actions"><div class="chip" data-gen="脑图">🧠 脑图</div><div class="chip" data-gen="PPT">📊 PPT</div><div class="chip" data-gen="播客">🎧 播客</div><div class="chip" data-gen="待办">☑️ 待办</div></div><div class="input-row"><span>🎙️ 对AI说点什么…</span><span class="send">发送</span></div></div>`;ph.appendChild(m);}},
+  {title:"方案B · 悬浮小球",desc:"右下角小球入口，正文零遮挡",pros:["正文零遮挡","纯粹"],cons:["发现性弱","多一步"],render(ph){const m=document.createElement('div');m.className='page active';m.dataset.page='main';m.innerHTML=noteHTML()+`<div class="fab" data-action="toggle-panel">✦<span class="count">4</span></div><div class="fab-panel" style="display:none" id="fabPanel"><div class="item" data-gen="脑图">🧠 生成脑图</div><div class="item" data-gen="PPT">📊 生成PPT</div><div class="item" data-gen="播客">🎧 生成播客</div><div class="item" data-gen="待办">☑️ 提取待办</div></div>`;ph.appendChild(m);}},
+  {title:"★ 方案C · 极简动态栏（推荐）",desc:"底栏一行(36px)动态推荐，点更多展开",pros:["占用极小","动态推荐","系统级克制"],cons:["需后端逻辑"],render(ph){const m=document.createElement('div');m.className='page active';m.dataset.page='main';m.innerHTML=noteHTML()+`<div class="bottom-bar bar-c" id="barC"><span class="sparkle">✨</span><div class="chips"><div class="chip" data-gen="脑图">🧠 脑图<span class="tag">推荐</span></div><div class="chip" data-gen="PPT">📊 PPT</div><div class="chip" data-gen="待办">☑️ 待办</div></div><span class="more" data-action="expand-c">更多 ›</span></div><div class="bottom-bar bar-c-full" id="barCFull" style="display:none"><div class="label">基于「会议录音」推荐</div><div class="grid"><div class="item" data-gen="脑图"><span class="ic">🧠</span>脑图</div><div class="item" data-gen="PPT"><span class="ic">📊</span>PPT</div><div class="item" data-gen="播客"><span class="ic">🎧</span>播客</div><div class="item" data-gen="待办"><span class="ic">☑️</span>待办</div><div class="item" data-gen="要点总结"><span class="ic">📝</span>总结</div><div class="item" data-gen="改简洁"><span class="ic">✏️</span>改简洁</div><div class="item" data-gen="研究"><span class="ic">🔍</span>研究</div><div class="item" data-gen="网页"><span class="ic">🌐</span>网页</div></div></div>`;ph.appendChild(m);}},
+  {title:"方案D · 正文末尾内嵌",desc:"AI卡片嵌入正文末尾",pros:["与内容融合","不占固定位"],cons:["首次不可见"],render(ph){const m=document.createElement('div');m.className='page active';m.dataset.page='main';m.innerHTML=noteHTML(`<div class="bar-d-inline"><div class="top"><span class="label">✨ AI 可以帮你</span><span class="more">更多 →</span></div><div class="grid"><div class="item" data-gen="脑图"><span class="ic">🧠</span>脑图</div><div class="item" data-gen="PPT"><span class="ic">📊</span>PPT</div><div class="item" data-gen="播客"><span class="ic">🎧</span>播客</div><div class="item" data-gen="待办"><span class="ic">☑️</span>待办</div></div></div>`);ph.appendChild(m);}}
+];
+
+let cur = 0;
+function renderPlan(){
+  const p=plans[cur];
+  document.getElementById('planInfo').innerHTML=`<h2>${p.title}</h2><p>${p.desc}</p><div style="margin-top:6px">${p.pros.map(x=>`<span class="badge-pro">✓ ${x}</span>`).join('')}${p.cons.map(x=>`<span class="badge-con">✗ ${x}</span>`).join('')}</div>`;
+  const ph=document.getElementById('phone');ph.innerHTML='';p.render(ph);
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===cur));
+  bind();
+}
+
+function navTo(html){
+  const ph=document.getElementById('phone');
+  const c=ph.querySelector('.page.active');
+  if(c){c.classList.remove('active');c.classList.add('hidden-left');}
+  const np=document.createElement('div');np.className='page hidden-right';np.dataset.page='sub';np.innerHTML=html;
+  ph.appendChild(np);requestAnimationFrame(()=>{np.classList.remove('hidden-right');np.classList.add('active');});
+  bind();
+}
+
+function navBack(){
+  const ph=document.getElementById('phone');
+  const subs=ph.querySelectorAll('.page[data-page="sub"]');
+  const last=subs[subs.length-1];
+  if(!last)return;
+  last.classList.remove('active');last.classList.add('hidden-right');
+  const prev=subs.length>1?subs[subs.length-2]:ph.querySelector('.page[data-page="main"]');
+  if(prev){prev.classList.remove('hidden-left');prev.classList.add('active');}
+  setTimeout(()=>last.remove(),400);
+}
+
+function showToast(msg){
+  const ph=document.getElementById('phone');
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;ph.appendChild(t);
+  setTimeout(()=>t.remove(),2000);
+}
+
+function bind(){
+  const ph=document.getElementById('phone');
+  ph.querySelectorAll('[data-action="back"]').forEach(el=>{el.onclick=e=>{e.stopPropagation();navBack();};});
+  ph.querySelectorAll('[data-action="toggle-panel"]').forEach(el=>{el.onclick=e=>{e.stopPropagation();const p=ph.querySelector('.fab-panel');if(p)p.style.display=p.style.display==='none'?'block':'none';};});
+  ph.querySelectorAll('[data-action="expand-c"]').forEach(el=>{el.onclick=e=>{e.stopPropagation();const a=ph.querySelector('#barC'),b=ph.querySelector('#barCFull');if(a&&b){a.style.display='none';b.style.display='block';}};});
+  ph.querySelectorAll('[data-action="preview"]').forEach(el=>{el.onclick=e=>{e.stopPropagation();navTo(previewPageHTML(el.dataset.type));setTimeout(bind,50);};});
+  ph.querySelectorAll('[data-action="add-to-note"]').forEach(el=>{el.onclick=e=>{e.stopPropagation();addToNote(el.dataset.type);};});
+
+  // Gen actions
+  ph.querySelectorAll('[data-gen]').forEach(el=>{
+    if(el._bindDone)return;el._bindDone=true;
+    el.onclick=e=>{e.stopPropagation();doGen(el.dataset.gen);};
+  });
+}
+
+function doGen(type){
+  const ph=document.getElementById('phone');
+  const activePage=ph.querySelector('.page.active');
+  const inChat=activePage&&activePage.querySelector('.chat-page');
+  const conf=getTypeConf(type);
+
+  if(inChat){
+    const body=activePage.querySelector('.chat-body');
+    if(!body)return;
+    // Append new conversation
+    body.insertAdjacentHTML('beforeend',`<div class="chat-bubble-user"><div class="bubble">${type}</div></div><div class="chat-thinking"><span class="icon">✨</span> 正在思考</div><div class="chat-card type-${conf.cls}"><div class="chat-card-row"><div class="chat-card-thumb ${conf.thumb}">${conf.icon}</div><div class="chat-card-info"><h4>正在生成${type}...</h4><p>请稍候</p></div><div class="chat-spinner"></div></div></div>`);
+    body.scrollTop=body.scrollHeight;
+    const cards=body.querySelectorAll('.chat-card');
+    const card=cards[cards.length-1];
+    const thinking=body.querySelectorAll('.chat-thinking');
+    const lastThink=thinking[thinking.length-1];
+    setTimeout(()=>{
+      card.style.transition='opacity .3s';card.style.opacity='0';
+      setTimeout(()=>{card.innerHTML=buildResultCard(type);card.style.opacity='1';if(lastThink)lastThink.innerHTML='<span style="color:#059669">✓</span> 已完成';body.scrollTop=body.scrollHeight;bind();},300);
+    },2000);
+  } else {
+    navTo(genPageHTML(type));
+    setTimeout(()=>{
+      const ph=document.getElementById('phone');
+      const card=ph.querySelector('.page.active .chat-card');
+      const think=ph.querySelector('.page.active .chat-thinking');
+      if(card){
+        card.style.transition='opacity .3s';card.style.opacity='0';
+        setTimeout(()=>{card.innerHTML=buildResultCard(type);card.style.opacity='1';if(think)think.innerHTML='<span style="color:#059669">✓</span> 已完成';bind();},300);
+      }
+    },2500);
+  }
+}
+
+function addToNote(type){
+  const conf=getTypeConf(type);
+  navBack();
+  setTimeout(()=>{
+    const ph=document.getElementById('phone');
+    const main=ph.querySelector('.page[data-page="main"]');
+    if(!main)return;
+    const inner=main.querySelector('.content-inner');
+    if(!inner)return;
+    const card=document.createElement('div');card.className='attach-card';
+    if(conf.hasFile){
+      card.innerHTML=`<div class="header-row"><span>✓ 已添加 · ${type}</span></div><div class="file-row"><div class="file-thumb" style="background:${conf.color}">${conf.icon}</div><div class="file-info"><h5>产品需求讨论会${conf.ext}</h5><p>AI生成 · 点击查看</p></div><span class="open-btn" data-action="preview" data-type="${type}">打开</span></div>`;
+    } else if(conf.isTodo){
+      card.innerHTML=`<div class="header-row"><span>✓ 已添加 · ${type}</span></div><div class="todo-list"><div class="todo-item"><div class="todo-check"></div>各设计组完成存量需求迁移</div><div class="todo-item"><div class="todo-check"></div>确认首批sprint设计需求清单</div><div class="todo-item"><div class="todo-check"></div>每周四固定design review</div></div>`;
+    } else {
+      card.innerHTML=`<div class="header-row"><span>✓ 已添加 · ${type}</span></div><div style="font-size:13px;color:#444;line-height:1.6;padding:8px 0">基于会议内容的${type}已添加到正文。</div>`;
+    }
+    inner.appendChild(card);
+    const scroll=main.querySelector('.scroll-area');
+    if(scroll)scroll.scrollTop=scroll.scrollHeight;
+    showToast(`${type}已添加到笔记末尾`);
+    bind();
+  },450);
+}
+
+// Swipe
+let sx=0,down=false;
+document.getElementById('phone').addEventListener('mousedown',e=>{down=true;sx=e.clientX;});
+document.getElementById('phone').addEventListener('mouseup',e=>{if(!down)return;down=false;const d=sx-e.clientX;if(d>60){const ph=document.getElementById('phone');const p=ph.querySelector('.fab-panel');const a=ph.querySelector('#barC'),b=ph.querySelector('#barCFull');if(p)p.style.display='block';if(a&&b){a.style.display='none';b.style.display='block';}}if(d<-60)navBack();});
+document.getElementById('phone').addEventListener('touchstart',e=>{sx=e.touches[0].clientX;});
+document.getElementById('phone').addEventListener('touchend',e=>{const d=sx-e.changedTouches[0].clientX;if(d>60){const ph=document.getElementById('phone');const p=ph.querySelector('.fab-panel');const a=ph.querySelector('#barC'),b=ph.querySelector('#barCFull');if(p)p.style.display='block';if(a&&b){a.style.display='none';b.style.display='block';}}if(d<-60)navBack();});
+
+document.querySelectorAll('.tab').forEach(t=>{t.addEventListener('click',()=>{cur=+t.dataset.p;renderPlan();});});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&cur<3){cur++;renderPlan();}if(e.key==='ArrowLeft'&&cur>0){cur--;renderPlan();}});
+renderPlan();
+</script>
+</body>
+</html>
