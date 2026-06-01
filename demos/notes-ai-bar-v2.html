@@ -28,7 +28,7 @@ body{font-family:-apple-system,'PingFang SC','SF Pro Display',sans-serif;backgro
 .phone{width:375px;height:812px;border-radius:54px;background:#fff;overflow:hidden;box-shadow:0 0 0 11px #1a1a2e,0 0 0 13px rgba(255,255,255,0.08),0 30px 60px rgba(0,0,0,0.5);position:relative}
 
 /* Pages system */
-.page{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .35s;z-index:1}
+.page{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .35s;z-index:1;min-height:0}
 .page.hidden-right{transform:translateX(100%);opacity:0;pointer-events:none}
 .page.hidden-left{transform:translateX(-30%);opacity:.5;pointer-events:none}
 .page.active{transform:translateX(0);opacity:1;z-index:2}
@@ -45,7 +45,7 @@ body{font-family:-apple-system,'PingFang SC','SF Pro Display',sans-serif;backgro
 .nav .act-btn{font-size:14px;color:#3b82f6;font-weight:500;cursor:pointer}
 
 /* Content */
-.content{flex:1;padding:0 20px;color:#1a1a1a;font-size:15px;line-height:1.6;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.content{flex:1;padding:0 20px 100px;color:#1a1a1a;font-size:15px;line-height:1.6;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0}
 .note-title{font-size:22px;font-weight:700;margin:12px 0 4px}
 .note-meta{font-size:12px;color:#999;margin-bottom:16px}
 
