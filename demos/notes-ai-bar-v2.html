@@ -274,10 +274,10 @@ function genPageHTML(type, icon) {
       </div>
       <div class="chat-bottom">
         <div class="chat-actions">
-          <div class="chip"><span class="ic">📋</span>行程计划</div>
-          <div class="chip"><span class="ic">📝</span>要点总结</div>
-          <div class="chip"><span class="ic">🎧</span>生成播客</div>
-          <div class="chip"><span class="ic">✏️</span>改简洁</div>
+          <div class="chip" data-gen="行程计划" data-icon="📋"><span class="ic">📋</span>行程计划</div>
+          <div class="chip" data-gen="要点总结" data-icon="📝"><span class="ic">📝</span>要点总结</div>
+          <div class="chip" data-gen="播客" data-icon="🎧"><span class="ic">🎧</span>生成播客</div>
+          <div class="chip" data-gen="改简洁" data-icon="✏️"><span class="ic">✏️</span>改简洁</div>
         </div>
         <div class="chat-input">
           <span class="plus">＋</span>
@@ -513,44 +513,75 @@ function bindEvents() {
     el.onclick = (e) => { e.stopPropagation(); navigateBack(); };
   });
 
-  // Generate actions -> navigate to gen page, then result
+  // Generate actions
   phone.querySelectorAll('[data-gen]').forEach(el => {
+    if (el._bound) return;
+    el._bound = true;
     el.onclick = (e) => {
       e.stopPropagation();
       const type = el.dataset.gen;
       const icon = el.dataset.icon;
-      navigateTo(genPageHTML(type, icon));
-      // 2.5秒后原地替换卡片内容（不跳页）
-      setTimeout(() => {
-        const phone = document.getElementById('phone');
-        const card = phone.querySelector('.chat-card');
-        if (card) {
-          const fileExt = type === '播客' ? '.mp3' : type === 'PPT' ? '.pptx' : '.png';
-          const actionText = type === '播客' ? '▶ 播放' : '查看';
-          card.style.transition = 'all .3s';
-          card.style.opacity = '0';
+      const phone = document.getElementById('phone');
+      const activePage = phone.querySelector('.page.active');
+      const isInChat = activePage && activePage.querySelector('.chat-page');
+
+      if (isInChat) {
+        // Already in chat page: append new conversation below
+        const chatBody = activePage.querySelector('.chat-body');
+        if (chatBody) {
+          const newBubble = document.createElement('div');
+          newBubble.className = 'chat-bubble-user';
+          newBubble.innerHTML = `<div class="bubble">生成${type}</div>`;
+          chatBody.appendChild(newBubble);
+
+          const newThinking = document.createElement('div');
+          newThinking.className = 'chat-thinking';
+          newThinking.innerHTML = '<span class="icon">✨</span> 正在思考';
+          chatBody.appendChild(newThinking);
+
+          const newCard = document.createElement('div');
+          newCard.className = 'chat-card';
+          newCard.innerHTML = `<div class="chat-card-row"><div class="chat-card-thumb"></div><div class="chat-card-info"><h4>正在生成${type}...</h4><p>大约需要2-5分钟，完成后我会通知你</p></div><div class="chat-spinner"></div></div>`;
+          chatBody.appendChild(newCard);
+
           setTimeout(() => {
-            card.innerHTML = `
-              <div class="chat-card-header">
-                <h4>已生成${type}</h4>
-                <span class="btn-add" data-action="add-to-note" data-type="${type}">添加到笔记</span>
-              </div>
-              <div class="chat-card-row" data-action="preview" data-type="${type}" style="cursor:pointer">
-                <div class="chat-card-thumb"></div>
-                <div class="chat-card-info">
-                  <h4>产品需求讨论会${fileExt}</h4>
-                  <p>会议目的、共识要点、交付流程...</p>
-                </div>
-                <span class="chat-card-action" data-action="preview" data-type="${type}">${actionText}</span>
-              </div>`;
-            card.style.opacity = '1';
-            const thinking = phone.querySelector('.chat-thinking');
-            if (thinking) thinking.innerHTML = '<span class="icon">✨</span> 已完成';
-            // Bind new actions
-            bindPostGenEvents(phone, type);
-          }, 300);
+            const fileExt = type === '播客' ? '.mp3' : type === 'PPT' ? '.pptx' : '.png';
+            const actionText = type === '播客' ? '▶ 播放' : '查看';
+            newCard.style.transition = 'all .3s';
+            newCard.style.opacity = '0';
+            setTimeout(() => {
+              newCard.innerHTML = `
+                <div class="chat-card-header"><h4>已生成${type}</h4><span class="btn-add" data-action="add-to-note" data-type="${type}">添加到笔记</span></div>
+                <div class="chat-card-row" data-action="preview" data-type="${type}" style="cursor:pointer"><div class="chat-card-thumb"></div><div class="chat-card-info"><h4>产品需求讨论会${fileExt}</h4><p>会议目的、共识要点、交付流程...</p></div><span class="chat-card-action" data-action="preview" data-type="${type}">${actionText}</span></div>`;
+              newCard.style.opacity = '1';
+              newThinking.innerHTML = '<span class="icon">✨</span> 已完成';
+              bindPostGenEvents(phone, type);
+            }, 300);
+          }, 2000);
         }
-      }, 2500);
+      } else {
+        // From note page: navigate to chat page
+        navigateTo(genPageHTML(type, icon));
+        setTimeout(() => {
+          const phone = document.getElementById('phone');
+          const card = phone.querySelector('.chat-card');
+          if (card) {
+            const fileExt = type === '播客' ? '.mp3' : type === 'PPT' ? '.pptx' : '.png';
+            const actionText = type === '播客' ? '▶ 播放' : '查看';
+            card.style.transition = 'all .3s';
+            card.style.opacity = '0';
+            setTimeout(() => {
+              card.innerHTML = `
+                <div class="chat-card-header"><h4>已生成${type}</h4><span class="btn-add" data-action="add-to-note" data-type="${type}">添加到笔记</span></div>
+                <div class="chat-card-row" data-action="preview" data-type="${type}" style="cursor:pointer"><div class="chat-card-thumb"></div><div class="chat-card-info"><h4>产品需求讨论会${fileExt}</h4><p>会议目的、共识要点、交付流程...</p></div><span class="chat-card-action" data-action="preview" data-type="${type}">${actionText}</span></div>`;
+              card.style.opacity = '1';
+              const thinking = phone.querySelector('.chat-thinking');
+              if (thinking) thinking.innerHTML = '<span class="icon">✨</span> 已完成';
+              bindPostGenEvents(phone, type);
+            }, 300);
+          }
+        }, 2500);
+      }
     };
   });
 
@@ -569,13 +600,39 @@ function bindEvents() {
     el.onclick = (e) => {
       e.stopPropagation();
       const type = el.dataset.type;
-      el.outerHTML = `<span class="added-badge">✓ 已添加</span>`;
-      // Show toast
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.textContent = `${type}已添加到笔记正文末尾`;
-      phone.appendChild(toast);
-      setTimeout(() => toast.remove(), 2000);
+      const fileExt = type === '播客' ? '.mp3' : type === 'PPT' ? '.pptx' : '.png';
+      // Navigate back to main note page
+      navigateBack();
+      // After animation, inject attachment card at the end of note content
+      setTimeout(() => {
+        const phone = document.getElementById('phone');
+        const mainPage = phone.querySelector('.page[data-page="main"]');
+        if (mainPage) {
+          const content = mainPage.querySelector('.content');
+          if (content) {
+            const attachCard = document.createElement('div');
+            attachCard.style.cssText = 'margin-top:16px;padding:12px;background:#f8f9fa;border-radius:12px;border:1px solid #e5e5e5;animation:popIn .3s ease';
+            attachCard.innerHTML = `
+              <div style="font-size:11px;color:#059669;font-weight:600;margin-bottom:8px">✓ 已添加的产出物</div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,#4f46e5,#7c3aed);flex-shrink:0"></div>
+                <div style="flex:1">
+                  <div style="font-size:14px;font-weight:600;color:#1a1a1a">产品需求讨论会${fileExt}</div>
+                  <div style="font-size:12px;color:#888">已生成${type} · 点击查看</div>
+                </div>
+                <span style="font-size:12px;color:#4f46e5;font-weight:500" data-action="preview" data-type="${type}">打开</span>
+              </div>`;
+            content.appendChild(attachCard);
+            // Show toast
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = '已添加到笔记正文末尾';
+            phone.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+            bindEvents();
+          }
+        }
+      }, 450);
     };
   });
 
