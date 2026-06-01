@@ -463,23 +463,34 @@ function bindEvents() {
       const type = el.dataset.gen;
       const icon = el.dataset.icon;
       navigateTo(genPageHTML(type, icon));
+      // 2.5秒后原地替换卡片内容（不跳页）
       setTimeout(() => {
         const phone = document.getElementById('phone');
-        const genPage = phone.querySelector('.page[data-page="sub"].active');
-        if (genPage) {
-          genPage.classList.remove('active');
-          genPage.classList.add('hidden-left');
-          const resultPage = document.createElement('div');
-          resultPage.className = 'page hidden-right';
-          resultPage.dataset.page = 'sub';
-          resultPage.innerHTML = resultPageHTML(type, icon);
-          phone.appendChild(resultPage);
-          requestAnimationFrame(() => {
-            resultPage.classList.remove('hidden-right');
-            resultPage.classList.add('active');
-          });
-          setTimeout(() => genPage.remove(), 400);
-          bindEvents();
+        const card = phone.querySelector('.chat-card');
+        if (card) {
+          const fileExt = type === '播客' ? '.mp3' : type === 'PPT' ? '.pptx' : '.png';
+          const actionText = type === '播客' ? '▶ 播放' : '查看';
+          card.style.transition = 'all .3s';
+          card.style.opacity = '0';
+          setTimeout(() => {
+            card.innerHTML = `
+              <div class="chat-card-header">
+                <h4>已生成${type}</h4>
+                <span class="btn-add">添加到笔记</span>
+              </div>
+              <div class="chat-card-row">
+                <div class="chat-card-thumb"></div>
+                <div class="chat-card-info">
+                  <h4>产品需求讨论会${fileExt}</h4>
+                  <p>会议目的、共识要点、交付流程...</p>
+                </div>
+                <span class="chat-card-action">${actionText}</span>
+              </div>`;
+            card.style.opacity = '1';
+            // 隐藏spinner状态
+            const thinking = phone.querySelector('.chat-thinking');
+            if (thinking) thinking.innerHTML = '<span class="icon">✨</span> 已完成';
+          }, 300);
         }
       }, 2500);
     };
