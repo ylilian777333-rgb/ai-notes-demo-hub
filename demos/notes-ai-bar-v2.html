@@ -112,25 +112,37 @@ body{font-family:-apple-system,'PingFang SC','SF Pro Display',sans-serif;backgro
 .bar-d-inline .grid .item:active{background:#eff6ff;border-color:#3b82f6}
 .bar-d-inline .grid .item .ic{font-size:20px;display:block;margin-bottom:3px}
 
-/* Generating page */
-.gen-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px}
-.gen-icon{font-size:48px;margin-bottom:16px;animation:spin 2s linear infinite}
-@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-.gen-title{font-size:18px;font-weight:600;margin-bottom:8px;color:#1a1a1a}
-.gen-sub{font-size:14px;color:#888;text-align:center}
-.progress{width:200px;height:4px;background:#e5e5e5;border-radius:2px;margin-top:16px;overflow:hidden}
-.progress .fill{height:100%;background:#3b82f6;border-radius:2px;animation:loading 2s ease infinite}
-@keyframes loading{0%{width:0}50%{width:70%}100%{width:100%}}
+/* AI Chat page */
+.chat-page{display:flex;flex-direction:column;height:100%}
+.chat-disclaimer{text-align:center;font-size:12px;color:#999;padding:8px 0;flex-shrink:0}
+.chat-body{flex:1;padding:0 16px;overflow:hidden}
+.chat-bubble-user{display:flex;justify-content:flex-end;margin-bottom:16px}
+.chat-bubble-user .bubble{background:#eff3ff;color:#333;padding:10px 16px;border-radius:18px 18px 4px 18px;font-size:15px;font-weight:500;max-width:70%}
+.chat-thinking{display:flex;align-items:center;gap:6px;font-size:13px;color:#999;margin-bottom:12px}
+.chat-thinking .icon{font-size:14px;animation:rotate 2s linear infinite}
+@keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.chat-card{background:#fff;border:1px solid #e5e5e5;border-radius:16px;padding:14px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.chat-card-row{display:flex;align-items:center;gap:12px}
+.chat-card-thumb{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#7c3aed);flex-shrink:0}
+.chat-card-info{flex:1}
+.chat-card-info h4{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
+.chat-card-info p{font-size:12px;color:#888}
+.chat-card-action{font-size:13px;color:#4f46e5;font-weight:600;cursor:pointer;white-space:nowrap}
+.chat-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.chat-card-header h4{font-size:15px;font-weight:600}
+.chat-card-header .btn-add{font-size:12px;padding:5px 12px;border-radius:14px;background:#f5f5f7;color:#333;border:1px solid #e5e5e5;cursor:pointer}
+.chat-spinner{width:20px;height:20px;border:2px solid #e5e5e5;border-top-color:#4f46e5;border-radius:50%;animation:rotate 1s linear infinite;flex-shrink:0}
 
-/* Result page */
-.result-card{background:#ecfdf5;border:1px solid #a7f3d0;border-radius:16px;padding:20px;margin:20px;text-align:center}
-.result-card .icon{font-size:40px;margin-bottom:10px}
-.result-card h3{font-size:17px;font-weight:600;color:#059669;margin-bottom:6px}
-.result-card p{font-size:13px;color:#666}
-.result-actions{display:flex;gap:10px;justify-content:center;margin-top:16px}
-.result-actions .btn{padding:8px 20px;border-radius:18px;font-size:13px;font-weight:600;cursor:pointer}
-.result-actions .btn-primary{background:#3b82f6;color:#fff}
-.result-actions .btn-ghost{background:#f5f5f7;color:#333;border:1px solid #e5e5e5}
+/* Chat bottom bar */
+.chat-bottom{flex-shrink:0;padding:8px 16px 34px;background:#fff;border-top:1px solid #f0f0f0}
+.chat-actions{display:flex;gap:8px;margin-bottom:10px;padding:2px 0}
+.chat-actions .chip{padding:6px 12px;border-radius:16px;font-size:12px;font-weight:500;background:#f5f5f7;color:#333;white-space:nowrap;border:1px solid #e5e5e5;display:flex;align-items:center;gap:4px;cursor:pointer}
+.chat-actions .chip:active{background:#e8e8e8}
+.chat-actions .chip .ic{font-size:13px}
+.chat-input{display:flex;align-items:center;gap:10px;background:#f5f5f7;border-radius:22px;padding:10px 14px}
+.chat-input .plus{font-size:18px;color:#333;cursor:pointer}
+.chat-input .ph{flex:1;font-size:14px;color:#999}
+.chat-input .mic{font-size:18px;color:#333;cursor:pointer}
 
 /* Swipe hint */
 .swipe-hint{position:absolute;top:50%;left:-60px;font-size:11px;color:rgba(255,255,255,0.3);writing-mode:vertical-rl;transform:translateY(-50%)}
@@ -200,33 +212,82 @@ function genPageHTML(type, icon) {
     <div class="sb"><span>2:36</span><span class="r">●●● ▲ ■</span></div>
     <div class="nav">
       <span class="back" data-action="back">‹</span>
-      <span class="title">生成${type}</span>
+      <span class="title">AI助手</span>
       <span class="acts"></span>
     </div>
-    <div class="gen-center">
-      <div class="gen-icon">${icon}</div>
-      <div class="gen-title">正在生成${type}...</div>
-      <div class="gen-sub">基于「产品需求讨论会」内容<br>预计10秒完成</div>
-      <div class="progress"><div class="fill"></div></div>
+    <div class="chat-page">
+      <div class="chat-disclaimer">内容由AI生成，仅供参考</div>
+      <div class="chat-body">
+        <div class="chat-bubble-user"><div class="bubble">生成${type}</div></div>
+        <div class="chat-thinking"><span class="icon">✨</span> 正在思考</div>
+        <div class="chat-card">
+          <div class="chat-card-row">
+            <div class="chat-card-thumb"></div>
+            <div class="chat-card-info">
+              <h4>正在生成${type}...</h4>
+              <p>大约需要2-5分钟，完成后我会通知你</p>
+            </div>
+            <div class="chat-spinner"></div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-bottom">
+        <div class="chat-actions">
+          <div class="chip"><span class="ic">📋</span>行程计划</div>
+          <div class="chip"><span class="ic">📝</span>要点总结</div>
+          <div class="chip"><span class="ic">🎧</span>生成播客</div>
+          <div class="chip"><span class="ic">✏️</span>改简洁</div>
+        </div>
+        <div class="chat-input">
+          <span class="plus">＋</span>
+          <span class="ph">发消息或按住说话</span>
+          <span class="mic">🎙️</span>
+        </div>
+      </div>
     </div>`;
 }
 
 function resultPageHTML(type, icon) {
+  const fileExt = type === '播客' ? '.mp3' : type === 'PPT' ? '.pptx' : '.png';
+  const actionText = type === '播客' ? '▶ 播放' : '查看';
   return `
     <div class="sb"><span>2:36</span><span class="r">●●● ▲ ■</span></div>
     <div class="nav">
       <span class="back" data-action="back">‹</span>
-      <span class="title">${type}预览</span>
-      <span class="act-btn" data-action="back">完成</span>
+      <span class="title">AI助手</span>
+      <span class="acts"></span>
     </div>
-    <div class="content" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
-      <div class="result-card">
-        <div class="icon">${icon}</div>
-        <h3>${type}生成完成</h3>
-        <p>已基于会议内容生成4页${type}</p>
-        <div class="result-actions">
-          <div class="btn btn-primary">查看</div>
-          <div class="btn btn-ghost">分享</div>
+    <div class="chat-page">
+      <div class="chat-disclaimer">内容由AI生成，仅供参考</div>
+      <div class="chat-body">
+        <div class="chat-bubble-user"><div class="bubble">生成${type}</div></div>
+        <div class="chat-thinking"><span class="icon">✨</span> 正在思考</div>
+        <div class="chat-card">
+          <div class="chat-card-header">
+            <h4>已生成${type}</h4>
+            <span class="btn-add">添加到笔记</span>
+          </div>
+          <div class="chat-card-row">
+            <div class="chat-card-thumb"></div>
+            <div class="chat-card-info">
+              <h4>产品需求讨论会${fileExt}</h4>
+              <p>会议目的、共识要点、交付流程...</p>
+            </div>
+            <span class="chat-card-action">${actionText}</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-bottom">
+        <div class="chat-actions">
+          <div class="chip"><span class="ic">📋</span>行程计划</div>
+          <div class="chip"><span class="ic">📝</span>要点总结</div>
+          <div class="chip"><span class="ic">🎧</span>生成播客</div>
+          <div class="chip"><span class="ic">✏️</span>改简洁</div>
+        </div>
+        <div class="chat-input">
+          <span class="plus">＋</span>
+          <span class="ph">发消息或按住说话</span>
+          <span class="mic">🎙️</span>
         </div>
       </div>
     </div>`;
