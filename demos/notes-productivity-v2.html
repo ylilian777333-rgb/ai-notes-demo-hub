@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生产力 · 完整交互链路演示</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','SF Pro Display',sans-serif;background:#0a0a0f;color:#fff;min-height:100vh}
+.header{padding:16px 32px;border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95)}
+.header h1{font-size:16px;font-weight:700}
+.header .meta{font-size:10px;color:rgba(255,255,255,0.4);margin-top:2px}
+.tabs{display:flex;gap:5px;padding:10px 32px;position:sticky;top:52px;z-index:99;background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);overflow-x:auto}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:7px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);transition:all .3s}
+.tab.active{background:#3b82f6;border-color:#3b82f6;color:#fff}
+.stage{display:flex;flex-direction:column;align-items:center;padding:20px}
+.info{text-align:center;margin-bottom:16px;max-width:500px}
+.info h2{font-size:15px;margin-bottom:4px}
+.info p{font-size:11px;color:rgba(255,255,255,0.5)}
+.phone-area{display:flex;align-items:center;gap:16px}
+.arr{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);transition:all .2s;user-select:none}
+.arr:hover{background:rgba(255,255,255,0.12);color:#fff}
+.arr.off{opacity:.3;pointer-events:none}
+.phone{width:375px;height:812px;border-radius:54px;background:#fff;overflow:hidden;box-shadow:0 0 0 11px #1a1a2e,0 0 0 13px rgba(255,255,255,0.08),0 30px 60px rgba(0,0,0,0.5);position:relative}
+.pg{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .25s;overflow:hidden}
+.pg.next{transform:translateX(100%);opacity:0}
+.pg.prev{transform:translateX(-100%);opacity:0}
+.pg.show{transform:translateX(0);opacity:1}
+.dots{display:flex;gap:4px;margin-top:12px}
+.dt{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s}
+.dt.on{width:18px;border-radius:3px;background:#3b82f6}
+.lbl{text-align:center;margin-top:10px}
+.lbl h3{font-size:13px;font-weight:600}
+.lbl p{font-size:10px;color:rgba(255,255,255,0.4);margin-top:1px}
+
+/* Phone UI atoms */
+.sb{display:flex;justify-content:space-between;align-items:center;padding:14px 28px 0;height:50px;font-size:14px;font-weight:600;color:#1a1a1a;flex-shrink:0}
+.sb .r{font-size:10px;letter-spacing:1px}
+.nv{display:flex;align-items:center;justify-content:space-between;padding:4px 20px;height:44px;flex-shrink:0}
+.nv .bk{font-size:22px;color:#1a1a1a}
+.nv .tt{font-size:17px;font-weight:600;color:#1a1a1a}
+.nv .ac{font-size:14px;color:#3b82f6;font-weight:500}
+.scr{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.inn{padding:0 20px 80px;color:#1a1a1a;font-size:14px;line-height:1.6}
+
+/* Home */
+.home-search{background:#f5f5f7;border-radius:10px;padding:10px 14px;font-size:14px;color:#999;margin-bottom:14px}
+.home-card{padding:13px 0;border-bottom:1px solid #f0f0f0}
+.home-card h4{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
+.home-card p{font-size:12px;color:#888}
+.home-card .tags{display:flex;gap:4px;margin-top:4px}
+.home-card .tg{font-size:10px;padding:2px 6px;border-radius:3px;font-weight:500}
+.tg-b{background:#eff6ff;color:#2563eb}
+.tg-p{background:#f5f3ff;color:#7c3aed}
+.tg-a{background:#fff7ed;color:#d97706}
+.tg-g{background:#ecfdf5;color:#059669}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-around;align-items:center;padding:6px 0 30px;border-top:1px solid #f0f0f0;background:#fff}
+.bottom-nav .item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;color:#999}
+.bottom-nav .item.on{color:#3b82f6;font-weight:600}
+.bottom-nav .item .ic{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+.bottom-nav .item .ic.main{background:#3b82f6;color:#fff;box-shadow:0 4px 12px rgba(59,130,246,0.3)}
+.bottom-nav .item .ic.ai{background:linear-gradient(135deg,#818cf8,#3b82f6);color:#fff}
+
+/* Chat */
+.chat-w{display:flex;flex-direction:column;flex:1;overflow:hidden}
+.chat-disc{text-align:center;font-size:10px;color:#bbb;padding:5px 0;flex-shrink:0}
+.chat-s{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 16px 16px}
+.bbl-u{display:flex;justify-content:flex-end;margin-bottom:12px}
+.bbl-u .b{background:#eff3ff;color:#333;padding:10px 14px;border-radius:16px 16px 4px 16px;font-size:14px;font-weight:500;max-width:75%}
+.ai-st{display:flex;align-items:center;gap:5px;font-size:12px;color:#999;margin-bottom:8px}
+.ai-st .sp{display:inline-block;animation:ro 2s linear infinite}
+@keyframes ro{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.ai-c{background:#fff;border:1px solid #e5e5e5;border-radius:14px;padding:12px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.ai-c .rw{display:flex;align-items:center;gap:10px}
+.ai-c .th{width:44px;height:44px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+.ai-c .nf{flex:1;min-width:0}
+.ai-c .nf h4{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:1px}
+.ai-c .nf p{font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ai-c .at{font-size:11px;color:#4f46e5;font-weight:600;padding:5px 10px;background:#eff6ff;border-radius:10px;white-space:nowrap}
+.ai-c .hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ai-c .hd h4{font-size:13px;font-weight:600}
+.ai-c .hd .btn{font-size:10px;padding:4px 8px;border-radius:10px;background:#ecfdf5;color:#059669;font-weight:600}
+.spn{width:16px;height:16px;border:2px solid #e5e5e5;border-top-color:#4f46e5;border-radius:50%;animation:ro .8s linear infinite;flex-shrink:0}
+.prg{height:3px;background:#e5e5e5;border-radius:2px;margin-top:6px;overflow:hidden}
+.prg .fl{height:100%;background:#4f46e5;border-radius:2px;animation:ld 3s ease forwards}
+@keyframes ld{0%{width:0}60%{width:60%}100%{width:92%}}
+.chat-bt{flex-shrink:0;padding:6px 16px 34px;background:#fff;border-top:1px solid #f0f0f0}
+.chat-ch{display:flex;gap:6px;margin-bottom:6px;overflow-x:auto;scrollbar-width:none}
+.chat-ch::-webkit-scrollbar{display:none}
+.chat-ch .cp{padding:5px 10px;border-radius:14px;font-size:10px;font-weight:500;background:#f5f5f7;color:#333;white-space:nowrap;border:1px solid #e5e5e5;flex-shrink:0}
+.chat-in{display:flex;align-items:center;gap:8px;background:#f5f5f7;border-radius:20px;padding:9px 12px}
+.chat-in .ph{flex:1;font-size:12px;color:#999}
+.chat-in .mc{font-size:14px;color:#666}
+
+/* Result text */
+.res-t{font-size:12px;color:#333;line-height:1.7;padding:8px 10px;background:#f8fafb;border-radius:8px;margin-top:6px}
+.file-c{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#f8f9fa;border-radius:8px;margin-top:6px}
+.file-c .fi{font-size:24px}
+.file-c .fm{flex:1}
+.file-c .fm h5{font-size:12px;font-weight:600;color:#1a1a1a}
+.file-c .fm p{font-size:10px;color:#888}
+.file-c .fo{font-size:10px;color:#4f46e5;font-weight:600}
+
+/* New note highlight */
+.new-note{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:12px;margin-bottom:12px;animation:pop .3s ease}
+@keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+.new-note .badge{font-size:10px;color:#2563eb;font-weight:600;margin-bottom:6px}
+.new-note h4{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
+.new-note p{font-size:11px;color:#666}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>生产力 · 完整交互链路演示</h1>
+  <div class="meta">首页→唤起小爱→说话→生成→完成→存入笔记→回到首页看到文件</div>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-i="0">会议纪要</div>
+  <div class="tab" data-i="1">生成PPT</div>
+  <div class="tab" data-i="2">深度研究</div>
+  <div class="tab" data-i="3">互动网页</div>
+  <div class="tab" data-i="4">旅行攻略</div>
+</div>
+<div class="stage">
+  <div class="info" id="info"></div>
+  <div class="phone-area">
+    <div class="arr" id="pv" onclick="go(-1)">‹</div>
+    <div class="phone" id="phone"></div>
+    <div class="arr" id="nx" onclick="go(1)">›</div>
+  </div>
+  <div class="dots" id="dots"></div>
+  <div class="lbl" id="lbl"></div>
+</div>
+<script>
+const SB=`<div class="sb"><span>2:36</span><span class="r">●●●  ▲  ■</span></div>`;
+const HOME_NAV=`<div class="nv"><span class="bk">☰</span><span class="tt">笔记</span><span class="ac">⋯</span></div>`;
+const BOTTOM=`<div class="bottom-nav"><div class="item on"><span class="ic">📒</span>笔记</div><div class="item"><span class="ic main">＋</span>记录</div><div class="item"><span class="ic ai">✦</span>小爱</div></div>`;
+
+function homeHTML(highlight){
+  return SB+HOME_NAV+`<div class="scr"><div class="inn"><div class="home-search">🔍 搜索笔记</div>${highlight||''}<div class="home-card"><h4>产品评审会纪要</h4><p>Q3方向确认，Flutter方案...</p><div class="tags"><span class="tg tg-b">纪要</span></div></div><div class="home-card"><h4>竞品调研笔记</h4><p>Notion/语雀/印象笔记对比...</p></div><div class="home-card"><h4>读书笔记 · 创新者窘境</h4><p>第3章核心观点...</p></div><div class="home-card"><h4>装修报价记录</h4><p>水电/瓦工/木工三家对比...</p></div></div></div>`+BOTTOM;
+}
+
+function chatHTML(userMsg, status, cardHTML, chips){
+  const st = status==='loading' ? `<div class="ai-st"><span class="sp">✨</span> 正在生成</div>` : `<div class="ai-st"><span style="color:#059669">✓</span> 已完成</div>`;
+  const ch = chips ? `<div class="chat-ch">${chips.map(c=>`<span class="cp">${c}</span>`).join('')}</div>` : '';
+  return SB+`<div class="nv"><span class="bk">‹</span><span class="tt">小爱 · AI助手</span><span class="ac"></span></div><div class="chat-w"><div class="chat-disc">内容由AI生成，仅供参考</div><div class="chat-s"><div class="bbl-u"><div class="b">${userMsg}</div></div>${st}${cardHTML}</div><div class="chat-bt">${ch}<div class="chat-in"><span class="ph">发消息或按住说话</span><span class="mc">🎙️</span></div></div></div>`;
+}
+
+const scenes=[
+  {
+    title:"一句话，会开完纪要就有了",
+    desc:"首页→唤起小爱→说整理纪要→云端生成→完成→存入笔记→首页看到新纪要",
+    steps:[
+      {name:"笔记首页",sub:"点击底部「小爱」进入",html:homeHTML()},
+      {name:"唤起小爱",sub:"说出需求",html:chatHTML('帮我把刚才的产品评审会整理成纪要','loading',`<div class="ai-c" style="border-left:3px solid #3b82f6"><div class="rw"><div class="th" style="background:linear-gradient(135deg,#60a5fa,#3b82f6)">📋</div><div class="nf"><h4>正在整理会议纪要...</h4><p>识别发言人、提取结论和待办</p></div><div class="spn"></div></div><div class="prg"><div class="fl"></div></div></div>`,['加上时间线','只要结论和待办'])},
+      {name:"纪要生成完成",sub:"结论+待办+负责人已提取",html:chatHTML('帮我把刚才的产品评审会整理成纪要','done',`<div class="ai-c" style="border-left:3px solid #3b82f6"><div class="hd"><h4>会议纪要已生成</h4><span class="btn">存入笔记</span></div><div class="res-t"><b>结论：</b><br>1. Q3重点：国际化方向<br>2. 技术选型：确认Flutter<br>3. 排期：6月底P0<br><br><b>待办：</b><br>☐ 鸿蒙适配评估 → 王工/周五<br>☐ P0清单确认 → 张总/周三</div></div>`,['发给参会人','再精简一些'])},
+      {name:"已存入笔记",sub:"回到首页看到新纪要",html:homeHTML(`<div class="new-note"><div class="badge">✨ 刚刚由AI生成</div><h4>产品评审会纪要 · 6/2</h4><p>结论3条 · 待办2条 · 参会人4人</p></div>`)}
+    ]
+  },
+  {
+    title:"一句话，PPT直接生成",
+    desc:"首页→唤起小爱→说做PPT→云端沙箱生成→完成→文件存入笔记",
+    steps:[
+      {name:"笔记首页",sub:"点击底部「小爱」",html:homeHTML()},
+      {name:"对小爱说",sub:"基于笔记生成PPT",html:chatHTML('帮我把产品评审的笔记做成PPT','loading',`<div class="ai-c" style="border-left:3px solid #f59e0b"><div class="rw"><div class="th" style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">📊</div><div class="nf"><h4>正在生成PPT...</h4><p>云端沙箱处理中</p></div><div class="spn"></div></div><div class="prg"><div class="fl"></div></div></div>`,['风格简洁一点','加数据图表'])},
+      {name:"PPT生成完成",sub:"6页汇报稿已就绪",html:chatHTML('帮我把产品评审的笔记做成PPT','done',`<div class="ai-c" style="border-left:3px solid #f59e0b"><div class="hd"><h4>已生成PPT</h4><span class="btn">存入笔记</span></div><div class="file-c"><span class="fi">📊</span><div class="fm"><h5>产品评审Q3方向.pptx</h5><p>6页 · 结论/数据/行动项</p></div><span class="fo">打开</span></div></div>`,['再精简','换个风格'])},
+      {name:"已存入笔记",sub:"首页看到PPT文件",html:homeHTML(`<div class="new-note"><div class="badge">✨ 刚刚由AI生成</div><h4>产品评审Q3方向.pptx</h4><p>PPT · 6页 · 基于「产品评审会纪要」生成</p></div>`)}
+    ]
+  },
+  {
+    title:"一句话，深度研究报告出炉",
+    desc:"首页→唤起小爱→说研究课题→多源检索分析→报告存入笔记",
+    steps:[
+      {name:"笔记首页",sub:"点击底部「小爱」",html:homeHTML()},
+      {name:"对小爱说",sub:"发起深度研究",html:chatHTML('帮我研究一下国内笔记类APP的市场格局','loading',`<div class="ai-c" style="border-left:3px solid #06b6d4"><div class="rw"><div class="th" style="background:linear-gradient(135deg,#67e8f9,#06b6d4)">🔍</div><div class="nf"><h4>深度研究中...</h4><p>正在检索多个数据源</p></div><div class="spn"></div></div><div style="font-size:11px;color:#888;margin-top:8px;line-height:1.6">✓ 已检索36个来源<br>✓ 市场数据分析中<br>◌ 生成报告...</div></div>`,null)},
+      {name:"研究报告完成",sub:"12页完整报告",html:chatHTML('帮我研究一下国内笔记类APP的市场格局','done',`<div class="ai-c" style="border-left:3px solid #06b6d4"><div class="hd"><h4>已生成研究报告</h4><span class="btn">存入笔记</span></div><div class="res-t"><b>核心发现：</b><br>1. DAU约1.2亿，年增长18%<br>2. 头部：Notion/语雀/印象/有道<br>3. 差异机会：AI+硬件无竞品覆盖<br><br>完整报告12页 →</div></div>`,['深入第3点','加用户画像'])},
+      {name:"已存入笔记",sub:"首页看到研究报告",html:homeHTML(`<div class="new-note"><div class="badge">✨ 刚刚由AI生成</div><h4>国内笔记APP市场格局研究</h4><p>研究报告 · 12页 · 36个数据源</p></div>`)}
+    ]
+  },
+  {
+    title:"一句话，互动网页做好了",
+    desc:"首页→唤起小爱→说做网页→云端生成→链接存入笔记→可直接分享",
+    steps:[
+      {name:"笔记首页",sub:"点击底部「小爱」",html:homeHTML()},
+      {name:"对小爱说",sub:"生成互动网页",html:chatHTML('帮我做一个AI笔记的产品介绍页，要有交互效果','loading',`<div class="ai-c" style="border-left:3px solid #8b5cf6"><div class="rw"><div class="th" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">🌐</div><div class="nf"><h4>正在生成互动网页...</h4><p>云端沙箱搭建中</p></div><div class="spn"></div></div><div class="prg"><div class="fl"></div></div></div>`,['加动效','蓝色主题'])},
+      {name:"网页生成完成",sub:"可交互页面已就绪",html:chatHTML('帮我做一个AI笔记的产品介绍页','done',`<div class="ai-c" style="border-left:3px solid #8b5cf6"><div class="hd"><h4>已生成互动网页</h4><span class="btn">存入笔记</span></div><div class="file-c"><span class="fi">🌐</span><div class="fm"><h5>AI笔记产品介绍.html</h5><p>含交互动效 · 可分享链接</p></div><span class="fo">预览</span></div></div>`,['换颜色','加对比表'])},
+      {name:"已存入笔记",sub:"链接在笔记里，随时分享",html:homeHTML(`<div class="new-note"><div class="badge">✨ 刚刚由AI生成</div><h4>AI笔记产品介绍.html</h4><p>互动网页 · 含动效 · 可分享链接</p></div>`)}
+    ]
+  },
+  {
+    title:"一句话，攻略文档直接出",
+    desc:"首页→唤起小爱→说写攻略→整合信息生成→完整行程存入笔记",
+    steps:[
+      {name:"笔记首页",sub:"点击底部「小爱」",html:homeHTML()},
+      {name:"对小爱说",sub:"生成旅行攻略",html:chatHTML('帮我写一个成都三天两夜的亲子攻略','loading',`<div class="ai-c" style="border-left:3px solid #059669"><div class="rw"><div class="th" style="background:linear-gradient(135deg,#34d399,#059669)">✈️</div><div class="nf"><h4>正在生成攻略...</h4><p>整合景点、餐厅、行程</p></div><div class="spn"></div></div><div class="prg"><div class="fl"></div></div></div>`,['预算5000内','孩子3岁'])},
+      {name:"攻略生成完成",sub:"三天行程+餐厅+注意事项",html:chatHTML('帮我写一个成都三天两夜的亲子攻略','done',`<div class="ai-c" style="border-left:3px solid #059669"><div class="hd"><h4>已生成攻略</h4><span class="btn">存入笔记</span></div><div class="res-t"><b>Day1:</b> 大熊猫基地→宽窄巷子→火锅<br><b>Day2:</b> 都江堰(全天)→夜市<br><b>Day3:</b> 金沙遗址→太古里<br><br>🍜 餐厅3家 · 🏨 酒店2家 · ⚠️ 注意5条</div></div>`,['第二天轻松点','加交通'])},
+      {name:"已存入笔记",sub:"完整攻略在笔记里",html:homeHTML(`<div class="new-note"><div class="badge">✨ 刚刚由AI生成</div><h4>成都三天两夜亲子攻略</h4><p>行程安排 · 餐厅推荐 · 注意事项</p></div>`)}
+    ]
+  }
+];
+
+let cur=0,step=0;
+function render(){
+  const s=scenes[cur];
+  document.getElementById('info').innerHTML=`<h2>${s.title}</h2><p>${s.desc}</p>`;
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===cur));
+  step=0;show();
+}
+function show(){
+  const s=scenes[cur],sc=s.steps[step],ph=document.getElementById('phone');
+  ph.querySelectorAll('.pg').forEach(p=>{p.classList.remove('show');p.classList.add('prev');setTimeout(()=>p.remove(),300)});
+  const pg=document.createElement('div');pg.className='pg next';pg.innerHTML=sc.html;ph.appendChild(pg);
+  requestAnimationFrame(()=>{pg.classList.remove('next');pg.classList.add('show')});
+  document.getElementById('dots').innerHTML=s.steps.map((_,i)=>`<div class="dt ${i===step?'on':''}"></div>`).join('');
+  document.getElementById('lbl').innerHTML=`<h3>${sc.name}</h3><p>${sc.sub}</p>`;
+  document.getElementById('pv').classList.toggle('off',step===0);
+  document.getElementById('nx').classList.toggle('off',step===s.steps.length-1);
+}
+function go(d){const s=scenes[cur];if(d>0&&step<s.steps.length-1){step++;show()}if(d<0&&step>0){step--;show()}}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{cur=+t.dataset.i;render()}));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1)});
+render();
+</script>
+</body>
+</html>
