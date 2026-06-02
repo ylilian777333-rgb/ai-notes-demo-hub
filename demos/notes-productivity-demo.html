@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生产力 · 一句话帮你做完整件事</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','SF Pro Display',sans-serif;background:#0a0a0f;color:#fff;min-height:100vh}
+.header{padding:20px 32px;border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95)}
+.header h1{font-size:18px;font-weight:700}
+.header .meta{font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px}
+.tabs{display:flex;gap:6px;padding:12px 32px;position:sticky;top:60px;z-index:99;background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);overflow-x:auto}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:8px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);transition:all .3s}
+.tab.active{background:#3b82f6;border-color:#3b82f6;color:#fff}
+.tab:hover{background:rgba(255,255,255,0.08);color:#fff}
+.stage{display:flex;flex-direction:column;align-items:center;padding:28px 20px}
+.plan-info{text-align:center;margin-bottom:20px;max-width:500px}
+.plan-info h2{font-size:16px;margin-bottom:6px}
+.plan-info p{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5}
+.phone-area{display:flex;align-items:center;gap:20px}
+.arrow-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);transition:all .2s}
+.arrow-btn:hover{background:rgba(255,255,255,0.12);color:#fff}
+.arrow-btn.off{opacity:.3;pointer-events:none}
+.phone{width:375px;height:812px;border-radius:54px;background:#fff;overflow:hidden;box-shadow:0 0 0 11px #1a1a2e,0 0 0 13px rgba(255,255,255,0.08),0 30px 60px rgba(0,0,0,0.5);position:relative}
+.page{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:#fff;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .3s;overflow:hidden}
+.page.out-left{transform:translateX(-30%);opacity:.4;pointer-events:none}
+.page.out-right{transform:translateX(100%);opacity:0;pointer-events:none}
+.page.active{transform:translateX(0);opacity:1}
+.dots{display:flex;gap:5px;margin-top:14px}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s}
+.dot.active{width:20px;border-radius:4px;background:#3b82f6}
+.label{text-align:center;margin-top:12px}
+.label h3{font-size:14px;font-weight:600}
+.label p{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px}
+
+/* Phone inner */
+.sb{display:flex;justify-content:space-between;align-items:center;padding:14px 28px 0;height:50px;font-size:14px;font-weight:600;color:#1a1a1a;flex-shrink:0}
+.sb .r{font-size:11px;letter-spacing:1px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:6px 20px;height:44px;flex-shrink:0}
+.nav .back{font-size:22px;color:#1a1a1a;cursor:pointer}
+.nav .title{font-size:17px;font-weight:600;color:#1a1a1a}
+.nav .acts{font-size:14px;color:#3b82f6;font-weight:500}
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.inner{padding:0 20px 100px;color:#1a1a1a;font-size:15px;line-height:1.6}
+
+/* Chat UI */
+.chat-wrap{display:flex;flex-direction:column;flex:1;overflow:hidden}
+.chat-disclaimer{text-align:center;font-size:11px;color:#999;padding:6px 0;flex-shrink:0}
+.chat-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 16px 16px}
+.bubble-user{display:flex;justify-content:flex-end;margin-bottom:14px}
+.bubble-user .b{background:#eff3ff;color:#333;padding:10px 16px;border-radius:18px 18px 4px 18px;font-size:15px;font-weight:500;max-width:75%}
+.ai-status{display:flex;align-items:center;gap:6px;font-size:13px;color:#999;margin-bottom:10px}
+.ai-status .spin{display:inline-block;animation:r 2s linear infinite}
+@keyframes r{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.ai-card{background:#fff;border:1px solid #e5e5e5;border-radius:16px;padding:14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.ai-card .row{display:flex;align-items:center;gap:12px}
+.ai-card .thumb{width:48px;height:48px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px}
+.ai-card .info{flex:1;min-width:0}
+.ai-card .info h4{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
+.ai-card .info p{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ai-card .action{font-size:12px;color:#4f46e5;font-weight:600;padding:6px 12px;background:#eff6ff;border-radius:12px;white-space:nowrap;cursor:pointer}
+.ai-card .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ai-card .header h4{font-size:14px;font-weight:600}
+.ai-card .header .btn{font-size:11px;padding:4px 10px;border-radius:12px;background:#ecfdf5;color:#059669;font-weight:600;cursor:pointer}
+.spinner{width:18px;height:18px;border:2px solid #e5e5e5;border-top-color:#4f46e5;border-radius:50%;animation:r 1s linear infinite;flex-shrink:0}
+.progress-bar{height:3px;background:#e5e5e5;border-radius:2px;margin-top:8px;overflow:hidden}
+.progress-bar .fill{height:100%;background:#4f46e5;border-radius:2px;animation:load 3s ease forwards}
+@keyframes load{0%{width:0}60%{width:65%}100%{width:95%}}
+.chat-bottom{flex-shrink:0;padding:8px 16px 34px;background:#fff;border-top:1px solid #f0f0f0}
+.chat-chips{display:flex;gap:8px;margin-bottom:8px;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+.chat-chips::-webkit-scrollbar{display:none}
+.chat-chips .chip{padding:6px 12px;border-radius:16px;font-size:11px;font-weight:500;background:#f5f5f7;color:#333;white-space:nowrap;border:1px solid #e5e5e5;flex-shrink:0}
+.chat-input{display:flex;align-items:center;gap:10px;background:#f5f5f7;border-radius:22px;padding:10px 14px}
+.chat-input .ph{flex:1;font-size:13px;color:#999}
+.chat-input .mic{font-size:16px;color:#666}
+
+/* Result styles */
+.result-text{font-size:13px;color:#333;line-height:1.7;padding:10px 12px;background:#f8fafb;border-radius:10px;margin-top:8px}
+.file-card{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f8f9fa;border-radius:10px;margin-top:8px}
+.file-card .icon{font-size:28px}
+.file-card .meta{flex:1}
+.file-card .meta h5{font-size:13px;font-weight:600;color:#1a1a1a}
+.file-card .meta p{font-size:11px;color:#888}
+.file-card .open{font-size:11px;color:#4f46e5;font-weight:600}
+
+/* Notebook page */
+.note-card{padding:14px 0;border-bottom:1px solid #f0f0f0}
+.note-card h4{font-size:16px;font-weight:600;margin-bottom:3px;color:#1a1a1a}
+.note-card p{font-size:13px;color:#888}
+.note-card .tag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:4px;margin-top:4px;font-weight:500}
+.note-card .tag-blue{background:#eff6ff;color:#2563eb}
+.note-card .tag-purple{background:#f5f3ff;color:#7c3aed}
+.note-card .tag-amber{background:#fff7ed;color:#d97706}
+.tab-bar{display:flex;justify-content:space-around;align-items:center;padding:8px 0 30px;border-top:1px solid #f0f0f0;position:absolute;bottom:0;left:0;right:0;background:#fff}
+.tab-bar span{font-size:10px;color:#999}
+.tab-bar span.on{color:#3b82f6;font-weight:600}
+
+/* Toast */
+.toast{position:absolute;top:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#fff;padding:8px 18px;border-radius:18px;font-size:12px;font-weight:500;z-index:100;animation:ti .3s ease}
+@keyframes ti{from{opacity:0;transform:translateX(-50%) translateY(-8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>生产力 · 一句话帮你做完整件事</h1>
+  <div class="meta">语音触发 → 云端沙箱执行 → 结果存进笔记 ｜ 可交互演示</div>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-i="0">会议纪要</div>
+  <div class="tab" data-i="1">邮件处理</div>
+  <div class="tab" data-i="2">生成PPT</div>
+  <div class="tab" data-i="3">深度研究</div>
+  <div class="tab" data-i="4">互动网页</div>
+  <div class="tab" data-i="5">旅行攻略</div>
+</div>
+<div class="stage">
+  <div class="plan-info" id="info"></div>
+  <div class="phone-area">
+    <div class="arrow-btn" id="prevBtn" onclick="prev()">‹</div>
+    <div class="phone" id="phone"></div>
+    <div class="arrow-btn" id="nextBtn" onclick="next()">›</div>
+  </div>
+  <div class="dots" id="dots"></div>
+  <div class="label" id="label"></div>
+</div>
+
+<script>
+const SB = `<div class="sb"><span>2:36</span><span class="r">●●●  ▲  ■</span></div>`;
+const scenarios = [
+  {
+    title: "一句话，会开完纪要就有了",
+    desc: "开会前提醒开启纪要，录音转写全程自动。结束后结论、待办自动整理好存进笔记。",
+    screens: [
+      {name:"开会录音中", sub:"AI自动录音转写", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">产品评审会</span><span class="acts">录制中</span></div><div class="scroll"><div class="inner"><div style="display:flex;align-items:center;gap:8px;padding:12px 0;color:#ef4444;font-size:13px;font-weight:600">● 正在录制 32:15</div><div style="background:#f8f9fa;border-radius:12px;padding:14px;margin-bottom:16px"><div style="font-size:13px;color:#666;margin-bottom:8px">实时转写</div><div style="font-size:14px;color:#333;line-height:1.8">张总：Q3我们重点押注国际化方向，Flutter方案确认了...<br><br>李总：排期上6月底要完成P0，这个时间点不能动...<br><br>王工：鸿蒙适配需要额外两周评估...</div></div></div></div>`},
+      {name:"散会，纪要已生成", sub:"结论+待办+负责人自动提取", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">产品评审会</span><span class="acts">完成</span></div><div class="scroll"><div class="inner"><div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;padding:14px;margin-bottom:16px"><div style="font-size:13px;font-weight:600;color:#059669;margin-bottom:8px">✓ 纪要已自动生成</div><div style="font-size:14px;color:#333;line-height:1.8"><b>结论：</b><br>1. Q3重点：国际化方向<br>2. 技术选型：确认Flutter<br>3. 排期：6月底P0<br><br><b>待办：</b><br>☐ 鸿蒙适配评估 → 王工/本周五<br>☐ P0功能清单确认 → 张总/周三<br>☐ 设计资源协调 → 李莲/明天</div></div><div style="text-align:center"><span style="display:inline-block;padding:10px 24px;background:#3b82f6;color:#fff;border-radius:20px;font-size:14px;font-weight:600">一键发给参会人</span></div></div></div>`}
+    ]
+  },
+  {
+    title: "一句话，邮件帮你处理好",
+    desc: "30封邮件不用一封封看，小爱自动排优先级，一句话就能批复。",
+    screens: [
+      {name:"问小爱今天重点", sub:"自动排优先级", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">小爱 · 邮件助手</span><span class="acts"></span></div><div class="chat-wrap"><div class="chat-disclaimer">内容由AI生成，仅供参考</div><div class="chat-scroll"><div class="bubble-user"><div class="b">今天邮件有什么重要的</div></div><div class="ai-status"><span style="color:#059669">✓</span> 已完成</div><div class="ai-card"><div style="font-size:14px;color:#333;line-height:1.8;padding:4px 0"><b>今日重点（3/32封）：</b><br><br>🔴 陈总等你批20万市场预算<br><span style="color:#888;font-size:12px">9月市场活动用，超去年30%</span><br><br>🟡 客户在问Q3交付时间<br><span style="color:#888;font-size:12px">上周五发的，还没回</span><br><br>🟢 HR提醒下周团建确认人数<br><span style="color:#888;font-size:12px">截止明天</span></div></div></div><div class="chat-bottom"><div class="chat-chips"><span class="chip">预算那个批了</span><span class="chip">客户的帮我回一下</span><span class="chip">团建报我+1</span></div><div class="chat-input"><span class="ph">说点什么...</span><span class="mic">🎙️</span></div></div></div>`},
+      {name:"一句话批复", sub:"邮件直接发出", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">小爱 · 邮件助手</span><span class="acts"></span></div><div class="chat-wrap"><div class="chat-disclaimer">内容由AI生成，仅供参考</div><div class="chat-scroll"><div class="bubble-user"><div class="b">预算那个批了</div></div><div class="ai-status"><span style="color:#059669">✓</span> 已完成</div><div class="ai-card"><div class="header"><h4>已发送审批回复</h4><span class="btn">查看邮件</span></div><div style="font-size:13px;color:#555;line-height:1.6;padding:8px 12px;background:#f8f9fa;border-radius:8px">收件人：陈总<br>内容："同意，预算批复。注意控制在20万内，如有超支提前报备。"</div></div></div><div class="chat-bottom"><div class="chat-chips"><span class="chip">客户的帮我回</span><span class="chip">团建+1</span></div><div class="chat-input"><span class="ph">说点什么...</span><span class="mic">🎙️</span></div></div></div>`}
+    ]
+  },
+  {
+    title: "一句话，PPT直接生成",
+    desc: "明天要汇报还没准备材料，对小爱说一句，云端沙箱自动生成PPT存进笔记。",
+    screens: [
+      {name:"对小爱说", sub:"语音触发云端生成", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">小爱 · AI助手</span><span class="acts"></span></div><div class="chat-wrap"><div class="chat-disclaimer">内容由AI生成，仅供参考</div><div class="chat-scroll"><div class="bubble-user"><div class="b">帮我把上周产品评审的笔记做成PPT</div></div><div class="ai-status"><span class="spin">✨</span> 正在生成</div><div class="ai-card" style="border-left:3px solid #f59e0b"><div class="row"><div class="thumb" style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">📊</div><div class="info"><h4>正在生成PPT...</h4><p>云端沙箱处理中，预计30秒</p></div><div class="spinner"></div></div><div class="progress-bar"><div class="fill"></div></div></div></div><div class="chat-bottom"><div class="chat-chips"><span class="chip">风格简洁一点</span><span class="chip">加上数据图表</span></div><div class="chat-input"><span class="ph">说点什么...</span><span class="mic">🎙️</span></div></div></div>`},
+      {name:"PPT生成完成", sub:"文件直接存进笔记", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">小爱 · AI助手</span><span class="acts"></span></div><div class="chat-wrap"><div class="chat-disclaimer">内容由AI生成，仅供参考</div><div class="chat-scroll"><div class="bubble-user"><div class="b">帮我把上周产品评审的笔记做成PPT</div></div><div class="ai-status"><span style="color:#059669">✓</span> 已完成</div><div class="ai-card" style="border-left:3px solid #f59e0b"><div class="header"><h4>已生成PPT</h4><span class="btn">存入笔记</span></div><div class="file-card"><span class="icon">📊</span><div class="meta"><h5>产品评审Q3方向.pptx</h5><p>6页 · 含结论/数据/行动项</p></div><span class="open">打开</span></div></div></div><div class="chat-bottom"><div class="chat-chips"><span class="chip">再精简一下</span><span class="chip">换个风格</span></div><div class="chat-input"><span class="ph">说点什么...</span><span class="mic">🎙️</span></div></div></div>`}
+    ]
+  },
+  {
+    title: "一句话，深度研究报告出炉",
+    desc: "要调研不想从零搜资料，对小爱说一句，云端沙箱自动检索分析生成报告。",
+    screens: [
+      {name:"对小爱说", sub:"触发深度研究", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">小爱 · AI助手</span><span class="acts"></span></div><div class="chat-wrap"><div class="chat-disclaimer">内容由AI生成，仅供参考</div><div class="chat-scroll"><div class="bubble-user"><div class="b">帮我研究一下国内笔记类APP的市场格局</div></div><div class="ai-status"><span class="spin">✨</span> 正在深度研究</div><div class="ai-card" style="border-left:3px solid #06b6d4"><div class="row"><div class="thumb" style="background:linear-gradient(135deg,#67e8f9,#06b6d4)">🔍</div><div class="info"><h4>深度研究中...</h4><p>正在检索多个数据源并分析</p></div><div class="spinner"></div></div><div style="font-size:12px;color:#888;margin-top:10px;line-height:1.6">✓ 已检索36个相关来源<br>✓ 已分析市场数据<br>◌ 正在生成报告...</div></div></div><div class="chat-bottom"><div class="chat-input"><span class="ph">说点什么...</span><span class="mic">🎙️</span></div></div></div>`},
+      {name:"报告生成完成", sub:"完整报告存进笔记", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">小爱 · AI助手</span><span class="acts"></span></div><div class="chat-wrap"><div class="chat-disclaimer">内容由AI生成，仅供参考</div><div class="chat-scroll"><div class="bubble-user"><div class="b">帮我研究一下国内笔记类APP的市场格局</div></div><div class="ai-status"><span style="color:#059669">✓</span> 已完成</div><div class="ai-card" style="border-left:3px solid #06b6d4"><div class="header"><h4>已生成研究报告</h4><span class="btn">存入笔记</span></div><div class="result-text"><b>核心发现：</b><br>1. 市场规模：2026年国内笔记DAU约1.2亿<br>2. 头部玩家：Notion/语雀/印象笔记/有道云<br>3. 差异化机会：AI+硬件联动无竞品覆盖<br><br><b>详细报告(12页)已生成 →</b></div></div></div><div class="chat-bottom"><div class="chat-chips"><span class="chip">再深入分析第3点</span><span class="chip">加上用户画像</span></div><div class="chat-input"><span class="ph">说点什么...</span><span class="mic">🎙️</span></div></div></div>`}
+    ]
+  },
+  {
+    title: "一句话，互动网页做好了",
+    desc: "想做个产品展示页给客户看，对小爱说一句，云端生成可交互网页。",
+    screens: [
+      {name:"对小爱说", sub:"触发网页生成", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">小爱 · AI助手</span><span class="acts"></span></div><div class="chat-wrap"><div class="chat-disclaimer">内容由AI生成，仅供参考</div><div class="chat-scroll"><div class="bubble-user"><div class="b">帮我做一个AI笔记的产品介绍页，要有交互效果</div></div><div class="ai-status"><span class="spin">✨</span> 正在生成</div><div class="ai-card" style="border-left:3px solid #8b5cf6"><div class="row"><div class="thumb" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">🌐</div><div class="info"><h4>正在生成互动网页...</h4><p>云端沙箱搭建页面中</p></div><div class="spinner"></div></div><div class="progress-bar"><div class="fill"></div></div></div></div><div class="chat-bottom"><div class="chat-input"><span class="ph">说点什么...</span><span class="mic">🎙️</span></div></div></div>`},
+      {name:"网页生成完成", sub:"链接存进笔记，发给客户就能看", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">小爱 · AI助手</span><span class="acts"></span></div><div class="chat-wrap"><div class="chat-disclaimer">内容由AI生成，仅供参考</div><div class="chat-scroll"><div class="bubble-user"><div class="b">帮我做一个AI笔记的产品介绍页</div></div><div class="ai-status"><span style="color:#059669">✓</span> 已完成</div><div class="ai-card" style="border-left:3px solid #8b5cf6"><div class="header"><h4>已生成互动网页</h4><span class="btn">存入笔记</span></div><div class="file-card"><span class="icon">🌐</span><div class="meta"><h5>AI笔记产品介绍.html</h5><p>含动效交互 · 可直接分享链接</p></div><span class="open">预览</span></div></div></div><div class="chat-bottom"><div class="chat-chips"><span class="chip">颜色换成蓝色系</span><span class="chip">加上功能对比表</span></div><div class="chat-input"><span class="ph">说点什么...</span><span class="mic">🎙️</span></div></div></div>`}
+    ]
+  },
+  {
+    title: "一句话，攻略文档直接出",
+    desc: "出行前不想自己搜攻略，说一句话AI帮你写好完整行程。",
+    screens: [
+      {name:"对小爱说", sub:"触发攻略生成", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">小爱 · AI助手</span><span class="acts"></span></div><div class="chat-wrap"><div class="chat-disclaimer">内容由AI生成，仅供参考</div><div class="chat-scroll"><div class="bubble-user"><div class="b">帮我写一个成都三天两夜的亲子攻略</div></div><div class="ai-status"><span class="spin">✨</span> 正在生成</div><div class="ai-card" style="border-left:3px solid #059669"><div class="row"><div class="thumb" style="background:linear-gradient(135deg,#34d399,#059669)">📋</div><div class="info"><h4>正在生成攻略...</h4><p>整合景点、餐厅、行程信息</p></div><div class="spinner"></div></div><div class="progress-bar"><div class="fill"></div></div></div></div><div class="chat-bottom"><div class="chat-chips"><span class="chip">预算控制在5000</span><span class="chip">孩子3岁</span></div><div class="chat-input"><span class="ph">说点什么...</span><span class="mic">🎙️</span></div></div></div>`},
+      {name:"攻略生成完成", sub:"完整行程存进笔记", html: SB+`<div class="nav"><span class="back">‹</span><span class="title">小爱 · AI助手</span><span class="acts"></span></div><div class="chat-wrap"><div class="chat-disclaimer">内容由AI生成，仅供参考</div><div class="chat-scroll"><div class="bubble-user"><div class="b">帮我写一个成都三天两夜的亲子攻略</div></div><div class="ai-status"><span style="color:#059669">✓</span> 已完成</div><div class="ai-card" style="border-left:3px solid #059669"><div class="header"><h4>已生成攻略</h4><span class="btn">存入笔记</span></div><div class="result-text"><b>Day 1：</b>大熊猫基地(上午) → 宽窄巷子(下午) → 火锅(晚)<br><b>Day 2：</b>都江堰(全天) → 夜市小吃<br><b>Day 3：</b>金沙遗址(上午) → 太古里(下午)<br><br>🍜 推荐餐厅3家 · 🏨 亲子酒店2家 · ⚠️ 注意事项5条<br><br><b>完整攻略已生成 →</b></div></div></div><div class="chat-bottom"><div class="chat-chips"><span class="chip">第二天换个轻松点的</span><span class="chip">加上交通方式</span></div><div class="chat-input"><span class="ph">说点什么...</span><span class="mic">🎙️</span></div></div></div>`}
+    ]
+  }
+];
+
+let cur=0, step=0;
+function render(){
+  const s=scenarios[cur];
+  document.getElementById('info').innerHTML=`<h2>${s.title}</h2><p>${s.desc}</p>`;
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===cur));
+  step=0;
+  showStep();
+}
+function showStep(){
+  const s=scenarios[cur];
+  const sc=s.screens[step];
+  const ph=document.getElementById('phone');
+  ph.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');p.classList.add('out-left');setTimeout(()=>p.remove(),350)});
+  const pg=document.createElement('div');pg.className='page out-right';pg.innerHTML=sc.html;ph.appendChild(pg);
+  requestAnimationFrame(()=>{pg.classList.remove('out-right');pg.classList.add('active')});
+  document.getElementById('dots').innerHTML=s.screens.map((_,i)=>`<div class="dot ${i===step?'active':''}"></div>`).join('');
+  document.getElementById('label').innerHTML=`<h3>${sc.name}</h3><p>${sc.sub}</p>`;
+  document.getElementById('prevBtn').classList.toggle('off',step===0);
+  document.getElementById('nextBtn').classList.toggle('off',step===s.screens.length-1);
+}
+function next(){const s=scenarios[cur];if(step<s.screens.length-1){step++;showStep()}}
+function prev(){if(step>0){step--;showStep()}}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{cur=+t.dataset.i;render()}));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev()});
+render();
+</script>
+</body>
+</html>
