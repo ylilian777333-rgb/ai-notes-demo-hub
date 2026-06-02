@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>录音转录体验优化策略</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'PingFang SC', 'SF Pro Display', sans-serif;
+  background: #0a0a0f;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+header p {
+  font-size: 16px;
+  color: #94a3b8;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 10px 20px;
+  border-radius: 24px;
+  border: 1px solid #333;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.tab:hover { border-color: #f59e0b; color: #f59e0b; }
+.tab.active {
+  background: #f59e0b;
+  border-color: #f59e0b;
+  color: #000;
+  font-weight: 600;
+}
+
+/* Panels */
+.panel { display: none; animation: fadeIn 0.4s ease; }
+.panel.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Section Cards */
+.card {
+  background: #1a1a2e;
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 24px;
+  border: 1px solid #2a2a3e;
+}
+.card h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #f59e0b;
+}
+.card h3 {
+  font-size: 16px;
+  margin: 16px 0 8px;
+  color: #e2e8f0;
+}
+.card p, .card li {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #cbd5e1;
+}
+.card ul { padding-left: 20px; }
+.card li { margin-bottom: 4px; }
+
+/* Flow Diagram */
+.flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 24px 0;
+}
+.flow-step {
+  background: #16213e;
+  border: 2px solid #334155;
+  border-radius: 12px;
+  padding: 16px 24px;
+  text-align: center;
+  min-width: 280px;
+  position: relative;
+  transition: all 0.3s;
+}
+.flow-step:hover { border-color: #f59e0b; transform: scale(1.02); }
+.flow-step .label {
+  font-size: 12px;
+  color: #f59e0b;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.flow-step .content {
+  font-size: 14px;
+  color: #e2e8f0;
+}
+.flow-step .time {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 4px;
+}
+.flow-arrow {
+  width: 2px;
+  height: 24px;
+  background: #475569;
+  position: relative;
+}
+.flow-arrow::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #475569;
+}
+
+/* Branch */
+.flow-branch {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin: 12px 0;
+}
+.flow-branch .flow-step { min-width: 200px; }
+.flow-branch .flow-step.fast { border-color: #22c55e; }
+.flow-branch .flow-step.fast .label { color: #22c55e; }
+.flow-branch .flow-step.slow { border-color: #3b82f6; }
+.flow-branch .flow-step.slow .label { color: #3b82f6; }
+
+/* Comparison Table */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+.compare-table th, .compare-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #2a2a3e;
+  font-size: 13px;
+}
+.compare-table th {
+  color: #f59e0b;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.compare-table td { color: #cbd5e1; }
+.compare-table tr:hover td { background: #16213e; }
+
+/* Tags */
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.tag-green { background: #064e3b; color: #34d399; }
+.tag-blue { background: #1e3a5f; color: #60a5fa; }
+.tag-orange { background: #451a03; color: #fbbf24; }
+.tag-red { background: #450a0a; color: #f87171; }
+.tag-purple { background: #2e1065; color: #a78bfa; }
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 24px;
+  margin: 16px 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #334155;
+}
+.timeline-item {
+  position: relative;
+  padding: 12px 0 12px 20px;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 18px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f59e0b;
+  border: 2px solid #0a0a0f;
+}
+.timeline-item .time-label {
+  font-size: 12px;
+  color: #f59e0b;
+  font-weight: 600;
+}
+.timeline-item .time-content {
+  font-size: 14px;
+  color: #e2e8f0;
+  margin-top: 4px;
+}
+
+/* Keyword chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+.chip {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.chip-todo { background: #064e3b; color: #34d399; border: 1px solid #065f46; }
+.chip-schedule { background: #1e3a5f; color: #60a5fa; border: 1px solid #1d4ed8; }
+.chip-general { background: #1f2937; color: #9ca3af; border: 1px solid #374151; }
+
+/* Highlight box */
+.highlight-box {
+  background: linear-gradient(135deg, #451a03 0%, #1a1a2e 100%);
+  border: 1px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+.highlight-box p {
+  color: #fbbf24 !important;
+  font-weight: 500;
+}
+
+/* Problems list */
+.problem-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #1e293b;
+}
+.problem-item:last-child { border-bottom: none; }
+.problem-level {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.problem-level.p0 { background: #450a0a; color: #f87171; }
+.problem-level.p1 { background: #451a03; color: #fbbf24; }
+.problem-level.p2 { background: #1e3a5f; color: #60a5fa; }
+.problem-content { flex: 1; }
+.problem-content .problem-title { font-size: 14px; color: #e2e8f0; font-weight: 500; }
+.problem-content .problem-fix { font-size: 12px; color: #64748b; margin-top: 4px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container { padding: 20px 12px; }
+  header h1 { font-size: 24px; }
+  .card { padding: 20px; }
+  .flow-branch { flex-direction: column; align-items: center; }
+  .tabs { gap: 4px; }
+  .tab { padding: 8px 14px; font-size: 12px; }
+}
+
+/* Before/After comparison */
+.before-after {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+.before-after .side {
+  padding: 16px;
+  border-radius: 12px;
+}
+.before-after .before {
+  background: #1c1c1c;
+  border: 1px solid #ef4444;
+}
+.before-after .after {
+  background: #1c1c1c;
+  border: 1px solid #22c55e;
+}
+.before-after .side-label {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.before-after .before .side-label { color: #ef4444; }
+.before-after .after .side-label { color: #22c55e; }
+.before-after .side p { font-size: 13px; color: #94a3b8; line-height: 1.6; }
+
+@media (max-width: 600px) {
+  .before-after { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>录音转录体验优化策略</h1>
+    <p>本地先判断意图，再精准调AI — 短录音从 20-40秒 降到 3-5秒 出结果</p>
+  </header>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="overview">策略总览</div>
+    <div class="tab" data-tab="flow">处理流程</div>
+    <div class="tab" data-tab="classify">意图分类</div>
+    <div class="tab" data-tab="fallback">降级容错</div>
+    <div class="tab" data-tab="issues">已知问题</div>
+    <div class="tab" data-tab="plan">实施计划</div>
+  </div>
+
+  <!-- Panel: Overview -->
+  <div class="panel active" id="panel-overview">
+    <div class="card">
+      <h2>核心问题</h2>
+      <div class="before-after">
+        <div class="side before">
+          <div class="side-label">BEFORE (现状)</div>
+          <p>用户录 10 秒语音 → 等 20-40 秒出结果</p>
+          <p style="margin-top:8px; font-size:12px; color:#ef4444;">AI开thinking深度推理，占总耗时 70-80%<br>模型同时做：判断意图 + 规划结构 + 选择格式 + 生成输出</p>
+        </div>
+        <div class="side after">
+          <div class="side-label">AFTER (优化后)</div>
+          <p>用户录 10 秒语音 → 3-5 秒出结构化卡片</p>
+          <p style="margin-top:8px; font-size:12px; color:#22c55e;">本地判断意图(0ms) + 关thinking + 模型只做填槽提取</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>策略核心逻辑（三步）</h2>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="label">STEP 1 - 本地意图预分类</div>
+          <div class="content">关键词匹配，判断 TODO / SCHEDULE / GENERAL</div>
+          <div class="time">耗时 0ms，纯规则引擎</div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">
+          <div class="label">STEP 2 - 按置信度选路径</div>
+          <div class="content">HIGH → 关thinking快速路径 | LOW → 开thinking深度路径</div>
+          <div class="time">判断依据 = "我是否确定用户要什么"</div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">
+          <div class="label">STEP 3 - 专用 Prompt 精准调用</div>
+          <div class="content">每种意图配固定JSON schema，模型只需填槽</div>
+          <div class="time">关thinking 3-5秒 / 开thinking 10-30秒</div>
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        <p>核心设计：判断依据是"我是否确定用户要什么"，而不是"用户说了多少字"。200字购物清单（意图明确）走快速路径；7字模糊表达（意图不清）走thinking路径。</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>引擎路径决策</h2>
+      <p>录音速记场景 <strong style="color:#22c55e">固定走 LocalEngine</strong>（直接调 mimo-pro API），不走 OSbot。</p>
+      <ul style="margin-top:12px">
+        <li>OSbot session建立 + skill加载就要 7 秒，LLM还没开始推理</li>
+        <li>OSbot 有工具白名单限制，会导致流程中断</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>超时机制</h2>
+      <p>不用固定超时。改为 <strong style="color:#f59e0b">首 token 超时</strong>：</p>
+      <ul style="margin-top:12px">
+        <li>发请求后 <strong>15 秒</strong>内无任何 streaming 响应 → 判超时</li>
+        <li>一旦收到首个 token → 不再超时，等完整结果返回</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Panel: Flow -->
+  <div class="panel" id="panel-flow">
+    <div class="card">
+      <h2>完整处理流程</h2>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="label">录音完成</div>
+          <div class="content">用户停止录音，音频数据就绪</div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">
+          <div class="label">ASR 转录</div>
+          <div class="content">语音 → 文字（小爱SDK / 腾讯引擎）</div>
+          <div class="time">5-10秒/分钟音频</div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">
+          <div class="label">立即展示转录文本</div>
+          <div class="content">用户第 2 秒就看到内容，焦虑大幅降低</div>
+          <div class="time">感知等待从 20秒 降至 2秒</div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">
+          <div class="label">本地意图分类器</div>
+          <div class="content">关键词匹配 → 输出 (意图, 置信度)</div>
+          <div class="time">0ms</div>
+        </div>
+        <div class="flow-arrow"></div>
+      </div>
+      <div class="flow-branch" style="justify-content:center; margin-top: 12px;">
+        <div class="flow-step fast">
+          <div class="label">HIGH 置信度 → 快速路径</div>
+          <div class="content">关 thinking + 专用 prompt</div>
+          <div class="time">3-5 秒出 JSON</div>
+        </div>
+        <div class="flow-step slow">
+          <div class="label">LOW 置信度 → 深度路径</div>
+          <div class="content">开 thinking + 通用 prompt</div>
+          <div class="time">10-30 秒</div>
+        </div>
+      </div>
+      <div class="flow" style="margin-top: 24px;">
+        <div class="flow-arrow"></div>
+        <div class="flow-step">
+          <div class="label">解析输出</div>
+          <div class="content">JSON合法 → 渲染卡片 | 失败 → 降级为纯文本 + 后台重试</div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">
+          <div class="label">展示结构化卡片</div>
+          <div class="content">待办(可打勾) / 日程(时间线) / 整理笔记</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>用户感知时间线</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time-label">第 0 秒</div>
+          <div class="time-content">录音完成，显示波形 + "正在转录..."</div>
+        </div>
+        <div class="timeline-item">
+          <div class="time-label">第 2 秒</div>
+          <div class="time-content">ASR完成，立即展示转录文本（用户已看到内容）</div>
+        </div>
+        <div class="timeline-item">
+          <div class="time-label">第 3 秒</div>
+          <div class="time-content">文本下方出现 shimmer 占位符 + "AI分析中..."</div>
+        </div>
+        <div class="timeline-item">
+          <div class="time-label">第 5 秒</div>
+          <div class="time-content">shimmer 替换为结构化卡片（待办/日程），渐入动画</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <p>即使 AI 实际耗时 10 秒，用户在第 2 秒就看到了自己说的内容，感知等待从 10 秒降至 2 秒。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel: Classify -->
+  <div class="panel" id="panel-classify">
+    <div class="card">
+      <h2>本地意图预分类器</h2>
+      <p style="margin-bottom:16px">纯规则引擎，0ms 完成。关键词命中 → 输出 (意图类型, 置信度)</p>
+
+      <h3>TODO 待办 — 强信号词</h3>
+      <div class="chips">
+        <span class="chip chip-todo">记一下</span>
+        <span class="chip chip-todo">提醒我</span>
+        <span class="chip chip-todo">别忘了</span>
+        <span class="chip chip-todo">待办</span>
+        <span class="chip chip-todo">要做的</span>
+      </div>
+      <p style="font-size:12px; color:#64748b; margin-top:4px;">命中任一 → TODO + HIGH置信度</p>
+
+      <h3 style="margin-top:20px">TODO 待办 — 弱信号词</h3>
+      <div class="chips">
+        <span class="chip chip-todo" style="opacity:0.6">买</span>
+        <span class="chip chip-todo" style="opacity:0.6">带</span>
+        <span class="chip chip-todo" style="opacity:0.6">准备</span>
+        <span class="chip chip-todo" style="opacity:0.6">记得</span>
+        <span class="chip chip-todo" style="opacity:0.6">需要</span>
+      </div>
+      <p style="font-size:12px; color:#64748b; margin-top:4px;">命中 2+ 个 → TODO + LOW置信度</p>
+
+      <h3 style="margin-top:20px">SCHEDULE 日程 — 强信号词</h3>
+      <div class="chips">
+        <span class="chip chip-schedule">安排</span>
+        <span class="chip chip-schedule">日程</span>
+        <span class="chip chip-schedule">行程</span>
+        <span class="chip chip-schedule">预约</span>
+        <span class="chip chip-schedule">约了</span>
+      </div>
+      <p style="font-size:12px; color:#64748b; margin-top:4px;">命中 + 有时间词 → SCHEDULE + HIGH置信度</p>
+
+      <h3 style="margin-top:20px">GENERAL 通用</h3>
+      <div class="chips">
+        <span class="chip chip-general">无法匹配上述任何信号</span>
+      </div>
+      <p style="font-size:12px; color:#64748b; margin-top:4px;">→ GENERAL + HIGH（直接做文本整理）</p>
+    </div>
+
+    <div class="card">
+      <h2>产品定义：待办 vs 日程</h2>
+      <table class="compare-table">
+        <tr>
+          <th>类型</th>
+          <th>定义</th>
+          <th>触发词</th>
+          <th>展示格式</th>
+        </tr>
+        <tr>
+          <td><span class="tag tag-green">待办</span></td>
+          <td>用户要做的事，有 checkbox 可完成</td>
+          <td>做/买/记/提醒/别忘了</td>
+          <td>- [ ] 项目（可打勾）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-blue">日程</span></td>
+          <td>确定的时间安排，不可打勾</td>
+          <td>安排/约/出发/航班/行程规划</td>
+          <td>时间 + 事件</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-orange">模糊时</span></td>
+          <td>无法判断</td>
+          <td>—</td>
+          <td><strong>默认走待办</strong></td>
+        </tr>
+      </table>
+
+      <div class="highlight-box" style="margin-top:16px">
+        <p>关键规则：有"记一下/提醒我/别忘了" = 强制 TODO。只有"安排/预约/行程规划"才走 SCHEDULE。模糊时默认 TODO 而非 SCHEDULE。</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>置信度路由逻辑</h2>
+      <table class="compare-table">
+        <tr>
+          <th>置信度</th>
+          <th>触发条件</th>
+          <th>thinking</th>
+          <th>耗时</th>
+          <th>输出</th>
+        </tr>
+        <tr>
+          <td><span class="tag tag-green">HIGH</span></td>
+          <td>命中强信号关键词</td>
+          <td>关</td>
+          <td style="color:#22c55e; font-weight:600;">3-5秒</td>
+          <td>待办/日程/整理文本</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-orange">LOW</span></td>
+          <td>无法确定意图</td>
+          <td>开</td>
+          <td style="color:#60a5fa;">10-30秒</td>
+          <td>LLM自主判断+生成</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Panel: Fallback -->
+  <div class="panel" id="panel-fallback">
+    <div class="card">
+      <h2>降级与容错机制</h2>
+      <div class="highlight-box">
+        <p>原则：永远不让用户干等。ASR转录完就先展示文字，AI结果是增量覆盖上去的。</p>
+      </div>
+
+      <div class="flow" style="margin-top:24px">
+        <div class="flow-step">
+          <div class="label">快速路径处理完成</div>
+          <div class="content">LLM 返回结果</div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">
+          <div class="label">JSON 解析</div>
+          <div class="content">尝试解析为结构化数据</div>
+        </div>
+        <div class="flow-arrow"></div>
+      </div>
+      <div class="flow-branch" style="justify-content:center; margin-top:12px">
+        <div class="flow-step fast">
+          <div class="label">解析成功</div>
+          <div class="content">展示结构化卡片（待办/日程）</div>
+        </div>
+        <div class="flow-step slow">
+          <div class="label">解析失败 / 超时</div>
+          <div class="content">立即展示转录原文<br>+ 后台开 thinking 重试<br>→ 结果回来后替换更新</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>JSON 解析容错（三级尝试）</h2>
+      <table class="compare-table">
+        <tr><th>尝试顺序</th><th>方法</th></tr>
+        <tr><td>1</td><td>直接 JSON 解析原始输出</td></tr>
+        <tr><td>2</td><td>提取 ```json ... ``` 代码块内容后解析</td></tr>
+        <tr><td>3</td><td>正则提取第一个 {} 后解析</td></tr>
+        <tr><td>全部失败</td><td>降级为纯文本笔记 (Fallback)</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>录音速记的边界</h2>
+      <div class="highlight-box">
+        <p>录音速记只做"识别 + 结构化输出"，不做"执行动作"。</p>
+      </div>
+      <ul style="margin-top:12px">
+        <li>禁止调用 calendar__create_event 等执行类工具</li>
+        <li>用户要加日历 → 由卡片按钮手动触发</li>
+        <li>AI 只负责理解和整理，不负责操作</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Panel: Issues -->
+  <div class="panel" id="panel-issues">
+    <div class="card">
+      <h2>真机测试已发现的问题（2026-05-20）</h2>
+      <p style="margin-bottom:16px; color:#64748b;">基于开发提供的 debug 包真机测试发现，按优先级排序</p>
+
+      <div class="problem-item">
+        <span class="problem-level p0">P0</span>
+        <div class="problem-content">
+          <div class="problem-title">超时机制过于激进 — 用户录音后显示"音频分析失败"</div>
+          <div class="problem-fix">修复：去掉固定8秒超时，改为首token超时15秒。收到首个token后不再超时。</div>
+        </div>
+      </div>
+      <div class="problem-item">
+        <span class="problem-level p0">P0</span>
+        <div class="problem-content">
+          <div class="problem-title">所有内容都生成日程卡片 — "记一下明天开会"被判为schedule</div>
+          <div class="problem-fix">修复：有"记一下/提醒我/别忘了"= 强制 TODO。模糊时默认 TODO 而非 SCHEDULE。</div>
+        </div>
+      </div>
+      <div class="problem-item">
+        <span class="problem-level p0">P0</span>
+        <div class="problem-content">
+          <div class="problem-title">卡片需退出再进入才展示 — WebView错过更新事件</div>
+          <div class="problem-fix">修复：AI生成卡片后主动push刷新给WebView；WebView未就绪时缓存结果，ready后立即渲染。</div>
+        </div>
+      </div>
+      <div class="problem-item">
+        <span class="problem-level p1">P1</span>
+        <div class="problem-content">
+          <div class="problem-title">AI擅自创建系统日历事件 — 调用calendar工具被拒导致中断</div>
+          <div class="problem-fix">修复：录音速记场景禁止调用执行类工具。只做识别+结构化，不做执行。</div>
+        </div>
+      </div>
+      <div class="problem-item">
+        <span class="problem-level p1">P1</span>
+        <div class="problem-content">
+          <div class="problem-title">待办vs日程产品定义缺失 — 开发不知道何时出待办、何时出日程</div>
+          <div class="problem-fix">修复：新增明确定义。待办=用户要做的事(可打勾)；日程=确定的时间安排(有时间线)。</div>
+        </div>
+      </div>
+      <div class="problem-item">
+        <span class="problem-level p1">P1</span>
+        <div class="problem-content">
+          <div class="problem-title">两条引擎路径行为不一致 — 有时走OSbot(慢)有时走LocalEngine(快)</div>
+          <div class="problem-fix">修复：录音速记场景固定走 LocalEngine（直接调mimo-pro API），不走OSbot。</div>
+        </div>
+      </div>
+      <div class="problem-item">
+        <span class="problem-level p2">P2</span>
+        <div class="problem-content">
+          <div class="problem-title">一条录音触发3次LLM — 速记+归档+标签串行执行</div>
+          <div class="problem-fix">修复：文件夹归档和标签分类延迟到退出编辑器后后台执行，不阻塞录音结果。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel: Plan -->
+  <div class="panel" id="panel-plan">
+    <div class="card">
+      <h2>实施计划</h2>
+      <table class="compare-table">
+        <tr>
+          <th>阶段</th>
+          <th>内容</th>
+          <th>周期</th>
+          <th>状态</th>
+        </tr>
+        <tr>
+          <td><span class="tag tag-orange">Phase 1</span></td>
+          <td>快速管道 + 流式展示</td>
+          <td>1-2周</td>
+          <td><span class="tag tag-red">阻塞中</span></td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-blue">Phase 2</span></td>
+          <td>ASR引擎升级（豆包极速版）</td>
+          <td>2-4周</td>
+          <td><span class="tag tag-purple">待排期</span></td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-green">Phase 3</span></td>
+          <td>持续调优（prompt/阈值/埋点）</td>
+          <td>长期</td>
+          <td><span class="tag tag-purple">待排期</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Phase 1 任务拆解</h2>
+      <table class="compare-table">
+        <tr><th>#</th><th>任务</th><th>工时</th><th>依赖</th></tr>
+        <tr><td>0</td><td style="color:#f87171; font-weight:600;">验证关thinking+精准prompt可行性（阻塞项）</td><td>0.5天</td><td>无</td></tr>
+        <tr><td>1</td><td>IntentClassifier 实现</td><td>0.5天</td><td>无</td></tr>
+        <tr><td>2</td><td>3套 prompt 编写+测试</td><td>2天</td><td>#0通过</td></tr>
+        <tr><td>3</td><td>FastPipelineConfig + LLM调用</td><td>1天</td><td>#2</td></tr>
+        <tr><td>4</td><td>JSON解析+容错+降级</td><td>1天</td><td>#3</td></tr>
+        <tr><td>5</td><td>路由+管道集成</td><td>2天</td><td>#1,#4</td></tr>
+        <tr><td>6</td><td>流式展示（ASR即时显示+AI渐入）</td><td>2天</td><td>无(并行)</td></tr>
+        <tr><td>7</td><td>卡片信息布局调整</td><td>1天</td><td>设计稿</td></tr>
+        <tr><td>8</td><td>端到端测试</td><td>2天</td><td>#5,#6</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>验证标准（开发前必做）</h2>
+      <p>调用 mimo-pro API (thinking=false, temperature=0.1) 测试 5 条用例：</p>
+      <ul style="margin-top:12px">
+        <li>"记一下明天下午三点开会"</li>
+        <li>"帮我记一下周末要买牛奶和面包还有鸡蛋"</li>
+        <li>"提醒我下周一给张总打电话"</li>
+        <li>"别忘了晚上八点的瑜伽课"</li>
+        <li>"今天下午讨论了三个议题第一个是发版计划"</li>
+      </ul>
+      <div class="highlight-box" style="margin-top:16px">
+        <p>判定：5条中4条输出合法JSON且字段正确 → 方案可行，进入 Phase 1</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>验收标准</h2>
+      <table class="compare-table">
+        <tr><th>场景</th><th>输入</th><th>期望输出</th><th>最大时间</th></tr>
+        <tr><td>短待办</td><td>"记一下明天下午三点开会"</td><td>待办卡片</td><td style="color:#22c55e; font-weight:600;">5秒</td></tr>
+        <tr><td>购物清单</td><td>"要买牛奶面包鸡蛋洗衣液"</td><td>4项待办</td><td style="color:#22c55e; font-weight:600;">5秒</td></tr>
+        <tr><td>短日程</td><td>"后天十点在A会议室开产品评审"</td><td>日程卡片</td><td style="color:#22c55e; font-weight:600;">5秒</td></tr>
+        <tr><td>随想</td><td>"我觉得这个功能可以..."</td><td>整理笔记</td><td style="color:#22c55e; font-weight:600;">5秒</td></tr>
+        <tr><td>3分钟汇报</td><td>中等内容</td><td>结构化笔记</td><td style="color:#60a5fa;">15秒</td></tr>
+        <tr><td>10分钟会议</td><td>长录音</td><td>会议纪要</td><td style="color:#f59e0b;">40秒</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+document.addEventListener('keydown', function(e) {
+  var tabs = Array.from(document.querySelectorAll('.tab'));
+  var current = tabs.findIndex(function(t) { return t.classList.contains('active'); });
+  if (e.key === 'ArrowRight' && current < tabs.length - 1) { tabs[current + 1].click(); }
+  if (e.key === 'ArrowLeft' && current > 0) { tabs[current - 1].click(); }
+});
+</script>
+</body>
+</html>
