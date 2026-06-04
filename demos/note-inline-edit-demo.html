@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>笔记内AI修改 · 交互Demo</title>
+<title>笔记内AI修改 · 输入交互Demo</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -29,7 +29,6 @@ body {
   flex-direction: column;
 }
 
-/* Status bar */
 .status-bar {
   height: 50px;
   display: flex;
@@ -40,7 +39,6 @@ body {
   font-weight: 600;
 }
 
-/* Nav bar */
 .nav-bar {
   height: 48px;
   display: flex;
@@ -49,23 +47,19 @@ body {
   padding: 0 20px;
   border-bottom: 1px solid #f0f0f0;
 }
-.nav-bar .back { font-size: 20px; cursor: pointer; }
 .nav-bar .title { font-size: 17px; font-weight: 600; }
-.nav-bar .more { font-size: 20px; }
 
-/* Content area */
+/* Note content */
 .note-content {
   flex: 1;
   overflow-y: auto;
   padding: 20px;
-  position: relative;
 }
 
 .note-title {
   font-size: 22px;
   font-weight: 700;
   margin-bottom: 16px;
-  color: #1a1a1a;
 }
 
 .note-paragraph {
@@ -75,40 +69,24 @@ body {
   margin-bottom: 14px;
   padding: 4px 6px;
   border-radius: 6px;
-  transition: background 0.2s;
+  transition: all 0.2s;
   cursor: pointer;
-  position: relative;
 }
 
-.note-paragraph:hover {
-  background: #f8f8f8;
-}
-
+.note-paragraph:hover { background: #f8f8f8; }
 .note-paragraph.selected {
   background: #e8f0fe;
   border: 1px solid #4a89dc;
 }
 
-.note-paragraph .highlight-new {
+.highlight-new {
   background: #d4edda;
   border-radius: 3px;
   padding: 1px 2px;
 }
 
-.note-paragraph .highlight-old {
-  background: #fce4e4;
-  text-decoration: line-through;
-  border-radius: 3px;
-  padding: 1px 2px;
-  opacity: 0.6;
-}
-
 /* Inline confirm bar */
 .inline-confirm {
-  position: absolute;
-  bottom: -44px;
-  left: 0;
-  right: 0;
   height: 40px;
   background: #fff;
   border: 1px solid #e0e0e0;
@@ -118,10 +96,10 @@ body {
   justify-content: center;
   gap: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-top: 10px;
   opacity: 0;
   transform: translateY(8px);
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 10;
 }
 
 .inline-confirm.show {
@@ -138,47 +116,53 @@ body {
   border: none;
   transition: all 0.15s;
 }
+.inline-confirm .btn-accept { background: #4a89dc; color: #fff; }
+.inline-confirm .btn-reject { background: #f5f5f5; color: #666; }
+.inline-confirm .btn-retry { background: #f5f5f5; color: #666; }
 
-.inline-confirm .btn-accept {
-  background: #4a89dc;
-  color: #fff;
-}
-.inline-confirm .btn-accept:hover { background: #3a79cc; }
-
-.inline-confirm .btn-reject {
-  background: #f5f5f5;
-  color: #666;
-}
-.inline-confirm .btn-reject:hover { background: #eee; }
-
-.inline-confirm .btn-retry {
-  background: #f5f5f5;
-  color: #666;
-}
-.inline-confirm .btn-retry:hover { background: #eee; }
-
-/* Bottom input area */
+/* ========== BOTTOM INPUT AREA ========== */
 .bottom-area {
   border-top: 1px solid #f0f0f0;
   background: #fafafa;
-}
-
-/* Chips row */
-.chips-row {
-  display: flex;
-  gap: 8px;
-  padding: 10px 16px;
-  overflow-x: auto;
-  opacity: 0;
-  max-height: 0;
   transition: all 0.3s;
 }
 
+/* Selection quote */
+.selection-quote {
+  background: #f0f4ff;
+  border-left: 3px solid #4a89dc;
+  padding: 0;
+  margin: 0 16px;
+  border-radius: 0 8px 8px 0;
+  font-size: 12px;
+  color: #666;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.selection-quote.show {
+  max-height: 50px;
+  opacity: 1;
+  padding: 8px 12px;
+  margin-top: 10px;
+}
+
+/* Chips */
+.chips-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px;
+  overflow-x: auto;
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.3s;
+}
 .chips-row.show {
   opacity: 1;
   max-height: 50px;
+  padding: 10px 16px;
 }
-
 .chip {
   white-space: nowrap;
   padding: 6px 14px;
@@ -188,42 +172,61 @@ body {
   border: 1px solid #e0e0e0;
   color: #4a89dc;
   cursor: pointer;
-  transition: all 0.15s;
   font-weight: 500;
+  transition: all 0.15s;
 }
+.chip:hover { background: #e8f0fe; border-color: #4a89dc; }
 
-.chip:hover {
-  background: #e8f0fe;
-  border-color: #4a89dc;
-}
-
-/* Input bar */
+/* Input bar - default state */
 .input-bar {
   display: flex;
   align-items: center;
   padding: 10px 16px 30px;
   gap: 10px;
+  transition: all 0.3s;
+}
+
+.input-wrapper {
+  flex: 1;
+  position: relative;
+  height: 38px;
 }
 
 .input-field {
-  flex: 1;
+  width: 100%;
   height: 38px;
   border-radius: 19px;
   border: 1px solid #e0e0e0;
-  padding: 0 16px;
+  padding: 0 40px 0 16px;
   font-size: 14px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
+  background: #fff;
 }
+.input-field:focus { border-color: #4a89dc; }
+.input-field::placeholder { color: #bbb; }
 
-.input-field:focus {
-  border-color: #4a89dc;
+/* Mic button inside input */
+.mic-btn {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 14px;
 }
+.mic-btn:hover { background: #e0e0e0; }
+.mic-btn.hidden { opacity: 0; pointer-events: none; transform: scale(0.5); }
 
-.input-field::placeholder {
-  color: #bbb;
-}
-
+/* Send button */
 .send-btn {
   width: 38px;
   height: 38px;
@@ -236,41 +239,207 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s;
+  opacity: 0;
+  transform: scale(0.5);
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.send-btn.show {
+  opacity: 1;
+  transform: scale(1);
+  position: relative;
+}
+.send-btn:hover { background: #3a79cc; }
+
+/* ========== VOICE INPUT STATE ========== */
+.voice-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 20px 16px 34px;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 100;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+}
+.voice-overlay.show { transform: translateY(0); }
+
+.voice-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.voice-status {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.voice-cancel {
+  font-size: 13px;
+  color: #999;
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 12px;
+  background: #f5f5f5;
+  border: none;
+}
+
+/* Waveform */
+.waveform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  gap: 3px;
+  margin-bottom: 16px;
+}
+
+.wave-bar {
+  width: 3px;
+  height: 20px;
+  background: #4a89dc;
+  border-radius: 2px;
+  animation: wave 0.8s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { height: 8px; opacity: 0.4; }
+  50% { height: 32px; opacity: 1; }
+}
+
+.wave-bar:nth-child(1) { animation-delay: 0s; }
+.wave-bar:nth-child(2) { animation-delay: 0.1s; }
+.wave-bar:nth-child(3) { animation-delay: 0.2s; }
+.wave-bar:nth-child(4) { animation-delay: 0.3s; }
+.wave-bar:nth-child(5) { animation-delay: 0.4s; }
+.wave-bar:nth-child(6) { animation-delay: 0.5s; }
+.wave-bar:nth-child(7) { animation-delay: 0.4s; }
+.wave-bar:nth-child(8) { animation-delay: 0.3s; }
+.wave-bar:nth-child(9) { animation-delay: 0.2s; }
+.wave-bar:nth-child(10) { animation-delay: 0.1s; }
+.wave-bar:nth-child(11) { animation-delay: 0s; }
+.wave-bar:nth-child(12) { animation-delay: 0.1s; }
+.wave-bar:nth-child(13) { animation-delay: 0.2s; }
+
+/* Real-time transcription */
+.voice-transcription {
+  min-height: 40px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.voice-transcription .cursor-blink {
+  display: inline-block;
+  width: 2px;
+  height: 16px;
+  background: #4a89dc;
+  vertical-align: middle;
+  animation: blink 0.6s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Voice action buttons */
+.voice-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.voice-action-btn {
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
   transition: all 0.15s;
 }
 
-.send-btn:hover { background: #3a79cc; }
-.send-btn:disabled { background: #ccc; cursor: default; }
-
-/* Selection quote in input */
-.selection-quote {
-  background: #f0f4ff;
-  border-left: 3px solid #4a89dc;
-  padding: 6px 12px;
-  margin: 0 16px 8px;
-  border-radius: 0 8px 8px 0;
-  font-size: 12px;
-  color: #666;
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: all 0.3s;
+.voice-send {
+  background: #4a89dc;
+  color: #fff;
+  opacity: 0.4;
+  pointer-events: none;
 }
-
-.selection-quote.show {
-  max-height: 60px;
+.voice-send.ready {
   opacity: 1;
-  padding: 8px 12px;
-  margin-bottom: 8px;
+  pointer-events: auto;
 }
+.voice-send.ready:hover { background: #3a79cc; }
+
+.voice-redo {
+  background: #f0f0f0;
+  color: #666;
+}
+.voice-redo:hover { background: #e5e5e5; }
+
+/* ========== KEYBOARD SIMULATION ========== */
+.keyboard-sim {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 260px;
+  background: #d1d5db;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 4px;
+  gap: 6px;
+}
+.keyboard-sim.show { transform: translateY(0); }
+
+.kb-row {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.kb-key {
+  min-width: 32px;
+  height: 42px;
+  background: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.kb-key:active { background: #e0e0e0; }
+.kb-key.wide { min-width: 50px; font-size: 12px; background: #adb5bd; color: #fff; }
+.kb-key.space { flex: 1; max-width: 180px; font-size: 12px; }
+.kb-key.send-key { min-width: 60px; background: #4a89dc; color: #fff; font-size: 13px; font-weight: 600; }
 
 /* Toast */
 .toast {
   position: absolute;
-  bottom: 120px;
+  bottom: 300px;
   left: 50%;
   transform: translateX(-50%) translateY(20px);
-  background: #333;
+  background: rgba(0,0,0,0.8);
   color: #fff;
   padding: 10px 20px;
   border-radius: 20px;
@@ -278,30 +447,11 @@ body {
   opacity: 0;
   transition: all 0.3s;
   white-space: nowrap;
+  z-index: 200;
 }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* Streaming cursor */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.streaming-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 16px;
-  background: #4a89dc;
-  margin-left: 2px;
-  vertical-align: middle;
-  animation: blink 0.8s infinite;
-}
-
-/* Instructions overlay */
+/* Instructions */
 .instructions {
   position: fixed;
   top: 20px;
@@ -315,46 +465,12 @@ body {
   line-height: 1.6;
   box-shadow: 0 10px 40px rgba(0,0,0,0.2);
 }
-
-.instructions h3 {
-  font-size: 16px;
-  margin-bottom: 12px;
-  color: #8bb4ff;
-}
-
-.instructions .step {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.instructions .step-num {
-  width: 22px;
-  height: 22px;
-  background: #4a89dc;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-.instructions .step-text {
-  color: #ccc;
-}
-
-.instructions .divider {
-  height: 1px;
-  background: #333;
-  margin: 14px 0;
-}
-
-.instructions .hint {
-  color: #888;
-  font-size: 12px;
-}
+.instructions h3 { font-size: 16px; margin-bottom: 14px; color: #8bb4ff; }
+.instructions h4 { font-size: 13px; margin: 14px 0 8px; color: #ffd57e; }
+.inst-item { margin-bottom: 6px; color: #ccc; padding-left: 12px; position: relative; }
+.inst-item::before { content: '›'; position: absolute; left: 0; color: #4a89dc; }
+.divider { height: 1px; background: #333; margin: 14px 0; }
+.hint { color: #888; font-size: 12px; margin-top: 10px; }
 
 /* Scenario tabs */
 .scenario-tabs {
@@ -363,81 +479,96 @@ body {
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  gap: 6px;
   background: #1a1a2e;
-  padding: 6px;
+  padding: 5px;
   border-radius: 12px;
+  z-index: 300;
 }
-
 .scenario-tab {
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 12px;
   color: #aaa;
   cursor: pointer;
-  transition: all 0.2s;
   border: none;
   background: transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
 }
+.scenario-tab.active { background: #4a89dc; color: #fff; }
+.scenario-tab:hover:not(.active) { color: #fff; }
 
-.scenario-tab.active {
-  background: #4a89dc;
+/* State indicator */
+.state-indicator {
+  position: absolute;
+  top: 108px;
+  left: 16px;
+  right: 16px;
+  background: #1a1a2e;
   color: #fff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 150;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
-
-.scenario-tab:hover:not(.active) {
-  color: #fff;
-}
+.state-indicator.show { opacity: 1; }
+.state-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; }
+.state-dot.blue { background: #60a5fa; }
+.state-dot.orange { background: #fb923c; }
 </style>
 </head>
 <body>
 
 <div class="scenario-tabs">
-  <button class="scenario-tab active" onclick="resetDemo()">场景1: 选中修改</button>
-  <button class="scenario-tab" onclick="startScenario2()">场景2: 自然语言改</button>
-  <button class="scenario-tab" onclick="startScenario3()">场景3: 聊天走面板</button>
+  <button class="scenario-tab active" onclick="switchTab(0)">默认态</button>
+  <button class="scenario-tab" onclick="switchTab(1)">文字输入</button>
+  <button class="scenario-tab" onclick="switchTab(2)">语音输入</button>
+  <button class="scenario-tab" onclick="switchTab(3)">完整流程</button>
 </div>
 
-<div class="phone-frame">
+<div class="phone-frame" id="phone">
   <div class="status-bar">
     <span>2:36</span>
     <span style="font-size:10px">●●● ▲ ■</span>
   </div>
 
   <div class="nav-bar">
-    <span class="back">‹</span>
+    <span style="font-size:20px;cursor:pointer">‹</span>
     <span class="title">技术选型笔记</span>
-    <span class="more">⋯</span>
+    <span style="font-size:20px">⋯</span>
+  </div>
+
+  <div class="state-indicator" id="stateIndicator">
+    <span class="state-dot" id="stateDot"></span>
+    <span id="stateText">预览态 · 未选中</span>
   </div>
 
   <div class="note-content" id="noteContent">
     <div class="note-title">笔记资料库技术选型</div>
-
     <div class="note-paragraph" id="p1" onclick="selectParagraph('p1')">
-      项目背景：笔记资料库是AI笔记的核心基础能力，目标是让用户的历史笔记成为可被AI检索和引用的知识库，支撑关联推荐、语义搜索、智能问答等上层功能。
+      项目背景：笔记资料库是AI笔记的核心基础能力，目标是让用户的历史笔记成为可被AI检索和引用的知识库。
     </div>
-
     <div class="note-paragraph" id="p2" onclick="selectParagraph('p2')">
       关于笔记资料库功能的技术选型，我们经过了大量的调研和讨论。首先考虑的是向量数据库的选择，目前市面上主流的方案包括Milvus、Pinecone、Weaviate等，但考虑到我们是端侧应用，需要轻量级的本地向量存储方案。经过对比测试，我们最终选择了SQLite + 自研向量索引的方案。
-      <div class="inline-confirm" id="confirm2">
-        <button class="btn btn-accept" onclick="acceptEdit(event)">✓ 接受</button>
-        <button class="btn btn-reject" onclick="rejectEdit(event)">✗ 撤销</button>
-        <button class="btn btn-retry" onclick="retryEdit(event)">↻ 换一种</button>
-      </div>
     </div>
-
     <div class="note-paragraph" id="p3" onclick="selectParagraph('p3')">
       主要原因是SQLite已经在笔记应用中广泛使用，不需要引入额外的数据库依赖，同时自研向量索引可以针对笔记场景做专项优化，比如支持增量更新、控制内存占用等。
     </div>
-
     <div class="note-paragraph" id="p4" onclick="selectParagraph('p4')">
-      实施计划：第一阶段（6月）完成向量索引基础能力，支持笔记入库和基础检索。第二阶段（7月）接入语义搜索和关联推荐。第三阶段（8月）支持智能问答，打通MiClaw调用链路。
+      实施计划：第一阶段（6月）完成向量索引基础能力。第二阶段（7月）接入语义搜索和关联推荐。第三阶段（8月）支持智能问答，打通MiClaw调用链路。
     </div>
   </div>
 
   <div class="toast" id="toast"></div>
 
-  <div class="bottom-area">
+  <!-- Default bottom area -->
+  <div class="bottom-area" id="bottomArea">
     <div class="selection-quote" id="selectionQuote"></div>
     <div class="chips-row" id="chipsRow">
       <span class="chip" onclick="triggerChip('改简洁')">改简洁</span>
@@ -445,339 +576,442 @@ body {
       <span class="chip" onclick="triggerChip('正式语气')">正式语气</span>
       <span class="chip" onclick="triggerChip('续写')">续写</span>
     </div>
-    <div class="input-bar">
-      <input type="text" class="input-field" id="inputField" placeholder="输入修改指令..." onkeydown="handleEnter(event)">
+    <div class="input-bar" id="inputBar">
+      <div class="input-wrapper">
+        <input type="text" class="input-field" id="inputField" placeholder="输入AI指令..." onfocus="onInputFocus()" oninput="onInputChange()" onblur="onInputBlur()">
+        <button class="mic-btn" id="micBtn" onclick="startVoice()">🎤</button>
+      </div>
       <button class="send-btn" id="sendBtn" onclick="sendCommand()">↑</button>
+    </div>
+  </div>
+
+  <!-- Voice overlay -->
+  <div class="voice-overlay" id="voiceOverlay">
+    <div class="voice-header">
+      <span class="voice-status" id="voiceStatus">正在聆听...</span>
+      <button class="voice-cancel" onclick="cancelVoice()">取消</button>
+    </div>
+    <div class="waveform" id="waveform">
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+    <div class="voice-transcription" id="voiceTranscription">
+      <span class="cursor-blink"></span>
+    </div>
+    <div class="voice-actions">
+      <button class="voice-action-btn voice-redo" onclick="redoVoice()">重说</button>
+      <button class="voice-action-btn voice-send" id="voiceSendBtn" onclick="voiceSend()">发送指令</button>
+    </div>
+  </div>
+
+  <!-- Keyboard -->
+  <div class="keyboard-sim" id="keyboard">
+    <div class="kb-row">
+      <div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div>
+      <div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div>
+      <div class="kb-key">U</div><div class="kb-key">I</div><div class="kb-key">O</div>
+      <div class="kb-key">P</div>
+    </div>
+    <div class="kb-row">
+      <div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div>
+      <div class="kb-key">F</div><div class="kb-key">G</div><div class="kb-key">H</div>
+      <div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div>
+    </div>
+    <div class="kb-row">
+      <div class="kb-key wide">⇧</div>
+      <div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div>
+      <div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key">N</div>
+      <div class="kb-key">M</div>
+      <div class="kb-key wide">⌫</div>
+    </div>
+    <div class="kb-row">
+      <div class="kb-key wide">123</div>
+      <div class="kb-key" onclick="startVoice()" style="font-size:14px">🎤</div>
+      <div class="kb-key space">空格</div>
+      <div class="kb-key send-key" onclick="sendCommand()">发送</div>
     </div>
   </div>
 </div>
 
 <div class="instructions">
-  <h3>交互说明 · inline确认模式</h3>
-  <div class="step">
-    <span class="step-num">1</span>
-    <span class="step-text">点击段落选中（模拟文字选区）</span>
-  </div>
-  <div class="step">
-    <span class="step-num">2</span>
-    <span class="step-text">选中后出现 chips + 输入框引用</span>
-  </div>
-  <div class="step">
-    <span class="step-num">3</span>
-    <span class="step-text">点chip或输入指令，AI直接在原文上流式修改</span>
-  </div>
-  <div class="step">
-    <span class="step-num">4</span>
-    <span class="step-text">修改完成 → 段落下方浮出确认条<br>「✓接受  ✗撤销  ↻换一种」</span>
-  </div>
-  <div class="step">
-    <span class="step-num">5</span>
-    <span class="step-text">接受后选区保持 → 可直接操作下一段</span>
-  </div>
+  <h3>输入框交互状态说明</h3>
+
+  <h4>📝 文字输入模式</h4>
+  <div class="inst-item">默认态：输入框 + 右侧麦克风图标</div>
+  <div class="inst-item">点击输入框 → 键盘弹起，麦克风隐藏</div>
+  <div class="inst-item">开始输入 → 右侧出现发送按钮(↑)</div>
+  <div class="inst-item">发送/键盘收起 → 回到默认态</div>
+
+  <h4>🎤 语音输入模式</h4>
+  <div class="inst-item">点击麦克风 → 底部弹出语音面板</div>
+  <div class="inst-item">实时显示声纹波形 + 转写文字</div>
+  <div class="inst-item">识别完成 → 「发送」按钮亮起</div>
+  <div class="inst-item">点发送 → 文字回填到指令，触发AI修改</div>
+  <div class="inst-item">点重说 → 清空重新录</div>
+  <div class="inst-item">点取消 → 关闭面板，不发送</div>
+
+  <div class="divider"></div>
+
+  <h4>选中态变化</h4>
+  <div class="inst-item">未选中：placeholder="输入AI指令..."</div>
+  <div class="inst-item">选中段落：显示引用条+chips，placeholder="对选中内容..."</div>
+
   <div class="divider"></div>
   <div class="hint">
-    核心原则：<br>
-    • 确认是 inline 的，不是弹窗<br>
-    • 没有"就绪态"模态，改完就回正常态<br>
-    • 选中 = 意图明确，不需要AI猜<br>
-    • 不选中直接输入 = 聊天/问答，走面板
+    点击上方tab切换不同状态查看<br>
+    或点击段落后操作完整流程
   </div>
 </div>
 
 <script>
 let selectedParagraph = null;
-let originalText = {};
 let isEditing = false;
+let keyboardShown = false;
+let voiceShown = false;
 
-// Store original content
+const originalTexts = {};
 document.querySelectorAll('.note-paragraph').forEach(p => {
-  originalText[p.id] = p.innerHTML;
+  originalTexts[p.id] = p.textContent.trim();
 });
+
+function setState(text, dotClass) {
+  const indicator = document.getElementById('stateIndicator');
+  const dot = document.getElementById('stateDot');
+  const stateText = document.getElementById('stateText');
+  indicator.classList.add('show');
+  dot.className = 'state-dot ' + (dotClass || '');
+  stateText.textContent = text;
+}
 
 function selectParagraph(id) {
   if (isEditing) return;
-
-  // Deselect previous
-  document.querySelectorAll('.note-paragraph').forEach(p => {
-    p.classList.remove('selected');
-  });
-
-  // Select new
-  const el = document.getElementById(id);
-  el.classList.add('selected');
+  document.querySelectorAll('.note-paragraph').forEach(p => p.classList.remove('selected'));
+  document.getElementById(id).classList.add('selected');
   selectedParagraph = id;
 
-  // Show chips
   document.getElementById('chipsRow').classList.add('show');
-
-  // Show selection quote
   const quote = document.getElementById('selectionQuote');
-  const text = el.textContent.trim().substring(0, 40) + '...';
-  quote.textContent = '选中: ' + text;
+  quote.textContent = '选中: ' + document.getElementById(id).textContent.trim().substring(0, 35) + '...';
   quote.classList.add('show');
-
-  // Update placeholder
   document.getElementById('inputField').placeholder = '对选中内容的修改指令...';
+
+  setState('已选中段落 · 等待指令', 'blue');
 }
 
-function triggerChip(action) {
-  if (!selectedParagraph) {
-    showToast('请先选中一段文字');
-    return;
+function onInputFocus() {
+  showKeyboard();
+  document.getElementById('micBtn').classList.add('hidden');
+  setState('文字输入中 · 键盘已弹起', 'blue');
+}
+
+function onInputChange() {
+  const val = document.getElementById('inputField').value;
+  const sendBtn = document.getElementById('sendBtn');
+  if (val.trim()) {
+    sendBtn.classList.add('show');
+  } else {
+    sendBtn.classList.remove('show');
   }
-
-  document.getElementById('inputField').value = action;
-  sendCommand();
 }
 
-function handleEnter(e) {
-  if (e.key === 'Enter') {
-    sendCommand();
+function onInputBlur() {
+  // Don't hide keyboard immediately in demo
+}
+
+function showKeyboard() {
+  if (keyboardShown) return;
+  document.getElementById('keyboard').classList.add('show');
+  keyboardShown = true;
+}
+
+function hideKeyboard() {
+  document.getElementById('keyboard').classList.remove('show');
+  document.getElementById('micBtn').classList.remove('hidden');
+  document.getElementById('sendBtn').classList.remove('show');
+  keyboardShown = false;
+}
+
+function startVoice() {
+  hideKeyboard();
+  document.getElementById('voiceOverlay').classList.add('show');
+  document.getElementById('voiceTranscription').innerHTML = '<span class="cursor-blink"></span>';
+  document.getElementById('voiceSendBtn').classList.remove('ready');
+  document.getElementById('voiceStatus').textContent = '正在聆听...';
+  voiceShown = true;
+
+  setState('语音输入中 · 正在聆听', 'orange');
+
+  // Simulate voice transcription
+  simulateTranscription();
+}
+
+function simulateTranscription() {
+  const text = '把这段改简洁一点';
+  const container = document.getElementById('voiceTranscription');
+  let i = 0;
+
+  const interval = setInterval(() => {
+    if (i < text.length) {
+      container.innerHTML = text.substring(0, i + 1) + '<span class="cursor-blink"></span>';
+      i++;
+    } else {
+      clearInterval(interval);
+      container.innerHTML = text;
+      document.getElementById('voiceSendBtn').classList.add('ready');
+      document.getElementById('voiceStatus').textContent = '识别完成';
+
+      // Stop waveform
+      document.querySelectorAll('.wave-bar').forEach(bar => {
+        bar.style.animation = 'none';
+        bar.style.height = '8px';
+        bar.style.opacity = '0.3';
+      });
+
+      setState('语音识别完成 · 可发送', 'blue');
+    }
+  }, 120);
+}
+
+function voiceSend() {
+  const text = document.getElementById('voiceTranscription').textContent;
+  cancelVoice();
+
+  // Fill text into input and send
+  document.getElementById('inputField').value = text;
+  onInputChange();
+
+  setState('指令已发送 · AI处理中', 'blue');
+
+  setTimeout(() => {
+    if (selectedParagraph) {
+      streamEdit(selectedParagraph, text);
+    } else {
+      showToast('💬 无选区 → 打开对话面板');
+    }
+  }, 300);
+}
+
+function redoVoice() {
+  document.getElementById('voiceTranscription').innerHTML = '<span class="cursor-blink"></span>';
+  document.getElementById('voiceSendBtn').classList.remove('ready');
+  document.getElementById('voiceStatus').textContent = '正在聆听...';
+
+  // Restart waveform
+  document.querySelectorAll('.wave-bar').forEach(bar => {
+    bar.style.animation = '';
+    bar.style.height = '';
+    bar.style.opacity = '';
+  });
+
+  setState('语音输入中 · 重新聆听', 'orange');
+  setTimeout(() => simulateTranscription(), 500);
+}
+
+function cancelVoice() {
+  document.getElementById('voiceOverlay').classList.remove('show');
+  voiceShown = false;
+
+  // Reset waveform
+  document.querySelectorAll('.wave-bar').forEach(bar => {
+    bar.style.animation = '';
+    bar.style.height = '';
+    bar.style.opacity = '';
+  });
+
+  if (selectedParagraph) {
+    setState('已选中段落 · 等待指令', 'blue');
+  } else {
+    setState('预览态 · 未选中', '');
   }
 }
 
 function sendCommand() {
   const input = document.getElementById('inputField');
-  const command = input.value.trim();
-  if (!command) return;
+  const cmd = input.value.trim();
+  if (!cmd) return;
+
+  hideKeyboard();
+  input.value = '';
+  onInputChange();
 
   if (!selectedParagraph) {
-    // No selection = chat mode, show toast simulating panel
     showToast('💬 无选区 → 打开对话面板');
-    input.value = '';
+    setState('无选区 · 走对话面板', 'orange');
     return;
   }
 
-  isEditing = true;
-  input.value = '';
-
-  // Start streaming edit
-  streamEdit(selectedParagraph, command);
+  setState('AI正在修改...', 'blue');
+  streamEdit(selectedParagraph, cmd);
 }
 
-function streamEdit(paragraphId, command) {
-  const el = document.getElementById(paragraphId);
-  const original = el.textContent.trim();
+function triggerChip(action) {
+  if (!selectedParagraph) { showToast('请先选中一段文字'); return; }
+  hideKeyboard();
+  setState('AI正在修改...', 'blue');
+  streamEdit(selectedParagraph, action);
+}
+
+function streamEdit(id, cmd) {
+  isEditing = true;
+  const el = document.getElementById(id);
+  const original = originalTexts[id];
 
   let newText = '';
-
-  // Generate modified text based on command
-  if (command === '改简洁' || command.includes('简洁')) {
-    if (paragraphId === 'p2') {
-      newText = '技术选型经调研对比Milvus、Pinecone、Weaviate后，选择SQLite + 自研向量索引方案，兼顾端侧轻量化需求。';
-    } else if (paragraphId === 'p1') {
-      newText = '笔记资料库：让历史笔记成为AI可检索的知识库，支撑关联推荐、语义搜索、智能问答。';
-    } else if (paragraphId === 'p3') {
-      newText = '选型理由：复用现有SQLite依赖，自研索引支持增量更新和内存控制。';
-    } else {
-      newText = '实施计划：6月基础检索 → 7月语义搜索 → 8月智能问答打通MiClaw。';
-    }
-  } else if (command === '正式语气') {
-    newText = '经过系统性技术调研与横向对比评估，团队综合考量端侧部署约束、存储依赖复杂度及场景定制化需求，最终确定采用 SQLite 结合自研向量索引的技术路线。';
-  } else if (command === '校对') {
-    newText = original; // No changes needed
-    showToast('✓ 未发现需要校对的问题');
-    isEditing = false;
-    return;
-  } else if (command.includes('张伟') && command.includes('张维')) {
-    newText = original.replace(/张伟/g, '张维');
+  if (cmd.includes('简洁')) {
+    if (id === 'p2') newText = '技术选型经调研对比Milvus、Pinecone、Weaviate后，选择SQLite + 自研向量索引方案，兼顾端侧轻量化需求。';
+    else if (id === 'p1') newText = '笔记资料库：让历史笔记成为AI可检索的知识库，支撑关联推荐、语义搜索、智能问答。';
+    else if (id === 'p3') newText = '选型理由：复用现有SQLite依赖，自研索引支持增量更新和内存控制。';
+    else newText = '实施计划：6月基础检索 → 7月语义搜索 → 8月智能问答打通MiClaw。';
+  } else if (cmd.includes('正式')) {
+    newText = '经过系统性技术调研与横向对比评估，团队最终确定采用SQLite结合自研向量索引的技术路线，兼顾端侧部署约束与场景定制化需求。';
   } else {
-    // Default: simulate a slight edit
-    newText = original.substring(0, Math.floor(original.length * 0.6)) + '（AI已根据指令优化此段内容）';
+    newText = original.substring(0, 30) + '...（AI已根据指令修改）';
   }
 
-  // Show streaming effect
   el.classList.remove('selected');
-  el.innerHTML = '<span class="highlight-old">' + original + '</span>';
+  el.innerHTML = '';
+  el.style.background = '#f0fdf4';
 
-  setTimeout(() => {
-    // Stream new text character by character
-    el.innerHTML = '<span class="highlight-old" style="display:block;margin-bottom:8px;font-size:13px;">' + original + '</span><span class="highlight-new"></span><span class="streaming-cursor"></span>';
+  // Streaming
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < newText.length) {
+      el.innerHTML = '<span class="highlight-new">' + newText.substring(0, i + 1) + '</span><span class="cursor-blink"></span>';
+      i++;
+    } else {
+      clearInterval(interval);
+      el.innerHTML = '<span class="highlight-new">' + newText + '</span>';
 
-    const newSpan = el.querySelector('.highlight-new');
-    const cursor = el.querySelector('.streaming-cursor');
-    let charIndex = 0;
+      // Show inline confirm
+      const confirm = document.createElement('div');
+      confirm.className = 'inline-confirm';
+      confirm.innerHTML = '<button class="btn btn-accept" onclick="acceptEdit(event)">✓ 接受</button><button class="btn btn-reject" onclick="rejectEdit(event)">✗ 撤销</button><button class="btn btn-retry" onclick="retryEdit(event)">↻ 换一种</button>';
+      el.appendChild(confirm);
+      setTimeout(() => confirm.classList.add('show'), 50);
 
-    const streamInterval = setInterval(() => {
-      if (charIndex < newText.length) {
-        newSpan.textContent += newText[charIndex];
-        charIndex++;
-      } else {
-        clearInterval(streamInterval);
-        // Remove cursor, show confirm bar
-        cursor.remove();
-
-        // Remove old text strikethrough
-        setTimeout(() => {
-          el.innerHTML = '<span class="highlight-new">' + newText + '</span>';
-          el.style.position = 'relative';
-
-          // Re-add confirm bar
-          const confirmBar = document.createElement('div');
-          confirmBar.className = 'inline-confirm';
-          confirmBar.innerHTML = `
-            <button class="btn btn-accept" onclick="acceptEdit(event)">✓ 接受</button>
-            <button class="btn btn-reject" onclick="rejectEdit(event)">✗ 撤销</button>
-            <button class="btn btn-retry" onclick="retryEdit(event)">↻ 换一种</button>
-          `;
-          el.appendChild(confirmBar);
-
-          setTimeout(() => confirmBar.classList.add('show'), 50);
-        }, 400);
-      }
-    }, 30);
-  }, 300);
+      setState('修改完成 · 等待确认', 'blue');
+    }
+  }, 25);
 }
 
 function acceptEdit(e) {
   e.stopPropagation();
-  const paragraph = e.target.closest('.note-paragraph');
-  const newContent = paragraph.querySelector('.highlight-new').textContent;
-
-  // Accept: remove highlights, set clean text
-  paragraph.innerHTML = newContent;
-  paragraph.style.position = '';
-  paragraph.classList.add('selected');
-
-  // Update stored original
-  originalText[paragraph.id] = newContent;
-
+  const p = e.target.closest('.note-paragraph');
+  const newText = p.querySelector('.highlight-new').textContent;
+  p.innerHTML = newText;
+  p.style.background = '';
+  p.classList.add('selected');
+  originalTexts[p.id] = newText;
   isEditing = false;
+  selectedParagraph = p.id;
   showToast('✓ 已接受修改');
-
-  // Keep selection state for continuous editing
-  selectedParagraph = paragraph.id;
+  setState('已接受 · 可继续选择下一段', 'blue');
 }
 
 function rejectEdit(e) {
   e.stopPropagation();
-  const paragraph = e.target.closest('.note-paragraph');
-
-  // Reject: restore original
-  paragraph.innerHTML = originalText[paragraph.id];
-  paragraph.style.position = '';
-  paragraph.classList.add('selected');
-
+  const p = e.target.closest('.note-paragraph');
+  p.innerHTML = originalTexts[p.id];
+  p.style.background = '';
+  p.classList.add('selected');
   isEditing = false;
+  selectedParagraph = p.id;
   showToast('✗ 已撤销');
-
-  selectedParagraph = paragraph.id;
+  setState('已撤销 · 回到选中态', 'blue');
 }
 
 function retryEdit(e) {
   e.stopPropagation();
-  const paragraph = e.target.closest('.note-paragraph');
-
-  // Restore and re-run
-  paragraph.innerHTML = originalText[paragraph.id];
-  paragraph.style.position = '';
-
+  const p = e.target.closest('.note-paragraph');
+  p.innerHTML = originalTexts[p.id];
+  p.style.background = '';
   isEditing = false;
-  showToast('↻ 正在换一种写法...');
-
-  setTimeout(() => {
-    streamEdit(paragraph.id, '正式语气');
-  }, 500);
+  showToast('↻ 换一种写法...');
+  setTimeout(() => streamEdit(p.id, '正式语气'), 400);
 }
 
 function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
 }
 
-function resetDemo() {
-  document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.scenario-tab')[0].classList.add('active');
-
-  // Reset all paragraphs
-  document.querySelectorAll('.note-paragraph').forEach(p => {
-    p.innerHTML = originalText[p.id] || p.innerHTML;
-    p.classList.remove('selected');
-    p.style.position = '';
+// Tab switching
+function switchTab(index) {
+  document.querySelectorAll('.scenario-tab').forEach((t, i) => {
+    t.classList.toggle('active', i === index);
   });
+  resetAll();
 
-  // Reset input area
+  if (index === 0) {
+    setState('预览态 · 点击段落选中', '');
+  } else if (index === 1) {
+    // Text input scenario
+    setTimeout(() => {
+      selectParagraph('p2');
+      setTimeout(() => {
+        document.getElementById('inputField').focus();
+        onInputFocus();
+        setTimeout(() => {
+          typeText('改简洁', () => {
+            onInputChange();
+          });
+        }, 400);
+      }, 400);
+    }, 200);
+  } else if (index === 2) {
+    // Voice input scenario
+    setTimeout(() => {
+      selectParagraph('p2');
+      setTimeout(() => startVoice(), 600);
+    }, 200);
+  } else if (index === 3) {
+    // Full flow
+    setTimeout(() => {
+      selectParagraph('p2');
+      setTimeout(() => {
+        startVoice();
+      }, 800);
+    }, 200);
+  }
+}
+
+function typeText(text, callback) {
+  const input = document.getElementById('inputField');
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < text.length) {
+      input.value += text[i];
+      i++;
+      onInputChange();
+    } else {
+      clearInterval(interval);
+      if (callback) callback();
+    }
+  }, 150);
+}
+
+function resetAll() {
+  hideKeyboard();
+  cancelVoice();
+  document.querySelectorAll('.note-paragraph').forEach(p => {
+    p.innerHTML = originalTexts[p.id];
+    p.classList.remove('selected');
+    p.style.background = '';
+  });
   document.getElementById('chipsRow').classList.remove('show');
   document.getElementById('selectionQuote').classList.remove('show');
-  document.getElementById('inputField').placeholder = '输入修改指令...';
   document.getElementById('inputField').value = '';
-
+  document.getElementById('inputField').placeholder = '输入AI指令...';
+  document.getElementById('sendBtn').classList.remove('show');
+  document.getElementById('micBtn').classList.remove('hidden');
   selectedParagraph = null;
   isEditing = false;
-
-  // Restore original texts
-  originalText = {
-    p1: document.getElementById('p1').innerHTML,
-    p2: document.getElementById('p2').innerHTML,
-    p3: document.getElementById('p3').innerHTML,
-    p4: document.getElementById('p4').innerHTML,
-  };
 }
-
-function startScenario2() {
-  document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.scenario-tab')[1].classList.add('active');
-
-  resetDemo();
-
-  // Auto-select p2 and type command
-  setTimeout(() => {
-    selectParagraph('p2');
-    setTimeout(() => {
-      const input = document.getElementById('inputField');
-      const text = '改简洁';
-      let i = 0;
-      const typeInterval = setInterval(() => {
-        if (i < text.length) {
-          input.value += text[i];
-          i++;
-        } else {
-          clearInterval(typeInterval);
-          setTimeout(() => sendCommand(), 500);
-        }
-      }, 150);
-    }, 600);
-  }, 300);
-}
-
-function startScenario3() {
-  document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.scenario-tab')[2].classList.add('active');
-
-  resetDemo();
-
-  // Don't select anything, just type in input
-  setTimeout(() => {
-    const input = document.getElementById('inputField');
-    input.placeholder = '输入修改指令...';
-    const text = '总结这篇笔记的要点';
-    let i = 0;
-    const typeInterval = setInterval(() => {
-      if (i < text.length) {
-        input.value += text[i];
-        i++;
-      } else {
-        clearInterval(typeInterval);
-        setTimeout(() => {
-          sendCommand();
-        }, 500);
-      }
-    }, 100);
-  }, 300);
-}
-
-// Initialize original text store properly
-window.addEventListener('load', () => {
-  document.querySelectorAll('.note-paragraph').forEach(p => {
-    // Store text content only (no HTML)
-    const clone = p.cloneNode(true);
-    const confirm = clone.querySelector('.inline-confirm');
-    if (confirm) confirm.remove();
-    originalText[p.id] = clone.innerHTML;
-  });
-});
 </script>
 </body>
 </html>
