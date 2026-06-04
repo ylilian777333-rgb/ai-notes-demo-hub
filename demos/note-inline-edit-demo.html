@@ -127,26 +127,54 @@ body {
   transition: all 0.3s;
 }
 
-/* Selection quote */
+/* Selection quote - inside input container */
 .selection-quote {
-  background: #f0f4ff;
-  border-left: 3px solid #4a89dc;
-  padding: 0;
-  margin: 0 16px;
-  border-radius: 0 8px 8px 0;
+  display: none;
+  background: #f4f6f9;
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin: 0 0 6px;
   font-size: 12px;
-  color: #666;
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: all 0.3s;
+  color: #555;
+  position: relative;
+  line-height: 1.4;
+  border: 1px solid #e8ecf0;
 }
 .selection-quote.show {
-  max-height: 50px;
-  opacity: 1;
-  padding: 8px 12px;
-  margin-top: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
 }
+.selection-quote .quote-bar {
+  width: 3px;
+  min-height: 100%;
+  background: #4a89dc;
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+.selection-quote .quote-text {
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.selection-quote .quote-close {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ddd;
+  border: none;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  flex-shrink: 0;
+}
+.selection-quote .quote-close:hover { background: #ccc; }
 
 /* Chips */
 .chips-row {
@@ -180,7 +208,7 @@ body {
 /* Input bar - default state */
 .input-bar {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   padding: 10px 16px 30px;
   gap: 10px;
   transition: all 0.3s;
@@ -189,7 +217,27 @@ body {
 .input-wrapper {
   flex: 1;
   position: relative;
-  height: 38px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper.has-quote {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 8px 10px;
+}
+
+.input-wrapper.has-quote .input-field {
+  border: none;
+  height: 32px;
+  padding: 0 30px 0 6px;
+  border-radius: 8px;
+}
+
+.input-wrapper.has-quote .input-field:focus {
+  border: none;
+  outline: none;
 }
 
 .input-field {
@@ -210,7 +258,7 @@ body {
 .mic-btn {
   position: absolute;
   right: 4px;
-  top: 4px;
+  bottom: 4px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -225,6 +273,13 @@ body {
 }
 .mic-btn:hover { background: #e0e0e0; }
 .mic-btn.hidden { opacity: 0; pointer-events: none; transform: scale(0.5); }
+
+.has-quote .mic-btn {
+  right: 2px;
+  bottom: 2px;
+  width: 28px;
+  height: 28px;
+}
 
 /* Send button */
 .send-btn {
@@ -506,7 +561,7 @@ body {
   top: 108px;
   left: 16px;
   right: 16px;
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.9);
   color: #fff;
   padding: 8px 14px;
   border-radius: 10px;
@@ -515,10 +570,9 @@ body {
   align-items: center;
   gap: 8px;
   z-index: 150;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s;
 }
-.state-indicator.show { opacity: 1; }
 .state-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; }
 .state-dot.blue { background: #60a5fa; }
 .state-dot.orange { background: #fb923c; }
@@ -570,7 +624,6 @@ body {
 
   <!-- Default bottom area -->
   <div class="bottom-area" id="bottomArea">
-    <div class="selection-quote" id="selectionQuote"></div>
     <div class="chips-row" id="chipsRow">
       <span class="chip" onclick="triggerChip('改简洁')">改简洁</span>
       <span class="chip" onclick="triggerChip('校对')">校对</span>
@@ -578,7 +631,12 @@ body {
       <span class="chip" onclick="triggerChip('续写')">续写</span>
     </div>
     <div class="input-bar" id="inputBar">
-      <div class="input-wrapper">
+      <div class="input-wrapper" id="inputWrapper">
+        <div class="selection-quote" id="selectionQuote">
+          <span class="quote-bar"></span>
+          <span class="quote-text" id="quoteText"></span>
+          <button class="quote-close" onclick="clearSelection()">✕</button>
+        </div>
         <input type="text" class="input-field" id="inputField" placeholder="输入AI指令..." onfocus="onInputFocus()" oninput="onInputChange()" onblur="onInputBlur()">
         <button class="mic-btn" id="micBtn" onclick="startVoice()">🎤</button>
       </div>
@@ -679,10 +737,8 @@ document.querySelectorAll('.note-paragraph').forEach(p => {
 });
 
 function setState(text, dotClass) {
-  const indicator = document.getElementById('stateIndicator');
   const dot = document.getElementById('stateDot');
   const stateText = document.getElementById('stateText');
-  indicator.classList.add('show');
   dot.className = 'state-dot ' + (dotClass || '');
   stateText.textContent = text;
 }
@@ -694,12 +750,26 @@ function selectParagraph(id) {
   selectedParagraph = id;
 
   document.getElementById('chipsRow').classList.add('show');
+
+  // Show quote inside input wrapper
   const quote = document.getElementById('selectionQuote');
-  quote.textContent = '选中: ' + document.getElementById(id).textContent.trim().substring(0, 35) + '...';
+  const quoteText = document.getElementById('quoteText');
+  quoteText.textContent = document.getElementById(id).textContent.trim().substring(0, 50) + '...';
   quote.classList.add('show');
-  document.getElementById('inputField').placeholder = '对选中内容的修改指令...';
+  document.getElementById('inputWrapper').classList.add('has-quote');
+  document.getElementById('inputField').placeholder = '输入修改指令...';
 
   setState('已选中段落 · 等待指令', 'blue');
+}
+
+function clearSelection() {
+  document.querySelectorAll('.note-paragraph').forEach(p => p.classList.remove('selected'));
+  document.getElementById('selectionQuote').classList.remove('show');
+  document.getElementById('inputWrapper').classList.remove('has-quote');
+  document.getElementById('chipsRow').classList.remove('show');
+  document.getElementById('inputField').placeholder = '输入AI指令...';
+  selectedParagraph = null;
+  setState('预览态 · 未选中', '');
 }
 
 function onInputFocus() {
@@ -1006,6 +1076,7 @@ function resetAll() {
   });
   document.getElementById('chipsRow').classList.remove('show');
   document.getElementById('selectionQuote').classList.remove('show');
+  document.getElementById('inputWrapper').classList.remove('has-quote');
   document.getElementById('inputField').value = '';
   document.getElementById('inputField').placeholder = '输入AI指令...';
   document.getElementById('sendBtn').classList.remove('show');
