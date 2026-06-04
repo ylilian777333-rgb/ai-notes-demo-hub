@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记首页 · 小爱入口方案穷举</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','SF Pro Display',sans-serif;background:#0a0a0f;color:#fff;min-height:100vh}
+.header{padding:16px 32px;border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95)}
+.header h1{font-size:17px;font-weight:700}
+.header .meta{font-size:10px;color:rgba(255,255,255,0.4);margin-top:2px}
+.tabs{display:flex;gap:5px;padding:10px 32px;position:sticky;top:50px;z-index:99;background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);overflow-x:auto}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:7px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);transition:all .3s}
+.tab.active{background:#3b82f6;border-color:#3b82f6;color:#fff}
+.tab:hover{background:rgba(255,255,255,0.08);color:#fff}
+.stage{display:flex;flex-direction:column;align-items:center;padding:20px}
+.info{text-align:center;margin-bottom:16px;max-width:520px}
+.info h2{font-size:15px;margin-bottom:4px}
+.info p{font-size:11px;color:rgba(255,255,255,0.5);line-height:1.5}
+.info .pros{margin-top:6px}
+.info .pros span{display:inline-block;font-size:9px;padding:3px 7px;border-radius:6px;margin:2px}
+.pro{background:rgba(34,197,94,0.15);color:#22c55e}
+.con{background:rgba(239,68,68,0.15);color:#ef4444}
+.phone{width:375px;height:812px;border-radius:54px;background:#fff;overflow:hidden;box-shadow:0 0 0 11px #1a1a2e,0 0 0 13px rgba(255,255,255,0.08),0 30px 60px rgba(0,0,0,0.5);position:relative}
+
+/* Phone UI */
+.sb{display:flex;justify-content:space-between;align-items:center;padding:14px 28px 0;height:50px;font-size:14px;font-weight:600;color:#1a1a1a}
+.sb .r{font-size:10px;letter-spacing:1px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:4px 20px;height:44px}
+.nav .menu{font-size:20px;color:#1a1a1a}
+.nav .title{font-size:20px;font-weight:700;color:#1a1a1a}
+.nav .more{font-size:18px;color:#1a1a1a}
+.search{margin:0 20px 12px;background:#f5f5f7;border-radius:10px;padding:10px 14px;font-size:14px;color:#999;display:flex;align-items:center;gap:6px}
+.note-list{padding:0 20px;flex:1;overflow:hidden}
+.note-item{padding:14px 0;border-bottom:1px solid #f0f0f0}
+.note-item h4{font-size:16px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+.note-item p{font-size:13px;color:#888;margin-bottom:4px}
+.note-item .tags{display:flex;gap:4px}
+.note-item .tg{font-size:10px;padding:2px 6px;border-radius:3px;font-weight:500}
+.tg-b{background:#eff6ff;color:#2563eb}
+.tg-g{background:#ecfdf5;color:#059669}
+.tg-p{background:#f5f3ff;color:#7c3aed}
+
+/* Bottom nav variations */
+.bot{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding:8px 0 30px}
+.bot .item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;color:#999}
+.bot .item.on{color:#1a1a1a;font-weight:600}
+.bot .item .ic{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.bot .item .ic-main{width:44px;height:44px;border-radius:50%;background:#3b82f6;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 12px rgba(59,130,246,0.25);margin-bottom:-2px}
+.bot .item .ic-ai{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#3b82f6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 12px rgba(99,102,241,0.25);margin-bottom:-2px}
+.bot .item .ic-ai-sm{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#3b82f6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px}
+
+/* Floating AI button */
+.fab-ai{position:absolute;bottom:100px;right:20px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;box-shadow:0 6px 20px rgba(99,102,241,0.35)}
+
+/* Top AI banner */
+.ai-banner{margin:0 20px 12px;padding:12px 14px;background:linear-gradient(135deg,#f0f4ff,#e8ecff);border:1px solid #dbeafe;border-radius:12px;display:flex;align-items:center;gap:10px}
+.ai-banner .icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#818cf8,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;flex-shrink:0}
+.ai-banner .text{flex:1}
+.ai-banner .text h5{font-size:13px;font-weight:600;color:#1a1a1a}
+.ai-banner .text p{font-size:11px;color:#666}
+
+/* Search bar with AI */
+.search-ai{margin:0 20px 12px;background:#f5f5f7;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px}
+.search-ai .ph{flex:1;font-size:14px;color:#999}
+.search-ai .ai-icon{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px}
+
+/* Inline AI card */
+.ai-inline{margin:0 20px 12px;padding:10px 14px;background:#fff;border:1px solid #e5e5e5;border-radius:12px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.ai-inline .avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0}
+.ai-inline .msg{flex:1;font-size:13px;color:#555}
+.ai-inline .ask{font-size:12px;color:#4f46e5;font-weight:600;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>笔记首页 · 小爱入口方案穷举</h1>
+  <div class="meta">6种方案对比 ｜ 突出AI应用+小爱生态闭环</div>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-i="0">A 底栏三按钮</div>
+  <div class="tab" data-i="1">B 底栏居中小爱</div>
+  <div class="tab" data-i="2">C 悬浮球</div>
+  <div class="tab" data-i="3">D 搜索栏内嵌</div>
+  <div class="tab" data-i="4">E 顶部AI卡片</div>
+  <div class="tab" data-i="5">F 列表上方对话条</div>
+</div>
+<div class="stage">
+  <div class="info" id="info"></div>
+  <div class="phone" id="phone"></div>
+</div>
+
+<script>
+const SB = `<div class="sb"><span>2:36</span><span class="r">●●●  ▲  ■</span></div>`;
+const NAV = `<div class="nav"><span class="menu">☰</span><span class="title">笔记</span><span class="more">⋯</span></div>`;
+const NOTES = `<div class="note-list">
+  <div class="note-item"><h4>产品评审会纪要</h4><p>Q3方向确认，Flutter方案，6月底P0...</p><div class="tags"><span class="tg tg-b">纪要</span><span class="tg tg-g">待办3</span></div></div>
+  <div class="note-item"><h4>装修水电报价对比</h4><p>三家师傅报价横向对比表...</p><div class="tags"><span class="tg tg-b">对比表</span></div></div>
+  <div class="note-item"><h4>心内科复诊 · 妈妈</h4><p>降压药早晚各一片，饭后服用...</p><div class="tags"><span class="tg tg-g">待办1</span></div></div>
+  <div class="note-item"><h4>数据结构期末复习</h4><p>树/图/排序/动态规划...</p><div class="tags"><span class="tg tg-p">脑图</span><span class="tg tg-p">闪卡</span></div></div>
+  <div class="note-item"><h4>6/1速记</h4><p>同事推荐的书 / 领导交代的两件事...</p></div>
+</div>`;
+
+const plans = [
+  {
+    title: "A · 底栏三按钮：语音 + 新建 + 小爱",
+    desc: "底栏改为三个入口：语音录音（记）、加号新建（创建）、小爱（问/做）。李楠6/1会议提到的方案。",
+    pros: ["记与问并列，闭环明确", "小爱入口常驻可见"],
+    cons: ["三个按钮认知成本", "小爱icon需要差异化设计"],
+    html: SB+NAV+`<div class="search">🔍 搜索笔记</div>`+NOTES+`<div class="bot"><div class="item"><div class="ic">🎙️</div>语音</div><div class="item"><div class="ic-main">＋</div>新建</div><div class="item"><div class="ic-ai">✦</div>小爱</div></div>`
+  },
+  {
+    title: "B · 底栏居中小爱，新建和语音合并",
+    desc: "小爱放C位（最大按钮），左侧笔记tab，右侧我的tab。新建和语音收到小爱入口内部。强调"小爱是笔记的核心引擎"。",
+    pros: ["小爱C位，品牌心智最强", "底栏简洁只有3项"],
+    cons: ["新建笔记入口被弱化", "老用户需要适应"],
+    html: SB+NAV+`<div class="search">🔍 搜索笔记</div>`+NOTES+`<div class="bot"><div class="item on"><div class="ic">📒</div>笔记</div><div class="item"><div class="ic-ai" style="width:52px;height:52px;font-size:22px;margin-top:-12px">✦</div><span style="margin-top:4px">小爱</span></div><div class="item"><div class="ic">👤</div>我的</div></div>`
+  },
+  {
+    title: "C · 悬浮球（右下角常驻）",
+    desc: "底栏保持原样不动（笔记/速记/我的），小爱以悬浮球形式常驻右下角。点击唤起小爱对话。改动最小，不影响现有结构。",
+    pros: ["改动最小，不影响现有tab", "随时可见可触达"],
+    cons: ["会遮挡部分内容", "悬浮球易被忽视"],
+    html: SB+NAV+`<div class="search">🔍 搜索笔记</div>`+NOTES+`<div class="fab-ai">✦</div><div class="bot"><div class="item on"><div class="ic">📒</div>笔记</div><div class="item"><div class="ic">⚡</div>速记</div><div class="item"><div class="ic">👤</div>我的</div></div>`
+  },
+  {
+    title: "D · 搜索栏右侧嵌入小爱",
+    desc: "搜索栏右侧加一个小爱图标，点击从搜索直接切到AI对话。"搜"和"问"在同一入口，用户自然理解：找东西可以搜也可以问。",
+    pros: ["不加新元素，复用搜索栏", "搜→问自然过渡", "底栏不改"],
+    cons: ["入口较小可能被忽略", "初次发现性弱"],
+    html: SB+NAV+`<div class="search-ai"><span>🔍</span><span class="ph">搜索笔记或问小爱</span><div class="ai-icon">✦</div></div>`+NOTES+`<div class="bot"><div class="item on"><div class="ic">📒</div>笔记</div><div class="item"><div class="ic">⚡</div>速记</div><div class="item"><div class="ic">👤</div>我的</div></div>`
+  },
+  {
+    title: "E · 顶部AI卡片（搜索栏下方）",
+    desc: "搜索栏下方固定一条AI卡片入口，展示小爱能做的事或最近AI生成的内容。强曝光，用户每次进首页都能看到。",
+    pros: ["曝光率最高，每次进首页可见", "可展示AI能力和最近产出"],
+    cons: ["占用列表空间", "内容需要动态更新否则变广告"],
+    html: SB+NAV+`<div class="search">🔍 搜索笔记</div><div class="ai-banner"><div class="icon">✦</div><div class="text"><h5>小爱帮你整理了3条待办</h5><p>来自今天的会议纪要和通话记录</p></div></div>`+NOTES+`<div class="bot"><div class="item on"><div class="ic">📒</div>笔记</div><div class="item"><div class="ic">⚡</div>速记</div><div class="item"><div class="ic">👤</div>我的</div></div>`
+  },
+  {
+    title: "F · 列表上方对话条",
+    desc: "搜索栏下方放一条类似"对话气泡"的入口，像小爱在跟你打招呼。点击直接进入AI对话页。强调"小爱随时在"的陪伴感。",
+    pros: ["有温度/陪伴感", "明确告诉用户可以说话"],
+    cons: ["每次打开都看到可能疲劳", "需要有动态内容"],
+    html: SB+NAV+`<div class="search">🔍 搜索笔记</div><div class="ai-inline"><div class="avatar">✦</div><div class="msg">有什么可以帮你？试试说"帮我整理今天的会议"</div><div class="ask">问→</div></div>`+NOTES+`<div class="bot"><div class="item on"><div class="ic">📒</div>笔记</div><div class="item"><div class="ic">⚡</div>速记</div><div class="item"><div class="ic">👤</div>我的</div></div>`
+  }
+];
+
+let cur = 0;
+function render(){
+  const p = plans[cur];
+  document.getElementById('info').innerHTML = `<h2>${p.title}</h2><p>${p.desc}</p><div class="pros">${p.pros.map(x=>`<span class="pro">✓ ${x}</span>`).join('')}${p.cons.map(x=>`<span class="con">✗ ${x}</span>`).join('')}</div>`;
+  document.getElementById('phone').innerHTML = p.html;
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===cur));
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{cur=+t.dataset.i;render();}));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&cur<plans.length-1){cur++;render()}if(e.key==='ArrowLeft'&&cur>0){cur--;render()}});
+render();
+</script>
+</body>
+</html>
