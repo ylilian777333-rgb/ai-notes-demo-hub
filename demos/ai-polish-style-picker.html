@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI润色风格选择器 · 高保真原型</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'PingFang SC', 'SF Pro Display', sans-serif;
+  background: #0a0a0f;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  color: #fff;
+}
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.subtitle { font-size: 13px; color: #64748b; margin-bottom: 32px; }
+
+/* Phone Frame */
+.phone {
+  width: 375px;
+  height: 812px;
+  background: #fff;
+  border-radius: 54px;
+  border: 12px solid #1a1a2e;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+}
+
+/* Status Bar */
+.status-bar {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+}
+.status-bar .right { display: flex; gap: 4px; align-items: center; }
+
+/* Nav Bar */
+.nav-bar {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+.nav-bar .back { font-size: 22px; color: #000; cursor: pointer; }
+.nav-bar .actions { display: flex; gap: 16px; }
+.nav-bar .actions span { font-size: 18px; color: #000; cursor: pointer; }
+
+/* Content */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 12px;
+}
+.note-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+  margin: 8px 4px;
+}
+.note-meta {
+  font-size: 12px;
+  color: #00000066;
+  margin: 0 4px 12px;
+}
+.note-body {
+  font-size: 14px;
+  color: #000000CC;
+  line-height: 1.7;
+  padding: 0 4px;
+  margin-bottom: 16px;
+}
+.note-body .selected {
+  background: #3b82f620;
+  border-bottom: 2px solid #3b82f6;
+  padding: 2px 0;
+}
+
+/* AI Bottom Bar (trigger) */
+.ai-trigger {
+  position: absolute;
+  bottom: 60px;
+  left: 12px;
+  right: 12px;
+  height: 48px;
+  background: #F8F8FA;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.ai-trigger:hover { background: #F0F0F5; }
+.ai-trigger .spark { font-size: 16px; }
+.ai-trigger .text { font-size: 13px; color: #00000066; }
+
+/* Bottom Indicator */
+.bottom-indicator {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 134px;
+  height: 5px;
+  background: #000;
+  border-radius: 3px;
+}
+
+/* AI Panel Overlay */
+.ai-panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+.ai-panel-overlay.active { opacity: 1; pointer-events: all; }
+
+/* AI Panel */
+.ai-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 12px 0 34px;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  z-index: 11;
+}
+.ai-panel.active { transform: translateY(0); }
+
+.ai-panel .handle {
+  width: 36px;
+  height: 4px;
+  background: #0000001a;
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+.ai-panel .panel-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #000;
+  padding: 0 20px;
+  margin-bottom: 12px;
+}
+
+/* Polish Style Section */
+.polish-section {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+.polish-section .section-label {
+  font-size: 12px;
+  color: #00000066;
+  margin-bottom: 10px;
+  padding-left: 4px;
+}
+
+/* Style Cards */
+.style-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.style-card {
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #F5F5F7;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+.style-card:hover { background: #EEEFF2; }
+.style-card.active {
+  background: #EFF6FF;
+  border-color: #3b82f6;
+}
+.style-card .card-icon {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+.style-card .card-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 3px;
+}
+.style-card .card-desc {
+  font-size: 11px;
+  color: #00000066;
+  line-height: 1.4;
+}
+.style-card .check-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #3b82f6;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 11px;
+}
+.style-card.active .check-icon { display: flex; }
+
+/* Action Buttons */
+.action-row {
+  display: flex;
+  gap: 10px;
+  padding: 0 16px;
+  margin-top: 16px;
+}
+.btn {
+  flex: 1;
+  height: 44px;
+  border-radius: 22px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-cancel {
+  background: #F5F5F7;
+  color: #000;
+}
+.btn-cancel:hover { background: #EEEFF2; }
+.btn-confirm {
+  background: #000;
+  color: #fff;
+}
+.btn-confirm:hover { background: #333; }
+.btn-confirm:disabled { background: #ccc; cursor: not-allowed; }
+
+/* Preview Section */
+.preview-section {
+  padding: 0 16px;
+  margin-top: 14px;
+}
+.preview-box {
+  background: #F9FAFB;
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1px solid #0000000a;
+}
+.preview-label {
+  font-size: 11px;
+  color: #00000066;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.preview-label .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+.preview-text {
+  font-size: 13px;
+  color: #000000CC;
+  line-height: 1.6;
+  min-height: 40px;
+}
+.preview-text .typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background: #3b82f6;
+  animation: blink 1s infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* Annotations */
+.annotations {
+  margin-top: 24px;
+  text-align: center;
+}
+.anno-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  margin: 4px;
+}
+.anno-new { background: #064e3b; color: #34d399; }
+.anno-restored { background: #451a03; color: #fbbf24; }
+
+/* Tabs */
+.demo-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.demo-tab {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #333;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.demo-tab:hover { border-color: #f59e0b; color: #f59e0b; }
+.demo-tab.active { background: #f59e0b; border-color: #f59e0b; color: #000; font-weight: 600; }
+
+.screen { display: none; }
+.screen.active { display: block; }
+</style>
+</head>
+<body>
+<h1>AI润色风格选择器</h1>
+<p class="subtitle">恢复OS3的4种润色风格，用OS4新UI呈现 · 点击手机内元素交互</p>
+
+<div class="demo-tabs">
+  <div class="demo-tab active" data-screen="s1">选中文字</div>
+  <div class="demo-tab" data-screen="s2">选择风格</div>
+  <div class="demo-tab" data-screen="s3">润色预览</div>
+</div>
+
+<!-- Screen 1: 选中文字触发 -->
+<div class="screen active" id="s1">
+<div class="phone">
+  <div class="status-bar">
+    <span>2:36</span>
+    <div class="right">
+      <span>●●●●</span>
+      <span>📶</span>
+      <span>🔋100</span>
+    </div>
+  </div>
+  <div class="nav-bar">
+    <span class="back">←</span>
+    <div class="actions"><span>↗</span><span>⋯</span></div>
+  </div>
+  <div class="content">
+    <div class="note-title">雷军：我喜欢并推崇任天堂</div>
+    <div class="note-meta">2026.4.20 10:29 | 398字 | 来自MiClaw</div>
+    <div class="note-body">
+      在上一篇《小米创业思考》系列文章中，我分享了我对极致的理解：<span class="selected">极致就是做到自己能力的极限，做到别人想不到的高度。在实践中，"极致"有两重含义，分别是心智上的无限投入，不遗余力争取最好</span>，以及无限追求最优解，认知触达行业和用户需求的本质。
+    </div>
+  </div>
+  <div class="ai-trigger" onclick="showPanel()">
+    <span class="spark">✨</span>
+    <span class="text">总结、润色、对话...</span>
+  </div>
+  <div class="bottom-indicator"></div>
+</div>
+<div class="annotations">
+  <span class="anno-tag anno-restored">步骤1: 选中需要润色的文字</span>
+</div>
+</div>
+
+<!-- Screen 2: 风格选择面板 -->
+<div class="screen" id="s2">
+<div class="phone">
+  <div class="status-bar">
+    <span>2:36</span>
+    <div class="right">
+      <span>●●●●</span>
+      <span>📶</span>
+      <span>🔋100</span>
+    </div>
+  </div>
+  <div class="nav-bar">
+    <span class="back">←</span>
+    <div class="actions"><span>↗</span><span>⋯</span></div>
+  </div>
+  <div class="content" style="filter: blur(1px); opacity: 0.5;">
+    <div class="note-title">雷军：我喜欢并推崇任天堂</div>
+    <div class="note-meta">2026.4.20 10:29 | 398字</div>
+    <div class="note-body">在上一篇《小米创业思考》系列文章中...</div>
+  </div>
+
+  <div class="ai-panel-overlay active"></div>
+  <div class="ai-panel active">
+    <div class="handle"></div>
+    <div class="panel-title">选择润色风格</div>
+
+    <div class="polish-section">
+      <div class="section-label">选中 42 字 · 选择一种风格进行润色</div>
+      <div class="style-cards">
+        <div class="style-card active" onclick="selectStyle(this)">
+          <div class="check-icon">✓</div>
+          <div class="card-icon">📝</div>
+          <div class="card-name">通用润色</div>
+          <div class="card-desc">修正语法，提升流畅度</div>
+        </div>
+        <div class="style-card" onclick="selectStyle(this)">
+          <div class="check-icon">✓</div>
+          <div class="card-icon">💼</div>
+          <div class="card-name">专业正式</div>
+          <div class="card-desc">书面化，适合报告/邮件</div>
+        </div>
+        <div class="style-card" onclick="selectStyle(this)">
+          <div class="check-icon">✓</div>
+          <div class="card-icon">✂️</div>
+          <div class="card-name">精简凝练</div>
+          <div class="card-desc">去冗余，保留核心信息</div>
+        </div>
+        <div class="style-card" onclick="selectStyle(this)">
+          <div class="check-icon">✓</div>
+          <div class="card-icon">😊</div>
+          <div class="card-name">亲切友好</div>
+          <div class="card-desc">口语化，拉近读者距离</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn btn-cancel" onclick="hidePanel()">取消</button>
+      <button class="btn btn-confirm" onclick="switchScreen('s3')">开始润色</button>
+    </div>
+  </div>
+  <div class="bottom-indicator"></div>
+</div>
+<div class="annotations">
+  <span class="anno-tag anno-restored">恢复OS3: 4种风格选择器</span>
+  <span class="anno-new">OS4新UI: 卡片式选择</span>
+</div>
+</div>
+
+<!-- Screen 3: 润色结果预览 -->
+<div class="screen" id="s3">
+<div class="phone">
+  <div class="status-bar">
+    <span>2:36</span>
+    <div class="right">
+      <span>●●●●</span>
+      <span>📶</span>
+      <span>🔋100</span>
+    </div>
+  </div>
+  <div class="nav-bar">
+    <span class="back">←</span>
+    <div class="actions"><span>↗</span><span>⋯</span></div>
+  </div>
+  <div class="content" style="filter: blur(1px); opacity: 0.5;">
+    <div class="note-title">雷军：我喜欢并推崇任天堂</div>
+    <div class="note-meta">2026.4.20 10:29 | 398字</div>
+    <div class="note-body">在上一篇《小米创业思考》系列文章中...</div>
+  </div>
+
+  <div class="ai-panel-overlay active"></div>
+  <div class="ai-panel active">
+    <div class="handle"></div>
+    <div class="panel-title">润色结果 · 通用润色</div>
+
+    <div class="preview-section">
+      <div class="preview-box">
+        <div class="preview-label"><span class="dot"></span> AI 润色完成</div>
+        <div class="preview-text" id="typing-result">
+          极致，是将自身能力发挥到极限，攀登他人难以企及的高度。它包含双重含义：其一，是心智层面的全情投入与不遗余力；其二，是对最优解的无尽追寻，直至触达行业本质与用户需求的核心。
+        </div>
+      </div>
+    </div>
+
+    <div class="polish-section" style="margin-top:12px">
+      <div class="section-label">换一种风格</div>
+      <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:4px;">
+        <span style="padding:6px 14px; border-radius:16px; background:#EFF6FF; border:1px solid #3b82f6; font-size:12px; color:#3b82f6; white-space:nowrap;">📝 通用</span>
+        <span style="padding:6px 14px; border-radius:16px; background:#F5F5F7; font-size:12px; color:#000000CC; cursor:pointer; white-space:nowrap;" onclick="switchStyle('professional')">💼 专业</span>
+        <span style="padding:6px 14px; border-radius:16px; background:#F5F5F7; font-size:12px; color:#000000CC; cursor:pointer; white-space:nowrap;" onclick="switchStyle('concise')">✂️ 精简</span>
+        <span style="padding:6px 14px; border-radius:16px; background:#F5F5F7; font-size:12px; color:#000000CC; cursor:pointer; white-space:nowrap;" onclick="switchStyle('friendly')">😊 友好</span>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn btn-cancel" onclick="switchScreen('s2')">重新选择</button>
+      <button class="btn btn-confirm">应用到笔记</button>
+    </div>
+  </div>
+  <div class="bottom-indicator"></div>
+</div>
+<div class="annotations">
+  <span class="anno-new">OS4新增: 结果预览+一键切换风格</span>
+  <span class="anno-restored">恢复OS3: 润色后可立即换风格对比</span>
+</div>
+</div>
+
+<script>
+function switchScreen(id) {
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.demo-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  document.querySelector('[data-screen="'+id+'"]').classList.add('active');
+}
+
+document.querySelectorAll('.demo-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() { switchScreen(this.dataset.screen); });
+});
+
+function selectStyle(el) {
+  document.querySelectorAll('.style-card').forEach(function(c) { c.classList.remove('active'); });
+  el.classList.add('active');
+}
+
+function showPanel() { switchScreen('s2'); }
+function hidePanel() { switchScreen('s1'); }
+
+var styleTexts = {
+  professional: '极致，系将个人能力发挥至极限，达成他人难以企及之高度。其内涵包含两个维度：第一，心智层面的全情投入与不遗余力；第二，对最优解的持续追求，直至触达行业本质与用户需求的核心。',
+  concise: '极致 = 能力极限 + 超越他人。两层含义：全情投入，追求最优解。',
+  friendly: '说白了，极致就是拼尽全力做到最好，好到让别人想都想不到。它有两层意思：一是全身心投入不留余力，二是一直找最好的方法，真正理解用户要什么。'
+};
+
+function switchStyle(style) {
+  var resultEl = document.getElementById('typing-result');
+  if (styleTexts[style]) { resultEl.textContent = styleTexts[style]; }
+}
+
+document.addEventListener('keydown', function(e) {
+  var screens = ['s1','s2','s3'];
+  var current = screens.findIndex(function(s) { return document.getElementById(s).classList.contains('active'); });
+  if (e.key === 'ArrowRight' && current < 2) switchScreen(screens[current+1]);
+  if (e.key === 'ArrowLeft' && current > 0) switchScreen(screens[current-1]);
+});
+</script>
+</body>
+</html>
