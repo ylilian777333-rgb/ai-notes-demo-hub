@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记分类承接方案 · 穷举探索</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  background: #0f0f1a;
+  color: #fff;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.page-header h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.page-header p { font-size: 13px; color: #888; }
+
+.layout {
+  display: flex;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Left: Phone demos */
+.demos-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.demo-section {
+  background: #1a1a2e;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #2a2a3e;
+}
+
+.demo-section h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #8bb4ff;
+}
+.demo-section .desc {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.phones-row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+/* Phone frame */
+.phone {
+  width: 280px;
+  min-width: 280px;
+  height: 600px;
+  background: #fff;
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-sb {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.phone-nav {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.phone-nav .hamburger { margin-right: 12px; font-size: 16px; }
+
+.phone-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 12px 12px;
+}
+
+/* Sidebar simulation */
+.sidebar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  background: #f8f9fa;
+  border-right: 1px solid #eee;
+  padding: 50px 12px 12px;
+  z-index: 10;
+}
+
+.sidebar-item {
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #333;
+  cursor: pointer;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sidebar-item.active { background: #e8f0fe; color: #1a56db; font-weight: 500; }
+.sidebar-item .count { margin-left: auto; color: #999; font-size: 10px; }
+.sidebar-divider { height: 1px; background: #eee; margin: 8px 0; }
+.sidebar-title { font-size: 10px; color: #999; padding: 4px 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Note list items */
+.note-item {
+  padding: 10px 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.note-item-title {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.note-item-desc { font-size: 11px; color: #888; }
+.note-item-meta { font-size: 10px; color: #aaa; margin-top: 3px; }
+
+.tag {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.tag-ai { background: #eef2ff; color: #4a6cf7; }
+.tag-user { background: #f0fdf4; color: #16a34a; }
+.tag-ppt { background: #fef3e2; color: #d97706; }
+.tag-podcast { background: #fce7f3; color: #be185d; }
+.tag-link { background: #f0f9ff; color: #0284c7; }
+.tag-call { background: #f5f3ff; color: #7c3aed; }
+
+/* Tabs */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  padding: 0 12px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 8px;
+}
+.tab {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #888;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+.tab.active { color: #111; font-weight: 500; border-bottom-color: #111; }
+
+/* Filter chips */
+.filter-chips {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  overflow-x: auto;
+}
+.filter-chip {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  background: #f5f5f5;
+  color: #666;
+  white-space: nowrap;
+}
+.filter-chip.active { background: #111; color: #fff; }
+
+/* Search bar */
+.search-bar {
+  margin: 8px 12px;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* Right: Analysis panel */
+.analysis-col {
+  width: 380px;
+  min-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+.analysis-card {
+  background: #1a1a2e;
+  border: 1px solid #2a2a3e;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.analysis-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #ffd57e;
+}
+
+.analysis-card h4 {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 10px 0 6px;
+  color: #8bb4ff;
+}
+
+.analysis-card p, .analysis-card li {
+  font-size: 12px;
+  color: #aaa;
+  line-height: 1.6;
+}
+
+.analysis-card ul {
+  padding-left: 16px;
+}
+
+.analysis-card .highlight {
+  color: #4ade80;
+  font-weight: 500;
+}
+
+.analysis-card .warning {
+  color: #fb923c;
+  font-weight: 500;
+}
+
+.analysis-card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 11px;
+}
+.analysis-card th {
+  text-align: left;
+  padding: 6px 8px;
+  color: #888;
+  border-bottom: 1px solid #2a2a3e;
+  font-weight: 500;
+}
+.analysis-card td {
+  padding: 6px 8px;
+  color: #ccc;
+  border-bottom: 1px solid #1f1f2f;
+}
+
+.verdict {
+  background: #0f2a1a;
+  border: 1px solid #1a4a2a;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 10px;
+}
+.verdict p { color: #4ade80; }
+
+.phone-label {
+  text-align: center;
+  font-size: 11px;
+  color: #666;
+  margin-top: 8px;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>笔记首页分类承接 · 方案穷举</h1>
+  <p>核心命题：用户手写笔记 vs AI生成/收纳内容，怎么分？怎么展示？</p>
+</div>
+
+<div class="layout">
+<div class="demos-col">
+
+<!-- 方案A: 侧边栏资料库分区 -->
+<div class="demo-section">
+  <h2>方案A · 侧边栏"资料库"独立分区</h2>
+  <div class="desc">李楠倾向方向：所有AI生成/收纳的内容进"资料"，用户手写的留首页</div>
+  <div class="phones-row">
+    <div>
+      <div class="phone">
+        <div class="phone-sb"><span>2:36</span><span style="font-size:9px">●●● ▲ ■</span></div>
+        <div class="phone-nav"><span class="hamburger">☰</span> 笔记</div>
+        <div class="sidebar">
+          <div class="sidebar-item active">📒 全部笔记 <span class="count">12</span></div>
+          <div class="sidebar-item">⭐ 置顶</div>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-title">我的文件夹</div>
+          <div class="sidebar-item">📁 工作 <span class="count">5</span></div>
+          <div class="sidebar-item">📁 学习 <span class="count">3</span></div>
+          <div class="sidebar-item">📁 生活 <span class="count">4</span></div>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-title">资料库</div>
+          <div class="sidebar-item">📑 全部资料 <span class="count">28</span></div>
+          <div class="sidebar-item">🎙️ 通话纪要 <span class="count">9</span></div>
+          <div class="sidebar-item">📊 PPT <span class="count">3</span></div>
+          <div class="sidebar-item">🎧 播客 <span class="count">2</span></div>
+          <div class="sidebar-item">🔗 收藏链接 <span class="count">14</span></div>
+        </div>
+      </div>
+      <div class="phone-label">侧边栏展开态</div>
+    </div>
+    <div>
+      <div class="phone">
+        <div class="phone-sb"><span>2:36</span><span style="font-size:9px">●●● ▲ ■</span></div>
+        <div class="phone-nav"><span class="hamburger">☰</span> 笔记</div>
+        <div class="search-bar">🔍 搜索笔记</div>
+        <div class="phone-body">
+          <div class="note-item">
+            <div class="note-item-title">Q3产品方向思考 <span class="tag tag-user">手写</span></div>
+            <div class="note-item-desc">关于下半年的几个核心方向...</div>
+            <div class="note-item-meta">今天 14:30</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">周五要带的东西</div>
+            <div class="note-item-desc">身份证、充电器、笔记本电脑</div>
+            <div class="note-item-meta">今天 09:15</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">读书笔记：思考快与慢</div>
+            <div class="note-item-desc">第三章锚定效应...</div>
+            <div class="note-item-meta">昨天 22:00</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">装修水电布局备忘</div>
+            <div class="note-item-desc">厨房3组插座、卫生间预留...</div>
+            <div class="note-item-meta">6/4 18:20</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">首页只有用户手写笔记</div>
+    </div>
+    <div>
+      <div class="phone">
+        <div class="phone-sb"><span>2:36</span><span style="font-size:9px">●●● ▲ ■</span></div>
+        <div class="phone-nav"><span class="hamburger">☰</span> 资料库</div>
+        <div class="filter-chips">
+          <span class="filter-chip active">全部</span>
+          <span class="filter-chip">通话</span>
+          <span class="filter-chip">PPT</span>
+          <span class="filter-chip">播客</span>
+          <span class="filter-chip">链接</span>
+          <span class="filter-chip">速记</span>
+        </div>
+        <div class="phone-body">
+          <div class="note-item">
+            <div class="note-item-title">📞 与李总讨论合作方案 <span class="tag tag-call">通话</span></div>
+            <div class="note-item-desc">确认下周二2点3号会议室...</div>
+            <div class="note-item-meta">今天 16:45 · 12分钟通话</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">📊 技术选型.pptx <span class="tag tag-ppt">PPT</span></div>
+            <div class="note-item-desc">8页 · 简约白 · AI生成</div>
+            <div class="note-item-meta">今天 15:00</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">🎧 产品评审回顾 <span class="tag tag-podcast">播客</span></div>
+            <div class="note-item-desc">3分钟音频摘要</div>
+            <div class="note-item-meta">昨天 · 从会议纪要生成</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">🔗 NotebookLM产品分析 <span class="tag tag-link">链接</span></div>
+            <div class="note-item-desc">36kr.com · AI摘要已生成</div>
+            <div class="note-item-meta">6/4 · 分享收藏</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">🎙️ 下周评审要准备的 <span class="tag tag-ai">速记</span></div>
+            <div class="note-item-desc">AI键录入 · 结构化待办</div>
+            <div class="note-item-meta">6/3 · AI键速记</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">资料库页面（AI/收纳内容）</div>
+    </div>
+  </div>
+</div>
+
+<!-- 方案B: Tab分流 -->
+<div class="demo-section">
+  <h2>方案B · 顶部Tab分流（笔记 / 资料）</h2>
+  <div class="desc">不用侧边栏切换，直接顶部Tab区分两个世界</div>
+  <div class="phones-row">
+    <div>
+      <div class="phone">
+        <div class="phone-sb"><span>2:36</span><span style="font-size:9px">●●● ▲ ■</span></div>
+        <div class="phone-nav"><span class="hamburger">☰</span> <span style="opacity:0.4">笔记</span></div>
+        <div class="tab-bar">
+          <div class="tab active">我的笔记</div>
+          <div class="tab">资料库 <span style="background:#ef4444;color:#fff;font-size:8px;padding:1px 4px;border-radius:6px;margin-left:4px">3</span></div>
+        </div>
+        <div class="search-bar">🔍 搜索</div>
+        <div class="phone-body">
+          <div class="note-item">
+            <div class="note-item-title">Q3产品方向思考</div>
+            <div class="note-item-desc">关于下半年的几个核心方向...</div>
+            <div class="note-item-meta">今天 14:30</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">周五要带的东西</div>
+            <div class="note-item-desc">身份证、充电器、笔记本</div>
+            <div class="note-item-meta">今天 09:15</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">装修水电布局备忘</div>
+            <div class="note-item-desc">厨房3组插座...</div>
+            <div class="note-item-meta">6/4</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">"我的笔记"Tab</div>
+    </div>
+    <div>
+      <div class="phone">
+        <div class="phone-sb"><span>2:36</span><span style="font-size:9px">●●● ▲ ■</span></div>
+        <div class="phone-nav"><span class="hamburger">☰</span> <span style="opacity:0.4">笔记</span></div>
+        <div class="tab-bar">
+          <div class="tab">我的笔记</div>
+          <div class="tab active">资料库</div>
+        </div>
+        <div class="filter-chips">
+          <span class="filter-chip active">全部</span>
+          <span class="filter-chip">通话纪要</span>
+          <span class="filter-chip">生成物</span>
+          <span class="filter-chip">收藏</span>
+        </div>
+        <div class="phone-body">
+          <div class="note-item">
+            <div class="note-item-title">📞 与李总通话纪要 <span class="tag tag-call">通话</span></div>
+            <div class="note-item-desc">合作方案确认...</div>
+            <div class="note-item-meta">今天 16:45</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">📊 技术选型.pptx <span class="tag tag-ppt">PPT</span></div>
+            <div class="note-item-desc">8页 · AI生成</div>
+            <div class="note-item-meta">今天 15:00</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">🔗 竞品分析文章 <span class="tag tag-link">链接</span></div>
+            <div class="note-item-desc">来自微信分享</div>
+            <div class="note-item-meta">6/4</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">"资料库"Tab</div>
+    </div>
+  </div>
+</div>
+
+<!-- 方案C: 混排+标签筛选 -->
+<div class="demo-section">
+  <h2>方案C · 混排 + 筛选Chips</h2>
+  <div class="desc">所有内容混在一起按时间排，通过顶部chips快速筛选类型</div>
+  <div class="phones-row">
+    <div>
+      <div class="phone">
+        <div class="phone-sb"><span>2:36</span><span style="font-size:9px">●●● ▲ ■</span></div>
+        <div class="phone-nav"><span class="hamburger">☰</span> 笔记</div>
+        <div class="search-bar">🔍 搜索笔记和资料</div>
+        <div class="filter-chips">
+          <span class="filter-chip active">全部</span>
+          <span class="filter-chip">手写</span>
+          <span class="filter-chip">通话</span>
+          <span class="filter-chip">PPT</span>
+          <span class="filter-chip">链接</span>
+        </div>
+        <div class="phone-body">
+          <div class="note-item">
+            <div class="note-item-title">📞 与李总通话 <span class="tag tag-call">通话</span></div>
+            <div class="note-item-desc">合作方案确认，下周二开会</div>
+            <div class="note-item-meta">今天 16:45</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">Q3产品方向思考 <span class="tag tag-user">手写</span></div>
+            <div class="note-item-desc">关于下半年的几个核心方向...</div>
+            <div class="note-item-meta">今天 14:30</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">📊 技术选型.pptx <span class="tag tag-ppt">PPT</span></div>
+            <div class="note-item-desc">8页 · AI生成</div>
+            <div class="note-item-meta">今天 15:00</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">周五要带的东西 <span class="tag tag-user">手写</span></div>
+            <div class="note-item-desc">身份证、充电器</div>
+            <div class="note-item-meta">今天 09:15</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">🔗 NotebookLM分析 <span class="tag tag-link">链接</span></div>
+            <div class="note-item-desc">36kr.com</div>
+            <div class="note-item-meta">6/4</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">全部混排（默认）</div>
+    </div>
+    <div>
+      <div class="phone">
+        <div class="phone-sb"><span>2:36</span><span style="font-size:9px">●●● ▲ ■</span></div>
+        <div class="phone-nav"><span class="hamburger">☰</span> 笔记</div>
+        <div class="search-bar">🔍 搜索笔记和资料</div>
+        <div class="filter-chips">
+          <span class="filter-chip">全部</span>
+          <span class="filter-chip active">手写</span>
+          <span class="filter-chip">通话</span>
+          <span class="filter-chip">PPT</span>
+          <span class="filter-chip">链接</span>
+        </div>
+        <div class="phone-body">
+          <div class="note-item">
+            <div class="note-item-title">Q3产品方向思考</div>
+            <div class="note-item-desc">关于下半年的几个核心方向...</div>
+            <div class="note-item-meta">今天 14:30</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">周五要带的东西</div>
+            <div class="note-item-desc">身份证、充电器、笔记本</div>
+            <div class="note-item-meta">今天 09:15</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">读书笔记：思考快与慢</div>
+            <div class="note-item-desc">第三章锚定效应...</div>
+            <div class="note-item-meta">昨天</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">装修水电布局备忘</div>
+            <div class="note-item-desc">厨房3组插座...</div>
+            <div class="note-item-meta">6/4</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">筛选"手写"</div>
+    </div>
+  </div>
+</div>
+
+<!-- 方案D: 智能默认+收纳 -->
+<div class="demo-section">
+  <h2>方案D · 智能默认视图 + 资料自动收纳</h2>
+  <div class="desc">首页默认只展示用户手写+AI键速记，其他自动进"更多"；用户无需操作任何设置</div>
+  <div class="phones-row">
+    <div>
+      <div class="phone">
+        <div class="phone-sb"><span>2:36</span><span style="font-size:9px">●●● ▲ ■</span></div>
+        <div class="phone-nav"><span class="hamburger">☰</span> 笔记</div>
+        <div class="search-bar">🔍 搜索全部笔记和资料</div>
+        <div class="phone-body">
+          <div class="note-item">
+            <div class="note-item-title">Q3产品方向思考</div>
+            <div class="note-item-desc">关于下半年的几个核心方向...</div>
+            <div class="note-item-meta">今天 14:30 · 手写</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">下周评审准备清单</div>
+            <div class="note-item-desc">AI键速记 · 结构化待办</div>
+            <div class="note-item-meta">今天 11:00 · AI键</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-title">周五要带的东西</div>
+            <div class="note-item-desc">身份证、充电器</div>
+            <div class="note-item-meta">今天 09:15 · 手写</div>
+          </div>
+          <div style="padding:12px 8px;background:#f8f9fa;border-radius:10px;margin-top:8px">
+            <div style="font-size:11px;color:#666;display:flex;justify-content:space-between;align-items:center">
+              <span>📑 资料库有 3 条新内容</span>
+              <span style="color:#4a6cf7;font-weight:500">查看 ›</span>
+            </div>
+            <div style="font-size:10px;color:#999;margin-top:4px">通话纪要(1) · PPT(1) · 收藏链接(1)</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">首页（干净）+ 底部资料提示</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Right: Analysis -->
+<div class="analysis-col">
+
+<div class="analysis-card">
+  <h3>李楠的核心命题</h3>
+  <p>"如果我们把越来越多的笔记放进来，它一定会冲淡用户写笔记的意图，产品就面临负向增长。"</p>
+  <h4>要保护的基本盘</h4>
+  <p>用户想快速记一件事 → 进来写几句 → 走了。这个路径不能被AI内容干扰。</p>
+  <h4>要回答的问题</h4>
+  <ul>
+    <li>什么进资料库？什么留首页？</li>
+    <li>两者怎么显性分开？</li>
+    <li>搜索是统一的还是分开的？</li>
+  </ul>
+</div>
+
+<div class="analysis-card">
+  <h3>内容类型全量清单</h3>
+  <table>
+    <tr><th>类型</th><th>来源</th><th>归属建议</th></tr>
+    <tr><td>手写笔记</td><td>用户主动输入</td><td class="highlight">首页</td></tr>
+    <tr><td>AI键速记</td><td>用户主动按键</td><td class="highlight">首页</td></tr>
+    <tr><td>通话纪要</td><td>系统自动</td><td class="warning">资料库</td></tr>
+    <tr><td>PPT/深度研究</td><td>AI生成</td><td class="warning">资料库</td></tr>
+    <tr><td>播客</td><td>AI生成</td><td class="warning">资料库</td></tr>
+    <tr><td>收藏链接</td><td>分享/收藏</td><td class="warning">资料库</td></tr>
+    <tr><td>交互式网页</td><td>AI生成</td><td class="warning">资料库</td></tr>
+    <tr><td>MiClaw对话存入</td><td>用户确认保存</td><td>待定(有意图)</td></tr>
+    <tr><td>穿戴设备录音</td><td>用户主动录</td><td>待定(主动但批量)</td></tr>
+  </table>
+</div>
+
+<div class="analysis-card">
+  <h3>分类判断逻辑</h3>
+  <h4>进首页的条件（必须同时满足）</h4>
+  <ul>
+    <li>用户<span class="highlight">主动创建</span>（手写/AI键/对话确认存入）</li>
+    <li>用户<span class="highlight">有编辑意图</span>（可能会回来改）</li>
+  </ul>
+  <h4>进资料库的条件（满足任一）</h4>
+  <ul>
+    <li>系统自动产出（通话纪要/定时汇总）</li>
+    <li>AI生成物（PPT/播客/深度研究）</li>
+    <li>外部收纳（链接/分享/文件）</li>
+    <li>用户<span class="warning">不会回来编辑</span>的只读内容</li>
+  </ul>
+</div>
+
+<div class="analysis-card">
+  <h3>四方案对比</h3>
+  <table>
+    <tr><th>方案</th><th>优势</th><th>风险</th></tr>
+    <tr><td>A·侧边栏</td><td>分区最清晰</td><td>侧边栏太深，资料库被遗忘</td></tr>
+    <tr><td>B·Tab分流</td><td>切换最轻</td><td>两个Tab=两个产品感</td></tr>
+    <tr><td>C·混排筛选</td><td>零学习成本</td><td>量大时首页会被冲</td></tr>
+    <tr><td>D·智能默认</td><td>首页干净+有提示</td><td>资料库存在感弱</td></tr>
+  </table>
+  <div class="verdict">
+    <p><strong>建议：A或D</strong></p>
+    <p style="color:#aaa;font-size:11px;margin-top:4px">A最符合李楠"显性分开"的要求；D对用户最无感但收纳入口弱。C是李楠明确否定的方向（"冲淡记笔记意图"）。B有割裂感。</p>
+  </div>
+</div>
+
+<div class="analysis-card">
+  <h3>搜索策略</h3>
+  <h4>推荐：统一搜索，结果分区展示</h4>
+  <ul>
+    <li>搜索框只有一个（不分首页/资料库）</li>
+    <li>结果展示分两段："我的笔记"在上，"资料库"在下</li>
+    <li>用户不需要记住内容在哪，搜就行</li>
+  </ul>
+  <p style="margin-top:8px;color:#888;font-size:11px">这也是李楠要的"MiClaw能搜到笔记里的PPT"的前提——统一索引，分区呈现。</p>
+</div>
+
+<div class="analysis-card">
+  <h3>MCP能力做完后的预判</h3>
+  <p style="color:#fb923c">李楠："MCP做完，你想一下首页还能看吗？写了一堆莫名其妙的东西。"</p>
+  <h4>如果不分流的后果</h4>
+  <ul>
+    <li>用户丢进来的链接/文件/PDF淹没手写笔记</li>
+    <li>首页变成"收件箱"而不是"笔记本"</li>
+    <li>用户放弃手写 → 核心价值消失</li>
+  </ul>
+  <h4>所以"资料库"不是锦上添花，是必做</h4>
+  <p>只是时间问题：OS4先做能力，资料库分区紧随其后。</p>
+</div>
+
+</div>
+</div>
+
+</body>
+</html>
