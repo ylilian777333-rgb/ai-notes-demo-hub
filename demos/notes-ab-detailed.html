@@ -305,18 +305,18 @@ body {
       <!-- Sidebar -->
       <div class="sidebar-mask" id="sidebarMaskA" onclick="toggleSidebarA()"></div>
       <div class="sidebar" id="sidebarA">
-        <div class="sb-section">笔记</div>
-        <div class="sb-item active">📒 全部笔记 <span class="cnt">12</span></div>
-        <div class="sb-item">📁 工作 <span class="cnt">5</span></div>
-        <div class="sb-item">📁 学习 <span class="cnt">3</span></div>
-        <div class="sb-item">📁 生活 <span class="cnt">4</span></div>
+        <div class="sb-item active" style="font-size:13px;font-weight:700;padding:10px 10px 6px">📒 笔记</div>
+        <div class="sb-item" style="padding-left:20px">全部 <span class="cnt">12</span></div>
+        <div class="sb-item" style="padding-left:20px">📁 工作 <span class="cnt">5</span></div>
+        <div class="sb-item" style="padding-left:20px">📁 学习 <span class="cnt">3</span></div>
+        <div class="sb-item" style="padding-left:20px">📁 生活 <span class="cnt">4</span></div>
         <div class="sb-divider"></div>
-        <div class="sb-section">资料库</div>
-        <div class="sb-item">📑 全部资料 <span class="cnt">28</span></div>
-        <div class="sb-item">📞 通话纪要 <span class="cnt">9</span></div>
-        <div class="sb-item">📊 PPT <span class="cnt">3</span></div>
-        <div class="sb-item">🎧 播客 <span class="cnt">2</span></div>
-        <div class="sb-item">🔗 收藏链接 <span class="cnt">14</span></div>
+        <div class="sb-item" style="font-size:13px;font-weight:700;padding:10px 10px 6px">📑 资料库</div>
+        <div class="sb-item" style="padding-left:20px">全部 <span class="cnt">28</span></div>
+        <div class="sb-item" style="padding-left:20px">📞 通话纪要 <span class="cnt">9</span></div>
+        <div class="sb-item" style="padding-left:20px">📊 PPT <span class="cnt">3</span></div>
+        <div class="sb-item" style="padding-left:20px">🎧 播客 <span class="cnt">2</span></div>
+        <div class="sb-item" style="padding-left:20px">🔗 收藏链接 <span class="cnt">14</span></div>
       </div>
       <!-- Detail page -->
       <div class="detail-page" id="detailA">
@@ -441,18 +441,18 @@ body {
       <!-- Sidebar B -->
       <div class="sidebar-mask" id="sidebarMaskB" onclick="toggleSidebarB()"></div>
       <div class="sidebar" id="sidebarB">
-        <div class="sb-section">笔记</div>
-        <div class="sb-item active" onclick="navToB('notes')">📒 全部笔记 <span class="cnt">12</span></div>
-        <div class="sb-item" onclick="navToB('folder')">📁 工作 <span class="cnt">5</span></div>
-        <div class="sb-item">📁 学习 <span class="cnt">3</span></div>
-        <div class="sb-item">📁 生活 <span class="cnt">4</span></div>
+        <div class="sb-item active" style="font-size:13px;font-weight:700;padding:10px 10px 6px" onclick="navToB('notes')">📒 笔记</div>
+        <div class="sb-item" style="padding-left:20px" onclick="navToB('notes')">全部 <span class="cnt">12</span></div>
+        <div class="sb-item" style="padding-left:20px" onclick="navToB('folder')">📁 工作 <span class="cnt">5</span></div>
+        <div class="sb-item" style="padding-left:20px">📁 学习 <span class="cnt">3</span></div>
+        <div class="sb-item" style="padding-left:20px">📁 生活 <span class="cnt">4</span></div>
         <div class="sb-divider"></div>
-        <div class="sb-section">资料库</div>
-        <div class="sb-item" onclick="navToB('material')">📑 全部资料 <span class="cnt">28</span></div>
-        <div class="sb-item" onclick="navToB('calls')">📞 通话纪要 <span class="cnt">9</span></div>
-        <div class="sb-item" onclick="navToB('ppt')">📊 PPT <span class="cnt">3</span></div>
-        <div class="sb-item">🎧 播客 <span class="cnt">2</span></div>
-        <div class="sb-item">🔗 链接 <span class="cnt">14</span></div>
+        <div class="sb-item" style="font-size:13px;font-weight:700;padding:10px 10px 6px" onclick="navToB('material')">📑 资料库</div>
+        <div class="sb-item" style="padding-left:20px" onclick="navToB('material')">全部 <span class="cnt">28</span></div>
+        <div class="sb-item" style="padding-left:20px" onclick="navToB('calls')">📞 通话纪要 <span class="cnt">9</span></div>
+        <div class="sb-item" style="padding-left:20px" onclick="navToB('ppt')">📊 PPT <span class="cnt">3</span></div>
+        <div class="sb-item" style="padding-left:20px">🎧 播客 <span class="cnt">2</span></div>
+        <div class="sb-item" style="padding-left:20px">🔗 链接 <span class="cnt">14</span></div>
       </div>
       <!-- Detail B -->
       <div class="detail-page" id="detailB">
@@ -491,23 +491,38 @@ body {
 </div>
 
 <div class="card">
-  <h3>方案B 侧边栏逻辑</h3>
-  <h4>三级导航</h4>
-  <table>
-    <tr><th>层级</th><th>内容</th><th>点击后</th></tr>
-    <tr><td>L1</td><td>全部笔记</td><td>回到首页列表</td></tr>
-    <tr><td>L1</td><td>文件夹（工作/学习/生活）</td><td>进入文件夹内笔记列表</td></tr>
-    <tr><td>L1</td><td>资料库 - 全部资料</td><td>进入资料列表+chips筛选</td></tr>
-    <tr><td>L2</td><td>资料库 - 通话/PPT/播客/链接</td><td>直接进入该类型筛选结果</td></tr>
-    <tr><td>L3</td><td>点击任意条目</td><td>进入详情页</td></tr>
-  </table>
-  <h4>侧边栏结构：并列关系</h4>
-  <p>侧边栏内"<span class="g">笔记</span>"和"<span class="o">资料库</span>"是<strong>平级并列</strong>的两个空间，不是父子关系：</p>
+  <h3>侧边栏结构定义</h3>
+  <h4>核心关系：笔记 ‖ 资料库（并列，非包含）</h4>
+  <p>侧边栏是两个<strong>平级空间</strong>的入口，不是一个产品下的两个分类。类比：</p>
   <ul>
-    <li>笔记：全部笔记 + 用户文件夹（工作/学习/生活）</li>
-    <li>资料库：全部资料 + 类型子项（通话/PPT/播客/链接）</li>
+    <li>相册 vs 文件管理器——都存图片，但定位不同</li>
+    <li>笔记 vs 资料库——都存内容，但使用意图不同</li>
   </ul>
-  <p style="margin-top:4px">两者用分割线隔开，各有独立的section标题，视觉上平级。</p>
+  <h4>笔记 = 用户的创作空间</h4>
+  <table>
+    <tr><th>定义</th><td>用户主动创建、会回来编辑的内容</td></tr>
+    <tr><th>来源</th><td>手写 / AI键速记 / MiClaw确认存入</td></tr>
+    <tr><th>特征</th><td>可编辑、有编辑意图、量少质高</td></tr>
+    <tr><th>组织方式</th><td>用户文件夹（工作/学习/生活）</td></tr>
+  </table>
+  <h4>资料库 = AI/系统的收纳空间</h4>
+  <table>
+    <tr><th>定义</th><td>系统自动产出或AI生成的只读内容</td></tr>
+    <tr><th>来源</th><td>通话纪要 / PPT / 播客 / 链接收藏 / 深度研究 / 穿戴录音</td></tr>
+    <tr><th>特征</th><td>只读、不编辑、量大、按类型筛选</td></tr>
+    <tr><th>组织方式</th><td>按内容类型自动归类</td></tr>
+  </table>
+  <h4>一句话区分</h4>
+  <p><span class="g">笔记：我写的</span> vs <span class="o">资料库：帮我存的</span></p>
+  <h4>侧边栏层级</h4>
+  <table>
+    <tr><th>层级</th><th>内容</th><th>交互</th></tr>
+    <tr><td>L0</td><td>📒 笔记（标题级）</td><td>点击=回到笔记首页</td></tr>
+    <tr><td>L1</td><td>全部 / 文件夹</td><td>chips筛选或进入文件夹</td></tr>
+    <tr><td>L0</td><td>📑 资料库（标题级）</td><td>点击=进入资料库首页</td></tr>
+    <tr><td>L1</td><td>全部 / 通话 / PPT / 播客 / 链接</td><td>进入该类型列表</td></tr>
+    <tr><td>L2</td><td>具体条目</td><td>进入详情页</td></tr>
+  </table>
 </div>
 
 <div class="card">
