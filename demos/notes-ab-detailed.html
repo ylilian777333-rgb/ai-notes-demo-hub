@@ -197,6 +197,12 @@ body {
         <span class="pill" id="pillA2" onclick="switchPillA('material')">资料</span>
       </div>
       <div class="search-bar">🔍 搜索笔记</div>
+      <div id="folderChipsA" class="chips-row">
+        <span class="chip active">全部</span>
+        <span class="chip">工作</span>
+        <span class="chip">学习</span>
+        <span class="chip">生活</span>
+      </div>
       <div id="noteListA" class="note-list">
         <div class="note-item" onclick="openDetailA('leijun')">
           <div class="note-body">
@@ -299,9 +305,8 @@ body {
       <!-- Sidebar -->
       <div class="sidebar-mask" id="sidebarMaskA" onclick="toggleSidebarA()"></div>
       <div class="sidebar" id="sidebarA">
+        <div class="sb-section">笔记</div>
         <div class="sb-item active">📒 全部笔记 <span class="cnt">12</span></div>
-        <div class="sb-divider"></div>
-        <div class="sb-section">我的文件夹</div>
         <div class="sb-item">📁 工作 <span class="cnt">5</span></div>
         <div class="sb-item">📁 学习 <span class="cnt">3</span></div>
         <div class="sb-item">📁 生活 <span class="cnt">4</span></div>
@@ -343,6 +348,12 @@ body {
         <span class="nav-icons">☑ ⋮</span>
       </div>
       <div class="search-bar" id="searchB">🔍 搜索笔记</div>
+      <div id="folderChipsB" class="chips-row">
+        <span class="chip active">全部</span>
+        <span class="chip">工作</span>
+        <span class="chip">学习</span>
+        <span class="chip">生活</span>
+      </div>
       <div id="chipsB" class="chips-row" style="display:none">
         <span class="chip active">全部</span>
         <span class="chip">通话纪要</span>
@@ -430,9 +441,8 @@ body {
       <!-- Sidebar B -->
       <div class="sidebar-mask" id="sidebarMaskB" onclick="toggleSidebarB()"></div>
       <div class="sidebar" id="sidebarB">
+        <div class="sb-section">笔记</div>
         <div class="sb-item active" onclick="navToB('notes')">📒 全部笔记 <span class="cnt">12</span></div>
-        <div class="sb-divider"></div>
-        <div class="sb-section">我的文件夹</div>
         <div class="sb-item" onclick="navToB('folder')">📁 工作 <span class="cnt">5</span></div>
         <div class="sb-item">📁 学习 <span class="cnt">3</span></div>
         <div class="sb-item">📁 生活 <span class="cnt">4</span></div>
@@ -472,10 +482,12 @@ body {
   </ul>
   <h4>置顶逻辑</h4>
   <p>置顶笔记在列表最前面显示，用📌图标标识，<span class="g">不单独分区</span>，混在时间流里自然排列。</p>
-  <h4>Chips横滑</h4>
-  <p>仅在"资料"Tab下出现。单行横滑，不折行。筛选项：全部/通话纪要/PPT/播客/收藏链接/深度研究/网页</p>
-  <h4>"全部"下面要不要chips？</h4>
-  <p class="o">建议"笔记"Tab下不加chips——手写笔记数量少且用户自己分了文件夹，加chips是冗余操作。仅"资料"Tab需要（类型多、量大、需快速筛选）。</p>
+  <h4>Chips逻辑（双层）</h4>
+  <ul>
+    <li><span class="g">"笔记"Tab</span>：chips = 文件夹筛选（全部/工作/学习/生活），跟线上一致</li>
+    <li><span class="o">"资料"Tab</span>：chips = 类型筛选（全部/通话/PPT/播客/链接/研究），横滑不折行</li>
+  </ul>
+  <p style="margin-top:4px">两套chips互斥——切Tab时自动切换。</p>
 </div>
 
 <div class="card">
@@ -489,8 +501,13 @@ body {
     <tr><td>L2</td><td>资料库 - 通话/PPT/播客/链接</td><td>直接进入该类型筛选结果</td></tr>
     <tr><td>L3</td><td>点击任意条目</td><td>进入详情页</td></tr>
   </table>
-  <h4>侧边栏存在的条件</h4>
-  <p>侧边栏是已有框架，文件夹已在侧边栏。方案B只是在已有结构下<span class="g">新增一个"资料库"分区</span>，改动最小。</p>
+  <h4>侧边栏结构：并列关系</h4>
+  <p>侧边栏内"<span class="g">笔记</span>"和"<span class="o">资料库</span>"是<strong>平级并列</strong>的两个空间，不是父子关系：</p>
+  <ul>
+    <li>笔记：全部笔记 + 用户文件夹（工作/学习/生活）</li>
+    <li>资料库：全部资料 + 类型子项（通话/PPT/播客/链接）</li>
+  </ul>
+  <p style="margin-top:4px">两者用分割线隔开，各有独立的section标题，视觉上平级。</p>
 </div>
 
 <div class="card">
@@ -525,12 +542,15 @@ function switchPillA(tab) {
   const p2 = document.getElementById('pillA2');
   const notes = document.getElementById('noteListA');
   const material = document.getElementById('materialListA');
+  const folderChips = document.getElementById('folderChipsA');
   if (tab === 'notes') {
     p1.classList.add('active'); p2.classList.remove('active');
     notes.style.display = ''; material.style.display = 'none';
+    folderChips.style.display = '';
   } else {
     p2.classList.add('active'); p1.classList.remove('active');
     notes.style.display = 'none'; material.style.display = '';
+    folderChips.style.display = 'none';
   }
 }
 
@@ -572,17 +592,20 @@ function navToB(target) {
   const notes = document.getElementById('noteListB');
   const material = document.getElementById('materialListB');
   const chips = document.getElementById('chipsB');
+  const folderChips = document.getElementById('folderChipsB');
   const search = document.getElementById('searchB');
 
   if (target === 'notes' || target === 'folder') {
     titleEl.textContent = target === 'folder' ? '工作' : '笔记';
     notes.style.display = ''; material.style.display = 'none';
     chips.style.display = 'none';
+    folderChips.style.display = '';
     search.textContent = '🔍 搜索笔记';
   } else {
-    titleEl.textContent = target === 'calls' ? '通话纪要' : target === 'ppt' ? 'PPT' : '全部资料';
+    titleEl.textContent = target === 'calls' ? '通话纪要' : target === 'ppt' ? 'PPT' : '资料库';
     notes.style.display = 'none'; material.style.display = '';
     chips.style.display = '';
+    folderChips.style.display = 'none';
     search.textContent = '🔍 搜索资料';
   }
 }
