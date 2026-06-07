@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记分类 · Apple设计思维方案</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  background: #0f0f1a;
+  color: #fff;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.page-header { text-align: center; margin-bottom: 24px; }
+.page-header h1 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.page-header p { font-size: 11px; color: #888; }
+
+.layout { display: flex; gap: 20px; max-width: 1300px; margin: 0 auto; align-items: flex-start; }
+.left { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+
+.section {
+  background: #1a1a2e;
+  border: 1px solid #2a2a3e;
+  border-radius: 14px;
+  padding: 18px;
+}
+.section h2 { font-size: 14px; font-weight: 600; color: #8bb4ff; margin-bottom: 3px; }
+.section .desc { font-size: 11px; color: #666; margin-bottom: 14px; }
+
+.phones { display: flex; gap: 16px; flex-wrap: wrap; }
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.phone-label { font-size: 9px; color: #666; text-align: center; max-width: 240px; }
+
+/* Phone */
+.phone {
+  width: 240px;
+  height: 520px;
+  background: #fafafa;
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  font-size: 10px;
+}
+
+.sb { height: 26px; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px 0; font-size: 8px; font-weight: 600; }
+.nav { display: flex; align-items: center; padding: 4px 12px 2px; gap: 6px; }
+.nav-ham { font-size: 14px; color: #333; }
+.nav-title { font-size: 15px; font-weight: 700; flex: 1; }
+.nav-icons { font-size: 11px; color: #555; }
+
+.search { margin: 4px 12px; padding: 6px 9px; background: #f0f0f0; border-radius: 7px; font-size: 9px; color: #999; }
+
+.chips { display: flex; gap: 4px; padding: 4px 12px; overflow: hidden; }
+.chip { padding: 3px 8px; border-radius: 8px; font-size: 8px; background: #f5f5f5; color: #666; font-weight: 500; white-space: nowrap; }
+.chip.active { background: #111; color: #fff; }
+
+.note-list { flex: 1; overflow: hidden; padding-bottom: 30px; }
+
+/* User note: full card style */
+.note-user {
+  padding: 10px 12px;
+  border-bottom: 0.5px solid #f0f0f0;
+  display: flex;
+  gap: 8px;
+}
+.note-user .body { flex: 1; min-width: 0; }
+.note-user .title { font-size: 11px; font-weight: 600; color: #111; margin-bottom: 2px; display: flex; align-items: center; gap: 3px; }
+.note-user .preview { font-size: 9px; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note-user .meta { font-size: 8px; color: #bbb; margin-top: 2px; }
+.note-user .thumb { width: 32px; height: 32px; border-radius: 5px; flex-shrink: 0; }
+.t-purple { background: linear-gradient(135deg, #667eea, #764ba2); }
+.t-warm { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.pin { color: #f5a623; font-size: 8px; }
+
+/* AI content: compact single-line style */
+.note-ai-group {
+  margin: 6px 12px;
+  background: #f8f9fb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.note-ai-group-header {
+  padding: 6px 10px;
+  font-size: 8px;
+  color: #999;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+}
+.note-ai-group-header span:last-child { color: #666; }
+
+.note-ai {
+  display: flex;
+  align-items: center;
+  padding: 7px 10px;
+  gap: 6px;
+  border-top: 0.5px solid #f0f0f0;
+}
+.note-ai .icon { font-size: 10px; flex-shrink: 0; width: 16px; text-align: center; }
+.note-ai .ai-title { font-size: 9px; color: #444; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note-ai .ai-meta { font-size: 8px; color: #bbb; flex-shrink: 0; }
+
+/* When AI items are few, show inline without group */
+.note-ai-inline {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  gap: 6px;
+  background: #f8f9fb;
+  margin: 2px 12px;
+  border-radius: 8px;
+}
+.note-ai-inline .icon { font-size: 10px; width: 16px; text-align: center; }
+.note-ai-inline .ai-title { font-size: 9px; color: #555; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note-ai-inline .ai-meta { font-size: 8px; color: #bbb; }
+
+.bottom-bar { height: 32px; background: #fafafa; border-top: 0.5px solid #eee; display: flex; align-items: center; justify-content: center; gap: 24px; font-size: 11px; position: absolute; bottom: 0; left: 0; right: 0; }
+.mic-dot { width: 18px; height: 18px; background: #ff3b30; border-radius: 50%; position: relative; }
+.mic-dot::after { content: ''; position: absolute; left: 6px; top: 3.5px; width: 6px; height: 8px; border: 1.2px solid #fff; border-radius: 3px; }
+
+/* Right panel */
+.right {
+  width: 360px;
+  min-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 20px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+.card {
+  background: #1a1a2e;
+  border: 1px solid #2a2a3e;
+  border-radius: 12px;
+  padding: 16px;
+}
+.card h3 { font-size: 13px; font-weight: 600; color: #ffd57e; margin-bottom: 10px; }
+.card h4 { font-size: 11px; font-weight: 500; color: #8bb4ff; margin: 10px 0 4px; }
+.card p, .card li { font-size: 11px; color: #aaa; line-height: 1.7; }
+.card ul { padding-left: 14px; }
+.card .g { color: #4ade80; font-weight: 500; }
+.card .o { color: #fb923c; font-weight: 500; }
+.card .r { color: #f87171; font-weight: 500; }
+.card table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 10px; }
+.card th { text-align: left; padding: 5px 6px; color: #666; border-bottom: 1px solid #2a2a3e; }
+.card td { padding: 5px 6px; color: #ccc; border-bottom: 1px solid #1f1f30; }
+.card .quote { background: #0f1a2a; border-left: 3px solid #4a6cf7; padding: 8px 12px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 11px; color: #8bb4ff; font-style: italic; }
+.card .compare { display: flex; gap: 8px; margin: 8px 0; }
+.card .compare-col { flex: 1; background: #0f1a2a; border-radius: 8px; padding: 10px; border: 1px solid #1a2a4a; }
+.card .compare-col h5 { font-size: 10px; margin-bottom: 4px; color: #ccc; }
+.card .compare-col p { font-size: 10px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Apple设计思维 · 不分区，用视觉权重解决</h1>
+  <p>不创造新概念、不增加新入口。排序+视觉权重让对的东西出现在对的位置。</p>
+</div>
+
+<div class="layout">
+<div class="left">
+
+<!-- 状态1: 内容少的时候 -->
+<div class="section">
+  <h2>状态1 · AI内容少（日常）</h2>
+  <div class="desc">AI产出散落在列表中，用紧凑样式+灰色背景自然"退后"，不抢视觉焦点</div>
+  <div class="phones">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="sb"><span>2:36</span><span>●●● 100</span></div>
+        <div class="nav"><span class="nav-ham">≡</span><span class="nav-title">笔记</span><span class="nav-icons">☑ ⋮</span></div>
+        <div class="search">🔍 搜索笔记</div>
+        <div class="chips">
+          <span class="chip active">全部</span>
+          <span class="chip">工作</span>
+          <span class="chip">学习</span>
+          <span class="chip">生活</span>
+        </div>
+        <div class="note-list">
+          <!-- User note: full style -->
+          <div class="note-user">
+            <div class="body"><div class="title">Q3产品方向思考 <span class="pin">📌</span></div><div class="preview">关于下半年的几个核心方向...</div><div class="meta">今天 14:30</div></div>
+            <div class="thumb t-purple"></div>
+          </div>
+
+          <!-- AI: compact inline -->
+          <div class="note-ai-inline">
+            <span class="icon">📞</span>
+            <span class="ai-title">与李总通话 · 确认合作方案</span>
+            <span class="ai-meta">16:45</span>
+          </div>
+
+          <!-- User note -->
+          <div class="note-user">
+            <div class="body"><div class="title">周五出差清单</div><div class="preview">身份证、充电器、笔记本电脑</div><div class="meta">今天 09:15</div></div>
+          </div>
+
+          <!-- User note -->
+          <div class="note-user">
+            <div class="body"><div class="title">读雷军的创业思考</div><div class="preview">极致就是做到自己能力的极限...</div><div class="meta">周二 13:38</div></div>
+            <div class="thumb t-warm"></div>
+          </div>
+
+          <!-- AI: compact inline -->
+          <div class="note-ai-inline">
+            <span class="icon">📊</span>
+            <span class="ai-title">技术选型.pptx · 8页</span>
+            <span class="ai-meta">周二</span>
+          </div>
+
+          <!-- User note -->
+          <div class="note-user">
+            <div class="body"><div class="title">装修水电布局备忘</div><div class="preview">厨房3组插座、卫生间预留...</div><div class="meta">6/4</div></div>
+          </div>
+        </div>
+        <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
+      </div>
+      <div class="phone-label">AI内容散落在时间流中，紧凑单行+灰底，视觉自然退后</div>
+    </div>
+  </div>
+</div>
+
+<!-- 状态2: 内容多的时候 -->
+<div class="section">
+  <h2>状态2 · AI内容多（重度使用后）</h2>
+  <div class="desc">同类型AI内容超过3条自动聚合成组，一行收纳不展开。用户笔记永远正常展示不被压缩。</div>
+  <div class="phones">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="sb"><span>2:36</span><span>●●● 100</span></div>
+        <div class="nav"><span class="nav-ham">≡</span><span class="nav-title">笔记</span><span class="nav-icons">☑ ⋮</span></div>
+        <div class="search">🔍 搜索笔记</div>
+        <div class="chips">
+          <span class="chip active">全部</span>
+          <span class="chip">工作</span>
+          <span class="chip">学习</span>
+          <span class="chip">生活</span>
+        </div>
+        <div class="note-list">
+          <div class="note-user">
+            <div class="body"><div class="title">Q3产品方向思考 <span class="pin">📌</span></div><div class="preview">关于下半年的几个核心方向...</div><div class="meta">今天 14:30</div></div>
+            <div class="thumb t-purple"></div>
+          </div>
+
+          <!-- AI group: auto-aggregated -->
+          <div class="note-ai-group">
+            <div class="note-ai-group-header"><span>📞 通话纪要 · 本周3条</span><span>查看全部 ›</span></div>
+            <div class="note-ai">
+              <span class="icon">📞</span>
+              <span class="ai-title">与李总讨论合作方案</span>
+              <span class="ai-meta">今天</span>
+            </div>
+            <div class="note-ai">
+              <span class="icon">📞</span>
+              <span class="ai-title">产品月会纪要</span>
+              <span class="ai-meta">周四</span>
+            </div>
+          </div>
+
+          <div class="note-user">
+            <div class="body"><div class="title">周五出差清单</div><div class="preview">身份证、充电器、笔记本电脑</div><div class="meta">今天 09:15</div></div>
+          </div>
+
+          <!-- AI group: generated -->
+          <div class="note-ai-group">
+            <div class="note-ai-group-header"><span>✦ 最近生成 · 3项</span><span>查看全部 ›</span></div>
+            <div class="note-ai">
+              <span class="icon">📊</span>
+              <span class="ai-title">技术选型.pptx</span>
+              <span class="ai-meta">周二</span>
+            </div>
+            <div class="note-ai">
+              <span class="icon">🎧</span>
+              <span class="ai-title">产品评审播客</span>
+              <span class="ai-meta">周一</span>
+            </div>
+          </div>
+
+          <div class="note-user">
+            <div class="body"><div class="title">读雷军的创业思考</div><div class="preview">极致就是做到自己能力的极限...</div><div class="meta">周二</div></div>
+            <div class="thumb t-warm"></div>
+          </div>
+        </div>
+        <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
+      </div>
+      <div class="phone-label">同类超3条自动聚合，占1个卡位不占N条</div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="sb"><span>2:36</span><span>●●● 100</span></div>
+        <div class="nav"><span class="nav-ham">‹</span><span class="nav-title">通话纪要</span><span class="nav-icons">⋮</span></div>
+        <div class="search">🔍 搜索通话纪要</div>
+        <div class="note-list">
+          <div class="note-user">
+            <div class="body"><div class="title">与李总讨论合作方案</div><div class="preview">确认下周二2点3号会议室</div><div class="meta">今天 16:45 · 12分钟</div></div>
+          </div>
+          <div class="note-user">
+            <div class="body"><div class="title">产品月会纪要</div><div class="preview">Q3目标确认，三个方向</div><div class="meta">周四 15:00 · 45分钟</div></div>
+          </div>
+          <div class="note-user">
+            <div class="body"><div class="title">跟研发对排期</div><div class="preview">6月ROM按时交付，无阻塞</div><div class="meta">周三 11:00 · 8分钟</div></div>
+          </div>
+        </div>
+        <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
+      </div>
+      <div class="phone-label">点"查看全部"进入该类型列表</div>
+    </div>
+  </div>
+</div>
+
+<!-- 状态3: 搜索 -->
+<div class="section">
+  <h2>状态3 · 搜索（统一，不分区）</h2>
+  <div class="desc">一个搜索框搜全部内容。结果按相关性排列，不区分"笔记"和"资料"——用户不需要知道内容存在哪。</div>
+  <div class="phones">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="sb"><span>2:36</span><span>●●● 100</span></div>
+        <div class="nav"><span class="nav-ham">✕</span><span class="nav-title"></span></div>
+        <div class="search" style="background:#fff;border:1.5px solid #4a6cf7">合作方案</div>
+        <div class="note-list" style="padding-top:6px">
+          <div class="note-user">
+            <div class="body"><div class="title">📞 与李总讨论<span style="background:#fef3c7">合作方案</span></div><div class="preview">确认下周二2点3号会议室</div><div class="meta">今天 16:45 · 通话纪要</div></div>
+          </div>
+          <div class="note-user">
+            <div class="body"><div class="title">📊 技术选型<span style="background:#fef3c7">方案</span>.pptx</div><div class="preview">8页PPT · 从笔记生成</div><div class="meta">周二 · 生成物</div></div>
+          </div>
+          <div class="note-user">
+            <div class="body"><div class="title">Q3产品<span style="background:#fef3c7">方案</span>思考</div><div class="preview">关于下半年的几个核心方向...</div><div class="meta">今天 14:30 · 笔记</div></div>
+          </div>
+        </div>
+        <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
+      </div>
+      <div class="phone-label">搜索不分笔记/资料，统一结果</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Right: design philosophy -->
+<div class="right">
+
+<div class="card">
+  <h3>设计哲学</h3>
+  <div class="quote">不创造新概念。不增加新入口。用户打开还是"我的笔记"，只是AI内容视觉上更安静。</div>
+  <h4>三条原则</h4>
+  <ul>
+    <li><span class="g">用户笔记永远不被压缩</span>——正常卡片样式，该多大多大</li>
+    <li><span class="o">AI内容自动"退后"</span>——紧凑单行、灰色背景、不抢视线</li>
+    <li><span class="g">量多时自动聚合</span>——同类超3条收成1组，不展开不占位</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>视觉权重对比</h3>
+  <div class="compare">
+    <div class="compare-col">
+      <h5>用户笔记</h5>
+      <p style="color:#4ade80">标题粗体 14px<br>预览文字 2行<br>时间+缩略图<br>正常行高 60px</p>
+    </div>
+    <div class="compare-col">
+      <h5>AI/系统内容</h5>
+      <p style="color:#fb923c">图标+标题 单行<br>无预览文字<br>灰色背景融入<br>紧凑行高 32px</p>
+    </div>
+  </div>
+  <p>视觉占比约 <span class="g">2:1</span>——用户笔记的视觉面积是AI内容的两倍，自然成为注意力焦点。</p>
+</div>
+
+<div class="card">
+  <h3>聚合规则</h3>
+  <table>
+    <tr><th>条件</th><th>展示方式</th></tr>
+    <tr><td>同类型 ≤ 2条</td><td>散落在时间流中，单行展示</td></tr>
+    <tr><td>同类型 ≥ 3条</td><td>自动聚合成1组卡片</td></tr>
+    <tr><td>聚合卡内</td><td>默认展示最近2条 + "查看全部"</td></tr>
+    <tr><td>点"查看全部"</td><td>进入该类型的列表页</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>什么算"AI/系统内容"（用紧凑样式）</h3>
+  <table>
+    <tr><th>内容</th><th>样式</th><th>理由</th></tr>
+    <tr><td>通话纪要</td><td class="o">紧凑</td><td>系统自动创建</td></tr>
+    <tr><td>PPT/播客/研究</td><td class="o">紧凑</td><td>AI生成物</td></tr>
+    <tr><td>链接收藏</td><td class="o">紧凑</td><td>系统收纳</td></tr>
+    <tr><td>穿戴录音</td><td class="o">紧凑</td><td>系统同步</td></tr>
+    <tr><td>手写笔记</td><td class="g">正常</td><td>用户主动创建</td></tr>
+    <tr><td>AI键速记</td><td class="g">正常</td><td>用户主动按键</td></tr>
+    <tr><td>MiClaw"存到笔记"</td><td class="g">正常</td><td>用户主动指令</td></tr>
+  </table>
+  <p style="margin-top:8px">规则依然是：<span class="g">用户发起=正常</span>，<span class="o">系统/AI发起=紧凑</span></p>
+</div>
+
+<div class="card">
+  <h3>vs 其他方案</h3>
+  <table>
+    <tr><th></th><th>本方案</th><th>Pill分流</th><th>侧边栏</th></tr>
+    <tr><td>用户需要学</td><td class="g">无</td><td class="o">Pill是什么</td><td class="r">侧边栏结构</td></tr>
+    <tr><td>老用户兼容</td><td class="g">100%</td><td class="o">多一个Tab</td><td class="r">导航全变</td></tr>
+    <tr><td>找AI内容</td><td>看到就点/搜索</td><td>切Tab</td><td>开侧边栏</td></tr>
+    <tr><td>内容量大时</td><td class="g">自动聚合</td><td class="g">筛选chips</td><td class="g">子分类</td></tr>
+    <tr><td>开发成本</td><td class="o">中（样式+聚合逻辑）</td><td class="o">中</td><td class="r">大</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>风险与局限</h3>
+  <h4>这个方案可能的问题</h4>
+  <ul>
+    <li><span class="o">AI内容没有独立入口</span>——用户想"只看通话纪要"时，得靠搜索或等它聚合后点进去</li>
+    <li><span class="o">聚合逻辑有阈值</span>——2条和3条之间的体验跳变，需要打磨</li>
+    <li><span class="r">李楠可能要的是"资料库"这个品类</span>——如果他要的不是视觉解法而是产品定位，这个方案就不够</li>
+  </ul>
+  <h4>适用条件</h4>
+  <p>如果李楠的核心诉求是"首页不被冲"→ 本方案最优<br>如果李楠的核心诉求是"建立资料库品类认知"→ 需要Pill或侧边栏</p>
+</div>
+
+</div>
+</div>
+</body>
+</html>
