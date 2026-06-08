@@ -172,7 +172,7 @@ body {
     <div class="phone" id="phoneB2" style="position:relative">
       <div class="sb"><span>2:36</span><span>●●● 100</span></div>
       <div class="nav">
-        <span class="nav-ham">≡</span>
+        <span class="nav-ham" onclick="toggleSidebarP2()" style="cursor:pointer">≡</span>
         <div style="display:inline-flex;background:#f2f2f2;border-radius:20px;padding:3px;gap:2px">
           <span id="p2notes" onclick="switchP2('notes')" style="cursor:pointer;padding:5px 14px;border-radius:16px;font-size:10px;font-weight:600;transition:all 0.2s;background:#111;color:#fff">笔记</span>
           <span id="p2mat" onclick="switchP2('material')" style="cursor:pointer;padding:5px 14px;border-radius:16px;font-size:10px;font-weight:500;transition:all 0.2s;background:transparent;color:#999">资料</span>
@@ -183,8 +183,20 @@ body {
       <div class="chips" id="chipsP2"></div>
       <div class="note-list" id="listP2"></div>
       <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
+      <!-- Sidebar P2 -->
+      <div id="maskP2" onclick="toggleSidebarP2()" style="position:absolute;inset:0;background:rgba(0,0,0,0.3);z-index:4;display:none;border-radius:28px"></div>
+      <div id="sidebarP2" style="position:absolute;left:-68%;top:0;width:68%;height:100%;background:#fff;z-index:5;padding:28px 10px 10px;transition:left 0.25s;border-radius:0 14px 14px 0;box-shadow:3px 0 12px rgba(0,0,0,0.1)">
+        <div class="sbi active" onclick="sidebarNavP2('notes')" style="font-size:11px;font-weight:700;padding:10px 8px;border-bottom:1px solid #f0f0f0;margin-bottom:4px;cursor:pointer">📑 笔记 <span class="cnt">67</span></div>
+        <div class="sbi" onclick="sidebarNavP2('wearable')" style="cursor:pointer">⌚ 穿戴 <span class="cnt">10</span></div>
+        <div class="sbi" onclick="sidebarNavP2('notes')" style="cursor:pointer">📁 工作日志 <span class="cnt">5</span></div>
+        <div class="sbi" onclick="sidebarNavP2('notes')" style="cursor:pointer">📁 生活感悟 <span class="cnt">9</span></div>
+        <div class="sb-div"></div>
+        <div class="sbi" onclick="sidebarNavP2('materialAll')" style="font-size:11px;font-weight:700;padding:10px 8px;border-bottom:1px solid #f0f0f0;margin-bottom:4px;cursor:pointer">📑 资料 <span class="cnt">14</span></div>
+        <div class="sbi" onclick="sidebarNavP2('calls')" style="cursor:pointer">📞 通话录音 <span class="cnt">9</span></div>
+        <div class="sbi" onclick="sidebarNavP2('ai')" style="cursor:pointer">✦ AI生成物 <span class="cnt">5</span></div>
+      </div>
     </div>
-    <div class="phone-label">点Pill切换笔记/资料</div>
+    <div class="phone-label">点≡开侧边栏 / 点Pill切换</div>
   </div>
 </div>
 
@@ -194,51 +206,68 @@ body {
 <div class="right">
 
 <div class="card">
-  <h3>产品定义</h3>
-  <p style="font-size:14px;color:#fff;font-weight:600;margin:6px 0">笔记 ‖ 资料，两个平级空间</p>
-  <p><span class="g">笔记</span> = 意图是"记录"时产生的</p>
-  <p><span class="o">资料</span> = 意图不是记录，系统自动产出的</p>
-  <p style="margin-top:8px;color:#fff;font-weight:500">规则：用户的意图是不是"记录"</p>
+  <h3>一、产品定义</h3>
+  <h4>解法</h4>
+  <p style="font-size:14px;color:#fff;font-weight:600;margin:8px 0">侧边栏分两个平级空间：笔记 ‖ 资料</p>
+  <p><span class="g">笔记</span> = 用户意图是"记录"时产生的内容</p>
+  <p><span class="o">资料</span> = 记录之外的系统自动产出（聚合视图）</p>
+  <h4>核心规则</h4>
+  <p style="font-size:14px;color:#fff;font-weight:600;margin:8px 0">用户的意图是不是"记录"</p>
 </div>
 
 <div class="card">
-  <h3>分类判断</h3>
+  <h3>二、笔记（意图=记录）</h3>
+  <table>
+    <tr><th>类型</th><th>意图</th><th>文件夹</th></tr>
+    <tr><td>手写/打字</td><td>记录</td><td>用户自建</td></tr>
+    <tr><td>AI键速记</td><td>记录</td><td>自动归类</td></tr>
+    <tr><td>穿戴录音</td><td>记录</td><td>内置"穿戴"</td></tr>
+    <tr><td>"记到笔记"/分享</td><td>保存</td><td>自动归类</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>三、资料（意图≠记录）</h3>
+  <table>
+    <tr><th>类型</th><th>意图</th><th>说明</th></tr>
+    <tr><td>📞 通话录音</td><td>通话</td><td>纪要是系统附赠</td></tr>
+    <tr><td>✦ AI生成物</td><td>产出</td><td>双记：笔记附件+资料视图</td></tr>
+  </table>
+  <p style="margin-top:6px;color:#888;font-size:11px">AI生成物子分类：PPT / 播客 / 深度研究 / 网页</p>
+  <p style="color:#888;font-size:11px">双记状态同步：删除/更新联动</p>
+</div>
+
+<div class="card">
+  <h3>四、分类判断表</h3>
   <table>
     <tr><th>内容</th><th>意图</th><th>归属</th></tr>
     <tr><td>手写/AI键/穿戴</td><td>记录</td><td class="g">笔记</td></tr>
     <tr><td>"记到笔记"/微信分享</td><td>保存</td><td class="g">笔记</td></tr>
-    <tr><td>通话纪要</td><td>通话</td><td class="o">资料</td></tr>
-    <tr><td>生成PPT/播客</td><td>产出</td><td class="g">笔记附件+<span class="o">资料视图</span></td></tr>
+    <tr><td>通话纪要</td><td>通话（非记录）</td><td class="o">资料</td></tr>
+    <tr><td>生成PPT/播客</td><td>产出（非记录）</td><td class="g">附件+<span class="o">资料视图</span></td></tr>
   </table>
 </div>
 
 <div class="card">
-  <h3>双记（AI生成物）</h3>
-  <p>源笔记有附件卡片 + 资料聚合视图可见</p>
-  <p>状态同步：删除/更新任一处，另一处联动</p>
-</div>
-
-<div class="card">
-  <h3>场景验证</h3>
+  <h3>五、场景验证</h3>
   <p><strong>按手表录音</strong> → <span class="g">笔记·穿戴</span></p>
-  <p><strong>通话纪要</strong> → <span class="o">资料</span>（意图是通话不是记录）</p>
+  <p><strong>通话纪要</strong> → <span class="o">资料</span></p>
   <p><strong>"记到笔记"</strong> → <span class="g">笔记</span></p>
-  <p><strong>生成PPT</strong> → <span class="g">笔记附件</span> + <span class="o">资料可见</span></p>
-  <p><strong>微信分享</strong> → <span class="g">笔记</span>（点分享=想存）</p>
+  <p><strong>生成PPT</strong> → <span class="g">笔记附件</span>+<span class="o">资料可见</span></p>
+  <p><strong>微信分享</strong> → <span class="g">笔记</span></p>
 </div>
 
 <div class="card">
-  <h3>方案对比</h3>
+  <h3>六、方案对比</h3>
   <table>
     <tr><th></th><th>方案一·侧边栏</th><th>方案二·Pill</th></tr>
-    <tr><td>入口</td><td>≡ 打开侧边栏</td><td>顶部Pill切换</td></tr>
-    <tr><td>层级深度</td><td>侧边栏→列表→详情</td><td>Pill→chips→列表</td></tr>
-    <tr><td>扩展性</td><td class="g">侧边栏可加更多分类</td><td class="o">Pill只能二选一</td></tr>
-    <tr><td>老用户</td><td class="g">首页不变</td><td class="o">多一个切换器</td></tr>
-    <tr><td>资料可见</td><td class="o">需打开侧边栏</td><td class="g">一眼可见</td></tr>
+    <tr><td>入口</td><td>≡ 侧边栏</td><td>顶部Pill</td></tr>
+    <tr><td>扩展性</td><td class="g">可加更多分类</td><td class="o">只能二选一</td></tr>
+    <tr><td>老用户</td><td class="g">首页不变</td><td class="o">多切换器</td></tr>
+    <tr><td>资料可见</td><td class="o">需开侧边栏</td><td class="g">一眼可见</td></tr>
   </table>
   <div class="recommend">
-    <p><strong>推荐方案一（侧边栏），长期方案一步到位。</strong></p>
+    <p><strong>推荐方案一，长期方案一步到位。</strong></p>
   </div>
 </div>
 
@@ -366,6 +395,51 @@ function filterP2mat(type) {
   else document.getElementById('listP2').innerHTML = data.ai;
 }
 switchP2('notes');
+
+let sidebarP2Open = false;
+function toggleSidebarP2() {
+  sidebarP2Open = !sidebarP2Open;
+  document.getElementById('sidebarP2').style.left = sidebarP2Open ? '0' : '-68%';
+  document.getElementById('maskP2').style.display = sidebarP2Open ? 'block' : 'none';
+}
+function sidebarNavP2(target) {
+  toggleSidebarP2();
+  const pn = document.getElementById('p2notes');
+  const pm = document.getElementById('p2mat');
+  if (target === 'notes' || target === 'wearable') {
+    pn.style.background = '#111'; pn.style.color = '#fff'; pn.style.fontWeight = '600';
+    pm.style.background = 'transparent'; pm.style.color = '#999'; pm.style.fontWeight = '500';
+    if (target === 'wearable') {
+      document.getElementById('searchP2').textContent = '🔍 搜索穿戴速记';
+      document.getElementById('chipsP2').innerHTML = '';
+      document.getElementById('listP2').innerHTML = data.wearable;
+    } else {
+      switchP2('notes');
+    }
+  } else {
+    pm.style.background = '#111'; pm.style.color = '#fff'; pm.style.fontWeight = '600';
+    pn.style.background = 'transparent'; pn.style.color = '#999'; pn.style.fontWeight = '500';
+    if (target === 'materialAll') {
+      switchP2('material');
+    } else if (target === 'calls') {
+      document.getElementById('searchP2').textContent = '🔍 搜索通话录音';
+      document.getElementById('chipsP2').innerHTML = '';
+      document.getElementById('listP2').innerHTML = data.calls;
+    } else if (target === 'ai') {
+      document.getElementById('searchP2').textContent = '🔍 搜索AI生成物';
+      document.getElementById('chipsP2').innerHTML = '<span class="chip active" onclick="filterP2ai(\'all\')">全部</span><span class="chip" onclick="filterP2ai(\'ppt\')" style="cursor:pointer">PPT</span><span class="chip" onclick="filterP2ai(\'podcast\')" style="cursor:pointer">播客</span><span class="chip" onclick="filterP2ai(\'research\')" style="cursor:pointer">深度研究</span><span class="chip" onclick="filterP2ai(\'web\')" style="cursor:pointer">网页</span>';
+      document.getElementById('listP2').innerHTML = data.ai;
+    }
+  }
+}
+function filterP2ai(type) {
+  const chips = document.getElementById('chipsP2');
+  chips.innerHTML = '<span class="chip '+(type==='all'?'active':'')+'" onclick="filterP2ai(\'all\')">全部</span><span class="chip '+(type==='ppt'?'active':'')+'" onclick="filterP2ai(\'ppt\')" style="cursor:pointer">PPT</span><span class="chip '+(type==='podcast'?'active':'')+'" onclick="filterP2ai(\'podcast\')" style="cursor:pointer">播客</span><span class="chip '+(type==='research'?'active':'')+'" onclick="filterP2ai(\'research\')" style="cursor:pointer">深度研究</span><span class="chip '+(type==='web'?'active':'')+'" onclick="filterP2ai(\'web\')" style="cursor:pointer">网页</span>';
+  if (type==='all') document.getElementById('listP2').innerHTML = data.ai;
+  else if (type==='ppt') document.getElementById('listP2').innerHTML = data.aiPPT;
+  else if (type==='podcast') document.getElementById('listP2').innerHTML = data.aiPodcast;
+  else document.getElementById('listP2').innerHTML = data.aiResearch;
+}
 </script>
 </body>
 </html>
