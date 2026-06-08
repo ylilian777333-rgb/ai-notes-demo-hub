@@ -173,9 +173,9 @@ body {
       <div class="sb"><span>2:36</span><span>●●● 100</span></div>
       <div class="nav">
         <span class="nav-ham">≡</span>
-        <div style="display:flex;background:#f0f0f0;border-radius:14px;padding:2px;gap:0">
-          <span class="pill" id="p2notes" onclick="switchP2('notes')" style="cursor:pointer;padding:4px 14px">笔记</span>
-          <span class="pill" id="p2mat" onclick="switchP2('material')" style="cursor:pointer;padding:4px 14px">资料</span>
+        <div style="display:inline-flex;background:#f2f2f2;border-radius:20px;padding:3px">
+          <span id="p2notes" onclick="switchP2('notes')" style="cursor:pointer;padding:5px 16px;border-radius:18px;font-size:10px;font-weight:500;transition:all 0.15s">笔记</span>
+          <span id="p2mat" onclick="switchP2('material')" style="cursor:pointer;padding:5px 16px;border-radius:18px;font-size:10px;font-weight:500;transition:all 0.15s">资料</span>
         </div>
         <span class="nav-icons">☑ ⋮</span>
       </div>
@@ -372,8 +372,12 @@ nav('notes'); toggleSidebar(); // close sidebar after init
 
 // === 方案二: Pill ===
 function switchP2(tab) {
-  document.getElementById('p2notes').classList.toggle('active', tab==='notes');
-  document.getElementById('p2mat').classList.toggle('active', tab==='material');
+  const pn = document.getElementById('p2notes');
+  const pm = document.getElementById('p2mat');
+  pn.style.background = tab==='notes' ? '#111' : 'transparent';
+  pn.style.color = tab==='notes' ? '#fff' : '#999';
+  pm.style.background = tab==='material' ? '#111' : 'transparent';
+  pm.style.color = tab==='material' ? '#fff' : '#999';
   const search = document.getElementById('searchP2');
   const chips = document.getElementById('chipsP2');
   const list = document.getElementById('listP2');
