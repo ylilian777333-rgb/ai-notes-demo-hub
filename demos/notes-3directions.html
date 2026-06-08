@@ -428,40 +428,73 @@ body {
 <div class="right">
 
 <div class="card">
-  <h3>产品定义</h3>
+  <h3>一、产品定义</h3>
   <h4>问题</h4>
   <p>AI内容越来越多，首页被冲，用户写笔记的意图被稀释。</p>
-  <h4>核心判断规则</h4>
-  <p style="font-size:18px;color:#fff;font-weight:700;margin:10px 0">看内容是谁发起创建的。</p>
-  <p><span class="g">用户主动创建 → 笔记</span><br><span class="o">系统/AI自动创建 → 资料</span></p>
+  <h4>解法</h4>
+  <p>将内容分为两个空间：<span class="g">笔记</span>和<span class="o">资料库</span>。</p>
+  <p style="font-size:16px;color:#fff;font-weight:600;margin:10px 0">笔记 = 我写的、我要用的<br>资料库 = 系统帮我存的、AI帮我生成的</p>
 </div>
 
 <div class="card">
-  <h3>分类判断表</h3>
+  <h3>二、笔记类型</h3>
+  <p style="margin-bottom:8px">用户主动创建、有编辑意图的内容。</p>
+  <table>
+    <tr><th>类型</th><th>触发方式</th><th>说明</th></tr>
+    <tr><td>手写/打字笔记</td><td>用户在APP内新建</td><td>最基础的笔记</td></tr>
+    <tr><td>AI键速记</td><td>用户长按AI键说话</td><td>用户主动按=主动创建</td></tr>
+    <tr><td>对话存入</td><td>用户说"记到笔记"</td><td>有明确保存指令</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>三、资料库类型</h3>
+  <p style="margin-bottom:8px">系统/AI自动产出的只读内容，按类型筛选。</p>
+  <table>
+    <tr><th>类型</th><th>来源</th><th>频率</th></tr>
+    <tr><td>📞 通话纪要</td><td>通话结束自动转写</td><td>高频</td></tr>
+    <tr><td>📊 PPT</td><td>从笔记内AI生成</td><td>低频</td></tr>
+    <tr><td>🎧 播客</td><td>从纪要/笔记生成</td><td>低频</td></tr>
+    <tr><td>🔗 收藏链接</td><td>微信分享/MCP导入</td><td>中频</td></tr>
+    <tr><td>📄 深度研究</td><td>AI交互式报告</td><td>低频</td></tr>
+    <tr><td>⌚ 穿戴录音</td><td>手表同步</td><td>看习惯</td></tr>
+    <tr><td>📋 定时汇总</td><td>系统日报/周报</td><td>固定</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>四、分类判断规则</h3>
+  <h4>核心规则：看谁发起创建</h4>
   <table>
     <tr><th>内容</th><th>谁创建</th><th>归属</th></tr>
     <tr><td>用户手写/打字</td><td>用户</td><td class="g">笔记</td></tr>
     <tr><td>AI键长按录音</td><td>用户按键</td><td class="g">笔记</td></tr>
     <tr><td>对话说"记到笔记"</td><td>用户指令</td><td class="g">笔记</td></tr>
-    <tr><td>通话纪要</td><td>系统自动</td><td class="o">资料</td></tr>
-    <tr><td>PPT/播客/深度研究</td><td>AI生成</td><td class="o">资料</td></tr>
-    <tr><td>链接/文件收藏</td><td>系统收纳</td><td class="o">资料</td></tr>
-    <tr><td>穿戴设备录音</td><td>系统同步</td><td class="o">资料</td></tr>
-    <tr><td>定时汇总/日报</td><td>系统定时</td><td class="o">资料</td></tr>
+    <tr><td>通话纪要</td><td>系统自动</td><td class="o">资料库</td></tr>
+    <tr><td>PPT/播客/深度研究</td><td>AI生成</td><td class="o">资料库</td></tr>
+    <tr><td>链接/文件收藏</td><td>系统收纳</td><td class="o">资料库</td></tr>
+    <tr><td>穿戴设备录音</td><td>系统同步</td><td class="o">资料库</td></tr>
+    <tr><td>定时汇总/日报</td><td>系统定时</td><td class="o">资料库</td></tr>
   </table>
+  <h4>为什么用"谁创建"而不是其他</h4>
+  <p><span class="r">✕ "是否编辑过"</span> — 用户改了一个字就换地方，不可理解</p>
+  <p><span class="r">✕ "内容类型"</span> — 让小爱写的和通话自动生成的都是文字，但用户感知完全不同</p>
+  <p><span class="g">✓ "谁创建"</span> — 我说了才有的=我的笔记；系统自己蹦出来的=帮我存的资料</p>
 </div>
 
 <div class="card">
-  <h3>为什么用"谁创建"</h3>
-  <p><span class="r">不用"是否编辑过"</span> — 用户不理解为什么改了就换地方</p>
-  <p><span class="r">不用"内容类型"</span> — 让小爱写的笔记和通话纪要都是文字，但感知不同</p>
-  <p><span class="g">用"谁创建"</span> — 我说了才有的=我的；系统自己蹦出来的=帮我存的</p>
+  <h3>五、用户场景验证</h3>
+  <p><strong>"我让小爱记了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户说了"记到笔记"= 用户发起。</p>
+  <p style="margin-top:12px"><strong>"系统自动生成的通话纪要在哪？"</strong><br><span class="o">→ 资料库。</span>用户没指令，系统自己做的。</p>
+  <p style="margin-top:12px"><strong>"我从笔记里生成了PPT，在哪？"</strong><br><span class="o">→ 资料库。</span>AI生成物。源笔记内有关联入口。</p>
+  <p style="margin-top:12px"><strong>"我收藏了微信链接，在哪？"</strong><br><span class="o">→ 资料库。</span>系统收纳行为，不是用户创作。</p>
+  <p style="margin-top:12px"><strong>"我长按AI键录了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户主动按键 = 用户发起。</p>
 </div>
 
 <div class="card">
-  <h3>三方向对比</h3>
+  <h3>六、三方向对比</h3>
   <table>
-    <tr><th></th><th>A Pill</th><th>B 侧边栏</th><th>C 聚合卡</th></tr>
+    <tr><th></th><th>A Pill分流</th><th>B 侧边栏</th><th>C 聚合卡</th></tr>
     <tr><td>老用户影响</td><td class="o">学1个Pill</td><td class="r">学新结构</td><td class="g">零</td></tr>
     <tr><td>首页干净</td><td class="g">完全干净</td><td class="g">完全干净</td><td class="o">卡片占位</td></tr>
     <tr><td>资料可发现</td><td class="g">一键切Tab</td><td class="o">开侧边栏</td><td class="o">点展开</td></tr>
@@ -471,29 +504,6 @@ body {
   <div class="recommend">
     <p><strong>结论：OS4推荐A，下版本演进B。C作为兜底。</strong></p>
   </div>
-</div>
-
-<div class="card">
-  <h3>用户场景验证</h3>
-  <p><strong>"我让小爱记了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户说了"记到笔记"=用户发起。</p>
-  <p style="margin-top:10px"><strong>"系统自动生成的通话纪要在哪？"</strong><br><span class="o">→ 资料里。</span>用户没说，系统自己做的。</p>
-  <p style="margin-top:10px"><strong>"我从笔记里生成了PPT，在哪？"</strong><br><span class="o">→ 资料里。</span>AI生成物。源笔记内有关联入口。</p>
-  <p style="margin-top:10px"><strong>"我收藏了微信链接，在哪？"</strong><br><span class="o">→ 资料里。</span>系统收纳，不是用户创作。</p>
-  <p style="margin-top:10px"><strong>"我长按AI键录了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户主动按键=用户发起。</p>
-</div>
-
-<div class="card">
-  <h3>资料库类型</h3>
-  <table>
-    <tr><th>类型</th><th>来源</th><th>频率</th></tr>
-    <tr><td>📞 通话纪要</td><td>录音自动转写</td><td>高频</td></tr>
-    <tr><td>📊 PPT</td><td>笔记内生成</td><td>低频</td></tr>
-    <tr><td>🎧 播客</td><td>从纪要生成</td><td>低频</td></tr>
-    <tr><td>🔗 收藏链接</td><td>微信分享/MCP</td><td>中频</td></tr>
-    <tr><td>📄 深度研究</td><td>AI交互式报告</td><td>低频</td></tr>
-    <tr><td>⌚ 穿戴录音</td><td>手表同步</td><td>看习惯</td></tr>
-    <tr><td>📋 定时汇总</td><td>系统日报/周报</td><td>固定</td></tr>
-  </table>
 </div>
 
 </div>
