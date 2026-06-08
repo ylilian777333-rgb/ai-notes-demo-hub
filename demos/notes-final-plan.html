@@ -151,15 +151,14 @@ body {
 
       <div class="sidebar-mask" id="mask" onclick="toggleSidebar()"></div>
       <div class="sidebar" id="sidebar">
-        <div class="sbi active" onclick="nav('notes')" style="font-size:11px;font-weight:700;padding:10px 8px;border-bottom:1px solid #f0f0f0;margin-bottom:4px">📑 笔记 <span class="cnt">67</span></div>
-        <div class="sbi" onclick="nav('wearable')">⌚ 穿戴 <span class="cnt">10</span></div>
-        <div class="sbi" onclick="nav('notes')">📁 工作日志 <span class="cnt">5</span></div>
-        <div class="sbi" onclick="nav('notes')">📁 生活感悟 <span class="cnt">9</span></div>
-        <div class="sbi" onclick="nav('notes')">📁 未分类 <span class="cnt">24</span></div>
+        <div class="sbi active" onclick="navSidebar('notes','all')" style="font-size:11px;font-weight:700;padding:10px 8px;border-bottom:1px solid #f0f0f0;margin-bottom:4px;cursor:pointer">📑 笔记 <span class="cnt">67</span></div>
+        <div class="sbi" onclick="navSidebar('notes','wearable')" style="cursor:pointer">⌚ 穿戴 <span class="cnt">10</span></div>
+        <div class="sbi" onclick="navSidebar('notes','work')" style="cursor:pointer">📁 工作日志 <span class="cnt">5</span></div>
+        <div class="sbi" onclick="navSidebar('notes','life')" style="cursor:pointer">📁 生活感悟 <span class="cnt">9</span></div>
         <div class="sb-div"></div>
-        <div class="sbi" onclick="nav('materialAll')" style="font-size:11px;font-weight:700;padding:10px 8px;border-bottom:1px solid #f0f0f0;margin-bottom:4px">📑 资料 <span class="cnt">14</span></div>
-        <div class="sbi" onclick="nav('calls')">📞 通话录音 <span class="cnt">9</span></div>
-        <div class="sbi" onclick="nav('ai')">✦ AI生成物 <span class="cnt">5</span></div>
+        <div class="sbi" onclick="navSidebar('material','all')" style="font-size:11px;font-weight:700;padding:10px 8px;border-bottom:1px solid #f0f0f0;margin-bottom:4px;cursor:pointer">📑 资料 <span class="cnt">14</span></div>
+        <div class="sbi" onclick="navSidebar('material','calls')" style="cursor:pointer">📞 通话录音 <span class="cnt">9</span></div>
+        <div class="sbi" onclick="navSidebar('material','ai')" style="cursor:pointer">✦ AI生成物 <span class="cnt">5</span></div>
       </div>
     </div>
     <div class="phone-label">点≡打开侧边栏 → 点任意项切换</div>
@@ -186,14 +185,14 @@ body {
       <!-- Sidebar P2 -->
       <div id="maskP2" onclick="toggleSidebarP2()" style="position:absolute;inset:0;background:rgba(0,0,0,0.3);z-index:4;display:none;border-radius:28px"></div>
       <div id="sidebarP2" style="position:absolute;left:-68%;top:0;width:68%;height:100%;background:#fff;z-index:5;padding:28px 10px 10px;transition:left 0.25s;border-radius:0 14px 14px 0;box-shadow:3px 0 12px rgba(0,0,0,0.1)">
-        <div class="sbi active" onclick="sidebarNavP2('notes')" style="font-size:11px;font-weight:700;padding:10px 8px;border-bottom:1px solid #f0f0f0;margin-bottom:4px;cursor:pointer">📑 笔记 <span class="cnt">67</span></div>
-        <div class="sbi" onclick="sidebarNavP2('wearable')" style="cursor:pointer">⌚ 穿戴 <span class="cnt">10</span></div>
-        <div class="sbi" onclick="sidebarNavP2('notes')" style="cursor:pointer">📁 工作日志 <span class="cnt">5</span></div>
-        <div class="sbi" onclick="sidebarNavP2('notes')" style="cursor:pointer">📁 生活感悟 <span class="cnt">9</span></div>
+        <div class="sbi active" onclick="sidebarNavP2('notes','all')" style="font-size:11px;font-weight:700;padding:10px 8px;border-bottom:1px solid #f0f0f0;margin-bottom:4px;cursor:pointer">📑 笔记 <span class="cnt">67</span></div>
+        <div class="sbi" onclick="sidebarNavP2('notes','wearable')" style="cursor:pointer">⌚ 穿戴 <span class="cnt">10</span></div>
+        <div class="sbi" onclick="sidebarNavP2('notes','work')" style="cursor:pointer">📁 工作日志 <span class="cnt">5</span></div>
+        <div class="sbi" onclick="sidebarNavP2('notes','life')" style="cursor:pointer">📁 生活感悟 <span class="cnt">9</span></div>
         <div class="sb-div"></div>
-        <div class="sbi" onclick="sidebarNavP2('materialAll')" style="font-size:11px;font-weight:700;padding:10px 8px;border-bottom:1px solid #f0f0f0;margin-bottom:4px;cursor:pointer">📑 资料 <span class="cnt">14</span></div>
-        <div class="sbi" onclick="sidebarNavP2('calls')" style="cursor:pointer">📞 通话录音 <span class="cnt">9</span></div>
-        <div class="sbi" onclick="sidebarNavP2('ai')" style="cursor:pointer">✦ AI生成物 <span class="cnt">5</span></div>
+        <div class="sbi" onclick="sidebarNavP2('material','all')" style="font-size:11px;font-weight:700;padding:10px 8px;border-bottom:1px solid #f0f0f0;margin-bottom:4px;cursor:pointer">📑 资料 <span class="cnt">14</span></div>
+        <div class="sbi" onclick="sidebarNavP2('material','calls')" style="cursor:pointer">📞 通话录音 <span class="cnt">9</span></div>
+        <div class="sbi" onclick="sidebarNavP2('material','ai')" style="cursor:pointer">✦ AI生成物 <span class="cnt">5</span></div>
       </div>
     </div>
     <div class="phone-label">点≡开侧边栏 / 点Pill切换</div>
@@ -257,7 +256,11 @@ body {
 </div>
 
 <div class="card">
-  <h3>五、方案对比</h3>
+  <h3>五、导航逻辑</h3>
+  <p>侧边栏子项 = Chips的快捷入口，指向同一状态：</p>
+  <p style="margin-top:6px">侧边栏点"穿戴" = 进笔记空间 + chips选中"穿戴"</p>
+  <p>侧边栏点"AI生成物" = 进资料空间 + chips选中"AI生成物"</p>
+  <h3 style="margin-top:16px">六、方案对比</h3>
   <table>
     <tr><th></th><th>方案一·侧边栏</th><th>方案二·Pill</th></tr>
     <tr><td>入口</td><td>≡ 侧边栏</td><td>顶部Pill</td></tr>
@@ -293,6 +296,7 @@ const data = {
 };
 
 let sidebarOpen = false;
+let currentSpace = 'notes'; // 'notes' or 'material'
 
 function toggleSidebar() {
   sidebarOpen = !sidebarOpen;
@@ -300,65 +304,77 @@ function toggleSidebar() {
   document.getElementById('mask').style.display = sidebarOpen ? 'block' : 'none';
 }
 
-function nav(target) {
+// Unified: sidebar item = enter space + select chip
+function navSidebar(space, chip) {
   toggleSidebar();
+  enterSpace(space, chip);
+}
+
+function enterSpace(space, activeChip) {
+  currentSpace = space;
   const title = document.getElementById('navTitle');
   const search = document.getElementById('searchBar');
   const chips = document.getElementById('chips');
   const list = document.getElementById('list');
 
-  if (target === 'notes') {
-    title.textContent = '笔记'; search.textContent = '🔍 搜索笔记';
-    chips.innerHTML = '<span class="chip active" onclick="filter(\'notes\')">全部</span><span class="chip" onclick="filter(\'wearable\')">穿戴</span>';
-    list.innerHTML = data.notes;
-  } else if (target === 'wearable') {
-    title.textContent = '穿戴'; search.textContent = '🔍 搜索穿戴速记';
-    chips.innerHTML = '';
-    list.innerHTML = data.wearable;
-  } else if (target === 'materialAll') {
-    title.textContent = '资料'; search.textContent = '🔍 搜索资料';
-    chips.innerHTML = '<span class="chip active" onclick="filter(\'materialAll\')">全部</span><span class="chip" onclick="filter(\'calls\')">通话录音</span><span class="chip" onclick="filter(\'ai\')">AI生成物</span>';
-    list.innerHTML = data.materialAll;
-  } else if (target === 'calls') {
-    title.textContent = '通话录音'; search.textContent = '🔍 搜索通话录音';
-    chips.innerHTML = '';
-    list.innerHTML = data.calls;
-  } else if (target === 'ai') {
-    title.textContent = 'AI生成物'; search.textContent = '🔍 搜索AI生成物';
-    chips.innerHTML = '<span class="chip active" onclick="filterAi(\'all\')">全部</span><span class="chip" onclick="filterAi(\'ppt\')">PPT</span><span class="chip" onclick="filterAi(\'podcast\')">播客</span><span class="chip" onclick="filterAi(\'research\')">深度研究</span><span class="chip" onclick="filterAi(\'web\')">网页</span>';
-    list.innerHTML = data.ai;
-  }
-}
-
-function filter(target) {
-  const chips = document.getElementById('chips');
-  const list = document.getElementById('list');
-  if (target === 'notes' || target === 'wearable') {
-    chips.innerHTML = '<span class="chip ' + (target==='notes'?'active':'') + '" onclick="filter(\'notes\')">全部</span><span class="chip ' + (target==='wearable'?'active':'') + '" onclick="filter(\'wearable\')">穿戴</span>';
-    list.innerHTML = target === 'notes' ? data.notes : data.wearable;
+  if (space === 'notes') {
+    title.textContent = '笔记';
+    search.textContent = '🔍 搜索笔记';
+    renderNotesChips(activeChip || 'all');
   } else {
-    chips.innerHTML = '<span class="chip ' + (target==='materialAll'?'active':'') + '" onclick="filter(\'materialAll\')">全部</span><span class="chip ' + (target==='calls'?'active':'') + '" onclick="filter(\'calls\')">通话录音</span><span class="chip ' + (target==='ai'?'active':'') + '" onclick="filter(\'ai\')">AI生成物</span>';
-    if (target === 'materialAll') list.innerHTML = data.materialAll;
-    else if (target === 'calls') list.innerHTML = data.calls;
-    else if (target === 'ai') {
-      document.getElementById('navTitle').textContent = 'AI生成物';
-      chips.innerHTML = '<span class="chip active" onclick="filterAi(\'all\')">全部</span><span class="chip" onclick="filterAi(\'ppt\')">PPT</span><span class="chip" onclick="filterAi(\'podcast\')">播客</span><span class="chip" onclick="filterAi(\'research\')">深度研究</span><span class="chip" onclick="filterAi(\'web\')">网页</span>';
-      list.innerHTML = data.ai;
+    title.textContent = '资料';
+    search.textContent = '🔍 搜索资料';
+    if (activeChip === 'ai') {
+      renderAiChips('all');
+    } else {
+      renderMaterialChips(activeChip || 'all');
     }
   }
 }
 
-function filterAi(type) {
+function renderNotesChips(active) {
   const chips = document.getElementById('chips');
-  chips.innerHTML = '<span class="chip ' + (type==='all'?'active':'') + '" onclick="filterAi(\'all\')">全部</span><span class="chip ' + (type==='ppt'?'active':'') + '" onclick="filterAi(\'ppt\')">PPT</span><span class="chip ' + (type==='podcast'?'active':'') + '" onclick="filterAi(\'podcast\')">播客</span><span class="chip ' + (type==='research'?'active':'') + '" onclick="filterAi(\'research\')">深度研究</span><span class="chip ' + (type==='web'?'active':'') + '" onclick="filterAi(\'web\')">网页</span>';
-  if (type === 'all') document.getElementById('list').innerHTML = data.ai;
-  else if (type === 'ppt') document.getElementById('list').innerHTML = data.aiPPT;
-  else if (type === 'podcast') document.getElementById('list').innerHTML = data.aiPodcast;
-  else document.getElementById('list').innerHTML = data.aiResearch;
+  const list = document.getElementById('list');
+  chips.innerHTML = '<span class="chip '+(active==='all'?'active':'')+'" onclick="selectNoteChip(\'all\')" style="cursor:pointer">全部</span><span class="chip '+(active==='wearable'?'active':'')+'" onclick="selectNoteChip(\'wearable\')" style="cursor:pointer">穿戴</span><span class="chip '+(active==='work'?'active':'')+'" onclick="selectNoteChip(\'work\')" style="cursor:pointer">工作日志</span><span class="chip '+(active==='life'?'active':'')+'" onclick="selectNoteChip(\'life\')" style="cursor:pointer">生活感悟</span>';
+  if (active === 'all') list.innerHTML = data.notes;
+  else if (active === 'wearable') list.innerHTML = data.wearable;
+  else list.innerHTML = data.notes; // demo: same data for folders
+}
+
+function selectNoteChip(chip) {
+  renderNotesChips(chip);
+}
+
+function renderMaterialChips(active) {
+  const chips = document.getElementById('chips');
+  const list = document.getElementById('list');
+  chips.innerHTML = '<span class="chip '+(active==='all'?'active':'')+'" onclick="selectMatChip(\'all\')" style="cursor:pointer">全部</span><span class="chip '+(active==='calls'?'active':'')+'" onclick="selectMatChip(\'calls\')" style="cursor:pointer">通话录音</span><span class="chip '+(active==='ai'?'active':'')+'" onclick="selectMatChip(\'ai\')" style="cursor:pointer">AI生成物</span>';
+  if (active === 'all') list.innerHTML = data.materialAll;
+  else if (active === 'calls') list.innerHTML = data.calls;
+  else if (active === 'ai') renderAiChips('all');
+}
+
+function selectMatChip(chip) {
+  if (chip === 'ai') {
+    renderAiChips('all');
+  } else {
+    renderMaterialChips(chip);
+  }
+}
+
+function renderAiChips(active) {
+  const chips = document.getElementById('chips');
+  const list = document.getElementById('list');
+  document.getElementById('navTitle').textContent = '资料';
+  chips.innerHTML = '<span class="chip" onclick="selectMatChip(\'all\')" style="cursor:pointer">< 返回</span><span class="chip '+(active==='all'?'active':'')+'" onclick="renderAiChips(\'all\')" style="cursor:pointer">全部</span><span class="chip '+(active==='ppt'?'active':'')+'" onclick="renderAiChips(\'ppt\')" style="cursor:pointer">PPT</span><span class="chip '+(active==='podcast'?'active':'')+'" onclick="renderAiChips(\'podcast\')" style="cursor:pointer">播客</span><span class="chip '+(active==='research'?'active':'')+'" onclick="renderAiChips(\'research\')" style="cursor:pointer">深度研究</span>';
+  if (active === 'all') list.innerHTML = data.ai;
+  else if (active === 'ppt') list.innerHTML = data.aiPPT;
+  else if (active === 'podcast') list.innerHTML = data.aiPodcast;
+  else list.innerHTML = data.aiResearch;
 }
 
 // Init
-nav('notes'); toggleSidebar(); // close sidebar after init
+enterSpace('notes', 'all');
 
 // === 方案二: Pill ===
 function switchP2(tab) {
@@ -366,32 +382,13 @@ function switchP2(tab) {
   const pm = document.getElementById('p2mat');
   pn.style.background = tab==='notes' ? '#111' : 'transparent';
   pn.style.color = tab==='notes' ? '#fff' : '#999';
+  pn.style.fontWeight = tab==='notes' ? '600' : '500';
   pm.style.background = tab==='material' ? '#111' : 'transparent';
   pm.style.color = tab==='material' ? '#fff' : '#999';
-  const search = document.getElementById('searchP2');
-  const chips = document.getElementById('chipsP2');
-  const list = document.getElementById('listP2');
-  if (tab === 'notes') {
-    search.textContent = '🔍 搜索笔记';
-    chips.innerHTML = '<span class="chip active" onclick="filterP2(\'all\')">全部</span><span class="chip" onclick="filterP2(\'wearable\')" style="cursor:pointer">穿戴</span>';
-    list.innerHTML = data.notes;
-  } else {
-    search.textContent = '🔍 搜索资料';
-    chips.innerHTML = '<span class="chip active" onclick="filterP2mat(\'all\')">全部</span><span class="chip" onclick="filterP2mat(\'calls\')" style="cursor:pointer">通话录音</span><span class="chip" onclick="filterP2mat(\'ai\')" style="cursor:pointer">AI生成物</span>';
-    list.innerHTML = data.materialAll;
-  }
-}
-function filterP2(type) {
-  const chips = document.getElementById('chipsP2');
-  chips.innerHTML = '<span class="chip '+(type==='all'?'active':'')+'" onclick="filterP2(\'all\')">全部</span><span class="chip '+(type==='wearable'?'active':'')+'" onclick="filterP2(\'wearable\')" style="cursor:pointer">穿戴</span>';
-  document.getElementById('listP2').innerHTML = type==='all' ? data.notes : data.wearable;
-}
-function filterP2mat(type) {
-  const chips = document.getElementById('chipsP2');
-  chips.innerHTML = '<span class="chip '+(type==='all'?'active':'')+'" onclick="filterP2mat(\'all\')">全部</span><span class="chip '+(type==='calls'?'active':'')+'" onclick="filterP2mat(\'calls\')" style="cursor:pointer">通话录音</span><span class="chip '+(type==='ai'?'active':'')+'" onclick="filterP2mat(\'ai\')" style="cursor:pointer">AI生成物</span>';
-  if (type==='all') document.getElementById('listP2').innerHTML = data.materialAll;
-  else if (type==='calls') document.getElementById('listP2').innerHTML = data.calls;
-  else document.getElementById('listP2').innerHTML = data.ai;
+  pm.style.fontWeight = tab==='material' ? '600' : '500';
+  document.getElementById('searchP2').textContent = tab==='notes' ? '🔍 搜索笔记' : '🔍 搜索资料';
+  if (tab === 'notes') { renderP2NotesChips('all'); }
+  else { renderP2MatChips('all'); }
 }
 switchP2('notes');
 
@@ -401,43 +398,50 @@ function toggleSidebarP2() {
   document.getElementById('sidebarP2').style.left = sidebarP2Open ? '0' : '-68%';
   document.getElementById('maskP2').style.display = sidebarP2Open ? 'block' : 'none';
 }
-function sidebarNavP2(target) {
+
+// Unified: sidebar = enter space + select chip (same logic as scheme 1)
+function sidebarNavP2(space, chip) {
   toggleSidebarP2();
   const pn = document.getElementById('p2notes');
   const pm = document.getElementById('p2mat');
-  if (target === 'notes' || target === 'wearable') {
+  if (space === 'notes') {
     pn.style.background = '#111'; pn.style.color = '#fff'; pn.style.fontWeight = '600';
     pm.style.background = 'transparent'; pm.style.color = '#999'; pm.style.fontWeight = '500';
-    if (target === 'wearable') {
-      document.getElementById('searchP2').textContent = '🔍 搜索穿戴速记';
-      document.getElementById('chipsP2').innerHTML = '';
-      document.getElementById('listP2').innerHTML = data.wearable;
-    } else {
-      switchP2('notes');
-    }
+    document.getElementById('searchP2').textContent = '🔍 搜索笔记';
+    renderP2NotesChips(chip);
   } else {
     pm.style.background = '#111'; pm.style.color = '#fff'; pm.style.fontWeight = '600';
     pn.style.background = 'transparent'; pn.style.color = '#999'; pn.style.fontWeight = '500';
-    if (target === 'materialAll') {
-      switchP2('material');
-    } else if (target === 'calls') {
-      document.getElementById('searchP2').textContent = '🔍 搜索通话录音';
-      document.getElementById('chipsP2').innerHTML = '';
-      document.getElementById('listP2').innerHTML = data.calls;
-    } else if (target === 'ai') {
-      document.getElementById('searchP2').textContent = '🔍 搜索AI生成物';
-      document.getElementById('chipsP2').innerHTML = '<span class="chip active" onclick="filterP2ai(\'all\')">全部</span><span class="chip" onclick="filterP2ai(\'ppt\')" style="cursor:pointer">PPT</span><span class="chip" onclick="filterP2ai(\'podcast\')" style="cursor:pointer">播客</span><span class="chip" onclick="filterP2ai(\'research\')" style="cursor:pointer">深度研究</span><span class="chip" onclick="filterP2ai(\'web\')" style="cursor:pointer">网页</span>';
-      document.getElementById('listP2').innerHTML = data.ai;
-    }
+    document.getElementById('searchP2').textContent = '🔍 搜索资料';
+    if (chip === 'ai') { renderP2AiChips('all'); }
+    else { renderP2MatChips(chip); }
   }
 }
-function filterP2ai(type) {
+
+function renderP2NotesChips(active) {
   const chips = document.getElementById('chipsP2');
-  chips.innerHTML = '<span class="chip '+(type==='all'?'active':'')+'" onclick="filterP2ai(\'all\')">全部</span><span class="chip '+(type==='ppt'?'active':'')+'" onclick="filterP2ai(\'ppt\')" style="cursor:pointer">PPT</span><span class="chip '+(type==='podcast'?'active':'')+'" onclick="filterP2ai(\'podcast\')" style="cursor:pointer">播客</span><span class="chip '+(type==='research'?'active':'')+'" onclick="filterP2ai(\'research\')" style="cursor:pointer">深度研究</span><span class="chip '+(type==='web'?'active':'')+'" onclick="filterP2ai(\'web\')" style="cursor:pointer">网页</span>';
-  if (type==='all') document.getElementById('listP2').innerHTML = data.ai;
-  else if (type==='ppt') document.getElementById('listP2').innerHTML = data.aiPPT;
-  else if (type==='podcast') document.getElementById('listP2').innerHTML = data.aiPodcast;
-  else document.getElementById('listP2').innerHTML = data.aiResearch;
+  const list = document.getElementById('listP2');
+  chips.innerHTML = '<span class="chip '+(active==='all'?'active':'')+'" onclick="renderP2NotesChips(\'all\')" style="cursor:pointer">全部</span><span class="chip '+(active==='wearable'?'active':'')+'" onclick="renderP2NotesChips(\'wearable\')" style="cursor:pointer">穿戴</span><span class="chip '+(active==='work'?'active':'')+'" onclick="renderP2NotesChips(\'work\')" style="cursor:pointer">工作日志</span><span class="chip '+(active==='life'?'active':'')+'" onclick="renderP2NotesChips(\'life\')" style="cursor:pointer">生活感悟</span>';
+  if (active === 'wearable') list.innerHTML = data.wearable;
+  else list.innerHTML = data.notes;
+}
+
+function renderP2MatChips(active) {
+  const chips = document.getElementById('chipsP2');
+  const list = document.getElementById('listP2');
+  chips.innerHTML = '<span class="chip '+(active==='all'?'active':'')+'" onclick="renderP2MatChips(\'all\')" style="cursor:pointer">全部</span><span class="chip '+(active==='calls'?'active':'')+'" onclick="renderP2MatChips(\'calls\')" style="cursor:pointer">通话录音</span><span class="chip '+(active==='ai'?'active':'')+'" onclick="renderP2AiChips(\'all\')" style="cursor:pointer">AI生成物</span>';
+  if (active === 'all') list.innerHTML = data.materialAll;
+  else if (active === 'calls') list.innerHTML = data.calls;
+}
+
+function renderP2AiChips(active) {
+  const chips = document.getElementById('chipsP2');
+  const list = document.getElementById('listP2');
+  chips.innerHTML = '<span class="chip" onclick="renderP2MatChips(\'all\')" style="cursor:pointer">< 返回</span><span class="chip '+(active==='all'?'active':'')+'" onclick="renderP2AiChips(\'all\')" style="cursor:pointer">全部</span><span class="chip '+(active==='ppt'?'active':'')+'" onclick="renderP2AiChips(\'ppt\')" style="cursor:pointer">PPT</span><span class="chip '+(active==='podcast'?'active':'')+'" onclick="renderP2AiChips(\'podcast\')" style="cursor:pointer">播客</span><span class="chip '+(active==='research'?'active':'')+'" onclick="renderP2AiChips(\'research\')" style="cursor:pointer">深度研究</span>';
+  if (active === 'all') list.innerHTML = data.ai;
+  else if (active === 'ppt') list.innerHTML = data.aiPPT;
+  else if (active === 'podcast') list.innerHTML = data.aiPodcast;
+  else list.innerHTML = data.aiResearch;
 }
 </script>
 </body>
