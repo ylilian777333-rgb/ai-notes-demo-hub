@@ -68,12 +68,12 @@ body {
 .sb { height: 22px; display: flex; align-items: center; justify-content: space-between; padding: 8px 12px 0; font-size: 7px; font-weight: 600; }
 .nav { display: flex; align-items: center; padding: 2px 10px; gap: 4px; }
 .nav-ham { font-size: 12px; color: #333; }
-.nav-title { font-size: 13px; font-weight: 700; flex: 1; }
+.nav-title { font-size: 13px; font-weight: 700; flex: 1; text-align: center; }
 .nav-icons { font-size: 10px; color: #555; }
 
 .search { margin: 3px 10px; padding: 5px 8px; background: #f0f0f0; border-radius: 6px; font-size: 8px; color: #999; }
 
-.pill-switch { display: flex; margin: 4px auto; background: #f0f0f0; border-radius: 12px; padding: 2px; width: fit-content; }
+.pill-switch { display: flex; background: #f0f0f0; border-radius: 12px; padding: 2px; }
 .pill { padding: 3px 10px; font-size: 8px; border-radius: 10px; color: #666; font-weight: 500; }
 .pill.active { background: #fff; color: #111; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
 
@@ -192,8 +192,7 @@ body {
     <div class="phone-wrap">
       <div class="phone">
         <div class="sb"><span>2:36</span><span>●●● 100</span></div>
-        <div class="nav"><span class="nav-ham">≡</span><span class="nav-title">笔记</span><span class="nav-icons">☑ ⋮</span></div>
-        <div class="pill-switch"><span class="pill active">笔记</span><span class="pill">资料</span></div>
+        <div class="nav"><span class="nav-ham">≡</span><div class="pill-switch"><span class="pill active">笔记</span><span class="pill">资料</span></div><span class="nav-icons">☑ ⋮</span></div>
         <div class="search">🔍 搜索笔记</div>
         <div class="chips">
           <span class="chip active">全部</span>
@@ -223,8 +222,7 @@ body {
     <div class="phone-wrap">
       <div class="phone">
         <div class="sb"><span>2:36</span><span>●●● 100</span></div>
-        <div class="nav"><span class="nav-ham">≡</span><span class="nav-title">笔记</span><span class="nav-icons">☑ ⋮</span></div>
-        <div class="pill-switch"><span class="pill">笔记</span><span class="pill active">资料</span></div>
+        <div class="nav"><span class="nav-ham">≡</span><div class="pill-switch"><span class="pill">笔记</span><span class="pill active">资料</span></div><span class="nav-icons">☑ ⋮</span></div>
         <div class="search">🔍 搜索资料</div>
         <div class="chips">
           <span class="chip active">全部</span>
