@@ -135,8 +135,8 @@ body {
 
 /* Right panel */
 .right {
-  width: 560px;
-  min-width: 560px;
+  width: 640px;
+  min-width: 640px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -160,8 +160,8 @@ body {
 .card .o { color: #fb923c; font-weight: 600; }
 .card .r { color: #f87171; font-weight: 600; }
 .card table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
-.card th { text-align: left; padding: 8px 8px; color: #888; border-bottom: 1px solid #2a2a3e; font-weight: 600; }
-.card td { padding: 8px 8px; color: #ccc; border-bottom: 1px solid #1f1f30; }
+.card th { text-align: left; padding: 8px 8px; color: #888; border-bottom: 1px solid #2a2a3e; font-weight: 600; white-space: nowrap; }
+.card td { padding: 8px 8px; color: #ccc; border-bottom: 1px solid #1f1f30; white-space: nowrap; }
 .card .rule-box { background: #0f1a2a; border: 1px solid #1a2a4a; border-radius: 8px; padding: 10px; margin: 8px 0; }
 .card .rule-box p { color: #8bb4ff; }
 .card .vs { display: flex; gap: 10px; margin: 8px 0; }
@@ -457,10 +457,10 @@ body {
   <h3>三、资料库视图（3类）</h3>
   <p style="margin-bottom:8px">资料库不是另一个存储空间，是按类型聚合查看的快捷入口。</p>
   <table>
-    <tr><th>聚类</th><th>包含</th><th>数据在哪</th><th>特点</th></tr>
-    <tr><td>📞 通话录音</td><td>通话纪要</td><td>仅资料库（用户零操作）</td><td>系统自动，笔记首页不出现</td></tr>
-    <tr><td>✦ AI生成物</td><td>PPT / 播客 / 深度研究 / 网页</td><td>双记：笔记附件 + 资料库聚合</td><td>源笔记内有卡片，资料库按类型看全部</td></tr>
-    <tr><td>📋 系统汇总</td><td>日报 / 周报 / 定时整理</td><td>仅资料库（用户零操作）</td><td>系统定时，笔记首页不出现</td></tr>
+    <tr><th>聚类</th><th>包含</th><th>数据位置</th></tr>
+    <tr><td>📞 通话录音</td><td>通话纪要</td><td>仅资料库（用户零操作，首页不出现）</td></tr>
+    <tr><td>✦ AI生成物</td><td>PPT/播客/研究/网页</td><td>双记（笔记附件+资料库聚合）</td></tr>
+    <tr><td>📋 系统汇总</td><td>日报/周报</td><td>仅资料库（系统定时，首页不出现）</td></tr>
   </table>
   <p style="margin-top:10px;color:#888">Chips：全部 / 通话录音 / AI生成物 / 系统汇总</p>
   <h4>双记逻辑（AI生成物）</h4>
