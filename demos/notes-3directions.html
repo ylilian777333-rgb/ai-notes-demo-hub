@@ -197,10 +197,11 @@ body {
         <div class="search">🔍 搜索笔记</div>
         <div class="chips">
           <span class="chip active">全部</span>
+          <span class="chip">速记</span>
+          <span class="chip">穿戴</span>
           <span class="chip">工作</span>
           <span class="chip">学习</span>
           <span class="chip">生活</span>
-          <span class="chip">穿戴</span>
         </div>
         <div class="note-list">
           <div class="note-item">
@@ -233,7 +234,7 @@ body {
           <span class="chip active">全部</span>
           <span class="chip">通话录音</span>
           <span class="chip">AI生成物</span>
-          <span class="chip">系统汇总</span>
+          <span class="chip">自动整理</span>
         </div>
         <div class="note-list">
           <div class="note-item">
@@ -271,10 +272,11 @@ body {
         <div class="search">🔍 搜索笔记</div>
         <div class="chips">
           <span class="chip active">全部</span>
+          <span class="chip">速记</span>
+          <span class="chip">穿戴</span>
           <span class="chip">工作</span>
           <span class="chip">学习</span>
           <span class="chip">生活</span>
-          <span class="chip">穿戴</span>
         </div>
         <div class="note-list">
           <div class="note-item">
@@ -298,17 +300,17 @@ body {
       <div class="phone">
         <div class="sidebar-mini">
           <div class="sb-sec">笔记</div>
-          <div class="sbi active">📒 全部 <span class="cnt">12</span></div>
+          <div class="sbi active">📒 全部 <span class="cnt">18</span></div>
+          <div class="sbi">🎙 速记 <span class="cnt">6</span></div>
+          <div class="sbi">⌚ 穿戴 <span class="cnt">4</span></div>
           <div class="sbi">📁 工作 <span class="cnt">5</span></div>
           <div class="sbi">📁 学习 <span class="cnt">3</span></div>
-          <div class="sbi">📁 生活 <span class="cnt">4</span></div>
-          <div class="sbi">⌚ 穿戴 <span class="cnt">6</span></div>
           <div class="sb-div"></div>
           <div class="sb-sec">资料库</div>
           <div class="sbi">📑 全部 <span class="cnt">17</span></div>
           <div class="sbi">📞 通话录音 <span class="cnt">9</span></div>
           <div class="sbi">✦ AI生成物 <span class="cnt">5</span></div>
-          <div class="sbi">📋 系统汇总 <span class="cnt">3</span></div>
+          <div class="sbi">📋 自动整理 <span class="cnt">3</span></div>
         </div>
       </div>
       <div class="phone-label">侧边栏（笔记‖资料库并列）</div>
@@ -323,7 +325,7 @@ body {
           <span class="chip active">全部</span>
           <span class="chip">通话录音</span>
           <span class="chip">AI生成物</span>
-          <span class="chip">系统汇总</span>
+          <span class="chip">自动整理</span>
         </div>
         <div class="note-list">
           <div class="note-item">
@@ -358,10 +360,11 @@ body {
         <div class="search">🔍 搜索笔记</div>
         <div class="chips">
           <span class="chip active">全部</span>
+          <span class="chip">速记</span>
+          <span class="chip">穿戴</span>
           <span class="chip">工作</span>
           <span class="chip">学习</span>
           <span class="chip">生活</span>
-          <span class="chip">穿戴</span>
         </div>
         <div class="note-list">
           <div class="note-item">
@@ -443,14 +446,17 @@ body {
   <h3>二、笔记类型（用户有动作）</h3>
   <p style="margin-bottom:8px">用户在内容产生时有主动行为。数据本体在笔记。</p>
   <table>
-    <tr><th>类型</th><th>用户动作</th><th>说明</th></tr>
-    <tr><td>手写/打字笔记</td><td>在APP内新建并输入</td><td>最基础的笔记</td></tr>
-    <tr><td>AI键速记</td><td>长按AI键+说话</td><td>主动按键=主动创建</td></tr>
-    <tr><td>对话存入</td><td>说"记到笔记/存到笔记"</td><td>有明确保存指令</td></tr>
-    <tr><td>穿戴速记</td><td>手表/戒指/耳机录音</td><td>主动录，内置"穿戴"文件夹</td></tr>
-    <tr><td>外部分享存入</td><td>微信/浏览器点"分享到笔记"</td><td>用户主动点了分享按钮</td></tr>
-    <tr><td>对话存PPT/文件</td><td>说"存到笔记"</td><td>用户主动指令，不管内容形式</td></tr>
+    <tr><th>类型</th><th>用户动作</th><th>文件夹</th></tr>
+    <tr><td>手写/打字笔记</td><td>在APP内新建并输入</td><td>用户自建文件夹</td></tr>
+    <tr><td>AI键速记</td><td>长按AI键+说话</td><td>内置"速记"文件夹</td></tr>
+    <tr><td>穿戴录音</td><td>手表/戒指/耳机录音</td><td>内置"穿戴"文件夹</td></tr>
+    <tr><td>对话存入</td><td>说"记到笔记/存到笔记"</td><td>自动归类或用户指定</td></tr>
+    <tr><td>外部分享存入</td><td>微信/浏览器点分享</td><td>自动归类或用户指定</td></tr>
   </table>
+  <h4>文件夹结构</h4>
+  <p>系统预置：<span class="g">速记</span>（AI键）+ <span class="g">穿戴</span>（设备录音）</p>
+  <p>用户自建：工作 / 学习 / 生活 / ...</p>
+  <p style="color:#888">chips = 全部 + 系统预置文件夹 + 用户自建文件夹</p>
 </div>
 
 <div class="card">
@@ -460,9 +466,10 @@ body {
     <tr><th>聚类</th><th>包含</th><th>数据位置</th></tr>
     <tr><td>📞 通话录音</td><td>通话纪要</td><td>仅资料库（用户零操作，首页不出现）</td></tr>
     <tr><td>✦ AI生成物</td><td>PPT/播客/研究/网页</td><td>双记（笔记附件+资料库聚合）</td></tr>
-    <tr><td>📋 系统汇总</td><td>日报/周报</td><td>仅资料库（系统定时，首页不出现）</td></tr>
+    <tr><td>📋 自动整理</td><td>日报/周报</td><td>仅资料库（系统定时，首页不出现）</td></tr>
   </table>
-  <p style="margin-top:10px;color:#888">Chips：全部 / 通话录音 / AI生成物 / 系统汇总</p>
+  <p style="margin-top:10px;color:#888">一级Chips：全部 / 通话录音 / AI生成物 / 自动整理</p>
+  <p style="color:#888">点"AI生成物"进入二级：全部 / PPT / 播客 / 深度研究 / 网页</p>
   <h4>双记逻辑（AI生成物）</h4>
   <p>用户在笔记A里点"生成PPT" →</p>
   <p>• 笔记A详情页：底部出现附件卡片"技术选型.pptx"</p>
@@ -475,15 +482,14 @@ body {
   <h4>核心规则：用户在内容产生时有没有动作</h4>
   <table>
     <tr><th>内容</th><th>用户动作</th><th>归属</th></tr>
-    <tr><td>手写/打字</td><td>主动输入</td><td class="g">笔记</td></tr>
-    <tr><td>AI键速记</td><td>主动按键说话</td><td class="g">笔记</td></tr>
-    <tr><td>对话"记到笔记"</td><td>主动指令</td><td class="g">笔记</td></tr>
+    <tr><td>手写/打字</td><td>主动输入</td><td class="g">笔记 · 用户文件夹</td></tr>
+    <tr><td>AI键速记</td><td>主动按键说话</td><td class="g">笔记 · 速记文件夹</td></tr>
     <tr><td>穿戴录音</td><td>主动按手表录</td><td class="g">笔记 · 穿戴文件夹</td></tr>
-    <tr><td>微信分享到笔记</td><td>主动点分享</td><td class="g">笔记</td></tr>
-    <tr><td>对话中说"存PPT到笔记"</td><td>主动指令</td><td class="g">笔记</td></tr>
+    <tr><td>对话"记到笔记"</td><td>主动指令</td><td class="g">笔记 · 自动归类</td></tr>
+    <tr><td>微信分享到笔记</td><td>主动点分享</td><td class="g">笔记 · 自动归类</td></tr>
     <tr><td>笔记内点"生成PPT"</td><td>主动点按钮</td><td class="g">笔记附件 + <span class="o">资料库视图</span></td></tr>
-    <tr><td>通话纪要</td><td>零操作</td><td class="o">仅资料库</td></tr>
-    <tr><td>系统日报/周报</td><td>零操作</td><td class="o">仅资料库</td></tr>
+    <tr><td>通话纪要</td><td>零操作</td><td class="o">仅资料库 · 通话录音</td></tr>
+    <tr><td>系统日报/周报</td><td>零操作</td><td class="o">仅资料库 · 自动整理</td></tr>
   </table>
   <h4>为什么用"有没有动作"</h4>
   <p><span class="r">✕ "是否编辑过"</span> — 改了一个字就换地方，用户不理解</p>
