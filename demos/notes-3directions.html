@@ -230,11 +230,10 @@ body {
         <div class="search">🔍 搜索资料</div>
         <div class="chips">
           <span class="chip active">全部</span>
-          <span class="chip">通话</span>
-          <span class="chip">PPT</span>
-          <span class="chip">播客</span>
-          <span class="chip">链接</span>
-          <span class="chip">研究</span>
+          <span class="chip">录音纪要</span>
+          <span class="chip">AI生成物</span>
+          <span class="chip">收藏</span>
+          <span class="chip">系统汇总</span>
         </div>
         <div class="note-list">
           <div class="note-item">
@@ -394,9 +393,9 @@ body {
         <div class="nav"><span class="nav-ham">‹</span><span class="nav-title">本周自动收录</span><span class="nav-icons">⋮</span></div>
         <div class="chips">
           <span class="chip active">全部</span>
-          <span class="chip">通话</span>
-          <span class="chip">PPT</span>
-          <span class="chip">链接</span>
+          <span class="chip">录音纪要</span>
+          <span class="chip">AI生成物</span>
+          <span class="chip">收藏</span>
         </div>
         <div class="note-list">
           <div class="note-item">
@@ -448,18 +447,17 @@ body {
 </div>
 
 <div class="card">
-  <h3>三、资料库类型</h3>
-  <p style="margin-bottom:8px">系统/AI自动产出的只读内容，按类型筛选。</p>
+  <h3>三、资料库类型（4类）</h3>
+  <p style="margin-bottom:8px">系统/AI自动产出的只读内容，按用户心智聚类为4大类。</p>
   <table>
-    <tr><th>类型</th><th>来源</th><th>频率</th></tr>
-    <tr><td>📞 通话纪要</td><td>通话结束自动转写</td><td>高频</td></tr>
-    <tr><td>📊 PPT</td><td>从笔记内AI生成</td><td>低频</td></tr>
-    <tr><td>🎧 播客</td><td>从纪要/笔记生成</td><td>低频</td></tr>
-    <tr><td>🔗 收藏链接</td><td>微信分享/MCP导入</td><td>中频</td></tr>
-    <tr><td>📄 深度研究</td><td>AI交互式报告</td><td>低频</td></tr>
-    <tr><td>⌚ 穿戴录音</td><td>手表同步</td><td>看习惯</td></tr>
-    <tr><td>📋 定时汇总</td><td>系统日报/周报</td><td>固定</td></tr>
+    <tr><th>聚类</th><th>包含</th><th>用户理解</th></tr>
+    <tr><td>🎙️ 录音纪要</td><td>通话纪要 / 穿戴录音 / 会议录音</td><td>录了一段话，系统帮我整理的</td></tr>
+    <tr><td>✦ AI生成物</td><td>PPT / 播客 / 深度研究 / 交互网页</td><td>AI帮我从笔记里生成的</td></tr>
+    <tr><td>🔗 收藏</td><td>链接 / 文件 / 微信分享</td><td>我从外面存进来的</td></tr>
+    <tr><td>📋 系统汇总</td><td>日报 / 周报 / 定时整理</td><td>系统定期帮我总结的</td></tr>
   </table>
+  <p style="margin-top:10px;color:#888">Chips：全部 / 录音纪要 / AI生成物 / 收藏 / 系统汇总</p>
+  <p style="color:#888">扩展性：未来新类型（如AI写的邮件）直接归入"AI生成物"，不加新chip。</p>
 </div>
 
 <div class="card">
@@ -470,11 +468,10 @@ body {
     <tr><td>用户手写/打字</td><td>用户</td><td class="g">笔记</td></tr>
     <tr><td>AI键长按录音</td><td>用户按键</td><td class="g">笔记</td></tr>
     <tr><td>对话说"记到笔记"</td><td>用户指令</td><td class="g">笔记</td></tr>
-    <tr><td>通话纪要</td><td>系统自动</td><td class="o">资料库</td></tr>
-    <tr><td>PPT/播客/深度研究</td><td>AI生成</td><td class="o">资料库</td></tr>
-    <tr><td>链接/文件收藏</td><td>系统收纳</td><td class="o">资料库</td></tr>
-    <tr><td>穿戴设备录音</td><td>系统同步</td><td class="o">资料库</td></tr>
-    <tr><td>定时汇总/日报</td><td>系统定时</td><td class="o">资料库</td></tr>
+    <tr><td>通话/穿戴/会议录音</td><td>系统自动</td><td class="o">资料库 · 录音纪要</td></tr>
+    <tr><td>PPT/播客/研究/网页</td><td>AI生成</td><td class="o">资料库 · AI生成物</td></tr>
+    <tr><td>链接/文件/微信分享</td><td>系统收纳</td><td class="o">资料库 · 收藏</td></tr>
+    <tr><td>日报/周报/定时整理</td><td>系统定时</td><td class="o">资料库 · 系统汇总</td></tr>
   </table>
   <h4>为什么用"谁创建"而不是其他</h4>
   <p><span class="r">✕ "是否编辑过"</span> — 用户改了一个字就换地方，不可理解</p>
