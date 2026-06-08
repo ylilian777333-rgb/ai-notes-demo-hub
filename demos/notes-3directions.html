@@ -233,7 +233,6 @@ body {
           <span class="chip active">全部</span>
           <span class="chip">通话录音</span>
           <span class="chip">AI生成物</span>
-          <span class="chip">收藏</span>
           <span class="chip">系统汇总</span>
         </div>
         <div class="note-list">
@@ -306,10 +305,10 @@ body {
           <div class="sbi">⌚ 穿戴 <span class="cnt">6</span></div>
           <div class="sb-div"></div>
           <div class="sb-sec">资料库</div>
-          <div class="sbi">📑 全部 <span class="cnt">28</span></div>
+          <div class="sbi">📑 全部 <span class="cnt">17</span></div>
           <div class="sbi">📞 通话录音 <span class="cnt">9</span></div>
           <div class="sbi">✦ AI生成物 <span class="cnt">5</span></div>
-          <div class="sbi">🔗 收藏 <span class="cnt">14</span></div>
+          <div class="sbi">📋 系统汇总 <span class="cnt">3</span></div>
         </div>
       </div>
       <div class="phone-label">侧边栏（笔记‖资料库并列）</div>
@@ -324,7 +323,6 @@ body {
           <span class="chip active">全部</span>
           <span class="chip">通话录音</span>
           <span class="chip">AI生成物</span>
-          <span class="chip">收藏</span>
           <span class="chip">系统汇总</span>
         </div>
         <div class="note-list">
@@ -434,63 +432,74 @@ body {
   <h4>问题</h4>
   <p>AI内容越来越多，首页被冲，用户写笔记的意图被稀释。</p>
   <h4>解法</h4>
-  <p>将内容分为两个空间：<span class="g">笔记</span>和<span class="o">资料库</span>。</p>
-  <p style="font-size:16px;color:#fff;font-weight:600;margin:10px 0">笔记 = 我写的、我要用的<br>资料库 = 系统帮我存的、AI帮我生成的</p>
+  <p style="font-size:14px;color:#fff;font-weight:600;margin:8px 0">笔记 = 所有内容的本体（用户有动作产生的）<br>资料库 = 按类型聚合查看的视图（不是另一个存储空间）</p>
+  <h4>核心规则：看用户有没有动作</h4>
+  <p><span class="g">用户有动作（说/点/写/录/分享）→ 进笔记</span></p>
+  <p><span class="o">用户零操作，系统自动产出 → 仅在资料库</span></p>
+  <p><span class="g">AI生成物 → 双记：笔记里是附件，资料库里按类型聚合可见</span></p>
 </div>
 
 <div class="card">
-  <h3>二、笔记类型</h3>
-  <p style="margin-bottom:8px">用户主动创建、有编辑意图的内容。</p>
+  <h3>二、笔记类型（用户有动作）</h3>
+  <p style="margin-bottom:8px">用户在内容产生时有主动行为。数据本体在笔记。</p>
   <table>
-    <tr><th>类型</th><th>触发方式</th><th>说明</th></tr>
-    <tr><td>手写/打字笔记</td><td>用户在APP内新建</td><td>最基础的笔记</td></tr>
-    <tr><td>AI键速记</td><td>用户长按AI键说话</td><td>用户主动按=主动创建</td></tr>
-    <tr><td>对话存入</td><td>用户说"记到笔记"</td><td>有明确保存指令</td></tr>
-    <tr><td>穿戴速记</td><td>手表/戒指/耳机录音</td><td>用户主动录，内置"穿戴"文件夹</td></tr>
+    <tr><th>类型</th><th>用户动作</th><th>说明</th></tr>
+    <tr><td>手写/打字笔记</td><td>在APP内新建并输入</td><td>最基础的笔记</td></tr>
+    <tr><td>AI键速记</td><td>长按AI键+说话</td><td>主动按键=主动创建</td></tr>
+    <tr><td>对话存入</td><td>说"记到笔记/存到笔记"</td><td>有明确保存指令</td></tr>
+    <tr><td>穿戴速记</td><td>手表/戒指/耳机录音</td><td>主动录，内置"穿戴"文件夹</td></tr>
+    <tr><td>外部分享存入</td><td>微信/浏览器点"分享到笔记"</td><td>用户主动点了分享按钮</td></tr>
+    <tr><td>对话存PPT/文件</td><td>说"存到笔记"</td><td>用户主动指令，不管内容形式</td></tr>
   </table>
 </div>
 
 <div class="card">
-  <h3>三、资料库类型（4类）</h3>
-  <p style="margin-bottom:8px">系统/AI自动产出的只读内容，按用户心智聚类。</p>
+  <h3>三、资料库视图（3类）</h3>
+  <p style="margin-bottom:8px">资料库不是另一个存储空间，是按类型聚合查看的快捷入口。</p>
   <table>
-    <tr><th>聚类</th><th>包含</th><th>用户理解</th></tr>
-    <tr><td>📞 通话录音</td><td>通话纪要（电话结束自动生成）</td><td>打了电话，系统帮我记的</td></tr>
-    <tr><td>✦ AI生成物</td><td>PPT / 播客 / 深度研究 / 交互网页</td><td>AI帮我从笔记里生成的</td></tr>
-    <tr><td>🔗 收藏</td><td>链接 / 文件 / 微信分享</td><td>我从外面存进来的</td></tr>
-    <tr><td>📋 系统汇总</td><td>日报 / 周报 / 定时整理</td><td>系统定期帮我总结的</td></tr>
+    <tr><th>聚类</th><th>包含</th><th>数据在哪</th><th>特点</th></tr>
+    <tr><td>📞 通话录音</td><td>通话纪要</td><td>仅资料库（用户零操作）</td><td>系统自动，笔记首页不出现</td></tr>
+    <tr><td>✦ AI生成物</td><td>PPT / 播客 / 深度研究 / 网页</td><td>双记：笔记附件 + 资料库聚合</td><td>源笔记内有卡片，资料库按类型看全部</td></tr>
+    <tr><td>📋 系统汇总</td><td>日报 / 周报 / 定时整理</td><td>仅资料库（用户零操作）</td><td>系统定时，笔记首页不出现</td></tr>
   </table>
-  <p style="margin-top:10px;color:#888">Chips：全部 / 通话录音 / AI生成物 / 收藏 / 系统汇总</p>
-  <p style="color:#888">扩展性：未来新类型直接归入对应聚类，不加新chip。</p>
+  <p style="margin-top:10px;color:#888">Chips：全部 / 通话录音 / AI生成物 / 系统汇总</p>
+  <h4>双记逻辑（AI生成物）</h4>
+  <p>用户在笔记A里点"生成PPT" →</p>
+  <p>• 笔记A详情页：底部出现附件卡片"技术选型.pptx"</p>
+  <p>• 资料库"AI生成物"：能看到这个PPT（指向同一份数据）</p>
+  <p>用户找PPT有两条路，但数据只有一份。</p>
 </div>
 
 <div class="card">
   <h3>四、分类判断规则</h3>
-  <h4>核心规则：看谁发起创建</h4>
+  <h4>核心规则：用户在内容产生时有没有动作</h4>
   <table>
-    <tr><th>内容</th><th>谁创建</th><th>归属</th></tr>
-    <tr><td>用户手写/打字</td><td>用户</td><td class="g">笔记</td></tr>
-    <tr><td>AI键长按录音</td><td>用户按键</td><td class="g">笔记</td></tr>
-    <tr><td>对话说"记到笔记"</td><td>用户指令</td><td class="g">笔记</td></tr>
-    <tr><td>穿戴速记</td><td>用户主动录</td><td class="g">笔记 · 穿戴文件夹</td></tr>
-    <tr><td>通话纪要</td><td>系统自动</td><td class="o">资料库 · 通话录音</td></tr>
-    <tr><td>PPT/播客/研究/网页</td><td>AI生成</td><td class="o">资料库 · AI生成物</td></tr>
-    <tr><td>链接/文件/微信分享</td><td>系统收纳</td><td class="o">资料库 · 收藏</td></tr>
-    <tr><td>日报/周报/定时整理</td><td>系统定时</td><td class="o">资料库 · 系统汇总</td></tr>
+    <tr><th>内容</th><th>用户动作</th><th>归属</th></tr>
+    <tr><td>手写/打字</td><td>主动输入</td><td class="g">笔记</td></tr>
+    <tr><td>AI键速记</td><td>主动按键说话</td><td class="g">笔记</td></tr>
+    <tr><td>对话"记到笔记"</td><td>主动指令</td><td class="g">笔记</td></tr>
+    <tr><td>穿戴录音</td><td>主动按手表录</td><td class="g">笔记 · 穿戴文件夹</td></tr>
+    <tr><td>微信分享到笔记</td><td>主动点分享</td><td class="g">笔记</td></tr>
+    <tr><td>对话中说"存PPT到笔记"</td><td>主动指令</td><td class="g">笔记</td></tr>
+    <tr><td>笔记内点"生成PPT"</td><td>主动点按钮</td><td class="g">笔记附件 + <span class="o">资料库视图</span></td></tr>
+    <tr><td>通话纪要</td><td>零操作</td><td class="o">仅资料库</td></tr>
+    <tr><td>系统日报/周报</td><td>零操作</td><td class="o">仅资料库</td></tr>
   </table>
-  <h4>为什么用"谁创建"而不是其他</h4>
-  <p><span class="r">✕ "是否编辑过"</span> — 用户改了一个字就换地方，不可理解</p>
-  <p><span class="r">✕ "内容类型"</span> — 让小爱写的和通话自动生成的都是文字，但用户感知完全不同</p>
-  <p><span class="g">✓ "谁创建"</span> — 我说了才有的=我的笔记；系统自己蹦出来的=帮我存的资料</p>
+  <h4>为什么用"有没有动作"</h4>
+  <p><span class="r">✕ "是否编辑过"</span> — 改了一个字就换地方，用户不理解</p>
+  <p><span class="r">✕ "内容形式"</span> — 同样是链接，用户粘贴的和系统收纳的感知不同</p>
+  <p><span class="r">✕ "来源"</span> — 微信分享进来的，用户觉得是"我存的"</p>
+  <p><span class="g">✓ "有没有动作"</span> — 我做了事才有的=我的；我没做事它自己出来的=系统的</p>
 </div>
 
 <div class="card">
   <h3>五、用户场景验证</h3>
-  <p><strong>"我让小爱记了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户说了"记到笔记"= 用户发起。</p>
-  <p style="margin-top:12px"><strong>"系统自动生成的通话纪要在哪？"</strong><br><span class="o">→ 资料库。</span>用户没指令，系统自己做的。</p>
-  <p style="margin-top:12px"><strong>"我从笔记里生成了PPT，在哪？"</strong><br><span class="o">→ 资料库。</span>AI生成物。源笔记内有关联入口。</p>
-  <p style="margin-top:12px"><strong>"我收藏了微信链接，在哪？"</strong><br><span class="o">→ 资料库。</span>系统收纳行为，不是用户创作。</p>
-  <p style="margin-top:12px"><strong>"我长按AI键录了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户主动按键 = 用户发起。</p>
+  <p><strong>"我让小爱记了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户说了"记到笔记"= 有动作。</p>
+  <p style="margin-top:12px"><strong>"我从微信分享了一篇文章到笔记，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户主动点了分享 = 有动作。</p>
+  <p style="margin-top:12px"><strong>"系统自动生成的通话纪要在哪？"</strong><br><span class="o">→ 资料库。</span>用户零操作，系统自己做的。</p>
+  <p style="margin-top:12px"><strong>"我在笔记里点了生成PPT，在哪找？"</strong><br><span class="g">→ 两个地方都能找到。</span>源笔记里有附件卡片；资料库"AI生成物"里也能看到。</p>
+  <p style="margin-top:12px"><strong>"我长按AI键录了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户主动按键 = 有动作。</p>
+  <p style="margin-top:12px"><strong>"系统每天自动生成的日报，在哪？"</strong><br><span class="o">→ 资料库。</span>用户零操作，定时自动跑。</p>
 </div>
 
 <div class="card">
