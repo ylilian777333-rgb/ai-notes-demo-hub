@@ -210,14 +210,6 @@ body {
           <div class="sbi" onclick="sidebarNavA('ai')" style="cursor:pointer">✦ AI生成物 <span class="cnt">5</span></div>
           <div class="sbi" onclick="sidebarNavA('auto')" style="cursor:pointer">📋 自动整理 <span class="cnt">3</span></div>
         </div>
-        <!-- Sub page -->
-        <div id="subA" style="position:absolute;inset:0;background:#fafafa;z-index:6;display:none;flex-direction:column;border-radius:24px;overflow:hidden">
-          <div class="sb"><span>2:36</span><span>●●● 100</span></div>
-          <div class="nav"><span class="nav-ham" onclick="closeSubA()" style="cursor:pointer">‹</span><span class="nav-title" id="subTitleA">AI生成物</span><span class="nav-icons">⋮</span></div>
-          <div class="chips" id="subChipsA"></div>
-          <div class="note-list" id="subListA"></div>
-          <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
-        </div>
       </div>
       <div class="phone-label">方案A · 全流程可交互</div>
     </div>
@@ -252,14 +244,6 @@ body {
           <div class="sbi" onclick="sidebarNavB('calls')" style="cursor:pointer">📞 通话录音 <span class="cnt">9</span></div>
           <div class="sbi" onclick="sidebarNavB('ai')" style="cursor:pointer">✦ AI生成物 <span class="cnt">5</span></div>
           <div class="sbi" onclick="sidebarNavB('auto')" style="cursor:pointer">📋 自动整理 <span class="cnt">3</span></div>
-        </div>
-        <!-- Sub page B -->
-        <div id="subB" style="position:absolute;inset:0;background:#fafafa;z-index:6;display:none;flex-direction:column;border-radius:24px;overflow:hidden">
-          <div class="sb"><span>2:36</span><span>●●● 100</span></div>
-          <div class="nav"><span class="nav-ham" onclick="closeSubB()" style="cursor:pointer">‹</span><span class="nav-title" id="subTitleB">AI生成物</span><span class="nav-icons">⋮</span></div>
-          <div class="chips" id="subChipsB"></div>
-          <div class="note-list" id="subListB"></div>
-          <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
         </div>
       </div>
       <div class="phone-label">方案B · 全流程可交互</div>
@@ -297,7 +281,7 @@ function switchA(tab) {
     document.getElementById('chipsA').innerHTML = '<span class="chip active" onclick="showListA(\'all\')">全部</span><span class="chip" onclick="showListA(\'wearable\')" style="cursor:pointer">穿戴</span>';
     document.getElementById('listA').innerHTML = notesAll;
   } else {
-    document.getElementById('chipsA').innerHTML = '<span class="chip active">全部</span><span class="chip" onclick="showSubA(\'calls\',\'通话录音\')" style="cursor:pointer">通话录音 ›</span><span class="chip" onclick="showSubA(\'ai\',\'AI生成物\')" style="cursor:pointer">AI生成物 ›</span><span class="chip" onclick="showSubA(\'auto\',\'自动整理\')" style="cursor:pointer">自动整理 ›</span>';
+    document.getElementById('chipsA').innerHTML = '<span class="chip active" onclick="filterA(\'all\')" style="cursor:pointer">全部</span><span class="chip" onclick="filterA(\'calls\')" style="cursor:pointer">通话录音</span><span class="chip" onclick="filterA(\'ai\')" style="cursor:pointer">AI生成物</span><span class="chip" onclick="filterA(\'auto\')" style="cursor:pointer">自动整理</span>';
     document.getElementById('listA').innerHTML = materialAll;
   }
 }
@@ -310,29 +294,22 @@ function showListA(type) {
   }
 }
 
+function filterA(type) {
+  const chips = document.getElementById('chipsA');
+  chips.innerHTML = '<span class="chip ' + (type==='all'?'active':'') + '" onclick="filterA(\'all\')" style="cursor:pointer">全部</span><span class="chip ' + (type==='calls'?'active':'') + '" onclick="filterA(\'calls\')" style="cursor:pointer">通话录音</span><span class="chip ' + (type==='ai'?'active':'') + '" onclick="filterA(\'ai\')" style="cursor:pointer">AI生成物</span><span class="chip ' + (type==='auto'?'active':'') + '" onclick="filterA(\'auto\')" style="cursor:pointer">自动整理</span>';
+  if (type === 'all') document.getElementById('listA').innerHTML = materialAll;
+  else if (type === 'calls') document.getElementById('listA').innerHTML = callsList;
+  else if (type === 'ai') document.getElementById('listA').innerHTML = aiGenList;
+  else document.getElementById('listA').innerHTML = autoList;
+}
+
 function sidebarNavA(target) {
   toggleSidebarA();
   if (target === 'notes') { switchA('notes'); }
   else if (target === 'wearable') { switchA('notes'); setTimeout(()=>showListA('wearable'),100); }
   else if (target === 'material') { switchA('material'); }
-  else { showSubA(target, target==='calls'?'通话录音':target==='ai'?'AI生成物':'自动整理'); }
+  else { switchA('material'); setTimeout(()=>filterA(target),100); }
 }
-
-function showSubA(type, title) {
-  document.getElementById('subA').style.display = 'flex';
-  document.getElementById('subTitleA').textContent = title;
-  if (type === 'ai') {
-    document.getElementById('subChipsA').innerHTML = '<span class="chip active">全部</span><span class="chip">PPT</span><span class="chip">播客</span><span class="chip">深度研究</span><span class="chip">网页</span>';
-    document.getElementById('subListA').innerHTML = aiGenList;
-  } else if (type === 'calls') {
-    document.getElementById('subChipsA').innerHTML = '';
-    document.getElementById('subListA').innerHTML = callsList;
-  } else {
-    document.getElementById('subChipsA').innerHTML = '';
-    document.getElementById('subListA').innerHTML = autoList;
-  }
-}
-function closeSubA() { document.getElementById('subA').style.display = 'none'; }
 
 switchA('notes');
 
@@ -359,10 +336,11 @@ function navB(target) {
     list.innerHTML = wearableList;
   } else if (target === 'material') {
     title.textContent = '资料'; search.textContent = '🔍 搜索资料';
-    chips.innerHTML = '<span class="chip active">全部</span><span class="chip" onclick="showSubB(\'calls\',\'通话录音\')" style="cursor:pointer">通话录音 ›</span><span class="chip" onclick="showSubB(\'ai\',\'AI生成物\')" style="cursor:pointer">AI生成物 ›</span><span class="chip" onclick="showSubB(\'auto\',\'自动整理\')" style="cursor:pointer">自动整理 ›</span>';
+    chips.innerHTML = '<span class="chip active" onclick="filterB(\'all\')" style="cursor:pointer">全部</span><span class="chip" onclick="filterB(\'calls\')" style="cursor:pointer">通话录音</span><span class="chip" onclick="filterB(\'ai\')" style="cursor:pointer">AI生成物</span><span class="chip" onclick="filterB(\'auto\')" style="cursor:pointer">自动整理</span>';
     list.innerHTML = materialAll;
   } else {
-    showSubB(target, target==='calls'?'通话录音':target==='ai'?'AI生成物':'自动整理');
+    navB('material');
+    setTimeout(()=>filterB(target), 100);
   }
 }
 
@@ -370,31 +348,24 @@ function showListB(type) {
   document.getElementById('listB').innerHTML = type==='wearable' ? wearableList : notesAll;
 }
 
+function filterB(type) {
+  const chips = document.getElementById('chipsB');
+  chips.innerHTML = '<span class="chip ' + (type==='all'?'active':'') + '" onclick="filterB(\'all\')" style="cursor:pointer">全部</span><span class="chip ' + (type==='calls'?'active':'') + '" onclick="filterB(\'calls\')" style="cursor:pointer">通话录音</span><span class="chip ' + (type==='ai'?'active':'') + '" onclick="filterB(\'ai\')" style="cursor:pointer">AI生成物</span><span class="chip ' + (type==='auto'?'active':'') + '" onclick="filterB(\'auto\')" style="cursor:pointer">自动整理</span>';
+  if (type === 'all') document.getElementById('listB').innerHTML = materialAll;
+  else if (type === 'calls') document.getElementById('listB').innerHTML = callsList;
+  else if (type === 'ai') document.getElementById('listB').innerHTML = aiGenList;
+  else document.getElementById('listB').innerHTML = autoList;
+}
+
 function sidebarNavB(target) {
   toggleSidebarB();
   if (target === 'calls' || target === 'ai' || target === 'auto') {
     navB('material');
-    setTimeout(()=>showSubB(target, target==='calls'?'通话录音':target==='ai'?'AI生成物':'自动整理'), 100);
+    setTimeout(()=>filterB(target), 100);
   } else {
     navB(target);
   }
 }
-
-function showSubB(type, title) {
-  document.getElementById('subB').style.display = 'flex';
-  document.getElementById('subTitleB').textContent = title;
-  if (type === 'ai') {
-    document.getElementById('subChipsB').innerHTML = '<span class="chip active">全部</span><span class="chip">PPT</span><span class="chip">播客</span><span class="chip">深度研究</span><span class="chip">网页</span>';
-    document.getElementById('subListB').innerHTML = aiGenList;
-  } else if (type === 'calls') {
-    document.getElementById('subChipsB').innerHTML = '';
-    document.getElementById('subListB').innerHTML = callsList;
-  } else {
-    document.getElementById('subChipsB').innerHTML = '';
-    document.getElementById('subListB').innerHTML = autoList;
-  }
-}
-function closeSubB() { document.getElementById('subB').style.display = 'none'; }
 
 navB('notes');
 </script>
