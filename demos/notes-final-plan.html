@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记分类 · 最终方案</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  background: #0f0f1a;
+  color: #fff;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.page-header { text-align: center; margin-bottom: 24px; }
+.page-header h1 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.page-header p { font-size: 11px; color: #888; }
+
+.layout { display: flex; gap: 24px; max-width: 1400px; margin: 0 auto; align-items: flex-start; }
+.left { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+
+.section {
+  background: #1a1a2e;
+  border: 1px solid #2a2a3e;
+  border-radius: 14px;
+  padding: 18px;
+}
+.section h2 { font-size: 14px; font-weight: 600; color: #8bb4ff; margin-bottom: 10px; }
+
+/* Phone */
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.phone-label { font-size: 9px; color: #666; }
+
+.phone {
+  width: 260px;
+  height: 564px;
+  background: #fafafa;
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  font-size: 10px;
+}
+
+.sb { height: 24px; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px 0; font-size: 8px; font-weight: 600; }
+.nav { display: flex; align-items: center; justify-content: center; padding: 6px 12px 4px; position: relative; }
+.nav-ham { font-size: 14px; color: #333; position: absolute; left: 12px; cursor: pointer; }
+.nav-title { font-size: 14px; font-weight: 700; }
+.nav-icons { font-size: 11px; color: #555; position: absolute; right: 12px; }
+
+.search { margin: 8px 12px 6px; padding: 6px 10px; background: #f0f0f0; border-radius: 7px; font-size: 9px; color: #999; }
+
+.chips { display: flex; gap: 5px; padding: 4px 12px 8px; overflow: hidden; }
+.chip { padding: 3px 9px; border-radius: 10px; font-size: 8px; background: #f5f5f5; color: #666; font-weight: 500; white-space: nowrap; cursor: pointer; transition: all 0.15s; }
+.chip.active { background: #111; color: #fff; }
+
+.note-list { flex: 1; overflow: hidden; padding-bottom: 34px; }
+.note-item { display: flex; padding: 8px 12px; gap: 8px; border-bottom: 0.5px solid #f0f0f0; }
+.note-body { flex: 1; min-width: 0; }
+.note-title { font-size: 10px; font-weight: 600; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 3px; }
+.note-desc { font-size: 9px; color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note-meta { font-size: 8px; color: #bbb; margin-top: 1px; }
+.note-thumb { width: 30px; height: 30px; border-radius: 5px; flex-shrink: 0; }
+.t-purple { background: linear-gradient(135deg, #667eea, #764ba2); }
+.t-warm { background: linear-gradient(135deg, #f093fb, #f5576c); }
+
+.tag { font-size: 7px; padding: 1px 4px; border-radius: 2px; font-weight: 500; }
+.tag-call { background: #f3e8ff; color: #7c3aed; }
+.tag-ppt { background: #fef3c7; color: #d97706; }
+.tag-link { background: #e0f2fe; color: #0284c7; }
+.pin { color: #f5a623; font-size: 8px; }
+
+.bottom-bar { height: 34px; background: #fafafa; border-top: 0.5px solid #eee; display: flex; align-items: center; justify-content: center; gap: 24px; font-size: 11px; position: absolute; bottom: 0; left: 0; right: 0; }
+.mic-dot { width: 18px; height: 18px; background: #ff3b30; border-radius: 50%; position: relative; }
+.mic-dot::before { content: ''; position: absolute; width: 5px; height: 7px; border: 1.2px solid #fff; border-radius: 2.5px; top: 3.5px; left: 6.5px; }
+.mic-dot::after { content: ''; position: absolute; width: 8px; height: 4px; border: 1.2px solid #fff; border-top: none; border-radius: 0 0 4px 4px; top: 9.5px; left: 5px; }
+
+/* Sidebar */
+.sidebar-mask { position: absolute; inset: 0; background: rgba(0,0,0,0.3); z-index: 4; display: none; border-radius: 28px; }
+.sidebar { position: absolute; left: -68%; top: 0; width: 68%; height: 100%; background: #fff; z-index: 5; padding: 28px 10px 10px; transition: left 0.25s; border-radius: 0 14px 14px 0; box-shadow: 3px 0 12px rgba(0,0,0,0.1); }
+.sidebar.open { left: 0; }
+.sbi { padding: 6px 8px; font-size: 9px; color: #333; border-radius: 6px; display: flex; align-items: center; gap: 5px; cursor: pointer; margin-bottom: 1px; }
+.sbi:hover { background: #f5f5f5; }
+.sbi.active { background: #f0f4ff; color: #2563eb; font-weight: 500; }
+.sbi .cnt { margin-left: auto; font-size: 8px; color: #bbb; }
+.sb-div { height: 1px; background: #f0f0f0; margin: 6px 4px; }
+.sb-sec { font-size: 8px; color: #aaa; padding: 4px 8px 2px; font-weight: 600; }
+
+/* Right panel */
+.right {
+  width: 580px;
+  min-width: 580px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 20px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+.card {
+  background: #1a1a2e;
+  border: 1px solid #2a2a3e;
+  border-radius: 14px;
+  padding: 20px;
+}
+.card h3 { font-size: 17px; font-weight: 700; color: #ffd57e; margin-bottom: 12px; }
+.card h4 { font-size: 14px; font-weight: 600; color: #8bb4ff; margin: 14px 0 6px; }
+.card p, .card li { font-size: 13px; color: #bbb; line-height: 1.7; }
+.card ul { padding-left: 16px; }
+.card .g { color: #4ade80; font-weight: 600; }
+.card .o { color: #fb923c; font-weight: 600; }
+.card .r { color: #f87171; font-weight: 600; }
+.card table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
+.card th { text-align: left; padding: 8px 8px; color: #888; border-bottom: 1px solid #2a2a3e; font-weight: 600; white-space: nowrap; }
+.card td { padding: 8px 8px; color: #ccc; border-bottom: 1px solid #1f1f30; white-space: nowrap; }
+.recommend { background: #0f2a1a; border: 1px solid #1a4a2a; border-radius: 10px; padding: 12px; margin-top: 12px; }
+.recommend p { color: #4ade80; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>笔记首页分类 · 最终方案</h1>
+  <p>侧边栏分区（笔记 ‖ 资料），分类规则：用户意图是否是"记录"</p>
+</div>
+
+<div class="layout">
+<div class="left">
+
+<div class="section">
+  <h2>可交互演示 · 点≡开侧边栏，点各项切换</h2>
+  <div class="phone-wrap">
+    <div class="phone" id="phone">
+      <div class="sb"><span>2:36</span><span>●●● 100</span></div>
+      <div class="nav">
+        <span class="nav-ham" onclick="toggleSidebar()">≡</span>
+        <span class="nav-title" id="navTitle">笔记</span>
+        <span class="nav-icons">☑ ⋮</span>
+      </div>
+      <div class="search" id="searchBar">🔍 搜索笔记</div>
+      <div class="chips" id="chips"></div>
+      <div class="note-list" id="list"></div>
+      <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
+
+      <div class="sidebar-mask" id="mask" onclick="toggleSidebar()"></div>
+      <div class="sidebar" id="sidebar">
+        <div class="sb-sec">笔记</div>
+        <div class="sbi active" onclick="nav('notes')">📒 全部 <span class="cnt">18</span></div>
+        <div class="sbi" onclick="nav('wearable')">⌚ 穿戴 <span class="cnt">4</span></div>
+        <div class="sb-div"></div>
+        <div class="sb-sec">资料</div>
+        <div class="sbi" onclick="nav('materialAll')">📑 全部 <span class="cnt">14</span></div>
+        <div class="sbi" onclick="nav('calls')">📞 通话录音 <span class="cnt">9</span></div>
+        <div class="sbi" onclick="nav('ai')">✦ AI生成物 <span class="cnt">5</span></div>
+      </div>
+    </div>
+    <div class="phone-label">点≡打开侧边栏 → 点任意项切换</div>
+  </div>
+</div>
+
+</div>
+
+<!-- Right panel -->
+<div class="right">
+
+<div class="card">
+  <h3>一、产品定义</h3>
+  <h4>问题</h4>
+  <p>AI内容越来越多，首页被冲，用户写笔记的意图被稀释。</p>
+  <h4>解法</h4>
+  <p style="font-size:14px;color:#fff;font-weight:600;margin:8px 0">侧边栏分两个平级空间：笔记 ‖ 资料</p>
+  <p><span class="g">笔记</span> = 用户意图是"记录"时产生的内容</p>
+  <p><span class="o">资料</span> = 记录之外的系统自动产出（聚合视图，不是独立存储）</p>
+  <h4>核心规则</h4>
+  <p style="font-size:14px;color:#fff;font-weight:600;margin:8px 0">用户的意图是不是"记录"。</p>
+  <p>按手表录音 = 意图是记录 → <span class="g">笔记</span></p>
+  <p>打电话 = 意图是通话，纪要是系统附赠 → <span class="o">资料</span></p>
+  <p>点"生成PPT" = 意图是产出，不是记录 → <span class="o">资料</span>（双记：源笔记有附件）</p>
+</div>
+
+<div class="card">
+  <h3>二、笔记（意图=记录）</h3>
+  <table>
+    <tr><th>类型</th><th>用户意图</th><th>文件夹</th></tr>
+    <tr><td>手写/打字</td><td>我要写个东西</td><td>用户自建</td></tr>
+    <tr><td>AI键速记</td><td>我要记下这件事</td><td>自动归类</td></tr>
+    <tr><td>穿戴录音</td><td>我要录下来记着</td><td>内置"穿戴"</td></tr>
+    <tr><td>对话"记到笔记"</td><td>我要保存这个</td><td>自动归类</td></tr>
+    <tr><td>微信分享到笔记</td><td>我要存这个</td><td>自动归类</td></tr>
+  </table>
+  <p style="margin-top:8px;color:#888">chips = 全部 / 穿戴 / 用户自建文件夹...</p>
+</div>
+
+<div class="card">
+  <h3>三、资料（意图≠记录）</h3>
+  <table>
+    <tr><th>类型</th><th>用户意图</th><th>为什么不是笔记</th></tr>
+    <tr><td>📞 通话录音</td><td>打电话（不是记录）</td><td>纪要是系统附赠品</td></tr>
+    <tr><td>✦ AI生成物</td><td>生成产出物（不是记录）</td><td>PPT/播客是衍生品</td></tr>
+  </table>
+  <p style="margin-top:8px;color:#888">chips：资料全部页 = 全部 / 通话录音 / AI生成物</p>
+  <p style="color:#888">点"AI生成物"后 chips = 全部 / PPT / 播客 / 深度研究 / 网页</p>
+  <h4>双记逻辑（AI生成物）</h4>
+  <p>笔记A里点"生成PPT" →</p>
+  <p>• 笔记A详情页：底部出现附件卡片</p>
+  <p>• 资料"AI生成物"：聚合视图可见</p>
+  <p>• 状态同步：删除/更新任一处，另一处联动</p>
+</div>
+
+<div class="card">
+  <h3>四、分类判断表</h3>
+  <table>
+    <tr><th>内容</th><th>用户意图</th><th>归属</th></tr>
+    <tr><td>手写/打字</td><td>记录</td><td class="g">笔记</td></tr>
+    <tr><td>AI键速记</td><td>记录</td><td class="g">笔记</td></tr>
+    <tr><td>穿戴录音</td><td>记录</td><td class="g">笔记·穿戴</td></tr>
+    <tr><td>"记到笔记"</td><td>记录/保存</td><td class="g">笔记</td></tr>
+    <tr><td>微信分享到笔记</td><td>保存</td><td class="g">笔记</td></tr>
+    <tr><td>通话纪要</td><td>通话（非记录）</td><td class="o">资料·通话</td></tr>
+    <tr><td>笔记内生成PPT</td><td>产出（非记录）</td><td class="g">笔记附件 + <span class="o">资料视图</span></td></tr>
+    <tr><td>系统日报/周报</td><td>无（系统定时）</td><td class="o">资料·通话录音内聚合</td></tr>
+  </table>
+  <h4>为什么用"意图是否是记录"</h4>
+  <p><span class="r">✕ "有没有动作"</span> — 打电话也是动作，但意图不是记录</p>
+  <p><span class="r">✕ "内容形式"</span> — 文字/PPT/链接都可能是笔记也可能是资料</p>
+  <p><span class="g">✓ "意图是否是记录"</span> — 我想记→笔记；我想打电话/生成东西→资料</p>
+</div>
+
+<div class="card">
+  <h3>五、用户场景验证</h3>
+  <p><strong>"我按手表录了一段话，在哪？"</strong><br><span class="g">→ 笔记·穿戴。</span>按录音=意图是记录。</p>
+  <p style="margin-top:10px"><strong>"系统自动生成的通话纪要在哪？"</strong><br><span class="o">→ 资料。</span>打电话的意图不是记录，纪要是副产品。</p>
+  <p style="margin-top:10px"><strong>"我让小爱记了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>"记到笔记"=意图明确是记录。</p>
+  <p style="margin-top:10px"><strong>"我在笔记里生成了PPT，在哪找？"</strong><br><span class="g">→ 两处都能找。</span>源笔记有附件 + 资料"AI生成物"有聚合。状态同步。</p>
+  <p style="margin-top:10px"><strong>"我从微信分享了文章到笔记，在哪？"</strong><br><span class="g">→ 笔记里。</span>点分享=意图是"我要存这个"=记录行为。</p>
+</div>
+
+<div class="card">
+  <h3>六、侧边栏结构</h3>
+  <table>
+    <tr><th>区域</th><th>内容</th><th>chips</th></tr>
+    <tr><td class="g">笔记·全部</td><td>所有用户记录的内容</td><td>全部 / 穿戴</td></tr>
+    <tr><td class="g">笔记·穿戴</td><td>手表/戒指/耳机录音</td><td>—</td></tr>
+    <tr><td class="o">资料·全部</td><td>通话+AI生成物混排</td><td>全部 / 通话录音 / AI生成物</td></tr>
+    <tr><td class="o">资料·通话录音</td><td>通话纪要列表</td><td>—</td></tr>
+    <tr><td class="o">资料·AI生成物</td><td>PPT/播客/研究/网页</td><td>全部 / PPT / 播客 / 研究 / 网页</td></tr>
+  </table>
+  <div class="recommend">
+    <p><strong>方案选择：侧边栏分区（长期方案），一步到位不做过渡。</strong></p>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script>
+const data = {
+  notes: '<div class="note-item"><div class="note-body"><div class="note-title">Q3产品方向思考 <span class="pin">📌</span></div><div class="note-desc">关于下半年的几个核心方向...</div><div class="note-meta">今天 14:30</div></div><div class="note-thumb t-purple"></div></div><div class="note-item"><div class="note-body"><div class="note-title">周五出差清单</div><div class="note-desc">身份证、充电器、笔记本</div><div class="note-meta">今天 09:15</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">读雷军创业思考</div><div class="note-desc">极致就是做到自己能力的极限...</div><div class="note-meta">周二</div></div><div class="note-thumb t-warm"></div></div><div class="note-item"><div class="note-body"><div class="note-title">装修水电布局</div><div class="note-desc">厨房3组插座...</div><div class="note-meta">6/4</div></div></div>',
+
+  wearable: '<div class="note-item"><div class="note-body"><div class="note-title">下周评审准备</div><div class="note-desc">竞品数据和方案对比...</div><div class="note-meta">今天 11:00 · ⌚手表</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">买菜清单</div><div class="note-desc">西红柿、鸡蛋、牛肉</div><div class="note-meta">昨天 18:30 · ⌚手表</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">跑步后的想法</div><div class="note-desc">产品迭代节奏的思考...</div><div class="note-meta">6/5 · 💍戒指</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">播客灵感</div><div class="note-desc">用户增长的三个指标...</div><div class="note-meta">6/4 · 🎧耳机</div></div></div>',
+
+  materialAll: '<div class="note-item"><div class="note-body"><div class="note-title">与李总讨论合作 <span class="tag tag-call">通话</span></div><div class="note-desc">确认下周二开会</div><div class="note-meta">今天 16:45 · 12分钟</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">技术选型.pptx <span class="tag tag-ppt">PPT</span></div><div class="note-desc">8页 · 从笔记生成</div><div class="note-meta">今天 15:00</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">产品月会纪要 <span class="tag tag-call">通话</span></div><div class="note-desc">Q3目标确认</div><div class="note-meta">周四 · 45分钟</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">产品评审回顾 <span class="tag tag-ppt">播客</span></div><div class="note-desc">3分钟音频摘要</div><div class="note-meta">昨天</div></div></div>',
+
+  calls: '<div class="note-item"><div class="note-body"><div class="note-title">与李总讨论合作</div><div class="note-desc">确认下周二2点3号会议室</div><div class="note-meta">今天 16:45 · 12分钟</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">产品月会纪要</div><div class="note-desc">Q3目标确认，三个方向</div><div class="note-meta">周四 15:00 · 45分钟</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">跟研发对排期</div><div class="note-desc">6月ROM按时交付</div><div class="note-meta">周三 11:00 · 8分钟</div></div></div>',
+
+  ai: '<div class="note-item"><div class="note-body"><div class="note-title">技术选型.pptx <span class="tag tag-ppt">PPT</span></div><div class="note-desc">8页 · 简约白</div><div class="note-meta">今天 15:00</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">产品评审回顾 <span class="tag tag-ppt">播客</span></div><div class="note-desc">3分钟音频摘要</div><div class="note-meta">昨天</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">Q3竞品深度研究 <span class="tag tag-link">研究</span></div><div class="note-desc">交互式网页报告</div><div class="note-meta">6/3</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">用户增长策略.pptx <span class="tag tag-ppt">PPT</span></div><div class="note-desc">12页 · 商务蓝</div><div class="note-meta">6/2</div></div></div>',
+
+  aiPPT: '<div class="note-item"><div class="note-body"><div class="note-title">技术选型.pptx</div><div class="note-desc">8页 · 简约白</div><div class="note-meta">今天 15:00</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">用户增长策略.pptx</div><div class="note-desc">12页 · 商务蓝</div><div class="note-meta">6/2</div></div></div>',
+
+  aiPodcast: '<div class="note-item"><div class="note-body"><div class="note-title">产品评审回顾</div><div class="note-desc">3分钟音频摘要</div><div class="note-meta">昨天</div></div></div>',
+
+  aiResearch: '<div class="note-item"><div class="note-body"><div class="note-title">Q3竞品深度研究</div><div class="note-desc">交互式网页报告 · 12页</div><div class="note-meta">6/3</div></div></div>'
+};
+
+let sidebarOpen = false;
+
+function toggleSidebar() {
+  sidebarOpen = !sidebarOpen;
+  document.getElementById('sidebar').classList.toggle('open', sidebarOpen);
+  document.getElementById('mask').style.display = sidebarOpen ? 'block' : 'none';
+}
+
+function nav(target) {
+  toggleSidebar();
+  const title = document.getElementById('navTitle');
+  const search = document.getElementById('searchBar');
+  const chips = document.getElementById('chips');
+  const list = document.getElementById('list');
+
+  if (target === 'notes') {
+    title.textContent = '笔记'; search.textContent = '🔍 搜索笔记';
+    chips.innerHTML = '<span class="chip active" onclick="filter(\'notes\')">全部</span><span class="chip" onclick="filter(\'wearable\')">穿戴</span>';
+    list.innerHTML = data.notes;
+  } else if (target === 'wearable') {
+    title.textContent = '穿戴'; search.textContent = '🔍 搜索穿戴速记';
+    chips.innerHTML = '';
+    list.innerHTML = data.wearable;
+  } else if (target === 'materialAll') {
+    title.textContent = '资料'; search.textContent = '🔍 搜索资料';
+    chips.innerHTML = '<span class="chip active" onclick="filter(\'materialAll\')">全部</span><span class="chip" onclick="filter(\'calls\')">通话录音</span><span class="chip" onclick="filter(\'ai\')">AI生成物</span>';
+    list.innerHTML = data.materialAll;
+  } else if (target === 'calls') {
+    title.textContent = '通话录音'; search.textContent = '🔍 搜索通话录音';
+    chips.innerHTML = '';
+    list.innerHTML = data.calls;
+  } else if (target === 'ai') {
+    title.textContent = 'AI生成物'; search.textContent = '🔍 搜索AI生成物';
+    chips.innerHTML = '<span class="chip active" onclick="filterAi(\'all\')">全部</span><span class="chip" onclick="filterAi(\'ppt\')">PPT</span><span class="chip" onclick="filterAi(\'podcast\')">播客</span><span class="chip" onclick="filterAi(\'research\')">深度研究</span><span class="chip" onclick="filterAi(\'web\')">网页</span>';
+    list.innerHTML = data.ai;
+  }
+}
+
+function filter(target) {
+  const chips = document.getElementById('chips');
+  const list = document.getElementById('list');
+  if (target === 'notes' || target === 'wearable') {
+    chips.innerHTML = '<span class="chip ' + (target==='notes'?'active':'') + '" onclick="filter(\'notes\')">全部</span><span class="chip ' + (target==='wearable'?'active':'') + '" onclick="filter(\'wearable\')">穿戴</span>';
+    list.innerHTML = target === 'notes' ? data.notes : data.wearable;
+  } else {
+    chips.innerHTML = '<span class="chip ' + (target==='materialAll'?'active':'') + '" onclick="filter(\'materialAll\')">全部</span><span class="chip ' + (target==='calls'?'active':'') + '" onclick="filter(\'calls\')">通话录音</span><span class="chip ' + (target==='ai'?'active':'') + '" onclick="filter(\'ai\')">AI生成物</span>';
+    if (target === 'materialAll') list.innerHTML = data.materialAll;
+    else if (target === 'calls') list.innerHTML = data.calls;
+    else if (target === 'ai') {
+      document.getElementById('navTitle').textContent = 'AI生成物';
+      chips.innerHTML = '<span class="chip active" onclick="filterAi(\'all\')">全部</span><span class="chip" onclick="filterAi(\'ppt\')">PPT</span><span class="chip" onclick="filterAi(\'podcast\')">播客</span><span class="chip" onclick="filterAi(\'research\')">深度研究</span><span class="chip" onclick="filterAi(\'web\')">网页</span>';
+      list.innerHTML = data.ai;
+    }
+  }
+}
+
+function filterAi(type) {
+  const chips = document.getElementById('chips');
+  chips.innerHTML = '<span class="chip ' + (type==='all'?'active':'') + '" onclick="filterAi(\'all\')">全部</span><span class="chip ' + (type==='ppt'?'active':'') + '" onclick="filterAi(\'ppt\')">PPT</span><span class="chip ' + (type==='podcast'?'active':'') + '" onclick="filterAi(\'podcast\')">播客</span><span class="chip ' + (type==='research'?'active':'') + '" onclick="filterAi(\'research\')">深度研究</span><span class="chip ' + (type==='web'?'active':'') + '" onclick="filterAi(\'web\')">网页</span>';
+  if (type === 'all') document.getElementById('list').innerHTML = data.ai;
+  else if (type === 'ppt') document.getElementById('list').innerHTML = data.aiPPT;
+  else if (type === 'podcast') document.getElementById('list').innerHTML = data.aiPodcast;
+  else document.getElementById('list').innerHTML = data.aiResearch;
+}
+
+// Init
+nav('notes'); toggleSidebar(); // close sidebar after init
+</script>
+</body>
+</html>
