@@ -181,75 +181,78 @@ body {
 <div class="layout">
 <div class="left">
 
-<!-- 方向A: Pill分流 -->
+<!-- 方向A: Pill分流 (Interactive) -->
 <div class="direction">
   <div class="direction-header">
     <h2>方向A · Pill分流，轻分区</h2>
-    <span class="badge badge-mid">推荐</span>
+    <span class="badge badge-mid">推荐 · 可交互</span>
   </div>
-  <div class="desc">顶部Pill切换笔记/资料。笔记Tab=用户的、资料Tab=系统的。不需要侧边栏参与导航。</div>
+  <div class="desc">点击Pill切换笔记/资料，点击"AI生成物"chip进入二级页面。</div>
   <div class="phones">
     <div class="phone-wrap">
-      <div class="phone">
+      <div class="phone" id="phoneA" style="position:relative">
         <div class="sb"><span>2:36</span><span>●●● 100</span></div>
-        <div class="nav"><span class="nav-ham">≡</span><div class="pill-switch"><span class="pill active">笔记</span><span class="pill">资料</span></div><span class="nav-icons">☑ ⋮</span></div>
-        <div class="search">🔍 搜索笔记</div>
-        <div class="chips">
-          <span class="chip active">全部</span>
-          <span class="chip">穿戴</span>
-        </div>
-        <div class="note-list">
-          <div class="note-item">
-            <div class="note-body"><div class="note-title">Q3产品方向思考 <span class="pin">📌</span></div><div class="note-desc">关于下半年的几个核心方向...</div><div class="note-meta">今天 14:30</div></div>
-            <div class="note-thumb t-purple"></div>
-          </div>
-          <div class="note-item">
-            <div class="note-body"><div class="note-title">周五出差清单</div><div class="note-desc">身份证、充电器、笔记本</div><div class="note-meta">今天 09:15</div></div>
-          </div>
-          <div class="note-item">
-            <div class="note-body"><div class="note-title">读雷军创业思考</div><div class="note-desc">极致就是做到自己能力的极限...</div><div class="note-meta">周二</div></div>
-            <div class="note-thumb t-warm"></div>
-          </div>
-          <div class="note-item">
-            <div class="note-body"><div class="note-title">装修水电布局</div><div class="note-desc">厨房3组插座...</div><div class="note-meta">6/4</div></div>
-          </div>
-        </div>
+        <div class="nav"><span class="nav-ham">≡</span><div class="pill-switch"><span class="pill" id="pillNotes" onclick="switchA('notes')" style="cursor:pointer">笔记</span><span class="pill" id="pillMaterial" onclick="switchA('material')" style="cursor:pointer">资料</span></div><span class="nav-icons">☑ ⋮</span></div>
+        <div class="search" id="searchA">🔍 搜索笔记</div>
+        <div class="chips" id="chipsA"></div>
+        <div class="note-list" id="listA"></div>
         <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
-      </div>
-      <div class="phone-label">"笔记"Tab + 文件夹chips</div>
-    </div>
-
-    <div class="phone-wrap">
-      <div class="phone">
-        <div class="sb"><span>2:36</span><span>●●● 100</span></div>
-        <div class="nav"><span class="nav-ham">≡</span><div class="pill-switch"><span class="pill">笔记</span><span class="pill active">资料</span></div><span class="nav-icons">☑ ⋮</span></div>
-        <div class="search">🔍 搜索资料</div>
-        <div class="chips">
-          <span class="chip active">全部</span>
-          <span class="chip">通话录音</span>
-          <span class="chip">AI生成物</span>
-          <span class="chip">自动整理</span>
+        <!-- Sub page for AI生成物 -->
+        <div id="subPageA" style="position:absolute;inset:0;background:#fafafa;z-index:5;display:none;flex-direction:column;border-radius:24px;overflow:hidden">
+          <div class="sb"><span>2:36</span><span>●●● 100</span></div>
+          <div class="nav"><span class="nav-ham" onclick="closeSubA()" style="cursor:pointer">‹</span><span class="nav-title">AI生成物</span><span class="nav-icons">⋮</span></div>
+          <div class="chips" id="subChipsA">
+            <span class="chip active">全部</span>
+            <span class="chip">PPT</span>
+            <span class="chip">播客</span>
+            <span class="chip">深度研究</span>
+            <span class="chip">网页</span>
+          </div>
+          <div class="note-list">
+            <div class="note-item"><div class="note-body"><div class="note-title">技术选型.pptx <span class="tag tag-ppt">PPT</span></div><div class="note-desc">8页 · 简约白 · 从笔记生成</div><div class="note-meta">今天 15:00</div></div></div>
+            <div class="note-item"><div class="note-body"><div class="note-title">产品评审回顾 <span class="tag tag-ppt">播客</span></div><div class="note-desc">3分钟音频摘要</div><div class="note-meta">昨天</div></div></div>
+            <div class="note-item"><div class="note-body"><div class="note-title">Q3竞品深度研究 <span class="tag tag-link">研究</span></div><div class="note-desc">交互式网页报告 · 12页</div><div class="note-meta">6/3</div></div></div>
+            <div class="note-item"><div class="note-body"><div class="note-title">用户增长策略.pptx <span class="tag tag-ppt">PPT</span></div><div class="note-desc">12页 · 商务蓝</div><div class="note-meta">6/2</div></div></div>
+          </div>
+          <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
         </div>
-        <div class="note-list">
-          <div class="note-item">
-            <div class="note-body"><div class="note-title">与李总讨论合作 <span class="tag tag-call">通话</span></div><div class="note-desc">确认下周二开会</div><div class="note-meta">今天 16:45</div></div>
-          </div>
-          <div class="note-item">
-            <div class="note-body"><div class="note-title">技术选型.pptx <span class="tag tag-ppt">PPT</span></div><div class="note-desc">8页 · 从笔记生成</div><div class="note-meta">今天 15:00</div></div>
-          </div>
-          <div class="note-item">
-            <div class="note-body"><div class="note-title">产品月会纪要 <span class="tag tag-call">通话</span></div><div class="note-desc">Q3目标确认</div><div class="note-meta">周四</div></div>
-          </div>
-          <div class="note-item">
-            <div class="note-body"><div class="note-title">NotebookLM分析 <span class="tag tag-link">链接</span></div><div class="note-desc">36kr.com</div><div class="note-meta">6/4</div></div>
-          </div>
-        </div>
-        <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
       </div>
-      <div class="phone-label">"资料"Tab + 类型chips</div>
+      <div class="phone-label">点击Pill和Chips交互演示</div>
     </div>
   </div>
 </div>
+
+<script>
+function switchA(tab) {
+  const pillN = document.getElementById('pillNotes');
+  const pillM = document.getElementById('pillMaterial');
+  const search = document.getElementById('searchA');
+  const chips = document.getElementById('chipsA');
+  const list = document.getElementById('listA');
+
+  if (tab === 'notes') {
+    pillN.classList.add('active'); pillM.classList.remove('active');
+    search.textContent = '🔍 搜索笔记';
+    chips.innerHTML = '<span class="chip active">全部</span><span class="chip">穿戴</span>';
+    list.innerHTML = '<div class="note-item"><div class="note-body"><div class="note-title">Q3产品方向思考 <span class="pin">📌</span></div><div class="note-desc">关于下半年的几个核心方向...</div><div class="note-meta">今天 14:30</div></div><div class="note-thumb t-purple"></div></div><div class="note-item"><div class="note-body"><div class="note-title">周五出差清单</div><div class="note-desc">身份证、充电器、笔记本</div><div class="note-meta">今天 09:15</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">读雷军创业思考</div><div class="note-desc">极致就是做到自己能力的极限...</div><div class="note-meta">周二</div></div><div class="note-thumb t-warm"></div></div><div class="note-item"><div class="note-body"><div class="note-title">装修水电布局</div><div class="note-desc">厨房3组插座...</div><div class="note-meta">6/4</div></div></div>';
+  } else {
+    pillM.classList.add('active'); pillN.classList.remove('active');
+    search.textContent = '🔍 搜索资料';
+    chips.innerHTML = '<span class="chip active">全部</span><span class="chip">通话录音</span><span class="chip" onclick="openSubA()" style="cursor:pointer">AI生成物 ›</span><span class="chip">自动整理</span>';
+    list.innerHTML = '<div class="note-item"><div class="note-body"><div class="note-title">与李总讨论合作 <span class="tag tag-call">通话</span></div><div class="note-desc">确认下周二开会</div><div class="note-meta">今天 16:45</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">技术选型.pptx <span class="tag tag-ppt">PPT</span></div><div class="note-desc">8页 · 从笔记生成</div><div class="note-meta">今天 15:00</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">产品月会纪要 <span class="tag tag-call">通话</span></div><div class="note-desc">Q3目标确认</div><div class="note-meta">周四</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">NotebookLM分析 <span class="tag tag-link">收藏</span></div><div class="note-desc">36kr.com · 微信分享</div><div class="note-meta">6/4</div></div></div>';
+  }
+}
+
+function openSubA() {
+  document.getElementById('subPageA').style.display = 'flex';
+}
+function closeSubA() {
+  document.getElementById('subPageA').style.display = 'none';
+}
+
+// Init
+switchA('notes');
+</script>
 
 <!-- 方向B: 独立空间 -->
 <div class="direction">
