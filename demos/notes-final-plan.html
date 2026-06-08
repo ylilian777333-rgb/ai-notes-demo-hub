@@ -194,89 +194,51 @@ body {
 <div class="right">
 
 <div class="card">
-  <h3>一、产品定义</h3>
-  <h4>问题</h4>
-  <p>AI内容越来越多，首页被冲，用户写笔记的意图被稀释。</p>
-  <h4>解法</h4>
-  <p style="font-size:14px;color:#fff;font-weight:600;margin:8px 0">侧边栏分两个平级空间：笔记 ‖ 资料</p>
-  <p><span class="g">笔记</span> = 用户意图是"记录"时产生的内容</p>
-  <p><span class="o">资料</span> = 记录之外的系统自动产出（聚合视图，不是独立存储）</p>
-  <h4>核心规则</h4>
-  <p style="font-size:14px;color:#fff;font-weight:600;margin:8px 0">用户的意图是不是"记录"。</p>
-  <p>按手表录音 = 意图是记录 → <span class="g">笔记</span></p>
-  <p>打电话 = 意图是通话，纪要是系统附赠 → <span class="o">资料</span></p>
-  <p>点"生成PPT" = 意图是产出，不是记录 → <span class="o">资料</span>（双记：源笔记有附件）</p>
+  <h3>产品定义</h3>
+  <p style="font-size:14px;color:#fff;font-weight:600;margin:6px 0">笔记 ‖ 资料，两个平级空间</p>
+  <p><span class="g">笔记</span> = 意图是"记录"时产生的</p>
+  <p><span class="o">资料</span> = 意图不是记录，系统自动产出的</p>
+  <p style="margin-top:8px;color:#fff;font-weight:500">规则：用户的意图是不是"记录"</p>
 </div>
 
 <div class="card">
-  <h3>二、笔记（意图=记录）</h3>
+  <h3>分类判断</h3>
   <table>
-    <tr><th>类型</th><th>用户意图</th><th>文件夹</th></tr>
-    <tr><td>手写/打字</td><td>我要写个东西</td><td>用户自建</td></tr>
-    <tr><td>AI键速记</td><td>我要记下这件事</td><td>自动归类</td></tr>
-    <tr><td>穿戴录音</td><td>我要录下来记着</td><td>内置"穿戴"</td></tr>
-    <tr><td>对话"记到笔记"</td><td>我要保存这个</td><td>自动归类</td></tr>
-    <tr><td>微信分享到笔记</td><td>我要存这个</td><td>自动归类</td></tr>
+    <tr><th>内容</th><th>意图</th><th>归属</th></tr>
+    <tr><td>手写/AI键/穿戴</td><td>记录</td><td class="g">笔记</td></tr>
+    <tr><td>"记到笔记"/微信分享</td><td>保存</td><td class="g">笔记</td></tr>
+    <tr><td>通话纪要</td><td>通话</td><td class="o">资料</td></tr>
+    <tr><td>生成PPT/播客</td><td>产出</td><td class="g">笔记附件+<span class="o">资料视图</span></td></tr>
   </table>
-  <p style="margin-top:8px;color:#888">chips = 全部 / 穿戴 / 用户自建文件夹...</p>
 </div>
 
 <div class="card">
-  <h3>三、资料（意图≠记录）</h3>
+  <h3>双记（AI生成物）</h3>
+  <p>源笔记有附件卡片 + 资料聚合视图可见</p>
+  <p>状态同步：删除/更新任一处，另一处联动</p>
+</div>
+
+<div class="card">
+  <h3>场景验证</h3>
+  <p><strong>按手表录音</strong> → <span class="g">笔记·穿戴</span></p>
+  <p><strong>通话纪要</strong> → <span class="o">资料</span>（意图是通话不是记录）</p>
+  <p><strong>"记到笔记"</strong> → <span class="g">笔记</span></p>
+  <p><strong>生成PPT</strong> → <span class="g">笔记附件</span> + <span class="o">资料可见</span></p>
+  <p><strong>微信分享</strong> → <span class="g">笔记</span>（点分享=想存）</p>
+</div>
+
+<div class="card">
+  <h3>方案对比</h3>
   <table>
-    <tr><th>类型</th><th>用户意图</th><th>为什么不是笔记</th></tr>
-    <tr><td>📞 通话录音</td><td>打电话（不是记录）</td><td>纪要是系统附赠品</td></tr>
-    <tr><td>✦ AI生成物</td><td>生成产出物（不是记录）</td><td>PPT/播客是衍生品</td></tr>
-  </table>
-  <p style="margin-top:8px;color:#888">chips：资料全部页 = 全部 / 通话录音 / AI生成物</p>
-  <p style="color:#888">点"AI生成物"后 chips = 全部 / PPT / 播客 / 深度研究 / 网页</p>
-  <h4>双记逻辑（AI生成物）</h4>
-  <p>笔记A里点"生成PPT" →</p>
-  <p>• 笔记A详情页：底部出现附件卡片</p>
-  <p>• 资料"AI生成物"：聚合视图可见</p>
-  <p>• 状态同步：删除/更新任一处，另一处联动</p>
-</div>
-
-<div class="card">
-  <h3>四、分类判断表</h3>
-  <table>
-    <tr><th>内容</th><th>用户意图</th><th>归属</th></tr>
-    <tr><td>手写/打字</td><td>记录</td><td class="g">笔记</td></tr>
-    <tr><td>AI键速记</td><td>记录</td><td class="g">笔记</td></tr>
-    <tr><td>穿戴录音</td><td>记录</td><td class="g">笔记·穿戴</td></tr>
-    <tr><td>"记到笔记"</td><td>记录/保存</td><td class="g">笔记</td></tr>
-    <tr><td>微信分享到笔记</td><td>保存</td><td class="g">笔记</td></tr>
-    <tr><td>通话纪要</td><td>通话（非记录）</td><td class="o">资料·通话</td></tr>
-    <tr><td>笔记内生成PPT</td><td>产出（非记录）</td><td class="g">笔记附件 + <span class="o">资料视图</span></td></tr>
-    <tr><td>系统日报/周报</td><td>无（系统定时）</td><td class="o">资料·通话录音内聚合</td></tr>
-  </table>
-  <h4>为什么用"意图是否是记录"</h4>
-  <p><span class="r">✕ "有没有动作"</span> — 打电话也是动作，但意图不是记录</p>
-  <p><span class="r">✕ "内容形式"</span> — 文字/PPT/链接都可能是笔记也可能是资料</p>
-  <p><span class="g">✓ "意图是否是记录"</span> — 我想记→笔记；我想打电话/生成东西→资料</p>
-</div>
-
-<div class="card">
-  <h3>五、用户场景验证</h3>
-  <p><strong>"我按手表录了一段话，在哪？"</strong><br><span class="g">→ 笔记·穿戴。</span>按录音=意图是记录。</p>
-  <p style="margin-top:10px"><strong>"系统自动生成的通话纪要在哪？"</strong><br><span class="o">→ 资料。</span>打电话的意图不是记录，纪要是副产品。</p>
-  <p style="margin-top:10px"><strong>"我让小爱记了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>"记到笔记"=意图明确是记录。</p>
-  <p style="margin-top:10px"><strong>"我在笔记里生成了PPT，在哪找？"</strong><br><span class="g">→ 两处都能找。</span>源笔记有附件 + 资料"AI生成物"有聚合。状态同步。</p>
-  <p style="margin-top:10px"><strong>"我从微信分享了文章到笔记，在哪？"</strong><br><span class="g">→ 笔记里。</span>点分享=意图是"我要存这个"=记录行为。</p>
-</div>
-
-<div class="card">
-  <h3>六、侧边栏结构</h3>
-  <table>
-    <tr><th>区域</th><th>内容</th><th>chips</th></tr>
-    <tr><td class="g">笔记·全部</td><td>所有用户记录的内容</td><td>全部 / 穿戴</td></tr>
-    <tr><td class="g">笔记·穿戴</td><td>手表/戒指/耳机录音</td><td>—</td></tr>
-    <tr><td class="o">资料·全部</td><td>通话+AI生成物混排</td><td>全部 / 通话录音 / AI生成物</td></tr>
-    <tr><td class="o">资料·通话录音</td><td>通话纪要列表</td><td>—</td></tr>
-    <tr><td class="o">资料·AI生成物</td><td>PPT/播客/研究/网页</td><td>全部 / PPT / 播客 / 研究 / 网页</td></tr>
+    <tr><th></th><th>方案一·侧边栏</th><th>方案二·Pill</th></tr>
+    <tr><td>入口</td><td>≡ 打开侧边栏</td><td>顶部Pill切换</td></tr>
+    <tr><td>层级深度</td><td>侧边栏→列表→详情</td><td>Pill→chips→列表</td></tr>
+    <tr><td>扩展性</td><td class="g">侧边栏可加更多分类</td><td class="o">Pill只能二选一</td></tr>
+    <tr><td>老用户</td><td class="g">首页不变</td><td class="o">多一个切换器</td></tr>
+    <tr><td>资料可见</td><td class="o">需打开侧边栏</td><td class="g">一眼可见</td></tr>
   </table>
   <div class="recommend">
-    <p><strong>方案选择：侧边栏分区（长期方案），一步到位不做过渡。</strong></p>
+    <p><strong>推荐方案一（侧边栏），长期方案一步到位。</strong></p>
   </div>
 </div>
 
