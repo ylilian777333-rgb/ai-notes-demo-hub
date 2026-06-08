@@ -111,8 +111,9 @@ body {
 .agg-card-sub { margin-top: 3px; font-size: 7px; color: #aaa; }
 
 .bottom-bar { height: 28px; background: #fafafa; border-top: 0.5px solid #eee; display: flex; align-items: center; justify-content: center; gap: 20px; font-size: 10px; }
-.mic-dot { width: 16px; height: 16px; background: #ff3b30; border-radius: 50%; position: relative; }
-.mic-dot::after { content: ''; position: absolute; left: 5.5px; top: 3px; width: 5px; height: 7px; border: 1px solid #fff; border-radius: 2.5px; }
+.mic-dot { width: 16px; height: 16px; background: #ff3b30; border-radius: 50%; position: relative; display: flex; align-items: center; justify-content: center; }
+.mic-dot::before { content: ''; position: absolute; width: 4px; height: 6px; border: 1.2px solid #fff; border-radius: 2px; top: 3px; }
+.mic-dot::after { content: ''; position: absolute; width: 7px; height: 4px; border: 1.2px solid #fff; border-top: none; border-radius: 0 0 4px 4px; top: 8px; }
 
 /* Sidebar in phone */
 .sidebar-mini {
@@ -151,23 +152,23 @@ body {
   border-radius: 12px;
   padding: 16px;
 }
-.card h3 { font-size: 13px; font-weight: 600; color: #ffd57e; margin-bottom: 10px; }
-.card h4 { font-size: 11px; font-weight: 500; color: #8bb4ff; margin: 10px 0 4px; }
-.card p, .card li { font-size: 11px; color: #aaa; line-height: 1.6; }
-.card ul { padding-left: 14px; }
-.card .g { color: #4ade80; font-weight: 500; }
-.card .o { color: #fb923c; font-weight: 500; }
-.card .r { color: #f87171; font-weight: 500; }
-.card table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 10px; }
-.card th { text-align: left; padding: 5px 6px; color: #666; border-bottom: 1px solid #2a2a3e; font-weight: 500; }
-.card td { padding: 5px 6px; color: #ccc; border-bottom: 1px solid #1f1f30; }
+.card h3 { font-size: 16px; font-weight: 700; color: #ffd57e; margin-bottom: 12px; }
+.card h4 { font-size: 13px; font-weight: 600; color: #8bb4ff; margin: 14px 0 6px; }
+.card p, .card li { font-size: 13px; color: #bbb; line-height: 1.7; }
+.card ul { padding-left: 16px; }
+.card .g { color: #4ade80; font-weight: 600; }
+.card .o { color: #fb923c; font-weight: 600; }
+.card .r { color: #f87171; font-weight: 600; }
+.card table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
+.card th { text-align: left; padding: 8px 8px; color: #888; border-bottom: 1px solid #2a2a3e; font-weight: 600; }
+.card td { padding: 8px 8px; color: #ccc; border-bottom: 1px solid #1f1f30; }
 .card .rule-box { background: #0f1a2a; border: 1px solid #1a2a4a; border-radius: 8px; padding: 10px; margin: 8px 0; }
 .card .rule-box p { color: #8bb4ff; }
 .card .vs { display: flex; gap: 10px; margin: 8px 0; }
 .card .vs-col { flex: 1; background: #0f1a2a; border-radius: 8px; padding: 10px; border: 1px solid #1a2a4a; }
-.card .vs-col h5 { font-size: 11px; margin-bottom: 4px; }
-.recommend { background: #0f2a1a; border: 1px solid #1a4a2a; border-radius: 8px; padding: 10px; margin-top: 10px; }
-.recommend p { color: #4ade80; font-size: 11px; }
+.card .vs-col h5 { font-size: 12px; margin-bottom: 4px; }
+.recommend { background: #0f2a1a; border: 1px solid #1a4a2a; border-radius: 8px; padding: 12px; margin-top: 12px; }
+.recommend p { color: #4ade80; font-size: 13px; }
 </style>
 </head>
 <body>
@@ -427,75 +428,72 @@ body {
 <div class="right">
 
 <div class="card">
-  <h3>统一分类规则（不管选哪个方向都适用）</h3>
-  <div class="rule-box">
-    <p><strong>一条核心规则：看内容是谁发起创建的。</strong></p>
-    <p style="color:#ccc;margin-top:4px;font-size:10px">用户主动创建 → 笔记<br>系统/AI自动创建 → 资料</p>
-  </div>
+  <h3>产品定义</h3>
+  <h4>问题</h4>
+  <p>AI内容越来越多，首页被冲，用户写笔记的意图被稀释。</p>
+  <h4>核心判断规则</h4>
+  <p style="font-size:15px;color:#fff;font-weight:600;margin:8px 0">看内容是谁发起创建的。</p>
+  <p><span class="g">用户主动创建 → 笔记</span><br><span class="o">系统/AI自动创建 → 资料</span></p>
+</div>
 
-  <h4>具体判断表</h4>
+<div class="card">
+  <h3>分类判断表</h3>
   <table>
-    <tr><th>内容</th><th>创建者</th><th>归属</th></tr>
+    <tr><th>内容</th><th>谁创建</th><th>归属</th></tr>
     <tr><td>用户手写/打字</td><td>用户</td><td class="g">笔记</td></tr>
-    <tr><td>AI键长按录音</td><td>用户按键触发</td><td class="g">笔记</td></tr>
-    <tr><td>对话中说"记到笔记"</td><td>用户指令触发</td><td class="g">笔记</td></tr>
+    <tr><td>AI键长按录音</td><td>用户按键</td><td class="g">笔记</td></tr>
+    <tr><td>对话说"记到笔记"</td><td>用户指令</td><td class="g">笔记</td></tr>
     <tr><td>通话纪要</td><td>系统自动</td><td class="o">资料</td></tr>
     <tr><td>PPT/播客/深度研究</td><td>AI生成</td><td class="o">资料</td></tr>
     <tr><td>链接/文件收藏</td><td>系统收纳</td><td class="o">资料</td></tr>
     <tr><td>穿戴设备录音</td><td>系统同步</td><td class="o">资料</td></tr>
     <tr><td>定时汇总/日报</td><td>系统定时</td><td class="o">资料</td></tr>
   </table>
+</div>
 
-  <h4>为什么用"谁创建"而不是其他维度</h4>
-  <ul>
-    <li><span class="r">不用"是否编辑过"</span>——用户不理解为什么改了就换地方</li>
-    <li><span class="r">不用"内容类型"</span>——"我让小爱写的笔记"和"通话自动生成的纪要"都是文字，但用户感知完全不同</li>
-    <li><span class="g">用"谁创建"</span>——用户能理解"我说了才有的=我的笔记""系统自己蹦出来的=帮我存的"</li>
-  </ul>
+<div class="card">
+  <h3>为什么用"谁创建"</h3>
+  <p><span class="r">不用"是否编辑过"</span> — 用户不理解为什么改了就换地方</p>
+  <p><span class="r">不用"内容类型"</span> — 让小爱写的笔记和通话纪要都是文字，但感知不同</p>
+  <p><span class="g">用"谁创建"</span> — 我说了才有的=我的；系统自己蹦出来的=帮我存的</p>
 </div>
 
 <div class="card">
   <h3>三方向对比</h3>
   <table>
-    <tr><th></th><th>A Pill轻分区</th><th>B 侧边栏重分区</th><th>C 不分区</th></tr>
+    <tr><th></th><th>A Pill</th><th>B 侧边栏</th><th>C 聚合卡</th></tr>
     <tr><td>老用户影响</td><td class="o">学1个Pill</td><td class="r">学新结构</td><td class="g">零</td></tr>
-    <tr><td>首页干净度</td><td class="g">完全干净</td><td class="g">完全干净</td><td class="o">卡片占位</td></tr>
-    <tr><td>资料可发现</td><td class="g">一键切Tab</td><td class="o">要开侧边栏</td><td class="o">要点展开</td></tr>
+    <tr><td>首页干净</td><td class="g">完全干净</td><td class="g">完全干净</td><td class="o">卡片占位</td></tr>
+    <tr><td>资料可发现</td><td class="g">一键切Tab</td><td class="o">开侧边栏</td><td class="o">点展开</td></tr>
     <tr><td>开发成本</td><td class="o">中</td><td class="r">大</td><td class="g">小</td></tr>
-    <tr><td>长期扩展性</td><td class="g">类型加chip</td><td class="g">无限扩展</td><td class="r">卡片放不下</td></tr>
+    <tr><td>扩展性</td><td class="g">加chip即可</td><td class="g">无限</td><td class="r">放不下</td></tr>
   </table>
   <div class="recommend">
-    <p><strong>结论</strong></p>
-    <p style="color:#aaa;margin-top:4px;font-size:10px">三条路都能解决首页被冲的问题。A体验和成本最均衡，B最完整但改动大，C最安全但不长久。OS4推荐A，下版本演进B。</p>
+    <p><strong>结论：OS4推荐A，下版本演进B。C作为兜底。</strong></p>
   </div>
 </div>
 
 <div class="card">
-  <h3>资料库类型清单（chips来源）</h3>
-  <table>
-    <tr><th>类型</th><th>来源</th><th>数据量预估</th></tr>
-    <tr><td>📞 通话纪要</td><td>通话录音自动转写</td><td>高频（日均2-5条）</td></tr>
-    <tr><td>📊 PPT</td><td>用户在笔记内生成</td><td>低频</td></tr>
-    <tr><td>🎧 播客</td><td>从纪要/笔记生成</td><td>低频</td></tr>
-    <tr><td>🔗 收藏链接</td><td>微信分享/MCP导入</td><td>中频</td></tr>
-    <tr><td>📄 深度研究</td><td>AI生成交互式报告</td><td>低频</td></tr>
-    <tr><td>⌚ 穿戴录音</td><td>手表同步</td><td>看用户习惯</td></tr>
-    <tr><td>📋 定时汇总</td><td>系统日报/周报</td><td>固定（日/周）</td></tr>
-  </table>
+  <h3>用户场景验证</h3>
+  <p><strong>"我让小爱记了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户说了"记到笔记"=用户发起。</p>
+  <p style="margin-top:10px"><strong>"系统自动生成的通话纪要在哪？"</strong><br><span class="o">→ 资料里。</span>用户没说，系统自己做的。</p>
+  <p style="margin-top:10px"><strong>"我从笔记里生成了PPT，在哪？"</strong><br><span class="o">→ 资料里。</span>AI生成物。源笔记内有关联入口。</p>
+  <p style="margin-top:10px"><strong>"我收藏了微信链接，在哪？"</strong><br><span class="o">→ 资料里。</span>系统收纳，不是用户创作。</p>
+  <p style="margin-top:10px"><strong>"我长按AI键录了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户主动按键=用户发起。</p>
 </div>
 
 <div class="card">
-  <h3>用户场景验证</h3>
-  <h4>"我让小爱记了一段话，在哪找？"</h4>
-  <p><span class="g">→ 在笔记里。</span>用户说了"记到笔记"=用户创建，归笔记。</p>
-  <h4>"系统自己生成的通话纪要在哪？"</h4>
-  <p><span class="o">→ 在资料里。</span>用户没指令，系统自己做的=归资料。</p>
-  <h4>"我从笔记里生成了一个PPT，在哪？"</h4>
-  <p><span class="o">→ 在资料里。</span>PPT是AI生成的产出物，不是用户写的笔记。但在源笔记详情页有关联入口。</p>
-  <h4>"我收藏了一个微信链接，在哪？"</h4>
-  <p><span class="o">→ 在资料里。</span>收藏=系统收纳行为，不是用户创作。</p>
-  <h4>"我长按AI键说了一段话，在哪？"</h4>
-  <p><span class="g">→ 在笔记里。</span>用户主动按键=用户发起=归笔记。</p>
+  <h3>资料库类型</h3>
+  <table>
+    <tr><th>类型</th><th>来源</th><th>频率</th></tr>
+    <tr><td>📞 通话纪要</td><td>录音自动转写</td><td>高频</td></tr>
+    <tr><td>📊 PPT</td><td>笔记内生成</td><td>低频</td></tr>
+    <tr><td>🎧 播客</td><td>从纪要生成</td><td>低频</td></tr>
+    <tr><td>🔗 收藏链接</td><td>微信分享/MCP</td><td>中频</td></tr>
+    <tr><td>📄 深度研究</td><td>AI交互式报告</td><td>低频</td></tr>
+    <tr><td>⌚ 穿戴录音</td><td>手表同步</td><td>看习惯</td></tr>
+    <tr><td>📋 定时汇总</td><td>系统日报/周报</td><td>固定</td></tr>
+  </table>
 </div>
 
 </div>
