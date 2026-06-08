@@ -308,7 +308,35 @@ function sidebarNavA(target) {
   if (target === 'notes') { switchA('notes'); }
   else if (target === 'wearable') { switchA('notes'); setTimeout(()=>showListA('wearable'),100); }
   else if (target === 'material') { switchA('material'); }
-  else { switchA('material'); setTimeout(()=>filterA(target),100); }
+  else if (target === 'calls') {
+    document.getElementById('pillN').classList.remove('active');
+    document.getElementById('pillM').classList.add('active');
+    document.getElementById('searchA').textContent = '🔍 搜索通话录音';
+    document.getElementById('chipsA').innerHTML = '';
+    document.getElementById('listA').innerHTML = callsList;
+  } else if (target === 'ai') {
+    document.getElementById('pillN').classList.remove('active');
+    document.getElementById('pillM').classList.add('active');
+    document.getElementById('searchA').textContent = '🔍 搜索AI生成物';
+    document.getElementById('chipsA').innerHTML = '<span class="chip active">全部</span><span class="chip" onclick="filterAiSub(\'ppt\')" style="cursor:pointer">PPT</span><span class="chip" onclick="filterAiSub(\'podcast\')" style="cursor:pointer">播客</span><span class="chip" onclick="filterAiSub(\'research\')" style="cursor:pointer">深度研究</span><span class="chip" onclick="filterAiSub(\'web\')" style="cursor:pointer">网页</span>';
+    document.getElementById('listA').innerHTML = aiGenList;
+  } else if (target === 'auto') {
+    document.getElementById('pillN').classList.remove('active');
+    document.getElementById('pillM').classList.add('active');
+    document.getElementById('searchA').textContent = '🔍 搜索自动整理';
+    document.getElementById('chipsA').innerHTML = '';
+    document.getElementById('listA').innerHTML = autoList;
+  }
+}
+
+function filterAiSub(type) {
+  // For demo, just show the same list with active chip change
+  const chips = document.getElementById('chipsA');
+  chips.innerHTML = '<span class="chip ' + (type==='all'?'active':'') + '" onclick="filterAiSub(\'all\')" style="cursor:pointer">全部</span><span class="chip ' + (type==='ppt'?'active':'') + '" onclick="filterAiSub(\'ppt\')" style="cursor:pointer">PPT</span><span class="chip ' + (type==='podcast'?'active':'') + '" onclick="filterAiSub(\'podcast\')" style="cursor:pointer">播客</span><span class="chip ' + (type==='research'?'active':'') + '" onclick="filterAiSub(\'research\')" style="cursor:pointer">深度研究</span><span class="chip ' + (type==='web'?'active':'') + '" onclick="filterAiSub(\'web\')" style="cursor:pointer">网页</span>';
+  if (type === 'all') document.getElementById('listA').innerHTML = aiGenList;
+  else if (type === 'ppt') document.getElementById('listA').innerHTML = '<div class="note-item"><div class="note-body"><div class="note-title">技术选型.pptx <span class="tag tag-ppt">PPT</span></div><div class="note-desc">8页 · 简约白</div><div class="note-meta">今天 15:00</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">用户增长策略.pptx <span class="tag tag-ppt">PPT</span></div><div class="note-desc">12页 · 商务蓝</div><div class="note-meta">6/2</div></div></div>';
+  else if (type === 'podcast') document.getElementById('listA').innerHTML = '<div class="note-item"><div class="note-body"><div class="note-title">产品评审回顾 <span class="tag tag-ppt">播客</span></div><div class="note-desc">3分钟音频摘要</div><div class="note-meta">昨天</div></div></div>';
+  else document.getElementById('listA').innerHTML = '<div class="note-item"><div class="note-body"><div class="note-title">Q3竞品深度研究 <span class="tag tag-link">研究</span></div><div class="note-desc">交互式网页报告</div><div class="note-meta">6/3</div></div></div>';
 }
 
 switchA('notes');
@@ -357,13 +385,36 @@ function filterB(type) {
   else document.getElementById('listB').innerHTML = autoList;
 }
 
+function filterBaiSub(type) {
+  const chips = document.getElementById('chipsB');
+  chips.innerHTML = '<span class="chip ' + (type==='all'?'active':'') + '" onclick="filterBaiSub(\'all\')" style="cursor:pointer">全部</span><span class="chip ' + (type==='ppt'?'active':'') + '" onclick="filterBaiSub(\'ppt\')" style="cursor:pointer">PPT</span><span class="chip ' + (type==='podcast'?'active':'') + '" onclick="filterBaiSub(\'podcast\')" style="cursor:pointer">播客</span><span class="chip ' + (type==='research'?'active':'') + '" onclick="filterBaiSub(\'research\')" style="cursor:pointer">深度研究</span><span class="chip ' + (type==='web'?'active':'') + '" onclick="filterBaiSub(\'web\')" style="cursor:pointer">网页</span>';
+  if (type === 'all') document.getElementById('listB').innerHTML = aiGenList;
+  else if (type === 'ppt') document.getElementById('listB').innerHTML = '<div class="note-item"><div class="note-body"><div class="note-title">技术选型.pptx <span class="tag tag-ppt">PPT</span></div><div class="note-desc">8页 · 简约白</div><div class="note-meta">今天 15:00</div></div></div><div class="note-item"><div class="note-body"><div class="note-title">用户增长策略.pptx <span class="tag tag-ppt">PPT</span></div><div class="note-desc">12页 · 商务蓝</div><div class="note-meta">6/2</div></div></div>';
+  else if (type === 'podcast') document.getElementById('listB').innerHTML = '<div class="note-item"><div class="note-body"><div class="note-title">产品评审回顾 <span class="tag tag-ppt">播客</span></div><div class="note-desc">3分钟音频摘要</div><div class="note-meta">昨天</div></div></div>';
+  else document.getElementById('listB').innerHTML = '<div class="note-item"><div class="note-body"><div class="note-title">Q3竞品深度研究 <span class="tag tag-link">研究</span></div><div class="note-desc">交互式网页报告</div><div class="note-meta">6/3</div></div></div>';
+}
+
 function sidebarNavB(target) {
   toggleSidebarB();
-  if (target === 'calls' || target === 'ai' || target === 'auto') {
-    navB('material');
-    setTimeout(()=>filterB(target), 100);
-  } else {
-    navB(target);
+  const title = document.getElementById('navTitleB');
+  const search = document.getElementById('searchB');
+  const chips = document.getElementById('chipsB');
+  const list = document.getElementById('listB');
+  if (target === 'notes') { navB('notes'); }
+  else if (target === 'wearable') { navB('wearable'); }
+  else if (target === 'material') { navB('material'); }
+  else if (target === 'calls') {
+    title.textContent = '通话录音'; search.textContent = '🔍 搜索通话录音';
+    chips.innerHTML = '';
+    list.innerHTML = callsList;
+  } else if (target === 'ai') {
+    title.textContent = 'AI生成物'; search.textContent = '🔍 搜索AI生成物';
+    chips.innerHTML = '<span class="chip active" onclick="filterBaiSub(\'all\')" style="cursor:pointer">全部</span><span class="chip" onclick="filterBaiSub(\'ppt\')" style="cursor:pointer">PPT</span><span class="chip" onclick="filterBaiSub(\'podcast\')" style="cursor:pointer">播客</span><span class="chip" onclick="filterBaiSub(\'research\')" style="cursor:pointer">深度研究</span><span class="chip" onclick="filterBaiSub(\'web\')" style="cursor:pointer">网页</span>';
+    list.innerHTML = aiGenList;
+  } else if (target === 'auto') {
+    title.textContent = '自动整理'; search.textContent = '🔍 搜索自动整理';
+    chips.innerHTML = '';
+    list.innerHTML = autoList;
   }
 }
 
