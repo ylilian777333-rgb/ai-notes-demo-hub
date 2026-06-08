@@ -259,7 +259,7 @@ body {
     <h2>方向B · 独立入口，重分区</h2>
     <span class="badge badge-heavy">改动最大</span>
   </div>
-  <div class="desc">侧边栏中笔记/资料库平级并列，各自独立空间。资料库有独立的列表、搜索、筛选。</div>
+  <div class="desc">侧边栏中笔记/资料平级并列，各自独立空间。资料有独立的列表、搜索、筛选。</div>
   <div class="phones">
     <div class="phone-wrap">
       <div class="phone">
@@ -295,20 +295,20 @@ body {
           <div class="sbi active">📒 全部 <span class="cnt">18</span></div>
           <div class="sbi">⌚ 穿戴 <span class="cnt">4</span></div>
           <div class="sb-div"></div>
-          <div class="sb-sec">资料库</div>
+          <div class="sb-sec">资料</div>
           <div class="sbi">📑 全部 <span class="cnt">17</span></div>
           <div class="sbi">📞 通话录音 <span class="cnt">9</span></div>
           <div class="sbi">✦ AI生成物 <span class="cnt">5</span></div>
           <div class="sbi">📋 自动整理 <span class="cnt">3</span></div>
         </div>
       </div>
-      <div class="phone-label">侧边栏（笔记‖资料库并列）</div>
+      <div class="phone-label">侧边栏（笔记‖资料并列）</div>
     </div>
 
     <div class="phone-wrap">
       <div class="phone">
         <div class="sb"><span>2:36</span><span>●●● 100</span></div>
-        <div class="nav"><span class="nav-ham">≡</span><span class="nav-title">资料库</span><span class="nav-icons">⋮</span></div>
+        <div class="nav"><span class="nav-ham">≡</span><span class="nav-title">资料</span><span class="nav-icons">⋮</span></div>
         <div class="search">🔍 搜索资料</div>
         <div class="chips">
           <span class="chip active">全部</span>
@@ -329,7 +329,7 @@ body {
         </div>
         <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
       </div>
-      <div class="phone-label">资料库独立页面</div>
+      <div class="phone-label">资料独立页面</div>
     </div>
   </div>
 </div>
@@ -420,11 +420,11 @@ body {
   <h4>问题</h4>
   <p>AI内容越来越多，首页被冲，用户写笔记的意图被稀释。</p>
   <h4>解法</h4>
-  <p style="font-size:14px;color:#fff;font-weight:600;margin:8px 0">笔记 = 所有内容的本体（用户有动作产生的）<br>资料库 = 按类型聚合查看的视图（不是另一个存储空间）</p>
+  <p style="font-size:14px;color:#fff;font-weight:600;margin:8px 0">笔记 = 所有内容的本体（用户有动作产生的）<br>资料 = 按类型聚合查看的视图（不是另一个存储空间）</p>
   <h4>核心规则：看用户有没有动作</h4>
   <p><span class="g">用户有动作（说/点/写/录/分享）→ 进笔记</span></p>
-  <p><span class="o">用户零操作，系统自动产出 → 仅在资料库</span></p>
-  <p><span class="g">AI生成物 → 双记：笔记里是附件，资料库里按类型聚合可见</span></p>
+  <p><span class="o">用户零操作，系统自动产出 → 仅在资料</span></p>
+  <p><span class="g">AI生成物 → 双记：笔记里是附件，资料里按类型聚合可见</span></p>
 </div>
 
 <div class="card">
@@ -446,20 +446,20 @@ body {
 </div>
 
 <div class="card">
-  <h3>三、资料库视图（3类）</h3>
-  <p style="margin-bottom:8px">资料库不是另一个存储空间，是按类型聚合查看的快捷入口。</p>
+  <h3>三、资料视图（3类）</h3>
+  <p style="margin-bottom:8px">资料不是另一个存储空间，是按类型聚合查看的快捷入口。</p>
   <table>
     <tr><th>聚类</th><th>包含</th><th>数据位置</th></tr>
-    <tr><td>📞 通话录音</td><td>通话纪要</td><td>仅资料库（用户零操作，首页不出现）</td></tr>
-    <tr><td>✦ AI生成物</td><td>PPT/播客/研究/网页</td><td>双记（笔记附件+资料库聚合）</td></tr>
-    <tr><td>📋 自动整理</td><td>日报/周报</td><td>仅资料库（系统定时，首页不出现）</td></tr>
+    <tr><td>📞 通话录音</td><td>通话纪要</td><td>仅资料（用户零操作，首页不出现）</td></tr>
+    <tr><td>✦ AI生成物</td><td>PPT/播客/研究/网页</td><td>双记（笔记附件+资料聚合）</td></tr>
+    <tr><td>📋 自动整理</td><td>日报/周报</td><td>仅资料（系统定时，首页不出现）</td></tr>
   </table>
   <p style="margin-top:10px;color:#888">一级Chips：全部 / 通话录音 / AI生成物 / 自动整理</p>
   <p style="color:#888">点"AI生成物"进入二级：全部 / PPT / 播客 / 深度研究 / 网页</p>
   <h4>双记逻辑（AI生成物）</h4>
   <p>用户在笔记A里点"生成PPT" →</p>
   <p>• 笔记A详情页：底部出现附件卡片"技术选型.pptx"</p>
-  <p>• 资料库"AI生成物"：能看到这个PPT（指向同一份数据）</p>
+  <p>• 资料"AI生成物"：能看到这个PPT（指向同一份数据）</p>
   <p>用户找PPT有两条路，但数据只有一份。</p>
 </div>
 
@@ -473,9 +473,9 @@ body {
     <tr><td>穿戴录音</td><td>主动按手表录</td><td class="g">笔记 · 穿戴文件夹（预置）</td></tr>
     <tr><td>对话"记到笔记"</td><td>主动指令</td><td class="g">笔记 · 自动归类</td></tr>
     <tr><td>微信分享到笔记</td><td>主动点分享</td><td class="g">笔记 · 自动归类</td></tr>
-    <tr><td>笔记内点"生成PPT"</td><td>主动点按钮</td><td class="g">笔记附件 + <span class="o">资料库视图</span></td></tr>
-    <tr><td>通话纪要</td><td>零操作</td><td class="o">仅资料库 · 通话录音</td></tr>
-    <tr><td>系统日报/周报</td><td>零操作</td><td class="o">仅资料库 · 自动整理</td></tr>
+    <tr><td>笔记内点"生成PPT"</td><td>主动点按钮</td><td class="g">笔记附件 + <span class="o">资料视图</span></td></tr>
+    <tr><td>通话纪要</td><td>零操作</td><td class="o">仅资料 · 通话录音</td></tr>
+    <tr><td>系统日报/周报</td><td>零操作</td><td class="o">仅资料 · 自动整理</td></tr>
   </table>
   <h4>为什么用"有没有动作"</h4>
   <p><span class="r">✕ "是否编辑过"</span> — 改了一个字就换地方，用户不理解</p>
@@ -488,10 +488,10 @@ body {
   <h3>五、用户场景验证</h3>
   <p><strong>"我让小爱记了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户说了"记到笔记"= 有动作。</p>
   <p style="margin-top:12px"><strong>"我从微信分享了一篇文章到笔记，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户主动点了分享 = 有动作。</p>
-  <p style="margin-top:12px"><strong>"系统自动生成的通话纪要在哪？"</strong><br><span class="o">→ 资料库。</span>用户零操作，系统自己做的。</p>
-  <p style="margin-top:12px"><strong>"我在笔记里点了生成PPT，在哪找？"</strong><br><span class="g">→ 两个地方都能找到。</span>源笔记里有附件卡片；资料库"AI生成物"里也能看到。</p>
+  <p style="margin-top:12px"><strong>"系统自动生成的通话纪要在哪？"</strong><br><span class="o">→ 资料。</span>用户零操作，系统自己做的。</p>
+  <p style="margin-top:12px"><strong>"我在笔记里点了生成PPT，在哪找？"</strong><br><span class="g">→ 两个地方都能找到。</span>源笔记里有附件卡片；资料"AI生成物"里也能看到。</p>
   <p style="margin-top:12px"><strong>"我长按AI键录了一段话，在哪？"</strong><br><span class="g">→ 笔记里。</span>用户主动按键 = 有动作。</p>
-  <p style="margin-top:12px"><strong>"系统每天自动生成的日报，在哪？"</strong><br><span class="o">→ 资料库。</span>用户零操作，定时自动跑。</p>
+  <p style="margin-top:12px"><strong>"系统每天自动生成的日报，在哪？"</strong><br><span class="o">→ 资料。</span>用户零操作，定时自动跑。</p>
 </div>
 
 <div class="card">
