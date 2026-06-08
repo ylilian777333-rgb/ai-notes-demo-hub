@@ -135,7 +135,7 @@ body {
 <div class="left">
 
 <div class="section">
-  <h2>可交互演示 · 点≡开侧边栏，点各项切换</h2>
+  <h2>方案一 · 侧边栏分区（推荐）</h2>
   <div class="phone-wrap">
     <div class="phone" id="phone">
       <div class="sb"><span>2:36</span><span>●●● 100</span></div>
@@ -163,6 +163,28 @@ body {
       </div>
     </div>
     <div class="phone-label">点≡打开侧边栏 → 点任意项切换</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>方案二 · 顶部Pill切换</h2>
+  <div class="phone-wrap">
+    <div class="phone" id="phoneB2" style="position:relative">
+      <div class="sb"><span>2:36</span><span>●●● 100</span></div>
+      <div class="nav">
+        <span class="nav-ham">≡</span>
+        <div style="display:flex;background:#f0f0f0;border-radius:14px;padding:2px">
+          <span class="pill" id="p2notes" onclick="switchP2('notes')" style="cursor:pointer">笔记</span>
+          <span class="pill" id="p2mat" onclick="switchP2('material')" style="cursor:pointer">资料</span>
+        </div>
+        <span class="nav-icons">☑ ⋮</span>
+      </div>
+      <div class="search" id="searchP2">🔍 搜索笔记</div>
+      <div class="chips" id="chipsP2"></div>
+      <div class="note-list" id="listP2"></div>
+      <div class="bottom-bar"><span>📎</span><div class="mic-dot"></div><span>＋</span></div>
+    </div>
+    <div class="phone-label">点Pill切换笔记/资料</div>
   </div>
 </div>
 
@@ -347,6 +369,37 @@ function filterAi(type) {
 
 // Init
 nav('notes'); toggleSidebar(); // close sidebar after init
+
+// === 方案二: Pill ===
+function switchP2(tab) {
+  document.getElementById('p2notes').classList.toggle('active', tab==='notes');
+  document.getElementById('p2mat').classList.toggle('active', tab==='material');
+  const search = document.getElementById('searchP2');
+  const chips = document.getElementById('chipsP2');
+  const list = document.getElementById('listP2');
+  if (tab === 'notes') {
+    search.textContent = '🔍 搜索笔记';
+    chips.innerHTML = '<span class="chip active" onclick="filterP2(\'all\')">全部</span><span class="chip" onclick="filterP2(\'wearable\')" style="cursor:pointer">穿戴</span>';
+    list.innerHTML = data.notes;
+  } else {
+    search.textContent = '🔍 搜索资料';
+    chips.innerHTML = '<span class="chip active" onclick="filterP2mat(\'all\')">全部</span><span class="chip" onclick="filterP2mat(\'calls\')" style="cursor:pointer">通话录音</span><span class="chip" onclick="filterP2mat(\'ai\')" style="cursor:pointer">AI生成物</span>';
+    list.innerHTML = data.materialAll;
+  }
+}
+function filterP2(type) {
+  const chips = document.getElementById('chipsP2');
+  chips.innerHTML = '<span class="chip '+(type==='all'?'active':'')+'" onclick="filterP2(\'all\')">全部</span><span class="chip '+(type==='wearable'?'active':'')+'" onclick="filterP2(\'wearable\')" style="cursor:pointer">穿戴</span>';
+  document.getElementById('listP2').innerHTML = type==='all' ? data.notes : data.wearable;
+}
+function filterP2mat(type) {
+  const chips = document.getElementById('chipsP2');
+  chips.innerHTML = '<span class="chip '+(type==='all'?'active':'')+'" onclick="filterP2mat(\'all\')">全部</span><span class="chip '+(type==='calls'?'active':'')+'" onclick="filterP2mat(\'calls\')" style="cursor:pointer">通话录音</span><span class="chip '+(type==='ai'?'active':'')+'" onclick="filterP2mat(\'ai\')" style="cursor:pointer">AI生成物</span>';
+  if (type==='all') document.getElementById('listP2').innerHTML = data.materialAll;
+  else if (type==='calls') document.getElementById('listP2').innerHTML = data.calls;
+  else document.getElementById('listP2').innerHTML = data.ai;
+}
+switchP2('notes');
 </script>
 </body>
 </html>
