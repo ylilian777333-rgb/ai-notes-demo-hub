@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记 · 信息架构</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"MiSans","PingFang SC",-apple-system,sans-serif;background:#fff;color:#1a1a1a;padding:60px 80px;min-width:2400px}
+h1{font-size:32px;font-weight:700;margin-bottom:6px}
+.subtitle{font-size:14px;color:#999;margin-bottom:56px}
+
+.tree ul{list-style:none;padding-left:36px;position:relative}
+.tree > ul{padding-left:0}
+.tree li{position:relative;padding:5px 0 5px 30px}
+.tree li::before{content:"";position:absolute;left:0;top:50%;width:26px;height:1px;background:#d0d5dd}
+.tree li::after{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:#d0d5dd}
+.tree li:last-child::after{height:50%}
+.tree > ul > li::before,.tree > ul > li::after{display:none}
+.tree > ul > li{padding-left:0}
+
+.n{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:8px;font-size:14px;white-space:nowrap}
+.n-root{font-size:22px;font-weight:700;padding:16px 32px;border-radius:14px;background:#f0f4ff;border:2px solid #5780ff;color:#1a1a2e}
+.n-1{font-size:16px;font-weight:700;padding:10px 20px;border-radius:10px;border:2px solid #5780ff;color:#5780ff;background:#f5f8ff}
+.n-2{font-size:13px;font-weight:600;padding:6px 12px;background:#f4f6f8;border:1px solid #e2e6ea;border-radius:6px;color:#333}
+.n-3{font-size:12px;padding:4px 10px;color:#555;background:#fafbfc;border:1px solid #eef0f2;border-radius:4px}
+
+.tag{font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;color:#fff}
+.tag-new{background:#ff6b4d}
+.tag-ai{background:#a68cfa}
+.tag-miss{background:transparent;color:#ff6b4d;border:1px dashed #ff6b4d}
+.tag-entry{background:#5780ff}
+.tag-migrate{background:#e6a817}
+
+.anno{font-size:11px;color:#999;font-weight:400;margin-left:4px}
+</style>
+</head>
+<body>
+
+<h1>笔记APP · 信息架构</h1>
+<p class="subtitle">按用户行为拆解：记 → 看 → 用 → 管 → 找 ｜ 找 = 跨系统能力输出（小爱/MiClaw检索笔记数据）</p>
+
+<div class="tree">
+<ul>
+<li><span class="n n-root">笔记</span>
+  <ul>
+
+    <!-- ====== 记（内容怎么进来） ====== -->
+    <li><span class="n n-1" style="border-color:#5780ff;color:#5780ff;background:#f5f8ff">记（内容怎么进来）</span>
+      <ul>
+        <li><span class="n n-2">主动记录</span> <span class="anno">用户有意识地打开APP记</span>
+          <ul>
+            <li><span class="n n-3">手写/键入</span> <span class="tag tag-entry">入口：首页+号</span> <span class="anno">打开编辑器 → 写文字</span></li>
+            <li><span class="n n-3">录音</span> <span class="tag tag-entry">入口：首页+号/AI键</span> <span class="anno">会议/课堂/随身</span></li>
+            <li><span class="n n-3">拍照+写</span> <span class="tag tag-entry">入口：首页+号</span> <span class="anno">图文混排记录</span></li>
+          </ul>
+        </li>
+        <li><span class="n n-2">自动采集</span> <span class="anno">系统帮你记，用户无需主动打开笔记APP</span>
+          <ul>
+            <li><span class="n n-3">📞 通话录音</span> <span class="tag tag-new">NEW</span> <span class="anno">挂断后自动生成通话笔记</span></li>
+            <li><span class="n n-3">⌚ 穿戴录音</span> <span class="tag tag-new">NEW</span>
+              <ul>
+                <li><span class="n n-4">手表</span></li>
+                <li><span class="n n-4">手环</span></li>
+                <li><span class="n n-4">戒指</span></li>
+                <li><span class="n n-4">磁吸支架</span></li>
+                <li><span class="n n-4" style="color:#bbb">耳机（待定）</span></li>
+                <li><span class="n n-4" style="color:#bbb">眼镜（待定）</span></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><span class="n n-2">记忆迁入</span> <span class="tag tag-migrate">小爱迁移</span> <span class="anno">原小爱记忆数据迁移到笔记APP内管理</span>
+          <ul>
+            <li><span class="n n-3">🔗 链接收藏</span> <span class="anno">小红书/大众点评等APP收藏存入</span></li>
+            <li><span class="n n-3">🪪 卡证识别</span> <span class="anno">AI键识屏 → 身份证/护照/银行卡</span></li>
+            <li><span class="n n-3">📍 地址存储</span> <span class="anno">语音/识屏 → 收货地址/常去地点</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+
+    <!-- ====== 看（内容怎么消费） ====== -->
+    <li><span class="n n-1" style="border-color:#a68cfa;color:#7c5ed0;background:#f9f7ff">看（内容怎么消费）</span>
+      <ul>
+        <li><span class="n n-2">看原文</span> <span class="tag tag-entry">入口：首页点击笔记</span>
+          <ul>
+            <li><span class="n n-3">笔记详情页 · 正文区</span> <span class="anno">文本/录音回放+转写/图文</span></li>
+            <li><span class="n n-3">通话详情 · 完整录音+转写</span> <span class="tag tag-new">NEW</span></li>
+            <li><span class="n n-3">穿戴详情 · 录音段回放</span> <span class="tag tag-new">NEW</span></li>
+          </ul>
+        </li>
+        <li><span class="n n-2">看AI加工结果</span> <span class="tag tag-entry">入口：笔记详情页 · AI纪要区</span>
+          <ul>
+            <li><span class="n n-3">会议纪要（结构化摘要）</span></li>
+            <li><span class="n n-3">课堂笔记（知识点梳理）</span></li>
+            <li><span class="n n-3">通话纪要（关键信息+行动项）</span> <span class="tag tag-new">NEW</span></li>
+            <li><span class="n n-3">穿戴摘要（去口语化）</span> <span class="tag tag-new">NEW</span></li>
+            <li><span class="n n-3">链接摘要（文章要点提取）</span></li>
+          </ul>
+        </li>
+        <li><span class="n n-2">消费产出物</span> <span class="tag tag-entry">入口：笔记详情页 · 产出物卡片 / 待定列表页</span>
+          <ul>
+            <li><span class="n n-3">🎙️ 听播客</span> <span class="anno">播放器 → 通勤/运动/做饭</span></li>
+            <li><span class="n n-3">📊 看PPT</span> <span class="anno">全屏翻页 → 汇报/分享</span></li>
+            <li><span class="n n-3">🧠 看脑图</span> <span class="anno">展开收起 → 理清结构</span></li>
+            <li><span class="n n-3">🃏 翻知识卡片</span> <span class="anno">逐张翻阅 → 记忆/速查</span></li>
+            <li><span class="n n-3">📝 做考点/模拟题</span> <span class="anno">复习模式 → 期末/检验</span></li>
+            <li><span class="n n-3">✅ 查待办</span> <span class="tag tag-entry">入口：首页右上角</span> <span class="anno">勾选/到期提醒</span></li>
+          </ul>
+        </li>
+        <li><span class="n n-2">查看记忆</span> <span class="tag tag-entry">入口：笔记APP内独立入口</span> <span class="tag tag-migrate">小爱迁移</span>
+          <ul>
+            <li><span class="n n-3">🔗 链接列表 → 点开看摘要/原文</span></li>
+            <li><span class="n n-3">🪪 卡证详情 → 结构化字段展示</span></li>
+            <li><span class="n n-3">📍 地址列表 → 复制/导航</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+
+    <!-- ====== 用（内容怎么再创作） ====== -->
+    <li><span class="n n-1" style="border-color:#33d499;color:#1a8a5c;background:#f2fdf8">用（内容怎么再创作）</span>
+      <ul>
+        <li><span class="n n-2">AI生成产出物</span> <span class="tag tag-ai">AI</span> <span class="tag tag-entry">入口：笔记详情页 · AI对话框</span>
+          <ul>
+            <li><span class="n n-3">"生成播客"</span> <span class="anno">基于当前笔记 → 音频</span></li>
+            <li><span class="n n-3">"做PPT"</span> <span class="anno">会议笔记/任何笔记 → 演示文稿</span></li>
+            <li><span class="n n-3">"生成脑图"</span> <span class="anno">任何笔记 → 结构化脑图</span></li>
+            <li><span class="n n-3">"提炼考点"/"出题"</span> <span class="anno">课堂笔记 → 复习材料</span></li>
+            <li><span class="n n-3">"生成卡片"</span> <span class="anno">基于当前笔记 → 知识卡片</span></li>
+            <li><span class="n n-3">自动提取待办</span> <span class="anno">会议/通话纪要 → 待办清单</span></li>
+          </ul>
+        </li>
+        <li><span class="n n-2">手动编辑</span> <span class="tag tag-entry">入口：笔记详情页</span>
+          <ul>
+            <li><span class="n n-3">修改笔记正文</span></li>
+            <li><span class="n n-3">追加内容</span></li>
+            <li><span class="n n-3">AI改写/续写</span> <span class="tag tag-ai">AI</span></li>
+          </ul>
+        </li>
+        <li><span class="n n-2">分享</span>
+          <ul>
+            <li><span class="n n-3">发送笔记</span></li>
+            <li><span class="n n-3">分享产出物（播客/PPT/卡片）</span></li>
+            <li><span class="n n-3">IM直发</span> <span class="tag tag-miss">暂不支持</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+
+    <!-- ====== 管（内容怎么组织） ====== -->
+    <li><span class="n n-1" style="border-color:#ff8514;color:#b35c00;background:#fff9f2">管（内容怎么组织）</span>
+      <ul>
+        <li><span class="n n-2">笔记管理</span> <span class="tag tag-entry">入口：首页长按/详情页更多</span>
+          <ul>
+            <li><span class="n n-3">文件夹 → 新建/移动/删除</span></li>
+            <li><span class="n n-3">置顶</span></li>
+            <li><span class="n n-3">删除笔记</span></li>
+            <li><span class="n n-3">撤销（AI修改回滚）</span></li>
+          </ul>
+        </li>
+        <li><span class="n n-2">产出物+待办管理</span> <span class="anno">入口待定，设计侧调整中</span>
+          <ul>
+            <li><span class="n n-3">待办：完成/未完成切换</span></li>
+            <li><span class="n n-3">待办：同步日历</span></li>
+            <li><span class="n n-3">待办：到期催促</span> <span class="tag tag-miss">暂不支持</span></li>
+            <li><span class="n n-3">待办：重复属性</span> <span class="tag tag-miss">暂不支持</span></li>
+            <li><span class="n n-3">播客/PPT/卡片列表管理</span> <span class="anno">入口待定</span></li>
+            <li><span class="n n-3">产出物 ↔ 来源笔记 双向跳转</span></li>
+          </ul>
+        </li>
+        <li><span class="n n-2">记忆管理</span> <span class="tag tag-entry">入口：笔记APP内</span> <span class="tag tag-migrate">小爱迁移</span>
+          <ul>
+            <li><span class="n n-3">查看/删除记忆条目</span></li>
+            <li><span class="n n-3">按分类浏览（链接/卡证/地址）</span></li>
+            <li><span class="n n-3">记忆详情 → 编辑/补充</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+
+    <!-- ====== 找（跨系统能力输出） ====== -->
+    <li><span class="n n-1" style="border-color:#e6a817;color:#946b00;background:#fffdf5">找（数据被检索消费）</span> <span class="anno">跨系统能力：笔记提供数据，小爱/MiClaw来搜</span>
+      <ul>
+        <li><span class="n n-2">笔记内搜索</span> <span class="tag tag-entry">入口：首页右上角搜索</span>
+          <ul>
+            <li><span class="n n-3">关键词搜索</span> <span class="anno">标题+正文+转写文本</span></li>
+            <li><span class="n n-3">按时间筛选（日/周/月）</span></li>
+            <li><span class="n n-3">按类型筛选（录音/图文/通话/穿戴）</span></li>
+          </ul>
+        </li>
+        <li><span class="n n-2">小爱/MiClaw检索</span> <span class="tag tag-ai">AI</span> <span class="anno">笔记作为数据源，被外部系统调用</span>
+          <ul>
+            <li><span class="n n-3">语义搜索（自然语言理解意图）</span></li>
+            <li><span class="n n-3">问答（直接给答案，不是结果列表）</span></li>
+            <li><span class="n n-3">检索范围：笔记 + 通话 + 穿戴 + 记忆 + 产出物</span></li>
+          </ul>
+        </li>
+        <li><span class="n n-2">典型场景</span>
+          <ul>
+            <li><span class="n n-3">"上周开会说了什么"</span> <span class="anno">→ 从会议笔记答</span></li>
+            <li><span class="n n-3">"我老伴身份证多少"</span> <span class="anno">→ 从记忆·卡证答</span></li>
+            <li><span class="n n-3">"李总电话里说几号来"</span> <span class="anno">→ 从通话笔记答</span></li>
+            <li><span class="n n-3">"跑步时说的那个产品想法"</span> <span class="anno">→ 从穿戴笔记答</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+
+  </ul>
+</li>
+</ul>
+</div>
+
+<!-- ====== 附：笔记详情页信息分区 ====== -->
+<div style="margin-top:80px;margin-bottom:48px">
+  <h2 style="font-size:24px;font-weight:700;margin-bottom:8px">附：笔记详情页 · 信息分区示意</h2>
+  <p style="font-size:13px;color:#999;margin-bottom:32px">设计师核心交付页面——一篇笔记打开后，从上到下看到什么</p>
+
+  <div style="display:flex;gap:60px;align-items:flex-start">
+    <!-- Left: phone mockup with colored zone overlays only -->
+    <div style="position:relative;flex-shrink:0;width:360px">
+      <img src="note-detail-screenshot.png" style="width:360px;border-radius:24px;border:1px solid #e8e8e8;display:block">
+      <!-- Colored zone overlays — non-overlapping -->
+      <!-- Zone 1: 原文 (nav bar + title + recording player) -->
+      <div style="position:absolute;top:40px;left:-6px;right:-6px;height:170px;border:2.5px solid #5780ff;border-radius:14px;pointer-events:none"></div>
+      <!-- Zone 2: AI纪要 (AI summary + meeting notes) -->
+      <div style="position:absolute;top:220px;left:-6px;right:-6px;bottom:80px;border:2.5px solid #a68cfa;border-radius:14px;pointer-events:none"></div>
+      <!-- Zone 3: AI对话框 (bottom input bar) -->
+      <div style="position:absolute;bottom:12px;left:-6px;right:-6px;height:52px;border:2.5px solid #33d499;border-radius:14px;pointer-events:none"></div>
+    </div>
+
+    <!-- Right: layer explanations in normal flow -->
+    <div style="flex:1;max-width:520px;display:flex;flex-direction:column;gap:24px;padding-top:20px">
+      <!-- Layer 1 -->
+      <div style="padding:20px 24px;background:#f5f8ff;border-left:4px solid #5780ff;border-radius:8px">
+        <div style="font-weight:700;color:#5780ff;font-size:15px;margin-bottom:8px">第一层级 · 原文</div>
+        <div style="font-size:13px;color:#666;line-height:1.8">
+          用户自己记的原始内容：标题、录音、转写、手写文字<br>
+          通话笔记/穿戴笔记也展示在这里<br>
+          <strong style="color:#333">手写感想/图文记录本身就是最终产物</strong>
+        </div>
+      </div>
+
+      <!-- Layer 2 -->
+      <div style="padding:20px 24px;background:#f9f7ff;border-left:4px solid #a68cfa;border-radius:8px">
+        <div style="font-weight:700;color:#7c5ed0;font-size:15px;margin-bottom:8px">第二层级 · AI纪要</div>
+        <div style="font-size:13px;color:#666;line-height:1.8">
+          AI自动生成的结构化内容：纪要/摘要/待办提取<br>
+          用户不会反复看，但作为转化产出物的素材<br>
+          <strong style="color:#333">中间态 = 拿到后还要再做事</strong>
+        </div>
+      </div>
+
+      <!-- Layer 3 -->
+      <div style="padding:20px 24px;background:#f2fdf8;border-left:4px solid #33d499;border-radius:8px">
+        <div style="font-weight:700;color:#1a8a5c;font-size:15px;margin-bottom:8px">AI对话框 → 生成第三层级产出物</div>
+        <div style="font-size:13px;color:#666;line-height:1.8">
+          底部「总结、润色、对话...」= 触发生成产出物的入口<br>
+          点击后触发：生成播客/做PPT/生成脑图/提炼考点<br>
+          <strong style="color:#333">产出物生成后跳转到独立详情页消费</strong>
+        </div>
+      </div>
+
+      <!-- Priority rule -->
+      <div style="padding:16px 24px;background:#fff9f2;border-left:4px solid #ff8514;border-radius:8px">
+        <div style="font-weight:700;color:#b35c00;font-size:13px;margin-bottom:6px">页面信息优先级</div>
+        <div style="font-size:12px;color:#666;line-height:2">
+          ① 用户原文永远在最上面（用户自己的东西优先）<br>
+          ② AI加工结果紧随其下（辅助理解）<br>
+          ③ 产出物入口在底部（需要时触发，不干扰阅读）
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:48px;padding:16px 24px;background:#f8f9fa;border-radius:12px;display:flex;gap:32px;font-size:12px;align-items:center">
+  <span style="font-weight:700">图例：</span>
+  <span><span class="tag tag-new" style="font-size:10px">NEW</span> 新增需求</span>
+  <span><span class="tag tag-ai" style="font-size:10px">AI</span> AI能力</span>
+  <span><span class="tag tag-miss" style="font-size:10px;display:inline-block">断头</span> 当前缺失</span>
+  <span><span class="tag tag-entry" style="font-size:10px">入口</span> 用户从哪进入</span>
+  <span><span class="tag tag-migrate" style="font-size:10px">小爱迁移</span> 原小爱记忆迁移到笔记</span>
+</div>
+
+</body>
+</html>

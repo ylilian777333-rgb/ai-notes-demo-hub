@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记产品方案 · 消费导向设计</title>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","SF Pro Display",sans-serif;background:#f5f5f7;padding:40px;color:#1a1a1a}
+.page-title{font-size:28px;font-weight:700;margin-bottom:6px}
+.page-sub{font-size:14px;color:#888;margin-bottom:40px}
+
+.section{margin-bottom:60px}
+.section-title{font-size:18px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-tag{background:#6366f1;color:#fff;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:600}
+
+/* Phone */
+.phones{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+.phone-wrap{flex-shrink:0}
+.phone-label{font-size:12px;color:#666;margin-bottom:8px;font-weight:500}
+.phone{width:375px;height:812px;background:#fff;border-radius:40px;border:8px solid #1c1c1e;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.12)}
+.phone::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:28px;background:#1c1c1e;border-radius:0 0 16px 16px;z-index:10}
+.ph-status{height:44px;display:flex;align-items:center;justify-content:space-between;padding:16px 24px 0;font-size:12px;font-weight:600}
+.ph-body{height:calc(100% - 44px);overflow-y:auto;position:relative}
+
+/* Home - Consumable First */
+.home-header{padding:16px 20px 8px;display:flex;align-items:center;justify-content:space-between}
+.home-title{font-size:22px;font-weight:700}
+.home-avatar{width:28px;height:28px;border-radius:50%;background:#e5e5ea}
+.home-search{margin:0 16px 12px;background:#f2f2f7;border-radius:10px;padding:10px 14px;font-size:13px;color:#8e8e93;display:flex;align-items:center;gap:6px}
+
+/* Quick Actions - 最终消费物 */
+.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px;margin-bottom:16px}
+.quick-item{text-align:center;padding:12px 4px}
+.quick-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:20px}
+.quick-item span{font-size:10px;color:#666}
+
+/* Content Type Tabs */
+.type-tabs{display:flex;gap:0;padding:0 16px;margin-bottom:12px;border-bottom:1px solid #f0f0f0}
+.type-tab{padding:8px 14px;font-size:13px;color:#8e8e93;font-weight:500;border-bottom:2px solid transparent;cursor:pointer}
+.type-tab.active{color:#1c1c1e;border-bottom-color:#1c1c1e;font-weight:600}
+
+/* Note Cards */
+.note-list{padding:0 16px}
+.note-card{background:#fff;border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid #f0f0f0}
+.note-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.note-card-title{font-size:14px;font-weight:600}
+.note-card-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
+.badge-todo{background:#fff3e0;color:#f57c00}
+.badge-podcast{background:#e8f5e9;color:#43a047}
+.badge-ppt{background:#e3f2fd;color:#1976d2}
+.badge-quiz{background:#fce4ec;color:#e91e63}
+.note-card-desc{font-size:12px;color:#666;line-height:1.5;margin-bottom:8px}
+.note-card-meta{font-size:11px;color:#aaa;display:flex;align-items:center;gap:8px}
+.note-card-outputs{display:flex;gap:6px;margin-top:8px}
+.output-chip{font-size:10px;padding:4px 8px;border-radius:6px;background:#f5f5fa;color:#555;display:flex;align-items:center;gap:3px}
+
+/* Detail Page */
+.detail-nav{padding:12px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f0f0f0}
+.detail-back{font-size:18px;color:#007aff}
+.detail-nav-title{font-size:15px;font-weight:600}
+.detail-body{padding:16px}
+.detail-title{font-size:20px;font-weight:700;margin-bottom:4px}
+.detail-meta{font-size:12px;color:#8e8e93;margin-bottom:16px}
+
+/* Output Section - C位 */
+.output-section{margin-bottom:20px}
+.output-section-title{font-size:13px;font-weight:600;color:#6366f1;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.output-card{background:#f8f8ff;border:1px solid #e8e8ff;border-radius:12px;padding:12px;margin-bottom:8px}
+.output-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.output-card-name{font-size:13px;font-weight:600;color:#4338ca}
+.output-card-action{font-size:11px;color:#6366f1;background:#ede9fe;padding:3px 8px;border-radius:6px}
+.output-card-desc{font-size:12px;color:#555;line-height:1.5}
+
+/* Original Section - 折叠 */
+.original-section{margin-top:16px;border-top:1px solid #f0f0f0;padding-top:12px}
+.original-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.original-label{font-size:12px;color:#8e8e93;font-weight:500}
+.original-arrow{font-size:12px;color:#8e8e93}
+.original-content{margin-top:10px;font-size:12px;color:#666;line-height:1.8;padding:12px;background:#fafafa;border-radius:8px}
+
+/* Sidebar */
+.sidebar-overlay{position:absolute;inset:0;background:rgba(0,0,0,.3);z-index:20}
+.sidebar{position:absolute;left:0;top:0;bottom:0;width:260px;background:#fff;z-index:30;padding:60px 0 20px}
+.sidebar-section{padding:0 16px;margin-bottom:20px}
+.sidebar-section-title{font-size:11px;color:#8e8e93;font-weight:600;text-transform:uppercase;margin-bottom:8px;letter-spacing:0.5px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;font-size:13px;color:#333;margin-bottom:2px}
+.sidebar-item.active{background:#f0f0ff;color:#4338ca;font-weight:600}
+.sidebar-item-icon{font-size:16px}
+.sidebar-item-count{margin-left:auto;font-size:11px;color:#aaa}
+.sidebar-divider{height:1px;background:#f0f0f0;margin:12px 16px}
+
+/* Annotation */
+.anno{position:absolute;right:-220px;top:0;width:200px;padding:8px 12px;background:#fffde7;border-radius:8px;font-size:11px;color:#555;line-height:1.5;border:1px solid #fff9c4}
+.anno-arrow{position:absolute;left:-8px;top:12px;width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-right:8px solid #fffde7}
+
+/* Flow */
+.flow-arrow{display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0 8px}
+.flow-arrow span{font-size:24px;color:#6366f1}
+</style>
+</head>
+<body>
+
+<div class="page-title">笔记产品方案 · 消费导向设计</div>
+<p class="page-sub">核心原则：笔记是中间态，最终消费物在C位。原文和产出物分离。</p>
+
+<!-- ===== 首页 ===== -->
+<div class="section">
+  <div class="section-title"><span class="section-tag">首页</span> 以"最终消费物"为核心组织</div>
+  <div class="phones">
+    <div class="phone-wrap">
+      <div class="phone-label">首页 · 消费物导向</div>
+      <div class="phone">
+        <div class="ph-status"><span>9:41</span><span>●●● WiFi 🔋</span></div>
+        <div class="ph-body">
+          <div class="home-header">
+            <div class="home-title">笔记</div>
+            <div class="home-avatar"></div>
+          </div>
+          <div class="home-search">🔍 搜索笔记和产出物</div>
+
+          <!-- Quick Actions -->
+          <div class="quick-grid">
+            <div class="quick-item">
+              <div class="quick-icon" style="background:#fff3e0">📝</div>
+              <span>新建笔记</span>
+            </div>
+            <div class="quick-item">
+              <div class="quick-icon" style="background:#e8f5e9">🎙</div>
+              <span>录音</span>
+            </div>
+            <div class="quick-item">
+              <div class="quick-icon" style="background:#e3f2fd">📸</div>
+              <span>拍照记录</span>
+            </div>
+            <div class="quick-item">
+              <div class="quick-icon" style="background:#f3e5f5">🎤</div>
+              <span>语音速记</span>
+            </div>
+          </div>
+
+          <!-- Content Type Tabs -->
+          <div class="type-tabs">
+            <div class="type-tab active">全部</div>
+            <div class="type-tab">课堂</div>
+            <div class="type-tab">会议</div>
+            <div class="type-tab">待办</div>
+            <div class="type-tab">播客</div>
+          </div>
+
+          <!-- Note Cards with Output Badges -->
+          <div class="note-list">
+            <div class="note-card">
+              <div class="note-card-header">
+                <div class="note-card-title">高等数学 · 第12章 级数</div>
+                <div class="note-card-badge badge-quiz">3题待做</div>
+              </div>
+              <div class="note-card-desc">比值判别法、根值判别法、绝对收敛与条件收敛的区别</div>
+              <div class="note-card-outputs">
+                <span class="output-chip">📋 考点5个</span>
+                <span class="output-chip">🎧 播客</span>
+                <span class="output-chip">🧠 脑图</span>
+              </div>
+              <div class="note-card-meta"><span>今天 10:30</span><span>·</span><span>来自录音</span></div>
+            </div>
+
+            <div class="note-card">
+              <div class="note-card-header">
+                <div class="note-card-title">产品评审会 · 首页改版</div>
+                <div class="note-card-badge badge-todo">2项待办</div>
+              </div>
+              <div class="note-card-desc">结论：采用卡片流方案；李四周五出排序方案</div>
+              <div class="note-card-outputs">
+                <span class="output-chip">✅ 待办2项</span>
+                <span class="output-chip">📊 PPT</span>
+              </div>
+              <div class="note-card-meta"><span>昨天 15:00</span><span>·</span><span>来自会议</span></div>
+            </div>
+
+            <div class="note-card">
+              <div class="note-card-header">
+                <div class="note-card-title">黄金ETF持仓量分析</div>
+                <div class="note-card-badge badge-podcast">播客已生成</div>
+              </div>
+              <div class="note-card-desc">2025Q3央行增持黄金847吨创新高，金价短期看2500</div>
+              <div class="note-card-outputs">
+                <span class="output-chip">🎧 播客 8:32</span>
+                <span class="output-chip">💳 知识卡片</span>
+              </div>
+              <div class="note-card-meta"><span>5月24日</span><span>·</span><span>来自小红书</span></div>
+            </div>
+
+            <div class="note-card">
+              <div class="note-card-header">
+                <div class="note-card-title">我的想法：产品方向思考</div>
+              </div>
+              <div class="note-card-desc">今天和楠哥聊完之后，我觉得笔记的核心不应该是存储...</div>
+              <div class="note-card-meta"><span>5月23日</span><span>·</span><span>手动创作</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Page -->
+    <div class="phone-wrap">
+      <div class="phone-label">笔记详情 · 产出物在上，原文在下</div>
+      <div class="phone">
+        <div class="ph-status"><span>9:41</span><span>●●● WiFi 🔋</span></div>
+        <div class="ph-body">
+          <div class="detail-nav">
+            <span class="detail-back">←</span>
+            <span class="detail-nav-title">高等数学 · 第12章 级数</span>
+          </div>
+          <div class="detail-body">
+            <div class="detail-meta">今天 10:30 · 录音 45:20 · 拍照 2张</div>
+
+            <!-- 产出物区 - C位 -->
+            <div class="output-section">
+              <div class="output-section-title">✨ 产出物</div>
+
+              <div class="output-card">
+                <div class="output-card-head">
+                  <span class="output-card-name">📋 考点清单（5个）</span>
+                  <span class="output-card-action">打开</span>
+                </div>
+                <div class="output-card-desc">比值判别法 · 根值判别法 · 绝对收敛判定 · 级数求和 · 幂级数收敛域</div>
+              </div>
+
+              <div class="output-card">
+                <div class="output-card-head">
+                  <span class="output-card-name">📝 模拟题（3道）</span>
+                  <span class="output-card-action">开始做</span>
+                </div>
+                <div class="output-card-desc">基于本节考点生成，含选择题2道+计算题1道</div>
+              </div>
+
+              <div class="output-card">
+                <div class="output-card-head">
+                  <span class="output-card-name">🎧 播客</span>
+                  <span class="output-card-action">▶ 播放</span>
+                </div>
+                <div class="output-card-desc">8分32秒 · 本节核心内容音频化</div>
+              </div>
+
+              <div class="output-card">
+                <div class="output-card-head">
+                  <span class="output-card-name">🧠 思维导图</span>
+                  <span class="output-card-action">查看</span>
+                </div>
+                <div class="output-card-desc">级数收敛判定方法知识结构</div>
+              </div>
+
+              <div class="output-card">
+                <div class="output-card-head">
+                  <span class="output-card-name">✅ 待办</span>
+                  <span class="output-card-action">查看</span>
+                </div>
+                <div class="output-card-desc">完成p45习题 · 明天交</div>
+              </div>
+            </div>
+
+            <!-- 原文区 - 折叠 -->
+            <div class="original-section">
+              <div class="original-toggle">
+                <span class="original-label">📄 原文（录音转写 + 拍照）</span>
+                <span class="original-arrow">▼</span>
+              </div>
+              <div class="original-content">
+                <p><strong>[00:00]</strong> 今天我们讲级数的收敛性判断...</p>
+                <p><strong>[03:28]</strong> 📸 PPT截图：比值判别法定理</p>
+                <p><strong>[15:42]</strong> 比值判别法的证明思路是这样的...</p>
+                <p><strong>[15:42]</strong> 📸 板书：lim|a(n+1)/a(n)| = ρ</p>
+                <p style="color:#aaa;margin-top:8px">... 展开全部转写内容</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="phone-wrap">
+      <div class="phone-label">侧边栏 · 按消费类型组织（参考Obsidian）</div>
+      <div class="phone">
+        <div class="ph-status"><span>9:41</span><span>●●● WiFi 🔋</span></div>
+        <div class="ph-body" style="position:relative">
+          <div class="sidebar-overlay"></div>
+          <div class="sidebar">
+            <div class="sidebar-section">
+              <div class="sidebar-section-title">我的笔记</div>
+              <div class="sidebar-item active">
+                <span class="sidebar-item-icon">📒</span>全部笔记
+                <span class="sidebar-item-count">23</span>
+              </div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-icon">✍️</span>手动创作
+                <span class="sidebar-item-count">8</span>
+              </div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-icon">🎙</span>录音笔记
+                <span class="sidebar-item-count">12</span>
+              </div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-icon">📷</span>速记
+                <span class="sidebar-item-count">3</span>
+              </div>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-section">
+              <div class="sidebar-section-title">消费产物</div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-icon">✅</span>待办
+                <span class="sidebar-item-count">5</span>
+              </div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-icon">🎧</span>播客
+                <span class="sidebar-item-count">4</span>
+              </div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-icon">📊</span>PPT
+                <span class="sidebar-item-count">2</span>
+              </div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-icon">📋</span>考点/出题
+                <span class="sidebar-item-count">6</span>
+              </div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-icon">💳</span>知识卡片
+                <span class="sidebar-item-count">3</span>
+              </div>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-section">
+              <div class="sidebar-section-title">文件夹</div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-icon">📁</span>高等数学
+                <span class="sidebar-item-count">5</span>
+              </div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-icon">📁</span>产品工作
+                <span class="sidebar-item-count">8</span>
+              </div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-icon">📁</span>个人
+                <span class="sidebar-item-count">4</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 设计原则说明 ===== -->
+<div class="section">
+  <div class="section-title"><span class="section-tag">设计逻辑</span> 李楠方向落地</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1100px">
+    <div style="background:#fff;border-radius:12px;padding:20px;border:1px solid #f0f0f0">
+      <div style="font-size:20px;margin-bottom:8px">📄 → ✨</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px">原文是中间态，产出物是终态</div>
+      <div style="font-size:12px;color:#666;line-height:1.6">笔记详情页：产出物在上方C位（考点/播客/PPT/待办），原文折叠在下方。用户打开一篇笔记，首先看到的是"我能直接用什么"。</div>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:20px;border:1px solid #f0f0f0">
+      <div style="font-size:20px;margin-bottom:8px">🗂 侧边栏</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px">按消费类型 + 文件夹并列</div>
+      <div style="font-size:12px;color:#666;line-height:1.6">上半部分：笔记来源（手动/录音/速记）<br>中间：消费产物类型（待办/播客/PPT/考题）<br>下半部分：用户自建文件夹<br>不混用，逻辑清晰。</div>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:20px;border:1px solid #f0f0f0">
+      <div style="font-size:20px;margin-bottom:8px">🏠 首页</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px">每张卡片带产出物标记</div>
+      <div style="font-size:12px;color:#666;line-height:1.6">首页不是纯笔记列表，每张卡片都标注"这篇能产出什么"（待办数/播客/PPT）。用户一眼看到价值，不只是标题。</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

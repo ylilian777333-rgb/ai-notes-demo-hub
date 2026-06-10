@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记详情页 · 信息分区示意（会后更新版）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"MiSans","PingFang SC",-apple-system,sans-serif;background:#fff;display:flex;flex-direction:column;align-items:center;padding:60px 40px}
+h1{font-size:24px;font-weight:700;color:#1a1a1a;margin-bottom:6px}
+.subtitle{font-size:13px;color:#999;margin-bottom:8px}
+.update-note{font-size:11px;color:#ff6b4d;background:#fff5f3;padding:8px 14px;border-radius:6px;margin-bottom:40px;max-width:700px;text-align:center}
+.layout{display:flex;gap:0;align-items:center}
+</style>
+</head>
+<body>
+<h1>笔记详情页 · 信息分区示意</h1>
+<p class="subtitle">设计师核心交付页面 — 一篇笔记打开后从上到下看到什么</p>
+<div class="update-note">基于 2026-05-29 李楠会议反馈更新：生成物要离用户更近，便于消费</div>
+<div class="layout">
+
+<!-- Left annotations -->
+<div style="width:260px;display:flex;flex-direction:column;gap:40px;padding-right:24px;padding-top:60px">
+  <div style="text-align:right">
+    <div style="font-size:13px;font-weight:700;color:#5780ff;margin-bottom:4px">① 标题区</div>
+    <div style="font-size:11px;color:#666;line-height:1.6">笔记标题 + 时间 + 来源<br>录音笔记含播放器</div>
+    <div style="height:2px;width:40px;background:#5780ff;margin-left:auto;margin-top:8px"></div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:13px;font-weight:700;color:#ff8514;margin-bottom:4px">② 产出物区 ⬆️ 提升</div>
+    <div style="font-size:11px;color:#666;line-height:1.6">AI生成的富媒体卡片<br>PPT/播客/脑图/待办<br><strong style="color:#ff6b4d">李楠：生成物要离用户更近<br>便于消费，不能在底部找不到</strong></div>
+    <div style="height:2px;width:40px;background:#ff8514;margin-left:auto;margin-top:8px"></div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:13px;font-weight:700;color:#a68cfa;margin-bottom:4px">③ 正文区</div>
+    <div style="font-size:11px;color:#666;line-height:1.6">用户原文 / AI纪要<br>录音转写 / 图文内容<br>用户自己记的原始内容</div>
+    <div style="height:2px;width:40px;background:#a68cfa;margin-left:auto;margin-top:8px"></div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:13px;font-weight:700;color:#33d499;margin-bottom:4px">④ 底部对话框</div>
+    <div style="font-size:11px;color:#666;line-height:1.6">Chips推荐操作 + AI对话<br>触发生成产出物的入口<br>生成后固定到②产出物区</div>
+    <div style="height:2px;width:40px;background:#33d499;margin-left:auto;margin-top:8px"></div>
+  </div>
+</div>
+
+<!-- Phone mockup -->
+<div style="width:360px;height:780px;background:#fff;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 0 0 1px #e0e0e0,0 20px 60px rgba(0,0,0,0.12);flex-shrink:0">
+  <!-- Status bar -->
+  <div style="height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:13px;font-weight:600;position:relative">
+    <span style="margin-top:12px">17:42</span>
+    <div style="width:120px;height:30px;background:#000;border-radius:0 0 18px 18px;position:absolute;top:0;left:50%;transform:translateX(-50%)"></div>
+    <span style="margin-top:12px;font-size:11px">●●● 📶 🔋</span>
+  </div>
+  <!-- Nav -->
+  <div style="height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 16px">
+    <span style="font-size:18px;color:#333;opacity:0.5">‹</span>
+    <span style="font-size:14px;font-weight:600;color:#1a1a1a">《置身事内》读书笔记</span>
+    <span style="font-size:14px;opacity:0.4">⋯</span>
+  </div>
+  <div style="padding:2px 16px;font-size:10px;color:#999">5月26日</div>
+
+  <!-- Section 1: Title area with border -->
+  <div style="margin:8px 12px;padding:0;position:relative">
+    <div style="position:absolute;top:-4px;left:-6px;right:-6px;bottom:-4px;border:2.5px solid #5780ff;border-radius:12px;pointer-events:none;opacity:0.6"></div>
+  </div>
+
+  <!-- Section 2: 产出物区 (MOVED UP) -->
+  <div style="margin:12px 12px 8px;position:relative">
+    <div style="position:absolute;top:-4px;left:-6px;right:-6px;bottom:-4px;border:2.5px solid #ff8514;border-radius:12px;pointer-events:none;opacity:0.6"></div>
+    <div style="display:flex;gap:8px;padding:4px 0">
+      <div style="flex:1;padding:12px;background:#f8f9fa;border-radius:10px;text-align:center">
+        <div style="width:32px;height:32px;background:#e8e8e8;border-radius:8px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:16px">🔗</div>
+        <div style="font-size:11px;font-weight:600;color:#333">三章关系图</div>
+        <div style="font-size:9px;color:#999">脑图</div>
+      </div>
+      <div style="flex:1;padding:12px;background:#f8f9fa;border-radius:10px;text-align:center">
+        <div style="width:32px;height:32px;background:#f0f4ff;border-radius:8px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#5780ff">+</div>
+        <div style="font-size:11px;font-weight:600;color:#5780ff">+ 生成</div>
+        <div style="font-size:9px;color:#999">脑图/卡/更多</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: 正文区 -->
+  <div style="margin:8px 12px;position:relative;flex:1">
+    <div style="position:absolute;top:-4px;left:-6px;right:-6px;bottom:-4px;border:2.5px solid #a68cfa;border-radius:12px;pointer-events:none;opacity:0.6"></div>
+    <div style="padding:8px 4px">
+      <div style="font-size:10px;color:#999;margin-bottom:6px">1月26日 22:43</div>
+      <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:12px">把前三章关于地方政府财政与土地逻辑的要点融成了一张关系图。</div>
+      <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:12px">核心链条：土地财政 → 城投平台 → 基建投资 → GDP与就业。每一环的约束和风险都标在了脑图节点上。</div>
+      <div style="padding:8px 12px;border-left:3px solid #e0e0e0;margin:12px 0">
+        <div style="font-size:11px;color:#555;line-height:1.7">理解了「钱从哪来、往哪去」，很多政策动作就不再是孤立事件。</div>
+      </div>
+      <div style="margin-top:12px;padding:8px 12px;background:#f8f9fa;border-radius:8px">
+        <div style="font-size:10px;color:#999">→ 这周还要写生活了</div>
+      </div>
+      <div style="margin-top:8px;padding:8px 12px;background:#f8f9fa;border-radius:8px;display:flex;align-items:center;gap:6px">
+        <span style="font-size:12px">📚</span>
+        <div style="font-size:10px;color:#555">读书脑图 · 已加入「读书」分区</div>
+        <span style="font-size:10px;margin-left:auto">✏️</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Bottom dialog -->
+  <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 16px 24px;background:#fff;border-top:0.5px solid #f0f0f0">
+    <div style="position:absolute;top:-4px;left:6px;right:6px;bottom:20px;border:2.5px solid #33d499;border-radius:12px;pointer-events:none;opacity:0.6"></div>
+    <div style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#f5f5f5;border-radius:22px">
+      <span style="font-size:13px">✨</span>
+      <span style="font-size:12px;color:#bbb">唤起 AI 助手 · 问点什么</span>
+    </div>
+  </div>
+</div>
+
+<!-- Right annotations -->
+<div style="width:300px;display:flex;flex-direction:column;gap:32px;padding-left:24px;padding-top:40px">
+  <div>
+    <div style="height:2px;width:40px;background:#ff8514;margin-bottom:8px"></div>
+    <div style="font-size:13px;font-weight:700;color:#ff8514;margin-bottom:6px">核心变化：产出物上移</div>
+    <div style="font-size:11px;color:#666;line-height:1.7">
+      <strong>李楠原话：</strong>"我不想让用户去读那篇原始笔记，生成的东西才是我消费的，应该离用户更近"<br><br>
+      • 从外面看不到它<br>
+      • 在里面也看不到它<br>
+      • 只有滑到最下面才能看到<br>
+      • <strong>那我怎么消费它？</strong>
+    </div>
+  </div>
+  <div>
+    <div style="height:2px;width:40px;background:#5780ff;margin-bottom:8px"></div>
+    <div style="font-size:13px;font-weight:700;color:#5780ff;margin-bottom:6px">设计原则</div>
+    <div style="font-size:11px;color:#666;line-height:1.7">
+      ① 不影响基础笔记功能使用<br>
+      ② 没有生成物时 = 正常笔记<br>
+      ③ 有生成物时 = 顶部可见可消费<br>
+      ④ 不强迫改变用户习惯<br>
+      ⑤ 让更优的使用方式能冒出来
+    </div>
+  </div>
+  <div>
+    <div style="height:2px;width:40px;background:#a68cfa;margin-bottom:8px"></div>
+    <div style="font-size:13px;font-weight:700;color:#a68cfa;margin-bottom:6px">产出物交互</div>
+    <div style="font-size:11px;color:#666;line-height:1.7">
+      • 点击产出物 → 全屏消费<br>
+      • 点"+ 生成" → 触发AI生成<br>
+      • 内容变化时提示"是否同步更新"<br>
+      • 笔记改了 → 产出物可一键重新生成
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
