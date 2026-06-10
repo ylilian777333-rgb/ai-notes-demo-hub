@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<title>空白笔记 0→1 生成引导方案</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#0b0b0d; --panel:#151518; --panel2:#1b1b1f; --line:#28282c;
+    --blue:#4a86ff; --blueb:rgba(74,134,255,.12); --bluel:rgba(74,134,255,.45);
+    --purple:#a974ff; --purpleb:rgba(169,116,255,.12); --purplel:rgba(169,116,255,.42);
+    --green:#36d399; --greenb:rgba(54,211,153,.1); --greenl:rgba(54,211,153,.42);
+    --orange:#ff9d42; --orangeb:rgba(255,157,66,.1); --orangel:rgba(255,157,66,.42);
+    --red:#ff5f6e; --redb:rgba(255,95,110,.1);
+    --txt:#edeef0; --sub:#9c9ca6; --dim:#67676f;
+  }
+  body{ background:var(--bg); color:var(--txt); width:1440px; margin:0 auto;
+    font-family:-apple-system,"SF Pro SC","PingFang SC",system-ui,sans-serif; line-height:1.65;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{ padding:0 96px 130px;}
+
+  /* 封面 */
+  .cover{ padding:104px 0 76px; border-bottom:1px solid var(--line);}
+  .kicker{ font-size:13px; letter-spacing:4px; color:var(--blue); font-weight:700; margin-bottom:24px;}
+  .cover h1{ font-size:56px; font-weight:800; letter-spacing:.5px; line-height:1.18;}
+  .cover h1 .hl{ color:var(--green);}
+  .cover .lead{ font-size:19px; color:var(--sub); margin-top:28px; max-width:960px; line-height:1.75;}
+  .cover .lead b{ color:var(--txt); font-weight:600;}
+  .cover .meta{ margin-top:38px; display:flex; gap:18px;}
+  .cover .meta .m{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:13px 20px; font-size:13px; color:var(--dim);}
+  .cover .meta .m b{ color:var(--sub); font-weight:600; display:block; margin-bottom:3px; font-size:11px; letter-spacing:1px;}
+
+  /* 章节框架 */
+  .section{ padding:84px 0 0;}
+  .sechead{ display:flex; align-items:flex-start; gap:24px;}
+  .secnum{ font-size:72px; font-weight:800; color:rgba(74,134,255,.18); line-height:.9; letter-spacing:1px; flex:0 0 auto;}
+  .sectitle{ font-size:31px; font-weight:800; letter-spacing:.3px;}
+  .secsub{ font-size:15px; color:var(--sub); margin-top:8px; max-width:980px; line-height:1.6;}
+  .divider{ height:3px; width:100%; background:linear-gradient(90deg,var(--blue),rgba(74,134,255,0)); margin:24px 0 40px; border-radius:2px;}
+
+  .callout{ border-radius:16px; padding:24px 30px; margin:24px 0; font-size:18px; line-height:1.65; border:1px solid;}
+  .callout b{ font-weight:800;}
+  .co-blue{ background:var(--blueb); border-color:var(--bluel); color:#cfe0ff;}
+  .co-green{ background:var(--greenb); border-color:var(--greenl); color:#bff5df;}
+  .co-orange{ background:var(--orangeb); border-color:var(--orangel); color:#ffd9b3;}
+
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:26px 28px;}
+  .card h4{ font-size:18px; font-weight:700; margin-bottom:12px;}
+  .card p{ font-size:14.5px; color:var(--sub); margin-bottom:9px;}
+  .card p:last-child{ margin-bottom:0;}
+  .tag{ display:inline-block; font-size:11.5px; font-weight:700; padding:4px 11px; border-radius:20px; margin-bottom:15px; letter-spacing:.5px;}
+  .t-blue{ background:var(--blueb); color:var(--blue);} .t-green{ background:var(--greenb); color:var(--green);}
+  .t-purple{ background:var(--purpleb); color:var(--purple);} .t-orange{ background:var(--orangeb); color:var(--orange);}
+  .t-red{ background:var(--redb); color:var(--red);}
+
+  /* 是/不是 */
+  .isnot{ display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+  .isnot .col{ border-radius:16px; padding:26px 28px; border:1px solid;}
+  .isnot .is{ background:var(--greenb); border-color:var(--greenl);}
+  .isnot .not{ background:var(--redb); border-color:rgba(255,95,110,.38);}
+  .isnot h5{ font-size:16px; margin-bottom:16px; font-weight:800;}
+  .isnot .is h5{ color:var(--green);} .isnot .not h5{ color:var(--red);}
+  .isnot li{ list-style:none; font-size:14.5px; color:var(--txt); padding:8px 0 8px 26px; position:relative; line-height:1.5;}
+  .isnot .is li:before{ content:"✓"; position:absolute; left:0; color:var(--green); font-weight:800;}
+  .isnot .not li:before{ content:"✕"; position:absolute; left:0; color:var(--red); font-weight:800;}
+
+  /* 场景卡 */
+  .scene{ background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:28px 32px; margin-bottom:20px; border-left:4px solid var(--blue); transition:.2s;}
+  .scene .top{ display:flex; align-items:baseline; gap:14px; margin-bottom:18px; flex-wrap:wrap;}
+  .scene .who{ font-size:21px; font-weight:800;}
+  .scene .label{ font-size:13px; font-weight:700; color:var(--blue); background:var(--blueb); padding:4px 12px; border-radius:8px;}
+  .scene .role{ font-size:13px; color:var(--dim);}
+  .scene .quote{ background:var(--panel2); border-radius:12px; padding:16px 20px; font-size:16px; color:#dfe6ff; margin-bottom:18px; border-left:3px solid var(--purple);}
+  .scene .rows{ display:grid; grid-template-columns:1fr 1fr; gap:0 32px;}
+  .scene .row{ display:grid; grid-template-columns:96px 1fr; gap:14px; padding:10px 0; border-top:1px solid #212126; font-size:14.5px; align-items:start;}
+  .scene .row .k{ color:var(--dim); font-weight:600;}
+  .scene .row .v.want{ color:var(--green); font-weight:600;}
+  .scene .row .v.pain{ color:var(--orange);}
+  .scene .row .v.ai{ color:#cfe0ff;}
+
+  /* 表格 */
+  table{ width:100%; border-collapse:collapse; margin:6px 0; font-size:14.5px; background:var(--panel); border-radius:14px; overflow:hidden; border:1px solid var(--line);}
+  th,td{ padding:16px 20px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{ background:var(--panel2); color:var(--sub); font-weight:700; font-size:12.5px; letter-spacing:.6px;}
+  td b{ color:#fff;}
+  tr:last-child td{ border-bottom:none;}
+  .pill{ display:inline-block; font-size:12px; font-weight:700; padding:3px 10px; border-radius:7px; margin:2px 3px 2px 0;}
+
+  /* 规律 状态卡 */
+  .states{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
+  .statec{ border-radius:16px; padding:24px 26px; border:1px solid var(--line); background:var(--panel); border-top:3px solid;}
+  .statec .sh{ display:flex; align-items:center; gap:12px; margin-bottom:12px;}
+  .statec .sno{ font-size:13px; font-weight:800; padding:4px 11px; border-radius:8px;}
+  .statec h4{ font-size:18px; font-weight:800;}
+  .statec .desc{ font-size:14px; color:var(--sub); margin-bottom:12px;}
+  .statec .ppl{ font-size:13px; color:var(--dim); margin-bottom:10px;}
+  .statec .ppl b{ color:var(--purple); font-weight:600;}
+  .statec .act{ font-size:14px; color:#cfe0ff; padding-top:12px; border-top:1px solid #212126;}
+  .statec .act b{ color:#fff;}
+
+  /* 三时机 + 图 */
+  .flow{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .stage{ border-radius:18px; padding:0; border:1px solid var(--line); background:var(--panel); overflow:hidden;}
+  .stage .sbody{ padding:26px 26px 8px;}
+  .stage .badge{ font-size:12.5px; font-weight:800; padding:5px 13px; border-radius:20px; display:inline-block; margin-bottom:14px; letter-spacing:.5px;}
+  .stage h4{ font-size:20px; font-weight:800; margin-bottom:6px;}
+  .stage .ans{ font-size:13px; color:var(--dim); margin-bottom:16px;}
+  .stage ul{ list-style:none; margin-bottom:8px;}
+  .stage li{ font-size:14px; color:var(--sub); padding:6px 0 6px 18px; position:relative; line-height:1.5;}
+  .stage li:before{ content:"›"; position:absolute; left:0; color:var(--blue); font-weight:800;}
+
+  /* 手机示意 */
+  .mock{ margin:14px 22px 24px; background:#101013; border-radius:24px; padding:12px; border:1px solid #2c2c31;}
+  .mscr{ background:#fbfbfc; border-radius:16px; height:340px; position:relative; overflow:hidden; color:#1a1d24;}
+  .msb{ height:26px; display:flex; align-items:center; justify-content:space-between; padding:0 16px; font-size:10px; font-weight:600; color:#8a90a0;}
+  .mtitle{ font-size:15px; font-weight:700; padding:4px 16px 0;}
+  .mbody{ padding:8px 16px; font-size:12.5px; color:#444b57; line-height:1.7;}
+  .mbody .gray{ color:#b3b8c2;}
+  .mbody .sel{ background:#d9e6ff; border-radius:3px; padding:1px 2px;}
+  .mcenter{ position:absolute; top:78px; left:0; right:0; text-align:center; padding:0 20px;}
+  .mcenter .mic{ width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#36d399,#19b36b); margin:0 auto 14px; display:flex;align-items:center;justify-content:center; font-size:26px; box-shadow:0 8px 20px rgba(54,211,153,.35);}
+  .mcenter .gline{ font-size:14px; color:#5a6070; font-weight:600;}
+  .mtoolbar{ position:absolute; bottom:14px; left:12px; right:12px; display:flex; gap:6px; flex-wrap:wrap;}
+  .ch{ font-size:11px; padding:7px 11px; border-radius:15px; background:#eef2ff; color:#3b6cff; font-weight:700; white-space:nowrap;}
+  .ch.v{ background:linear-gradient(135deg,#36d399,#19b36b); color:#fff;}
+  .ch.g{ background:#f0f1f4; color:#8a90a0;}
+  .mfloat{ position:absolute; top:150px; left:50%; transform:translateX(-50%); background:#1a1d24; border-radius:12px; padding:6px; display:flex; gap:4px; box-shadow:0 10px 30px rgba(0,0,0,.3);}
+  .mfloat .mf{ font-size:11px; color:#fff; padding:7px 11px; border-radius:8px; font-weight:600;}
+  .mfloat .mf.on{ background:#3b6cff;}
+  .mcap{ text-align:center; font-size:12px; color:var(--dim); padding:0 0 4px;}
+
+  /* 双栏图文 */
+  .mockwrap{ display:flex; gap:34px; align-items:flex-start; margin-top:8px;}
+  .mockwrap .phone-s{ width:248px; flex:0 0 auto; background:#101013; border-radius:26px; padding:13px; border:1px solid #2c2c31;}
+  .mockwrap .ex{ flex:1; padding-top:6px;}
+
+  .note-s{ font-size:13px; color:var(--dim); margin-top:16px; padding:14px 18px; background:var(--panel); border-radius:10px; border:1px dashed var(--line);}
+  .note-s b{ color:var(--sub);}
+  .footer{ margin-top:90px; padding-top:32px; border-top:1px solid var(--line); font-size:13px; color:var(--dim); text-align:center; letter-spacing:.5px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 封面 -->
+  <div class="cover">
+    <div class="kicker">MICLAW 内容助手 · 笔记 OS4</div>
+    <h1>空白笔记 <span class="hl">0→1 生成引导</span> 方案</h1>
+    <p class="lead">用户面对一篇空白文字笔记时，怎么用最快的方式把脑子里、或已经输入的东西，变成一篇可用的笔记。<b>不解决"第一篇内容怎么生成"，所有二次消费（PPT / 深度研究 / 网页）都没有内容可消费。</b>本方案从文字笔记用户的真实场景出发，推导出空白笔记应有的生成能力。</p>
+    <div class="meta">
+      <div class="m"><b>聚焦</b>文字笔记 / 非语音用户的 0→1</div>
+      <div class="m"><b>主线</b>先讲用法与需求，再谈能力</div>
+      <div class="m"><b>不涉及</b>二次消费 · 笔记分类整理</div>
+    </div>
+  </div>
+
+  <!-- 00 核心判断 -->
+  <div class="section">
+    <div class="sechead"><div class="secnum">00</div><div><div class="sectitle">核心判断</div><div class="secsub">空白笔记的根本问题，不在交互，而在它有没有帮用户"开始"</div></div></div>
+    <div class="divider"></div>
+    <div class="callout co-green">空白笔记不该是一块"空板子"，它应该是一个 <b>会接话的输入框</b>——用户输入到哪，AI 的帮助就跟到哪，全程不跳二级页。</div>
+    <div class="grid3">
+      <div class="card" style="border-left:4px solid var(--orange)"><div class="tag t-orange">现状问题</div><h4>好处都藏在二级页</h4><p>AI 的能力全在点小星星、进对话框之后。不用语音笔记的用户，面对空白笔记<b style="color:#ff9d42">享受不到任何 AI 便利</b>，和五年前的记事本没区别。</p></div>
+      <div class="card" style="border-left:4px solid var(--blue)"><div class="tag t-blue">机会</div><h4>把生成搬到指尖</h4><p>用户在空白笔记里其实一直在输入。<b style="color:#cfe0ff">把 AI 帮助放在用户手指落下的地方</b>——边写边给、就地生成，而不是让他先学会去哪点。</p></div>
+      <div class="card" style="border-left:4px solid var(--green)"><div class="tag t-green">解法方向</div><h4>就地、随内容变化</h4><p>在当前编辑界面<b style="color:#bff5df">基于已输入内容直接给建议</b>，用户点一下就进入下一步。建议是内容的函数，不是固定菜单。</p></div>
+    </div>
+  </div>
+
+  <!-- 01 要解决的问题 -->
+  <div class="section">
+    <div class="sechead"><div class="secnum">01</div><div><div class="sectitle">要解决的问题</div><div class="secsub">先把命题和边界划清楚，避免讨论滑向交互细节</div></div></div>
+    <div class="divider"></div>
+    <div class="callout co-blue">一句话命题：<b>用户进到一篇空白文字笔记，如何在不跳二级页的前提下，最快把脑子里 / 已输入的东西变成一篇可用的笔记。</b></div>
+    <div class="isnot">
+      <div class="col is">
+        <h5>本方案要解决</h5>
+        <li>第一篇内容怎么生成（0→1）</li>
+        <li>文字笔记 / 非语音用户的便利缺失</li>
+        <li>就地的、基于已有内容的 AI 建议</li>
+        <li>工具条与用户实时输入强相关</li>
+      </div>
+      <div class="col not">
+        <h5>本方案不解决</h5>
+        <li>交互细节、按钮摆放</li>
+        <li>二次消费（PPT / 研究 / 网页）</li>
+        <li>笔记 / 资料的分类整理</li>
+        <li>把能力继续堆在二级页</li>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 场景细拆 -->
+  <div class="section">
+    <div class="sechead"><div class="secnum">02</div><div><div class="sectitle">文字笔记用户场景细拆</div><div class="secsub">谁在用文字笔记、为什么不用语音、他们在空白笔记里到底干什么——用具体的人说具体的话</div></div></div>
+    <div class="divider"></div>
+    <div class="callout co-orange">先回答一个前提：<b>为什么这些人不用语音笔记？</b>　要么场景不方便出声（开会、地铁、深夜、公共场合），要么内容太短不值得说，要么本来就是"边想边敲"的思考型用户。这正是被现状冷落的一群人。</div>
+
+    <div class="scene">
+      <div class="top"><span class="who">林姐</span><span class="label">临时速记</span><span class="role">38岁 · 行政 · 怕忘事</span></div>
+      <div class="quote">"停车 B2-37 靠电梯"　"下午3点 张总 会议室"　"娃要交：户口本复印件 + 2寸照2张"</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下状态</span><span class="v">脑子里一个具体信息，怕忘，要求<b>极快</b>记下就走</span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">记完就躺在列表里，靠自己翻；"3点会议"不会变提醒</span></div>
+        <div class="row"><span class="k">真正想要</span><span class="v want">别打扰我。但若能识别"时间/地点/电话"顺手给个动作更好</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai">⚠️ 克制：识别结构化信息→轻量动作（设提醒/存联系人），<b>不强推生成</b></span></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <div class="top"><span class="who">小王</span><span class="label">灵感碎片</span><span class="role">26岁 · 新媒体运营 · 想法多</span></div>
+      <div class="quote">"选题想法：直播间的信任是怎么建立的"</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下状态</span><span class="v">脑子冒出一句话先记下，<b>没想清楚、没展开</b></span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">三个月后再看还是这一句话，碎片永远是碎片</span></div>
+        <div class="row"><span class="k">真正想要</span><span class="v want">帮我把这个想法发散开 / 展开成能用的东西</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai">基于这句话给：<b>扩写成段 · 发散3个角度 · 帮我追问</b></span></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <div class="top"><span class="who">陈老师</span><span class="label">列提纲/清单</span><span class="role">34岁 · 中学老师</span></div>
+      <div class="quote">"家长会要讲：1. 这次成绩　2. 纪律问题　3. 暑假安排"</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下状态</span><span class="v">已经列出<b>骨架</b>，但只有骨架</span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">每条要自己填成完整的话，骨架到成稿这段最费劲</span></div>
+        <div class="row"><span class="k">真正想要</span><span class="v want">帮我把每一条填成完整讲稿 / 补上漏掉的点</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai">识别提纲结构→<b>逐条扩写 · 补全遗漏项 · 生成对照表</b></span></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <div class="top"><span class="who">大磊</span><span class="label">临时写正式稿</span><span class="role">31岁 · 项目经理 · 常被叫上台</span></div>
+      <div class="quote">"给新人答辩写个3分钟开场白"　/　"写一段项目结项总结"</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下状态</span><span class="v">知道主题，但<b>不知怎么起笔</b>，面对空白最焦虑</span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">从0到第一句话门槛最高；现状只能自己硬憋或去别的App</span></div>
+        <div class="row"><span class="k">真正想要</span><span class="v want">你先给我一版，我在你的基础上改</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai">一句话主题→<b>直接成稿 · 先给大纲再写</b>（生成价值最大）</span></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <div class="top"><span class="who">阿哲</span><span class="label">把脑子里的事倒出来</span><span class="role">29岁 · 开发 · 思考型</span></div>
+      <div class="quote">"刚开完会，下季度要把内容生成入口前置，重点是空白笔记引导，还有播客那块要排期……"</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下状态</span><span class="v"><b>边想边敲</b>，流水账先倒出来，不讲结构</span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">一段录音不等于内容；倒完一堆口语还要自己理</span></div>
+        <div class="row"><span class="k">真正想要</span><span class="v want">让我一直说、字就一直出（不是录音），说完帮我理顺</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai"><b>长时语音流式成文</b>（边说边出字）+ 一键整理成结构</span></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <div class="top"><span class="who">小悠</span><span class="label">收集外部片段</span><span class="role">20岁 · 大学生 · 备考</span></div>
+      <div class="quote">（粘贴了一大段课本原文 / 网上摘抄的资料）</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下状态</span><span class="v">把一坨外部内容<b>贴进来</b>，原始未加工</span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">一大段读不进去；要自己划重点、转成能背的形式</span></div>
+        <div class="row"><span class="k">真正想要</span><span class="v want">帮我总结 / 划重点 / 转成问答卡片</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai">识别长文本粘贴→<b>总结提炼 · 划重点 · 转问答/表格</b></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 提炼规律 -->
+  <div class="section">
+    <div class="sechead"><div class="secnum">03</div><div><div class="sectitle">从场景提炼规律</div><div class="secsub">六个人看似在做不同的事，本质区别只有一个——进到空白笔记时，"内容的完成度"在哪一档。完成度决定 AI 该接什么话。</div></div></div>
+    <div class="divider"></div>
+    <div class="callout co-blue">不按"用户是谁"分，按 <b>用户进来时已经有什么</b> 分。同一个人在不同时刻也会落在不同档：林姐速记时是"空"，小王记完想法是"碎片"，大磊想写稿是"一句话"。</div>
+    <div class="states">
+      <div class="statec" style="border-top-color:var(--blue)">
+        <div class="sh"><span class="sno t-blue">状态 A</span><h4>空 · 什么都没有</h4></div>
+        <div class="desc">打开一篇空笔记，想记点什么，但<b style="color:#cfe0ff">不知道从哪开始</b>，或单纯面对空板子发懵。这是每个人进来的第一秒。</div>
+        <div class="ppl">代表：<b>林姐</b>刚点开 · <b>大磊</b>面对空白的那一刻 · 所有人的起点</div>
+        <div class="act">AI 要接的话 → <b>启动</b>：给几个起手式 + 让用户能直接开口说</div>
+      </div>
+      <div class="statec" style="border-top-color:var(--purple)">
+        <div class="sh"><span class="sno t-purple">状态 B</span><h4>一句话 · 有明确主题</h4></div>
+        <div class="desc">心里有个明确诉求或主题，但<b style="color:#d9c7ff">还没有正文</b>。只要把这句话喂给 AI，就能要到一整篇。</div>
+        <div class="ppl">代表：<b>大磊</b>"写个3分钟开场白" · <b>小王</b>把碎片说成一句诉求</div>
+        <div class="act">AI 要接的话 → <b>成稿</b>：一句话直接出整篇，或先给大纲再展开</div>
+      </div>
+      <div class="statec" style="border-top-color:var(--green)">
+        <div class="sh"><span class="sno t-green">状态 C</span><h4>半成品 · 碎片/提纲/流水账</h4></div>
+        <div class="desc">已经写下了一些东西——一句灵感、几条提纲、或一段口语流水账，<b style="color:#bff5df">差的是"接着往下"和"理顺"</b>。这是最高频、价值最大的一档。</div>
+        <div class="ppl">代表：<b>小王</b>的灵感 · <b>陈老师</b>的提纲 · <b>阿哲</b>的流水账</div>
+        <div class="act">AI 要接的话 → <b>续航</b>：基于已有内容扩写 / 补全 / 整理（核心战场）</div>
+      </div>
+      <div class="statec" style="border-top-color:var(--orange)">
+        <div class="sh"><span class="sno t-orange">状态 D</span><h4>一坨 · 大段外部内容</h4></div>
+        <div class="desc">把外部的一大段内容贴了进来，<b style="color:#ffd9b3">原始、未加工、读不进去</b>，需要 AI 帮忙提炼或换种形式。</div>
+        <div class="ppl">代表：<b>小悠</b>粘贴课本原文 / 摘抄资料</div>
+        <div class="act">AI 要接的话 → <b>加工</b>：总结 / 划重点 / 转问答 / 转表格</div>
+      </div>
+    </div>
+    <div class="note-s"><b>一个例外要单独对待：</b>像林姐那样的极短速记，要的就是快——AI 应当保持克制，只在识别到电话/地址/时间时给个轻量动作，绝不强行弹出生成建议去打扰她。</div>
+  </div>
+
+  <!-- 04 解法框架 三时机 + 图 -->
+  <div class="section">
+    <div class="sechead"><div class="secnum">04</div><div><div class="sectitle">解法框架 · 空白笔记的三个生成时机</div><div class="secsub">把"会接话的输入框"拆成三个时机，分别接住 A / B / C / D 四种状态——全程不跳二级页</div></div></div>
+    <div class="divider"></div>
+    <div class="flow">
+
+      <div class="stage">
+        <div class="sbody">
+          <span class="badge t-blue">时机 1 · 进入即引导</span>
+          <h4>不让用户面对空板子</h4>
+          <div class="ans">接住状态 A（空）</div>
+          <ul>
+            <li>空状态中央给引导语，不再一片空白</li>
+            <li>提供几个起手式：写一段 / 列清单 / 记要点</li>
+            <li>语音放大为一等入口，进来即可开口说</li>
+          </ul>
+        </div>
+        <div class="mock">
+          <div class="mscr">
+            <div class="msb"><span>9:41</span><span>···</span></div>
+            <div class="mtitle gray" style="color:#c2c7d0">新笔记</div>
+            <div class="mcenter">
+              <div class="mic">🎙️</div>
+              <div class="gline">说出你的想法，我帮你写</div>
+            </div>
+            <div class="mtoolbar">
+              <span class="ch g">＋</span>
+              <span class="ch">写一段</span>
+              <span class="ch">列清单</span>
+              <span class="ch">记要点</span>
+            </div>
+          </div>
+        </div>
+        <div class="mcap">空状态：引导语 + 起手式 + 语音入口</div>
+      </div>
+
+      <div class="stage">
+        <div class="sbody">
+          <span class="badge t-green">时机 2 · 输入中续航</span>
+          <h4>边输入边给建议</h4>
+          <div class="ans">接住状态 B（一句话）+ C（半成品）· 核心</div>
+          <ul>
+            <li>工具条 = 基于已写内容的实时 AI 建议</li>
+            <li>建议随内容形态变（提纲→补全 / 碎片→扩写）</li>
+            <li>就地出现、点一下继续，不跳二级页</li>
+          </ul>
+        </div>
+        <div class="mock">
+          <div class="mscr">
+            <div class="msb"><span>9:41</span><span>···</span></div>
+            <div class="mtitle">家长会要讲</div>
+            <div class="mbody">1. 这次成绩<br>2. 纪律问题<br>3. 暑假安排<br><span class="gray">｜</span></div>
+            <div class="mtoolbar">
+              <span class="ch v">🎙️ 说</span>
+              <span class="ch">逐条扩写</span>
+              <span class="ch">补全遗漏</span>
+              <span class="ch">生成表格</span>
+            </div>
+          </div>
+        </div>
+        <div class="mcap">认出"这是提纲"，工具条随之变化</div>
+      </div>
+
+      <div class="stage">
+        <div class="sbody">
+          <span class="badge t-orange">时机 3 · 输入后加工</span>
+          <h4>已有内容再处理</h4>
+          <div class="ans">接住状态 D（一坨）+ 成稿后的下一步</div>
+          <ul>
+            <li>选中文本 / 全文 → 总结、重写、转格式</li>
+            <li>一篇内容导向它最终要变成的东西</li>
+            <li>承接"研究→大纲→PPT"的下一轮链条</li>
+          </ul>
+        </div>
+        <div class="mock">
+          <div class="mscr">
+            <div class="msb"><span>9:41</span><span>···</span></div>
+            <div class="mtitle">市场营销 第3讲</div>
+            <div class="mbody">消费者决策分为五个阶段：<span class="sel">需求确认、信息搜集、方案评估、购买决策、购后行为……</span></div>
+            <div class="mfloat">
+              <span class="mf on">总结</span>
+              <span class="mf">划重点</span>
+              <span class="mf">转问答</span>
+            </div>
+            <div class="mtoolbar">
+              <span class="ch g">已选中一段</span>
+            </div>
+          </div>
+        </div>
+        <div class="mcap">选中即加工：总结 / 划重点 / 转格式</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 05 输入中续航深拆 -->
+  <div class="section">
+    <div class="sechead"><div class="secnum">05</div><div><div class="sectitle">重点拆解 · 输入中续航的"建议从哪来"</div><div class="secsub">这是整套方案的核心——工具条不是固定的几个按钮，而是跟着用户写的东西变</div></div></div>
+    <div class="divider"></div>
+    <div class="callout co-green">核心机制：<b>系统实时识别"用户已输入内容是什么形态"，按形态推荐对应的下一步动作。</b>用户写到哪，建议变到哪——建议是内容的函数，不是固定菜单。</div>
+    <table>
+      <tr><th style="width:240px">识别到的内容形态</th><th>就地推荐的 AI 建议（点一下即生成）</th></tr>
+      <tr><td><b>一句话主题</b>　如"写个3分钟开场白"</td><td><span class="pill t-green">直接成稿</span><span class="pill t-blue">先给大纲</span><span class="pill t-blue">换个风格</span></td></tr>
+      <tr><td><b>灵感碎片</b>　一句没展开的想法</td><td><span class="pill t-green">扩写成段</span><span class="pill t-blue">发散3个角度</span><span class="pill t-blue">帮我追问</span></td></tr>
+      <tr><td><b>提纲 / 清单</b>　1. 2. 3. 骨架</td><td><span class="pill t-green">逐条扩写</span><span class="pill t-blue">补全遗漏项</span><span class="pill t-blue">生成对照表</span></td></tr>
+      <tr><td><b>流水账 / 口语</b>　边想边敲的一堆</td><td><span class="pill t-green">整理成条理</span><span class="pill t-blue">提炼要点</span><span class="pill t-blue">生成纪要</span></td></tr>
+      <tr><td><b>长文本粘贴</b>　贴进来一大段</td><td><span class="pill t-green">总结提炼</span><span class="pill t-blue">划重点</span><span class="pill t-blue">转问答/表格</span></td></tr>
+      <tr><td><b>结构化信息</b>　电话 / 地址 / 时间</td><td><span class="pill t-orange">设提醒</span><span class="pill t-orange">存联系人</span>（轻量，不强推生成）</td></tr>
+    </table>
+    <div class="mockwrap">
+      <div class="phone-s">
+        <div class="mscr" style="height:380px">
+          <div class="msb"><span>9:41</span><span>···</span></div>
+          <div class="mtitle">直播间的信任</div>
+          <div class="mbody">直播间的信任是怎么建立的<span class="gray">｜</span><br><br><span class="gray" style="font-size:11px">AI 识别到这是一条灵感碎片</span></div>
+          <div class="mtoolbar">
+            <span class="ch v">🎙️ 说</span>
+            <span class="ch">扩写成段</span>
+            <span class="ch">发散3个角度</span>
+            <span class="ch">帮我追问</span>
+          </div>
+        </div>
+      </div>
+      <div class="ex">
+        <div class="card" style="margin-bottom:18px; border-left:4px solid var(--green)">
+          <h4 style="color:#36d399">读法：工具条认得出"这是什么"</h4>
+          <p>小王只写了一句灵感，底部工具条就自动变成"扩写成段 / 发散3个角度 / 帮我追问"——而不是一组永远不变的通用按钮。点一下，碎片就地长成内容，全程没有离开这一屏。</p>
+        </div>
+        <div class="callout co-blue" style="margin:0">设计原则：<b>工具条必须和用户正在写的东西强相关。</b>同一个工具条位置，面对提纲、碎片、流水账，给出的是完全不同的三组建议。</div>
+      </div>
+    </div>
+    <div class="note-s"><b>术语澄清：</b>这里的"建议 chips"是<b>内容生成建议</b>（扩写 / 续写 / 整理），与笔记列表里的"分类筛选 chips"（录音 / 文档 / AI生成）是两套不同的东西，勿混。</div>
+  </div>
+
+  <!-- 06 语音一等公民 -->
+  <div class="section">
+    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">语音作为一等公民</div><div class="secsub">它是最低门槛的 0→1 入口，能把状态 A（空）直接推进到 C（有内容可续航）</div></div></div>
+    <div class="divider"></div>
+    <div class="grid2">
+      <div class="card" style="border-left:4px solid var(--green)">
+        <div class="tag t-green">关键区分</div>
+        <h4>长时语音"流式成文" ≠ 一段录音</h4>
+        <p>不是录一段音再转写，而是<b style="color:#bff5df">用户一直说、文字一直往笔记里出</b>——类似电脑端的长时语音输入，说的同时就是在写。</p>
+        <p>说完后工具条自然接上"整理成条理 / 提炼要点"，进入续航时机。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--blue)">
+        <div class="tag t-blue">为什么是一等公民</div>
+        <h4>开口比起笔容易</h4>
+        <p>对"面对空板子不知写啥"的用户，<b style="color:#cfe0ff">开口说远比打字起笔门槛低</b>。语音把"空"状态一步推进到"有内容可续航"。</p>
+        <p>因此空白笔记的默认入口里，语音应当是放大、显眼的那一个。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 边界与待讨论 -->
+  <div class="section">
+    <div class="sechead"><div class="secnum">07</div><div><div class="sectitle">边界与待讨论</div><div class="secsub">明确不做的，和需要进一步对齐的开放问题</div></div></div>
+    <div class="divider"></div>
+    <div class="grid2">
+      <div class="card" style="border-left:4px solid var(--red)">
+        <div class="tag t-red">明确不做</div>
+        <p>✕ 笔记 / 资料的自动分类（边界模糊，不在本方案）</p>
+        <p>✕ 强推生成——速记场景保持克制，不打扰</p>
+        <p>✕ 把能力继续藏在二级页</p>
+        <p>✕ 拿现有留存用户的旧习惯当未来设计前提</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--orange)">
+        <div class="tag t-orange">待讨论</div>
+        <p>· 续航建议是 always-on 实时浮现，还是用户唤起？</p>
+        <p>· 长时语音流式成文的延迟 / 功耗代价？</p>
+        <p>· 内容形态识别的准确率底线（错了比不给更糟）</p>
+        <p>· 起手式具体放几个、怎么排序</p>
+      </div>
+    </div>
+    <div class="callout co-green" style="margin-top:32px">方案收口：<b>不再让文字笔记用户面对一块空板子。进来有引导、写着有建议、说着能成文——AI 的好处从二级页搬到了用户手指落下的地方。</b></div>
+  </div>
+
+  <div class="footer">MiClaw 内容助手 · 笔记 OS4 ｜ 空白笔记 0→1 生成引导方案 ｜ 内部讨论稿 · 2026-06</div>
+</div>
+</body>
+</html>
