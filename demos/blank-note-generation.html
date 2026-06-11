@@ -103,57 +103,62 @@
   .stage li{ font-size:var(--fs-body); color:var(--sub); padding:6px 0 6px 17px; position:relative; line-height:1.5;}
   .stage li:before{ content:"·"; position:absolute; left:2px; color:var(--ac); font-weight:800; font-size:18px; top:3px;}
   .mcap{ text-align:center; font-size:var(--fs-small); color:var(--dim); margin-top:13px;}
-  .realshot{ display:block; width:calc(100% - 32px); margin:16px auto 0; border-radius:14px; border:1px solid var(--line); background:#000;}
 
-  /* ===== 高保真手机（浅色 / MiSans / 玻璃底栏） ===== */
-  .device{ width:286px; margin:16px auto 0; border-radius:42px; background:#0a0a0c; padding:8px;
-    box-shadow:0 20px 46px rgba(0,0,0,.42); border:1px solid #2c2d32;}
-  .screen{ background:var(--note-surface); border-radius:34px; height:506px; position:relative; overflow:hidden;
-    font-family:"MiSans","MiSans VF","PingFang SC",-apple-system,system-ui,sans-serif; color:var(--note-ink);}
-  .sbar{ height:42px; display:flex; align-items:center; justify-content:space-between; padding:10px 22px 0 26px;}
-  .sbar .time{ font-size:14px; font-weight:600;}
+  /* ===== 高保真手机（真实笔记：MiSans / 浅色 / 键盘已起） ===== */
+  .device{ width:290px; margin:18px auto 0; border-radius:40px; background:#0a0a0c; padding:7px;
+    box-shadow:0 18px 42px rgba(0,0,0,.42); border:1px solid #2c2d32;}
+  .screen{ background:#f3f4f6; border-radius:33px; height:566px; position:relative; overflow:hidden;
+    font-family:"MiSans","MiSans VF","PingFang SC",-apple-system,system-ui,sans-serif; color:#000;}
+  .sbar{ height:38px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 18px 4px 22px;}
+  .sbar .time{ font-size:13.5px; font-weight:700;}
   .sbar .sys{ display:flex; align-items:center; gap:5px;}
-  .sig{ display:flex; align-items:flex-end; gap:1.5px; height:11px;}
-  .sig i{ width:3px; background:var(--note-ink); border-radius:1px;}
-  .sig i:nth-child(1){height:4px} .sig i:nth-child(2){height:6px} .sig i:nth-child(3){height:8px} .sig i:nth-child(4){height:11px}
-  .wifi{ width:14px;height:11px; border:2px solid var(--note-ink); border-bottom:none; border-radius:14px 14px 0 0; position:relative; opacity:.9;}
-  .wifi:after{ content:""; position:absolute; width:4px;height:4px;border-radius:50%; background:var(--note-ink); left:3px; top:5px;}
-  .batt{ width:23px;height:12px;border:1.5px solid rgba(0,0,0,.35); border-radius:3px; position:relative; padding:1.5px;}
-  .batt:after{ content:""; position:absolute; right:-3px; top:3px; width:2px;height:5px; background:rgba(0,0,0,.35); border-radius:0 2px 2px 0;}
-  .batt i{ display:block; height:100%; width:78%; background:var(--note-ink); border-radius:1px;}
-  .nav{ height:46px; display:flex; align-items:center; justify-content:space-between; padding:0 12px;}
-  .nav .nbtn{ width:34px;height:34px; display:flex; align-items:center; justify-content:center; color:var(--note-ink); font-size:20px;}
-  .nav .done{ font-size:15px; font-weight:600; color:var(--note-blue); padding:0 8px;}
-  .note{ padding:6px 24px 0;}
-  .note .ntitle{ font-size:21px; font-weight:700; color:#111;}
-  .note .ntitle.ph{ color:var(--note-ink-4); font-weight:600;}
-  .note .nmeta{ font-size:11.5px; color:var(--note-ink-3); margin:7px 0 16px; display:flex; gap:10px;}
-  .note .nbody{ font-size:14px; color:var(--note-ink-2); line-height:1.95;}
-  .note .nbody .cur{ display:inline-block; width:2px; height:16px; background:var(--note-blue); vertical-align:-3px; margin-left:1px; animation:bl 1s steps(1) infinite;}
+  .sig{ display:flex; align-items:flex-end; gap:1.6px; height:10px;}
+  .sig i{ width:3px; background:#000; border-radius:1px;}
+  .sig i:nth-child(1){height:4px} .sig i:nth-child(2){height:6px} .sig i:nth-child(3){height:8px} .sig i:nth-child(4){height:10px}
+  .wifi{ width:13px;height:10px; border:2px solid #000; border-bottom:none; border-radius:13px 13px 0 0; position:relative;}
+  .wifi:after{ content:""; position:absolute; width:4px;height:4px;border-radius:50%; background:#000; left:2.5px; top:4.5px;}
+  .batt{ display:flex; align-items:center; gap:3px;}
+  .batt .pct{ font-size:11px; font-weight:700;}
+  .batt .ic{ width:22px;height:11px; border:1.4px solid #000; border-radius:3px; position:relative; padding:1.4px;}
+  .batt .ic:after{ content:""; position:absolute; right:-3px; top:3px; width:2px;height:5px; background:#000; border-radius:0 2px 2px 0;}
+  .batt .ic i{ display:block; height:100%; width:100%; background:#000; border-radius:1px;}
+  .nav{ height:46px; display:flex; align-items:center; justify-content:space-between; padding:0 14px;}
+  .nav .back{ font-size:22px; color:#000; line-height:1;}
+  .nav .nr{ display:flex; align-items:center; gap:18px; font-size:18px; color:#000;}
+  .nav .nr .dim{ color:rgba(0,0,0,.26);}
+  .note{ padding:2px 22px 0;}
+  .note .ntitle{ font-size:21px; font-weight:700; color:rgba(0,0,0,.32);}
+  .note .nmeta{ font-size:11px; color:rgba(0,0,0,.4); margin:8px 0 14px;}
+  .note .nbody{ font-size:14px; color:rgba(0,0,0,.82); line-height:1.95;}
+  .note .nbody .cur{ display:inline-block; width:1.8px; height:15px; background:var(--note-blue); vertical-align:-3px; animation:bl 1s steps(1) infinite;}
   @keyframes bl{50%{opacity:0}}
-  .note .nbody .hl{ background:#cfe0ff; border-radius:2px; box-shadow:0 0 0 2px #cfe0ff;}
-  .empty{ position:absolute; top:128px; left:0; right:0; text-align:center; padding:0 30px;}
-  .empty .mic{ width:60px;height:60px;border-radius:50%; margin:0 auto 15px;
-    background:radial-gradient(circle at 35% 30%, #4fe0a8, #0fb478); display:flex;align-items:center;justify-content:center;
-    box-shadow:0 10px 24px rgba(15,180,120,.32);}
-  .empty .mic svg{ width:25px;height:25px; fill:#fff;}
-  .empty .et{ font-size:14.5px; color:var(--note-ink-3); font-weight:500;}
-  .glass{ position:absolute; left:0; right:0; bottom:0; background:rgba(255,255,255,.88); backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px); border-top:1px solid var(--note-outline); padding:12px 14px 14px;}
-  .sugbar{ display:flex; gap:7px; margin-bottom:11px; flex-wrap:wrap;}
-  .sug{ font-size:12px; font-weight:600; padding:7px 12px; border-radius:16px; white-space:nowrap; border:1px solid var(--note-outline); background:#fff; color:var(--note-ink-2);}
-  .sug.lead{ background:rgba(15,180,120,.1); color:#0a8f60; border-color:rgba(15,180,120,.3);}
-  .sug.mic{ background:rgba(58,108,246,.1); color:var(--note-blue); border-color:rgba(58,108,246,.28); display:inline-flex; gap:5px; align-items:center;}
-  .sug.mic svg{ width:13px;height:13px; fill:var(--note-blue);}
-  .kbrow{ display:flex; align-items:center; gap:14px; color:var(--note-ink-4);}
-  .kbrow .kic{ font-size:18px;}
-  .kbrow .grow{ flex:1;}
-  .starters{ display:flex; gap:8px;}
-  .starter{ font-size:12.5px; font-weight:600; padding:8px 14px; border-radius:18px; background:#fff; border:1px solid var(--note-outline); color:var(--note-ink-2);}
-  .selmenu{ position:absolute; top:180px; left:50%; transform:translateX(-50%); background:#222; border-radius:12px;
-    display:flex; padding:5px; gap:3px; box-shadow:0 12px 28px rgba(0,0,0,.32); z-index:3;}
-  .selmenu .si{ font-size:12.5px; color:#fff; font-weight:600; padding:8px 13px; border-radius:8px;}
-  .selmenu .si.on{ background:var(--note-blue);}
+  .note .nbody .guide{ color:rgba(0,0,0,.34);}
+  .voicepill{ display:inline-flex; align-items:center; gap:4px; background:rgba(53,207,149,.14); color:#0a8f60; border:1px solid rgba(15,180,120,.34); border-radius:14px; padding:3px 9px; font-size:12.5px; vertical-align:middle;}
+  .voicepill svg{ width:12px;height:12px; fill:#0a8f60;}
+  .note .nbody .hl{ background:#cfe0ff; box-shadow:0 0 0 2px #cfe0ff; border-radius:2px;}
+  /* AI 工具条（键盘上方） */
+  .aibar{ position:absolute; left:0; right:0; bottom:186px; background:#f3f4f6; border-top:1px solid rgba(0,0,0,.06); padding:11px 0 7px;}
+  .chiprow{ display:flex; gap:7px; padding:0 14px 11px;}
+  .chip2{ display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:600; padding:7px 11px; border-radius:16px; background:#fff; border:1px solid rgba(0,0,0,.1); color:rgba(0,0,0,.78); white-space:nowrap;}
+  .chip2.lead{ background:rgba(15,180,120,.1); color:#0a8f60; border-color:rgba(15,180,120,.32);}
+  .chip2 .gd{ width:6px;height:6px;border-radius:50%;background:#0fb478;}
+  .airow{ display:flex; align-items:center; gap:10px; padding:0 15px;}
+  .airow .plus{ font-size:21px; color:rgba(0,0,0,.5);}
+  .airow .ipt{ flex:1; font-size:13px; color:rgba(0,0,0,.34);}
+  .airow .rmic{ width:30px;height:30px;border-radius:50%; background:#0fb478; display:flex;align-items:center;justify-content:center;}
+  .airow .rmic svg{ width:15px;height:15px; fill:#fff;}
+  .airow .send{ width:30px;height:30px;border-radius:50%; background:#1f2024; display:flex;align-items:center;justify-content:center; color:#fff; font-size:16px;}
+  /* 键盘 */
+  .kbd{ position:absolute; left:0; right:0; bottom:0; background:#d4d7dd; padding:5px 3px 7px;}
+  .kfn{ display:flex; align-items:center; gap:18px; padding:3px 16px 7px; color:rgba(0,0,0,.5); font-size:15px;}
+  .kfn .grow{ flex:1;}
+  .krow{ display:flex; justify-content:center; gap:4px; margin-bottom:6px; padding:0 4px;}
+  .krow.r2{ padding:0 14px;}
+  .key{ background:#fff; border-radius:5px; height:30px; flex:1; max-width:24px; display:flex; align-items:center; justify-content:center; font-size:12.5px; font-weight:500; color:#111; box-shadow:0 1px 1.5px rgba(0,0,0,.2);}
+  .key.wide{ max-width:34px; background:#abb0ba; color:#1a1a1a; font-size:11px; flex:1.4;}
+  .krow.r4 .key{ max-width:none; font-size:11.5px; flex:1;}
+  .key.spc{ flex:5;}
+  .key.go{ background:var(--note-blue); color:#fff; flex:1.7; font-weight:600;}
 
   /* 例子卡（05） */
   .examples{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:8px;}
@@ -352,7 +357,26 @@
             <li>语音做成最显眼的入口，进来就能说</li>
           </ul>
         </div>
-        <img class="realshot" src="blank-note-start.png" alt="空白笔记 · 引导用户开始">
+        <div class="device"><div class="screen">
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+          <div class="note">
+            <div class="ntitle">未命名笔记</div>
+            <div class="nmeta">2026年4月20日 10:29　｜　0 字</div>
+            <div class="nbody"><span class="cur"></span><span class="guide">开始书写，或 </span><span class="voicepill"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 11h-2z"/></svg>说出你的想法</span></div>
+          </div>
+          <div class="aibar">
+            <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>写一段</span><span class="chip2">列清单</span><span class="chip2">记要点</span></div>
+            <div class="airow"><span class="plus">＋</span><span class="ipt">说出你的想法…</span><span class="rmic"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 11h-2z"/></svg></span><span class="send">↑</span></div>
+          </div>
+          <div class="kbd">
+            <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
+            <div class="krow"><span class="key">Q</span><span class="key">W</span><span class="key">E</span><span class="key">R</span><span class="key">T</span><span class="key">Y</span><span class="key">U</span><span class="key">I</span><span class="key">O</span><span class="key">P</span></div>
+            <div class="krow r2"><span class="key">A</span><span class="key">S</span><span class="key">D</span><span class="key">F</span><span class="key">G</span><span class="key">H</span><span class="key">J</span><span class="key">K</span><span class="key">L</span></div>
+            <div class="krow"><span class="key wide">分词</span><span class="key">Z</span><span class="key">X</span><span class="key">C</span><span class="key">V</span><span class="key">B</span><span class="key">N</span><span class="key">M</span><span class="key wide">⌫</span></div>
+            <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
+          </div>
+        </div></div>
         <div class="mcap">空页面：一句引导 + 起手式 + 语音入口</div>
       </div>
 
@@ -368,16 +392,23 @@
           </ul>
         </div>
         <div class="device"><div class="screen">
-          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><i></i></span></span></div>
-          <div class="nav"><span class="nbtn">‹</span><span class="done">完成</span></div>
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
           <div class="note">
-            <div class="ntitle">家长会发言</div>
-            <div class="nmeta"><span>今天 14:30</span><span>21 字</span></div>
+            <div class="ntitle" style="color:#111">家长会发言</div>
+            <div class="nmeta">今天 14:30　｜　21 字</div>
             <div class="nbody">1. 这次成绩<br>2. 纪律问题<br>3. 暑假安排<span class="cur"></span></div>
           </div>
-          <div class="glass">
-            <div class="sugbar"><span class="sug lead">逐条扩写</span><span class="sug">补全遗漏</span><span class="sug">列成表格</span></div>
-            <div class="kbrow"><span class="kic">＋</span><span class="sug mic"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 11h-2z"/></svg>说</span><span class="grow"></span><span class="kic">⌨</span></div>
+          <div class="aibar">
+            <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>逐条扩写</span><span class="chip2">补全遗漏</span><span class="chip2">列成表格</span></div>
+            <div class="airow"><span class="plus">＋</span><span class="ipt">说出你的想法…</span><span class="rmic"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 11h-2z"/></svg></span><span class="send">↑</span></div>
+          </div>
+          <div class="kbd">
+            <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
+            <div class="krow"><span class="key">Q</span><span class="key">W</span><span class="key">E</span><span class="key">R</span><span class="key">T</span><span class="key">Y</span><span class="key">U</span><span class="key">I</span><span class="key">O</span><span class="key">P</span></div>
+            <div class="krow r2"><span class="key">A</span><span class="key">S</span><span class="key">D</span><span class="key">F</span><span class="key">G</span><span class="key">H</span><span class="key">J</span><span class="key">K</span><span class="key">L</span></div>
+            <div class="krow"><span class="key wide">分词</span><span class="key">Z</span><span class="key">X</span><span class="key">C</span><span class="key">V</span><span class="key">B</span><span class="key">N</span><span class="key">M</span><span class="key wide">⌫</span></div>
+            <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
           </div>
         </div></div>
         <div class="mcap">看出"这是提纲"，工具条跟着变</div>
@@ -395,16 +426,23 @@
           </ul>
         </div>
         <div class="device"><div class="screen">
-          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><i></i></span></span></div>
-          <div class="nav"><span class="nbtn">‹</span><span class="done">完成</span></div>
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
           <div class="note">
-            <div class="ntitle">市场营销 第3讲</div>
-            <div class="nmeta"><span>昨天</span><span>录音转写</span></div>
-            <div class="nbody">消费者决策一般分五个阶段：<span class="hl">需求确认、信息搜集、方案评估、购买决策、购后行为</span>，每个阶段都……</div>
+            <div class="ntitle" style="color:#111">市场营销 第3讲</div>
+            <div class="nmeta">昨天　｜　录音转写</div>
+            <div class="nbody">消费者决策一般分五个阶段：<span class="hl">需求确认、信息搜集、方案评估、购买决策、购后行为</span>，每个阶段商家的切入点都不一样……</div>
           </div>
-          <div class="selmenu"><span class="si on">总结</span><span class="si">划重点</span><span class="si">转问答</span></div>
-          <div class="glass">
-            <div class="kbrow"><span class="kic">＋</span><span class="sug mic"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 11h-2z"/></svg>说</span><span class="grow"></span><span style="font-size:12px;color:var(--note-ink-3)">已选中一段</span></div>
+          <div class="aibar">
+            <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>总结</span><span class="chip2">划重点</span><span class="chip2">转问答</span></div>
+            <div class="airow"><span class="plus">＋</span><span class="ipt">已选中一段，想怎么处理…</span><span class="rmic"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 11h-2z"/></svg></span><span class="send">↑</span></div>
+          </div>
+          <div class="kbd">
+            <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
+            <div class="krow"><span class="key">Q</span><span class="key">W</span><span class="key">E</span><span class="key">R</span><span class="key">T</span><span class="key">Y</span><span class="key">U</span><span class="key">I</span><span class="key">O</span><span class="key">P</span></div>
+            <div class="krow r2"><span class="key">A</span><span class="key">S</span><span class="key">D</span><span class="key">F</span><span class="key">G</span><span class="key">H</span><span class="key">J</span><span class="key">K</span><span class="key">L</span></div>
+            <div class="krow"><span class="key wide">分词</span><span class="key">Z</span><span class="key">X</span><span class="key">C</span><span class="key">V</span><span class="key">B</span><span class="key">N</span><span class="key">M</span><span class="key wide">⌫</span></div>
+            <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
           </div>
         </div></div>
         <div class="mcap">选中就加工：总结 / 划重点 / 换格式</div>
