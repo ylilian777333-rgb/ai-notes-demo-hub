@@ -547,7 +547,7 @@
       <tr><td>贴了一大段</td><td>总结、换格式</td><td>和你的历史内容对照、查漏补缺</td></tr>
     </table>
 
-    <div class="callout"><b>你的笔记是别人复制不了的私人资料库。记的越多，AI 越懂你、写得越像你——你越离不开。</b>这是笔记面对豆包们唯一守得住的护城河。</div>
+    <div class="callout"><b>你的笔记是别人复制不了的私人资料库——记的越多，AI 越懂你、写得越像你，你越离不开。</b>通用助手没有你的私人积累，这正是笔记的底气。</div>
 
     <div class="subhead2"><span class="dot"></span>底层逻辑 · 内容要先"可参考"，再分两种方式用</div>
     <div class="callout">AI 读不了音频、读不了 PPT、读不了图片。<b>资料库里的一切，必须先加工成"可检索的文本表示"，AI 才参考得了。</b>这就是"加工"这一环的产品价值——也是为什么播客 / PPT / PDF 要先加工、再进库。</div>
@@ -567,14 +567,8 @@
       <div class="card"><span class="tag">方式二 · 当背景知道</span><h4>知道你是谁</h4><p>小爱记忆 / 偏好 / 关键事实——AI 写的时候<b>"知道"这些、让内容更像你</b>，但不逐条标"引用自记忆"。</p></div>
     </div>
 
-    <div class="subhead2"><span class="dot"></span>为什么是我们：别人做不到"自动"</div>
-    <div class="grid2">
-      <div class="card"><span class="tag">Obsidian 的做法</span><h4>手动 [[ ]] 双向链接</h4><p>关联很准，但<b>门槛极高</b>——要用户养成打 [[]] 的习惯，新用户几乎不用，全靠人脑记得。</p></div>
-      <div class="card"><span class="tag">我们的做法</span><h4>AI 自动串，你只管记</h4><p><b>用户只管记，系统负责把笔记串起来。</b>记的越多关联越准——这是手动链接永远追不上的。</p></div>
-    </div>
-
     <div class="subhead2"><span class="dot"></span>用户看到什么：成文 + 底部「关联笔记」区</div>
-    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:8px 0 4px;max-width:1010px;">取材是<b style="color:var(--ac-t)">自动</b>的——用户照常写，不用手动点。写出来的笔记，底部带一个「关联笔记」区（AI 自动发现的 + 你手动 @ 的同区展示），点一下能核对、能跳转。</p>
+    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:8px 0 4px;max-width:1010px;">取材不是新增一个按钮——它<b style="color:var(--ac-t)">藏在前面那套随内容变的 chips 里</b>：你点「成稿 / 扩写 / 对照」哪个，AI 就顺带从库里取材。写出来的笔记，底部带「关联笔记」区（AI 自动发现 + 你手动 @ 同区），点一下能核对、能跳转。下面以"一句话写总结"为例，其他场景（写一半→扩写、贴一段→对照）同理：</p>
     <div class="flow" style="grid-template-columns:1fr 1fr;">
       <div class="stage">
         <div class="device"><div class="screen">
@@ -584,9 +578,10 @@
             <div class="ntitle" style="color:#111">Q3 项目总结</div>
             <div class="nmeta">今天 16:20　｜　12 字</div>
             <div class="nbody">帮我写一份 Q3 项目总结<span class="cur"></span></div>
-            <div style="margin-top:16px;display:inline-flex;align-items:center;gap:6px;background:rgba(15,180,120,.1);border:1px solid rgba(15,180,120,.3);border-radius:16px;padding:6px 12px;font-size:11.5px;color:#0a8f60;font-weight:600;">✦ 正在自动参考你的笔记…</div>
           </div>
-          <div class="aibar"><div class="tbar">
+          <div class="aibar">
+            <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>直接成稿</span><span class="chip2">先列大纲</span></div>
+            <div class="tbar">
             <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
             <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
             <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>
@@ -602,7 +597,7 @@
             <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
           </div>
         </div></div>
-        <div class="mcap">你照常写，AI 自动从库里取材——不用手动点任何东西</div>
+        <div class="mcap">写下诉求 → 点工具条的「直接成稿」（就是前面那套 chips）</div>
       </div>
 
       <div class="stage">
