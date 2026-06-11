@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记首页：文件夹为主 + 侧边栏分类筛选</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  :root{ --blue:#3b6cff; --green:#19b36b; --ink:#1a1d24; --sub:#8a90a0; --line:#eef0f4; --bg:#f5f6f8; --card:#fff; }
+  body{ font-family:-apple-system,"SF Pro SC","PingFang SC",system-ui,sans-serif; background:#0a0a0c; color:#e8e8ea;
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:32px 16px 64px;}
+  .head{ text-align:center; max-width:880px; margin-bottom:8px;}
+  .head h1{ font-size:22px; font-weight:700; letter-spacing:.5px;}
+  .head p{ color:#9aa0ad; font-size:13px; margin-top:8px; line-height:1.6;}
+  .head b.c{ color:#7aa0ff;} .head b.t{ color:#5fd6a0;}
+
+  .legend{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin:18px 0 26px;}
+  .legend .item{ background:#15161a; border:1px solid #23252c; border-radius:12px; padding:10px 14px; max-width:300px;}
+  .legend .item b{ font-size:13px;} .legend .item.c b{ color:#7aa0ff;} .legend .item.t b{ color:#5fd6a0;}
+  .legend .item span{ display:block; color:#8a90a0; font-size:11.5px; margin-top:4px; line-height:1.5;}
+
+  .phone{ width:393px; height:852px; background:var(--bg); border-radius:44px;
+    box-shadow:0 30px 80px rgba(0,0,0,.5); position:relative; overflow:hidden; border:1px solid #2a2c33;}
+  .statusbar{ height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 26px 6px;
+    font-size:13px; font-weight:600; color:var(--ink);}
+
+  .scroll{ height:calc(852px - 50px); overflow-y:auto;}
+  .scroll::-webkit-scrollbar{display:none;}
+
+  .topbar{ display:flex; align-items:center; justify-content:space-between; padding:8px 20px 4px;}
+  .topbar h2{ font-size:24px; font-weight:800; color:var(--ink);}
+  .topbar .acts{ display:flex; gap:10px;}
+  .topbar .ico{ width:34px;height:34px;border-radius:50%;background:#eceef2;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;position:relative;}
+  .topbar .ico .badge{ position:absolute; top:-2px; right:-2px; min-width:16px; height:16px; padding:0 4px; border-radius:8px; background:var(--blue); color:#fff; font-size:10px; font-weight:700; display:none; align-items:center; justify-content:center;}
+  .topbar .ico .badge.show{ display:flex;}
+
+  .sec{ padding:0 20px;}
+  .sectitle{ display:flex; align-items:center; justify-content:space-between; margin:18px 0 12px;}
+  .sectitle h3{ font-size:16px; font-weight:700; color:var(--ink);}
+  .sectitle .add{ font-size:13px; color:var(--blue); font-weight:600; cursor:pointer;}
+  .folders{ display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .folder{ background:var(--card); border-radius:18px; padding:16px; cursor:pointer; position:relative;
+    box-shadow:0 2px 8px rgba(20,20,40,.05); transition:.15s; border:1px solid #f0f1f4;}
+  .folder:active{ transform:scale(.97);}
+  .folder .fi{ width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:23px;margin-bottom:12px;}
+  .folder .fn{ font-size:15px; font-weight:600; color:var(--ink);}
+  .folder .fc{ font-size:12px; color:var(--sub); margin-top:2px;}
+  .folder.new{ background:transparent; border:1.5px dashed #d2d6de; box-shadow:none; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+  .folder.new .plus{ font-size:26px; font-weight:300; margin-bottom:4px; color:#b3b8c2;}
+  .folder.new .fn{ color:var(--sub); font-weight:500; font-size:13px;}
+
+  .notehead{ display:flex; align-items:center; gap:8px; margin:24px 0 10px; padding:0 20px;}
+  .notehead h3{ font-size:16px; font-weight:700; color:var(--ink);}
+  .notehead .cnt{ font-size:12px; color:var(--sub);}
+  /* 当前筛选回显（轻量，非操作入口） */
+  .activefilter{ padding:0 20px 4px; display:none; gap:6px; flex-wrap:wrap; align-items:center;}
+  .activefilter.show{ display:flex;}
+  .activefilter .lab{ font-size:12px; color:var(--sub);}
+  .activefilter .ftag{ font-size:11.5px; padding:3px 9px; border-radius:14px; background:#eef2ff; color:var(--blue); font-weight:600;}
+  .activefilter .clear{ font-size:11.5px; color:var(--sub); cursor:pointer; text-decoration:underline;}
+
+  .list{ padding:0 16px 24px;}
+  .daygroup{ font-size:12px; color:var(--sub); font-weight:600; margin:8px 4px 8px;}
+  .card{ background:var(--card); border-radius:16px; padding:14px; margin-bottom:10px; display:flex; gap:12px;
+    box-shadow:0 1px 3px rgba(20,20,40,.04); position:relative;}
+  .card .icon{ width:42px;height:42px;border-radius:12px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:19px;}
+  .ic-rec{ background:#fff0ef;} .ic-doc{ background:#eef2ff;} .ic-ai{ background:#eafaf1;} .ic-txt{ background:#fff7e8;}
+  .card .body{ flex:1; min-width:0;}
+  .card .title{ font-size:15px; font-weight:600; color:var(--ink); margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .card .meta{ font-size:12px; color:var(--sub); display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .typetag{ font-size:10.5px; padding:2px 7px; border-radius:6px; font-weight:600;}
+  .tg-rec{ background:#fff0ef; color:#e8553f;} .tg-doc{ background:#eef2ff; color:#3b6cff;}
+  .tg-ai{ background:#eafaf1; color:#19b36b;} .tg-txt{ background:#fff7e8; color:#d49a23;}
+  .card .star{ position:absolute; top:13px; right:13px; font-size:14px; color:#ffc53d;}
+  .wave{ display:flex; align-items:center; gap:2px; margin-top:6px;}
+  .wave i{ width:2px; background:#f0a99c; border-radius:2px;}
+  .preview{ font-size:12px; color:#aeb3bf; margin-top:4px; line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .empty{ text-align:center; color:var(--sub); font-size:13px; padding:40px 20px;}
+
+  /* 侧边栏：分类筛选 chips */
+  .scrim{ position:absolute; inset:0; background:rgba(10,10,20,.35); opacity:0; pointer-events:none; transition:.25s; z-index:8;}
+  .scrim.show{ opacity:1; pointer-events:auto;}
+  .drawer{ position:absolute; top:0; right:0; bottom:0; width:280px; background:#fff; z-index:9;
+    transform:translateX(100%); transition:.28s cubic-bezier(.4,0,.2,1); padding:56px 0 20px; display:flex; flex-direction:column;
+    box-shadow:-6px 0 30px rgba(0,0,0,.12);}
+  .drawer.show{ transform:translateX(0);}
+  .drawer .dh{ padding:6px 22px 4px; font-size:18px; font-weight:700; color:var(--ink);}
+  .drawer .dsub{ padding:0 22px 14px; font-size:12px; color:var(--sub);}
+  .fitem{ display:flex; align-items:center; gap:12px; padding:13px 22px; font-size:15px; color:#3a3f4a; cursor:pointer; font-weight:500;}
+  .fitem .box{ width:20px;height:20px;border-radius:6px;border:1.5px solid #cfd4dd;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;}
+  .fitem.on .box{ background:var(--blue); border-color:var(--blue);}
+  .fitem .dot{ width:8px;height:8px;border-radius:50%;}
+  .fitem .cnt{ margin-left:auto; font-size:12px; color:#b3b8c2;}
+  .drawer .actions{ margin-top:auto; padding:14px 22px; display:flex; gap:10px; border-top:1px solid var(--line);}
+  .drawer .btn{ flex:1; text-align:center; padding:11px; border-radius:12px; font-size:14px; font-weight:600; cursor:pointer;}
+  .drawer .btn.ghost{ background:#f2f3f6; color:#5a6070;}
+  .drawer .btn.primary{ background:var(--blue); color:#fff;}
+
+  .tip{ color:#7d8696; font-size:12px; margin-top:22px; text-align:center; max-width:600px; line-height:1.6;}
+</style>
+</head>
+<body>
+  <div class="head">
+    <h1>笔记首页 · 文件夹为主，分类筛选进侧边栏</h1>
+    <p>首页主区 = <b class="c">我的文件夹</b>（用户自建，优先级最高）　|　侧边栏 = <b class="t">分类筛选 chips</b>（录音/文档/AI生成/收藏）<br>点右上角筛选图标拉出侧边栏 · 多选叠加</p>
+  </div>
+
+  <div class="legend">
+    <div class="item c"><b>文件夹（首页主角）</b><span>用户自己创建、手动归入的容器。是主组织方式，进首页第一眼就看到，优先级最高。</span></div>
+    <div class="item t"><b>分类筛选 chips（侧边栏）</b><span>系统按类型自动打标 + 收藏。收进侧边栏当筛选面板，不占首页主区。多选叠加，只过滤不移动数据。</span></div>
+  </div>
+
+  <div class="phone">
+    <div class="statusbar"><span>9:41</span><span>📶 🔋</span></div>
+    <div class="scroll">
+      <div class="topbar">
+        <h2>笔记</h2>
+        <div class="acts">
+          <div class="ico">🔍</div>
+          <div class="ico" onclick="openDrawer()">⚟<span class="badge" id="badge"></span></div>
+        </div>
+      </div>
+
+      <!-- 文件夹：首页主角 -->
+      <div class="sec">
+        <div class="sectitle"><h3>我的文件夹</h3><span class="add">＋ 新建</span></div>
+        <div class="folders" id="folders"></div>
+      </div>
+
+      <!-- 笔记流 -->
+      <div class="notehead"><h3>全部笔记</h3><span class="cnt" id="noteCnt"></span></div>
+      <div class="activefilter" id="activefilter">
+        <span class="lab">筛选：</span><span id="ftags"></span>
+        <span class="clear" onclick="clearFilter()">清除</span>
+      </div>
+      <div class="list" id="list"></div>
+    </div>
+
+    <!-- 侧边栏 分类筛选 -->
+    <div class="scrim" id="scrim" onclick="closeDrawer()"></div>
+    <div class="drawer" id="drawer">
+      <div class="dh">分类筛选</div>
+      <div class="dsub">按类型快速过滤 · 可多选</div>
+      <div class="fitem" data-type="rec" onclick="toggleFilter(this)"><span class="box"></span><span class="dot" style="background:#e8553f"></span>录音<span class="cnt" id="f-rec"></span></div>
+      <div class="fitem" data-type="doc" onclick="toggleFilter(this)"><span class="box"></span><span class="dot" style="background:#3b6cff"></span>文档<span class="cnt" id="f-doc"></span></div>
+      <div class="fitem" data-type="ai" onclick="toggleFilter(this)"><span class="box"></span><span class="dot" style="background:#19b36b"></span>AI生成<span class="cnt" id="f-ai"></span></div>
+      <div class="fitem" data-type="txt" onclick="toggleFilter(this)"><span class="box"></span><span class="dot" style="background:#d49a23"></span>文字<span class="cnt" id="f-txt"></span></div>
+      <div class="fitem" data-type="star" onclick="toggleFilter(this)"><span class="box"></span><span style="font-size:13px">⭐</span>收藏<span class="cnt" id="f-star"></span></div>
+      <div class="actions">
+        <div class="btn ghost" onclick="clearFilter();closeDrawer()">重置</div>
+        <div class="btn primary" onclick="closeDrawer()">查看结果</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="tip">交互：首页主区是用户自建文件夹（优先级最高）+ 全部笔记流。分类筛选（chips/标签）收在右上角筛选图标拉出的侧边栏里，多选叠加后笔记流即时过滤，首页用一行轻量回显当前筛选条件。文件夹（手动建/选哪一堆）和分类筛选（系统自动标/筛哪种）是两套独立机制。</p>
+
+<script>
+  const folderDefs=[{id:'旅行',icon:'🧳',bg:'#eef6ff'},{id:'工作',icon:'💼',bg:'#fff3e8'}];
+  const notes=[
+    {t:'产品会纪要',type:'rec',folder:'工作',star:false,day:'今天',time:'14:30',dur:'32:18',meta:'已生成纪要'},
+    {t:'扫地机赛道研究',type:'ai',sub:'PPT',folder:'工作',star:false,day:'今天',time:'11:02',pv:'12页 · 含竞品对比与推荐机型，可直接汇报'},
+    {t:'随手记：周会要点',type:'txt',folder:null,star:false,day:'昨天',time:'',pv:'老板提到Q3要把内容生成的入口前置，重点解决空白笔记引导…'},
+    {t:'AI行业周报',type:'ai',sub:'播客',folder:null,star:false,day:'昨天',time:'',pv:'8分钟音频 · 由本周收藏的3篇笔记生成'},
+    {t:'行业报告_扫地机2026.pdf',type:'doc',folder:'工作',star:true,day:'前天',time:'',pv:'导入文件 · 2.4MB'},
+    {t:'云南7天攻略',type:'ai',sub:'网页',folder:'旅行',star:true,day:'3天前',time:'',pv:'交互式网页 · 图文行程，可分享'},
+    {t:'大理民宿老板的推荐',type:'rec',folder:'旅行',star:false,day:'3天前',time:'',dur:'08:45',meta:'已转写'},
+    {t:'市场营销课-第3讲',type:'rec',folder:null,star:false,day:'上周',time:'',dur:'52:10',meta:'已生成知识点'},
+    {t:'装修合同.pdf',type:'doc',folder:null,star:false,day:'上周',time:'',pv:'导入文件 · 1.1MB'},
+    {t:'待办：周末采购清单',type:'txt',folder:null,star:true,day:'上周',time:'',pv:'牛奶 / 鸡蛋 / 给娃买的绘本 / 滤水壶滤芯'},
+  ];
+  const iconMap={rec:{c:'ic-rec',e:'🎙️'},doc:{c:'ic-doc',e:'📄'},ai:{c:'ic-ai',e:'✨'},txt:{c:'ic-txt',e:'✍️'}};
+  const tagMap={rec:{c:'tg-rec',x:'录音'},doc:{c:'tg-doc',x:'文档'},ai:{c:'tg-ai',x:'AI生成'},txt:{c:'tg-txt',x:'文字'}};
+  const filterLabel={rec:'录音',doc:'文档',ai:'AI生成',txt:'文字',star:'收藏'};
+
+  let activeTypes=new Set();  // 空=全部
+
+  function inType(n){
+    if(activeTypes.size===0) return true;
+    for(const ty of activeTypes){ if(ty==='star'){ if(n.star) return true; } else if(n.type===ty) return true; }
+    return false;
+  }
+  function renderFolders(){
+    let html='';
+    folderDefs.forEach(f=>{ const cnt=notes.filter(n=>n.folder===f.id).length;
+      html+=`<div class="folder"><div class="fi" style="background:${f.bg}">${f.icon}</div><div class="fn">${f.id}</div><div class="fc">${cnt} 条</div></div>`; });
+    html+=`<div class="folder new"><div class="plus">＋</div><div class="fn">新建文件夹</div></div>`;
+    document.getElementById('folders').innerHTML=html;
+  }
+  function renderList(){
+    const list=document.getElementById('list');
+    const data=notes.filter(n=>inType(n));
+    document.getElementById('noteCnt').textContent='· '+data.length+' 条';
+    // 当前筛选回显
+    const af=document.getElementById('activefilter');
+    if(activeTypes.size){ af.classList.add('show');
+      document.getElementById('ftags').innerHTML=[...activeTypes].map(t=>`<span class="ftag">${filterLabel[t]}</span>`).join(' ');
+    } else af.classList.remove('show');
+    // badge
+    const badge=document.getElementById('badge');
+    if(activeTypes.size){ badge.classList.add('show'); badge.textContent=activeTypes.size; } else badge.classList.remove('show');
+    if(!data.length){ list.innerHTML='<div class="empty">没有符合该筛选的笔记</div>'; return; }
+    let html=''; let lastDay=null;
+    data.forEach(n=>{
+      if(n.day!==lastDay){ html+=`<div class="daygroup">${n.day}</div>`; lastDay=n.day; }
+      const ic=iconMap[n.type], tg=tagMap[n.type];
+      let extra='';
+      if(n.type==='rec'){ let bars=''; for(let i=0;i<22;i++){bars+=`<i style="height:${4+Math.round(Math.random()*16)}px"></i>`;} extra=`<div class="wave">${bars}</div>`; }
+      else extra=`<div class="preview">${n.pv||''}</div>`;
+      const subtag=n.sub?`<span class="typetag tg-ai">${n.sub}</span>`:'';
+      html+=`<div class="card">${n.star?'<span class="star">★</span>':''}
+        <div class="icon ${ic.c}">${ic.e}</div>
+        <div class="body"><div class="title">${n.t}</div>
+        <div class="meta"><span class="typetag ${tg.c}">${tg.x}</span>${subtag}
+        ${n.time?`<span>${n.time}</span>`:''}${n.dur?`<span>${n.dur}</span>`:''}${n.meta?`<span>${n.meta}</span>`:''}
+        ${n.folder?`<span>📁 ${n.folder}</span>`:''}</div>${extra}</div></div>`;
+    });
+    list.innerHTML=html;
+  }
+  function toggleFilter(el){
+    const ty=el.dataset.type;
+    if(activeTypes.has(ty)) activeTypes.delete(ty); else activeTypes.add(ty);
+    el.classList.toggle('on', activeTypes.has(ty));
+    el.querySelector('.box').textContent=activeTypes.has(ty)?'✓':'';
+    renderList();
+  }
+  function clearFilter(){
+    activeTypes.clear();
+    document.querySelectorAll('.fitem').forEach(f=>{f.classList.remove('on'); f.querySelector('.box').textContent='';});
+    renderList();
+  }
+  function openDrawer(){ document.getElementById('drawer').classList.add('show'); document.getElementById('scrim').classList.add('show'); }
+  function closeDrawer(){ document.getElementById('drawer').classList.remove('show'); document.getElementById('scrim').classList.remove('show'); }
+
+  // 侧边栏计数
+  document.getElementById('f-rec').textContent=notes.filter(n=>n.type==='rec').length;
+  document.getElementById('f-doc').textContent=notes.filter(n=>n.type==='doc').length;
+  document.getElementById('f-ai').textContent=notes.filter(n=>n.type==='ai').length;
+  document.getElementById('f-txt').textContent=notes.filter(n=>n.type==='txt').length;
+  document.getElementById('f-star').textContent=notes.filter(n=>n.star).length;
+
+  renderFolders();
+  renderList();
+</script>
+</body>
+</html>
