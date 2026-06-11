@@ -551,26 +551,40 @@
       <tr><td>图片 / 截图</td><td>OCR + 图像理解</td><td>检索提取出的文字</td></tr>
       <tr><td>小爱记忆</td><td>本就是结构化事实</td><td>当背景注入，不逐条引用</td></tr>
     </table>
+
+    <div class="subhead2" style="margin-top:30px;"><span class="dot"></span>数据怎么流：把"资料库"做成"可实时检索的库"</div>
+    <div class="callout">加工成文本只是第一步。<b>真正让 AI 能"边写边查你全部笔记"的是这条数据链——存进来就建好索引，写的时候按相关性召回，再连同你刚写的一起交给 AI。</b></div>
+    <div style="display:flex;align-items:stretch;gap:0;margin:18px 0 14px;">
+      <div style="flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:14px 15px;"><div style="font-weight:800;color:var(--ac-t);font-size:13.5px;margin-bottom:6px;">1 入库即加工</div><div style="color:var(--sub);font-size:12.5px;line-height:1.55;">每种内容转成可检索文本（转写 / OCR / 大纲 / 解析）</div></div>
+      <div style="display:flex;align-items:center;color:var(--ac);font-weight:800;font-size:18px;padding:0 9px;">→</div>
+      <div style="flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:14px 15px;"><div style="font-weight:800;color:var(--ac-t);font-size:13.5px;margin-bottom:6px;">2 建语义索引</div><div style="color:var(--sub);font-size:12.5px;line-height:1.55;">让相近意思的内容能被找到，不靠关键词死磕</div></div>
+      <div style="display:flex;align-items:center;color:var(--ac);font-weight:800;font-size:18px;padding:0 9px;">→</div>
+      <div style="flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:14px 15px;"><div style="font-weight:800;color:var(--ac-t);font-size:13.5px;margin-bottom:6px;">3 按需召回</div><div style="color:var(--sub);font-size:12.5px;line-height:1.55;">写作时从整个库挑出最相关的几条</div></div>
+      <div style="display:flex;align-items:center;color:var(--ac);font-weight:800;font-size:18px;padding:0 9px;">→</div>
+      <div style="flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:14px 15px;"><div style="font-weight:800;color:var(--ac-t);font-size:13.5px;margin-bottom:6px;">4 注入生成</div><div style="color:var(--sub);font-size:12.5px;line-height:1.55;">召回内容 + 你刚写的，一起交给 AI 写</div></div>
+    </div>
+    <div class="note-s">检索范围 = <b>你的整个笔记库</b>，不用你手动整理——<b>存得越多、召回越准、写出来越像你。这是别人复制不了的护城河。</b></div>
+
     <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:18px 0 12px;max-width:1010px;">同一个库，AI 用它的方式分两种——这是最底层的分界：</p>
     <div class="grid2">
       <div class="card"><span class="tag">方式一 · 当资料引用</span><h4>检索片段，标出处</h4><p>文档 / 录音 / 播客 / 网页 / PPT / 图片——AI 检索相关片段<b>引用进来、标来源</b>，能点开核对（本质是 RAG）。</p></div>
       <div class="card"><span class="tag">方式二 · 当背景知道</span><h4>知道你是谁</h4><p>小爱记忆 / 偏好 / 关键事实——AI 写的时候<b>"知道"这些、让内容更像你</b>，但不逐条标"引用自记忆"。</p></div>
     </div>
 
-    <div class="subhead2"><span class="dot"></span>用户看到什么：成文 + 底部「关联笔记」区</div>
-    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:8px 0 4px;max-width:1010px;">取材不是新增一个按钮——它<b style="color:var(--ac-t)">藏在前面那套随内容变的 chips 里</b>：你点「成稿 / 扩写 / 对照」哪个，AI 就顺带从库里取材。写出来的笔记，底部带「关联笔记」区（AI 自动发现 + 你手动 @ 同区），点一下能核对、能跳转。下面以"一句话写总结"为例，其他场景（写一半→扩写、贴一段→对照）同理：</p>
-    <div class="flow" style="grid-template-columns:1fr 1fr;">
+    <div class="subhead2"><span class="dot"></span>用户看到什么：取材 → 成文 → 你能核对、能去掉</div>
+    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:8px 0 4px;max-width:1010px;">取材不是新增按钮——它<b style="color:var(--ac-t)">藏在那套随内容变的 chips 里</b>：点「扩写 / 成稿 / 对照」，AI 就顺带从库里取材。下面用最高频的「<b style="color:var(--ac-t)">写了一半 → 扩写</b>」走一遍完整链路：AI 怎么取、你看到什么、你能怎么管。</p>
+    <div class="flow" style="grid-template-columns:repeat(3,1fr);">
       <div class="stage">
         <div class="device"><div class="screen">
           <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
           <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
           <div class="note">
-            <div class="ntitle" style="color:#111">Q3 项目总结</div>
-            <div class="nmeta">今天 16:20　｜　12 字</div>
-            <div class="nbody">帮我写一份 Q3 项目总结<span class="cur"></span></div>
+            <div class="ntitle" style="color:#111">直播间的信任</div>
+            <div class="nmeta">今天 16:20　｜　写了一半</div>
+            <div class="nbody">直播间的信任，靠主播每天准点出现攒下来的。但光准点不够，还得…<span class="cur"></span></div>
           </div>
           <div class="aibar">
-            <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>直接成稿</span><span class="chip2">先列大纲</span></div>
+            <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>扩写成段</span><span class="chip2">补个案例</span><span class="chip2">换个开头</span></div>
             <div class="tbar">
             <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
             <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
@@ -587,7 +601,7 @@
             <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
           </div>
         </div></div>
-        <div class="mcap">写下诉求 → 点工具条的「直接成稿」（就是前面那套 chips）</div>
+        <div class="mcap"><b>① 写了一半</b> → 点「扩写成段」，AI 顺带从你整个库里取相关素材</div>
       </div>
 
       <div class="stage">
@@ -597,16 +611,35 @@
           <div class="note">
             <div class="ntitle" style="color:#111">Q3 项目总结</div>
             <div class="nmeta">今天 16:21　｜　AI 生成</div>
-            <div class="nbody">本季度项目按计划推进，网页生成前端完成、测试用例完成 60%。<br><br>风险上，评审会提出的两点已记入下季度计划。</div>
+            <div style="display:inline-flex;align-items:center;gap:6px;margin:2px 0 10px;padding:4px 9px;border-radius:7px;background:rgba(0,0,0,.05);font-size:11px;color:rgba(0,0,0,.5);font-weight:600;">✦ 已结合你的表达习惯与项目背景 · 未单独引用</div>
+            <div class="nbody">真正的信任，是观众<span style="border-bottom:1.5px dashed #0a8f60;">"知道你一定在"</span>——每天准点只是开始，长期稳定才让人愿意把钱花在你这。</div>
           </div>
-          <div style="margin:18px 18px 0;padding-top:14px;border-top:1px solid rgba(0,0,0,.08);">
+          <div style="margin:16px 18px 0;padding-top:14px;border-top:1px solid rgba(0,0,0,.08);">
             <div style="font-size:12.5px;font-weight:700;color:#111;margin-bottom:6px;">关联笔记 <span style="font-size:10px;color:#0a8f60;font-weight:600;background:rgba(15,180,120,.1);padding:1px 7px;border-radius:5px;margin-left:4px;">AI 自动关联</span></div>
-            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(0,0,0,.06);"><span style="font-size:15px;">🎙</span><span style="flex:1;font-size:12.5px;color:rgba(0,0,0,.82);">9/12 项目评审会 · 纪要</span><span style="color:rgba(0,0,0,.28);font-size:15px;">›</span></div>
-            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(0,0,0,.06);"><span style="font-size:15px;">📄</span><span style="flex:1;font-size:12.5px;color:rgba(0,0,0,.82);">Q2–Q3 周报.pdf</span><span style="color:rgba(0,0,0,.28);font-size:15px;">›</span></div>
-            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;"><span style="font-size:15px;">📝</span><span style="flex:1;font-size:12.5px;color:rgba(0,0,0,.82);">上季度复盘笔记</span><span style="color:rgba(0,0,0,.28);font-size:15px;">›</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(0,0,0,.06);"><span style="font-size:15px;">🎙</span><span style="flex:1;font-size:12.5px;color:rgba(0,0,0,.82);">9/3 直播复盘 · 录音</span><span style="color:rgba(0,0,0,.28);font-size:15px;">›</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(0,0,0,.06);"><span style="font-size:15px;">📄</span><span style="flex:1;font-size:12.5px;color:rgba(0,0,0,.82);">直播行业信任报告.pdf</span><span style="color:rgba(0,0,0,.28);font-size:15px;">›</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;"><span style="font-size:15px;">📝</span><span style="flex:1;font-size:12.5px;color:rgba(0,0,0,.82);">粉丝运营笔记</span><span style="color:rgba(0,0,0,.28);font-size:15px;">›</span></div>
           </div>
         </div></div>
-        <div class="mcap">成文带「关联笔记」区，点开核对、跳转；你保留的是这篇笔记</div>
+        <div class="mcap"><b>② 成文</b>：引用的<b>标出处、能核对</b>（方式一）；用你的表达习惯<b>不单独标</b>（方式二）</div>
+      </div>
+
+      <div class="stage">
+        <div class="device"><div class="screen">
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+          <div class="note">
+            <div class="ntitle" style="color:#111">直播间的信任</div>
+            <div class="nmeta">今天 16:21　｜　AI 生成</div>
+            <div class="nbody" style="color:rgba(0,0,0,.4)">真正的信任，是观众<span style="border-bottom:1.5px dashed #0a8f60;">"知道你一定在"</span>——每天准点只是开始……</div>
+          </div>
+          <div style="margin:14px 18px 0;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:13px;padding:13px 14px;box-shadow:0 8px 24px rgba(0,0,0,.12);">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px;"><span style="font-size:15px;">🎙</span><span style="flex:1;font-size:12.5px;font-weight:700;color:#111;">9/3 直播复盘 · 录音</span><span style="font-size:10px;color:#0a8f60;font-weight:600;">引用片段</span></div>
+            <div style="font-size:12px;color:rgba(0,0,0,.62);line-height:1.6;background:rgba(15,180,120,.07);border-left:2px solid #0a8f60;padding:8px 10px;border-radius:0 6px 6px 0;">"观众每天准点来，是因为知道你一定在。"</div>
+            <div style="display:flex;gap:8px;margin-top:12px;"><span style="flex:1;text-align:center;font-size:12px;font-weight:600;color:#0a8f60;border:1px solid rgba(15,180,120,.45);border-radius:8px;padding:8px 0;">跳到原文</span><span style="flex:1;text-align:center;font-size:12px;font-weight:600;color:var(--neg,#d9534f);border:1px solid rgba(217,83,79,.4);border-radius:8px;padding:8px 0;">去掉这条来源</span></div>
+          </div>
+        </div></div>
+        <div class="mcap"><b>③ 你能管</b>：点开核对 AI 引用了哪句；不想用，一键去掉，正文实时重写</div>
       </div>
     </div>
 
