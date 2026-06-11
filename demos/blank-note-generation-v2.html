@@ -547,13 +547,36 @@
       <tr><td>贴了一大段</td><td>总结、换格式</td><td>和你的历史内容对照、查漏补缺</td></tr>
     </table>
 
-    <div class="subhead2"><span class="dot"></span>核心 · 你的笔记是一个"随时被调用的资料库"</div>
-    <div class="callout"><b>写的时候，你的全部笔记就是一个实时资料库。</b>AI 一边帮你写，一边从里面调相关内容——<b>帮你写出来、写好，并标明每一段用了你的什么</b>，你随时能点开核对、不想用一键去掉。</div>
-    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:14px 0 2px;max-width:1010px;">还记得前面工具条上会随内容变的 chips 吗？这里多一个「<b style="color:var(--ac-t)">参考我的笔记</b>」——点它，就触发下面这个循环：</p>
-    <div class="flow">
+    <div class="callout"><b>你的笔记是别人复制不了的私人资料库。记的越多，AI 越懂你、写得越像你——你越离不开。</b>这是笔记面对豆包们唯一守得住的护城河。</div>
 
+    <div class="subhead2"><span class="dot"></span>底层逻辑 · 内容要先"可参考"，再分两种方式用</div>
+    <div class="callout">AI 读不了音频、读不了 PPT、读不了图片。<b>资料库里的一切，必须先加工成"可检索的文本表示"，AI 才参考得了。</b>这就是"加工"这一环的产品价值——也是为什么播客 / PPT / PDF 要先加工、再进库。</div>
+    <table class="matrix">
+      <tr><th>内容</th><th>先加工成什么（才可参考）</th><th>AI 怎么用</th></tr>
+      <tr><td>文字 / 手写</td><td>直接用（手写走 OCR）</td><td>检索片段、引用</td></tr>
+      <tr><td>录音 / 通话</td><td>转写稿 + 摘要</td><td>引用"据某次录音"</td></tr>
+      <tr><td>播客</td><td>转写稿 + 分段摘要</td><td>引用其中某一段</td></tr>
+      <tr><td>PPT</td><td>提取每页标题 / 正文 → 大纲</td><td>参考其结构、要点</td></tr>
+      <tr><td>PDF / 文档</td><td>解析正文 + 分块</td><td>引用页 / 段</td></tr>
+      <tr><td>图片 / 截图</td><td>OCR + 图像理解</td><td>检索提取出的文字</td></tr>
+      <tr><td>小爱记忆</td><td>本就是结构化事实</td><td>当背景注入，不逐条引用</td></tr>
+    </table>
+    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:18px 0 12px;max-width:1010px;">同一个库，AI 用它的方式分两种——这是最底层的分界：</p>
+    <div class="grid2">
+      <div class="card"><span class="tag">方式一 · 当资料引用</span><h4>检索片段，标出处</h4><p>文档 / 录音 / 播客 / 网页 / PPT / 图片——AI 检索相关片段<b>引用进来、标来源</b>，能点开核对（本质是 RAG）。</p></div>
+      <div class="card"><span class="tag">方式二 · 当背景知道</span><h4>知道你是谁</h4><p>小爱记忆 / 偏好 / 关键事实——AI 写的时候<b>"知道"这些、让内容更像你</b>，但不逐条标"引用自记忆"。</p></div>
+    </div>
+
+    <div class="subhead2"><span class="dot"></span>为什么是我们：别人做不到"自动"</div>
+    <div class="grid2">
+      <div class="card"><span class="tag">Obsidian 的做法</span><h4>手动 [[ ]] 双向链接</h4><p>关联很准，但<b>门槛极高</b>——要用户养成打 [[]] 的习惯，新用户几乎不用，全靠人脑记得。</p></div>
+      <div class="card"><span class="tag">我们的做法</span><h4>AI 自动串，你只管记</h4><p><b>用户只管记，系统负责把笔记串起来。</b>记的越多关联越准——这是手动链接永远追不上的。</p></div>
+    </div>
+
+    <div class="subhead2"><span class="dot"></span>用户看到什么：成文 + 底部「关联笔记」区</div>
+    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:8px 0 4px;max-width:1010px;">取材是<b style="color:var(--ac-t)">自动</b>的——用户照常写，不用手动点。写出来的笔记，底部带一个「关联笔记」区（AI 自动发现的 + 你手动 @ 的同区展示），点一下能核对、能跳转。</p>
+    <div class="flow" style="grid-template-columns:1fr 1fr;">
       <div class="stage">
-        <div class="sbody"><span class="badge">第 1 步</span><h4>你说要写什么</h4><div class="ans">只发起一句诉求</div></div>
         <div class="device"><div class="screen">
           <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
           <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
@@ -561,18 +584,16 @@
             <div class="ntitle" style="color:#111">Q3 项目总结</div>
             <div class="nmeta">今天 16:20　｜　12 字</div>
             <div class="nbody">帮我写一份 Q3 项目总结<span class="cur"></span></div>
+            <div style="margin-top:16px;display:inline-flex;align-items:center;gap:6px;background:rgba(15,180,120,.1);border:1px solid rgba(15,180,120,.3);border-radius:16px;padding:6px 12px;font-size:11.5px;color:#0a8f60;font-weight:600;">✦ 正在自动参考你的笔记…</div>
           </div>
-          <div class="aibar">
-            <div class="chiprow"><span class="chip2">先列大纲</span><span class="chip2">直接成稿</span><span class="chip2 lead"><span class="gd"></span>参考我的笔记</span></div>
-            <div class="tbar">
-              <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
-              <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
-              <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>
-              <span class="ti"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z"/></svg></span>
-              <span class="ti"><svg viewBox="0 0 24 24" fill-rule="evenodd"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg></span>
-              <span class="ti"><span class="tt">T</span></span>
-            </div>
-          </div>
+          <div class="aibar"><div class="tbar">
+            <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
+            <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
+            <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>
+            <span class="ti"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z"/></svg></span>
+            <span class="ti"><svg viewBox="0 0 24 24" fill-rule="evenodd"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg></span>
+            <span class="ti"><span class="tt">T</span></span>
+          </div></div>
           <div class="kbd">
             <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
             <div class="krow"><span class="key">Q</span><span class="key">W</span><span class="key">E</span><span class="key">R</span><span class="key">T</span><span class="key">Y</span><span class="key">U</span><span class="key">I</span><span class="key">O</span><span class="key">P</span></div>
@@ -581,62 +602,34 @@
             <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
           </div>
         </div></div>
-        <div class="mcap">① 写完，点工具条 chips 里的「参考我的笔记」</div>
+        <div class="mcap">你照常写，AI 自动从库里取材——不用手动点任何东西</div>
       </div>
 
       <div class="stage">
-        <div class="sbody"><span class="badge">第 2 步</span><h4>AI 直接写好</h4><div class="ans">每段标出用了什么</div></div>
         <div class="device"><div class="screen">
           <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
           <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
           <div class="note">
             <div class="ntitle" style="color:#111">Q3 项目总结</div>
             <div class="nmeta">今天 16:21　｜　AI 生成</div>
-            <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(15,180,120,.1);border:1px solid rgba(15,180,120,.3);border-radius:20px;padding:6px 12px;font-size:11.5px;color:#0a8f60;font-weight:600;margin-bottom:14px;">✦ 参考了你笔记里的 4 条 · 点开看</div>
-            <div class="nbody">本季度项目按计划推进，网页生成前端完成、测试用例完成 60% <span style="font-size:10px;color:#0a8f60;background:rgba(15,180,120,.12);padding:1px 6px;border-radius:5px;white-space:nowrap;">据 9/12 项目会</span>。<br><br>风险上，评审会提出的两点已记入下季度计划 <span style="font-size:10px;color:#0a8f60;background:rgba(15,180,120,.12);padding:1px 6px;border-radius:5px;white-space:nowrap;">据 周报.pdf</span>。</div>
+            <div class="nbody">本季度项目按计划推进，网页生成前端完成、测试用例完成 60%。<br><br>风险上，评审会提出的两点已记入下季度计划。</div>
+          </div>
+          <div style="margin:18px 18px 0;padding-top:14px;border-top:1px solid rgba(0,0,0,.08);">
+            <div style="font-size:12.5px;font-weight:700;color:#111;margin-bottom:6px;">关联笔记 <span style="font-size:10px;color:#0a8f60;font-weight:600;background:rgba(15,180,120,.1);padding:1px 7px;border-radius:5px;margin-left:4px;">AI 自动关联</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(0,0,0,.06);"><span style="font-size:15px;">🎙</span><span style="flex:1;font-size:12.5px;color:rgba(0,0,0,.82);">9/12 项目评审会 · 纪要</span><span style="color:rgba(0,0,0,.28);font-size:15px;">›</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(0,0,0,.06);"><span style="font-size:15px;">📄</span><span style="flex:1;font-size:12.5px;color:rgba(0,0,0,.82);">Q2–Q3 周报.pdf</span><span style="color:rgba(0,0,0,.28);font-size:15px;">›</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;"><span style="font-size:15px;">📝</span><span style="flex:1;font-size:12.5px;color:rgba(0,0,0,.82);">上季度复盘笔记</span><span style="color:rgba(0,0,0,.28);font-size:15px;">›</span></div>
           </div>
         </div></div>
-        <div class="mcap">② AI 从你的笔记库取材，直接写好——每段标出用了你的什么</div>
+        <div class="mcap">成文带「关联笔记」区，点开核对、跳转；你保留的是这篇笔记</div>
       </div>
-
-      <div class="stage">
-        <div class="sbody"><span class="badge">第 3 步</span><h4>你来把关</h4><div class="ans">核对 / 去掉</div></div>
-        <div class="device"><div class="screen">
-          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
-          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
-          <div class="note">
-            <div class="ntitle" style="color:#111">Q3 项目总结</div>
-            <div class="nmeta">今天 16:21</div>
-          </div>
-          <div style="padding:6px 16px 0;">
-            <div style="background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,.07);padding:14px;box-shadow:0 3px 14px rgba(0,0,0,.07);">
-              <div style="font-size:12.5px;color:#0a8f60;font-weight:700;">这篇用到了你的 4 条笔记</div>
-              <div style="font-size:11px;color:rgba(0,0,0,.4);margin-top:3px;">点开核对原文，不想用就去掉</div>
-              <div style="display:flex;align-items:center;gap:8px;padding:12px 0 4px;border-top:1px solid rgba(0,0,0,.07);margin-top:11px;"><span style="flex:1;font-size:12.5px;color:rgba(0,0,0,.82);">🎙 9/12 项目评审会 · 纪要</span><span style="font-size:11.5px;color:#3a6cf6;font-weight:600;">查看</span><span style="font-size:11.5px;color:rgba(0,0,0,.42);">去掉</span></div>
-              <div style="display:flex;align-items:center;gap:8px;padding:12px 0 0;"><span style="flex:1;font-size:12.5px;color:rgba(0,0,0,.82);">📄 Q2–Q3 周报.pdf</span><span style="font-size:11.5px;color:#3a6cf6;font-weight:600;">查看</span><span style="font-size:11.5px;color:rgba(0,0,0,.42);">去掉</span></div>
-            </div>
-          </div>
-        </div></div>
-        <div class="mcap">③ 点来源核对原文，不想用一键去掉——你来把关</div>
-      </div>
-
     </div>
-
-    <div class="subhead2"><span class="dot"></span>同一个循环，三种触发点</div>
-    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:8px 0 12px;max-width:1010px;">上面的循环（取材 → 写好 → 标来源、你把关）不变，只是"线索"从哪来不同：</p>
-    <table class="matrix">
-      <tr><th>你给的线索</th><th>这一刻 AI 怎么取材</th></tr>
-      <tr><td>说一句（一句话主题）</td><td>按这句话去你的库里检索，写好、标来源（就是上面那条）</td></tr>
-      <tr><td>写一半（提纲 / 碎片）</td><td>顺着你已写的，就地把相关内容补进来，标来源</td></tr>
-      <tr><td>贴一段（外部长文）</td><td>拿它和库里相关的做对照 / 补充，而不是另写一篇</td></tr>
-    </table>
-    <div class="callout" style="margin-top:18px;"><b>空着没思路 = 没有线索，取材不触发。</b>先回到前面的「帮你开始」产出第一句——<b>有了线索，资料库才有的可调。</b></div>
 
     <div class="subhead2"><span class="dot"></span>三条原则：宁可不帮，也不帮倒忙</div>
     <div class="grid3">
-      <div class="card"><span class="tag">你来确认</span><h4>素材先给你看</h4><p>找到的素材先列出来，<b>你勾选了才用</b>，绝不悄悄写进正文。</p></div>
-      <div class="card"><span class="tag">不打扰</span><h4>不相关就不弹</h4><p>找不到足够相关的，就<b>只用你当场写的</b>，不硬塞一堆没用的。</p></div>
-      <div class="card"><span class="tag">守隐私</span><h4>私密笔记不参与</h4><p>私密 / 加密笔记<b>默认不进 AI 取材范围</b>，由用户掌控。</p></div>
+      <div class="card"><span class="tag">可溯源</span><h4>每段都标来源</h4><p>用到的每一条都<b>标出处、能点开核对</b>，不想用一键去掉——不黑箱。</p></div>
+      <div class="card"><span class="tag">不打扰</span><h4>不相关就不用</h4><p>库里没有足够相关的，就<b>只用你当场写的</b>，不硬塞、不编造。</p></div>
+      <div class="card"><span class="tag">守隐私</span><h4>私密笔记不参与</h4><p>私密 / 加密笔记<b>默认不进取材范围</b>，由用户掌控。</p></div>
     </div>
   </div>
 
