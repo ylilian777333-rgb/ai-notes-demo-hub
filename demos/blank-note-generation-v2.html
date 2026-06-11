@@ -113,6 +113,10 @@
   .ptrow b{ color:#fff;}
   .subhead2{ font-size:var(--fs-sub); font-weight:800; margin:40px 0 6px; padding-top:28px; border-top:1px solid var(--line); display:flex; align-items:center; gap:10px;}
   .subhead2 .dot{ width:8px;height:8px;border-radius:2px;background:var(--ac);}
+  .modelabel{ font-size:15.5px; font-weight:800; color:#fff; margin:30px 0 2px; display:flex; align-items:center; gap:9px;}
+  .modelabel .mb{ font-size:12px; font-weight:800; color:var(--ac); background:var(--ac-b); border:1px solid var(--ac-l); border-radius:7px; padding:3px 9px;}
+  .device.compact{ width:266px; margin:14px auto 0;}
+  .device.compact .screen{ height:416px;}
 
   /* ===== 高保真手机（真实笔记：MiSans / 浅色 / 键盘已起） ===== */
   .device{ width:290px; margin:18px auto 0; border-radius:40px; background:#0a0a0c; padding:7px;
@@ -541,7 +545,9 @@
       <tr><td>贴了一大段</td><td>总结、换格式</td><td>和你的历史内容对照、查漏补缺</td></tr>
     </table>
 
-    <div class="subhead2"><span class="dot"></span>AI 怎么取材：找出来 → 你确认 → 写进去</div>
+    <div class="subhead2"><span class="dot"></span>AI 怎么取材：看你给的"线索"，分三种</div>
+    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:8px 0 2px;max-width:1010px;">取材得先有<b style="color:var(--txt)">线索</b>。你给的线索不同，取材的交互也不同——正好对应前面四种情况：你<b style="color:var(--ac-t)">说的</b>（一句话）、你<b style="color:var(--ac-t)">写的</b>（写了一半）、你<b style="color:var(--ac-t)">贴的</b>（一大段）各走一条链路；<b style="color:var(--ac-t)">空着</b>没线索，回到前面的"帮你开始"。</p>
+    <div class="modelabel"><span class="mb">A</span>你"说的" —— 一句话主题，发起式取材</div>
     <div class="flow">
 
       <div class="stage">
@@ -614,6 +620,126 @@
       </div>
 
     </div>
+
+    <div class="modelabel"><span class="mb">B</span>你"写的" —— 已经写了一半，续写时就地推荐</div>
+    <div class="flow">
+      <div class="stage">
+        <div class="sbody"><span class="badge">第 1 步</span><h4>你写了一半</h4><div class="ans">提纲 / 碎片</div></div>
+        <div class="device"><div class="screen">
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+          <div class="note">
+            <div class="ntitle" style="color:#111">家长会发言</div>
+            <div class="nmeta">今天　｜　21 字</div>
+            <div class="nbody">1. 这次成绩<br>2. 纪律问题<br>3. 暑假安排<span class="cur"></span></div>
+          </div>
+          <div class="aibar">
+            <div class="tbar">
+              <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
+              <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24" fill-rule="evenodd"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg></span>
+              <span class="ti"><span class="tt">T</span></span>
+            </div>
+          </div>
+          <div class="kbd">
+            <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
+            <div class="krow"><span class="key">Q</span><span class="key">W</span><span class="key">E</span><span class="key">R</span><span class="key">T</span><span class="key">Y</span><span class="key">U</span><span class="key">I</span><span class="key">O</span><span class="key">P</span></div>
+            <div class="krow r2"><span class="key">A</span><span class="key">S</span><span class="key">D</span><span class="key">F</span><span class="key">G</span><span class="key">H</span><span class="key">J</span><span class="key">K</span><span class="key">L</span></div>
+            <div class="krow"><span class="key wide">分词</span><span class="key">Z</span><span class="key">X</span><span class="key">C</span><span class="key">V</span><span class="key">B</span><span class="key">N</span><span class="key">M</span><span class="key wide">⌫</span></div>
+            <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
+          </div>
+        </div></div>
+        <div class="mcap">已写的内容，就是检索线索</div>
+      </div>
+
+      <div class="stage">
+        <div class="sbody"><span class="badge">第 2 步</span><h4>就地提示</h4><div class="ans">不打断你写</div></div>
+        <div class="device"><div class="screen">
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+          <div class="note">
+            <div class="ntitle" style="color:#111">家长会发言</div>
+            <div class="nmeta">今天</div>
+            <div class="nbody">1. 这次成绩<br>2. 纪律问题<br>3. 暑假安排</div>
+            <div style="margin-top:14px;background:rgba(15,180,120,.08);border:1px solid rgba(15,180,120,.28);border-radius:12px;padding:12px 13px;">
+              <div style="font-size:12px;color:#0a8f60;line-height:1.65;">✦ 你笔记里《上次家长会》记过各分数段分析，补到"成绩"这条？</div>
+              <div style="display:flex;gap:8px;margin-top:10px;"><span style="background:#0fb478;color:#fff;font-size:11.5px;font-weight:700;padding:6px 14px;border-radius:14px;">补进来</span><span style="background:#fff;color:rgba(0,0,0,.5);font-size:11.5px;padding:6px 13px;border-radius:14px;border:1px solid rgba(0,0,0,.12);">忽略</span></div>
+            </div>
+          </div>
+        </div></div>
+        <div class="mcap">写着写着，相关积累就地浮现</div>
+      </div>
+
+      <div class="stage">
+        <div class="sbody"><span class="badge">第 3 步</span><h4>补进当前位置</h4><div class="ans">标来源</div></div>
+        <div class="device"><div class="screen">
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+          <div class="note">
+            <div class="ntitle" style="color:#111">家长会发言</div>
+            <div class="nmeta">今天</div>
+            <div class="nbody">1. 这次成绩<br><span style="color:rgba(0,0,0,.62);">本次均分 87，90 分以上 12 人，待提升 5 人……</span> <span style="font-size:10px;color:#0a8f60;background:rgba(15,180,120,.1);padding:1px 6px;border-radius:5px;white-space:nowrap;">来自《上次家长会》</span><br>2. 纪律问题<br>3. 暑假安排</div>
+          </div>
+        </div></div>
+        <div class="mcap">补在你写的位置，标清来源</div>
+      </div>
+    </div>
+
+    <div class="modelabel"><span class="mb">C</span>你"贴的" —— 一大段外部内容，关联 / 对照</div>
+    <div class="flow">
+      <div class="stage">
+        <div class="sbody"><span class="badge">第 1 步</span><h4>你贴进一大段</h4><div class="ans">外部资料</div></div>
+        <div class="device"><div class="screen">
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+          <div class="note">
+            <div class="ntitle" style="color:#111">竞品调研</div>
+            <div class="nmeta">今天　｜　粘贴</div>
+            <div class="nbody" style="color:rgba(0,0,0,.55);">友商 X 本月上线了 AI 会议纪要，付费墙策略从按次改为订阅，月活环比涨 18%，主打商务白名单……（粘贴的一大段）</div>
+          </div>
+        </div></div>
+        <div class="mcap">贴进来的内容，就是检索线索</div>
+      </div>
+
+      <div class="stage">
+        <div class="sbody"><span class="badge">第 2 步</span><h4>发现相关</h4><div class="ans">指向你的旧笔记</div></div>
+        <div class="device"><div class="screen">
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+          <div class="note">
+            <div class="ntitle" style="color:#111">竞品调研</div>
+            <div class="nmeta">今天</div>
+            <div class="nbody" style="color:rgba(0,0,0,.5);">友商 X 本月上线了 AI 会议纪要，付费墙策略从按次改为订阅……</div>
+            <div style="margin-top:14px;background:rgba(15,180,120,.08);border:1px solid rgba(15,180,120,.28);border-radius:12px;padding:12px 13px;">
+              <div style="font-size:12px;color:#0a8f60;line-height:1.65;">✦ 这段和你笔记《竞品调研 · 0830》相关</div>
+              <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;"><span style="background:#0fb478;color:#fff;font-size:11.5px;font-weight:700;padding:6px 13px;border-radius:14px;">对照差异</span><span style="background:#fff;color:rgba(0,0,0,.55);font-size:11.5px;padding:6px 12px;border-radius:14px;border:1px solid rgba(0,0,0,.12);">补充进来</span><span style="background:#fff;color:rgba(0,0,0,.4);font-size:11.5px;padding:6px 12px;border-radius:14px;border:1px solid rgba(0,0,0,.12);">忽略</span></div>
+            </div>
+          </div>
+        </div></div>
+        <div class="mcap">AI 发现和你已有内容相关</div>
+      </div>
+
+      <div class="stage">
+        <div class="sbody"><span class="badge">第 3 步</span><h4>做对照 / 补充</h4><div class="ans">不是另写一篇</div></div>
+        <div class="device"><div class="screen">
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+          <div class="note">
+            <div class="ntitle" style="color:#111">竞品调研</div>
+            <div class="nmeta">今天　｜　对照</div>
+            <div style="margin-top:8px;background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:13px;padding:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);">
+              <div style="font-size:12.5px;color:#0a8f60;font-weight:700;margin-bottom:11px;">对照你 0830 记的：</div>
+              <div style="font-size:12.5px;line-height:2.1;color:rgba(0,0,0,.78);">🟢 新增：AI 会议纪要功能<br>🟠 变化：付费墙改为订阅制<br>⚪ 一致：主打商务白名单</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="mcap">和你的积累对照，查漏补缺</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:30px;"><b>空着没思路 = 没有线索，取材不适用。</b>这时回到前面的「帮你开始」——先用起手式或语音让你产出第一句，<b>有了线索，取材才有的谈。</b></div>
 
     <div class="subhead2"><span class="dot"></span>三条原则：宁可不帮，也不帮倒忙</div>
     <div class="grid3">
