@@ -192,6 +192,15 @@
   .exc .result{ padding:15px 22px; background:var(--panel2); font-size:var(--fs-small); color:var(--sub); line-height:1.6;}
   .exc .result b{ color:var(--ac); font-weight:700;}
 
+  table{ width:100%; border-collapse:separate; border-spacing:0; margin:8px 0; font-size:var(--fs-body); background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+  th,td{ padding:15px 20px; text-align:left; vertical-align:top; line-height:1.6; border-bottom:1px solid var(--line);}
+  th{ background:var(--panel2); color:var(--sub); font-weight:700; font-size:var(--fs-small); letter-spacing:.5px;}
+  td b{ color:#fff;}
+  tr:last-child td{ border-bottom:none;}
+  .matrix th,.matrix td{ padding:16px 22px;}
+  .matrix th:first-child,.matrix td:first-child{ width:128px;}
+  .matrix th:nth-child(3),.matrix td:nth-child(3){ border-left:1px solid var(--line); background:rgba(53,207,149,.045);}
+  .matrix td:first-child{ font-weight:700; color:#fff;}
   .note-s{ font-size:var(--fs-small); color:var(--dim); margin-top:18px; padding:14px 18px; background:var(--panel); border-radius:10px; border:1px solid var(--line); line-height:1.6;}
   .note-s b{ color:var(--sub);}
   .footer{ margin-top:94px; padding-top:30px; border-top:1px solid var(--line); font-size:var(--fs-small); color:var(--dim); text-align:center; letter-spacing:.5px;}
@@ -524,11 +533,12 @@
     <div class="divider"></div>
     <div class="callout"><b>你记得越多，AI 越知道"你的事"。</b>笔记里存的录音、文档、历史笔记、记忆，都能成为 AI 帮你写新内容时的素材——写出来的是基于你真实积累的东西，不是通用模板。</div>
 
-    <table>
-      <tr><th style="width:120px">AI 帮你时</th><th>用 ① 你当场写的</th><th>也用 ② 你笔记里存的</th></tr>
-      <tr><td><b>帮你开始</b></td><td>给起手式、让你开口说</td><td>翻出相关旧笔记，给你一个起点</td></tr>
-      <tr><td><b>帮你写下去</b></td><td>顺着你写的扩写 / 补全</td><td>把你笔记里的资料写进当前内容</td></tr>
-      <tr><td><b>帮你加工</b></td><td>选中后总结 / 换格式</td><td>结合历史内容做对照、补充</td></tr>
+    <table class="matrix">
+      <tr><th>用户进来时</th><th>只用你当场写的</th><th>加上你笔记里存的</th></tr>
+      <tr><td>空着没思路</td><td>给起手式、让你开口说</td><td>翻出相关旧笔记，直接给你一个起点</td></tr>
+      <tr><td>只有一句主题</td><td>把这句话写成整篇</td><td>用你存过的资料来写，更准、更像你的</td></tr>
+      <tr><td>写了一半</td><td>顺着已写的扩写、补全</td><td>把笔记里相关的内容补进来</td></tr>
+      <tr><td>贴了一大段</td><td>总结、换格式</td><td>和你的历史内容对照、查漏补缺</td></tr>
     </table>
 
     <div class="subhead2"><span class="dot"></span>AI 怎么取材：找出来 → 你确认 → 写进去</div>
@@ -545,7 +555,6 @@
             <div class="nbody">帮我写一份 Q3 项目总结<span class="cur"></span></div>
           </div>
           <div class="aibar">
-            <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>用我的笔记写</span><span class="chip2">只用我打的字</span></div>
             <div class="tbar">
               <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
               <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
@@ -563,7 +572,7 @@
             <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
           </div>
         </div></div>
-        <div class="mcap">打或说"帮我写 Q3 项目总结"，选「用我的笔记写」</div>
+        <div class="mcap">你照常写下诉求（这里以"写一份 Q3 总结"为例，其他几种情况同理）</div>
       </div>
 
       <div class="stage">
