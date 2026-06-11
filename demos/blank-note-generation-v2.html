@@ -93,7 +93,9 @@
   .statec .act b{ color:#fff;}
 
   /* 三时机 */
-  .flow{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .flow{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+  .flow .stage{ position:relative;}
+  .flow .stage + .stage::before{ content:"→"; position:absolute; left:-19px; top:46%; transform:translateY(-50%); color:var(--ac); font-size:21px; font-weight:800; z-index:3;}
   .stage{ border-radius:16px; border:1px solid var(--line); background:var(--panel); overflow:hidden; padding-bottom:18px;}
   .stage .sbody{ padding:24px 24px 4px;}
   .stage .badge{ font-size:var(--fs-tiny); font-weight:800; padding:5px 12px; border-radius:7px; display:inline-block; margin-bottom:13px; letter-spacing:.5px; background:var(--ac-b); color:var(--ac); border:1px solid var(--ac-l);}
@@ -202,7 +204,7 @@
   td b{ color:#fff;}
   tr:last-child td{ border-bottom:none;}
   .matrix th,.matrix td{ padding:16px 22px;}
-  .matrix th:first-child,.matrix td:first-child{ width:128px;}
+  .matrix th:first-child,.matrix td:first-child{ width:1%; white-space:nowrap;}
   .matrix th:nth-child(3),.matrix td:nth-child(3){ border-left:1px solid var(--line); background:rgba(53,207,149,.045);}
   .matrix td:first-child{ font-weight:700; color:#fff;}
   .note-s{ font-size:var(--fs-small); color:var(--dim); margin-top:18px; padding:14px 18px; background:var(--panel); border-radius:10px; border:1px solid var(--line); line-height:1.6;}
@@ -547,7 +549,7 @@
 
     <div class="subhead2"><span class="dot"></span>核心 · 你的笔记是一个"随时被调用的资料库"</div>
     <div class="callout"><b>写的时候，你的全部笔记就是一个实时资料库。</b>AI 一边帮你写，一边从里面调相关内容——<b>帮你写出来、写好，并标明每一段用了你的什么</b>，你随时能点开核对、不想用一键去掉。</div>
-    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:14px 0 2px;max-width:1010px;">下面以一次创作为例，看这个循环怎么走（不管你是说一句、写一半、还是贴一段，都是同一个循环）：</p>
+    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:14px 0 2px;max-width:1010px;">还记得前面工具条上会随内容变的 chips 吗？这里多一个「<b style="color:var(--ac-t)">参考我的笔记</b>」——点它，就触发下面这个循环：</p>
     <div class="flow">
 
       <div class="stage">
@@ -561,6 +563,7 @@
             <div class="nbody">帮我写一份 Q3 项目总结<span class="cur"></span></div>
           </div>
           <div class="aibar">
+            <div class="chiprow"><span class="chip2">先列大纲</span><span class="chip2">直接成稿</span><span class="chip2 lead"><span class="gd"></span>参考我的笔记</span></div>
             <div class="tbar">
               <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
               <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
@@ -578,7 +581,7 @@
             <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
           </div>
         </div></div>
-        <div class="mcap">你照常写下诉求（这里以"写一份 Q3 总结"为例，其他几种情况同理）</div>
+        <div class="mcap">① 写完，点工具条 chips 里的「参考我的笔记」</div>
       </div>
 
       <div class="stage">
@@ -593,7 +596,7 @@
             <div class="nbody">本季度项目按计划推进，网页生成前端完成、测试用例完成 60% <span style="font-size:10px;color:#0a8f60;background:rgba(15,180,120,.12);padding:1px 6px;border-radius:5px;white-space:nowrap;">据 9/12 项目会</span>。<br><br>风险上，评审会提出的两点已记入下季度计划 <span style="font-size:10px;color:#0a8f60;background:rgba(15,180,120,.12);padding:1px 6px;border-radius:5px;white-space:nowrap;">据 周报.pdf</span>。</div>
           </div>
         </div></div>
-        <div class="mcap">AI 从你的库里取材，直接写好——每段标出用了你的什么</div>
+        <div class="mcap">② AI 从你的笔记库取材，直接写好——每段标出用了你的什么</div>
       </div>
 
       <div class="stage">
@@ -614,7 +617,7 @@
             </div>
           </div>
         </div></div>
-        <div class="mcap">点任一来源核对原文，不想用一键去掉——你来把关</div>
+        <div class="mcap">③ 点来源核对原文，不想用一键去掉——你来把关</div>
       </div>
 
     </div>
@@ -622,7 +625,7 @@
     <div class="subhead2"><span class="dot"></span>同一个循环，三种触发点</div>
     <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:8px 0 12px;max-width:1010px;">上面的循环（取材 → 写好 → 标来源、你把关）不变，只是"线索"从哪来不同：</p>
     <table class="matrix">
-      <tr><th style="width:168px">你给的线索</th><th>这一刻 AI 怎么取材</th></tr>
+      <tr><th>你给的线索</th><th>这一刻 AI 怎么取材</th></tr>
       <tr><td>说一句（一句话主题）</td><td>按这句话去你的库里检索，写好、标来源（就是上面那条）</td></tr>
       <tr><td>写一半（提纲 / 碎片）</td><td>顺着你已写的，就地把相关内容补进来，标来源</td></tr>
       <tr><td>贴一段（外部长文）</td><td>拿它和库里相关的做对照 / 补充，而不是另写一篇</td></tr>
