@@ -103,6 +103,16 @@
   .stage li{ font-size:var(--fs-body); color:var(--sub); padding:6px 0 6px 17px; position:relative; line-height:1.5;}
   .stage li:before{ content:"·"; position:absolute; left:2px; color:var(--ac); font-weight:800; font-size:18px; top:3px;}
   .mcap{ text-align:center; font-size:var(--fs-small); color:var(--dim); margin-top:13px;}
+  .pair{ display:grid; grid-template-columns:330px 1fr; gap:40px; align-items:center; margin:26px 0;}
+  .pair .device{ margin:0 auto;}
+  .pairtext h4{ font-size:var(--fs-sub); font-weight:800; margin-bottom:12px;}
+  .pairtext p{ font-size:var(--fs-body); color:var(--sub); line-height:1.75; margin-bottom:16px;}
+  .pairtext p b{ color:var(--ac-t); font-weight:700;}
+  .ptrow{ display:grid; grid-template-columns:72px 1fr; gap:14px; padding:11px 0; border-top:1px solid var(--line); font-size:var(--fs-body); color:var(--txt); line-height:1.55;}
+  .ptrow .ptk{ color:var(--dim); font-weight:600;}
+  .ptrow b{ color:#fff;}
+  .subhead2{ font-size:var(--fs-sub); font-weight:800; margin:40px 0 6px; padding-top:28px; border-top:1px solid var(--line); display:flex; align-items:center; gap:10px;}
+  .subhead2 .dot{ width:8px;height:8px;border-radius:2px;background:var(--ac);}
 
   /* ===== 高保真手机（真实笔记：MiSans / 浅色 / 键盘已起） ===== */
   .device{ width:290px; margin:18px auto 0; border-radius:40px; background:#0a0a0c; padding:7px;
@@ -512,22 +522,17 @@
   <div class="section">
     <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">内容来源 · 用什么写　<span style="font-size:12.5px;font-weight:700;color:var(--warn);background:var(--warn-b);border:1px solid var(--warn-l);padding:3px 10px;border-radius:7px;vertical-align:middle;margin-left:8px;">后续版本 · 近期不改</span></div><div class="secsub">前面几节讲的都是"怎么写"。还有一根轴——AI 帮你写时，素材从哪来。把这两件事拆开看，方案才完整</div></div></div>
     <div class="divider"></div>
-    <div class="callout">完整的辅助创作 = <b>怎么写（交互）× 用什么写（来源）</b>。前面把"当场输入"这一列做满了，这一节补上另一列——<b>笔记里已经沉淀的资料和记忆。</b></div>
+    <div class="callout">到这里为止，AI 用的都是你<b>当场打的字</b>。但还有一半没用上——<b>你笔记里早就存下的东西。</b>完整的辅助创作 = 怎么写（前面 5 节）× 用什么写（这一节）。</div>
 
     <table>
-      <tr><th style="width:130px">　</th><th>当场输入　<span style="color:var(--ac);">本期已规划</span></th><th>已有积累 · 资料库 / 记忆　<span style="color:var(--warn);">后续版本</span></th></tr>
+      <tr><th style="width:120px">　</th><th>① 当场输入　<span style="color:var(--ac);">前面 5 节已做</span></th><th>② 已有积累 · 资料库 / 记忆　<span style="color:var(--warn);">这一节补</span></th></tr>
       <tr><td><b>帮你开始</b></td><td>给起手式、让你开口说</td><td>翻出相关旧笔记，直接给你一个起点</td></tr>
       <tr><td><b>帮你写下去</b></td><td>顺着你写的扩写 / 补全</td><td>把你笔记里的资料，写进当前内容</td></tr>
       <tr><td><b>帮你加工</b></td><td>选中后总结 / 换格式</td><td>结合历史内容做对照、补充</td></tr>
     </table>
 
-    <div class="grid3" style="margin-top:22px;">
-      <div class="card"><span class="tag">素材从哪来</span><h4>笔记里的积累</h4><p>录音纪要、导入的 PDF、生成的播客、历史笔记、迁入的小爱记忆——<b>这些都是创作素材。</b></p></div>
-      <div class="card"><span class="tag">价值</span><h4>写的是"你的"</h4><p>打"写个 Q3 总结"，AI 调出你那场项目会纪要、那份周报，<b>写出基于你真实积累的内容，不是通用模板。</b></p></div>
-      <div class="card"><span class="tag">差异点</span><h4>豆包没有，笔记有</h4><p>通用 AI 没有你的私人积累。<b>记得越多，越离不开</b>——这是笔记的护城河。</p></div>
-    </div>
-
-    <div class="device" style="margin-top:28px"><div class="screen">
+    <div class="pair">
+      <div class="device"><div class="screen">
       <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
       <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
       <div class="note">
@@ -559,11 +564,18 @@
         <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
       </div>
     </div></div>
-    <div class="mcap">AI 自动找出相关积累，基于你真实的事来写（chips 可切"用我的笔记写 / 只用我打的字"）</div>
+      <div class="pairtext">
+        <h4>AI 自动调出你的积累来写</h4>
+        <p>打"帮我写 Q3 总结"，AI 不只凭这一句——它翻出你那场项目会的录音纪要、那份周报 PDF，<b>写出基于你真实积累的内容，不是通用模板。</b></p>
+        <div class="ptrow"><span class="ptk">素材来自</span><span>录音纪要 · 导入 PDF · 生成的播客 · 历史笔记 · 迁入的小爱记忆</span></div>
+        <div class="ptrow"><span class="ptk">为什么强</span><span>豆包没有你的私人积累，笔记有——<b>记得越多，越离不开</b>。</span></div>
+        <div class="ptrow"><span class="ptk">怎么用</span><span>chips 可切「用我的笔记写 / 只用我打的字」</span></div>
+      </div>
+    </div>
 
     <div class="callout" style="margin-top:26px;">这条线顺带解决两件老问题：<b>① 为什么把记忆 / 播客 / PDF 全存进笔记——它们是创作的素材池；② 为什么不用纠结分类——素材是给 AI 检索用的，不靠用户手动整理。</b></div>
-    <div style="font-size:var(--fs-sub);font-weight:800;margin:36px 0 4px;">调用方式 · 用户主动 @ 还是 AI 自动找</div>
-    <div class="secsub" style="margin-bottom:18px;">这是这条线能不能落地的命门——"错了比不给更糟"就卡在这</div>
+    <div class="subhead2"><span class="dot"></span>调用方式 · 用户主动 @ 还是 AI 自动找</div>
+    <div class="secsub" style="margin:-2px 0 18px;">这是这条线能不能落地的命门——"错了比不给更糟"就卡在这</div>
     <div class="callout"><b>主张：自动检索降门槛，但采纳前让用户看见、能勾选，不够相关就宁可不给。</b>"错了比不给更糟"的解法不是别检索，而是把错误拦在写进正文之前。</div>
     <table>
       <tr><th style="width:150px">三种模式</th><th>说明</th><th style="width:96px">取舍</th></tr>
