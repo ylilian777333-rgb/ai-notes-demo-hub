@@ -562,7 +562,21 @@
     <div class="mcap">AI 自动找出相关积累，基于你真实的事来写（chips 可切"用我的笔记写 / 只用我打的字"）</div>
 
     <div class="callout" style="margin-top:26px;">这条线顺带解决两件老问题：<b>① 为什么把记忆 / 播客 / PDF 全存进笔记——它们是创作的素材池；② 为什么不用纠结分类——素材是给 AI 检索用的，不靠用户手动整理。</b></div>
-    <div class="note-s"><b>想清楚再说：</b>① 素材是用户主动 @，还是 AI 自动检索？自动检索"错了比不给更糟"　·　② 翻整个笔记库还是只翻相关范围？隐私与性能　·　③ "对创作有用就存、且不分类"能否作为存入策略的统一锚点，与记忆迁入对齐</div>
+    <div style="font-size:var(--fs-sub);font-weight:800;margin:36px 0 4px;">调用方式 · 用户主动 @ 还是 AI 自动找</div>
+    <div class="secsub" style="margin-bottom:18px;">这是这条线能不能落地的命门——"错了比不给更糟"就卡在这</div>
+    <div class="callout"><b>主张：自动检索降门槛，但采纳前让用户看见、能勾选，不够相关就宁可不给。</b>"错了比不给更糟"的解法不是别检索，而是把错误拦在写进正文之前。</div>
+    <table>
+      <tr><th style="width:150px">三种模式</th><th>说明</th><th style="width:96px">取舍</th></tr>
+      <tr><td><b>纯手动 @</b></td><td>用户自己指定用哪篇。精准，但门槛高，且用户常忘了自己存过啥</td><td>作补充</td></tr>
+      <tr><td><b>自动检索 + 确认</b></td><td>AI 自动找 → 列出候选素材 → 用户勾选 → 再写。低门槛 + 透明 + 可控</td><td style="color:var(--ac);font-weight:800;">主推</td></tr>
+      <tr><td><b>全自动注入</b></td><td>AI 自动找、自动写进正文。魔法但不透明，错了藏在正文里</td><td style="color:var(--neg);font-weight:800;">近期不做</td></tr>
+    </table>
+    <div class="grid3" style="margin-top:20px;">
+      <div class="card"><span class="tag">兜底</span><h4>不够相关就不给</h4><p>设相关度阈值，低于阈值 AI 安静退回"只用你当场打的字"。<b>宁可这次不帮，也不弹一堆不相关的。</b></p></div>
+      <div class="card"><span class="tag">透明</span><h4>采纳前可见可勾选</h4><p>候选素材摆出来，用户一眼判断、取消勾选，<b>错误拦在写进正文之前</b>，事后还能标来源溯源。</p></div>
+      <div class="card"><span class="tag">隐私</span><h4>私密笔记不入池</h4><p>加密 / 私密笔记默认不参与检索，给用户一个"不参与 AI 创作"的开关。</p></div>
+    </div>
+    <div class="note-s"><b>仍要对齐：</b>① 检索触发时机——点"用我的笔记写"或发起生成时才检索，不一进笔记就预检索　·　② 相关度阈值由谁定、怎么测　·　③ 与小爱记忆迁入、善德团队的工程实现对齐</div>
   </div>
 
   <div class="section">
