@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小米笔记 - 侧边栏品类导航 Demo</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "SF Pro Display", "PingFang SC", sans-serif; background: #f5f5f5; }
+
+/* === 切换按钮 === */
+.device-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 9999;
+  display: flex; gap: 8px;
+}
+.device-toggle button {
+  padding: 8px 16px; border: none; border-radius: 20px;
+  font-size: 14px; cursor: pointer; transition: all .2s;
+  background: #e0e0e0; color: #333;
+}
+.device-toggle button.active { background: #ff6900; color: #fff; }
+
+/* === 手机框架 === */
+.phone-frame {
+  width: 390px; height: 844px; margin: 60px auto;
+  border-radius: 44px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+  background: #fff; position: relative;
+  border: 8px solid #1a1a1a;
+}
+.phone-frame .status-bar {
+  height: 54px; background: #fff;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 8px; font-size: 14px; font-weight: 600;
+}
+.phone-frame .content { height: calc(100% - 54px); display: flex; flex-direction: column; }
+
+/* === Pad框架 === */
+.pad-frame {
+  width: 1024px; height: 768px; margin: 60px auto;
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+  background: #fff; position: relative;
+  border: 6px solid #1a1a1a; display: none;
+}
+.pad-frame .content { height: 100%; display: flex; }
+
+/* === 侧边栏 === */
+.sidebar {
+  width: 72px; background: #fafafa; border-right: 1px solid #eee;
+  display: flex; flex-direction: column; align-items: center;
+  padding-top: 20px; gap: 4px; flex-shrink: 0;
+}
+.sidebar-item {
+  width: 56px; padding: 10px 0; text-align: center; border-radius: 12px;
+  cursor: pointer; transition: all .2s; font-size: 11px; color: #666;
+}
+.sidebar-item .icon { font-size: 22px; margin-bottom: 2px; }
+.sidebar-item.active { background: #fff3e8; color: #ff6900; }
+.sidebar-item:hover { background: #f0f0f0; }
+
+/* === Pad侧边栏(宽) === */
+.pad-sidebar {
+  width: 240px; background: #fafafa; border-right: 1px solid #eee;
+  padding: 20px 12px; flex-shrink: 0; overflow-y: auto;
+}
+.pad-sidebar h3 { font-size: 13px; color: #999; margin: 16px 8px 8px; }
+.pad-sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 12px; border-radius: 10px; cursor: pointer;
+  transition: all .2s; font-size: 15px; color: #333; margin-bottom: 2px;
+}
+.pad-sidebar-item .icon { font-size: 20px; }
+.pad-sidebar-item.active { background: #fff3e8; color: #ff6900; font-weight: 500; }
+.pad-sidebar-item:hover { background: #f0f0f0; }
+
+/* === 列表区域 === */
+.list-panel {
+  flex: 1; overflow-y: auto; background: #fff;
+}
+.list-header {
+  padding: 16px 20px; font-size: 20px; font-weight: 700;
+  border-bottom: 1px solid #f0f0f0; display: flex;
+  align-items: center; justify-content: space-between;
+}
+.list-header .search-icon { font-size: 18px; color: #999; cursor: pointer; }
+
+/* 笔记列表样式 */
+.note-item {
+  padding: 14px 20px; border-bottom: 1px solid #f8f8f8;
+  cursor: pointer; transition: background .15s;
+}
+.note-item:hover { background: #fafafa; }
+.note-item .title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+.note-item .preview { font-size: 13px; color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note-item .meta { font-size: 12px; color: #bbb; margin-top: 6px; display: flex; gap: 12px; }
+
+/* 播客列表样式 */
+.podcast-item {
+  padding: 14px 20px; border-bottom: 1px solid #f8f8f8;
+  display: flex; gap: 12px; align-items: center; cursor: pointer;
+}
+.podcast-item:hover { background: #fafafa; }
+.podcast-item .cover {
+  width: 52px; height: 52px; border-radius: 10px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.podcast-item .info { flex: 1; }
+.podcast-item .info .title { font-size: 15px; font-weight: 500; }
+.podcast-item .info .duration { font-size: 12px; color: #999; margin-top: 4px; }
+
+/* 待办列表样式 */
+.todo-item {
+  padding: 12px 20px; display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid #f8f8f8; cursor: pointer;
+}
+.todo-item:hover { background: #fafafa; }
+.todo-item .checkbox {
+  width: 20px; height: 20px; border: 2px solid #ddd; border-radius: 50%;
+  flex-shrink: 0;
+}
+.todo-item .checkbox.done { background: #ff6900; border-color: #ff6900; position: relative; }
+.todo-item .checkbox.done::after {
+  content: "✓"; color: #fff; font-size: 12px;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+}
+.todo-item .text { font-size: 15px; }
+.todo-item .text.done-text { color: #bbb; text-decoration: line-through; }
+
+/* 随手记样式 */
+.memo-item {
+  padding: 14px 20px; border-bottom: 1px solid #f8f8f8;
+  cursor: pointer;
+}
+.memo-item:hover { background: #fafafa; }
+.memo-item .content-text { font-size: 14px; line-height: 1.5; color: #333; }
+.memo-item .time { font-size: 12px; color: #bbb; margin-top: 6px; }
+.memo-item .source { display: inline-block; font-size: 11px; background: #f0f0f0; padding: 2px 8px; border-radius: 4px; color: #666; margin-top: 4px; }
+
+/* AI知识库样式 */
+.kb-item {
+  padding: 14px 20px; border-bottom: 1px solid #f8f8f8; cursor: pointer;
+}
+.kb-item:hover { background: #fafafa; }
+.kb-item .title { font-size: 15px; font-weight: 500; }
+.kb-item .tag-row { margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+.kb-item .tag {
+  font-size: 11px; padding: 2px 8px; border-radius: 4px;
+  background: #e8f4fd; color: #1a73e8;
+}
+.kb-item .count { font-size: 12px; color: #999; margin-top: 4px; }
+
+/* === Pad详情面板 === */
+.detail-panel {
+  flex: 1; background: #fff; border-left: 1px solid #eee;
+  padding: 32px; overflow-y: auto; display: none;
+}
+.detail-panel.show { display: block; }
+.detail-panel h2 { font-size: 22px; margin-bottom: 16px; }
+.detail-panel p { font-size: 15px; line-height: 1.8; color: #444; }
+
+/* === 手机侧边栏抽屉 === */
+.phone-sidebar-overlay {
+  position: absolute; top: 54px; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,.3); z-index: 100; display: none;
+}
+.phone-sidebar-overlay.show { display: block; }
+.phone-sidebar-drawer {
+  position: absolute; top: 0; left: 0; bottom: 0; width: 280px;
+  background: #fff; padding: 20px 16px; overflow-y: auto;
+  box-shadow: 4px 0 20px rgba(0,0,0,.1);
+}
+.phone-sidebar-drawer h3 { font-size: 13px; color: #999; margin: 16px 4px 8px; }
+.phone-drawer-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 12px; border-radius: 10px; cursor: pointer;
+  font-size: 16px; color: #333;
+}
+.phone-drawer-item.active { background: #fff3e8; color: #ff6900; font-weight: 500; }
+
+/* === 底部Tab(手机) === */
+.bottom-bar {
+  height: 56px; border-top: 1px solid #eee; display: flex;
+  align-items: center; justify-content: space-around; background: #fff;
+  flex-shrink: 0;
+}
+.bottom-bar .fab {
+  width: 44px; height: 44px; background: #ff6900; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 24px; box-shadow: 0 4px 12px rgba(255,105,0,.3);
+  cursor: pointer;
+}
+.bottom-bar .tab-icon { font-size: 22px; color: #999; cursor: pointer; }
+
+/* 手机列表header带侧边栏按钮 */
+.phone-list-header {
+  padding: 16px 20px; display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.phone-list-header .menu-btn { font-size: 20px; cursor: pointer; }
+.phone-list-header .title { font-size: 20px; font-weight: 700; flex: 1; }
+.phone-list-header .search-icon { font-size: 18px; color: #999; cursor: pointer; }
+
+/* 隐藏状态 */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="device-toggle">
+  <button id="btn-phone" class="active" onclick="showPhone()">📱 手机端</button>
+  <button id="btn-pad" onclick="showPad()">💻 Pad端</button>
+</div>
+
+<!-- ========== 手机端 ========== -->
+<div class="phone-frame" id="phone-frame">
+  <div class="status-bar">小米笔记</div>
+  <div class="content">
+    <!-- 侧边栏抽屉 -->
+    <div class="phone-sidebar-overlay" id="phone-overlay" onclick="closePhoneSidebar()">
+      <div class="phone-sidebar-drawer" onclick="event.stopPropagation()">
+        <h3>内容品类</h3>
+        <div class="phone-drawer-item active" onclick="switchCategory('notes')">
+          <span class="icon">📝</span> 笔记
+        </div>
+        <div class="phone-drawer-item" onclick="switchCategory('podcast')">
+          <span class="icon">🎙️</span> 播客
+        </div>
+        <div class="phone-drawer-item" onclick="switchCategory('memo')">
+          <span class="icon">💬</span> 随手记
+        </div>
+        <div class="phone-drawer-item" onclick="switchCategory('todo')">
+          <span class="icon">✅</span> 待办
+        </div>
+        <div class="phone-drawer-item" onclick="switchCategory('kb')">
+          <span class="icon">🧠</span> AI知识库
+        </div>
+        <h3>系统</h3>
+        <div class="phone-drawer-item" onclick="switchCategory('notes')">
+          <span class="icon">📂</span> 未分类
+        </div>
+        <div class="phone-drawer-item">
+          <span class="icon">🗑️</span> 最近删除
+        </div>
+      </div>
+    </div>
+
+    <!-- 列表内容 -->
+    <div class="phone-list-header">
+      <span class="menu-btn" onclick="openPhoneSidebar()">☰</span>
+      <span class="title" id="phone-title">笔记</span>
+      <span class="search-icon">🔍</span>
+    </div>
+    <div class="list-panel" id="phone-list">
+      <!-- 动态内容 -->
+    </div>
+
+    <!-- 底部栏 -->
+    <div class="bottom-bar">
+      <span class="tab-icon">🏠</span>
+      <span class="fab">+</span>
+      <span class="tab-icon">⚙️</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== Pad端 ========== -->
+<div class="pad-frame" id="pad-frame">
+  <div class="content">
+    <!-- 一级：品类侧边栏 -->
+    <div class="pad-sidebar">
+      <h3>内容品类</h3>
+      <div class="pad-sidebar-item active" id="pad-cat-notes" onclick="padSwitchCategory('notes')">
+        <span class="icon">📝</span> 笔记
+      </div>
+      <div class="pad-sidebar-item" id="pad-cat-podcast" onclick="padSwitchCategory('podcast')">
+        <span class="icon">🎙️</span> 播客
+      </div>
+      <div class="pad-sidebar-item" id="pad-cat-memo" onclick="padSwitchCategory('memo')">
+        <span class="icon">💬</span> 随手记
+      </div>
+      <div class="pad-sidebar-item" id="pad-cat-todo" onclick="padSwitchCategory('todo')">
+        <span class="icon">✅</span> 待办
+      </div>
+      <div class="pad-sidebar-item" id="pad-cat-kb" onclick="padSwitchCategory('kb')">
+        <span class="icon">🧠</span> AI知识库
+      </div>
+      <h3>系统</h3>
+      <div class="pad-sidebar-item" onclick="padSwitchCategory('notes')">
+        <span class="icon">📂</span> 未分类
+      </div>
+      <div class="pad-sidebar-item">
+        <span class="icon">🗑️</span> 最近删除
+      </div>
+    </div>
+
+    <!-- 二级：列表 -->
+    <div class="list-panel" id="pad-list" style="width:320px; border-right:1px solid #eee;">
+      <div class="list-header">
+        <span>笔记</span>
+        <span class="search-icon">🔍</span>
+      </div>
+    </div>
+
+    <!-- 三级：详情 -->
+    <div class="detail-panel show" id="pad-detail">
+      <h2>周会纪要 - 产品方向讨论</h2>
+      <p style="color:#999;font-size:13px;margin-bottom:16px;">2026-05-21 · AI生成</p>
+      <p><strong>会议共识：</strong></p>
+      <p>1. 侧边栏按品类导航：笔记、播客、随手记、待办、AI知识库</p>
+      <p>2. 不同品类点进去的列表页可以不一样</p>
+      <p>3. 合集仅在特定品类（如AI知识库）下才有意义</p>
+      <br>
+      <p><strong>产品定位：</strong></p>
+      <p>服务95%以上的普通用户，解决普遍需求。与Notion等专业应用形成生态互补。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// === 数据 ===
+const data = {
+  notes: [
+    { title: "周会纪要 - 产品方向讨论", preview: "侧边栏按品类导航，三级交互形态...", meta: "今天 18:37 · AI生成" },
+    { title: "OS4功能规划", preview: "新版笔记功能清单及排期...", meta: "昨天 15:20 · 手动编辑" },
+    { title: "竞品分析 - Apple Notes", preview: "苹果笔记的分类逻辑、标签系统...", meta: "05-19 · AI生成" },
+    { title: "设计评审记录", preview: "列表页改版方案确认，侧边栏原型...", meta: "05-18 · 手动编辑" },
+    { title: "阅读笔记：认知觉醒", preview: "第三章要点整理，习惯养成方法论...", meta: "05-16 · 手动编辑" },
+  ],
+  podcast: [
+    { title: "产品沉思录 #42", duration: "32:15", color: "#667eea" },
+    { title: "得到·每天听本书", duration: "28:40", color: "#f093fb" },
+    { title: "创业内幕 EP.128", duration: "45:02", color: "#4facfe" },
+    { title: "硬地骇客 #56 - AI原生应用", duration: "51:30", color: "#43e97b" },
+  ],
+  memo: [
+    { text: "明天下午3点跟设计师对侧边栏方案", time: "今天 19:02", source: "语音输入" },
+    { text: "李楠说的那个Notebook LM的思路可以参考", time: "今天 18:40", source: "手动记录" },
+    { text: "记得买咖啡豆，朋友推荐的那家叫什么来着", time: "昨天 22:15", source: "AI键" },
+    { text: "跑步5公里，配速5分38秒，状态不错", time: "昨天 20:30", source: "语音输入" },
+  ],
+  todo: [
+    { text: "输出侧边栏交互Demo（手机+Pad）", done: false },
+    { text: "重新评估附件上传功能的用户认知", done: false },
+    { text: "与李王羽沟通工具接入需求", done: false },
+    { text: "合集功能方案修订", done: true },
+    { text: "OS4编译问题修复", done: true },
+  ],
+  kb: [
+    { title: "AI笔记产品调研", tags: ["竞品分析", "产品设计"], count: "12篇文档" },
+    { title: "技术架构笔记", tags: ["Android", "Kotlin", "MCP"], count: "8篇文档" },
+    { title: "用户反馈合集", tags: ["用研", "体验优化"], count: "23条反馈" },
+  ]
+};
+
+const titles = { notes: "笔记", podcast: "播客", memo: "随手记", todo: "待办", kb: "AI知识库" };
+
+// === 渲染函数 ===
+function renderList(category, container) {
+  let html = '';
+  switch(category) {
+    case 'notes':
+      data.notes.forEach(n => {
+        html += `<div class="note-item"><div class="title">${n.title}</div><div class="preview">${n.preview}</div><div class="meta"><span>${n.meta}</span></div></div>`;
+      });
+      break;
+    case 'podcast':
+      data.podcast.forEach(p => {
+        html += `<div class="podcast-item"><div class="cover" style="background:linear-gradient(135deg,${p.color},#764ba2)">🎵</div><div class="info"><div class="title">${p.title}</div><div class="duration">⏱ ${p.duration}</div></div></div>`;
+      });
+      break;
+    case 'memo':
+      data.memo.forEach(m => {
+        html += `<div class="memo-item"><div class="content-text">${m.text}</div><div class="time">${m.time}</div><div class="source">${m.source}</div></div>`;
+      });
+      break;
+    case 'todo':
+      data.todo.forEach(t => {
+        const cls = t.done ? 'done' : '';
+        const txtCls = t.done ? 'done-text' : '';
+        html += `<div class="todo-item"><div class="checkbox ${cls}"></div><div class="text ${txtCls}">${t.text}</div></div>`;
+      });
+      break;
+    case 'kb':
+      data.kb.forEach(k => {
+        const tags = k.tags.map(t => `<span class="tag">${t}</span>`).join('');
+        html += `<div class="kb-item"><div class="title">${k.title}</div><div class="tag-row">${tags}</div><div class="count">${k.count}</div></div>`;
+      });
+      break;
+  }
+  container.innerHTML = html;
+}
+
+// === 手机端 ===
+let currentCategory = 'notes';
+
+function openPhoneSidebar() {
+  document.getElementById('phone-overlay').classList.add('show');
+}
+function closePhoneSidebar() {
+  document.getElementById('phone-overlay').classList.remove('show');
+}
+function switchCategory(cat) {
+  currentCategory = cat;
+  document.getElementById('phone-title').textContent = titles[cat];
+  renderList(cat, document.getElementById('phone-list'));
+  closePhoneSidebar();
+  // 更新active状态
+  document.querySelectorAll('.phone-drawer-item').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// === Pad端 ===
+function padSwitchCategory(cat) {
+  document.querySelectorAll('.pad-sidebar-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('pad-cat-' + cat).classList.add('active');
+  document.querySelector('#pad-list .list-header span').textContent = titles[cat];
+  renderList(cat, document.getElementById('pad-list'));
+  // 保留header
+  const header = `<div class="list-header"><span>${titles[cat]}</span><span class="search-icon">🔍</span></div>`;
+  document.getElementById('pad-list').innerHTML = header + document.getElementById('pad-list').innerHTML;
+}
+
+// === 设备切换 ===
+function showPhone() {
+  document.getElementById('phone-frame').style.display = 'block';
+  document.getElementById('pad-frame').style.display = 'none';
+  document.getElementById('btn-phone').classList.add('active');
+  document.getElementById('btn-pad').classList.remove('active');
+}
+function showPad() {
+  document.getElementById('phone-frame').style.display = 'none';
+  document.getElementById('pad-frame').style.display = 'block';
+  document.getElementById('btn-phone').classList.remove('active');
+  document.getElementById('btn-pad').classList.add('active');
+}
+
+// 初始化
+renderList('notes', document.getElementById('phone-list'));
+renderList('notes', document.getElementById('pad-list'));
+// pad-list需要保留header
+const padListEl = document.getElementById('pad-list');
+const h = `<div class="list-header"><span>笔记</span><span class="search-icon">🔍</span></div>`;
+padListEl.innerHTML = h + padListEl.innerHTML;
+</script>
+</body>
+</html>

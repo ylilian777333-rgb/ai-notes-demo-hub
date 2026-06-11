@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记产出物全链路Demo</title>
+</head>
+<body style="margin:0;padding:24px;background:#111;font-family:-apple-system,'PingFang SC',sans-serif;display:flex;flex-direction:column;align-items:center">
+
+<h2 style="color:#fff;font-size:16px;margin-bottom:6px">笔记产出物 - 生成到消费全链路Demo (含MiClaw交互)</h2>
+<p style="color:#888;font-size:12px;margin-bottom:16px;text-align:center;max-width:500px;line-height:1.6">基于5/27李楠会议: 产出物与笔记强绑定, 生成后即可消费/分享。展示用户与MiClaw/笔记AI的完整对话。</p>
+
+<div id="tabs" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;justify-content:center"></div>
+
+<div style="width:375px;height:780px;border-radius:36px;border:5px solid #333;background:#fff;overflow:hidden;position:relative;box-shadow:0 16px 48px rgba(0,0,0,.6)">
+  <div style="height:44px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-size:14px;font-weight:600">小米笔记</div>
+  <div id="content" style="height:calc(100% - 44px);overflow-y:auto;padding:12px 16px"></div>
+</div>
+
+<script>
+var scenes = {
+  "MiClaw生成PPT并分享": [
+    ["sys", "[用户在MiClaw中对话, 笔记[新疆自驾攻略]已存在]"],
+    ["user", "把我那篇新疆旅游的笔记生成一个PPT"],
+    ["ai", "好的, 我先找到你的笔记..."],
+    ["sys", "[调用 notes__note_search(query=新疆旅游) -> noteId:2847]"],
+    ["sys", "[调用 notes__note_read(noteId=2847) -> 获取全文10天行程]"],
+    ["ai", "已读取[新疆北疆10日自驾攻略], 正在生成演示文稿..."],
+    ["sys", "[调用 bash: generate_slides.sh -> 生成6页HTML幻灯片]"],
+    ["sys", "[调用 notes__card_create(noteId=2847, type=main, 嵌入PPT预览卡)]"],
+    ["ai", "PPT生成完成! 共6页, 已嵌入到你的笔记顶部:\n\n[PPT预览卡]\n第1页: 封面 - 北疆10日自驾\n第2页: Day1-2 赛里木湖\n第3页: Day3-4 那拉提草原\n第4页: Day5-6 巴音布鲁克\n第5页: Day7-8 独库公路\n第6页: 装备清单与贴士\n\n你可以在笔记中直接滑动预览, 或我帮你分享给别人?"],
+    ["user", "把这个发给杨强"],
+    ["sys", "[调用 search_contacts(query=杨强) -> contactId:556]"],
+    ["sys", "[调用 IM分享接口(contactId=556, attachment=slides.html)]"],
+    ["ai", "已通过小米消息发送给杨强, 他打开即可全屏预览。"]
+  ],
+  "笔记内生成播客": [
+    ["sys", "[用户在笔记[新疆自驾攻略]详情页, 点击底部对话框]"],
+    ["chips", "生成播客 | 生成PPT | 思维导图 | 提取待办"],
+    ["user", "帮我把这篇笔记生成播客"],
+    ["sys", "[笔记AI自动注入当前笔记全文到prompt上下文]"],
+    ["ai", "正在将笔记转为双人对话式播客, 大约需要30秒..."],
+    ["sys", "[调用 TTS播客生成服务 -> 生成12:35音频文件]"],
+    ["sys", "[调用 card_create(noteId=2847, 嵌入播客播放器卡片)]"],
+    ["ai", "播客生成完成! 已嵌入笔记:\n\n[播客卡片]\n标题: 新疆自驾攻略 (双人对话版)\n时长: 12:35\n[播放] ====-------- 12:35\n\n点击即可播放, 无需跳转其他应用。\n需要设置定时播放吗?"],
+    ["user", "明天通勤时提醒我听"],
+    ["sys", "[调用 todo_create(title=听新疆攻略播客, reminder=明天8:00)]"],
+    ["ai", "已设置: 明天早上8:00提醒你收听。届时通知栏点击即可直接播放。"]
+  ],
+  "课堂笔记生成闪卡": [
+    ["sys", "[用户在笔记[数据结构期末复习]详情页对话]"],
+    ["chips", "生成闪卡 | 考点清单 | 模拟题 | 思维导图"],
+    ["user", "帮我生成知识卡片, 我要复习红黑树"],
+    ["sys", "[笔记AI注入全文 -> 识别红黑树相关段落]"],
+    ["sys", "[调用 card_create x 8 -> 生成8张知识闪卡]"],
+    ["ai", "已从笔记中提取8个知识点, 生成闪卡:\n\n[闪卡 1/8]\nQ: 红黑树插入后最多需要几次旋转?\n(点击翻转)\nA: 最多2次旋转 + 颜色翻转即可恢复平衡\n\n[闪卡 2/8]\nQ: 红黑树与AVL树的核心区别?\n...\n\n已嵌入笔记, 可直接在笔记内翻转复习。"],
+    ["user", "再出5道选择题"],
+    ["sys", "[笔记AI基于全文生成模拟题]"],
+    ["sys", "[调用 note_write -> 追加到笔记末尾]"],
+    ["ai", "5道选择题已生成并追加到笔记:\n\n1. 红黑树最坏时间复杂度?\n   A.O(n) B.O(logn) C.O(nlogn) D.O(1)\n   答案: B\n\n2. 以下哪个不是红黑树性质?\n   A.根节点为黑 B.红节点子必黑\n   C.所有叶子为红 D.黑高相等\n   答案: C\n..."]
+  ],
+  "速记生成思维导图+待办": [
+    ["sys", "[用户通过AI键口述了会议内容, 系统自动存为[速记]笔记]"],
+    ["user", "把今天的会议速记整理成思维导图"],
+    ["sys", "[调用 notes__note_search_by_time(today) -> noteId:3210]"],
+    ["sys", "[调用 notes__note_read(noteId=3210) -> 读取速记]"],
+    ["ai", "已读取今天的会议速记, 正在提取结构..."],
+    ["sys", "[调用 notes__note_create(type=mindmap, title=产品方向会议)]"],
+    ["ai", "思维导图已创建:\n\n[思维导图]\n产品方向会议5/27\n  |- 产出物类型: 听/看/做/学\n  |- 播客 -> 嵌入笔记直接播放\n  |- PPT -> 预览+一键分享\n  |- 知识卡 -> 闪卡翻转复习\n  |- 待办 -> 同步待办中心\n  |- 分享链路 -> 对接IM团队\n\n已创建为独立思维笔记, 在笔记列表可找到。"],
+    ["user", "再提取出里面的待办"],
+    ["sys", "[调用 notes__todo_create x 3]"],
+    ["ai", "提取了3条待办, 已同步到待办中心:\n\n[ ] 串联生成-消费全链路体验\n[ ] 修复AI对话上下文注入bug\n[ ] 与司梦雨团队对接IM分享功能"]
+  ],
+  "完整链路(收藏到播客到分享)": [
+    ["sys", "[完整场景: 收藏文章 -> 合并生成播客 -> 消费 -> 分享到群]"],
+    ["user", "帮我把最近收藏的文章做个播客"],
+    ["sys", "[调用 notes__note_search_by_tag(tag=收藏) -> 3篇]"],
+    ["sys", "[调用 notes__note_read x 3 -> 并行读取全文]"],
+    ["ai", "找到3篇收藏:\n1. AI产品设计方法论\n2. 2026科技趋势\n3. 远程办公最佳实践\n\n正在合并生成播客..."],
+    ["sys", "[调用 TTS播客合成 -> 25分钟双人对话音频]"],
+    ["sys", "[调用 notes__note_create(title=播客:本周精选)]"],
+    ["sys", "[调用 notes__card_create(嵌入播客播放器)]"],
+    ["ai", "播客创建完成!\n\n[播客笔记: 本周收藏精选]\n时长: 25:12\n基于3篇收藏文章, 双人对话风格\n[播放] ==------------- 25:12\n\n在笔记中点击即可播放。需要分享吗?"],
+    ["user", "分享到工作群"],
+    ["sys", "[调用 search_contacts(query=工作群) -> groupId:89]"],
+    ["sys", "[调用 IM群分享(groupId=89, 笔记链接)]"],
+    ["ai", "已分享到[产品组工作群], 群成员点击即可在线收听。"]
+  ]
+};
+
+// 渲染tabs
+var tabsEl = document.getElementById("tabs");
+var keys = Object.keys(scenes);
+keys.forEach(function(k, i) {
+  var b = document.createElement("button");
+  b.textContent = k;
+  b.style.cssText = "padding:7px 12px;border:1px solid #444;background:#222;color:#aaa;border-radius:16px;font-size:11px;cursor:pointer";
+  if (i === 0) { b.style.background = "#ff6900"; b.style.borderColor = "#ff6900"; b.style.color = "#fff"; }
+  b.onclick = function() {
+    var btns = tabsEl.querySelectorAll("button");
+    for (var j = 0; j < btns.length; j++) { btns[j].style.background = "#222"; btns[j].style.borderColor = "#444"; btns[j].style.color = "#aaa"; }
+    b.style.background = "#ff6900"; b.style.borderColor = "#ff6900"; b.style.color = "#fff";
+    renderScene(k);
+  };
+  tabsEl.appendChild(b);
+});
+
+function renderScene(key) {
+  var msgs = scenes[key];
+  var html = "";
+  msgs.forEach(function(m) {
+    var type = m[0], text = m[1];
+    if (type === "user") {
+      html += '<div style="max-width:80%;margin-left:auto;margin-bottom:10px;padding:10px 14px;border-radius:14px 14px 4px 14px;background:#ff6900;color:#fff;font-size:13px;line-height:1.6">' + text + '</div>';
+    } else if (type === "ai") {
+      html += '<div style="max-width:85%;margin-right:auto;margin-bottom:10px;padding:10px 14px;border-radius:14px 14px 14px 4px;background:#f2f2f2;color:#333;font-size:13px;line-height:1.6;white-space:pre-wrap">' + text + '</div>';
+    } else if (type === "sys") {
+      html += '<div style="margin:6px auto;padding:6px 12px;border-radius:6px;background:#fff8f0;border:1px solid #ffe0b2;color:#e65100;font-size:11px;text-align:center;max-width:92%">' + text + '</div>';
+    } else if (type === "chips") {
+      var items = text.split(" | ");
+      html += '<div style="display:flex;gap:6px;padding:6px 0;flex-wrap:wrap">';
+      items.forEach(function(item) {
+        html += '<span style="padding:5px 10px;border-radius:12px;background:#fff3e8;color:#e65100;font-size:11px;border:1px solid #ffcc80">' + item + '</span>';
+      });
+      html += '</div>';
+    }
+  });
+  document.getElementById("content").innerHTML = html;
+}
+
+renderScene(keys[0]);
+</script>
+</body>
+</html>

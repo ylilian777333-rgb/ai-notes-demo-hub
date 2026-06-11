@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记产出物生成→消费 全链路 Demo</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "SF Pro Display", "PingFang SC", sans-serif; background: #1a1a1a; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+
+h1.page-title { color: #fff; font-size: 18px; margin-bottom: 8px; }
+p.page-desc { color: #999; font-size: 13px; margin-bottom: 20px; text-align: center; max-width: 600px; }
+
+/* 场景导航 */
+.scene-nav { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
+.scene-nav button { padding: 8px 16px; border: 1px solid #444; background: #2a2a2a; color: #ccc; border-radius: 20px; font-size: 13px; cursor: pointer; transition: all .2s; }
+.scene-nav button.active { background: #ff6900; border-color: #ff6900; color: #fff; }
+.scene-nav button:hover { border-color: #ff6900; }
+
+/* 手机框 */
+.phone { width: 375px; height: 812px; border-radius: 40px; border: 6px solid #333; background: #fff; overflow: hidden; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+.phone .statusbar { height: 48px; background: #fff; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; font-size: 14px; font-weight: 600; color: #333; }
+.phone .screen { height: calc(100% - 48px); overflow-y: auto; display: flex; flex-direction: column; }
+
+/* 通用样式 */
+.note-header { padding: 16px 20px; border-bottom: 1px solid #f0f0f0; }
+.note-header .title { font-size: 20px; font-weight: 700; }
+.note-header .meta { font-size: 12px; color: #999; margin-top: 4px; }
+.note-body { padding: 16px 20px; flex: 1; overflow-y: auto; }
+.note-body p { font-size: 14px; line-height: 1.8; color: #333; margin-bottom: 12px; }
+.note-body h3 { font-size: 15px; font-weight: 600; margin: 16px 0 8px; }
+
+/* 产出物卡片（嵌入笔记中） */
+.output-card { margin: 16px 0; border-radius: 12px; overflow: hidden; border: 1px solid #e8e8e8; background: #fafafa; }
+.output-card .card-header { padding: 12px 16px; display: flex; align-items: center; gap: 10px; background: #f5f5f5; border-bottom: 1px solid #eee; }
+.output-card .card-header .icon { font-size: 20px; }
+.output-card .card-header .label { font-size: 14px; font-weight: 500; flex: 1; }
+.output-card .card-header .action { font-size: 12px; color: #ff6900; cursor: pointer; font-weight: 500; }
+.output-card .card-body { padding: 12px 16px; }
+
+/* 播客播放器 */
+.podcast-player { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+.podcast-player .play-btn { width: 40px; height: 40px; border-radius: 50%; background: #ff6900; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; cursor: pointer; flex-shrink: 0; }
+.podcast-player .wave { flex: 1; height: 32px; background: linear-gradient(90deg, #ff6900 30%, #eee 30%); border-radius: 4px; opacity: .3; }
+.podcast-player .time { font-size: 12px; color: #666; }
+
+/* PPT 预览 */
+.ppt-preview { display: flex; gap: 8px; overflow-x: auto; padding: 8px 0; }
+.ppt-slide { width: 120px; height: 68px; border-radius: 6px; background: linear-gradient(135deg, #4a90d9, #357abd); flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; text-align: center; padding: 4px; }
+
+/* 思维导图预览 */
+.mindmap-preview { padding: 12px; background: #fff; border-radius: 8px; }
+.mindmap-preview .node { padding: 6px 12px; border-radius: 6px; display: inline-block; margin: 2px 4px; font-size: 12px; }
+.mindmap-preview .root { background: #ff6900; color: #fff; font-weight: 600; }
+.mindmap-preview .child { background: #fff3e8; color: #e65100; border: 1px solid #ffcc80; }
+.mindmap-preview .tree { display: flex; flex-direction: column; gap: 4px; margin-left: 20px; margin-top: 8px; }
+
+/* 知识卡预览 */
+.flashcard { background: #fff; border-radius: 10px; padding: 16px; text-align: center; border: 2px solid #e8e8e8; min-height: 80px; display: flex; flex-direction: column; justify-content: center; }
+.flashcard .q { font-size: 14px; font-weight: 500; color: #333; }
+.flashcard .a { font-size: 13px; color: #666; margin-top: 8px; display: none; }
+.flashcard .flip-hint { font-size: 11px; color: #bbb; margin-top: 8px; }
+
+/* 待办卡片 */
+.todo-card-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f5f5f5; }
+.todo-card-item .cb { width: 18px; height: 18px; border: 2px solid #ddd; border-radius: 50%; flex-shrink: 0; }
+.todo-card-item .text { font-size: 14px; color: #333; }
+
+/* 对话入口 */
+.chat-bar { height: 56px; border-top: 1px solid #eee; display: flex; align-items: center; padding: 0 16px; gap: 10px; background: #fff; flex-shrink: 0; }
+.chat-bar .input { flex: 1; height: 36px; border-radius: 18px; background: #f5f5f5; padding: 0 16px; font-size: 13px; border: none; color: #333; }
+.chat-bar .send { width: 36px; height: 36px; border-radius: 50%; background: #ff6900; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; cursor: pointer; }
+
+/* 快捷指令chips */
+.quick-chips { display: flex; gap: 6px; padding: 8px 16px; overflow-x: auto; border-top: 1px solid #f5f5f5; flex-shrink: 0; }
+.quick-chips .chip { padding: 6px 12px; border-radius: 16px; background: #fff3e8; color: #e65100; font-size: 12px; white-space: nowrap; cursor: pointer; border: 1px solid #ffcc80; }
+
+/* 分享浮层 */
+.share-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-radius: 16px 16px 0 0; padding: 20px; box-shadow: 0 -4px 20px rgba(0,0,0,.1); display: none; z-index: 10; }
+.share-overlay.show { display: block; }
+.share-overlay h4 { font-size: 15px; margin-bottom: 12px; }
+.share-targets { display: flex; gap: 16px; }
+.share-targets .target { text-align: center; cursor: pointer; }
+.share-targets .target .icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 4px; }
+.share-targets .target .name { font-size: 11px; color: #666; }
+
+/* 场景说明标签 */
+.scene-tag { position: absolute; top: 56px; left: 16px; right: 16px; padding: 8px 12px; background: rgba(255,105,0,.08); border-radius: 8px; font-size: 12px; color: #e65100; z-index: 5; border: 1px solid rgba(255,105,0,.2); }
+.scene-tag strong { font-weight: 600; }
+.scene-tag .api { color: #666; font-family: monospace; font-size: 11px; }
+
+/* 能力标记 */
+.cap-badge { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
+.cap-badge.exist { background: #e8f5e9; color: #2e7d32; }
+.cap-badge.need { background: #fff3e0; color: #e65100; }
+
+.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">笔记产出物 · 生成→消费 全链路 Demo</h1>
+<p class="page-desc">基于李楠 5/27 会议要求：产出物与笔记强绑定，生成后即可消费/分享。结合当前代码能力标注。</p>
+
+<div class="scene-nav">
+  <button class="active" onclick="showScene('podcast')">🎙️ 播客</button>
+  <button onclick="showScene('ppt')">📊 PPT/HTML</button>
+  <button onclick="showScene('mindmap')">🧠 思维导图</button>
+  <button onclick="showScene('flashcard')">🎴 知识卡</button>
+  <button onclick="showScene('todo')">✅ 待办</button>
+  <button onclick="showScene('share')">📤 分享链路</button>
+</div>
+
+<!-- ===== 手机 ===== -->
+<div class="phone" id="phone">
+  <div class="statusbar">小米笔记</div>
+  <div class="screen" id="screen">
+    <!-- 动态内容 -->
+  </div>
+</div>
+
+<script>
+const scenes = {
+  podcast: {
+    tag: `<strong>场景：笔记生成播客</strong><br>用户在笔记详情页对话中说"帮我生成播客"→ AI读取全文 → 生成音频 → 嵌入笔记<br><span class="api">MiClaw: notes read → TTS生成 → notes append(音频卡)</span><br><span class="cap-badge exist">✓ note_read 已有</span> <span class="cap-badge exist">✓ card_create 已有</span> <span class="cap-badge need">⚠ 播客TTS生成 需对接</span>`,
+    content: `
+      <div class="note-header">
+        <div class="title">新疆北疆10日自驾攻略</div>
+        <div class="meta">2026-05-27 · 速记</div>
+      </div>
+      <div class="note-body">
+        <div class="output-card">
+          <div class="card-header">
+            <span class="icon">🎙️</span>
+            <span class="label">播客 · 基于本篇笔记生成</span>
+            <span class="action">分享 →</span>
+          </div>
+          <div class="card-body">
+            <div class="podcast-player">
+              <div class="play-btn">▶</div>
+              <div class="wave"></div>
+              <span class="time">12:35</span>
+            </div>
+            <p style="font-size:12px;color:#999;margin-top:8px;">AI 将笔记内容转为双人对话式播客，可直接收听</p>
+          </div>
+        </div>
+        <h3>Day 1-2: 乌鲁木齐→赛里木湖</h3>
+        <p>从乌鲁木齐出发，沿连霍高速G30西行约550公里到达赛里木湖。途经奎屯可停留休整...</p>
+        <h3>Day 3-4: 赛里木湖→伊宁→那拉提</h3>
+        <p>环湖公路适合慢行摄影，湖水颜色随天气变化。经果子沟大桥到伊宁...</p>
+        <h3>Day 5-6: 那拉提→巴音布鲁克</h3>
+        <p>草原公路沿途风景极佳，九曲十八弯日落是经典打卡点...</p>
+      </div>
+      <div class="quick-chips">
+        <div class="chip">🎙️ 生成播客</div>
+        <div class="chip">📊 生成PPT</div>
+        <div class="chip">🧠 思维导图</div>
+        <div class="chip">✅ 提取待办</div>
+      </div>
+      <div class="chat-bar">
+        <input class="input" placeholder="基于笔记内容对话..." readonly>
+        <div class="send">↑</div>
+      </div>
+    `
+  },
+  ppt: {
+    tag: `<strong>场景：笔记生成PPT/HTML演示</strong><br>用户："把这篇笔记生成PPT" → AI 读取全文 → 生成 HTML slides → 嵌入笔记可预览<br><span class="api">MiClaw: notes read → generate_html/ppt → note_write(嵌入)</span><br><span class="cap-badge exist">✓ note_read/write 已有</span> <span class="cap-badge need">⚠ HTML/PPT生成 MiClaw已有(bash脚本) 需笔记侧对接预览</span>`,
+    content: `
+      <div class="note-header">
+        <div class="title">新疆北疆10日自驾攻略</div>
+        <div class="meta">2026-05-27 · 速记</div>
+      </div>
+      <div class="note-body">
+        <div class="output-card">
+          <div class="card-header">
+            <span class="icon">📊</span>
+            <span class="label">演示文稿 · 共6页</span>
+            <span class="action">全屏预览 →</span>
+          </div>
+          <div class="card-body">
+            <div class="ppt-preview">
+              <div class="ppt-slide" style="background:linear-gradient(135deg,#ff6900,#e65100);">北疆10日<br>自驾攻略</div>
+              <div class="ppt-slide">Day 1-2<br>赛里木湖</div>
+              <div class="ppt-slide" style="background:linear-gradient(135deg,#43a047,#2e7d32);">Day 3-4<br>那拉提草原</div>
+              <div class="ppt-slide" style="background:linear-gradient(135deg,#1565c0,#0d47a1);">Day 5-6<br>巴音布鲁克</div>
+              <div class="ppt-slide" style="background:linear-gradient(135deg,#6a1b9a,#4a148c);">Day 7-8<br>独库公路</div>
+              <div class="ppt-slide" style="background:linear-gradient(135deg,#424242,#212121);">实用贴士<br>& 装备清单</div>
+            </div>
+            <p style="font-size:12px;color:#999;margin-top:8px;">点击"全屏预览"可左右滑动浏览，支持一键分享</p>
+          </div>
+        </div>
+        <h3>Day 1-2: 乌鲁木齐→赛里木湖</h3>
+        <p>从乌鲁木齐出发，沿连霍高速G30西行约550公里...</p>
+      </div>
+      <div class="quick-chips">
+        <div class="chip">🎙️ 生成播客</div>
+        <div class="chip">📊 生成PPT</div>
+        <div class="chip">🧠 思维导图</div>
+        <div class="chip">📤 分享给联系人</div>
+      </div>
+      <div class="chat-bar">
+        <input class="input" placeholder="基于笔记内容对话..." readonly>
+        <div class="send">↑</div>
+      </div>
+    `
+  },
+  mindmap: {
+    tag: `<strong>场景：笔记生成思维导图</strong><br>用户："整理成思维导图" → AI 提取结构 → 生成 mindmap → 嵌入笔记或创建独立思维笔记<br><span class="api">MiClaw: notes read → note_create(type=mindmap) 或 card_create</span><br><span class="cap-badge exist">✓ note_create --type mindmap 已有</span> <span class="cap-badge exist">✓ card_create 已有</span>`,
+    content: `
+      <div class="note-header">
+        <div class="title">新疆北疆10日自驾攻略</div>
+        <div class="meta">2026-05-27 · 速记</div>
+      </div>
+      <div class="note-body">
+        <div class="output-card">
+          <div class="card-header">
+            <span class="icon">🧠</span>
+            <span class="label">思维导图 · 点击展开</span>
+            <span class="action">创建为独立笔记 →</span>
+          </div>
+          <div class="card-body">
+            <div class="mindmap-preview">
+              <span class="node root">北疆10日自驾</span>
+              <div class="tree">
+                <span class="node child">Day1-2 赛里木湖</span>
+                <span class="node child">Day3-4 那拉提草原</span>
+                <span class="node child">Day5-6 巴音布鲁克</span>
+                <span class="node child">Day7-8 独库公路</span>
+                <span class="node child">Day9-10 天山天池→返程</span>
+                <span class="node child">装备清单 & 注意事项</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h3>行程概览</h3>
+        <p>全程约2800公里，覆盖草原、湖泊、峡谷、雪山四大地貌...</p>
+      </div>
+      <div class="quick-chips">
+        <div class="chip">🎙️ 生成播客</div>
+        <div class="chip">📊 生成PPT</div>
+        <div class="chip">🧠 思维导图</div>
+        <div class="chip">✅ 提取待办</div>
+      </div>
+      <div class="chat-bar">
+        <input class="input" placeholder="基于笔记内容对话..." readonly>
+        <div class="send">↑</div>
+      </div>
+    `
+  },
+  flashcard: {
+    tag: `<strong>场景：笔记生成知识闪卡（学习场景）</strong><br>用户："帮我生成考点卡片" → AI 提取知识点 → 生成闪卡 → 嵌入笔记可翻转复习<br><span class="api">MiClaw: notes read → card_create(type=main, 闪卡格式)</span><br><span class="cap-badge exist">✓ card_create 已有</span> <span class="cap-badge need">⚠ 闪卡翻转UI 需笔记侧开发</span>`,
+    content: `
+      <div class="note-header">
+        <div class="title">数据结构期末复习</div>
+        <div class="meta">2026-05-25 · 课堂笔记</div>
+      </div>
+      <div class="note-body">
+        <div class="output-card">
+          <div class="card-header">
+            <span class="icon">🎴</span>
+            <span class="label">知识闪卡 · 共8张</span>
+            <span class="action">开始复习 →</span>
+          </div>
+          <div class="card-body">
+            <div class="flashcard" onclick="this.querySelector('.a').style.display=this.querySelector('.a').style.display==='block'?'none':'block'">
+              <div class="q">Q: 红黑树的五个性质是什么？</div>
+              <div class="a">A: 1)节点红或黑 2)根节点黑 3)叶子(NIL)黑 4)红节点的子节点必黑 5)任一节点到叶子的所有路径黑节点数相同</div>
+              <div class="flip-hint">👆 点击翻转查看答案</div>
+            </div>
+          </div>
+        </div>
+        <h3>第七章：平衡搜索树</h3>
+        <p>红黑树是一种自平衡二叉搜索树，通过颜色标记和旋转操作保证最坏情况O(log n)...</p>
+      </div>
+      <div class="quick-chips">
+        <div class="chip">🎴 生成闪卡</div>
+        <div class="chip">📝 生成模拟题</div>
+        <div class="chip">🧠 思维导图</div>
+        <div class="chip">📋 考点清单</div>
+      </div>
+      <div class="chat-bar">
+        <input class="input" placeholder="基于笔记内容对话..." readonly>
+        <div class="send">↑</div>
+      </div>
+    `
+  },
+  todo: {
+    tag: `<strong>场景：笔记提取待办</strong><br>用户："帮我整理出待办事项" → AI 提取行动项 → 生成待办卡片 → 嵌入笔记 + 同步待办中心<br><span class="api">MiClaw: notes read → todo_create / card_create(type=todo)</span><br><span class="cap-badge exist">✓ todo_create 已有</span> <span class="cap-badge exist">✓ card_create --type todo 已有</span>`,
+    content: `
+      <div class="note-header">
+        <div class="title">新疆北疆10日自驾攻略</div>
+        <div class="meta">2026-05-27 · 速记</div>
+      </div>
+      <div class="note-body">
+        <div class="output-card">
+          <div class="card-header">
+            <span class="icon">✅</span>
+            <span class="label">待办事项 · 已同步到待办中心</span>
+            <span class="action">查看全部 →</span>
+          </div>
+          <div class="card-body">
+            <div class="todo-card-item"><div class="cb"></div><div class="text">预订赛里木湖附近民宿（7/1-7/2）</div></div>
+            <div class="todo-card-item"><div class="cb"></div><div class="text">租车：SUV四驱，需配备备胎</div></div>
+            <div class="todo-card-item"><div class="cb"></div><div class="text">采购物资：防晒霜、墨镜、冲锋衣</div></div>
+            <div class="todo-card-item"><div class="cb"></div><div class="text">下载离线地图（独库公路段无信号）</div></div>
+            <div class="todo-card-item"><div class="cb"></div><div class="text">确认边防证办理（塔什库尔干需要）</div></div>
+          </div>
+        </div>
+        <h3>出发前准备</h3>
+        <p>建议提前两周开始准备，重点关注车辆检查、住宿预订和证件办理...</p>
+      </div>
+      <div class="quick-chips">
+        <div class="chip">✅ 提取待办</div>
+        <div class="chip">📅 同步日历</div>
+        <div class="chip">📤 分享行程</div>
+        <div class="chip">🧠 思维导图</div>
+      </div>
+      <div class="chat-bar">
+        <input class="input" placeholder="基于笔记内容对话..." readonly>
+        <div class="send">↑</div>
+      </div>
+    `
+  },
+  share: {
+    tag: `<strong>场景：产出物一键分享</strong><br>用户："把这个PPT发给杨强" → AI 获取联系人 → 调用IM分享 → 完成<br><span class="api">MiClaw: search_contacts → IM分享(司梦雨团队对接)</span><br><span class="cap-badge exist">✓ search_contacts 已有</span> <span class="cap-badge need">⚠ IM分享接口 需司梦雨团队对接</span>`,
+    content: `
+      <div class="note-header">
+        <div class="title">新疆北疆10日自驾攻略</div>
+        <div class="meta">2026-05-27 · 速记</div>
+      </div>
+      <div class="note-body">
+        <div class="output-card">
+          <div class="card-header">
+            <span class="icon">📊</span>
+            <span class="label">演示文稿 · 共6页</span>
+            <span class="action" onclick="document.getElementById('share-panel').classList.add('show')">分享 →</span>
+          </div>
+          <div class="card-body">
+            <div class="ppt-preview">
+              <div class="ppt-slide" style="background:linear-gradient(135deg,#ff6900,#e65100);">北疆10日<br>自驾攻略</div>
+              <div class="ppt-slide">Day 1-2<br>赛里木湖</div>
+              <div class="ppt-slide" style="background:linear-gradient(135deg,#43a047,#2e7d32);">Day 3-4<br>那拉提</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:#f0fdf4;border-radius:10px;padding:12px 16px;margin:16px 0;border:1px solid #c8e6c9;">
+          <p style="font-size:13px;color:#2e7d32;margin:0;">✅ 已发送给 <strong>杨强</strong></p>
+          <p style="font-size:12px;color:#666;margin-top:4px;">通过小米消息发送，对方可直接预览</p>
+        </div>
+        <p style="font-size:13px;color:#666;">对话记录：</p>
+        <div style="background:#f5f5f5;border-radius:10px;padding:12px;margin-top:8px;">
+          <p style="font-size:13px;color:#333;margin-bottom:6px;">👤 <strong>你：</strong>把这个PPT发给杨强</p>
+          <p style="font-size:13px;color:#333;">🤖 <strong>AI：</strong>好的，已将「北疆10日自驾攻略」演示文稿发送给杨强。他可以直接在消息中预览和下载。</p>
+        </div>
+      </div>
+      <div class="chat-bar">
+        <input class="input" placeholder="把这个发给..." readonly>
+        <div class="send">↑</div>
+      </div>
+      <div class="share-overlay" id="share-panel">
+        <h4>分享到</h4>
+        <div class="share-targets">
+          <div class="target"><div class="icon" style="background:#07c160;">💬</div><div class="name">微信</div></div>
+          <div class="target"><div class="icon" style="background:#3b82f6;">📱</div><div class="name">小米消息</div></div>
+          <div class="target"><div class="icon" style="background:#ff6900;">📋</div><div class="name">复制链接</div></div>
+          <div class="target"><div class="icon" style="background:#6366f1;">💾</div><div class="name">存到文件</div></div>
+        </div>
+      </div>
+    `
+  }
+};
+
+function showScene(key) {
+  document.querySelectorAll('.scene-nav button').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  const scene = scenes[key];
+  const screen = document.getElementById('screen');
+  screen.innerHTML = `<div class="scene-tag">${scene.tag}</div><div style="height:80px;flex-shrink:0;"></div>${scene.content}`;
+}
+
+// 初始化
+showScene('podcast');
+// hack: 手动触发按钮active
+document.querySelector('.scene-nav button').classList.add('active');
+</script>
+</body>
+</html>

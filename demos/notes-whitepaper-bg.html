@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小米AI笔记 · 方案背景</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1a1a1a; color: #fff; font-family: -apple-system, 'PingFang SC', sans-serif; padding: 80px; max-width: 1600px; margin: 0 auto; }
+
+.section { margin-bottom: 96px; }
+.section-title { color: #c9a96e; font-size: 28px; font-weight: bold; margin-bottom: 24px; }
+.section-subtitle { color: rgba(255,255,255,0.45); font-size: 15px; margin-bottom: 40px; }
+
+/* Hero Card */
+.hero-card {
+  border: 1px solid rgba(201,169,110,0.2);
+  border-radius: 16px;
+  padding: 48px 56px;
+  margin-bottom: 32px;
+  background: linear-gradient(175deg, rgba(201,169,110,0.08), rgba(201,169,110,0.02));
+}
+.hero-title { font-size: 36px; font-weight: bold; line-height: 1.4; margin-bottom: 16px; }
+.hero-desc { font-size: 17px; color: rgba(255,255,255,0.5); line-height: 1.8; }
+
+/* Flow Bar */
+.flow-bar {
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 32px;
+}
+.flow-step {
+  padding: 14px 28px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  background: #252525;
+  border-right: 1px solid #333;
+  white-space: nowrap;
+}
+.flow-step.active {
+  background: rgba(201,169,110,0.12);
+  color: #c9a96e;
+  font-weight: 600;
+}
+
+/* Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 24px;
+}
+.data-table th {
+  background: #282828;
+  padding: 14px 20px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid #333;
+}
+.data-table td {
+  padding: 14px 20px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.data-table tr:nth-child(odd) td { background: rgba(201,169,110,0.04); }
+.data-table tr:nth-child(even) td { background: #222; }
+.data-table tr:nth-child(odd) td:first-child { border-left: 3px solid #c9a96e; }
+.data-table td:first-child { font-weight: 600; color: #fff; }
+
+/* Position Card */
+.position-card {
+  background: #232323;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 40px 48px;
+}
+.position-label { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 12px; }
+.position-title { font-size: 26px; font-weight: bold; color: #c9a96e; margin-bottom: 20px; }
+.position-item { font-size: 14px; line-height: 1.9; }
+.position-item strong { color: rgba(255,255,255,0.8); }
+.position-item span { color: rgba(255,255,255,0.5); }
+.position-flywheel { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+/* Strategy Grid */
+.strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.strategy-card {
+  background: #232323;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 29px 33px;
+}
+.strategy-label { font-size: 11px; font-weight: bold; color: #c9a96e; letter-spacing: 0.5px; margin-bottom: 8px; }
+.strategy-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+.strategy-desc { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.7; }
+
+/* Device Section */
+.device-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px; }
+.device-card {
+  background: #232323;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 24px 28px;
+}
+.device-name { font-size: 14px; font-weight: 600; color: #c9a96e; margin-bottom: 8px; }
+.device-role { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
+.device-scene { font-size: 12px; color: rgba(255,255,255,0.35); }
+
+/* Ecosystem */
+.eco-flow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  padding: 20px 28px;
+  background: #232323;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+}
+.eco-node {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  background: #2a2a2a;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.eco-node.highlight { background: rgba(201,169,110,0.12); color: #c9a96e; border-color: rgba(201,169,110,0.3); font-weight: 600; }
+.eco-arrow { color: rgba(255,255,255,0.2); font-size: 16px; }
+</style>
+</head>
+<body>
+
+<!-- Section 1: 目标 -->
+<div class="section">
+  <div class="section-title"># 目标</div>
+  <div class="hero-card">
+    <div class="hero-title">笔记正在从记录工具，变成用户消费 AI 产出物的入口</div>
+    <div class="hero-desc">
+      随着内容来源爆发（MiClaw 产出、AI 键采集、录音转写、穿戴同步），笔记承载的内容结构正在发生根本性变化。<br>
+      用户手写内容的占比持续下降，AI 和系统侧产生的内容成为主体。但用户主动阅读笔记正文的频率没有上升——<br>
+      他们真正消费的，是基于笔记产出的最终结果：考点清单、待办事项、播客、PPT。
+    </div>
+    <div class="flow-bar">
+      <div class="flow-step">用户 写/说/拍</div>
+      <div class="flow-step">笔记沉淀（中间态）</div>
+      <div class="flow-step">AI 理解加工</div>
+      <div class="flow-step active">产出最终消费物（终态）</div>
+      <div class="flow-step">用户直接使用</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: 方案 -->
+<div class="section">
+  <div class="section-title"># 方案</div>
+  <div class="section-subtitle">产品围绕 7 种最终消费物设计。每种消费物来自具体的笔记类型，通过 AI 对话框触发生成，用户拿到就能直接用。</div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width:120px">最终消费物</th>
+        <th>从什么笔记产出</th>
+        <th>怎么触发</th>
+        <th>用户怎么消费</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>考点清单</td><td>课堂录音笔记</td><td>AI对话框 "提炼考点"</td><td>打开直接复习，结构化知识点一目了然</td></tr>
+      <tr><td>模拟题</td><td>课堂录音笔记</td><td>AI对话框 "出题"</td><td>做完检验掌握度，错题自动标记</td></tr>
+      <tr><td>待办事项</td><td>会议 / 课堂 / 速记</td><td>AI自动提取 或 手动触发</td><td>直接执行，到期主动提醒，同步日历</td></tr>
+      <tr><td>播客</td><td>任何笔记</td><td>AI对话框 "生成播客"</td><td>点了就听，支持上车播/闹钟后播</td></tr>
+      <tr><td>PPT</td><td>会议 / 任何笔记</td><td>AI对话框 "做PPT"</td><td>打开直接分享、讲解</td></tr>
+      <tr><td>知识卡片</td><td>跨篇聚合</td><td>AI对话框 "生成卡片"</td><td>一张卡说清一件事，可分享</td></tr>
+      <tr><td>脑图</td><td>课堂 / 任何笔记</td><td>AI对话框 "生成脑图"</td><td>看结构，快速回忆知识框架</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Section 3: 产品定位 -->
+<div class="section">
+  <div class="position-card">
+    <div class="position-label">产品定位</div>
+    <div class="position-title">自增长可赋能的个人数字资产中枢</div>
+    <div class="position-item"><strong>自增长</strong><span>：用户每次记录 + 系统自动采集，数据持续积累，AI 对用户的理解不断加深</span></div>
+    <div class="position-item"><strong>可赋能</strong><span>：AI 基于积累产出 7 种用户可直接消费的最终内容</span></div>
+    <div class="position-item"><strong>中枢</strong><span>：用户侧是创作和消费的入口，MiClaw 侧是调用全量数据的底座</span></div>
+    <div class="position-flywheel">飞轮：记录越多 → AI越懂用户 → 产出越精准 → 用户越愿意记 → 记录越多</div>
+  </div>
+</div>
+
+<!-- Section 4: 跨端协同 -->
+<div class="section">
+  <div class="section-title"># 跨端协同</div>
+  <div class="section-subtitle">一份知识资产，三种设备形态。设备只是入口，知识是流动的。</div>
+  <div class="device-grid">
+    <div class="device-card">
+      <div class="device-name">Phone</div>
+      <div class="device-role">快速采集 · 碎片捕获</div>
+      <div class="device-scene">随时随地，说完即走。AI键/语音速记/拍照导入</div>
+    </div>
+    <div class="device-card">
+      <div class="device-name">Fold / Pad</div>
+      <div class="device-role">深度编辑 · 知识管理</div>
+      <div class="device-scene">三栏布局：品类→列表→详情。沉浸式整理和消费</div>
+    </div>
+    <div class="device-card">
+      <div class="device-name">PC（via MiClaw）</div>
+      <div class="device-role">搜索引用 · 文档输出</div>
+      <div class="device-scene">一句话调取笔记内容，引用到方案/邮件/PPT</div>
+    </div>
+  </div>
+  <div class="eco-flow">
+    <div class="eco-node">手机录音</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node">云端同步</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node highlight">Pad 上编辑结构化笔记</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node">PC 一句话引用到 PPT</div>
+  </div>
+</div>
+
+<!-- Section 5: 设计策略 -->
+<div class="section">
+  <div class="section-title"># 设计策略</div>
+  <div class="section-subtitle">4 个设计决策，对应 4 个核心页面设计。</div>
+  <div class="strategy-grid">
+    <div class="strategy-card">
+      <div class="strategy-label">STRATEGY 01</div>
+      <div class="strategy-title">首页：保持框架，增加产出物可见性</div>
+      <div class="strategy-desc">不改变用户已有心智。每张笔记卡片新增产出物标签，用户一眼看到"这篇已经帮我准备了什么"。手写笔记不强制生成产出物，保持干净。</div>
+    </div>
+    <div class="strategy-card">
+      <div class="strategy-label">STRATEGY 02</div>
+      <div class="strategy-title">详情页：产出物在上，原文折叠在下</div>
+      <div class="strategy-desc">用户打开笔记首先看到 AI 帮他准备好的东西。笔记正文在中间，原始录音/转写折叠在底部。层级：终态产出 > 正文 > 原始数据。</div>
+    </div>
+    <div class="strategy-card">
+      <div class="strategy-label">STRATEGY 03</div>
+      <div class="strategy-title">AI对话框：产出物的唯一生成入口</div>
+      <div class="strategy-desc">保持现有交互模式——笔记底部 AI 对话框。用户在这里触发生成播客/考题/PPT/待办。智能推荐 chip 降低操作门槛。</div>
+    </div>
+    <div class="strategy-card">
+      <div class="strategy-label">STRATEGY 04</div>
+      <div class="strategy-title">侧边栏：品类分层，逻辑不混用</div>
+      <div class="strategy-desc">我的笔记 / AI笔记 / 语音速记 / 小爱记忆档案 / 播客——五大品类各答一个问题，按用户能理解的内容形态组织。</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 6: 生态位 -->
+<div class="section">
+  <div class="section-title"># 在 HyperOS AI 生态中的位置</div>
+  <div class="section-subtitle">笔记是 MiClaw 生态中"知识沉淀"和"内容再生产"的核心节点。</div>
+  <div class="eco-flow">
+    <div class="eco-node">MiClaw 对话产出</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node highlight">笔记沉淀（21种工具）</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node">AI 再加工</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node">7种终态消费物</div>
+  </div>
+  <div class="eco-flow" style="margin-top:12px">
+    <div class="eco-node">小爱记忆/速记</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node highlight">笔记归档</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node">跨端同步</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node">Pad/PC 消费</div>
+  </div>
+  <div class="eco-flow" style="margin-top:12px">
+    <div class="eco-node">通话/录音/配件</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node highlight">笔记转写+结构化</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node">待办/日历同步</div>
+    <div class="eco-arrow">→</div>
+    <div class="eco-node">提醒执行</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>笔记产出物 · 从MiClaw到消费分享 全链路</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{background:#0d0d0d;font-family:-apple-system,'SF Pro Display','PingFang SC','Noto Sans SC',sans-serif;min-height:100vh;color:#fff}
+.header{text-align:center;padding:32px 24px 16px}
+.header h1{font-size:22px;font-weight:700;letter-spacing:-.02em}
+.header p{font-size:13px;color:rgba(255,255,255,.4);margin-top:6px;line-height:1.5}
+
+/* Flow steps */
+.step-section{padding:16px 0}
+.step-header{display:flex;align-items:center;gap:10px;padding:0 32px;margin-bottom:12px}
+.step-num{width:28px;height:28px;background:#3478f6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.step-title{font-size:15px;font-weight:600}
+.step-desc{font-size:12px;color:rgba(255,255,255,.4);padding:0 32px 0 70px;margin-bottom:16px;line-height:1.5}
+.connector{width:2px;height:32px;background:linear-gradient(180deg,#3478f6,transparent);margin:0 auto}
+
+/* Phone frame */
+.phone-row{display:flex;gap:20px;justify-content:center;padding:0 16px;flex-wrap:wrap}
+.phone{width:320px;height:640px;background:#fff;border-radius:40px;border:7px solid #1a1a1a;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.phone.dark{background:#000}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>从MiClaw到笔记消费 · 全链路串联</h1>
+<p>核心问题：生成→消费→分享链路断点<br>解决：生成后立刻能用、立刻能分享，不跳转外部应用</p>
+</div>
+
+<!-- Step 1: MiClaw 对话 -->
+<div class="step-section">
+<div class="step-header"><div class="step-num">1</div><div class="step-title">MiClaw 对话 · 用户发起生成指令</div></div>
+<div class="step-desc">用户在 MiClaw 主 App 或悬浮态对话中，基于已有笔记发起生成指令。MiClaw 自动读取笔记全文作为上下文。</div>
+<div class="phone-row">
+<div class="phone dark">
+<!-- Status bar -->
+<div style="display:flex;justify-content:space-between;padding:14px 28px 0;font-size:12px;color:rgba(255,255,255,.6);font-weight:600">
+<span>9:41</span>
+<span style="display:flex;gap:4px;align-items:center"><span>5G</span><span>📶</span><span>🔋</span></span>
+</div>
+<!-- MiClaw header -->
+<div style="padding:16px 20px 12px;display:flex;align-items:center;gap:12px">
+<div style="width:36px;height:36px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px">🤖</div>
+<div>
+<div style="font-size:16px;font-weight:600;color:#fff">MiClaw</div>
+<div style="font-size:11px;color:rgba(255,255,255,.4)">在线</div>
+</div>
+</div>
+<!-- Chat messages -->
+<div style="padding:0 16px;flex:1">
+<!-- User message -->
+<div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+<div style="background:#3478f6;border-radius:16px 16px 4px 16px;padding:12px 16px;max-width:240px">
+<div style="font-size:14px;color:#fff;line-height:1.5">把我的「新疆10日旅行计划」笔记生成一个PPT，我要发给杨强</div>
+</div>
+</div>
+<!-- AI thinking -->
+<div style="display:flex;gap:10px;margin-bottom:16px">
+<div style="width:28px;height:28px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">🤖</div>
+<div style="background:rgba(255,255,255,.08);border-radius:4px 16px 16px 16px;padding:12px 16px;max-width:240px">
+<div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:8px">正在读取笔记内容并生成PPT...</div>
+<div style="display:flex;gap:4px">
+<div style="width:6px;height:6px;background:#3478f6;border-radius:50%;animation:pulse 1s infinite"></div>
+<div style="width:6px;height:6px;background:#3478f6;border-radius:50%;animation:pulse 1s infinite .2s"></div>
+<div style="width:6px;height:6px;background:#3478f6;border-radius:50%;animation:pulse 1s infinite .4s"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Input bar -->
+<div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px 28px;background:rgba(0,0,0,.8);backdrop-filter:blur(20px)">
+<div style="background:rgba(255,255,255,.1);border-radius:24px;padding:12px 16px;display:flex;align-items:center">
+<span style="font-size:13px;color:rgba(255,255,255,.3);flex:1">输入消息...</span>
+<div style="width:32px;height:32px;background:#3478f6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px">🎤</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="connector"></div>
+
+<!-- Step 2: MiClaw 生成完成 + 结果卡片 -->
+<div class="step-section">
+<div class="step-header"><div class="step-num">2</div><div class="step-title">生成完成 · 结果卡片可直接操作</div></div>
+<div class="step-desc">生成完成后，对话内展示结果卡片。卡片上直接提供"查看"和"分享"按钮，用户无需离开当前界面即可操作。同时笔记已自动更新。</div>
+<div class="phone-row">
+<div class="phone dark">
+<div style="display:flex;justify-content:space-between;padding:14px 28px 0;font-size:12px;color:rgba(255,255,255,.6);font-weight:600">
+<span>9:41</span><span>5G 📶 🔋</span>
+</div>
+<div style="padding:16px 20px 12px;display:flex;align-items:center;gap:12px">
+<div style="width:36px;height:36px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px">🤖</div>
+<div><div style="font-size:16px;font-weight:600;color:#fff">MiClaw</div></div>
+</div>
+<div style="padding:0 16px">
+<!-- User message -->
+<div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+<div style="background:#3478f6;border-radius:16px 16px 4px 16px;padding:12px 16px;max-width:240px">
+<div style="font-size:14px;color:#fff">把我的「新疆10日旅行计划」笔记生成一个PPT</div>
+</div>
+</div>
+<!-- AI response with card -->
+<div style="display:flex;gap:10px">
+<div style="width:28px;height:28px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">🤖</div>
+<div style="max-width:260px">
+<div style="background:rgba(255,255,255,.08);border-radius:4px 16px 16px 16px;padding:12px 16px;margin-bottom:8px">
+<div style="font-size:14px;color:rgba(255,255,255,.9);line-height:1.5">已生成12页PPT，包含行程概览、每日路线、住宿推荐和注意事项。已保存到你的笔记中。</div>
+</div>
+<!-- Result card -->
+<div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px;margin-bottom:8px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+<div style="width:40px;height:40px;background:linear-gradient(135deg,#ff6b35,#f7931e);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:700">P</div>
+<div>
+<div style="font-size:14px;font-weight:600;color:#fff">新疆10日旅行计划</div>
+<div style="font-size:11px;color:rgba(255,255,255,.4)">12页 · 刚刚生成 · 已存入笔记</div>
+</div>
+</div>
+<div style="display:flex;gap:8px">
+<div style="flex:1;background:#3478f6;color:#fff;text-align:center;padding:10px;border-radius:10px;font-size:13px;font-weight:500">查看</div>
+<div style="flex:1;background:rgba(255,255,255,.1);color:#fff;text-align:center;padding:10px;border-radius:10px;font-size:13px">发给杨强</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px 28px;background:rgba(0,0,0,.8)">
+<div style="background:rgba(255,255,255,.1);border-radius:24px;padding:12px 16px;display:flex;align-items:center">
+<span style="font-size:13px;color:rgba(255,255,255,.3);flex:1">输入消息...</span>
+<div style="width:32px;height:32px;background:#3478f6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px">🎤</div>
+</div>
+</div>
+</div>
+</div>
+<div class="connector"></div>
+
+<!-- Step 3: 进入笔记详情页 -->
+<div class="step-section">
+<div class="step-header"><div class="step-num">3</div><div class="step-title">进入笔记 · 产出物顶部快速访问</div></div>
+<div class="step-desc">点击"查看"后跳转到笔记详情页。顶部有产出物快速访问区，一眼看到所有已生成的产出物，点击即可消费。不需要滑到底部找。</div>
+<div class="phone-row">
+<div class="phone">
+<div style="display:flex;justify-content:space-between;padding:14px 28px 0;font-size:12px;color:#1a1a1a;font-weight:600">
+<span>9:42</span><span>5G 📶 🔋</span>
+</div>
+<!-- Nav -->
+<div style="display:flex;align-items:center;padding:12px 20px;justify-content:space-between">
+<div style="font-size:15px;color:#3478f6;font-weight:500">‹ 返回</div>
+<div style="display:flex;gap:16px">
+<span style="font-size:18px;color:#555">↗</span>
+<span style="font-size:18px;color:#555">⋯</span>
+</div>
+</div>
+<!-- 产出物快速访问区 -->
+<div style="margin:0 16px 12px;background:linear-gradient(135deg,#f0f4ff,#e8f0fe);border-radius:14px;padding:12px 14px">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+<div style="font-size:12px;font-weight:600;color:#3478f6">📎 产出物</div>
+<div style="font-size:11px;color:#999">点击直接查看</div>
+</div>
+<div style="display:flex;gap:10px">
+<div style="background:#fff;border-radius:10px;padding:10px 14px;flex:1;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.04)">
+<div style="font-size:20px;margin-bottom:4px">📊</div>
+<div style="font-size:11px;color:#1a1a1a;font-weight:500">PPT</div>
+<div style="font-size:10px;color:#999">12页</div>
+</div>
+<div style="background:#fff;border-radius:10px;padding:10px 14px;flex:1;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.04);opacity:.4">
+<div style="font-size:20px;margin-bottom:4px">🎧</div>
+<div style="font-size:11px;color:#1a1a1a;font-weight:500">播客</div>
+<div style="font-size:10px;color:#999">未生成</div>
+</div>
+<div style="background:#fff;border-radius:10px;padding:10px 14px;flex:1;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.04);opacity:.4">
+<div style="font-size:20px;margin-bottom:4px">🧠</div>
+<div style="font-size:11px;color:#1a1a1a;font-weight:500">脑图</div>
+<div style="font-size:10px;color:#999">未生成</div>
+</div>
+</div>
+</div>
+<!-- 笔记正文 -->
+<div style="padding:0 20px">
+<div style="font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:4px">新疆10日旅行计划</div>
+<div style="font-size:12px;color:#999;margin-bottom:14px">2026-05-27 · 来源：MiClaw对话</div>
+<div style="font-size:14px;color:#333;line-height:1.7">
+<p style="margin-bottom:10px"><b style="color:#1a1a1a">Day 1-2：乌鲁木齐适应期</b></p>
+<p style="margin-bottom:6px;color:#555">• 大巴扎采购干果、围巾</p>
+<p style="margin-bottom:6px;color:#555">• 新疆博物馆（楼兰美女干尸）</p>
+<p style="margin-bottom:6px;color:#555">• 红山公园看全城夜景</p>
+<p style="margin-bottom:10px"><b style="color:#1a1a1a">Day 3-5：独库公路</b></p>
+<p style="margin-bottom:6px;color:#555">• 那拉提草原骑马</p>
+<p style="color:#555">• 巴音布鲁克天鹅湖日落...</p>
+</div>
+</div>
+<!-- 底部对话入口 -->
+<div style="position:absolute;bottom:0;left:0;right:0;padding:8px 16px 28px;background:#fff;border-top:1px solid #f0f0f0">
+<div style="display:flex;gap:6px;margin-bottom:8px;overflow-x:auto">
+<div style="background:#f0f4ff;color:#3478f6;font-size:11px;padding:6px 12px;border-radius:16px;white-space:nowrap;font-weight:500">🎧 生成播客</div>
+<div style="background:#f5f0ff;color:#8b5cf6;font-size:11px;padding:6px 12px;border-radius:16px;white-space:nowrap;font-weight:500">📝 提取待办</div>
+<div style="background:#f0fff4;color:#22c55e;font-size:11px;padding:6px 12px;border-radius:16px;white-space:nowrap;font-weight:500">✏️ 改简洁</div>
+</div>
+<div style="background:#f5f5f5;border-radius:22px;padding:11px 16px;display:flex;align-items:center">
+<span style="font-size:13px;color:#999;flex:1">对这篇笔记说点什么...</span>
+<div style="width:30px;height:30px;background:#3478f6;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px">↑</div>
+</div>
+</div>
+</div>
+</div>
+<div class="connector"></div>
+
+<!-- Step 4: PPT 预览 + 分享 -->
+<div class="step-section">
+<div class="step-header"><div class="step-num">4</div><div class="step-title">点击产出物 · 笔记内直接预览</div></div>
+<div class="step-desc">点击PPT产出物，在笔记内直接打开预览。支持翻页浏览、全屏查看。无需下载、无需跳转WPS等第三方应用。顶部有"分享"按钮，一键发送。</div>
+<div class="phone-row">
+<div class="phone dark">
+<div style="display:flex;justify-content:space-between;padding:14px 28px 0;font-size:12px;color:rgba(255,255,255,.6);font-weight:600">
+<span>9:42</span><span>5G 📶 🔋</span>
+</div>
+<!-- Top bar -->
+<div style="display:flex;align-items:center;padding:12px 20px;justify-content:space-between">
+<div style="font-size:15px;color:#3478f6;font-weight:500">‹ 返回笔记</div>
+<div style="display:flex;gap:10px">
+<div style="background:rgba(52,120,246,.15);padding:6px 14px;border-radius:8px;font-size:13px;color:#3478f6;font-weight:500">分享</div>
+<div style="background:rgba(255,255,255,.1);padding:6px 14px;border-radius:8px;font-size:13px;color:rgba(255,255,255,.7)">导出</div>
+</div>
+</div>
+<!-- PPT slide -->
+<div style="margin:16px;background:#fff;border-radius:12px;aspect-ratio:16/10;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.3)">
+<div style="font-size:24px;font-weight:700;color:#1a1a1a;margin-bottom:8px">新疆10日旅行计划</div>
+<div style="font-size:13px;color:#777">2026年7月 · 杨强家庭出行</div>
+<div style="position:absolute;bottom:12px;left:16px;font-size:11px;color:#bbb">乌鲁木齐 → 独库公路 → 南疆 → 喀纳斯</div>
+<div style="position:absolute;bottom:12px;right:16px;font-size:11px;color:#bbb">1 / 12</div>
+</div>
+<!-- Slide thumbnails -->
+<div style="padding:12px 16px;display:flex;gap:8px;overflow-x:auto">
+<div style="min-width:56px;height:36px;background:#fff;border-radius:6px;border:2px solid #3478f6;box-shadow:0 2px 8px rgba(0,0,0,.2)"></div>
+<div style="min-width:56px;height:36px;background:rgba(255,255,255,.1);border-radius:6px;border:1px solid rgba(255,255,255,.15)"></div>
+<div style="min-width:56px;height:36px;background:rgba(255,255,255,.1);border-radius:6px;border:1px solid rgba(255,255,255,.15)"></div>
+<div style="min-width:56px;height:36px;background:rgba(255,255,255,.1);border-radius:6px;border:1px solid rgba(255,255,255,.15)"></div>
+<div style="min-width:56px;height:36px;background:rgba(255,255,255,.1);border-radius:6px;border:1px solid rgba(255,255,255,.15)"></div>
+</div>
+<!-- Bottom action -->
+<div style="position:absolute;bottom:28px;left:16px;right:16px">
+<div style="background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;display:flex;gap:10px">
+<div style="flex:1;background:#3478f6;color:#fff;text-align:center;padding:12px;border-radius:10px;font-size:14px;font-weight:500">发送给杨强</div>
+<div style="flex:1;background:rgba(255,255,255,.1);color:#fff;text-align:center;padding:12px;border-radius:10px;font-size:14px">更多分享</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 承接逻辑 -->
+<div style="max-width:720px;margin:40px auto;padding:0 24px">
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:24px">
+<div style="font-size:16px;font-weight:600;margin-bottom:16px">🔗 承接逻辑</div>
+<div style="font-size:13px;color:rgba(255,255,255,.6);line-height:2.2">
+<div style="display:flex;gap:12px;margin-bottom:16px">
+<div style="width:4px;background:linear-gradient(180deg,#6366f1,#3478f6);border-radius:2px;flex-shrink:0"></div>
+<div>
+<div style="color:#8b5cf6;font-weight:600;margin-bottom:4px">入口层 · MiClaw / 小爱 / AI键</div>
+<div>• 用户通过对话或语音发起生成指令</div>
+<div>• MiClaw 强制注入笔记全文到 prompt（不是让模型自己去读）</div>
+<div>• 生成完成 → 对话内展示结果卡片，卡片可直接"查看"或"分享"</div>
+</div>
+</div>
+<div style="display:flex;gap:12px;margin-bottom:16px">
+<div style="width:4px;background:linear-gradient(180deg,#3478f6,#22c55e);border-radius:2px;flex-shrink:0"></div>
+<div>
+<div style="color:#3478f6;font-weight:600;margin-bottom:4px">笔记承接层</div>
+<div>• 产出物自动写入对应笔记，作为富媒体嵌入</div>
+<div>• 笔记顶部"产出物"快速访问区：一眼看到有什么，点击直接消费</div>
+<div>• 不需要滑到底部找，不需要跳转外部应用</div>
+</div>
+</div>
+<div style="display:flex;gap:12px;margin-bottom:16px">
+<div style="width:4px;background:linear-gradient(180deg,#22c55e,#f59e0b);border-radius:2px;flex-shrink:0"></div>
+<div>
+<div style="color:#22c55e;font-weight:600;margin-bottom:4px">消费层 · 笔记内直接使用</div>
+<div>• 播客 → 笔记内直接播放（支持倍速/定时）</div>
+<div>• PPT → 笔记内直接预览翻页（支持全屏）</div>
+<div>• 知识卡 → 笔记内直接翻卡学习</div>
+<div>• 思维导图 → 笔记内直接展开查看</div>
+<div>• 待办 → 提取后同步系统待办中心</div>
+</div>
+</div>
+<div style="display:flex;gap:12px">
+<div style="width:4px;background:linear-gradient(180deg,#f59e0b,#ef4444);border-radius:2px;flex-shrink:0"></div>
+<div>
+<div style="color:#f59e0b;font-weight:600;margin-bottom:4px">分享层 · 一键发送</div>
+<div>• 所有产出物都有"分享"按钮</div>
+<div>• 支持发送给指定联系人（对接 IM）</div>
+<div>• PPT/HTML 支持生成分享链接</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 核心原则 -->
+<div style="max-width:720px;margin:0 auto 40px;padding:0 24px">
+<div style="background:rgba(52,120,246,.05);border:1px solid rgba(52,120,246,.15);border-radius:20px;padding:24px">
+<div style="font-size:16px;font-weight:600;margin-bottom:12px;color:#3478f6">💡 李楠核心原则（5/27会议）</div>
+<div style="font-size:13px;color:rgba(255,255,255,.7);line-height:2">
+<p>1. <b>不纠结保存形式</b> — 放在笔记里就行，作为富媒体嵌入，不增加复杂度</p>
+<p>2. <b>生成后立刻能用</b> — 播客能直接播、PPT能直接看、知识卡能直接翻</p>
+<p>3. <b>生成后立刻能分享</b> — 一键发送，不需要下载→找文件→用第三方打开</p>
+<p>4. <b>快速访问</b> — 笔记顶部有产出物入口，不用滑到底部找</p>
+<p>5. <b>"速记"不叫"小爱速记"</b> — 在笔记产品里叫"速记"更自然</p>
+<p>6. <b>不加新功能</b> — 聚焦现有场景（待办/PPT/播客/知识卡/脑图）链路闭环</p>
+</div>
+</div>
+</div>
+
+<style>
+@keyframes pulse{0%{opacity:.3}100%{opacity:1}}
+</style>
+</body>
+</html>

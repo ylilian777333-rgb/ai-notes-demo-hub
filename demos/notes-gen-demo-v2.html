@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记产出物全链路Demo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC",sans-serif;background:#111;display:flex;flex-direction:column;align-items:center;padding:24px;min-height:100vh}
+.title{color:#fff;font-size:16px;margin-bottom:6px}
+.desc{color:#888;font-size:12px;margin-bottom:16px;text-align:center;max-width:500px;line-height:1.6}
+
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
+.tabs button{padding:7px 14px;border:1px solid #444;background:#222;color:#aaa;border-radius:16px;font-size:12px;cursor:pointer}
+.tabs button.on{background:#ff6900;border-color:#ff6900;color:#fff}
+
+.phone{width:375px;height:780px;border-radius:36px;border:5px solid #333;background:#fff;overflow:hidden;position:relative;box-shadow:0 16px 48px rgba(0,0,0,.6)}
+.bar{height:44px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-size:14px;font-weight:600}
+.body{height:calc(100% - 44px);overflow-y:auto;display:flex;flex-direction:column}
+
+/* 对话气泡 */
+.chat-area{flex:1;padding:12px 16px;overflow-y:auto}
+.bubble{max-width:85%;padding:10px 14px;border-radius:14px;margin-bottom:10px;font-size:13px;line-height:1.6;word-break:break-word}
+.bubble.user{background:#ff6900;color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+.bubble.ai{background:#f2f2f2;color:#333;margin-right:auto;border-bottom-left-radius:4px}
+.bubble.system{background:#fff8f0;border:1px solid #ffe0b2;color:#e65100;font-size:12px;text-align:center;margin:8px auto;max-width:90%;border-radius:8px}
+
+/* 嵌入卡片 */
+.embed-card{border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;margin:8px 0;background:#fafafa}
+.embed-card .hd{padding:8px 12px;background:#f5f5f5;display:flex;align-items:center;gap:8px;border-bottom:1px solid #eee;font-size:12px;font-weight:500}
+.embed-card .bd{padding:10px 12px;font-size:12px;color:#555;line-height:1.6}
+
+/* 播放器 */
+.player{display:flex;align-items:center;gap:10px;padding:6px 0}
+.player .btn{width:32px;height:32px;border-radius:50%;background:#ff6900;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px}
+.player .bar-wave{flex:1;height:24px;background:linear-gradient(90deg,#ff6900 35%,#e0e0e0 35%);border-radius:3px;opacity:.4}
+.player .tm{font-size:11px;color:#888}
+
+/* PPT slides */
+.slides{display:flex;gap:6px;overflow-x:auto;padding:6px 0}
+.slides .s{width:100px;height:56px;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;text-align:center}
+
+/* 思维导图 */
+.mm .root{display:inline-block;padding:4px 10px;background:#ff6900;color:#fff;border-radius:5px;font-size:11px;font-weight:600}
+.mm .children{margin-left:16px;margin-top:6px;display:flex;flex-direction:column;gap:3px}
+.mm .child{display:inline-block;padding:3px 8px;background:#fff3e8;color:#bf360c;border:1px solid #ffcc80;border-radius:4px;font-size:11px}
+
+/* 闪卡 */
+.fc{background:#fff;border:2px solid #e0e0e0;border-radius:8px;padding:12px;text-align:center;cursor:pointer}
+.fc .q{font-size:13px;font-weight:500}
+.fc .a{font-size:12px;color:#666;margin-top:6px}
+.fc .hint{font-size:10px;color:#bbb;margin-top:6px}
+
+/* 待办 */
+.td-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f5f5f5;font-size:12px}
+.td-item .ck{width:16px;height:16px;border:2px solid #ccc;border-radius:50%;flex-shrink:0}
+
+/* 底部输入 */
+.input-bar{padding:8px 12px;border-top:1px solid #eee;display:flex;align-items:center;gap:8px;background:#fff;flex-shrink:0}
+.input-bar input{flex:1;height:32px;border-radius:16px;background:#f0f0f0;border:none;padding:0 12px;font-size:12px}
+.input-bar .send-btn{width:32px;height:32px;border-radius:50%;background:#ff6900;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer}
+
+/* 快捷chips */
+.chips{display:flex;gap:5px;padding:6px 12px;overflow-x:auto;flex-shrink:0}
+.chips span{padding:5px 10px;border-radius:12px;background:#fff3e8;color:#e65100;font-size:11px;white-space:nowrap;border:1px solid #ffcc80}
+
+/* 能力标签 */
+.cap{display:inline-block;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:4px}
+.cap.ok{background:#e8f5e9;color:#2e7d32}
+.cap.todo{background:#fff3e0;color:#e65100}
+</style>
+</head>
+<body>
+<div class="title">笔记产出物 - 生成到消费全链路 Demo (含MiClaw交互)</div>
+<div class="desc">基于5/27李楠会议: 产出物与笔记强绑定, 生成后即可消费/分享。展示用户与MiClaw/笔记AI的完整对话交互。</div>
+
+<div class="tabs" id="tabs"></div>
+<div class="phone"><div class="bar">小米笔记</div><div class="body" id="body"></div></div>
+
+<script>
+const S = [
+{id:'s1',name:'场景1: MiClaw生成PPT',data:[
+{type:'system',text:'[用户在MiClaw中对话, 笔记「新疆自驾攻略」已存在]'},
+{type:'user',text:'把我那篇新疆旅游的笔记生成一个PPT'},
+{type:'ai',text:'好的, 我先读取你的笔记内容...'},
+{type:'system',text:'[MiClaw调用: notes__note_search(query="新疆旅游") -> noteId:2847]'},
+{type:'system',text:'[MiClaw调用: notes__note_read(noteId=2847) -> 获取全文]'},
+{type:'ai',text:'已读取「新疆北疆10日自驾攻略」, 正在为你生成演示文稿...'},
+{type:'system',text:'[MiClaw调用: bash generate_html_slides -> 生成6页PPT]'},
+{type:'system',text:'[MiClaw调用: notes__note_write(noteId=2847) -> 将PPT卡片嵌入笔记顶部]'},
+{type:'ai',html:`生成完成! 已将演示文稿嵌入到笔记中, 共6页:
+<div class="embed-card"><div class="hd">&#128202; 演示文稿 - 北疆10日自驾攻略 (6页)</div><div class="bd"><div class="slides"><div class="s" style="background:linear-gradient(135deg,#ff6900,#e65100)">封面<br>北疆10日</div><div class="s" style="background:#1565c0">Day1-2<br>赛里木湖</div><div class="s" style="background:#2e7d32">Day3-4<br>那拉提</div><div class="s" style="background:#6a1b9a">Day5-6<br>巴音布鲁克</div><div class="s" style="background:#424242">Day7-8<br>独库公路</div><div class="s" style="background:#bf360c">装备&贴士</div></div><div style="margin-top:8px;font-size:11px;color:#999">点击可全屏预览 | 支持分享</div></div></div>
+你可以在笔记中直接预览, 或者我帮你分享给别人?`},
+{type:'user',text:'把这个发给杨强'},
+{type:'system',text:'[MiClaw调用: search_contacts(query="杨强") -> contactId:556]'},
+{type:'system',text:'[MiClaw调用: IM分享(contactId=556, file=slides.html)]'},
+{type:'ai',text:'已将「北疆10日自驾攻略」演示文稿通过小米消息发送给杨强, 他打开即可预览。'}
+]},
+{id:'s2',name:'场景2: 笔记内生成播客',data:[
+{type:'system',text:'[用户在笔记详情页底部对话框操作]'},
+{type:'chips',items:['生成播客','生成PPT','思维导图','提取待办']},
+{type:'user',text:'帮我把这篇笔记生成播客'},
+{type:'system',text:'[笔记AI调用: note_read(当前noteId) -> 注入全文到prompt]'},
+{type:'ai',text:'正在将笔记内容转为双人对话式播客...'},
+{type:'system',text:'[笔记AI调用: TTS播客生成服务 -> 生成12分钟音频]'},
+{type:'system',text:'[笔记AI调用: card_create(noteId, type=audio) -> 嵌入音频卡]'},
+{type:'ai',html:`播客生成完成! 已嵌入到笔记中:
+<div class="embed-card"><div class="hd">&#127897; 播客 - 新疆自驾攻略 (双人对话版)</div><div class="bd"><div class="player"><div class="btn">&#9654;</div><div class="bar-wave"></div><span class="tm">12:35</span></div><div style="font-size:11px;color:#999;margin-top:4px">点击即可播放, 无需跳转其他应用</div></div></div>
+你可以直接点击播放收听, 也可以设置通勤时自动播放。`},
+{type:'user',text:'明天早上通勤的时候提醒我听'},
+{type:'system',text:'[笔记AI调用: todo_create(title="听新疆攻略播客", reminder="明天8:00")]'},
+{type:'ai',text:'好的, 已创建提醒: 明天早上8点提醒你收听「新疆自驾攻略」播客。'}
+]},
+{id:'s3',name:'场景3: 课堂笔记生成闪卡',data:[
+{type:'system',text:'[用户在笔记「数据结构期末复习」详情页对话]'},
+{type:'chips',items:['生成闪卡','考点清单','模拟题','思维导图']},
+{type:'user',text:'帮我生成知识卡片, 我要复习'},
+{type:'system',text:'[笔记AI调用: note_read(noteId=3102) -> 读取课堂笔记全文]'},
+{type:'ai',text:'正在从笔记中提取关键知识点, 生成闪卡...'},
+{type:'system',text:'[笔记AI调用: card_create(noteId=3102, type=main) x 8 -> 生成8张闪卡]'},
+{type:'ai',html:`生成了8张知识闪卡, 已嵌入笔记:
+<div class="embed-card"><div class="hd">&#127924; 知识闪卡 - 数据结构 (8张)</div><div class="bd"><div class="fc" onclick="var a=this.querySelector('.a');a.style.display=a.style.display=='block'?'none':'block'"><div class="q">Q: 红黑树插入后最多需要几次旋转?</div><div class="a" style="display:none">A: 最多2次旋转(一次左旋+一次右旋), 加上颜色翻转即可恢复平衡</div><div class="hint">点击翻转查看答案</div></div><div style="text-align:center;font-size:11px;color:#999;margin-top:6px">1 / 8 | 左右滑动切换</div></div></div>
+你可以在笔记内直接翻转复习。需要我再生成模拟题吗?`},
+{type:'user',text:'再帮我出5道选择题'},
+{type:'ai',text:'好的, 基于笔记内容生成5道选择题:\n\n1. 红黑树的时间复杂度为?\nA. O(n) B. O(log n) C. O(n log n) D. O(1)\n\n2. AVL树与红黑树的主要区别是?\n...已添加到笔记末尾。'}
+]},
+{id:'s4',name:'场景4: MiClaw速记生成思维导图',data:[
+{type:'system',text:'[用户通过AI键/小爱口述了一段会议内容, 自动存为「速记」笔记]'},
+{type:'user',text:'把今天的会议速记整理成思维导图'},
+{type:'system',text:'[MiClaw调用: notes__note_search_by_time(today) -> 找到速记noteId:3210]'},
+{type:'system',text:'[MiClaw调用: notes__note_read(noteId=3210) -> 读取速记内容]'},
+{type:'ai',text:'已读取今天的会议速记, 正在提取结构生成思维导图...'},
+{type:'system',text:'[MiClaw调用: notes__note_create(type=mindmap, title="产品方向会议", content=mindmap_json)]'},
+{type:'ai',html:`思维导图已创建:
+<div class="embed-card"><div class="hd">&#129504; 思维导图 - 产品方向会议</div><div class="bd"><div class="mm"><span class="root">产品方向会议 5/27</span><div class="children"><span class="child">产出物类型: 听/看/做/学</span><span class="child">播客 - 嵌入笔记直接播</span><span class="child">PPT - 预览+分享</span><span class="child">知识卡 - 闪卡复习</span><span class="child">待办 - 同步待办中心</span><span class="child">分享链路 - 对接IM</span></div></div></div></div>
+已创建为独立的思维笔记, 你可以在笔记列表中找到它, 也可以继续编辑节点。`},
+{type:'user',text:'再提取出里面的待办'},
+{type:'system',text:'[MiClaw调用: notes__todo_create x 3]'},
+{type:'ai',text:'已提取3条待办:\n1. 串联生成-消费全链路体验\n2. 修复AI对话上下文注入bug\n3. 与司梦雨团队对接分享功能\n\n已同步到待办中心。'}
+]},
+{id:'s5',name:'场景5: 完整链路(输入到消费)',data:[
+{type:'system',text:'[完整场景: 用户收藏文章 -> 生成笔记 -> 生成产出物 -> 消费 -> 分享]'},
+{type:'user',text:'帮我把最近收藏的3篇文章做个播客'},
+{type:'system',text:'[MiClaw调用: notes__note_search_by_tag(tag="收藏") -> 3篇]'},
+{type:'system',text:'[MiClaw调用: notes__note_read x 3 -> 读取全文]'},
+{type:'ai',text:'找到3篇收藏文章:\n1.「AI产品设计方法论」\n2.「2026科技趋势」\n3.「远程办公最佳实践」\n\n正在将内容合并生成播客...'},
+{type:'system',text:'[MiClaw调用: TTS播客生成 -> 合并3篇生成25分钟播客]'},
+{type:'system',text:'[MiClaw调用: notes__note_create(title="播客:本周收藏精选", type=main)]'},
+{type:'system',text:'[MiClaw调用: notes__card_create(播客音频卡嵌入)]'},
+{type:'ai',html:`播客生成完成! 已创建笔记「播客:本周收藏精选」:
+<div class="embed-card"><div class="hd">&#127897; 播客 - 本周收藏精选 (25:12)</div><div class="bd"><div class="player"><div class="btn">&#9654;</div><div class="bar-wave"></div><span class="tm">25:12</span></div><div style="font-size:11px;color:#999;margin-top:6px">基于3篇收藏文章, 双人对话风格</div></div></div>
+可以直接播放, 或者分享给同事一起听?`},
+{type:'user',text:'分享到我的工作群'},
+{type:'system',text:'[MiClaw调用: search_contacts(query="工作群") -> groupId:89]'},
+{type:'system',text:'[MiClaw调用: IM群分享(groupId=89, 播客笔记链接)]'},
+{type:'ai',text:'已分享到「产品组工作群」, 群成员点击即可收听。'}
+]}
+];
+
+// 渲染tabs
+const tabsEl=document.getElementById('tabs');
+S.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.textContent=s.name;
+  if(i===0)b.classList.add('on');
+  b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render(s)};
+  tabsEl.appendChild(b);
+});
+
+function render(scene){
+  const el=document.getElementById('body');
+  let h='<div class="chat-area">';
+  scene.data.forEach(msg=>{
+    if(msg.type==='user') h+=`<div class="bubble user">${msg.text}</div>`;
+    else if(msg.type==='ai') h+=`<div class="bubble ai">${msg.html||msg.text}</div>`;
+    else if(msg.type==='system') h+=`<div class="bubble system">${msg.text}</div>`;
+    else if(msg.type==='chips') h+=`<div class="chips">${msg.items.map(i=>'<span>'+i+'</span>').join('')}</div>`;
+  });
+  h+='</div>';
+  h+=`<div class="input-bar"><input placeholder="对话输入..." readonly><div class="send-btn">&#8593;</div></div>`;
+  el.innerHTML=h;
+}
+
+render(S[0]);
+</script>
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记详情页方案 · 含小爱记忆侧边栏</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","MiSans",sans-serif;background:#f5f5f7;color:#1a1a1a;padding:40px}
+h1{font-size:28px;font-weight:700;margin-bottom:8px;text-align:center}
+.subtitle{font-size:14px;color:#999;text-align:center;margin-bottom:48px}
+
+.screen-row{display:flex;gap:40px;margin-bottom:64px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.screen-group{display:flex;flex-direction:column;align-items:center;gap:16px}
+.screen-label{font-size:12px;color:#999;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+
+.phone{width:375px;height:812px;background:#fff;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.12);border:8px solid #1a1a1a}
+.phone-inner{width:100%;height:100%;overflow-y:auto;position:relative}
+.status-bar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:14px 24px 0;font-size:12px;font-weight:600}
+.status-bar .time{font-size:14px;font-weight:700}
+.status-bar .icons{display:flex;gap:4px;font-size:11px}
+.nav-bar{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.nav-bar .back{font-size:20px;color:#333;cursor:pointer}
+.nav-bar .title{font-size:17px;font-weight:600}
+.nav-bar .actions{display:flex;gap:12px;font-size:18px}
+
+.annotation{flex:1;max-width:420px;min-width:320px}
+.anno-card{background:#fff;border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.anno-card h3{font-size:15px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.anno-card h3 .tag{font-size:10px;padding:2px 6px;border-radius:4px;color:#fff;font-weight:700}
+.tag-linan{background:#ff6b35}
+.tag-new{background:#5780ff}
+.tag-principle{background:#a68cfa}
+.tag-memory{background:#8b5cf6}
+.anno-card p{font-size:13px;color:#555;line-height:1.8}
+.anno-card .quote{font-size:12px;color:#999;border-left:3px solid #ff6b35;padding-left:12px;margin-top:8px;font-style:italic;line-height:1.6}
+
+/* Detail page styles */
+.detail-content{padding:0 16px 100px}
+.detail-title{font-size:22px;font-weight:700;padding:16px 0 4px}
+.detail-meta{font-size:12px;color:#999;margin-bottom:16px}
+.output-section{background:#f8faff;border-radius:16px;padding:16px;margin-bottom:16px;border:1px solid #e8f0ff}
+.output-section .section-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.output-section .section-header h5{font-size:13px;font-weight:600;color:#5780ff}
+.output-section .section-header .badge{font-size:10px;background:#5780ff;color:#fff;padding:2px 6px;border-radius:8px}
+.output-card{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);cursor:pointer}
+.output-card .icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.output-card .icon.ppt{background:#fff3e8}
+.output-card .icon.mindmap{background:#f0f8ff}
+.output-card .icon.podcast{background:#f8f0ff}
+.output-card .icon.todo{background:#f0fdf8}
+.output-card .icon.card{background:#fef3f2}
+.output-card .info h6{font-size:13px;font-weight:600}
+.output-card .info p{font-size:11px;color:#999}
+.output-card .arrow{margin-left:auto;color:#ccc;font-size:14px}
+
+.original-text{padding:12px 0}
+.original-text .label{font-size:11px;color:#bbb;margin-bottom:8px;font-weight:600}
+.original-text p{font-size:14px;color:#444;line-height:1.8}
+
+.ai-bar{position:sticky;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #f0f0f0;padding:12px 16px 28px;display:flex;align-items:center;gap:8px;z-index:10;box-shadow:0 -4px 12px rgba(0,0,0,.06)}
+.ai-bar .input{flex:1;height:36px;border-radius:18px;background:#f5f5f5;padding:0 14px;font-size:13px;color:#999;display:flex;align-items:center}
+.ai-bar .quick-actions{display:flex;gap:6px}
+.ai-bar .quick-actions span{font-size:11px;padding:4px 8px;border-radius:12px;background:#f0f4ff;color:#5780ff;white-space:nowrap}
+
+.section-divider{text-align:center;padding:48px 0 24px;font-size:20px;font-weight:700;color:#333}
+.section-divider span{display:block;font-size:12px;color:#999;font-weight:400;margin-top:4px}
+
+.memory-note{font-size:11px;color:#8b5cf6;padding:8px 12px;background:#f9f7ff;border-radius:8px;margin-top:8px;display:flex;align-items:center;gap:6px}
+</style>
+</head>
+<body>
+
+<h1>笔记详情页方案 · 含小爱记忆侧边栏</h1>
+<p class="subtitle">核心：生成物离用户更近 ｜ 左侧小爱记忆侧边栏（全局） ｜ Chips动态推荐 ｜ 记忆参与生成</p>
+
+<!-- ====== Screen 1: 笔记详情页 · 生成物前置 ====== -->
+<div class="section-divider">方案一：笔记详情页 · 生成物前置<span>生成物应立刻可被消费，不藏在底部</span></div>
+
+<div class="screen-row">
+  <div class="screen-group">
+    <span class="screen-label">笔记详情页（生成物前置）</span>
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="status-bar"><span class="time">10:29</span><span class="icons">📶 🔋</span></div>
+        <div class="nav-bar">
+          <span class="back">‹</span>
+          <span class="title"></span>
+          <span class="actions">↗ ⋯</span>
+        </div>
+        <div class="detail-content">
+          <div class="detail-title">周五产品评审 · 笔记二期方案</div>
+          <div class="detail-meta">2026年5月29日 20:27 ｜ 来自录音 ｜ 38分钟</div>
+
+          <!-- 生成物区域 - 前置 -->
+          <div class="output-section">
+            <div class="section-header">
+              <h5>✨ 生成物</h5>
+              <span class="badge">可消费</span>
+            </div>
+            <div class="output-card">
+              <div class="icon ppt">📊</div>
+              <div class="info"><h6>产品方案PPT</h6><p>基于会议内容 · 12页</p></div>
+              <span class="arrow">›</span>
+            </div>
+            <div class="output-card">
+              <div class="icon mindmap">🧠</div>
+              <div class="info"><h6>决策脑图</h6><p>4个核心议题 · 可展开</p></div>
+              <span class="arrow">›</span>
+            </div>
+            <div class="output-card">
+              <div class="icon podcast">🎙️</div>
+              <div class="info"><h6>会议播客</h6><p>精简版 8分钟 · 可分享</p></div>
+              <span class="arrow">›</span>
+            </div>
+            <div class="output-card">
+              <div class="icon todo">✅</div>
+              <div class="info"><h6>待办事项</h6><p>4项已提取</p></div>
+              <span class="arrow">›</span>
+            </div>
+          </div>
+
+          <!-- 记忆参与提示 -->
+          <div class="memory-note">🧠 生成时参考了你的记忆：结论先行、精简表达、用Launcher替代负一屏</div>
+
+          <!-- 原文区域 -->
+          <div class="original-text">
+            <div class="label">📝 AI整理后的笔记正文</div>
+            <p>本次会议核心结论：笔记的价值不在于记录本身，而在于记录之后能产出什么。产出物应该离用户更近。</p>
+            <p style="margin-top:8px">三个关键决策：①产出物区在正文上方 ②左侧增加小爱记忆入口 ③Chips根据内容动态推荐</p>
+            <p style="margin-top:8px">下一步：完成设计稿、确认小爱记忆的数据结构、与善德团队对齐接口。</p>
+            <p style="color:#bbb;margin-top:12px;font-size:12px">— 点击展开原始录音转写 —</p>
+          </div>
+        </div>
+
+        <!-- AI对话框 -->
+        <div class="ai-bar">
+          <div class="input">✨ 对话修改、润色、追问...</div>
+          <div class="quick-actions">
+            <span>做PPT</span>
+            <span>脑图</span>
+            <span>播客</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotations -->
+  <div class="annotation">
+    <div class="anno-card">
+      <h3><span class="tag tag-linan">李楠</span> 生成物必须离用户更近</h3>
+      <p>生成的PPT/脑图/播客是用户要<strong>消费</strong>的内容，不应藏在页面底部。原始笔记除了用户自己写的，不太会去反复读——所以生成物的优先级应高于原文展示。</p>
+      <div class="quote">"我不想让用户去读那篇原始笔记，因为原始笔记除了我自己写的，我真的不太会去读它。生成的东西才是我消费的，应该离用户更近。"</div>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-memory">记忆</span> 小爱记忆参与生成</h3>
+      <p>AI生成产出物时，会参考小爱记忆中的偏好和习惯。例如：知道用户喜欢结论先行，播客脚本就会先说结论再展开。生成后标注"参考了哪些记忆"。</p>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-principle">原则</span> 不破坏基础体验</h3>
+      <p>对于不使用AI生成功能的用户，笔记页和原来完全一样。只有当用户产生了生成物时，才出现对应展示区。</p>
+      <div class="quote">"我并不是说非要挑战用户现有的习惯，你该进来之后是什么样还是什么样。但当我给使用AI的人提供便利时，不能把需求放在很低的位置上。"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Screen 2: 侧边栏 · 小爱记忆 ====== -->
+<div class="section-divider">方案二：侧边栏 · 小爱记忆（全局）<span>左侧侧边栏入口，展示MiClaw记住的所有用户信息，任何笔记内都能唤起</span></div>
+
+<div class="screen-row">
+  <div class="screen-group">
+    <span class="screen-label">侧边栏展开（小爱记忆）</span>
+    <div class="phone">
+      <div class="phone-inner" style="display:flex">
+        <!-- 侧边栏 -->
+        <div style="width:280px;height:100%;background:#fff;border-right:1px solid #f0f0f0;padding-top:44px;overflow-y:auto;flex-shrink:0">
+          <!-- 头部 -->
+          <div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f5f5f5">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:18px">🧠</span>
+              <span style="font-size:16px;font-weight:700">小爱记忆</span>
+            </div>
+            <span style="font-size:14px;color:#999">✕</span>
+          </div>
+
+          <!-- 搜索 -->
+          <div style="padding:12px 16px">
+            <div style="padding:8px 12px;background:#f5f5f5;border-radius:8px;font-size:12px;color:#999">🔍 搜索记忆...</div>
+          </div>
+
+          <!-- 记忆列表 -->
+          <div style="padding:0 12px">
+            <!-- 偏好 -->
+            <div style="padding:12px;margin-bottom:8px;background:#faf8ff;border-radius:10px;border:1px solid #f0ecff">
+              <div style="font-size:10px;color:#8b5cf6;font-weight:600;margin-bottom:6px">💜 偏好</div>
+              <div style="font-size:13px;color:#444;line-height:1.6">你喜欢用 callout + 表格写文档，不喜欢大段纯文字</div>
+              <div style="font-size:10px;color:#bbb;margin-top:4px">持续学习中</div>
+            </div>
+
+            <div style="padding:12px;margin-bottom:8px;background:#faf8ff;border-radius:10px;border:1px solid #f0ecff">
+              <div style="font-size:10px;color:#8b5cf6;font-weight:600;margin-bottom:6px">💜 偏好</div>
+              <div style="font-size:13px;color:#444;line-height:1.6">写文档时结论先行，先说判断再展开论据</div>
+              <div style="font-size:10px;color:#bbb;margin-top:4px">持续学习中</div>
+            </div>
+
+            <!-- 事实 -->
+            <div style="padding:12px;margin-bottom:8px;background:#f0f8ff;border-radius:10px;border:1px solid #e0f0ff">
+              <div style="font-size:10px;color:#3b82f6;font-weight:600;margin-bottom:6px">💙 事实</div>
+              <div style="font-size:13px;color:#444;line-height:1.6">李楠是你的+1，产品部总经理</div>
+              <div style="font-size:10px;color:#bbb;margin-top:4px">2026-05-20 学到</div>
+            </div>
+
+            <div style="padding:12px;margin-bottom:8px;background:#f0f8ff;border-radius:10px;border:1px solid #e0f0ff">
+              <div style="font-size:10px;color:#3b82f6;font-weight:600;margin-bottom:6px">💙 事实</div>
+              <div style="font-size:13px;color:#444;line-height:1.6">善德团队负责子Agent的Tools开发</div>
+              <div style="font-size:10px;color:#bbb;margin-top:4px">2026-05-10 学到</div>
+            </div>
+
+            <!-- 习惯 -->
+            <div style="padding:12px;margin-bottom:8px;background:#f0fdf8;border-radius:10px;border:1px solid #dcfce7">
+              <div style="font-size:10px;color:#16a34a;font-weight:600;margin-bottom:6px">💚 习惯</div>
+              <div style="font-size:13px;color:#444;line-height:1.6">用"Launcher"替代"负一屏"，不说"第二大脑"</div>
+              <div style="font-size:10px;color:#bbb;margin-top:4px">持续学习中</div>
+            </div>
+
+            <!-- 上下文 -->
+            <div style="padding:12px;margin-bottom:8px;background:#fffbf0;border-radius:10px;border:1px solid #fef3c7">
+              <div style="font-size:10px;color:#d97706;font-weight:600;margin-bottom:6px">🧡 上下文</div>
+              <div style="font-size:13px;color:#444;line-height:1.6">当前重点：笔记详情页设计、6月交付物规划</div>
+              <div style="font-size:10px;color:#bbb;margin-top:4px">本周更新</div>
+            </div>
+          </div>
+
+          <!-- 底部操作 -->
+          <div style="padding:12px 16px;border-top:1px solid #f5f5f5;display:flex;gap:8px;margin-top:8px">
+            <div style="flex:1;text-align:center;padding:8px;background:#f0f4ff;border-radius:8px;font-size:12px;color:#5780ff;font-weight:500">+ 告诉小爱</div>
+            <div style="flex:1;text-align:center;padding:8px;background:#f5f5f5;border-radius:8px;font-size:12px;color:#666">管理记忆</div>
+          </div>
+        </div>
+
+        <!-- 右侧遮罩 -->
+        <div style="flex:1;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center">
+          <div style="font-size:12px;color:#fff;text-align:center;padding:20px">← 侧边栏展开状态<br><br>全局记忆<br>任何笔记内都能唤起</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotations -->
+  <div class="annotation">
+    <div class="anno-card">
+      <h3><span class="tag tag-linan">李楠</span> 小爱记忆 = 全局能力</h3>
+      <p>小爱记忆不属于某篇笔记，而是MiClaw的<strong>全局能力</strong>。在任何笔记页面都能通过左侧入口唤起，查看AI对你的全部理解。这是"越用越懂你"的具体载体。</p>
+      <div class="quote">"速记这个地方要放小爱记忆。它是全局的，不是某篇笔记的。"</div>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-memory">记忆</span> 四种记忆类型</h3>
+      <p><strong>偏好</strong>（写作风格、格式习惯）、<strong>事实</strong>（人物关系、项目信息）、<strong>习惯</strong>（术语黑话、时间节奏）、<strong>上下文</strong>（当前关注点、近期话题）。AI生成内容时自动参考这些记忆。</p>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-new">NEW</span> 用户有完全控制权</h3>
+      <p>用户可以查看、修改、删除任何记忆。也可以主动"告诉小爱"新信息。AI的记忆对用户完全透明，不是黑盒。底部两个操作：添加记忆 / 管理记忆。</p>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-principle">原则</span> 越用越懂你</h3>
+      <p>记忆持续积累和更新。AI在生成笔记、产出物时会参考这些记忆，确保输出符合用户的风格和偏好。同样的笔记内容，不同用户生成的产出物风格不同。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Screen 3: 侧边栏在首页的位置 ====== -->
+<div class="section-divider">方案三：侧边栏完整结构<span>文件夹 + 小爱记忆 + 产出物筛选，三层结构</span></div>
+
+<div class="screen-row">
+  <div class="screen-group">
+    <span class="screen-label">侧边栏完整结构</span>
+    <div class="phone">
+      <div class="phone-inner" style="display:flex">
+        <!-- 完整侧边栏 -->
+        <div style="width:280px;height:100%;background:#fff;border-right:1px solid #f0f0f0;padding-top:44px;overflow-y:auto;flex-shrink:0">
+          <!-- 用户头像 -->
+          <div style="padding:16px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f5f5f5">
+            <div style="width:36px;height:36px;border-radius:50%;background:#e8f0ff;display:flex;align-items:center;justify-content:center;font-size:16px">👤</div>
+            <div><div style="font-size:14px;font-weight:600">杨李莲</div><div style="font-size:11px;color:#999">我的笔记</div></div>
+          </div>
+
+          <!-- 文件夹 -->
+          <div style="padding:12px 16px">
+            <div style="font-size:11px;color:#bbb;font-weight:600;margin-bottom:8px;padding-left:4px">文件夹</div>
+            <div style="padding:10px 12px;border-radius:8px;background:#f5f8ff;font-size:13px;font-weight:500;margin-bottom:4px;display:flex;align-items:center;gap:8px">📁 全部笔记</div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#444;margin-bottom:4px;display:flex;align-items:center;gap:8px">📁 工作</div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#444;margin-bottom:4px;display:flex;align-items:center;gap:8px">📁 学习</div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#444;margin-bottom:4px;display:flex;align-items:center;gap:8px">📁 生活</div>
+          </div>
+
+          <div style="height:1px;background:#f0f0f0;margin:4px 16px"></div>
+
+          <!-- 小爱记忆入口 - 核心！ -->
+          <div style="padding:12px 16px">
+            <div style="padding:12px;border-radius:10px;font-size:13px;color:#8b5cf6;display:flex;align-items:center;gap:8px;background:#faf8ff;border:1px solid #f0ecff;font-weight:500">
+              <span style="font-size:16px">🧠</span> 小爱记忆
+              <span style="margin-left:auto;font-size:10px;color:#a78bfa;background:#f0ecff;padding:2px 6px;border-radius:8px">23条</span>
+            </div>
+          </div>
+
+          <div style="height:1px;background:#f0f0f0;margin:4px 16px"></div>
+
+          <!-- 产出物筛选 -->
+          <div style="padding:12px 16px">
+            <div style="font-size:11px;color:#bbb;font-weight:600;margin-bottom:8px;padding-left:4px">产出物</div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#5780ff;margin-bottom:4px;display:flex;align-items:center;gap:8px;justify-content:space-between">
+              <span>📊 PPT</span><span style="font-size:11px;color:#999;background:#f0f0f0;padding:1px 6px;border-radius:8px">3</span>
+            </div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#5780ff;margin-bottom:4px;display:flex;align-items:center;gap:8px;justify-content:space-between">
+              <span>🧠 脑图</span><span style="font-size:11px;color:#999;background:#f0f0f0;padding:1px 6px;border-radius:8px">5</span>
+            </div>
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#5780ff;margin-bottom:4px;display:flex;align-items:center;gap:8px;justify-content:space-between">
+              <span>🎙️ 播客</span><span style="font-size:11px;color:#999;background:#f0f0f0;padding:1px 6px;border-radius:8px">2</span>
+            </div>
+          </div>
+
+          <!-- 底部 -->
+          <div style="padding:12px 16px;border-top:1px solid #f5f5f5;margin-top:auto">
+            <div style="padding:10px 12px;border-radius:8px;font-size:13px;color:#666;display:flex;align-items:center;gap:8px">⚙️ 设置</div>
+          </div>
+        </div>
+
+        <!-- 右侧遮罩 -->
+        <div style="flex:1;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center">
+          <div style="font-size:12px;color:#fff;text-align:center;padding:20px">← 侧边栏完整结构<br><br>文件夹（用户的）<br>小爱记忆（全局）<br>产出物筛选（动态）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotations -->
+  <div class="annotation">
+    <div class="anno-card">
+      <h3><span class="tag tag-linan">李楠</span> 侧边栏三层结构</h3>
+      <p>侧边栏从上到下：<strong>文件夹</strong>（用户自己的组织方式，不能动）→ <strong>小爱记忆</strong>（全局AI记忆入口）→ <strong>产出物筛选</strong>（按类型筛选笔记）。</p>
+      <div class="quote">"这个地方是用户的文件夹，不能动它。但我们可以在下面放小爱记忆和产出物类型。"</div>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-memory">记忆</span> 小爱记忆的位置</h3>
+      <p>小爱记忆在文件夹和产出物之间，用紫色高亮区分。点击进入记忆详情面板（即方案二展示的内容）。右侧显示记忆条数，让用户知道AI记住了多少。</p>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-new">NEW</span> 产出物动态显隐</h3>
+      <p>产出物类型只在用户真正生成过时才出现。零PPT则不显示PPT入口，避免空状态。右侧数字表示该类型的数量。</p>
+    </div>
+    <div class="anno-card">
+      <h3><span class="tag tag-principle">原则</span> 优先级排序</h3>
+      <p>P0：生成物前置 + 小爱记忆侧边栏<br>P1：产出物筛选器<br>P2：文件夹管理<br><br>小爱记忆是核心差异化能力，优先级等同于生成物前置。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 需求细拆 ====== -->
+<div style="max-width:1100px;margin:48px auto;background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.06)">
+  <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">📋 需求细拆 · 仅列增量</h2>
+  <p style="font-size:12px;color:#999;margin-bottom:24px">已实现不重复做：PPT生成、知识卡、待办提取、AI对话streaming、基础摘要、场景识别、录音转写。以下为本次新增。</p>
+
+  <!-- P0: 生成物展示层 -->
+  <div style="margin-bottom:32px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span style="font-size:11px;font-weight:700;color:#fff;background:#ff6b35;padding:2px 8px;border-radius:4px">P0</span>
+      <h3 style="font-size:16px;font-weight:700">生成物展示层重构</h3>
+      <span style="font-size:11px;color:#999">当前：生成物作为ChatMessage内联，无独立UI</span>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:25%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:40%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:10%">端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:25%">依赖/备注</th></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">生成物持久化存储</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">GeneratedOutput从ChatMessage→持久化到Note关联表</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">数据模型改造</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">详情页生成物卡片区</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">标题下方独立UI区域：卡片列表展示已生成的产出物</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">新组件</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">脑图生成能力</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">新增mindmap生成skill+渲染页</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">osbot有skill但未集成</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">播客生成能力</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">基于笔记内容生成音频播客（TTS+精简脚本）</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端AI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">依赖TTS服务</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">原文变更→同步更新</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">原文编辑后提示"生成物需更新"→一键重新生成</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">版本tracking</td></tr>
+      <tr><td style="padding:8px 10px;font-weight:600">记忆参与标注</td><td style="padding:8px 10px">生成时显示"参考了哪条记忆"，产出物标注记忆影响</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">依赖记忆系统</td></tr>
+    </table>
+  </div>
+
+  <!-- P0: 小爱记忆侧边栏 -->
+  <div style="margin-bottom:32px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span style="font-size:11px;font-weight:700;color:#fff;background:#ff6b35;padding:2px 8px;border-radius:4px">P0</span>
+      <h3 style="font-size:16px;font-weight:700">小爱记忆 · 侧边栏</h3>
+      <span style="font-size:11px;color:#999">当前：无记忆展示UI，记忆仅在后端使用</span>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:25%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:40%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:10%">端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:25%">依赖/备注</th></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">侧边栏基础框架</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">左侧Drawer：文件夹+小爱记忆+产出物筛选三层结构</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">当前无Drawer</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">记忆列表UI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">按类型分组展示（偏好/事实/习惯/上下文），支持搜索</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需出设计稿</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">记忆CRUD接口</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">查询/新增/修改/删除记忆，支持分类和时间排序</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需MiClaw提供接口</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">主动添加记忆</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">用户可主动"告诉小爱"新信息，AI解析后存入对应类型</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端AI+前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需NLU解析</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">记忆参与生成</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">AI生成产出物时查询相关记忆，注入prompt context</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端AI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">RAG/向量检索</td></tr>
+      <tr><td style="padding:8px 10px;font-weight:600">笔记内唤起入口</td><td style="padding:8px 10px">任何笔记详情页左侧边缘有入口icon，点击唤起侧边栏</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">全局组件</td></tr>
+    </table>
+  </div>
+
+  <!-- P1: Chips动态推荐 -->
+  <div style="margin-bottom:32px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span style="font-size:11px;font-weight:700;color:#fff;background:#5780ff;padding:2px 8px;border-radius:4px">P1</span>
+      <h3 style="font-size:16px;font-weight:700">Chips · 动态推荐</h3>
+      <span style="font-size:11px;color:#999">当前：AI对话框有固定quick actions</span>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tr style="background:#f8f8f8"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:25%">子任务</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:40%">具体内容</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:10%">端</th><th style="padding:8px 10px;text-align:left;border-bottom:1px solid #eee;width:25%">依赖/备注</th></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">动态推荐引擎</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">根据笔记内容+类型动态推荐可生成的产出物类型</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">后端AI</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">需场景识别能力</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5;font-weight:600">Chips UI组件</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">替代当前固定quick actions，改为动态Chips列表</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">前端</td><td style="padding:8px 10px;border-bottom:1px solid #f5f5f5">组件替换</td></tr>
+      <tr><td style="padding:8px 10px;font-weight:600">生成后回流</td><td style="padding:8px 10px">点击Chip触发生成→完成后自动出现在产出物区</td><td style="padding:8px 10px">前端</td><td style="padding:8px 10px">依赖生成物持久化</td></tr>
+    </table>
+  </div>
+
+  <!-- 总结 -->
+  <div style="padding:16px 20px;background:#faf8ff;border-radius:12px;border:1px solid #f0ecff">
+    <div style="font-size:13px;font-weight:700;color:#8b5cf6;margin-bottom:8px">📊 工时评估摘要</div>
+    <div style="font-size:12px;color:#555;line-height:2">
+      • P0 生成物展示层：<strong>6项</strong>新增（含2个全新AI能力：脑图+播客）<br>
+      • P0 小爱记忆侧边栏：<strong>6项</strong>新增（含记忆CRUD+RAG检索+全局UI）<br>
+      • P1 Chips动态推荐：<strong>3项</strong>新增<br>
+      • 已实现不重复做：PPT生成、知识卡、待办提取、AI对话streaming、录音转写、摘要
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

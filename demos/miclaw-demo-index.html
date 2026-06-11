@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MiClaw Agent 能力平台</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f5f5f7;
+  --card: #ffffff;
+  --primary: #1a1a1a;
+  --secondary: #666;
+  --accent: #007AFF;
+  --accent-light: #E8F2FF;
+  --green: #34C759;
+  --orange: #FF9500;
+  --red: #FF3B30;
+  --purple: #AF52DE;
+  --bubble-user: #007AFF;
+  --bubble-ai: #F2F2F7;
+  --radius: 20px;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+.phone-frame {
+  width: 393px; height: 852px;
+  background: var(--bg);
+  border-radius: 44px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 0 3px #1a1a1a, 0 20px 60px rgba(0,0,0,0.5);
+}
+.status-bar {
+  height: 54px; padding: 14px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; font-weight: 600; color: var(--primary);
+  background: var(--card); position: relative; z-index: 10;
+}
+.status-bar .notch {
+  width: 126px; height: 34px; background: #000; border-radius: 0 0 20px 20px;
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+}
+.status-icons { display: flex; gap: 6px; align-items: center; font-size: 12px; }
+.nav-bar {
+  height: 52px; padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--card); border-bottom: 0.5px solid #e5e5e5;
+}
+.nav-bar .logo {
+  font-size: 20px; font-weight: 700; color: var(--primary);
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-bar .logo .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; }
+.nav-icons { display: flex; gap: 16px; }
+.nav-icons span { font-size: 18px; cursor: pointer; opacity: 0.5; }
+</style>
+<style>
+.chat-area {
+  height: calc(852px - 54px - 52px - 80px);
+  overflow-y: auto; padding: 16px; scroll-behavior: smooth;
+}
+.chat-area::-webkit-scrollbar { display: none; }
+.message { display: flex; margin-bottom: 12px; animation: fadeUp 0.4s ease; }
+.message.user { justify-content: flex-end; }
+.message.ai { justify-content: flex-start; }
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: white; flex-shrink: 0;
+  margin-right: 8px; margin-top: 4px;
+}
+.message.user .avatar { display: none; }
+.bubble {
+  max-width: 280px; padding: 12px 16px;
+  border-radius: 18px; font-size: 15px; line-height: 1.5; word-break: break-word;
+}
+.message.user .bubble {
+  background: var(--bubble-user); color: white; border-bottom-right-radius: 6px;
+}
+.message.ai .bubble {
+  background: var(--bubble-ai); color: var(--primary); border-bottom-left-radius: 6px;
+}
+.thinking {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px; font-size: 13px; color: var(--secondary);
+}
+.thinking .spinner {
+  width: 16px; height: 16px; border: 2px solid #ddd;
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.thinking-tag {
+  display: inline-block; padding: 4px 10px;
+  background: #F0EDFF; color: #6B5CE7; border-radius: 12px;
+  font-size: 12px; font-weight: 500; margin-bottom: 8px;
+}
+.tool-card {
+  background: white; border-radius: 16px; padding: 14px;
+  margin-top: 8px; border: 1px solid #E8E8ED;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.tool-card .tool-header {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--secondary); margin-bottom: 8px;
+}
+.tool-card .tool-icon {
+  width: 20px; height: 20px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; font-size: 11px;
+}
+.tool-card .tool-content { font-size: 14px; color: var(--primary); line-height: 1.6; }
+.action-buttons { display: flex; gap: 8px; margin-top: 10px; }
+.action-btn {
+  padding: 8px 16px; border-radius: 20px; font-size: 13px;
+  font-weight: 500; border: none; cursor: pointer; transition: all 0.2s;
+}
+.action-btn.primary { background: var(--accent); color: white; }
+.action-btn.secondary { background: #F2F2F7; color: var(--primary); }
+.action-btn:active { transform: scale(0.96); }
+.sub-agent-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-bottom: 6px;
+}
+.sub-agent-tag.calendar { background: #FFF3E0; color: #E65100; }
+.sub-agent-tag.note { background: #E8F5E9; color: #2E7D32; }
+.sub-agent-tag.dnd { background: #FCE4EC; color: #C62828; }
+.sub-agent-tag.translate { background: #E3F2FD; color: #1565C0; }
+</style>
+<style>
+.summary-card {
+  background: white; border-radius: 16px; overflow: hidden;
+  margin-top: 8px; border: 1px solid #E8E8ED;
+}
+.summary-card .header {
+  padding: 12px 14px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white; font-size: 14px; font-weight: 600;
+}
+.summary-card .body {
+  padding: 12px 14px; font-size: 13px; line-height: 1.7; color: var(--primary);
+}
+.summary-card .body .section-title {
+  font-weight: 600; font-size: 13px; margin: 8px 0 4px; color: var(--accent);
+}
+.summary-card .body .section-title:first-child { margin-top: 0; }
+.confirm-bar {
+  display: flex; gap: 8px; margin-top: 10px; padding: 10px 0 0; border-top: 1px solid #f0f0f0;
+}
+.agent-detail-card {
+  background: white; border-radius: 16px; overflow: hidden;
+  margin-top: 8px; border: 1px solid #E8E8ED;
+}
+.agent-detail-card .header {
+  padding: 12px 14px;
+  background: linear-gradient(135deg, #6B5CE7 0%, #00D2D3 100%);
+  color: white; font-size: 14px; font-weight: 600;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.agent-detail-card .body {
+  padding: 12px 14px; font-size: 13px; line-height: 1.7; color: var(--primary);
+}
+.cap-status-dot {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px;
+}
+.cap-status-dot.ok { background: var(--green); }
+.cap-status-dot.partial { background: var(--orange); }
+.cap-status-dot.no { background: var(--red); }
+
+.input-area {
+  height: 80px; padding: 12px 16px;
+  background: var(--card); border-top: 0.5px solid #e5e5e5;
+  display: flex; align-items: center; gap: 10px;
+  position: absolute; bottom: 0; left: 0; right: 0;
+}
+.input-area .input-icons { display: flex; gap: 12px; }
+.input-area .input-icons span { font-size: 20px; cursor: pointer; opacity: 0.4; }
+.input-field {
+  flex: 1; height: 40px; border-radius: 20px;
+  background: #F2F2F7; border: none; padding: 0 16px;
+  font-size: 15px; outline: none; color: var(--primary);
+}
+.input-field::placeholder { color: #999; }
+.send-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--accent); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.send-btn:active { transform: scale(0.9); }
+.send-btn svg { width: 18px; height: 18px; }
+.mic-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: transparent; border: none; cursor: pointer; font-size: 20px; opacity: 0.5;
+}
+.scene-selector {
+  position: fixed; top: 20px; right: 20px;
+  display: flex; flex-direction: column; gap: 8px; z-index: 100;
+}
+.scene-btn {
+  padding: 10px 18px; border-radius: 12px;
+  background: rgba(255,255,255,0.1); color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+  font-size: 13px; cursor: pointer; text-align: left;
+  backdrop-filter: blur(10px); transition: all 0.2s; font-family: inherit;
+}
+.scene-btn:hover { background: rgba(255,255,255,0.2); }
+.scene-btn.active { background: var(--accent); border-color: var(--accent); }
+.scene-label {
+  color: rgba(255,255,255,0.5); font-size: 10px; padding: 2px 0;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<div class="scene-selector">
+  <div style="color:white;font-size:14px;font-weight:600;margin-bottom:4px;">🤖 MiClaw Agent 能力平台</div>
+  <div style="color:rgba(255,255,255,0.4);font-size:10px;margin-bottom:8px">Agent 运行在 MiClaw · App ↔ Agent N:N</div>
+  <div class="scene-label">Agent 场景演示</div>
+  <button class="scene-btn active" onclick="loadScene('schedule', this)">📅 日程 Agent — 增删改查+冲突</button>
+  <button class="scene-btn" onclick="loadScene('meeting', this)">🎙 录音→会议纪要 Agent</button>
+  <button class="scene-btn" onclick="loadScene('dnd', this)">🔕 勿扰 Agent（能力缺失）</button>
+  <button class="scene-btn" onclick="loadScene('multiagent', this)">🤖 多Agent协作 — N:N调用</button>
+  <div class="scene-label" style="margin-top:8px">上层App调用Agent</div>
+  <button class="scene-btn" onclick="loadScene('appcall', this)">📱 日历App → 日程Agent</button>
+</div>
+
+<div class="phone-frame">
+  <div class="status-bar">
+    <span>2:36</span>
+    <div class="notch"></div>
+    <div class="status-icons"><span>📶</span><span>🔋</span></div>
+  </div>
+  <div class="nav-bar">
+    <div class="logo">
+      <span>≡</span><span id="navTitle">超级小爱</span><div class="dot"></div>
+    </div>
+    <div class="nav-icons"><span>@</span><span>⚙</span></div>
+  </div>
+  <div class="chat-area" id="chatArea"></div>
+  <div class="input-area">
+    <div class="input-icons"><span>＋</span><span>@</span></div>
+    <input class="input-field" id="inputField" placeholder="对 Agent 说点什么..."
+           onkeydown="if(event.key==='Enter')sendMessage()">
+    <button class="send-btn" onclick="sendMessage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+        <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"/>
+      </svg>
+    </button>
+    <button class="mic-btn">🎙</button>
+  </div>
+</div>
+
+<script>
+var chatArea = document.getElementById('chatArea');
+var inputField = document.getElementById('inputField');
+var isPlaying = false;
+
+function scrollToBottom() { setTimeout(function(){ chatArea.scrollTop = chatArea.scrollHeight; }, 100); }
+function wait(ms) { return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function addMessage(type, content, delay) {
+  return new Promise(function(resolve) {
+    setTimeout(function() {
+      var div = document.createElement('div');
+      div.className = 'message ' + type;
+      if (type === 'ai') {
+        div.innerHTML = '<div class="avatar">M</div><div class="bubble">' + content + '</div>';
+      } else {
+        div.innerHTML = '<div class="bubble">' + content + '</div>';
+      }
+      chatArea.appendChild(div);
+      scrollToBottom();
+      resolve();
+    }, delay || 0);
+  });
+}
+
+function addThinking(text, delay) {
+  return new Promise(function(resolve) {
+    setTimeout(function() {
+      var div = document.createElement('div');
+      div.className = 'message ai'; div.id = 'thinking';
+      div.innerHTML = '<div class="avatar">M</div><div class="thinking"><div class="spinner"></div>' + text + '</div>';
+      chatArea.appendChild(div); scrollToBottom(); resolve();
+    }, delay || 0);
+  });
+}
+
+function removeThinking() { var el = document.getElementById('thinking'); if (el) el.remove(); }
+
+function addToolCard(icon, iconBg, toolName, content, delay) {
+  return new Promise(function(resolve) {
+    setTimeout(function() {
+      var div = document.createElement('div');
+      div.className = 'message ai';
+      div.innerHTML = '<div class="avatar">M</div><div class="bubble" style="padding:8px 12px;max-width:300px">' +
+        '<div class="tool-card"><div class="tool-header">' +
+        '<div class="tool-icon" style="background:' + iconBg + '">' + icon + '</div>' +
+        '<span>' + toolName + '</span></div>' +
+        '<div class="tool-content">' + content + '</div></div></div>';
+      chatArea.appendChild(div); scrollToBottom(); resolve();
+    }, delay || 0);
+  });
+}
+
+function addRichCard(html, delay) {
+  return new Promise(function(resolve) {
+    setTimeout(function() {
+      var div = document.createElement('div');
+      div.className = 'message ai';
+      div.innerHTML = '<div class="avatar">M</div><div style="max-width:300px">' + html + '</div>';
+      chatArea.appendChild(div); scrollToBottom(); resolve();
+    }, delay || 0);
+  });
+}
+</script>
+
+<script>
+// Scene 1: Schedule Agent
+async function sceneSchedule() {
+  document.getElementById('navTitle').textContent = '超级小爱';
+  await addMessage('user', '帮我安排明天下午和张总开个产品评审会');
+  await addThinking('正在调用 日程Agent...', 300);
+  await wait(500); removeThinking();
+  
+  await addMessage('ai', '<div class="sub-agent-tag calendar">📅 日程Agent</div><br>收到，我来帮你安排。先查一下明天下午的日程和可能的冲突。', 200);
+  
+  await addToolCard('📅', '#FFF3E0', '调用 calendar_list', '<span style="color:#999">查询 3/10 14:00-18:00</span><br>发现 <b>2</b> 个已有日程', 300);
+  await wait(200);
+  await addToolCard('📅', '#FFF3E0', '调用 calendar_conflict_check', '<span style="color:#E65100">⚠️ 14:00-15:00 与"周会"冲突</span><br>✅ 15:00-17:00 空闲', 300);
+  await wait(200);
+  
+  await addMessage('ai', '明天 14:00 有周会冲突。建议安排在 <b>15:00-16:00</b>，可以吗？', 200);
+  await addMessage('user', '好的。另外帮我看看短信里有没有张总发的会议相关信息', 500);
+  
+  await addThinking('尝试调用短信解析...', 200);
+  await wait(400); removeThinking();
+  
+  await addMessage('ai', '<span style="color:#FF3B30;font-weight:600">⚠️ 能力受限</span><br><br><b>短信日程爬取</b>（sms_schedule_extract）目前未接入，无法解析短信中的日程信息。<br><br><span style="font-size:12px;color:#999">📋 已记录 → 能力集补全 P0</span>', 200);
+  
+  await addToolCard('📅', '#E8F5E9', '调用 calendar_create', '✅ 已创建<br><b>产品评审会</b><br>3/10 15:00-16:00 · 参会人：张总', 300);
+  
+  await addRichCard(
+    '<div class="agent-detail-card">' +
+      '<div class="header"><span>📅 日程Agent 运行详情</span><span style="font-size:11px;opacity:0.8">详情页</span></div>' +
+      '<div class="body">' +
+        '<div style="font-size:12px;color:#999;margin-bottom:6px">运行逻辑 (Skill)</div>' +
+        '<div style="font-size:12px;line-height:1.8">' +
+          '1. calendar_list → 查询时间段<br>' +
+          '2. calendar_conflict_check → 冲突检测<br>' +
+          '3. <span style="color:#FF3B30">sms_schedule_extract → ❌ 未接入</span><br>' +
+          '4. calendar_create → 创建日程' +
+        '</div>' +
+        '<div style="margin-top:8px;font-size:12px;color:#999">Tools 状态</div>' +
+        '<div style="font-size:12px;margin-top:4px">' +
+          '<span class="cap-status-dot ok"></span>calendar_list · ' +
+          '<span class="cap-status-dot ok"></span>calendar_create · ' +
+          '<span class="cap-status-dot partial"></span>conflict_check · ' +
+          '<span class="cap-status-dot no"></span>sms_extract' +
+        '</div>' +
+      '</div>' +
+    '</div>', 200);
+}
+
+// Scene 2: Meeting Agent
+async function sceneMeeting() {
+  document.getElementById('navTitle').textContent = '超级小爱';
+  await addMessage('user', '整理一下刚才的会议录音，生成会议纪要');
+  await addThinking('正在调用 录音转写...', 300);
+  await wait(500); removeThinking();
+  
+  await addMessage('ai', '<div class="sub-agent-tag note">📝 笔记Agent</div><br>好的，我来处理这段会议录音。', 200);
+  
+  await addToolCard('🎙', '#FFE0E0', '调用 audio_transcribe', '<span style="color:#999">已转写 32:15 录音</span><br>4 位发言人 · 2,847 字', 300);
+  await addToolCard('📅', '#FFF3E0', '调用 calendar_query', '<b>产品评审会</b> 3/9 14:00-15:00<br>参会人：张明、李华、王芳、陈刚', 300);
+  
+  await addThinking('正在生成结构化纪要...', 200);
+  await wait(500); removeThinking();
+
+  await addRichCard(
+    '<div class="summary-card">' +
+      '<div class="header">📋 产品评审会纪要 3/9</div>' +
+      '<div class="body">' +
+        '<div class="section-title">📌 会议要点</div>' +
+        '<div>1. Agent 定义和能力集是本周最重要任务</div>' +
+        '<div>2. 所有 Agent 基于 MiClaw 二次开发</div>' +
+        '<div>3. App 和 Agent 是 N:N 关系</div>' +
+        '<div class="section-title">✅ 待办事项</div>' +
+        '<div>• 刷新能力集文档，给出接入计划</div>' +
+        '<div>• 在 MiClaw 创建自己的 Agent</div>' +
+        '<div>• 瑞军周三前开放详情页+接口</div>' +
+        '<div class="confirm-bar">' +
+          '<button class="action-btn primary" onclick="confirmMeeting()">✓ 写入笔记</button>' +
+          '<button class="action-btn secondary">✎ 编辑</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>', 200);
+}
+
+async function confirmMeeting() {
+  await addToolCard('📝', '#E8F5E9', '调用 note_create', '✅ 已写入笔记 App', 0);
+  await addMessage('ai', '✅ 会议纪要已写入笔记，已为参会人创建待办提醒。', 200);
+}
+</script>
+<script>
+// Scene 3: DND Agent (capability missing)
+async function sceneDnd() {
+  document.getElementById('navTitle').textContent = '超级小爱';
+  await addMessage('user', '帮我开启勿扰模式，只允许张总的电话打进来');
+  await addThinking('正在调用 勿扰Agent...', 300);
+  await wait(500); removeThinking();
+  
+  await addMessage('ai', '<div class="sub-agent-tag dnd">🔕 勿扰Agent</div><br><span style="color:#FF3B30;font-weight:600">⚠️ 能力完全未接入</span>', 200);
+  
+  await addMessage('ai', '很抱歉，勿扰模式的系统接口目前<b>完全未开放</b>：<br><br>' +
+    '<span style="font-size:13px">' +
+    '❌ dnd_toggle — 开关勿扰<br>' +
+    '❌ dnd_rule_set — 规则设定<br>' +
+    '❌ dnd_whitelist — 白名单<br>' +
+    '❌ dnd_schedule — 定时勿扰</span><br><br>' +
+    '<span style="font-size:12px;color:#999">这是能力集的关键缺失项，已列入 P0 补全计划。</span>', 300);
+  
+  await addRichCard(
+    '<div class="agent-detail-card">' +
+      '<div class="header"><span>🔕 勿扰Agent 运行详情</span><span style="font-size:11px;opacity:0.8">详情页</span></div>' +
+      '<div class="body">' +
+        '<div style="font-size:12px;color:#FF3B30;font-weight:600;margin-bottom:8px">⚠️ 所有 Tools 均未接入</div>' +
+        '<div style="font-size:12px;line-height:1.8">' +
+          '<span class="cap-status-dot no"></span>dnd_toggle<br>' +
+          '<span class="cap-status-dot no"></span>dnd_rule_set<br>' +
+          '<span class="cap-status-dot no"></span>dnd_whitelist<br>' +
+          '<span class="cap-status-dot no"></span>dnd_schedule' +
+        '</div>' +
+        '<div style="margin-top:8px;padding:8px;border-radius:8px;background:#FFF3E0;font-size:11px;color:#E65100">' +
+          '💡 定义完勿扰Agent后，你会发现 MiClaw 很多干不了 → 需要加能力' +
+        '</div>' +
+      '</div>' +
+    '</div>', 200);
+  
+  await addMessage('ai', '💡 你可以手动操作：设置 → 声音与振动 → 勿扰模式<br><br><span style="font-size:12px;color:#999">待能力接入后，Agent 就能自动帮你设置了。</span>', 300);
+}
+
+// Scene 4: Multi-Agent Collaboration
+async function sceneMultiagent() {
+  document.getElementById('navTitle').textContent = '超级小爱';
+  await addMessage('user', '帮我准备明天的产品评审会，整理相关资料');
+  await addThinking('分析任务，需要多个 Agent 协作...', 300);
+  await wait(500); removeThinking();
+  
+  await addMessage('ai', '<div class="thinking-tag">⚡ 多Agent协作</div><br>这个任务需要 <b>日程Agent</b> 和 <b>笔记Agent</b> 协作。<br><span style="font-size:12px;color:#999">App ↔ Agent N:N 关系</span>', 200);
+  
+  await addMessage('ai', '<div class="sub-agent-tag calendar">📅 日程Agent</div>', 150);
+  await addToolCard('📅', '#FFF3E0', 'calendar_list', '明天会议：<b>产品评审会</b> 15:00<br>参会人：张总、李华、王芳', 300);
+  
+  await addMessage('ai', '<div class="sub-agent-tag note">📝 笔记Agent</div>', 150);
+  await addToolCard('📝', '#E8F5E9', 'note_search', '找到 <b>3</b> 条相关笔记：<br>• 产品评审纪要 3/3<br>• MiClaw 进展 3/5<br>• Agent 架构设计 3/7', 300);
+  
+  await addThinking('整理会议准备材料...', 200);
+  await wait(500); removeThinking();
+  
+  await addRichCard(
+    '<div class="summary-card">' +
+      '<div class="header">📋 会议准备材料</div>' +
+      '<div class="body">' +
+        '<div>📅 <b>产品评审会</b> 明天 15:00<br>👥 张总、李华、王芳</div>' +
+        '<div class="section-title">📋 议题（来自历史笔记）</div>' +
+        '<div>1. Agent 架构方案确认</div>' +
+        '<div>2. 能力集接入进展同步</div>' +
+        '<div>3. 上层 Demo 演示计划</div>' +
+        '<div style="margin-top:8px;padding:8px;border-radius:8px;background:#F0EDFF;font-size:11px;color:#6B5CE7">' +
+          '💡 N:N 的价值：日历App 同时调用了日程Agent + 笔记Agent，App 内无 Agent 代码' +
+        '</div>' +
+        '<div class="confirm-bar">' +
+          '<button class="action-btn primary">✓ 保存</button>' +
+          '<button class="action-btn secondary">✎ 编辑</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>', 200);
+}
+
+// Scene 5: App calling Agent
+async function sceneAppcall() {
+  document.getElementById('navTitle').textContent = '📅 日历';
+  await addMessage('ai', '<div style="font-size:12px;color:#999;margin-bottom:4px">📅 日历 App 通过接口调用 MiClaw Agent</div>你好，我是日历的智能助手。我通过 MiClaw 的 Agent 接口为你服务。', 200);
+  
+  await addMessage('user', '帮我看看这周有没有日程冲突', 400);
+  await addThinking('日历App → 调用 MiClaw 日程Agent...', 300);
+  await wait(500); removeThinking();
+  
+  await addMessage('ai', '<div class="sub-agent-tag calendar">📅 日程Agent · 被日历App调用</div>', 150);
+  await addToolCard('📅', '#FFF3E0', 'calendar_list + conflict_check', '本周 5 个日程<br><span style="color:#E65100">⚠️ 周三 14:00 有 2 个会议冲突</span>', 300);
+  
+  await addMessage('ai', '发现周三 14:00 有冲突：<br>• 产品评审会 14:00-15:00<br>• 技术方案讨论 14:00-15:30<br><br>建议将技术方案讨论移到 16:00，需要我帮你调整吗？', 300);
+  await addMessage('user', '好的，帮我调整', 400);
+  
+  await addToolCard('📅', '#E8F5E9', 'calendar_update', '✅ 已将"技术方案讨论"移至 16:00-17:30', 300);
+  
+  await addMessage('ai', '✅ 冲突已解决。<br><br><span style="font-size:12px;color:#999">💡 日历 App 内没有 Agent 代码，所有智能能力来自 MiClaw 平台的日程Agent。上层 App 只需调用接口。</span>', 200);
+}
+</script>
+<script>
+function loadScene(scene, btn) {
+  if (isPlaying) return;
+  isPlaying = true;
+  chatArea.innerHTML = '';
+  document.querySelectorAll('.scene-btn').forEach(function(b) { b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  
+  var p;
+  switch(scene) {
+    case 'schedule': p = sceneSchedule(); break;
+    case 'meeting': p = sceneMeeting(); break;
+    case 'dnd': p = sceneDnd(); break;
+    case 'multiagent': p = sceneMultiagent(); break;
+    case 'appcall': p = sceneAppcall(); break;
+    default: p = sceneSchedule(); break;
+  }
+  p.then(function() { isPlaying = false; });
+}
+
+function sendMessage() {
+  var text = inputField.value.trim();
+  if (!text || isPlaying) return;
+  inputField.value = '';
+  addMessage('user', text).then(function() {
+    isPlaying = true;
+    addThinking('思考中...', 200).then(function() {
+      setTimeout(function() {
+        removeThinking();
+        addMessage('ai', '请点击右侧场景按钮查看完整演示 😊');
+        isPlaying = false;
+      }, 500);
+    });
+  });
+}
+
+window.onload = function() {
+  setTimeout(function() { loadScene('schedule', document.querySelector('.scene-btn')); }, 200);
+};
+</script>
+</body>
+</html>

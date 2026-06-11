@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小米AI笔记 · 场景串联Demo</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f0f0f; color: #fff; font-family: -apple-system, 'PingFang SC', sans-serif; }
+
+/* Header */
+.page-header { padding: 60px 80px 40px; max-width: 1400px; margin: 0 auto; }
+.page-title { font-size: 32px; font-weight: bold; color: #c9a96e; margin-bottom: 12px; }
+.page-desc { font-size: 15px; color: rgba(255,255,255,0.4); line-height: 1.8; }
+
+/* Scene Section */
+.scene { max-width: 1400px; margin: 0 auto; padding: 40px 80px 80px; border-top: 1px solid rgba(255,255,255,0.06); }
+.scene-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px; }
+.scene-num { font-size: 11px; color: #c9a96e; font-weight: bold; letter-spacing: 1px; }
+.scene-title { font-size: 22px; font-weight: 600; }
+.scene-subtitle { font-size: 14px; color: rgba(255,255,255,0.4); margin-bottom: 32px; }
+
+/* Phone Mockup Flow */
+.phone-flow { display: flex; gap: 24px; align-items: flex-start; overflow-x: auto; padding-bottom: 20px; }
+.phone-step { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.phone-frame {
+  width: 280px; height: 560px;
+  background: #1a1a1a; border-radius: 32px;
+  border: 2px solid #333; padding: 16px;
+  position: relative; overflow: hidden;
+}
+.phone-status { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 12px; padding: 0 4px; }
+.phone-content { height: calc(100% - 30px); overflow: hidden; border-radius: 16px; background: #111; }
+.step-label { font-size: 12px; color: rgba(255,255,255,0.5); text-align: center; max-width: 280px; }
+.step-arrow { flex-shrink: 0; color: #c9a96e; font-size: 24px; margin-top: 250px; }
+
+/* Phone Inner UI Components */
+.ph-nav { background: #1a1a1a; padding: 12px 16px; display: flex; align-items: center; gap: 8px; }
+.ph-nav-back { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); }
+.ph-nav-title { font-size: 14px; font-weight: 500; flex: 1; }
+.ph-nav-action { font-size: 11px; color: #c9a96e; }
+
+.ph-body { padding: 12px 16px; }
+.ph-card { background: #1e1e1e; border-radius: 12px; padding: 14px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.06); }
+.ph-card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.ph-card-desc { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+.ph-card-tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(201,169,110,0.15); color: #c9a96e; margin-top: 6px; }
+.ph-card-tag.green { background: rgba(76,175,80,0.15); color: #66bb6a; }
+.ph-card-tag.blue { background: rgba(33,150,243,0.15); color: #42a5f5; }
+
+.ph-ai-bar { position: absolute; bottom: 16px; left: 16px; right: 16px; background: #252525; border-radius: 20px; padding: 10px 16px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.08); }
+.ph-ai-bar-text { font-size: 11px; color: rgba(255,255,255,0.3); flex: 1; }
+.ph-ai-bar-icon { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #c9a96e, #a0845a); }
+
+.ph-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.ph-chip { font-size: 10px; padding: 4px 10px; border-radius: 12px; background: #252525; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+.ph-chip.active { background: rgba(201,169,110,0.15); border-color: rgba(201,169,110,0.3); color: #c9a96e; }
+
+.ph-audio { background: #1e1e1e; border-radius: 10px; padding: 10px 14px; margin: 8px 0; display: flex; align-items: center; gap: 10px; }
+.ph-audio-play { width: 28px; height: 28px; border-radius: 50%; background: #c9a96e; display: flex; align-items: center; justify-content: center; }
+.ph-audio-play::after { content: ''; width: 0; height: 0; border-left: 8px solid #1a1a1a; border-top: 5px solid transparent; border-bottom: 5px solid transparent; margin-left: 2px; }
+.ph-audio-wave { flex: 1; height: 20px; background: repeating-linear-gradient(90deg, rgba(201,169,110,0.3) 0px, rgba(201,169,110,0.3) 2px, transparent 2px, transparent 5px); border-radius: 2px; }
+.ph-audio-time { font-size: 10px; color: rgba(255,255,255,0.4); }
+
+.ph-output { background: linear-gradient(135deg, rgba(201,169,110,0.08), rgba(201,169,110,0.02)); border: 1px solid rgba(201,169,110,0.2); border-radius: 12px; padding: 14px; margin: 8px 0; }
+.ph-output-label { font-size: 10px; color: #c9a96e; font-weight: 600; margin-bottom: 6px; letter-spacing: 0.5px; }
+.ph-output-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.ph-output-desc { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.4; }
+.ph-output-actions { display: flex; gap: 8px; margin-top: 8px; }
+.ph-output-btn { font-size: 10px; padding: 4px 10px; border-radius: 6px; background: rgba(201,169,110,0.2); color: #c9a96e; }
+.ph-output-btn.primary { background: #c9a96e; color: #1a1a1a; font-weight: 600; }
+
+.ph-share-bar { position: absolute; bottom: 60px; left: 16px; right: 16px; background: #252525; border-radius: 12px; padding: 12px; border: 1px solid rgba(255,255,255,0.08); }
+.ph-share-row { display: flex; gap: 12px; justify-content: center; }
+.ph-share-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.ph-share-icon { width: 36px; height: 36px; border-radius: 50%; background: #333; }
+.ph-share-icon.wechat { background: #07c160; }
+.ph-share-icon.im { background: #1890ff; }
+.ph-share-icon.link { background: #666; }
+.ph-share-name { font-size: 9px; color: rgba(255,255,255,0.4); }
+
+/* Capability Tag */
+.cap-section { max-width: 1400px; margin: 0 auto; padding: 20px 80px 60px; }
+.cap-title { font-size: 13px; color: rgba(255,255,255,0.3); margin-bottom: 12px; letter-spacing: 0.5px; }
+.cap-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.cap-tag { font-size: 11px; padding: 4px 12px; border-radius: 6px; background: #1e1e1e; border: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); }
+.cap-tag.code { color: #81c784; border-color: rgba(129,199,132,0.2); }
+
+/* Section Divider */
+.divider { max-width: 1400px; margin: 0 auto; padding: 0 80px; }
+.divider hr { border: none; border-top: 1px solid rgba(255,255,255,0.06); }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-title">小米 AI 笔记 · 场景串联</div>
+  <div class="page-desc">
+    基于笔记 v2.3.8.7 + MiClaw 实际代码能力，完整串联"生成 → 消费 → 分享"链路。<br>
+    核心原则：产出物就是笔记的一部分，生成后立即可看、可用、可分享。不增加复杂度。
+  </div>
+</div>
+
+<!-- Scene 1: 录音 → 结构化笔记 -->
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-num">SCENE 01</span>
+    <span class="scene-title">录音 → 结构化笔记 → 产出物</span>
+  </div>
+  <div class="scene-subtitle">用户录完音，笔记自动生成；在笔记内一键生成可消费的产出（考点/播客/PPT）</div>
+
+  <div class="phone-flow">
+    <div class="phone-step">
+      <div class="phone-frame">
+        <div class="phone-status"><span>10:30</span><span>100%</span></div>
+        <div class="phone-content">
+          <div class="ph-nav">
+            <div class="ph-nav-title">语音速记</div>
+            <div class="ph-nav-action">录制中 03:42</div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-audio">
+              <div class="ph-audio-play"></div>
+              <div class="ph-audio-wave"></div>
+              <div class="ph-audio-time">03:42</div>
+            </div>
+            <div style="margin-top:12px">
+              <div class="ph-card-desc" style="line-height:1.8; font-size:11px; color:rgba(255,255,255,0.5)">
+                实时转写中...<br>
+                "...所以第三章的重点是线性代数的特征值分解，考试会考证明题..."
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-label">① 录音中，实时转写</div>
+    </div>
+
+    <div class="step-arrow">→</div>
+
+    <div class="phone-step">
+      <div class="phone-frame">
+        <div class="phone-status"><span>10:35</span><span>99%</span></div>
+        <div class="phone-content">
+          <div class="ph-nav">
+            <div class="ph-nav-back"></div>
+            <div class="ph-nav-title">线性代数第三章笔记</div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-card" style="border-color:rgba(201,169,110,0.2)">
+              <div class="ph-card-title" style="color:#c9a96e">📋 AI 摘要</div>
+              <div class="ph-card-desc">
+                <b>核心知识点：</b><br>
+                1. 特征值分解的定义与性质<br>
+                2. 对称矩阵的正交对角化<br>
+                3. 证明题：A可对角化的充要条件
+              </div>
+              <div class="ph-card-tag">AI生成</div>
+            </div>
+            <div class="ph-card">
+              <div class="ph-card-title">原始转写</div>
+              <div class="ph-card-desc">所以第三章的重点是线性代数的特征值分解，考试会考证明题...</div>
+            </div>
+          </div>
+          <div class="ph-ai-bar">
+            <div class="ph-ai-bar-icon"></div>
+            <div class="ph-ai-bar-text">总结、生成考点、做播客...</div>
+          </div>
+        </div>
+      </div>
+      <div class="step-label">② 录完即结构化，AI摘要在上</div>
+    </div>
+
+    <div class="step-arrow">→</div>
+
+    <div class="phone-step">
+      <div class="phone-frame">
+        <div class="phone-status"><span>10:36</span><span>99%</span></div>
+        <div class="phone-content">
+          <div class="ph-nav">
+            <div class="ph-nav-back"></div>
+            <div class="ph-nav-title">线性代数第三章笔记</div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-chips">
+              <div class="ph-chip active">提炼考点</div>
+              <div class="ph-chip">生成播客</div>
+              <div class="ph-chip">做PPT</div>
+              <div class="ph-chip">出模拟题</div>
+              <div class="ph-chip">思维导图</div>
+            </div>
+            <div class="ph-output">
+              <div class="ph-output-label">✨ 考点清单 · 已生成</div>
+              <div class="ph-output-title">第三章 核心考点（7个）</div>
+              <div class="ph-output-desc">
+                1. 特征值的定义与计算<br>
+                2. 特征向量的求解方法<br>
+                3. 对角化条件（充要条件证明）<br>
+                ...
+              </div>
+              <div class="ph-output-actions">
+                <div class="ph-output-btn primary">查看全部</div>
+                <div class="ph-output-btn">分享</div>
+                <div class="ph-output-btn">出题</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-label">③ 点击chip生成产出物，即时消费</div>
+    </div>
+
+    <div class="step-arrow">→</div>
+
+    <div class="phone-step">
+      <div class="phone-frame">
+        <div class="phone-status"><span>10:37</span><span>99%</span></div>
+        <div class="phone-content">
+          <div class="ph-nav">
+            <div class="ph-nav-back"></div>
+            <div class="ph-nav-title">线性代数第三章笔记</div>
+            <div class="ph-nav-action">分享</div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-output">
+              <div class="ph-output-label">🎧 播客 · 8分钟</div>
+              <div class="ph-output-title">线性代数第三章精讲</div>
+              <div class="ph-audio" style="margin-top:8px">
+                <div class="ph-audio-play"></div>
+                <div class="ph-audio-wave"></div>
+                <div class="ph-audio-time">8:23</div>
+              </div>
+              <div class="ph-output-actions">
+                <div class="ph-output-btn primary">播放</div>
+                <div class="ph-output-btn">上车播</div>
+                <div class="ph-output-btn">分享</div>
+              </div>
+            </div>
+            <div class="ph-output" style="border-color:rgba(33,150,243,0.2)">
+              <div class="ph-output-label" style="color:#42a5f5">📊 PPT · 12页</div>
+              <div style="background:#222; border-radius:8px; height:80px; display:flex; align-items:center; justify-content:center; margin:8px 0">
+                <span style="font-size:11px; color:rgba(255,255,255,0.3)">PPT 预览缩略图</span>
+              </div>
+              <div class="ph-output-actions">
+                <div class="ph-output-btn primary">预览</div>
+                <div class="ph-output-btn">分享</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-label">④ 多个产出物，每个都可即时消费/分享</div>
+    </div>
+  </div>
+</div>
+
+<!-- Scene 2: MiClaw → 笔记 -->
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-num">SCENE 02</span>
+    <span class="scene-title">MiClaw 生成 → 直接落笔记 → 分享</span>
+  </div>
+  <div class="scene-subtitle">李楠新疆旅行场景：在MiClaw对话中生成内容 → 自动存入笔记 → 一键分享给朋友</div>
+
+  <div class="phone-flow">
+    <div class="phone-step">
+      <div class="phone-frame">
+        <div class="phone-status"><span>12:15</span><span>85%</span></div>
+        <div class="phone-content">
+          <div class="ph-nav">
+            <div class="ph-nav-title">超级小爱</div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-card" style="background:#252525; border:none">
+              <div class="ph-card-desc" style="color:rgba(255,255,255,0.7)">帮我把新疆旅行笔记做一个PPT，要有配图</div>
+            </div>
+            <div class="ph-card" style="border-color:rgba(201,169,110,0.2)">
+              <div class="ph-card-title" style="color:#c9a96e">已生成 ✓</div>
+              <div class="ph-card-desc">
+                已基于你的「新疆10天自驾」笔记生成12页PPT，<br>包含路线图和每日景点配图。
+              </div>
+              <div class="ph-output-actions" style="margin-top:8px">
+                <div class="ph-output-btn primary">查看</div>
+                <div class="ph-output-btn">发给杨强</div>
+                <div class="ph-output-btn">存到笔记</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-label">① MiClaw 中一句话生成</div>
+    </div>
+
+    <div class="step-arrow">→</div>
+
+    <div class="phone-step">
+      <div class="phone-frame">
+        <div class="phone-status"><span>12:15</span><span>85%</span></div>
+        <div class="phone-content">
+          <div class="ph-nav">
+            <div class="ph-nav-back"></div>
+            <div class="ph-nav-title">新疆10天自驾</div>
+            <div class="ph-nav-action">⋯</div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-output">
+              <div class="ph-output-label">📊 PPT · 12页</div>
+              <div style="background:#222; border-radius:8px; height:100px; display:flex; align-items:center; justify-content:center; margin:8px 0">
+                <span style="font-size:20px">🏔️</span>
+                <span style="font-size:11px; color:rgba(255,255,255,0.4); margin-left:8px">新疆10天自驾攻略</span>
+              </div>
+              <div class="ph-output-actions">
+                <div class="ph-output-btn primary">全屏预览</div>
+                <div class="ph-output-btn">分享</div>
+                <div class="ph-output-btn">导出文件</div>
+              </div>
+            </div>
+            <div class="ph-card">
+              <div class="ph-card-title">📝 原文笔记</div>
+              <div class="ph-card-desc">Day1: 乌鲁木齐→独库公路北段<br>Day2: 那拉提草原→巴音布鲁克...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-label">② 点击"查看"直接进笔记内预览</div>
+    </div>
+
+    <div class="step-arrow">→</div>
+
+    <div class="phone-step">
+      <div class="phone-frame">
+        <div class="phone-status"><span>12:16</span><span>85%</span></div>
+        <div class="phone-content">
+          <div class="ph-nav">
+            <div class="ph-nav-back"></div>
+            <div class="ph-nav-title">分享给</div>
+          </div>
+          <div class="ph-body" style="padding-top:40px">
+            <div class="ph-share-row" style="margin-bottom:24px">
+              <div class="ph-share-item">
+                <div class="ph-share-icon wechat"></div>
+                <div class="ph-share-name">微信</div>
+              </div>
+              <div class="ph-share-item">
+                <div class="ph-share-icon im"></div>
+                <div class="ph-share-name">信息</div>
+              </div>
+              <div class="ph-share-item">
+                <div class="ph-share-icon link"></div>
+                <div class="ph-share-name">复制链接</div>
+              </div>
+              <div class="ph-share-item">
+                <div class="ph-share-icon" style="background:#f57c00"></div>
+                <div class="ph-share-name">邮件</div>
+              </div>
+            </div>
+            <div class="ph-card" style="text-align:center">
+              <div class="ph-card-desc">PPT 将以可预览卡片形式发送<br>对方无需安装任何应用即可查看</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-label">③ 一键分享，对方直接看</div>
+    </div>
+  </div>
+</div>
+
+<!-- Scene 3: 速记 → 知识卡片 -->
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-num">SCENE 03</span>
+    <span class="scene-title">速记 → 跨篇聚合 → 知识闪卡</span>
+  </div>
+  <div class="scene-subtitle">AI键多次碎片采集 → 笔记自动聚合同主题内容 → 生成可复习的知识卡片</div>
+
+  <div class="phone-flow">
+    <div class="phone-step">
+      <div class="phone-frame">
+        <div class="phone-status"><span>08:30</span><span>92%</span></div>
+        <div class="phone-content">
+          <div class="ph-nav">
+            <div class="ph-nav-title">笔记</div>
+            <div class="ph-nav-action">≡</div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-card">
+              <div class="ph-card-title">速记 · 今天 08:15</div>
+              <div class="ph-card-desc">"明天下午3点跟张总开会讨论Q3预算"</div>
+              <div class="ph-card-tag green">速记</div>
+            </div>
+            <div class="ph-card">
+              <div class="ph-card-title">速记 · 昨天 22:30</div>
+              <div class="ph-card-desc">"新疆行程第4天改走独库公路南段"</div>
+              <div class="ph-card-tag green">速记</div>
+            </div>
+            <div class="ph-card">
+              <div class="ph-card-title">速记 · 昨天 14:00</div>
+              <div class="ph-card-desc">"买机票注意：7月15乌鲁木齐，回程25号..."</div>
+              <div class="ph-card-tag green">速记</div>
+            </div>
+            <div class="ph-card">
+              <div class="ph-card-title">新疆10天自驾</div>
+              <div class="ph-card-desc">Day1: 乌鲁木齐→独库公路...</div>
+              <div class="ph-card-tag">我的笔记</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-label">① 多次速记，碎片自动归集</div>
+    </div>
+
+    <div class="step-arrow">→</div>
+
+    <div class="phone-step">
+      <div class="phone-frame">
+        <div class="phone-status"><span>08:31</span><span>92%</span></div>
+        <div class="phone-content">
+          <div class="ph-nav">
+            <div class="ph-nav-back"></div>
+            <div class="ph-nav-title">新疆10天自驾</div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-output" style="border-color:rgba(76,175,80,0.2)">
+              <div class="ph-output-label" style="color:#66bb6a">🧠 AI 已聚合 3 条速记</div>
+              <div class="ph-output-desc">
+                系统已将相关速记内容合并到此笔记：<br>
+                • 行程调整：第4天改走南段<br>
+                • 机票：7/15去 7/25回<br>
+                • 会议提醒：明天3点Q3预算
+              </div>
+              <div class="ph-output-actions">
+                <div class="ph-output-btn primary">查看详情</div>
+                <div class="ph-output-btn">生成知识卡</div>
+              </div>
+            </div>
+            <div class="ph-card">
+              <div class="ph-card-title">📝 完整行程</div>
+              <div class="ph-card-desc">Day1: 乌鲁木齐 → 独库公路北段<br>Day2: 那拉提 → 巴音布鲁克<br>Day3: 库车 → 阿克苏<br>Day4: 独库公路南段（已更新）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-label">② AI自动聚合同主题速记到笔记</div>
+    </div>
+
+    <div class="step-arrow">→</div>
+
+    <div class="phone-step">
+      <div class="phone-frame">
+        <div class="phone-status"><span>08:32</span><span>92%</span></div>
+        <div class="phone-content">
+          <div class="ph-nav">
+            <div class="ph-nav-back"></div>
+            <div class="ph-nav-title">知识闪卡</div>
+            <div class="ph-nav-action">1/7</div>
+          </div>
+          <div class="ph-body" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:80%; padding:20px">
+            <div style="background:#1e1e1e; border:1px solid rgba(201,169,110,0.2); border-radius:16px; padding:28px 20px; width:100%; text-align:center">
+              <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-bottom:12px">问题</div>
+              <div style="font-size:15px; font-weight:500; line-height:1.6">独库公路南段的<br>起止点是哪里？</div>
+              <div style="margin-top:20px; font-size:11px; color:#c9a96e; border:1px solid rgba(201,169,110,0.3); border-radius:8px; padding:6px 12px; display:inline-block">点击查看答案</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-label">③ 生成知识闪卡，直接复习</div>
+    </div>
+  </div>
+</div>
+
+<!-- Capabilities Reference -->
+<div class="divider"><hr></div>
+<div class="cap-section">
+  <div class="cap-title">基于代码实际能力（笔记 v2.3.8.7 + MiClaw）</div>
+  <div class="cap-grid">
+    <div class="cap-tag code">note_create</div>
+    <div class="cap-tag code">note_write</div>
+    <div class="cap-tag code">note_read</div>
+    <div class="cap-tag code">note_search</div>
+    <div class="cap-tag code">note_search_by_time</div>
+    <div class="cap-tag code">note_search_by_type</div>
+    <div class="cap-tag code">card_create (待办/日程/思维导图/会议纪要)</div>
+    <div class="cap-tag code">todo_create</div>
+    <div class="cap-tag code">note_sync_schedule</div>
+    <div class="cap-tag code">note_insert_image</div>
+    <div class="cap-tag code">folder_list / folder_notes</div>
+    <div class="cap-tag code">note_pin</div>
+    <div class="cap-tag code">rollback_operation</div>
+    <div class="cap-tag">AI Chips: 要点总结 / 待办事项 / 行程计划 / 续写 / 思维导图 / 校对</div>
+    <div class="cap-tag">Engine: MiMo-pro (local) + MiClaw (external)</div>
+    <div class="cap-tag">语音转写: NoteAsrService + 实时 ASR</div>
+    <div class="cap-tag">WebViewPool: 编辑器池化复用</div>
+    <div class="cap-tag">跨端: 云同步 ModernSync + Phone/Pad/Fold</div>
+  </div>
+</div>
+
+<div class="cap-section">
+  <div class="cap-title">待补齐能力（方案需增）</div>
+  <div class="cap-grid">
+    <div class="cap-tag" style="border-color:rgba(255,152,0,0.3); color:#ffb74d">generate_podcast（播客生成）</div>
+    <div class="cap-tag" style="border-color:rgba(255,152,0,0.3); color:#ffb74d">generate_ppt（PPT/HTML 生成）</div>
+    <div class="cap-tag" style="border-color:rgba(255,152,0,0.3); color:#ffb74d">generate_flashcard（知识闪卡）</div>
+    <div class="cap-tag" style="border-color:rgba(255,152,0,0.3); color:#ffb74d">generate_quiz（模拟题生成）</div>
+    <div class="cap-tag" style="border-color:rgba(255,152,0,0.3); color:#ffb74d">share_to_im（一键分享到IM）</div>
+    <div class="cap-tag" style="border-color:rgba(255,152,0,0.3); color:#ffb74d">inline_preview（富媒体内嵌预览）</div>
+    <div class="cap-tag" style="border-color:rgba(255,152,0,0.3); color:#ffb74d">speed_note_aggregate（速记聚合）</div>
+  </div>
+</div>
+
+</body>
+</html>
