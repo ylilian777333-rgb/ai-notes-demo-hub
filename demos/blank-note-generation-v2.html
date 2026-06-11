@@ -224,22 +224,22 @@
   <div class="cover">
     <div class="kicker">笔记 · OS4</div>
     <h1>空白笔记 <span class="hl">0→1 生成引导</span> 方案</h1>
-    <p class="lead">用户打开一篇空白文字笔记，怎么不用切页面、顺着自己写的，最快变成一篇能用的笔记。<b>这是一切内容的起点——第一篇都写不出来，后面拿它做 PPT、播客、网页就都没内容可用。</b>本方案从只打字用户的真实场景出发，讲清楚空白笔记该帮他们做的三件事：帮你开始、帮你写下去和改好、调你存过的资料帮你写好这一篇。</p>
+    <p class="lead">用户打开一篇空白文字笔记，怎么不用切页面、顺着自己写的，最快变成一篇能用的笔记。<b>这是一切内容的起点——第一篇都写不出来，后面拿它做 PPT、播客、网页就都没内容可用。</b>本方案从只打字用户的真实场景出发，讲清楚 AI 怎么在你写一篇笔记的全过程在场：<b>帮你开始、帮你写下去、帮你改好</b>；而且全程用上你的资料和历史，帮你写得更像你。</p>
     <div class="meta">
       <div class="m"><b>聚焦</b>文字笔记 / 不用语音的用户</div>
       <div class="m"><b>主线</b>先讲用法和需求，再讲做法</div>
-      <div class="m"><b>不涉及</b>二次消费 · 笔记分类整理</div>
+      <div class="m"><b>不涉及</b>另做成 PPT/播客/网页 · 笔记分类整理</div>
     </div>
   </div>
 
   <div class="section">
     <div class="sechead"><div class="secnum">00</div><div><div class="sectitle">核心判断</div><div class="secsub">空白笔记的根本问题不在交互，而在它有没有帮用户"开始"</div></div></div>
     <div class="divider"></div>
-    <div class="callout">空白笔记不该是一块空板子。<b>用户写到哪，AI 就在那一步帮一下，不用切到别的页面。</b></div>
+    <div class="callout">空白笔记不该是一块空板子。<b>AI 要在你写这篇笔记的全过程在场——你还没写，就给起手式帮你开始；你写起来了，工具条就看你写了什么，帮你写下去、帮你改好。全程不用切到别的页面。</b></div>
     <div class="grid3">
       <div class="card"><span class="tag">现状问题</span><h4>AI 都藏在二级页</h4><p>想用 AI 得先点小星星、进对话框。<b>只打字、不用语音的用户，打开空白笔记几乎碰不到 AI。</b></p></div>
       <div class="card"><span class="tag">机会</span><h4>边写边帮</h4><p>用户在空白笔记里一直在打字。<b>把帮助放在他正在写的地方</b>，而不是让他先学会去哪儿点。</p></div>
-      <div class="card"><span class="tag">做法</span><h4>顺着内容给</h4><p>在当前页面，<b>根据用户已经写的内容直接给建议</b>，点一下就用上。用户写什么，就给什么。</p></div>
+      <div class="card"><span class="tag">做法</span><h4>分两种触发</h4><p><b>没写时，给起手式帮你开始；写起来后，看你已写的直接给下一步。</b>点一下就用上，不用切页面。</p></div>
     </div>
   </div>
 
@@ -269,7 +269,7 @@
     <div class="callout">先回答一个问题：<b>这些人为什么不用语音笔记？</b>　要么场合不方便出声（开会、地铁、深夜），要么内容太短不值得说，要么本来就习惯边想边打字。<b>这群人正是现在被冷落的。</b></div>
 
     <div class="scene">
-      <div class="top"><span class="who">林姐</span><span class="label">临时速记</span><span class="role">38岁 · 行政 · 怕忘事</span></div>
+      <div class="top"><span class="who">林姐</span><span class="label">临时速记</span><span class="role">38岁 · 行政 · 怕忘事</span><span style="margin-left:auto;font-size:12px;font-weight:700;color:var(--warn);border:1px solid var(--warn-l);border-radius:6px;padding:3px 10px;">边界反例 · 不在服务范围</span></div>
       <div class="quote">"停车 B2-37 靠电梯"　"下午3点 张总 会议室"　"娃要交：户口本复印件 + 2寸照2张"</div>
       <div class="rows">
         <div class="row"><span class="k">当下</span><span class="v">脑子里一条具体信息，怕忘，<b>越快记下越好</b></span></div>
@@ -366,6 +366,17 @@
       </div>
     </div>
     <div class="note-s"><b>林姐是个例外，要单独对待：</b>她"空着"不是卡住，而是只想快速记一笔——<b>本方案的生成建议不服务她</b>。速记要的就是快，AI 只在认出电话 / 地址 / 时间时给个轻动作，<b>别弹生成建议去打扰她</b>。</div>
+
+    <div class="subhead2"><span class="dot"></span>一条规则，把四种情况和解法对齐</div>
+    <div class="callout"><b>分水岭只有一个：你写了没有。</b>没写——AI 给你起手式，帮你<b>开始</b>；写了——工具条就看你写了什么，帮你<b>写下去、改好</b>。四种情况，就这一条规则。</div>
+    <table class="matrix">
+      <tr><th>进来时手上有什么</th><th>怎么触发</th><th>对应时刻</th><th>AI 给什么</th></tr>
+      <tr><td>① 空着</td><td>起手式 / 语音（纯速记除外）</td><td><b>帮你开始</b></td><td>一句引导 + 起手式 + 开口说</td></tr>
+      <tr><td>② 一句话主题</td><td>chips 看你写了什么</td><td><b>帮你写下去</b></td><td>直接成稿 / 先列大纲</td></tr>
+      <tr><td>③ 写了一半</td><td>chips 看你写了什么</td><td><b>帮你写下去</b></td><td>扩写 / 补全 / 理顺</td></tr>
+      <tr><td>④ 贴了一大段</td><td>chips 看你写了什么</td><td><b>帮你改好</b></td><td>总结 / 划重点 / 转格式</td></tr>
+    </table>
+    <div class="note-s">所以 04 的三个时刻，就是这条规则的展开：<b>① 靠起手式（你还没写）；②③④ 靠同一套 chips（看你写了什么给下一步）。</b>下一节就按这三个时刻，一个个看 AI 怎么帮。</div>
   </div>
 
   <div class="section">
@@ -457,13 +468,13 @@
 
       <div class="stage">
         <div class="sbody">
-          <span class="badge">③ 帮你加工</span>
-          <h4>已有内容再处理</h4>
+          <span class="badge">③ 帮你改好</span>
+          <h4>把已有的一段改到位</h4>
           <div class="ans">已经有一段内容的时候</div>
           <ul>
             <li>选中一段或全文，总结 / 重写 / 换格式</li>
-            <li>把一篇内容变成它最后要用的样子</li>
-            <li>比如研究稿 → 大纲 → PPT 的下一步</li>
+            <li>把这一段改成你要的样子：更顺 / 更短 / 换语气</li>
+            <li>就在这篇笔记里改，不另起炉灶</li>
           </ul>
         </div>
         <div class="device"><div class="screen">
@@ -493,7 +504,7 @@
             <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
           </div>
         </div></div>
-        <div class="mcap">选中就加工：总结 / 划重点 / 换格式</div>
+        <div class="mcap">选中就改好：总结 / 划重点 / 换格式</div>
       </div>
 
     </div>
@@ -540,7 +551,7 @@
     <div class="callout">把一篇写好，光靠当场打的字不够，还得用上你<b>存过的</b>东西。<b>同一套 chips、同一个动作——AI 写的时候除了你刚写的，还会调你笔记里相关的内容。你的笔记是别人复制不了的私人资料库，记的越多，写得越像你，你越离不开。</b></div>
 
     <div class="subhead2"><span class="dot"></span>底层逻辑 · 内容要先"可参考"，再分两种方式用</div>
-    <div class="callout">AI 读不了音频、读不了 PPT、读不了图片。<b>资料库里的一切，必须先加工成"可检索的文本表示"，AI 才参考得了。</b>这就是"加工"这一环的产品价值——也是为什么播客 / PPT / PDF 要先加工、再进库。</div>
+    <div class="callout">AI 读不了音频、读不了 PPT、读不了图片。<b>资料库里的一切，必须先加工成"可检索的文本"，AI 才参考得了。</b>这就是为什么播客 / PPT / PDF 要先加工（转写 / OCR / 解析）、再进库。</div>
     <table class="matrix">
       <tr><th>内容</th><th>先加工成什么（才可参考）</th><th>AI 怎么用</th></tr>
       <tr><td>文字 / 手写</td><td>直接用（手写走 OCR）</td><td>检索片段、引用</td></tr>
