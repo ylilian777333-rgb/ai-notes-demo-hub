@@ -136,18 +136,20 @@
   .voicepill{ display:inline-flex; align-items:center; gap:4px; background:rgba(53,207,149,.14); color:#0a8f60; border:1px solid rgba(15,180,120,.34); border-radius:14px; padding:3px 9px; font-size:12.5px; vertical-align:middle;}
   .voicepill svg{ width:12px;height:12px; fill:#0a8f60;}
   .note .nbody .hl{ background:#cfe0ff; box-shadow:0 0 0 2px #cfe0ff; border-radius:2px;}
-  /* AI 工具条（键盘上方） */
-  .aibar{ position:absolute; left:0; right:0; bottom:186px; background:#f3f4f6; border-top:1px solid rgba(0,0,0,.06); padding:11px 0 7px;}
-  .chiprow{ display:flex; gap:7px; padding:0 14px 11px;}
-  .chip2{ display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:600; padding:7px 11px; border-radius:16px; background:#fff; border:1px solid rgba(0,0,0,.1); color:rgba(0,0,0,.78); white-space:nowrap;}
-  .chip2.lead{ background:rgba(15,180,120,.1); color:#0a8f60; border-color:rgba(15,180,120,.32);}
+  /* 工具条（键盘上方）+ 浮在其上的动态 chips */
+  .aibar{ position:absolute; left:0; right:0; bottom:186px; padding:10px 0 4px;}
+  .chiprow{ display:flex; gap:7px; padding:0 16px 10px;}
+  .chip2{ display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:600; padding:7px 11px; border-radius:16px; background:#fff; border:1px solid rgba(0,0,0,.1); color:rgba(0,0,0,.78); white-space:nowrap; box-shadow:0 2px 8px rgba(0,0,0,.07);}
+  .chip2.lead{ background:rgba(15,180,120,.12); color:#0a8f60; border-color:rgba(15,180,120,.34);}
   .chip2 .gd{ width:6px;height:6px;border-radius:50%;background:#0fb478;}
-  .airow{ display:flex; align-items:center; gap:10px; padding:0 15px;}
-  .airow .plus{ font-size:21px; color:rgba(0,0,0,.5);}
-  .airow .ipt{ flex:1; font-size:13px; color:rgba(0,0,0,.34);}
-  .airow .rmic{ width:30px;height:30px;border-radius:50%; background:#0fb478; display:flex;align-items:center;justify-content:center;}
-  .airow .rmic svg{ width:15px;height:15px; fill:#fff;}
-  .airow .send{ width:30px;height:30px;border-radius:50%; background:#1f2024; display:flex;align-items:center;justify-content:center; color:#fff; font-size:16px;}
+  .tbar{ margin:0 14px; height:50px; background:#fff; border-radius:25px; display:flex; align-items:center; justify-content:space-around; padding:0 12px; box-shadow:0 2px 12px rgba(0,0,0,.1); border:1px solid rgba(0,0,0,.05);}
+  .tbar .ti{ width:26px;height:26px; display:flex; align-items:center; justify-content:center; color:rgba(0,0,0,.62);}
+  .tbar .ti svg{ width:21px;height:21px; fill:currentColor;}
+  .tbar .ti.ai{ color:#0fb478;}
+  .tbar .ti .wv{ display:flex; align-items:center; gap:1.6px;}
+  .tbar .ti .wv i{ width:2px; background:currentColor; border-radius:1px;}
+  .tbar .ti .wv i:nth-child(1){height:7px}.tbar .ti .wv i:nth-child(2){height:13px}.tbar .ti .wv i:nth-child(3){height:9px}.tbar .ti .wv i:nth-child(4){height:15px}.tbar .ti .wv i:nth-child(5){height:6px}
+  .tbar .ti .tt{ font-size:18px; font-weight:700;}
   /* 键盘 */
   .kbd{ position:absolute; left:0; right:0; bottom:0; background:#d4d7dd; padding:5px 3px 7px;}
   .kfn{ display:flex; align-items:center; gap:18px; padding:3px 16px 7px; color:rgba(0,0,0,.5); font-size:15px;}
@@ -367,7 +369,14 @@
           </div>
           <div class="aibar">
             <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>写一段</span><span class="chip2">列清单</span><span class="chip2">记要点</span></div>
-            <div class="airow"><span class="plus">＋</span><span class="ipt">说出你的想法…</span><span class="rmic"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 11h-2z"/></svg></span><span class="send">↑</span></div>
+            <div class="tbar">
+              <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
+              <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24" fill-rule="evenodd"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg></span>
+              <span class="ti"><span class="tt">T</span></span>
+            </div>
           </div>
           <div class="kbd">
             <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
@@ -401,7 +410,14 @@
           </div>
           <div class="aibar">
             <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>逐条扩写</span><span class="chip2">补全遗漏</span><span class="chip2">列成表格</span></div>
-            <div class="airow"><span class="plus">＋</span><span class="ipt">说出你的想法…</span><span class="rmic"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 11h-2z"/></svg></span><span class="send">↑</span></div>
+            <div class="tbar">
+              <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
+              <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24" fill-rule="evenodd"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg></span>
+              <span class="ti"><span class="tt">T</span></span>
+            </div>
           </div>
           <div class="kbd">
             <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
@@ -435,7 +451,14 @@
           </div>
           <div class="aibar">
             <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>总结</span><span class="chip2">划重点</span><span class="chip2">转问答</span></div>
-            <div class="airow"><span class="plus">＋</span><span class="ipt">已选中一段，想怎么处理…</span><span class="rmic"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 11h-2z"/></svg></span><span class="send">↑</span></div>
+            <div class="tbar">
+              <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
+              <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24" fill-rule="evenodd"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg></span>
+              <span class="ti"><span class="tt">T</span></span>
+            </div>
           </div>
           <div class="kbd">
             <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
