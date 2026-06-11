@@ -103,6 +103,7 @@
   .stage li{ font-size:var(--fs-body); color:var(--sub); padding:6px 0 6px 17px; position:relative; line-height:1.5;}
   .stage li:before{ content:"·"; position:absolute; left:2px; color:var(--ac); font-weight:800; font-size:18px; top:3px;}
   .mcap{ text-align:center; font-size:var(--fs-small); color:var(--dim); margin-top:13px;}
+  .realshot{ display:block; width:calc(100% - 32px); margin:16px auto 0; border-radius:14px; border:1px solid var(--line); background:#000;}
 
   /* ===== 高保真手机（浅色 / MiSans / 玻璃底栏） ===== */
   .device{ width:286px; margin:16px auto 0; border-radius:42px; background:#0a0a0c; padding:8px;
@@ -351,18 +352,7 @@
             <li>语音做成最显眼的入口，进来就能说</li>
           </ul>
         </div>
-        <div class="device"><div class="screen">
-          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><i></i></span></span></div>
-          <div class="nav"><span class="nbtn">‹</span><span class="done">完成</span></div>
-          <div class="note"><div class="ntitle ph">新笔记</div></div>
-          <div class="empty">
-            <div class="mic"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 11h-2z"/></svg></div>
-            <div class="et">说出想法，我帮你写</div>
-          </div>
-          <div class="glass">
-            <div class="starters"><span class="starter">写一段</span><span class="starter">列清单</span><span class="starter">记要点</span></div>
-          </div>
-        </div></div>
+        <img class="realshot" src="blank-note-start.png" alt="空白笔记 · 引导用户开始">
         <div class="mcap">空页面：一句引导 + 起手式 + 语音入口</div>
       </div>
 
