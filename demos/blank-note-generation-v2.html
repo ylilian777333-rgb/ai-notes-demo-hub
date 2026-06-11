@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<title>空白笔记 0→1 生成引导方案</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    /* 收敛配色：一个主色（绿）+ 中性灰，语义色只留橙/红 */
+    --bg:#0c0d0f; --panel:#151619; --panel2:#1b1c20; --line:#2a2b30;
+    --ac:#35cf95; --ac-b:rgba(53,207,149,.09); --ac-l:rgba(53,207,149,.32); --ac-t:#bdeed8;
+    --warn:#e6a052; --warn-b:rgba(230,160,82,.1); --warn-l:rgba(230,160,82,.34);
+    --neg:#e2727a; --neg-b:rgba(226,114,122,.1); --neg-l:rgba(226,114,122,.34);
+    --txt:#ececee; --sub:#9a9ba3; --dim:#66676e;
+    --fs-h1:52px; --fs-sec:29px; --fs-sub:20px; --fs-block:17px;
+    --fs-callout:17px; --fs-body:14.5px; --fs-small:13px; --fs-tiny:11.5px;
+    /* 真实笔记设计令牌（MiSans / 白底 / 黑字多级透明度 / 玻璃底栏） */
+    --note-surface:#f5f6f8; --note-ink:#000; --note-ink-2:rgba(0,0,0,.8); --note-ink-3:rgba(0,0,0,.4); --note-ink-4:rgba(0,0,0,.3);
+    --note-outline:rgba(0,0,0,.1); --note-blue:#3a6cf6;
+  }
+  body{ background:var(--bg); color:var(--txt); width:1440px; margin:0 auto;
+    font-family:-apple-system,"SF Pro SC","PingFang SC",system-ui,sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  .wrap{ padding:0 100px 130px;}
+
+  .cover{ padding:104px 0 74px; border-bottom:1px solid var(--line);}
+  .kicker{ font-size:var(--fs-small); letter-spacing:4px; color:var(--ac); font-weight:700; margin-bottom:24px;}
+  .cover h1{ font-size:var(--fs-h1); font-weight:800; letter-spacing:.5px; line-height:1.18;}
+  .cover h1 .hl{ color:var(--ac);}
+  .cover .lead{ font-size:18px; color:var(--sub); margin-top:28px; max-width:980px; line-height:1.8;}
+  .cover .lead b{ color:var(--txt); font-weight:700;}
+  .cover .meta{ margin-top:38px; display:flex; gap:14px;}
+  .cover .meta .m{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 20px; font-size:var(--fs-small); color:var(--sub);}
+  .cover .meta .m b{ color:var(--dim); font-weight:700; display:block; margin-bottom:5px; font-size:10.5px; letter-spacing:1.5px;}
+
+  .section{ padding:86px 0 0;}
+  .sechead{ display:flex; align-items:flex-start; gap:22px;}
+  .secnum{ font-size:60px; font-weight:800; color:rgba(53,207,149,.22); line-height:.86; flex:0 0 auto;}
+  .sectitle{ font-size:var(--fs-sec); font-weight:800; line-height:1.2;}
+  .secsub{ font-size:var(--fs-body); color:var(--sub); margin-top:10px; max-width:1000px; line-height:1.65;}
+  .divider{ height:2px; width:100%; background:linear-gradient(90deg,var(--ac),rgba(53,207,149,0)); margin:24px 0 36px; border-radius:2px; opacity:.7;}
+
+  /* 统一的 callout：一种样式，绿色细边 + 加粗文本 */
+  .callout{ background:var(--ac-b); border:1px solid var(--ac-l); border-left:4px solid var(--ac);
+    border-radius:12px; padding:22px 26px; margin:22px 0; font-size:var(--fs-callout); line-height:1.7; font-weight:600; color:var(--ac-t);}
+  .callout b{ font-weight:800; color:#eafbf4;}
+
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:24px 26px;}
+  .card .tag{ font-size:var(--fs-tiny); font-weight:700; color:var(--dim); letter-spacing:1px; margin-bottom:12px; display:block;}
+  .card h4{ font-size:var(--fs-block); font-weight:700; margin-bottom:12px; white-space:nowrap; color:#fff;}
+  .card p{ font-size:var(--fs-body); color:var(--sub); line-height:1.6;}
+  .card p b{ font-weight:700; color:var(--ac-t);}
+
+  /* 是/不是 */
+  .isnot{ display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .isnot .col{ border-radius:14px; padding:24px 28px; border:1px solid;}
+  .isnot .is{ background:var(--ac-b); border-color:var(--ac-l);}
+  .isnot .not{ background:var(--neg-b); border-color:var(--neg-l);}
+  .isnot h5{ font-size:var(--fs-block); margin-bottom:14px; font-weight:800;}
+  .isnot .is h5{ color:var(--ac);} .isnot .not h5{ color:var(--neg);}
+  .isnot li{ list-style:none; font-size:var(--fs-body); color:var(--txt); padding:8px 0 8px 26px; position:relative; line-height:1.5;}
+  .isnot .is li:before{ content:"✓"; position:absolute; left:0; color:var(--ac); font-weight:800;}
+  .isnot .not li:before{ content:"✕"; position:absolute; left:0; color:var(--neg); font-weight:800;}
+
+  /* 场景卡：统一中性，细灰左边条 */
+  .scene{ background:var(--panel); border:1px solid var(--line); border-left:3px solid #3a3b42; border-radius:14px; padding:24px 28px; margin-bottom:16px;}
+  .scene .top{ display:flex; align-items:baseline; gap:13px; margin-bottom:15px; flex-wrap:wrap;}
+  .scene .who{ font-size:19px; font-weight:800;}
+  .scene .label{ font-size:var(--fs-small); font-weight:700; color:var(--sub); background:rgba(255,255,255,.06); padding:4px 11px; border-radius:7px;}
+  .scene .role{ font-size:var(--fs-small); color:var(--dim);}
+  .scene .quote{ background:var(--panel2); border-radius:10px; padding:14px 17px; font-size:15px; color:#d4d5da; margin-bottom:15px; line-height:1.6;}
+  .scene .rows{ display:grid; grid-template-columns:1fr 1fr; gap:0 34px;}
+  .scene .row{ display:grid; grid-template-columns:74px 1fr; gap:14px; padding:9px 0; border-top:1px solid #232429; font-size:var(--fs-body); align-items:start; line-height:1.5;}
+  .scene .row .k{ color:var(--dim); font-weight:600;}
+  .scene .row .v b{ color:#fff;}
+  .scene .row .v.want{ color:var(--ac-t); font-weight:600;}
+  .scene .row .v.pain{ color:var(--warn);}
+  .scene .row .v.ai b{ color:#fff;}
+
+  /* 状态卡：统一顶部细线，中性 */
+  .states{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+  .statec{ border-radius:14px; padding:24px 26px; border:1px solid var(--line); background:var(--panel);}
+  .statec .sh{ display:flex; align-items:center; gap:12px; margin-bottom:11px;}
+  .statec .sno{ font-size:var(--fs-tiny); font-weight:800; padding:4px 11px; border-radius:7px; background:rgba(255,255,255,.06); color:var(--sub);}
+  .statec h4{ font-size:var(--fs-block); font-weight:800; white-space:nowrap;}
+  .statec .desc{ font-size:var(--fs-body); color:var(--sub); margin-bottom:11px; line-height:1.6;}
+  .statec .desc b{ color:#fff;}
+  .statec .ppl{ font-size:var(--fs-small); color:var(--dim); margin-bottom:11px;}
+  .statec .ppl b{ color:var(--sub); font-weight:600;}
+  .statec .act{ font-size:var(--fs-body); color:var(--ac-t); padding-top:11px; border-top:1px solid #232429;}
+  .statec .act b{ color:#fff;}
+
+  /* 三时机 */
+  .flow{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .stage{ border-radius:16px; border:1px solid var(--line); background:var(--panel); overflow:hidden; padding-bottom:18px;}
+  .stage .sbody{ padding:24px 24px 4px;}
+  .stage .badge{ font-size:var(--fs-tiny); font-weight:800; padding:5px 12px; border-radius:7px; display:inline-block; margin-bottom:13px; letter-spacing:.5px; background:var(--ac-b); color:var(--ac); border:1px solid var(--ac-l);}
+  .stage h4{ font-size:var(--fs-sub); font-weight:800; margin-bottom:6px;}
+  .stage .ans{ font-size:var(--fs-small); color:var(--dim); margin-bottom:13px;}
+  .stage ul{ list-style:none;}
+  .stage li{ font-size:var(--fs-body); color:var(--sub); padding:6px 0 6px 17px; position:relative; line-height:1.5;}
+  .stage li:before{ content:"·"; position:absolute; left:2px; color:var(--ac); font-weight:800; font-size:18px; top:3px;}
+  .mcap{ text-align:center; font-size:var(--fs-small); color:var(--dim); margin-top:13px;}
+
+  /* ===== 高保真手机（真实笔记：MiSans / 浅色 / 键盘已起） ===== */
+  .device{ width:290px; margin:18px auto 0; border-radius:40px; background:#0a0a0c; padding:7px;
+    box-shadow:0 18px 42px rgba(0,0,0,.42); border:1px solid #2c2d32;}
+  .screen{ background:#f3f4f6; border-radius:33px; height:566px; position:relative; overflow:hidden;
+    font-family:"MiSans","MiSans VF","PingFang SC",-apple-system,system-ui,sans-serif; color:#000;}
+  .sbar{ height:38px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 18px 4px 22px;}
+  .sbar .time{ font-size:13.5px; font-weight:700;}
+  .sbar .sys{ display:flex; align-items:center; gap:5px;}
+  .sig{ display:flex; align-items:flex-end; gap:1.6px; height:10px;}
+  .sig i{ width:3px; background:#000; border-radius:1px;}
+  .sig i:nth-child(1){height:4px} .sig i:nth-child(2){height:6px} .sig i:nth-child(3){height:8px} .sig i:nth-child(4){height:10px}
+  .wifi{ width:13px;height:10px; border:2px solid #000; border-bottom:none; border-radius:13px 13px 0 0; position:relative;}
+  .wifi:after{ content:""; position:absolute; width:4px;height:4px;border-radius:50%; background:#000; left:2.5px; top:4.5px;}
+  .batt{ display:flex; align-items:center; gap:3px;}
+  .batt .pct{ font-size:11px; font-weight:700;}
+  .batt .ic{ width:22px;height:11px; border:1.4px solid #000; border-radius:3px; position:relative; padding:1.4px;}
+  .batt .ic:after{ content:""; position:absolute; right:-3px; top:3px; width:2px;height:5px; background:#000; border-radius:0 2px 2px 0;}
+  .batt .ic i{ display:block; height:100%; width:100%; background:#000; border-radius:1px;}
+  .nav{ height:46px; display:flex; align-items:center; justify-content:space-between; padding:0 14px;}
+  .nav .back{ font-size:22px; color:#000; line-height:1;}
+  .nav .nr{ display:flex; align-items:center; gap:18px; font-size:18px; color:#000;}
+  .nav .nr .dim{ color:rgba(0,0,0,.26);}
+  .note{ padding:2px 22px 0;}
+  .note .ntitle{ font-size:21px; font-weight:700; color:rgba(0,0,0,.32);}
+  .note .nmeta{ font-size:11px; color:rgba(0,0,0,.4); margin:8px 0 14px;}
+  .note .nbody{ font-size:14px; color:rgba(0,0,0,.82); line-height:1.95;}
+  .note .nbody .cur{ display:inline-block; width:1.8px; height:15px; background:var(--note-blue); vertical-align:-3px; animation:bl 1s steps(1) infinite;}
+  @keyframes bl{50%{opacity:0}}
+  .note .nbody .guide{ color:rgba(0,0,0,.34);}
+  .voicepill{ display:inline-flex; align-items:center; gap:4px; background:rgba(53,207,149,.14); color:#0a8f60; border:1px solid rgba(15,180,120,.34); border-radius:14px; padding:3px 9px; font-size:12.5px; vertical-align:middle;}
+  .voicepill svg{ width:12px;height:12px; fill:#0a8f60;}
+  .note .nbody .hl{ background:#cfe0ff; box-shadow:0 0 0 2px #cfe0ff; border-radius:2px;}
+  /* 工具条（键盘上方）+ 浮在其上的动态 chips */
+  .aibar{ position:absolute; left:0; right:0; bottom:186px; padding:10px 0 4px;}
+  .chiprow{ display:flex; gap:7px; padding:0 16px 10px;}
+  .chip2{ display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:600; padding:7px 11px; border-radius:16px; background:#fff; border:1px solid rgba(0,0,0,.1); color:rgba(0,0,0,.78); white-space:nowrap; box-shadow:0 2px 8px rgba(0,0,0,.07);}
+  .chip2.lead{ background:rgba(15,180,120,.12); color:#0a8f60; border-color:rgba(15,180,120,.34);}
+  .chip2 .gd{ width:6px;height:6px;border-radius:50%;background:#0fb478;}
+  .tbar{ margin:0 14px; height:50px; background:#fff; border-radius:25px; display:flex; align-items:center; justify-content:space-around; padding:0 12px; box-shadow:0 2px 12px rgba(0,0,0,.1); border:1px solid rgba(0,0,0,.05);}
+  .tbar .ti{ width:26px;height:26px; display:flex; align-items:center; justify-content:center; color:rgba(0,0,0,.62);}
+  .tbar .ti svg{ width:21px;height:21px; fill:currentColor;}
+  .tbar .ti.ai{ color:#0fb478;}
+  .tbar .ti .wv{ display:flex; align-items:center; gap:1.6px;}
+  .tbar .ti .wv i{ width:2px; background:currentColor; border-radius:1px;}
+  .tbar .ti .wv i:nth-child(1){height:7px}.tbar .ti .wv i:nth-child(2){height:13px}.tbar .ti .wv i:nth-child(3){height:9px}.tbar .ti .wv i:nth-child(4){height:15px}.tbar .ti .wv i:nth-child(5){height:6px}
+  .tbar .ti .tt{ font-size:18px; font-weight:700;}
+  /* 键盘 */
+  .kbd{ position:absolute; left:0; right:0; bottom:0; background:#d4d7dd; padding:5px 3px 7px;}
+  .kfn{ display:flex; align-items:center; gap:18px; padding:3px 16px 7px; color:rgba(0,0,0,.5); font-size:15px;}
+  .kfn .grow{ flex:1;}
+  .krow{ display:flex; justify-content:center; gap:4px; margin-bottom:6px; padding:0 4px;}
+  .krow.r2{ padding:0 14px;}
+  .key{ background:#fff; border-radius:5px; height:30px; flex:1; max-width:24px; display:flex; align-items:center; justify-content:center; font-size:12.5px; font-weight:500; color:#111; box-shadow:0 1px 1.5px rgba(0,0,0,.2);}
+  .key.wide{ max-width:34px; background:#abb0ba; color:#1a1a1a; font-size:11px; flex:1.4;}
+  .krow.r4 .key{ max-width:none; font-size:11.5px; flex:1;}
+  .key.spc{ flex:5;}
+  .key.go{ background:var(--note-blue); color:#fff; flex:1.7; font-weight:600;}
+
+  /* 例子卡（05） */
+  .examples{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:8px;}
+  .exc{ background:var(--panel); border:1px solid var(--line); border-radius:16px; overflow:hidden;}
+  .exc .step{ padding:18px 22px; border-bottom:1px solid var(--line);}
+  .exc .step .lab{ font-size:var(--fs-tiny); font-weight:800; letter-spacing:1px; margin-bottom:10px; display:flex; align-items:center; gap:7px; color:var(--dim);}
+  .exc .step .lab .n{ width:18px;height:18px;border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:10px; font-weight:800; background:var(--ac-b); color:var(--ac);}
+  .mini{ background:#fff; border-radius:12px; padding:14px 15px; border:1px solid rgba(0,0,0,.06); font-family:"MiSans","PingFang SC",sans-serif;}
+  .mini .mt{ font-size:13.5px; font-weight:700; color:#111; margin-bottom:7px;}
+  .mini .mb{ font-size:12.5px; color:rgba(0,0,0,.78); line-height:1.75;}
+  .mini .mb .cur{ display:inline-block; width:2px;height:13px; background:var(--note-blue); vertical-align:-2px; margin-left:1px;}
+  .mini .mb.gray{ color:rgba(0,0,0,.4);}
+  .exc .recog{ font-size:var(--fs-body); color:var(--warn); font-weight:600;}
+  .exc .recog b{ color:#fff; font-weight:800;}
+  .exc .bar{ display:flex; gap:7px; flex-wrap:wrap;}
+  .exc .bc{ font-size:var(--fs-tiny); padding:7px 12px; border-radius:16px; font-weight:700;}
+  .exc .bc.main{ background:var(--ac-b); color:var(--ac); border:1px solid var(--ac-l);}
+  .exc .bc.sub{ background:rgba(255,255,255,.05); color:var(--sub); border:1px solid var(--line);}
+  .exc .result{ padding:15px 22px; background:var(--panel2); font-size:var(--fs-small); color:var(--sub); line-height:1.6;}
+  .exc .result b{ color:var(--ac); font-weight:700;}
+
+  .note-s{ font-size:var(--fs-small); color:var(--dim); margin-top:18px; padding:14px 18px; background:var(--panel); border-radius:10px; border:1px solid var(--line); line-height:1.6;}
+  .note-s b{ color:var(--sub);}
+  .footer{ margin-top:94px; padding-top:30px; border-top:1px solid var(--line); font-size:var(--fs-small); color:var(--dim); text-align:center; letter-spacing:.5px;}
+
+  /* 06 两张卡的语义色（仅此处） */
+  .card.neg{ border-left:3px solid var(--neg);}
+  .card.neg .tag{ color:var(--neg);}
+  .card.warn{ border-left:3px solid var(--warn);}
+  .card.warn .tag{ color:var(--warn);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="cover">
+    <div class="kicker">笔记 · OS4</div>
+    <h1>空白笔记 <span class="hl">0→1 生成引导</span> 方案</h1>
+    <p class="lead">用户打开一篇空白文字笔记，怎么最快把想记的东西变成一篇能用的笔记。<b>不先解决"第一篇内容怎么写出来"，后面的 PPT、深度研究、网页都没有内容可用。</b>本方案从文字笔记用户的真实场景出发，说清楚空白笔记该提供哪些帮助。</p>
+    <div class="meta">
+      <div class="m"><b>聚焦</b>文字笔记 / 不用语音的用户</div>
+      <div class="m"><b>主线</b>先讲用法和需求，再讲做法</div>
+      <div class="m"><b>不涉及</b>二次消费 · 笔记分类整理</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sechead"><div class="secnum">00</div><div><div class="sectitle">核心判断</div><div class="secsub">空白笔记的根本问题不在交互，而在它有没有帮用户"开始"</div></div></div>
+    <div class="divider"></div>
+    <div class="callout">空白笔记不该是一块空板子。<b>用户写到哪，AI 就在那一步帮一下，不用切到别的页面。</b></div>
+    <div class="grid3">
+      <div class="card"><span class="tag">现状问题</span><h4>AI 都藏在二级页</h4><p>想用 AI 得先点小星星、进对话框。<b>只打字、不用语音的用户，打开空白笔记几乎碰不到 AI。</b></p></div>
+      <div class="card"><span class="tag">机会</span><h4>边写边帮</h4><p>用户在空白笔记里一直在打字。<b>把帮助放在他正在写的地方</b>，而不是让他先学会去哪儿点。</p></div>
+      <div class="card"><span class="tag">做法</span><h4>顺着内容给</h4><p>在当前页面，<b>根据用户已经写的内容直接给建议</b>，点一下就用上。用户写什么，就给什么。</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sechead"><div class="secnum">01</div><div><div class="sectitle">要解决的问题</div><div class="secsub">先把问题和边界划清楚，避免讨论又滑到交互细节上</div></div></div>
+    <div class="divider"></div>
+    <div class="callout">一句话：<b>用户进到一篇空白文字笔记，怎么不用切页面，就把脑子里、或已经写的东西，最快变成一篇能用的笔记。</b></div>
+    <div class="isnot">
+      <div class="col is"><h5>本方案要解决</h5>
+        <li>第一篇内容怎么写出来（0→1）</li>
+        <li>只打字、不用语音的用户没享受到 AI</li>
+        <li>就在当前页、顺着已写内容给的建议</li>
+        <li>工具条跟着用户正在写的东西走</li>
+      </div>
+      <div class="col not"><h5>本方案不解决</h5>
+        <li>交互细节、按钮怎么摆</li>
+        <li>二次消费（PPT / 研究 / 网页）</li>
+        <li>笔记 / 资料怎么分类</li>
+        <li>把帮助继续堆在二级页</li>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sechead"><div class="secnum">02</div><div><div class="sectitle">文字笔记用户场景细拆</div><div class="secsub">谁在用文字笔记、为什么不用语音、他们在空白笔记里到底干什么——用具体的人说具体的话</div></div></div>
+    <div class="divider"></div>
+    <div class="callout">先回答一个问题：<b>这些人为什么不用语音笔记？</b>　要么场合不方便出声（开会、地铁、深夜），要么内容太短不值得说，要么本来就习惯边想边打字。<b>这群人正是现在被冷落的。</b></div>
+
+    <div class="scene">
+      <div class="top"><span class="who">林姐</span><span class="label">临时速记</span><span class="role">38岁 · 行政 · 怕忘事</span></div>
+      <div class="quote">"停车 B2-37 靠电梯"　"下午3点 张总 会议室"　"娃要交：户口本复印件 + 2寸照2张"</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下</span><span class="v">脑子里一条具体信息，怕忘，<b>越快记下越好</b></span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">记完就躺在列表里，"3点会议"也不会变提醒</span></div>
+        <div class="row"><span class="k">想要</span><span class="v want">别打扰我。能认出时间/地点顺手给个动作更好</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai">克制：认出时间/地址给个轻动作，<b>不弹生成建议</b></span></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <div class="top"><span class="who">小王</span><span class="label">记灵感</span><span class="role">26岁 · 新媒体运营 · 想法多</span></div>
+      <div class="quote">"选题想法：直播间的信任是怎么建立的"</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下</span><span class="v">冒出一句话先记下，<b>没想清楚、没展开</b></span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">三个月后再看还是这一句话，没下文</span></div>
+        <div class="row"><span class="k">想要</span><span class="v want">帮我把这想法展开成能用的东西</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai">给：<b>扩写成段 · 发散3个角度 · 帮我追问</b></span></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <div class="top"><span class="who">陈老师</span><span class="label">列提纲</span><span class="role">34岁 · 中学老师</span></div>
+      <div class="quote">"家长会要讲：1. 这次成绩　2. 纪律问题　3. 暑假安排"</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下</span><span class="v">列出了<b>骨架</b>，但只有骨架</span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">每条要自己填成整段话，这段最费劲</span></div>
+        <div class="row"><span class="k">想要</span><span class="v want">帮我把每条填成讲稿 / 补上漏的点</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai">认出提纲→<b>逐条扩写 · 补全遗漏 · 列成表格</b></span></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <div class="top"><span class="who">大磊</span><span class="label">临时写正式稿</span><span class="role">31岁 · 项目经理 · 常被叫上台</span></div>
+      <div class="quote">"给新人答辩写个3分钟开场白"　/　"写一段项目结项总结"</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下</span><span class="v">知道要写啥，但<b>不知怎么起笔</b>，最耗时</span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">从0到第一句话门槛最高，只能硬憋</span></div>
+        <div class="row"><span class="k">想要</span><span class="v want">你先给我一版，我在你的基础上改</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai">一句话主题→<b>直接写一篇 · 先给大纲再写</b></span></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <div class="top"><span class="who">阿哲</span><span class="label">把脑子里的事倒出来</span><span class="role">29岁 · 开发 · 习惯边想边打</span></div>
+      <div class="quote">"刚开完会，下季度要把内容生成入口前置，重点是空白笔记引导，还有播客那块要排期……"</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下</span><span class="v"><b>边想边打字</b>，先把流水账倒出来</span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">倒完一堆口语，还要自己理成条理</span></div>
+        <div class="row"><span class="k">想要</span><span class="v want">让我一直说、字就一直出，说完帮我理顺</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai"><b>边说边出字</b> + 一键整理成条理</span></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <div class="top"><span class="who">小悠</span><span class="label">收集外部资料</span><span class="role">20岁 · 大学生 · 备考</span></div>
+      <div class="quote">（粘贴了一大段课本原文 / 网上摘抄的资料）</div>
+      <div class="rows">
+        <div class="row"><span class="k">当下</span><span class="v">把一大段内容<b>贴进来</b>，原始没加工</span></div>
+        <div class="row"><span class="k">痛点</span><span class="v pain">一大段读不进去，要自己划重点</span></div>
+        <div class="row"><span class="k">想要</span><span class="v want">帮我总结 / 划重点 / 转成能背的题</span></div>
+        <div class="row"><span class="k">AI 该做</span><span class="v ai">认出长文→<b>总结 · 划重点 · 转问答/表格</b></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sechead"><div class="secnum">03</div><div><div class="sectitle">从场景提炼规律</div><div class="secsub">六个人看着在做不同的事，本质区别只有一个——进到空白笔记时，手上已经有多少东西</div></div></div>
+    <div class="divider"></div>
+    <div class="callout">不按"用户是谁"分，按 <b>进来时手上有多少东西</b> 分。<b>同一个人不同时刻也不一样</b>：林姐速记时手上是空的，小王记完想法手上是半句话，大磊想写稿手上是一个题目。</div>
+    <div class="states">
+      <div class="statec">
+        <div class="sh"><span class="sno">情况一</span><h4>空着，什么都没写</h4></div>
+        <div class="desc">打开一篇空笔记，想记点什么，但<b>不知道从哪开始</b>。这是每个人进来的第一秒。</div>
+        <div class="ppl">代表：<b>林姐</b>刚点开 · <b>大磊</b>面对空白那一刻</div>
+        <div class="act">AI 该帮 → <b>给个开头</b>：给几个起手式，或让他直接开口说</div>
+      </div>
+      <div class="statec">
+        <div class="sh"><span class="sno">情况二</span><h4>只有一句话主题</h4></div>
+        <div class="desc">心里有个明确题目，但<b>正文还没写</b>。把这句话给 AI，就能要到一整篇。</div>
+        <div class="ppl">代表：<b>大磊</b>"写个开场白" · <b>小王</b>把想法说成一句</div>
+        <div class="act">AI 该帮 → <b>直接写一篇</b>：一句话出整篇，或先给大纲</div>
+      </div>
+      <div class="statec">
+        <div class="sh"><span class="sno">情况三</span><h4>写了一半</h4></div>
+        <div class="desc">已经写了些东西——一句灵感、几条提纲、一段流水账，<b>差的是"接着往下"和"理顺"</b>。这一档最高频。</div>
+        <div class="ppl">代表：<b>小王</b>的灵感 · <b>陈老师</b>的提纲 · <b>阿哲</b>的流水账</div>
+        <div class="act">AI 该帮 → <b>接着往下写</b>：顺着已写的扩写 / 补全 / 理顺</div>
+      </div>
+      <div class="statec">
+        <div class="sh"><span class="sno">情况四</span><h4>贴了一大段</h4></div>
+        <div class="desc">把外部一大段内容贴了进来，<b>原始、读不进去</b>，要 AI 帮忙提炼或换个形式。</div>
+        <div class="ppl">代表：<b>小悠</b>粘贴课本 / 摘抄资料</div>
+        <div class="act">AI 该帮 → <b>帮你提炼</b>：总结 / 划重点 / 转问答 / 转表格</div>
+      </div>
+    </div>
+    <div class="note-s"><b>一个例外要单独对待：</b>像林姐那样的极短速记，要的就是快——AI 要克制，只在认出电话/地址/时间时给个轻动作，<b>别弹生成建议去打扰她</b>。</div>
+  </div>
+
+  <div class="section">
+    <div class="sechead"><div class="secnum">04</div><div><div class="sectitle">解法 · AI 在三个时刻帮你</div><div class="secsub">写一篇笔记是有过程的：从空着，到写一点，到一段成形。AI 就在这三个时刻分别帮一下，全程不用切页面</div></div></div>
+    <div class="divider"></div>
+    <div class="flow">
+
+      <div class="stage">
+        <div class="sbody">
+          <span class="badge">① 帮你开始</span>
+          <h4>不让用户对着空板子</h4>
+          <div class="ans">还没写的时候</div>
+          <ul>
+            <li>空页面中间给一句引导，不再一片空白</li>
+            <li>给几个起手式：写一段 / 列清单 / 记要点</li>
+            <li>语音做成最显眼的入口，进来就能说</li>
+          </ul>
+        </div>
+        <div class="device"><div class="screen">
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+          <div class="note">
+            <div class="ntitle">未命名笔记</div>
+            <div class="nmeta">2026年4月20日 10:29　｜　0 字</div>
+            <div class="nbody"><span class="cur"></span><span class="guide">开始书写，或 </span><span class="voicepill"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 11h-2z"/></svg>说出你的想法</span></div>
+          </div>
+          <div class="aibar">
+            <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>写一段</span><span class="chip2">列清单</span><span class="chip2">记要点</span></div>
+            <div class="tbar">
+              <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
+              <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24" fill-rule="evenodd"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg></span>
+              <span class="ti"><span class="tt">T</span></span>
+            </div>
+          </div>
+          <div class="kbd">
+            <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
+            <div class="krow"><span class="key">Q</span><span class="key">W</span><span class="key">E</span><span class="key">R</span><span class="key">T</span><span class="key">Y</span><span class="key">U</span><span class="key">I</span><span class="key">O</span><span class="key">P</span></div>
+            <div class="krow r2"><span class="key">A</span><span class="key">S</span><span class="key">D</span><span class="key">F</span><span class="key">G</span><span class="key">H</span><span class="key">J</span><span class="key">K</span><span class="key">L</span></div>
+            <div class="krow"><span class="key wide">分词</span><span class="key">Z</span><span class="key">X</span><span class="key">C</span><span class="key">V</span><span class="key">B</span><span class="key">N</span><span class="key">M</span><span class="key wide">⌫</span></div>
+            <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
+          </div>
+        </div></div>
+        <div class="mcap">空页面：一句引导 + 起手式 + 语音入口</div>
+      </div>
+
+      <div class="stage">
+        <div class="sbody">
+          <span class="badge">② 帮你写下去 · 核心</span>
+          <h4>顺着你写的接着给</h4>
+          <div class="ans">已经写了一点的时候</div>
+          <ul>
+            <li>工具条看你写了什么，给对应的下一步</li>
+            <li>提纲就补全、灵感就扩写、流水账就理顺</li>
+            <li>就在当前页出现，点一下继续</li>
+          </ul>
+        </div>
+        <div class="device"><div class="screen">
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+          <div class="note">
+            <div class="ntitle" style="color:#111">家长会发言</div>
+            <div class="nmeta">今天 14:30　｜　21 字</div>
+            <div class="nbody">1. 这次成绩<br>2. 纪律问题<br>3. 暑假安排<span class="cur"></span></div>
+          </div>
+          <div class="aibar">
+            <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>逐条扩写</span><span class="chip2">补全遗漏</span><span class="chip2">列成表格</span></div>
+            <div class="tbar">
+              <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
+              <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24" fill-rule="evenodd"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg></span>
+              <span class="ti"><span class="tt">T</span></span>
+            </div>
+          </div>
+          <div class="kbd">
+            <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
+            <div class="krow"><span class="key">Q</span><span class="key">W</span><span class="key">E</span><span class="key">R</span><span class="key">T</span><span class="key">Y</span><span class="key">U</span><span class="key">I</span><span class="key">O</span><span class="key">P</span></div>
+            <div class="krow r2"><span class="key">A</span><span class="key">S</span><span class="key">D</span><span class="key">F</span><span class="key">G</span><span class="key">H</span><span class="key">J</span><span class="key">K</span><span class="key">L</span></div>
+            <div class="krow"><span class="key wide">分词</span><span class="key">Z</span><span class="key">X</span><span class="key">C</span><span class="key">V</span><span class="key">B</span><span class="key">N</span><span class="key">M</span><span class="key wide">⌫</span></div>
+            <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
+          </div>
+        </div></div>
+        <div class="mcap">看出"这是提纲"，工具条跟着变</div>
+      </div>
+
+      <div class="stage">
+        <div class="sbody">
+          <span class="badge">③ 帮你加工</span>
+          <h4>已有内容再处理</h4>
+          <div class="ans">已经有一段内容的时候</div>
+          <ul>
+            <li>选中一段或全文，总结 / 重写 / 换格式</li>
+            <li>把一篇内容变成它最后要用的样子</li>
+            <li>比如研究稿 → 大纲 → PPT 的下一步</li>
+          </ul>
+        </div>
+        <div class="device"><div class="screen">
+          <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+          <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+          <div class="note">
+            <div class="ntitle" style="color:#111">市场营销 第3讲</div>
+            <div class="nmeta">昨天　｜　录音转写</div>
+            <div class="nbody">消费者决策一般分五个阶段：<span class="hl">需求确认、信息搜集、方案评估、购买决策、购后行为</span>，每个阶段商家的切入点都不一样……</div>
+          </div>
+          <div class="aibar">
+            <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>总结</span><span class="chip2">划重点</span><span class="chip2">转问答</span></div>
+            <div class="tbar">
+              <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
+              <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z"/></svg></span>
+              <span class="ti"><svg viewBox="0 0 24 24" fill-rule="evenodd"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg></span>
+              <span class="ti"><span class="tt">T</span></span>
+            </div>
+          </div>
+          <div class="kbd">
+            <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
+            <div class="krow"><span class="key">Q</span><span class="key">W</span><span class="key">E</span><span class="key">R</span><span class="key">T</span><span class="key">Y</span><span class="key">U</span><span class="key">I</span><span class="key">O</span><span class="key">P</span></div>
+            <div class="krow r2"><span class="key">A</span><span class="key">S</span><span class="key">D</span><span class="key">F</span><span class="key">G</span><span class="key">H</span><span class="key">J</span><span class="key">K</span><span class="key">L</span></div>
+            <div class="krow"><span class="key wide">分词</span><span class="key">Z</span><span class="key">X</span><span class="key">C</span><span class="key">V</span><span class="key">B</span><span class="key">N</span><span class="key">M</span><span class="key wide">⌫</span></div>
+            <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
+          </div>
+        </div></div>
+        <div class="mcap">选中就加工：总结 / 划重点 / 换格式</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sechead"><div class="secnum">05</div><div><div class="sectitle">核心 · 把"帮你写下去"讲透</div><div class="secsub">三个时刻里，这一个最高频、最该做好。它的关键只有一句话——</div></div></div>
+    <div class="divider"></div>
+    <div class="callout"><b>工具条不是固定的几个按钮。它看你写了什么，就给对应的下一步。</b></div>
+    <p style="color:var(--sub); font-size:var(--fs-body); margin:20px 0 22px; line-height:1.75;">同一个工具条，面对不同的输入，给的建议完全不同。看三个例子就懂了：</p>
+    <div class="examples">
+      <div class="exc">
+        <div class="step"><div class="lab"><span class="n">1</span>用户写下</div>
+          <div class="mini"><div class="mt">家长会发言</div><div class="mb">1. 这次成绩<br>2. 纪律问题<br>3. 暑假安排<span class="cur"></span></div></div>
+        </div>
+        <div class="step"><div class="lab"><span class="n">2</span>工具条看出</div><div class="recog">这是一份 <b>提纲</b>，只有骨架没正文</div></div>
+        <div class="step"><div class="lab"><span class="n">3</span>于是给出</div><div class="bar"><span class="bc main">逐条扩写</span><span class="bc sub">补全遗漏</span><span class="bc sub">列成表格</span></div></div>
+        <div class="result">点"逐条扩写"，<b>三条骨架就地变成完整讲稿</b></div>
+      </div>
+      <div class="exc">
+        <div class="step"><div class="lab"><span class="n">1</span>用户写下</div>
+          <div class="mini"><div class="mt">选题想法</div><div class="mb">直播间的信任是怎么建立的<span class="cur"></span></div></div>
+        </div>
+        <div class="step"><div class="lab"><span class="n">2</span>工具条看出</div><div class="recog">这是一条 <b>灵感</b>，一句话没展开</div></div>
+        <div class="step"><div class="lab"><span class="n">3</span>于是给出</div><div class="bar"><span class="bc main">扩写成段</span><span class="bc sub">发散3个角度</span><span class="bc sub">帮我追问</span></div></div>
+        <div class="result">点"发散3个角度"，<b>一句话变成几条能写的方向</b></div>
+      </div>
+      <div class="exc">
+        <div class="step"><div class="lab"><span class="n">1</span>用户写下</div>
+          <div class="mini"><div class="mt">复习资料</div><div class="mb gray">（粘贴了一大段课本原文……）</div></div>
+        </div>
+        <div class="step"><div class="lab"><span class="n">2</span>工具条看出</div><div class="recog">这是 <b>粘贴的长文</b>，原始没加工</div></div>
+        <div class="step"><div class="lab"><span class="n">3</span>于是给出</div><div class="bar"><span class="bc main">总结</span><span class="bc sub">划重点</span><span class="bc sub">转问答卡片</span></div></div>
+        <div class="result">点"转问答卡片"，<b>一大段课文变成能背的题</b></div>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:26px;">工具条始终跟着你正在写的东西变——<b>这样空白笔记才真正帮到了只打字的用户。</b></div>
+    <div class="note-s"><b>说明：</b>这里说的"工具条建议"是帮你<b>写内容</b>（扩写 / 续写 / 整理），和笔记列表里按类型筛选（录音 / 文档 / AI生成）是两回事，别混。</div>
+  </div>
+
+  <div class="section">
+    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">内容来源 · 用什么写　<span style="font-size:12.5px;font-weight:700;color:var(--warn);background:var(--warn-b);border:1px solid var(--warn-l);padding:3px 10px;border-radius:7px;vertical-align:middle;margin-left:8px;">后续版本 · 近期不改</span></div><div class="secsub">前面几节讲的都是"怎么写"。还有一根轴——AI 帮你写时，素材从哪来。把这两件事拆开看，方案才完整</div></div></div>
+    <div class="divider"></div>
+    <div class="callout">完整的辅助创作 = <b>怎么写（交互）× 用什么写（来源）</b>。前面把"当场输入"这一列做满了，这一节补上另一列——<b>笔记里已经沉淀的资料和记忆。</b></div>
+
+    <table>
+      <tr><th style="width:130px">　</th><th>当场输入　<span style="color:var(--ac);">本期已规划</span></th><th>已有积累 · 资料库 / 记忆　<span style="color:var(--warn);">后续版本</span></th></tr>
+      <tr><td><b>帮你开始</b></td><td>给起手式、让你开口说</td><td>翻出相关旧笔记，直接给你一个起点</td></tr>
+      <tr><td><b>帮你写下去</b></td><td>顺着你写的扩写 / 补全</td><td>把你笔记里的资料，写进当前内容</td></tr>
+      <tr><td><b>帮你加工</b></td><td>选中后总结 / 换格式</td><td>结合历史内容做对照、补充</td></tr>
+    </table>
+
+    <div class="grid3" style="margin-top:22px;">
+      <div class="card"><span class="tag">素材从哪来</span><h4>笔记里的积累</h4><p>录音纪要、导入的 PDF、生成的播客、历史笔记、迁入的小爱记忆——<b>这些都是创作素材。</b></p></div>
+      <div class="card"><span class="tag">价值</span><h4>写的是"你的"</h4><p>打"写个 Q3 总结"，AI 调出你那场项目会纪要、那份周报，<b>写出基于你真实积累的内容，不是通用模板。</b></p></div>
+      <div class="card"><span class="tag">差异点</span><h4>豆包没有，笔记有</h4><p>通用 AI 没有你的私人积累。<b>记得越多，越离不开</b>——这是笔记的护城河。</p></div>
+    </div>
+
+    <div class="device" style="margin-top:28px"><div class="screen">
+      <div class="sbar"><span class="time">9:41</span><span class="sys"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="batt"><span class="pct">100</span><span class="ic"><i></i></span></span></span></div>
+      <div class="nav"><span class="back">‹</span><span class="nr"><span class="dim">↶</span><span class="dim">↷</span><span>✓</span></span></div>
+      <div class="note">
+        <div class="ntitle" style="color:#111">Q3 项目总结</div>
+        <div class="nmeta">今天 16:20　｜　12 字</div>
+        <div class="nbody">帮我写一份 Q3 项目总结<span class="cur"></span>
+          <div style="margin-top:13px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:11px 13px;box-shadow:0 2px 8px rgba(0,0,0,.05);">
+            <div style="font-size:11px;color:#0a8f60;font-weight:700;margin-bottom:8px;">✨ 已从你的笔记里找到 3 条相关</div>
+            <div style="font-size:12px;color:rgba(0,0,0,.72);line-height:2;">📄 Q2–Q3 周报.pdf<br>🎙 9/12 项目评审会 · 录音纪要<br>📝 项目复盘笔记</div>
+          </div>
+        </div>
+      </div>
+      <div class="aibar">
+        <div class="chiprow"><span class="chip2 lead"><span class="gd"></span>用我的笔记写</span><span class="chip2">只用我打的字</span></div>
+        <div class="tbar">
+          <span class="ti ai"><svg viewBox="0 0 24 24"><path d="M12 2l1.7 5.1c.2.6.6 1 1.2 1.2L20 10l-5.1 1.7c-.6.2-1 .6-1.2 1.2L12 18l-1.7-5.1c-.2-.6-.6-1-1.2-1.2L4 10l5.1-1.7c.6-.2 1-.6 1.2-1.2z"/></svg></span>
+          <span class="ti"><span class="wv"><i></i><i></i><i></i><i></i><i></i></span></span>
+          <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>
+          <span class="ti"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z"/></svg></span>
+          <span class="ti"><svg viewBox="0 0 24 24" fill-rule="evenodd"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg></span>
+          <span class="ti"><span class="tt">T</span></span>
+        </div>
+      </div>
+      <div class="kbd">
+        <div class="kfn"><span>⊞</span><span>⌨</span><span>☺</span><span class="grow"></span><span>🎙</span><span>⌄</span></div>
+        <div class="krow"><span class="key">Q</span><span class="key">W</span><span class="key">E</span><span class="key">R</span><span class="key">T</span><span class="key">Y</span><span class="key">U</span><span class="key">I</span><span class="key">O</span><span class="key">P</span></div>
+        <div class="krow r2"><span class="key">A</span><span class="key">S</span><span class="key">D</span><span class="key">F</span><span class="key">G</span><span class="key">H</span><span class="key">J</span><span class="key">K</span><span class="key">L</span></div>
+        <div class="krow"><span class="key wide">分词</span><span class="key">Z</span><span class="key">X</span><span class="key">C</span><span class="key">V</span><span class="key">B</span><span class="key">N</span><span class="key">M</span><span class="key wide">⌫</span></div>
+        <div class="krow r4"><span class="key">符</span><span class="key">123</span><span class="key">，</span><span class="key spc"></span><span class="key">。</span><span class="key">中英</span><span class="key go">搜索</span></div>
+      </div>
+    </div></div>
+    <div class="mcap">AI 自动找出相关积累，基于你真实的事来写（chips 可切"用我的笔记写 / 只用我打的字"）</div>
+
+    <div class="callout" style="margin-top:26px;">这条线顺带解决两件老问题：<b>① 为什么把记忆 / 播客 / PDF 全存进笔记——它们是创作的素材池；② 为什么不用纠结分类——素材是给 AI 检索用的，不靠用户手动整理。</b></div>
+    <div class="note-s"><b>想清楚再说：</b>① 素材是用户主动 @，还是 AI 自动检索？自动检索"错了比不给更糟"　·　② 翻整个笔记库还是只翻相关范围？隐私与性能　·　③ "对创作有用就存、且不分类"能否作为存入策略的统一锚点，与记忆迁入对齐</div>
+  </div>
+
+  <div class="section">
+    <div class="sechead"><div class="secnum">07</div><div><div class="sectitle">边界与待讨论</div><div class="secsub">明确不做的，和需要进一步对齐的问题</div></div></div>
+    <div class="divider"></div>
+    <div class="grid2">
+      <div class="card neg">
+        <span class="tag">明确不做</span>
+        <p>✕ 笔记 / 资料自动分类（边界模糊，不在本方案）<br>✕ 给速记硬塞生成建议，要克制<br>✕ 把帮助继续藏在二级页<br>✕ 拿老用户的旧习惯当未来的设计前提</p>
+      </div>
+      <div class="card warn">
+        <span class="tag">待讨论</span>
+        <p>· 工具条建议是一直显示，还是用户唤起？<br>· 边说边出字的延迟和功耗代价多大？<br>· 看出"写的是什么"的准确率底线（错了比不给更糟）<br>· 起手式放几个、怎么排</p>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:30px"><b>进来有引导、写着有建议、说着能成文——只打字的用户，也能用上 AI。</b></div>
+  </div>
+
+  <div class="footer">笔记 OS4 ｜ 空白笔记 0→1 生成引导方案 ｜ 内部讨论稿 · 2026-06</div>
+</div>
+</body>
+</html>
