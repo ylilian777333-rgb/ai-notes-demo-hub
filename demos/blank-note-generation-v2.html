@@ -546,7 +546,7 @@
   </div>
 
   <div class="section">
-    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">内容来源 · 用你存过的，帮你写好这一篇</div><div class="secsub">前面 chips 用的是你"当场写的"；这一节——同一套 chips，素材换个来源：你笔记里"存过的"</div></div></div>
+    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">内容来源 · 用你存过的，帮你写好这一篇</div><div class="secsub">把这篇写好，AI 不只用你当场打的字，还会调用你整个笔记库里存过的内容</div></div></div>
     <div class="divider"></div>
     <div class="callout">把一篇写好，光靠当场打的字不够，还得用上你<b>存过的</b>东西。<b>同一套 chips、同一个动作——AI 写的时候除了你刚写的，还会调你笔记里相关的内容。你的笔记是别人复制不了的私人资料库，记的越多，写得越像你，你越离不开。</b></div>
 
@@ -559,6 +559,17 @@
 
     <div class="subhead2"><span class="dot"></span>本质 · 这两种方式，都是在检索你的笔记库</div>
     <div class="callout">说到底就一件事——<b>写的时候，AI 从你整个笔记库里检索相关内容拿来用，不靠你手动整理、也不用你指定看哪一篇。</b>存进来就建好索引，写的时候按相关性召回，连同你刚写的一起生成。</div>
+
+    <div class="subhead2" style="margin-top:30px;"><span class="dot"></span>相关性怎么算 · 背后有完整逻辑，不是随便引</div>
+    <div class="callout"><b>取这篇笔记开头约 500 字（≤512 token）当查询，AI 搜索做"主题层面的语义相似度"匹配，返回候选笔记 + 相关性分数，按分数排序取用。</b>复用现有 AI 搜索能力，不是新造一套。</div>
+    <table class="matrix">
+      <tr><th>相关性分数</th><th>怎么处理</th></tr>
+      <tr><td>&gt; 0.9</td><td>确定关联，直接用</td></tr>
+      <tr><td>0.8 – 0.9</td><td>强关联，优先引用</td></tr>
+      <tr><td>0.7 – 0.8</td><td>中等，谨慎参考</td></tr>
+      <tr><td>&lt; 0.7</td><td>不够相关，不推、不打扰</td></tr>
+    </table>
+    <div class="note-s">现在匹配的是<b>主题层面的语义相似度</b>（整篇开头当查询）；<b>人物 / 项目这类细粒度实体关联，是后续大模型层要做的</b>。</div>
     <table class="matrix">
       <tr><th>检索粒度</th><th>现在能做到</th><th>未来要做到</th></tr>
       <tr><td><b>找到哪一级</b></td><td>整篇笔记——这篇相关，就整篇拿来参考、引用</td><td>文件内的某一段：音频某分钟 / PPT 某页 / PDF 某段</td></tr>
