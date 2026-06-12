@@ -550,37 +550,21 @@
     <div class="divider"></div>
     <div class="callout">把一篇写好，光靠当场打的字不够，还得用上你<b>存过的</b>东西。<b>同一套 chips、同一个动作——AI 写的时候除了你刚写的，还会调你笔记里相关的内容。你的笔记是别人复制不了的私人资料库，记的越多，写得越像你，你越离不开。</b></div>
 
-    <div class="subhead2"><span class="dot"></span>底层逻辑 · 内容要先"可参考"，再分两种方式用</div>
-    <div class="callout">AI 读不了音频、读不了 PPT、读不了图片。<b>资料库里的一切，必须先加工成"可检索的文本"，AI 才参考得了。</b>这就是为什么播客 / PPT / PDF 要先加工（转写 / OCR / 解析）、再进库。</div>
-    <table class="matrix">
-      <tr><th>内容</th><th>先加工成什么（才可参考）</th><th>AI 怎么用</th></tr>
-      <tr><td>文字 / 手写</td><td>直接用（手写走 OCR）</td><td>检索片段、引用</td></tr>
-      <tr><td>录音 / 通话</td><td>转写稿 + 摘要</td><td>引用"据某次录音"</td></tr>
-      <tr><td>播客</td><td>转写稿 + 分段摘要</td><td>引用其中某一段</td></tr>
-      <tr><td>PPT</td><td>提取每页标题 / 正文 → 大纲</td><td>参考其结构、要点</td></tr>
-      <tr><td>PDF / 文档</td><td>解析正文 + 分块</td><td>引用页 / 段</td></tr>
-      <tr><td>图片 / 截图</td><td>OCR + 图像理解</td><td>检索提取出的文字</td></tr>
-      <tr><td>小爱记忆</td><td>本就是结构化事实</td><td>当背景注入，不逐条引用</td></tr>
-    </table>
-
-    <div class="subhead2" style="margin-top:30px;"><span class="dot"></span>数据怎么流：把"资料库"做成"可实时检索的库"</div>
-    <div class="callout">加工成文本只是第一步。<b>真正让 AI 能"边写边查你全部笔记"的是这条数据链——存进来就建好索引，写的时候按相关性召回，再连同你刚写的一起交给 AI。</b></div>
-    <div style="display:flex;align-items:stretch;gap:0;margin:18px 0 14px;">
-      <div style="flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:14px 15px;"><div style="font-weight:800;color:var(--ac-t);font-size:13.5px;margin-bottom:6px;">1 入库即加工</div><div style="color:var(--sub);font-size:12.5px;line-height:1.55;">每种内容转成可检索文本（转写 / OCR / 大纲 / 解析）</div></div>
-      <div style="display:flex;align-items:center;color:var(--ac);font-weight:800;font-size:18px;padding:0 9px;">→</div>
-      <div style="flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:14px 15px;"><div style="font-weight:800;color:var(--ac-t);font-size:13.5px;margin-bottom:6px;">2 建语义索引</div><div style="color:var(--sub);font-size:12.5px;line-height:1.55;">让相近意思的内容能被找到，不靠关键词死磕</div></div>
-      <div style="display:flex;align-items:center;color:var(--ac);font-weight:800;font-size:18px;padding:0 9px;">→</div>
-      <div style="flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:14px 15px;"><div style="font-weight:800;color:var(--ac-t);font-size:13.5px;margin-bottom:6px;">3 按需召回</div><div style="color:var(--sub);font-size:12.5px;line-height:1.55;">写作时从整个库挑出最相关的几条</div></div>
-      <div style="display:flex;align-items:center;color:var(--ac);font-weight:800;font-size:18px;padding:0 9px;">→</div>
-      <div style="flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:14px 15px;"><div style="font-weight:800;color:var(--ac-t);font-size:13.5px;margin-bottom:6px;">4 注入生成</div><div style="color:var(--sub);font-size:12.5px;line-height:1.55;">召回内容 + 你刚写的，一起交给 AI 写</div></div>
-    </div>
-    <div class="note-s">检索范围 = <b>你的整个笔记库</b>，不用你手动整理——<b>存得越多、召回越准、写出来越像你。这是别人复制不了的护城河。</b></div>
-
-    <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:18px 0 12px;max-width:1010px;">它俩和 chips 什么关系？<b style="color:var(--ac-t)">你点一次 chips（扩写 / 成稿 / 对照），AI 在背后同时走两条路取数据，再合成这一段</b>——你只点一下，两条路一起发生，这是它俩最底层的分界：</p>
+    <div class="subhead2"><span class="dot"></span>核心 · AI 用你的库，分两种方式</div>
+    <div class="callout"><b>写的时候，AI 一边把你库里相关的资料引用进来、标好出处，一边用你的历史和习惯让内容更像你。</b>你点一次 chips（扩写 / 成稿 / 对照），这两条路在背后一起发生——合成出来的，才是"你的"那一篇。</div>
     <div class="grid2">
-      <div class="card"><span class="tag">方式一 · 当资料引用</span><h4>检索片段，标出处</h4><p>文档 / 录音 / 播客 / 网页 / PPT / 图片——AI 检索相关片段<b>引用进来、标来源</b>，能点开核对（本质是 RAG）。</p></div>
-      <div class="card"><span class="tag">方式二 · 当背景知道</span><h4>知道你是谁</h4><p>小爱记忆 / 偏好 / 关键事实——AI 写的时候<b>"知道"这些、让内容更像你</b>，但不逐条标"引用自记忆"。</p></div>
+      <div class="card"><span class="tag">方式一 · 引用你的资料</span><h4>找出来、引进来、标出处</h4><p>相关的文档 / 录音 / 播客 / 网页——AI <b>检索出来、引用进正文、标好来源</b>，你能点开核对（本质是 RAG）。</p></div>
+      <div class="card"><span class="tag">方式二 · 用你的历史</span><h4>知道你是谁</h4><p>小爱记忆 / 偏好 / 过往记录——AI 写的时候<b>带着对你的了解，让内容贴合你</b>，但不逐条标"引用自记忆"。</p></div>
     </div>
+
+    <div class="subhead2"><span class="dot"></span>本质 · 这两种方式，都是在检索你的笔记库</div>
+    <div class="callout">说到底就一件事——<b>写的时候，AI 从你整个笔记库里检索相关内容拿来用，不靠你手动整理、也不用你指定看哪一篇。</b>存进来就建好索引，写的时候按相关性召回，连同你刚写的一起生成。</div>
+    <table class="matrix">
+      <tr><th>检索粒度</th><th>现在能做到</th><th>未来要做到</th></tr>
+      <tr><td><b>找到哪一级</b></td><td>整篇笔记——这篇相关，就整篇拿来参考、引用</td><td>文件内的某一段：音频某分钟 / PPT 某页 / PDF 某段</td></tr>
+      <tr><td><b>靠什么支撑</b></td><td>笔记正文本就是文本，直接可检索</td><td>先把音视频 / 图片 / 文档转成可检索文本（转写 / OCR / 解析）</td></tr>
+    </table>
+    <div class="note-s"><b>说清楚边界：</b>细到"音频第几分钟、PPT 第几页"这种文件内片段级检索，<b>是规划方向，不是现在已经做好的</b>——现在先做到整篇笔记级的检索与引用。<b>检索范围 = 你的整个笔记库，存得越多召回越准、写得越像你。</b></div>
 
     <div class="subhead2"><span class="dot"></span>用户看到什么：取材 → 成文 → 你能核对、能去掉</div>
     <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:8px 0 4px;max-width:1010px;">取材不是新增按钮——它<b style="color:var(--ac-t)">藏在那套随内容变的 chips 里</b>：点「扩写 / 成稿 / 对照」，AI 就顺带从库里取材。下面用最高频的「<b style="color:var(--ac-t)">写了一半 → 扩写</b>」走一遍完整链路：AI 怎么取、你看到什么、你能怎么管。</p>
