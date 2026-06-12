@@ -569,13 +569,13 @@
       <tr><td>0.7 – 0.8</td><td>中等，谨慎参考</td></tr>
       <tr><td>&lt; 0.7</td><td>不够相关，不推、不打扰</td></tr>
     </table>
-    <div class="note-s">现在匹配的是<b>主题层面的语义相似度</b>（整篇开头当查询）；<b>人物 / 项目这类细粒度实体关联，是后续大模型层要做的</b>。</div>
     <table class="matrix">
-      <tr><th>检索粒度</th><th>现在能做到</th><th>未来要做到</th></tr>
+      <tr><th>维度</th><th>现在能做到</th><th>未来要做到</th></tr>
       <tr><td><b>找到哪一级</b></td><td>整篇笔记——这篇相关，就整篇拿来参考、引用</td><td>文件内的某一段：音频某分钟 / PPT 某页 / PDF 某段</td></tr>
+      <tr><td><b>按什么匹配</b></td><td>主题层面的语义相似度</td><td>人物 / 项目等细粒度实体关联（大模型层）</td></tr>
       <tr><td><b>靠什么支撑</b></td><td>笔记正文本就是文本，直接可检索</td><td>先把音视频 / 图片 / 文档转成可检索文本（转写 / OCR / 解析）</td></tr>
     </table>
-    <div class="note-s"><b>说清楚边界：</b>细到"音频第几分钟、PPT 第几页"这种文件内片段级检索，<b>是规划方向，不是现在已经做好的</b>——现在先做到整篇笔记级的检索与引用。<b>检索范围 = 你的整个笔记库，存得越多召回越准、写得越像你。</b></div>
+    <div class="note-s">细到"音频第几分钟、PPT 第几页"、人物 / 项目级的关联，都<b>是规划方向，不是现在已做好的</b>。<b>检索范围 = 你的整个笔记库，存得越多、召回越准、写得越像你。</b></div>
 
     <div class="subhead2"><span class="dot"></span>用户看到什么：取材 → 成文 → 你能核对、能去掉</div>
     <p style="color:var(--sub);font-size:var(--fs-body);line-height:1.75;margin:8px 0 4px;max-width:1010px;">取材不是新增按钮——它<b style="color:var(--ac-t)">藏在那套随内容变的 chips 里</b>：点「扩写 / 成稿 / 对照」，AI 就顺带从库里取材。下面用最高频的「<b style="color:var(--ac-t)">写了一半 → 扩写</b>」走一遍完整链路：AI 怎么取、你看到什么、你能怎么管。</p>
