@@ -40,6 +40,10 @@
   .reqs li:first-child{ border-top:none;}
   .reqs li:before{ content:""; position:absolute; left:2px; top:18px; width:8px; height:8px; border-radius:2px; background:var(--ac);}
   .reqs li b{ color:#fff; font-weight:700;} .reqs li .d{ color:var(--sub);}
+  .bdg{ display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:6px; margin-right:8px; vertical-align:1px; letter-spacing:.5px;}
+  .bdg.has{ background:rgba(255,255,255,.06); color:var(--dim); border:1px solid var(--line);}
+  .bdg.new{ background:var(--ac-b); color:var(--ac); border:1px solid var(--ac-l);}
+  .bdg.gap{ background:rgba(230,160,82,.12); color:var(--warn); border:1px solid var(--warn-l);}
   .matrix{ width:100%; border-collapse:separate; border-spacing:0; margin:12px 0; font-size:var(--fs-body); background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden;}
   .matrix th,.matrix td{ padding:14px 18px; text-align:left; border-bottom:1px solid var(--line); line-height:1.6;}
   .matrix th{ background:var(--panel2); color:var(--sub); font-weight:700; font-size:var(--fs-small);}
@@ -136,7 +140,7 @@
       <div class="fb"><div class="s">03 用得上</div><h4>被调用</h4><p>能搜到、能关联、能拿来写新的</p></div>
       <div class="fb"><div class="s">04 自己长</div><h4>主动服务</h4><p>主动浮现、回顾、越用越懂你</p></div>
     </div>
-    <div class="note-s">前两环解决"有内容"，后两环解决"内容产生价值"。<b>明年的胜负手在"写得出"和"用得上"。</b></div>
+    <div class="note-s">前两环解决"有内容"，后两环解决"内容产生价值"。<b>收集与搜索的底座（多模态导入、录音转写、AI 搜索、资料库）今年已经具备；OS5 的增量集中在写作端（写得出）、复用端（用得上的 RAG / 关联）、和主动服务（自己长）。</b>胜负手在"写得出"和"用得上"。</div>
   </div>
 
   <div class="section">
@@ -144,11 +148,11 @@
     <div class="divider"></div>
     <div class="callout"><b>用户打开空白笔记常常对着白板起不了笔，而 AI 又藏在二级页。</b>这一环把 AI 搬到你正在写的地方——没写帮你开始，写了帮你写下去、改好，全程不切页面。</div>
     <ul class="reqs">
-      <li><b>空页起手式</b>：<span class="d">一句引导 + 起手式（写一段 / 列清单 / 记要点），点一下就开始。</span></li>
-      <li><b>工具条随写随帮</b>：<span class="d">看你写了什么，给扩写、补全、理顺。</span></li>
-      <li><b>一句话成稿</b>：<span class="d">给一句主题，直接生成整篇或先给大纲。</span></li>
-      <li><b>选中即改</b>：<span class="d">选中一段，精简 / 换正式语气 / 总结成一句。</span></li>
-      <li><b>AI 入口前置</b>：<span class="d">AI 能力从二级页显化到编辑页，不用学去哪儿点。</span></li>
+      <li><span class="bdg new">OS5 新做</span><b>空页起手式</b>：<span class="d">一句引导 + 起手式（写一段 / 列清单 / 记要点），点一下就开始。</span></li>
+      <li><span class="bdg new">OS5 新做</span><b>工具条随写随帮</b>：<span class="d">看你写了什么，给扩写、补全、理顺。</span></li>
+      <li><span class="bdg new">OS5 新做</span><b>一句话成稿</b>：<span class="d">给一句主题，直接生成整篇或先给大纲。</span></li>
+      <li><span class="bdg new">OS5 新做</span><b>选中即改</b>：<span class="d">选中一段，精简 / 换正式语气 / 总结成一句。</span></li>
+      <li><span class="bdg new">OS5 新做</span><b>AI 入口前置</b>：<span class="d">AI 能力从二级页显化到编辑页，不用学去哪儿点。</span></li>
     </ul>
     <div class="kfhead">关键帧</div>
     <div class="kf k3">
@@ -181,12 +185,12 @@
   <div class="section">
     <div class="sechead"><div class="secnum">02</div><div><div class="sectitle">收得进 · 全生态内容主动存入 + 进来能用</div><div class="secsub">知识库要先有内容；口径是用户主动存有价值的内容，不是默认全收</div></div></div>
     <div class="divider"></div>
-    <div class="callout"><b>让有价值的内容能一键进到笔记，并且进来就能被 AI 用上。</b>不是把笔记变成大仓库——是用户主动挑高价值的内容存进来，存进来即结构化、可检索。</div>
+    <div class="callout"><b>笔记的收集底座已经具备——多模态导入、录音 / 通话转写、存进来即可检索，都已上线。</b>OS5 这一环只补最后一块：<b>打通文档 / 链接解析</b>，再把"一键存入"扩到全生态。口径不变：用户主动挑高价值的内容存进来，不是默认全收。</div>
     <ul class="reqs">
-      <li><b>一键存入</b>：<span class="d">小爱、其他 App、MCP 产出的内容，判断有价值就一键存进笔记。</span></li>
-      <li><b>多模态导入</b>：<span class="d">截图 / 图片 / PDF / 文档 / 链接 → AI OCR、解析 → 结构化笔记（打通文档、链接解析卡点）。</span></li>
-      <li><b>录音 / 通话转写进笔记</b>：<span class="d">语音内容自动转结构化笔记，跨端录音同步汇入。</span></li>
-      <li><b>进来即可用</b>：<span class="d">转成可检索文本，能被后面的搜索和写作调用，不是堆原始文件。</span></li>
+      <li><span class="bdg gap">补卡点</span><b>打通文档 / 链接解析</b>：<span class="d">图片、录音已能导入；文档、网页链接的解析今年卡在外部能力，OS5 必须打通——多模态导入才算完整。</span></li>
+      <li><span class="bdg new">OS5 扩展</span><b>全生态一键存入</b>：<span class="d">小爱、其他 App、MCP 产出的内容，用户判断有价值就一键存进笔记。</span></li>
+      <li><span class="bdg has">已有</span><b>多模态导入 · 录音 / 通话转写</b>：<span class="d">截图 / 图片 / 音频导入、录音转结构化笔记、跨端录音汇入——已上线。</span></li>
+      <li><span class="bdg has">已有</span><b>进来即可用</b>：<span class="d">存进来转成可检索文本、能被搜索和写作调用，不是堆原始文件——已具备。</span></li>
     </ul>
     <div class="kfhead">关键帧</div>
     <div class="kf k2">
@@ -215,12 +219,12 @@
   <div class="section">
     <div class="sechead"><div class="secnum">03</div><div><div class="sectitle">用得上 · AI 检索 + 资料库联动 + 用你的内容写新的</div><div class="secsub">记得多不算本事，用得上才是——这是知识库区别于仓库的分水岭</div></div></div>
     <div class="divider"></div>
-    <div class="callout"><b>让记进来的东西能被搜到、被关联、被 AI 拿来写下一篇。</b>这一环是今年最大的 gap，也是把"内容"真正变成"价值"的关键。</div>
+    <div class="callout"><b>AI 搜索、资料库联动已是现有底座；OS5 的增量在"写作端"——让你存的内容能被自动关联、被 AI 拿来写新的（RAG）。</b>记得多不算本事，用得上才是——这是知识库区别于仓库的分水岭。</div>
     <ul class="reqs">
-      <li><b>AI 搜索</b>：<span class="d">用自然语言搜笔记，懂同义词、懂时间，搜不到给反馈。</span></li>
-      <li><b>自动关联 + 相关推荐</b>：<span class="d">写或看一篇时，自动浮现相关的旧笔记、录音、文档。</span></li>
-      <li><b>用你的内容写新的（RAG）</b>：<span class="d">写新笔记时引用你存过的相关内容，标来源、可核对、一键去掉。</span></li>
-      <li><b>资料库联动</b>：<span class="d">笔记内容作为可检索字段，供搜索与小爱按需调用。</span></li>
+      <li><span class="bdg new">OS5 新做 · 核心</span><b>用你的内容写新的（RAG）</b>：<span class="d">写新笔记时引用你存过的相关内容，标来源、可核对、一键去掉。</span></li>
+      <li><span class="bdg new">OS5 新做</span><b>自动关联 + 相关推荐</b>：<span class="d">写或看一篇时，自动浮现相关的旧笔记、录音、文档。</span></li>
+      <li><span class="bdg has">已有</span><b>AI 搜索</b>：<span class="d">自然语言搜笔记，懂同义词、懂时间，搜不到给反馈——已上线。</span></li>
+      <li><span class="bdg has">已有</span><b>资料库联动</b>：<span class="d">笔记内容作为可检索字段，供搜索与小爱按需调用——今年已联调。</span></li>
     </ul>
     <div class="kfhead">关键帧</div>
     <div class="kf k2">
@@ -253,10 +257,10 @@
     <div class="divider"></div>
     <div class="callout"><b>记得越多，笔记越该主动帮你，而不是越堆越乱。</b>基于你的长期积累和偏好，笔记开始主动浮现、主动提醒、越用越懂你。</div>
     <ul class="reqs">
-      <li><b>主动浮现</b>：<span class="d">在相关场景（写相似主题、到某地、提到某人）主动带出相关笔记。</span></li>
-      <li><b>定期回顾 + 到期提醒</b>：<span class="d">周期性回顾该看的内容，待办 / 日程到点主动提醒。</span></li>
-      <li><b>越用越懂你</b>：<span class="d">基于历史和写作习惯，生成和推荐越来越贴合你。</span></li>
-      <li><b>主动整理建议</b>：<span class="d">适时建议归类、合并、清理，但由你确认，不擅自动你的内容。</span></li>
+      <li><span class="bdg new">OS5 新做</span><b>主动浮现</b>：<span class="d">在相关场景（写相似主题、到某地、提到某人）主动带出相关笔记。</span></li>
+      <li><span class="bdg new">OS5 新做</span><b>定期回顾 + 到期提醒</b>：<span class="d">周期性回顾该看的内容，待办 / 日程到点主动提醒。</span></li>
+      <li><span class="bdg new">OS5 新做</span><b>越用越懂你</b>：<span class="d">基于历史和写作习惯，生成和推荐越来越贴合你。</span></li>
+      <li><span class="bdg new">OS5 新做</span><b>主动整理建议</b>：<span class="d">适时建议归类、合并、清理，但由你确认，不擅自动你的内容。</span></li>
     </ul>
     <div class="kfhead">关键帧</div>
     <div class="kf k2">
@@ -288,7 +292,7 @@
       <tr><th>环节</th><th>优先级</th><th>定位</th></tr>
       <tr><td>① 写得出</td><td><b>P0 · 胜负手</b></td><td>飞轮起点，今年起步、明年做深做透</td></tr>
       <tr><td>③ 用得上</td><td><b>P0 · 胜负手</b></td><td>今年最大 gap，决定"知识库 vs 仓库"</td></tr>
-      <tr><td>② 收得进</td><td>P0 · 配套</td><td>为 ①③ 供料，重点打通多模态解析</td></tr>
+      <tr><td>② 收得进</td><td>P0 · 配套</td><td>底座已有，OS5 补文档 / 链接解析卡点 + 全生态一键存入</td></tr>
       <tr><td>④ 自己长</td><td>P1 · 拉差距</td><td>差异化与粘性，前三环跑通后加力</td></tr>
     </table>
     <div class="callout neg" style="margin-top:20px;"><b>明确后置 / 不在本方案：</b>生成物消费（PPT / 播客 / 网页，依赖"先有内容"，是用得上之后的下游）· 出海（并行赛道）· PAD 大屏（另起一条线）。</div>
