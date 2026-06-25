@@ -36,7 +36,24 @@
   .ch-desc{ font-size:16px; color:var(--tx2); line-height:1.95; margin:16px 0;}
   .ch-desc b{ color:#fff; font-weight:700;} .ch-desc .em{ color:var(--green); font-weight:700;}
 
-  .def{ padding:38px 44px; border-radius:22px; background:rgba(87,128,255,.08); border:1px solid rgba(87,128,255,.25); text-align:center; margin:6px 0 8px;}
+  /* 用户画像 */
+  .prow{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:8px 0;}
+  .persona{ padding:24px 26px; border-radius:20px; border:1px solid;}
+  .persona.blue{ background:rgba(87,128,255,.07); border-color:rgba(87,128,255,.25);}
+  .persona.purple{ background:rgba(166,140,250,.07); border-color:rgba(166,140,250,.25);}
+  .persona.green{ background:rgba(51,212,153,.07); border-color:rgba(51,212,153,.25);}
+  .persona.orange{ background:rgba(255,133,20,.07); border-color:rgba(255,133,20,.25);}
+  .persona h4{ font-size:15px; font-weight:800; color:#fff; margin-bottom:10px;}
+  .persona .q{ font-size:15px; color:rgba(255,255,255,.92); line-height:1.7; margin-bottom:13px;}
+  .persona .pain{ font-size:13.5px; color:#ff8d8d; font-weight:600; line-height:1.6;}
+  .persona .want{ font-size:13.5px; color:#5fe0b8; font-weight:600; line-height:1.6; margin-top:3px;}
+
+  .insight{ padding:26px 30px; border-radius:20px; background:rgba(87,128,255,.09); border:1px solid rgba(87,128,255,.28); margin:16px 0 4px;}
+  .insight .t{ font-size:13px; font-weight:800; letter-spacing:1px; color:var(--blue); margin-bottom:10px;}
+  .insight p{ font-size:17px; color:#fff; line-height:1.85; margin:0; font-weight:600;}
+  .insight p .hi{ color:var(--green);}
+
+  .def{ padding:36px 44px; border-radius:22px; background:rgba(87,128,255,.08); border:1px solid rgba(87,128,255,.25); text-align:center; margin:6px 0 8px;}
   .def .lab{ font-size:13px; letter-spacing:2px; color:rgba(255,255,255,.5); font-weight:700; margin-bottom:14px;}
   .def .m{ font-size:25px; font-weight:800; color:#fff; line-height:1.6;}
   .def .m em{ font-style:normal; color:#8aa6ff;}
@@ -51,15 +68,6 @@
   .layer.a{ background:rgba(51,212,153,.09); border-color:rgba(51,212,153,.3);} .layer.a .lx b{ color:var(--green);}
   .layer.e{ background:rgba(166,140,250,.09); border-color:rgba(166,140,250,.3);} .layer.e .lx b{ color:var(--purple);}
 
-  .is{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:8px 0;}
-  .iscard{ padding:26px 30px; border-radius:22px; border:1px solid;}
-  .iscard.no{ background:rgba(255,107,77,.05); border-color:rgba(255,107,77,.22);}
-  .iscard.yes{ background:rgba(51,212,153,.08); border-color:rgba(51,212,153,.28);}
-  .iscard h4{ font-size:16px; font-weight:800; margin-bottom:14px;}
-  .iscard.no h4{ color:var(--red);} .iscard.yes h4{ color:var(--green);}
-  .iscard ul{ list-style:none;} .iscard li{ font-size:14.5px; line-height:1.7; padding:8px 0; color:var(--tx2); border-top:1px solid var(--line2);}
-  .iscard li:first-child{ border-top:none;} .iscard li b{ color:#fff; font-weight:700;}
-
   .tip{ padding:22px 28px; border-radius:16px; margin:18px 0 4px; border:1px solid;}
   .tip .t{ font-size:13px; font-weight:800; letter-spacing:1px; margin-bottom:8px;}
   .tip p{ font-size:15px; line-height:1.8; color:var(--tx2); margin:0;} .tip p b{ color:#fff; font-weight:700;}
@@ -73,51 +81,47 @@
   td .em{ color:var(--green); font-weight:600;}
   .past td:nth-child(2){ color:var(--tx3);}
 
-  .abc{ display:flex; align-items:stretch; gap:0; padding:26px; background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:24px; margin:8px 0;}
-  .stage{ flex:1; padding:22px 18px; border-radius:18px; border:1px solid;}
-  .stage .s{ font-size:11.5px; font-weight:700; letter-spacing:.5px; margin-bottom:8px;}
-  .stage h4{ font-size:18px; font-weight:800; color:#fff; margin-bottom:8px;}
-  .stage p{ font-size:13px; color:var(--tx2); line-height:1.65; margin:0;}
-  .stage.s1{ background:rgba(87,128,255,.08); border-color:rgba(87,128,255,.22);} .stage.s1 .s{ color:var(--blue);}
-  .stage.s2{ background:rgba(51,212,153,.12); border-color:rgba(51,212,153,.5); border-width:2px;} .stage.s2 .s{ color:var(--green);}
-  .stage.s3{ background:rgba(166,140,250,.08); border-color:rgba(166,140,250,.22);} .stage.s3 .s{ color:var(--purple);}
-  .aar{ display:flex; align-items:center; justify-content:center; padding:0 12px; color:var(--tx3); font-size:22px; min-width:42px;}
-
-  /* 飞轮（四能力合一） */
+  /* 飞轮 */
   .fw{ display:flex; align-items:stretch; gap:0; margin:8px 0;}
-  .fwc{ flex:1; padding:22px 18px; border-radius:18px; border:1px solid;}
+  .fwc{ flex:1; padding:22px 17px; border-radius:18px; border:1px solid;}
   .fwc .cap{ font-size:12px; font-weight:700; letter-spacing:.5px; margin-bottom:7px;}
   .fwc h4{ font-size:18px; font-weight:800; color:#fff; margin-bottom:7px;}
-  .fwc p{ font-size:13px; color:var(--tx2); line-height:1.65; margin:0;}
+  .fwc p{ font-size:12.5px; color:var(--tx2); line-height:1.6; margin:0 0 10px;}
+  .fwc .pn{ font-size:11.5px; color:var(--tx3); border-top:1px dashed rgba(255,255,255,.12); padding-top:9px; line-height:1.5;}
+  .fwc .pn b{ color:#ff9a9a; font-weight:600;}
   .fwc.b1{ background:rgba(87,128,255,.08); border-color:rgba(87,128,255,.25);} .fwc.b1 .cap{ color:var(--blue);}
   .fwc.b2{ background:rgba(51,212,153,.08); border-color:rgba(51,212,153,.25);} .fwc.b2 .cap{ color:var(--green);}
   .fwc.b3{ background:rgba(166,140,250,.08); border-color:rgba(166,140,250,.25);} .fwc.b3 .cap{ color:var(--purple);}
   .fwc.b4{ background:rgba(255,133,20,.08); border-color:rgba(255,133,20,.25);} .fwc.b4 .cap{ color:var(--orange);}
+  .aar{ display:flex; align-items:center; justify-content:center; padding:0 10px; color:var(--tx3); font-size:20px; min-width:38px;}
 
   /* 需求清单 */
   .reqg{ margin:16px 0; border:1px solid var(--line); border-radius:18px; overflow:hidden;}
-  .reqg .gh{ padding:16px 24px; display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,.03);}
+  .reqg .gh{ padding:15px 24px; display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,.03);}
   .reqg .gh .gt{ font-size:17px; font-weight:800; color:#fff;} .reqg .gh .gt small{ color:var(--tx3); font-weight:600; margin-left:10px; font-size:13px;}
   .reqg .gh .pr{ font-size:12px; font-weight:800; padding:4px 12px; border-radius:20px; white-space:nowrap;}
   .reqg.r1{ border-color:rgba(87,128,255,.3);} .reqg.r1 .gh{ background:rgba(87,128,255,.1);} .reqg.r1 .pr{ background:rgba(87,128,255,.18); color:#9fb6ff;}
   .reqg.r2{ border-color:rgba(51,212,153,.3);} .reqg.r2 .gh{ background:rgba(51,212,153,.1);} .reqg.r2 .pr{ background:rgba(51,212,153,.18); color:#6fe3bd;}
-  .reqg.r3{ border-color:rgba(255,133,20,.3);} .reqg.r3 .gh{ background:rgba(255,133,20,.1);} .reqg.r3 .pr{ background:rgba(255,133,20,.18); color:#ffb469;}
-  .reqg.r4{ border-color:rgba(166,140,250,.3);} .reqg.r4 .gh{ background:rgba(166,140,250,.1);} .reqg.r4 .pr{ background:rgba(166,140,250,.18); color:#c3b0fb;}
-  .reqi{ padding:15px 24px; border-top:1px solid var(--line2); display:grid; grid-template-columns:200px 1fr 84px; gap:18px; align-items:baseline;}
+  .reqg.r3{ border-color:rgba(166,140,250,.3);} .reqg.r3 .gh{ background:rgba(166,140,250,.1);} .reqg.r3 .pr{ background:rgba(166,140,250,.18); color:#c3b0fb;}
+  .reqg.r4{ border-color:rgba(255,133,20,.3);} .reqg.r4 .gh{ background:rgba(255,133,20,.1);} .reqg.r4 .pr{ background:rgba(255,133,20,.18); color:#ffb469;}
+  .reqg.r5{ border-color:rgba(255,255,255,.14);} .reqg.r5 .gh{ background:rgba(255,255,255,.04);} .reqg.r5 .pr{ background:rgba(255,255,255,.1); color:var(--tx2);}
+  .reqi{ padding:15px 24px; border-top:1px solid var(--line2); display:grid; grid-template-columns:188px 1fr 92px; gap:18px; align-items:baseline;}
   .reqi .rn{ font-size:15px; font-weight:700; color:#fff;}
   .reqi .rd{ font-size:13.5px; color:var(--tx2); line-height:1.6;}
   .reqi .tg{ font-size:11px; font-weight:700; text-align:center; padding:3px 0; border-radius:6px; white-space:nowrap;}
   .reqi .tg.new{ background:rgba(51,212,153,.14); color:var(--green);}
   .reqi .tg.gap{ background:rgba(255,133,20,.14); color:var(--orange);}
   .reqi .tg.core{ background:rgba(255,199,61,.16); color:var(--yellow);}
+  .reqi .tg.opt{ background:rgba(87,128,255,.16); color:#9fb6ff;}
+  .reqi .tg.tbd{ background:rgba(255,255,255,.08); color:var(--tx3);}
 
   @media(max-width:860px){
     .side{ position:static; width:auto; height:auto; flex-direction:row; flex-wrap:wrap; gap:8px; border-right:none; border-bottom:1px solid var(--line);}
     .side .dt,.side .foot{ display:none;} .side .nav{ flex-direction:row; flex-wrap:wrap;}
     .main{ margin-left:0; padding:40px 22px 80px;}
     .ch-num{ font-size:60px;} .ch-title{ font-size:23px;}
-    .layer{ grid-template-columns:1fr; gap:10px;} .is{ grid-template-columns:1fr;}
-    .abc,.fw{ flex-direction:column; gap:12px;} .aar{ transform:rotate(90deg);}
+    .prow,.layer,.is{ grid-template-columns:1fr; gap:12px;}
+    .fw{ flex-direction:column; gap:12px;} .aar{ transform:rotate(90deg);}
     .reqi{ grid-template-columns:1fr; gap:6px;} .reqi .tg{ justify-self:start; padding:3px 10px;}
   }
 </style>
@@ -128,12 +132,11 @@
   <div class="brand">笔记 · OS5</div>
   <div class="dt">笔记产品<br>生态定位</div>
   <nav class="nav" id="nav">
-    <a href="#c1"><span class="nn">01</span><span class="nt">全生态里的定位</span></a>
-    <a href="#c2"><span class="nn">02</span><span class="nt">是什么、不是什么</span></a>
+    <a href="#c1"><span class="nn">01</span><span class="nt">用户的真实处境</span></a>
+    <a href="#c2"><span class="nn">02</span><span class="nt">笔记的定位</span></a>
     <a href="#c3"><span class="nn">03</span><span class="nt">三个根本变化</span></a>
-    <a href="#c4"><span class="nn">04</span><span class="nt">内容怎么流动</span></a>
-    <a href="#c5"><span class="nn">05</span><span class="nt">四能力 · 飞轮</span></a>
-    <a href="#c6"><span class="nn">06</span><span class="nt">需求清单拆解</span></a>
+    <a href="#c4"><span class="nn">04</span><span class="nt">一条飞轮</span></a>
+    <a href="#c5"><span class="nn">05</span><span class="nt">需求清单拆解</span></a>
   </nav>
   <div class="foot">定位对齐稿 · 内部讨论<br>汇报对象：李楠 · 笔记团队</div>
 </aside>
@@ -142,49 +145,41 @@
 
   <section class="ch" id="c1">
     <div class="ch-num">01</div>
-    <div class="ch-title">笔记在小米全生态里的定位</div>
+    <div class="ch-title">用户的真实处境：记了一堆，却用不起来</div>
     <div class="ch-divider"></div>
-    <div class="def">
-      <div class="lab">一 句 话 定 位</div>
-      <div class="m">笔记是小米全生态里，<em>用户主动沉淀的个人内容的统一承接处</em>——让全生态 AI 都用得上你认可的内容。</div>
+    <div class="ch-desc">先不谈产品，先听用户怎么说。下面四个人，是笔记每天面对的真实场景。</div>
+    <div class="prow">
+      <div class="persona blue"><h4>👨‍💼 上班族</h4><div class="q">"开了一上午会都录了音，下午客户问起上周的决议，我翻了十分钟没找着。"</div><div class="pain">痛点：记是记了，要用的时候找不回、调不出来。</div><div class="want">想要：问一句就答，自动帮我列出待办。</div></div>
+      <div class="persona purple"><h4>🎓 学生</h4><div class="q">"这学期录了二十多节课，期末想复习，点开全是几十分钟的录音，根本没法看。"</div><div class="pain">痛点：记下来的是原始素材，没变成能用的东西。</div><div class="want">想要：变成复习大纲、考点，最好还能听。</div></div>
+      <div class="persona green"><h4>🧑 普通人</h4><div class="q">"想记点东西，还得开 App、新建、一个字一个字敲，常常懒得记，或者记一半就放下了。"</div><div class="pain">痛点：记的门槛太高，经常起不了笔。</div><div class="want">想要：说一句话，就帮我记好、写顺。</div></div>
+      <div class="persona orange"><h4>🗂️ 重度用户</h4><div class="q">"东西记在便签、记在微信、记在备忘录，到处都是，真要用的时候想不起在哪。"</div><div class="pain">痛点：散在各处收不拢，等于没记。</div><div class="want">想要：值得留的都汇到一处，还能随时调出来用。</div></div>
     </div>
-    <p class="ch-desc">为什么是"承接处"，而不是"更好的记事本"？因为 AI 竞争的终局不在模型强弱——模型会被快速拉平，谁都能调到差不多的能力。真正拉开差距、也最难复制的，是 AI 对一个具体用户<b>长期、跨设备的了解</b>，而这份了解需要一个产品来承载。</p>
-    <p class="ch-desc">小米的独特之处，是设备遍布人车家，每天生成大量属于用户的内容与行为。但今天它们各存各的、留不下，AI 也调不到。<b>谁能把"用户认可、愿意留下"的内容统一沉淀、并交给用户掌控，谁就握住了 AI 个性化最关键的一环。</b><span class="em">这正是笔记天然要站的位置。</span></p>
-    <div class="layers">
-      <div class="layer u"><div class="lx"><small>表层 · 用户感知</small><b>对 用 户</b></div><div class="lc"><h4>随身知识库</h4><p>能记、能懂、能用、能自己长。<b>记得越多越懂你，越用越离不开。</b></p></div></div>
-      <div class="layer a"><div class="lx"><small>中层 · 对 AI</small><b>对 MiClaw</b></div><div class="lc"><h4>AI 用得上的个人内容</h4><p>主 Agent 要贴合你做事，得调得到你认可的个人内容。笔记提供这一块，和系统侧的偏好、行为理解<b>互补，不替代</b>。</p></div></div>
-      <div class="layer e"><div class="lx"><small>底层 · 对生态</small><b>对全生态</b></div><div class="lc"><h4>个人内容统一承接处</h4><p>各设备内容如今各存各的。笔记<b>统一沉淀、用户可控</b>，把"设备多"的硬件优势，变成"内容攒得下、用得上"。</p></div></div>
-    </div>
-    <div class="tip blue"><div class="t">战略意义</div><p>上层（随身知识库）是用户摸得着的形态；<b>决定笔记价值的是中层与底层——它把小米"设备多"的硬件优势，转译成"AI 越用越懂你"的体验优势。</b>这是一个生态级产品，不是一个孤立工具。</p></div>
+    <div class="insight"><div class="t">共 性 洞 察</div><p>没有人的真正需求是"管理笔记"或"给笔记分类"。大家要的其实是同一件事——<span class="hi">我说的、我存的，在我需要时能用上，而且越用越懂我。</span></p></div>
   </section>
 
   <section class="ch" id="c2">
     <div class="ch-num">02</div>
-    <div class="ch-title">笔记是什么，更要紧的是它不是什么</div>
+    <div class="ch-title">所以，笔记该是什么</div>
     <div class="ch-divider"></div>
-    <p class="ch-desc">定位最容易被两股力量拉偏：一股把它做回更聪明的记事本，一股把它做成用户管不着的黑盒。下面两列，是判断一个需求该不该进这版笔记的尺子。</p>
-    <div class="is">
-      <div class="iscard no"><h4>✕ 它不是</h4><ul>
-        <li><b>更聪明的记事本</b>：记完只能翻看、不被调用，那只是工具升级。</li>
-        <li><b>后台黑盒记忆</b>：看不见、改不了，用户不敢信、不敢用。</li>
-        <li><b>一次性 AI 对话</b>：问完即走、不留积累，那是通用助手。</li>
-        <li><b>默认全收的杂物箱</b>：用户主动挑有价值的存，不是自动倒入。</li>
-      </ul></div>
-      <div class="iscard yes"><h4>✓ 它是</h4><ul>
-        <li><b>全设备个人内容的统一承接处</b>：值得留下的，进得来、还能再用。</li>
-        <li><b>可被全生态 AI 调用的个人内容</b>：MiClaw、小爱、各场景按需取用。</li>
-        <li><b>用户可见可控的内容</b>：存什么、改什么、删什么，用户说了算。</li>
-        <li><b>越用越懂你的长期积累</b>：跨设备攒得越久，越贴合你本人。</li>
-      </ul></div>
+    <div class="ch-desc">顺着上面的洞察往下推：用户要的是"存了能用上、越用越懂我"，那笔记就不该停在"更好的记事本"，而要成为——</div>
+    <div class="def">
+      <div class="lab">一 句 话 定 位</div>
+      <div class="m">小米全生态里，<em>用户主动沉淀的个人内容的统一承接处</em>——让全生态 AI 都用得上你认可的内容。</div>
     </div>
-    <div class="tip orange"><div class="t">口 径 · 须 钉 死</div><p>笔记里的内容，是<b>用户主动选择保存的高价值内容</b>。这既是体验底线，也是它"懂你"的前提（留下的都是你认可的），更是它和后台黑盒记忆的根本分野——这份内容由用户自己经营，看得见、改得了。</p></div>
+    <div class="ch-desc">为什么这件事值得小米花力气做？因为 AI 竞争的终局不在模型强弱——模型会被快速拉平，谁都调得到差不多的能力。真正拉开差距、也最难复制的，是 AI 对一个具体用户<b>长期、跨设备的了解</b>。小米的独特之处，是设备遍布人车家、每天都在产生属于你的内容；<b>谁能把这些"用户认可、愿意留下"的内容收拢成可调用、又让用户可控的内容，谁就握住了 AI 个性化最关键的一环。</b></div>
+    <div class="layers">
+      <div class="layer u"><div class="lx"><small>表层 · 用户感知</small><b>对 用 户</b></div><div class="lc"><h4>随身知识库</h4><p>记下来的东西能用上、越用越懂你。<b>这是用户每天打开、看得见摸得着的那一面。</b></p></div></div>
+      <div class="layer a"><div class="lx"><small>中层 · 对 AI</small><b>对 MiClaw</b></div><div class="lc"><h4>AI 用得上的个人内容</h4><p>主 Agent 要贴合你做事，得调得到你认可的内容。笔记提供这一块，和系统侧的偏好、行为理解<b>互补，不替代</b>。</p></div></div>
+      <div class="layer e"><div class="lx"><small>底层 · 对生态</small><b>对全生态</b></div><div class="lc"><h4>个人内容统一承接处</h4><p>各设备内容如今各存各的。笔记<b>统一沉淀、用户可控</b>，把"设备多"的硬件优势变成"内容攒得下、用得上"。</p></div></div>
+    </div>
+    <div class="tip blue"><div class="t">战略意义</div><p>上层是用户摸得着的形态；<b>决定笔记价值的是中层与底层——它把小米"设备多"的硬件优势，转译成"AI 越用越懂你"的体验优势。</b></p></div>
   </section>
 
   <section class="ch" id="c3">
     <div class="ch-num">03</div>
-    <div class="ch-title">笔记不是"加了 AI"，是三件事同时变了</div>
+    <div class="ch-title">要做到这个定位，三件事得同时变</div>
     <div class="ch-divider"></div>
-    <p class="ch-desc">这三个变化是定位的骨架；其中"输入端"一条，是它从一个 App 抬升为生态级承接处的支点。</p>
+    <div class="ch-desc">这三个变化是定位的骨架；其中"输入端"一条，是它从一个 App 抬升为生态级承接处的支点。</div>
     <table class="past">
       <tr><th style="width:96px;">维度</th><th style="width:34%;">过去</th><th>现在</th></tr>
       <tr><td>记录范式</td><td>打字记录，自己敲、自己排版</td><td><span class="em">说一句 → AI 理解 → 写成能用的内容</span></td></tr>
@@ -196,71 +191,75 @@
 
   <section class="ch" id="c4">
     <div class="ch-num">04</div>
-    <div class="ch-title">内容怎么流动：笔记是中间关键的一环</div>
+    <div class="ch-title">一条飞轮：四个环节，正好对上四类痛点</div>
     <div class="ch-divider"></div>
-    <div class="abc">
-      <div class="stage s1"><div class="s">采 集</div><h4>全生态设备</h4><p>手机 / 手表 / 耳机 / 车 / 小爱 / MiClaw 持续产生你的内容。</p></div>
+    <div class="ch-desc">定位落到产品上，就是四个能力首尾相接、自我加强的循环。每一环，对应解决第 01 节里的一类用户痛点。</div>
+    <div class="fw">
+      <div class="fwc b1"><div class="cap">能记 · 能懂</div><h4>写得出</h4><p>说一句、随手存，AI 帮你写成能用的内容。</p><div class="pn">解决 <b>普通人</b>：门槛高、起不了笔</div></div>
       <div class="aar">→</div>
-      <div class="stage s2"><div class="s">沉淀 · 理解 · 可控</div><h4>笔记</h4><p>用户主动挑有价值的存入，AI 理解结构化，成为可搜、可写、可调用、且用户可改的内容。</p></div>
+      <div class="fwc b2"><div class="cap">能记</div><h4>收得进</h4><p>全生态有价值的内容主动汇入、进来能用。</p><div class="pn">解决 <b>重度用户</b>：散在各处收不拢</div></div>
       <div class="aar">→</div>
-      <div class="stage s3"><div class="s">调 用</div><h4>全生态 AI</h4><p>MiClaw / 小爱 / 各场景按需调用，做事时用得上你存过的内容。</p></div>
+      <div class="fwc b3"><div class="cap">能用</div><h4>用得上</h4><p>搜得到、拿来写新的、被 AI 调用去行动。</p><div class="pn">解决 <b>上班族</b>：要用时找不回</div></div>
+      <div class="aar">→</div>
+      <div class="fwc b4"><div class="cap">能长</div><h4>自己长</h4><p>主动浮现、定期回顾，越用越懂你。</p><div class="pn">解决 <b>学生</b>：得自己想起来才会用</div></div>
     </div>
-    <p class="ch-desc">设备只管采集、AI 只管调用，而中间这一环——把散落的内容沉淀下来、理解结构化、再交给用户掌控——<b>只有笔记在做</b>。它的价值因此是双向的：往里是个人内容的落脚点，往外让 AI 调得到、做事更贴合你。<span class="em">笔记存得越多，AI 越用得上你的内容；靠长期积累攒出来的贴合，越用越难被替代。</span></p>
+    <div class="ch-desc"><b>写得出，用户才愿意记；收进来的越多，越用得上；越用得上，笔记越懂你；越懂你，又反过来让你更愿意写。</b>四环咬合成正循环，缺一环就转不动——所以需求不能只押单点，要让四环都立得住。</div>
   </section>
 
   <section class="ch" id="c5">
     <div class="ch-num">05</div>
-    <div class="ch-title">四个能力，转成一条飞轮</div>
+    <div class="ch-title">需求清单：沿飞轮四环拆解 + 三类横切</div>
     <div class="ch-divider"></div>
-    <p class="ch-desc">定位落到产品上，就是四个能力（记 / 懂 / 用 / 长）首尾相接、自我加强的循环——也是下一节拆需求的主线。</p>
-    <div class="fw">
-      <div class="fwc b1"><div class="cap">能记 · 能懂</div><h4>写得出</h4><p>说一句、随手存，AI 帮你写成能用的内容。门槛低，内容才攒得起来。</p></div>
-      <div class="aar">→</div>
-      <div class="fwc b2"><div class="cap">能记</div><h4>收得进</h4><p>全生态有价值的内容主动汇入，进来即结构化、能被调用。</p></div>
-      <div class="aar">→</div>
-      <div class="fwc b3"><div class="cap">能用</div><h4>用得上</h4><p>搜得到、拿来写新的、被全生态 AI 调用去行动。</p></div>
-      <div class="aar">→</div>
-      <div class="fwc b4"><div class="cap">能长</div><h4>自己长</h4><p>主动浮现、定期回顾，越用越懂你。</p></div>
-    </div>
-    <p class="ch-desc"><b>写得出，用户才愿意记；收进来的越多，越用得上；越用得上，笔记越懂你；越懂你，又反过来让你更愿意写。</b>四环咬合成一个正循环，缺一环飞轮就转不动——所以需求不能只押单点，要让四环都立得住。</p>
-  </section>
-
-  <section class="ch" id="c6">
-    <div class="ch-num">06</div>
-    <div class="ch-title">需求清单 · 沿飞轮四环拆解</div>
-    <div class="ch-divider"></div>
-    <p class="ch-desc">把定位落成可执行的需求，按飞轮四环列出。优先级遵循一个原则：<b>胜负手在"写得出"和"用得上"</b>——它们决定笔记是不是真的从记事本变成了能用的知识库。</p>
+    <div class="ch-desc">把定位落成可执行的需求。前四组沿飞轮逐环，对应解决四类痛点；后三组是横切全程的能力与优化。胜负手是<b>"写得出"和"用得上"</b>——它们决定笔记是不是真从记事本变成了能用的知识库。</div>
 
     <div class="reqg r1">
-      <div class="gh"><div class="gt">写得出 <small>第一篇 · 把 AI 搬到你正在写的地方</small></div><div class="pr">P0 · 胜负手</div></div>
+      <div class="gh"><div class="gt">写得出 <small>对应：起不了笔</small></div><div class="pr">P0 · 胜负手</div></div>
       <div class="reqi"><div class="rn">空页起手式</div><div class="rd">进笔记给一句引导 + 起手式（写一段 / 列清单 / 记要点），点一下就开始，不再对着白板发呆。</div><div class="tg new">新做</div></div>
       <div class="reqi"><div class="rn">工具条随写随帮</div><div class="rd">看你写了什么，随手给扩写、补全、理顺，全程不切页面。</div><div class="tg new">新做</div></div>
       <div class="reqi"><div class="rn">一句话成稿</div><div class="rd">给一个主题，直接生成整篇，或先给大纲再展开。</div><div class="tg new">新做</div></div>
       <div class="reqi"><div class="rn">选中即改</div><div class="rd">选中一段，精简 / 换正式语气 / 总结成一句。</div><div class="tg new">新做</div></div>
-      <div class="reqi"><div class="rn">AI 入口前置</div><div class="rd">把 AI 能力从二级页显化到编辑页，不用学去哪点。</div><div class="tg new">新做</div></div>
     </div>
 
     <div class="reqg r2">
-      <div class="gh"><div class="gt">收得进 <small>全生态有价值内容主动汇入、进来能用</small></div><div class="pr">P0 · 配套</div></div>
+      <div class="gh"><div class="gt">收得进 <small>对应：散在各处收不拢</small></div><div class="pr">P0 · 配套</div></div>
       <div class="reqi"><div class="rn">打通文档 / 链接解析</div><div class="rd">图片、录音已能导入；文档与网页链接的解析必须打通，多模态导入才算完整。</div><div class="tg gap">补卡点</div></div>
       <div class="reqi"><div class="rn">全生态一键存入</div><div class="rd">小爱、其他 App、MCP 产出的内容，用户判断有价值就一键存进笔记。</div><div class="tg new">新做</div></div>
     </div>
 
     <div class="reqg r3">
-      <div class="gh"><div class="gt">用得上 <small>记得多不算本事，用得上才是</small></div><div class="pr">P0 · 胜负手</div></div>
+      <div class="gh"><div class="gt">用得上 <small>对应：要用时找不回</small></div><div class="pr">P0 · 胜负手</div></div>
       <div class="reqi"><div class="rn">用你的内容写新的（RAG）</div><div class="rd">写新笔记时引用你存过的相关内容，标来源、可核对、可一键去掉。</div><div class="tg core">核心</div></div>
       <div class="reqi"><div class="rn">自动关联 + 相关推荐</div><div class="rd">写或看一篇时，自动浮现相关的旧笔记、录音、文档。</div><div class="tg new">新做</div></div>
     </div>
 
     <div class="reqg r4">
-      <div class="gh"><div class="gt">自己长 <small>从被动记录到主动服务</small></div><div class="pr">P1 · 拉差距</div></div>
-      <div class="reqi"><div class="rn">主动浮现</div><div class="rd">在相关场景（写相似主题、到某地、提到某人）主动带出相关笔记。</div><div class="tg new">新做</div></div>
+      <div class="gh"><div class="gt">自己长 <small>对应：得自己想起来才会用</small></div><div class="pr">P1 · 拉差距</div></div>
+      <div class="reqi"><div class="rn">主动浮现</div><div class="rd">相关场景（写相似主题、到某地、提到某人）主动带出相关笔记。</div><div class="tg new">新做</div></div>
       <div class="reqi"><div class="rn">定期回顾 + 到期提醒</div><div class="rd">周期性回顾该看的内容，待办 / 日程到点主动提醒。</div><div class="tg new">新做</div></div>
       <div class="reqi"><div class="rn">越用越懂你</div><div class="rd">基于历史与写作习惯，生成和推荐越来越贴合你。</div><div class="tg new">新做</div></div>
-      <div class="reqi"><div class="rn">主动整理建议</div><div class="rd">适时建议归类、合并、清理，但由用户确认，不擅自动你的内容。</div><div class="tg new">新做</div></div>
     </div>
 
-    <div class="tip orange"><div class="t">取 舍</div><p>头部资源压在"写得出 + 用得上"两个胜负手上；"收得进"补齐卡点即可，"自己长"在前三环跑通后加力拉差距。<b>生成物消费（PPT / 播客）、出海、PAD 大屏不在本期，属于另一条线。</b></p></div>
+    <div class="reqg r5">
+      <div class="gh"><div class="gt">入口与触达 <small>横切 · 让能力被用户看见</small></div><div class="pr">P1</div></div>
+      <div class="reqi"><div class="rn">小爱入口显化笔记能力</div><div class="rd">在小爱对话里就能"存进笔记 / 唤起笔记内容"，让笔记能力在用户高频入口显性可达，而不是藏在 App 里。</div><div class="tg new">新做</div></div>
+    </div>
+
+    <div class="reqg r5">
+      <div class="gh"><div class="gt">体验与易用性优化 <small>横切 · 把已做的功能打磨到好用</small></div><div class="pr">P0 · 持续</div></div>
+      <div class="reqi"><div class="rd" style="grid-column:1 / span 2; color:var(--tx2);">这一年功能铺得快，接下来重点是把体验做扎实——很多功能"有了"但还不够"好用"。这一块贯穿全程，直接决定留存。</div><div class="tg opt">持续</div></div>
+      <div class="reqi"><div class="rn">录音转写 / 速记</div><div class="rd">提升转写速度与准确度，速记进笔记更快更稳。</div><div class="tg opt">优化</div></div>
+      <div class="reqi"><div class="rn">AI 生成 / 编辑</div><div class="rd">生成更稳、可控，支持对比与一键撤销，让用户敢用、放心用。</div><div class="tg opt">优化</div></div>
+      <div class="reqi"><div class="rn">搜索体验</div><div class="rd">提升召回与排序，搜不到要给反馈和引导，而不是空结果。</div><div class="tg opt">优化</div></div>
+      <div class="reqi"><div class="rn">首页与信息架构</div><div class="rd">自动内容不污染首页、不增加管理负担；常用操作更顺手。</div><div class="tg opt">优化</div></div>
+      <div class="reqi"><div class="rn">基础性能</div><div class="rd">启动、大笔记加载、长录音处理等基础体验持续优化。</div><div class="tg opt">优化</div></div>
+    </div>
+
+    <div class="reqg r5">
+      <div class="gh"><div class="gt">待定 · 需进一步探索 <small>方向未定，先不投入</small></div><div class="pr">待定</div></div>
+      <div class="reqi"><div class="rn">记忆进笔记</div><div class="rd">MiClaw / 小爱的"记忆"是否沉淀进笔记、以何种形态呈现与管理，方向尚未确定，待对齐后再评估。</div><div class="tg tbd">待定</div></div>
+    </div>
+
+    <div class="tip orange"><div class="t">取 舍</div><p>头部资源压在"写得出 + 用得上"两个胜负手，"收得进"补齐卡点、"体验优化"持续投入；"自己长"在前三环跑通后加力。<b>生成物消费（PPT / 播客）、出海、PAD 大屏不在本期，属于另一条线。</b></p></div>
   </section>
 
 </main>
