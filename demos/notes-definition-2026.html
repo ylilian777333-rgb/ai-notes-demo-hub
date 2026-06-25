@@ -59,6 +59,17 @@
   .nums li{ counter-increment:n; position:relative; padding:18px 22px 18px 64px; background:var(--panel); border:1px solid var(--line); border-radius:12px; margin-bottom:12px; font-size:var(--fs-body); line-height:1.7; color:var(--txt);}
   .nums li:before{ content:counter(n); position:absolute; left:18px; top:17px; width:30px; height:30px; border-radius:9px; background:var(--blue-b); border:1px solid var(--blue-l); color:var(--blue); font-size:15px; font-weight:800; display:flex; align-items:center; justify-content:center;}
   .nums li b{ color:#fff; font-weight:800;} .nums li .g{ color:var(--sub);}
+  /* 推演链 */
+  .chain{ margin:18px 0 4px;}
+  .ch{ position:relative; background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:18px 24px; margin-top:34px;}
+  .ch:first-child{ margin-top:0;}
+  .ch:not(:first-child):before{ content:"↓"; position:absolute; top:-27px; left:50%; transform:translateX(-50%); color:var(--ac); font-size:20px; font-weight:800;}
+  .ch .big{ font-size:19px; font-weight:800; color:#fff; line-height:1.4;}
+  .ch .sm{ font-size:var(--fs-body); color:var(--sub); margin-top:6px; line-height:1.65;}
+  .ch .sm b{ color:var(--txt);}
+  .ch.end{ border-color:var(--ac-l); background:var(--ac-b); padding:22px 24px;}
+  .ch.end .big{ color:var(--ac-t);}
+  .ch.end .big .hl{ color:var(--ac);}
   /* 四能力 */
   .caps{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin:14px 0 4px;}
   .cap4{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px 18px; position:relative; overflow:hidden;}
@@ -145,15 +156,15 @@
   </div>
 
   <div class="section">
-    <div class="sechead"><div class="secnum">01</div><div><div class="sectitle">为什么是这个位置</div><div class="secsub">不是因为笔记重要，是因为这个位置整个生态非占不可，而笔记最适合占</div></div></div>
+    <div class="sechead"><div class="secnum">01</div><div><div class="sectitle">为什么这个位置非笔记不可</div><div class="secsub">不是笔记想占这个位，是生态上有个洞——只有笔记能补</div></div></div>
     <div class="divider"></div>
-    <div class="callout blue"><b>一个判断：模型会被拉平，"懂不懂你"不会。</b>这就是接下来所有 AI 产品真正拉开差距的地方。</div>
-    <ul class="nums">
-      <li><b>AI 时代，模型是拉平的，懂你才是分水岭。</b><span class="g">通用大模型跟谁说话都一个样，因为它不认识你。小米 AI 要做到"千人千面、越用越贴合"，靠的不是参数，是用户长期、跨设备的个人上下文。这份上下文必须有个产品来装、来管、还能让用户看见和修改。</span></li>
-      <li><b>小米独一份的，是设备遍布人车家 + 一个系统级主 Agent。</b><span class="g">手机、手表、耳机、车、PAD、家居每天都在产生你的内容和行为，但现在是散的、各存各的。生态缺的，正是一个让"用户认可的有价值内容"统一沉淀、且用户可控的地方——这恰恰是笔记天生在做的事。</span></li>
-      <li><b>个人记忆不能是黑盒，否则用户不敢信。</b><span class="g">系统级"记忆"如果用户看不见、改不了，就没人敢让它越权。笔记的独特在于：它是用户可见、可编辑、自己决定存什么的那种记忆——把"AI 记住我"从一个让人不安的后台功能，变成用户主动经营、越用越信的资产。</span></li>
-    </ul>
-    <div class="callout">把三条连起来：<b>笔记是小米把"设备多"这个硬件优势，转成"AI 越用越懂你"这个数据优势的关键一环。</b>少了这一环，全生态产生的个人内容永远是散的，AI 永远只能给通用答案。</div>
+    <div class="chain">
+      <div class="ch"><div class="big">① AI 拼到最后，拼的是谁更懂你。</div><div class="sm">模型大家都差不多了，<b>"懂不懂你"才分高下</b>。</div></div>
+      <div class="ch"><div class="big">② 通用 AI 天生不懂你。</div><div class="sm">它不认识你，每次都从零开始——<b>豆包再聪明，也不知道你上周记了什么、在意什么</b>。</div></div>
+      <div class="ch"><div class="big">③ 小米手里有别人没有的牌。</div><div class="sm">手机、手表、耳机、车、家，<b>每天都在产生"你的内容"</b>——这是设备遍布人车家才有的资源。</div></div>
+      <div class="ch"><div class="big">④ 但这些内容现在是散的，AI 调不到。</div><div class="sm">各设备各存各的、留不下、用户也管不着。<b>缺一个把它们收起来的地方。</b></div></div>
+      <div class="ch end"><div class="big">→ 这个"收起来、能被 AI 用、用户还信得过"的地方，<span class="hl">就是笔记</span>。</div><div class="sm">所以这个位置不是笔记硬要占，是生态上明摆着一个洞，而笔记天生最适合补——它本来就是用户主动留有价值内容、且看得见管得着的产品。</div></div>
+    </div>
   </div>
 
   <div class="section">
