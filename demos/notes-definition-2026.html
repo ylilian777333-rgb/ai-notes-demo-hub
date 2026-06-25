@@ -115,12 +115,24 @@
   .reqi .tg.opt{ background:rgba(87,128,255,.16); color:#9fb6ff;}
   .reqi .tg.tbd{ background:rgba(255,255,255,.08); color:var(--tx3);}
 
+  /* OS5 规划主线 */
+  .plans{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0;}
+  .plan{ padding:22px 24px; border-radius:18px; border:1px solid; background:rgba(255,255,255,.03);}
+  .plan .ph{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:9px;}
+  .plan .pt{ font-size:16px; font-weight:800; color:#fff;}
+  .plan .pp{ font-size:11px; font-weight:800; padding:3px 10px; border-radius:14px; white-space:nowrap;}
+  .plan p{ font-size:13.5px; color:var(--tx2); line-height:1.7; margin:0;} .plan p b{ color:#fff;}
+  .plan.l1{ border-color:rgba(87,128,255,.32);} .plan.l1 .pt{ color:#9fb6ff;} .plan.l1 .pp{ background:rgba(87,128,255,.18); color:#9fb6ff;}
+  .plan.l2{ border-color:rgba(51,212,153,.32);} .plan.l2 .pt{ color:#6fe3bd;} .plan.l2 .pp{ background:rgba(51,212,153,.18); color:#6fe3bd;}
+  .plan.l3{ border-color:rgba(255,133,20,.32);} .plan.l3 .pt{ color:#ffb469;} .plan.l3 .pp{ background:rgba(255,133,20,.18); color:#ffb469;}
+  .plan.l4{ border-color:rgba(166,140,250,.32);} .plan.l4 .pt{ color:#c3b0fb;} .plan.l4 .pp{ background:rgba(166,140,250,.18); color:#c3b0fb;}
+
   @media(max-width:860px){
     .side{ position:static; width:auto; height:auto; flex-direction:row; flex-wrap:wrap; gap:8px; border-right:none; border-bottom:1px solid var(--line);}
     .side .dt,.side .foot{ display:none;} .side .nav{ flex-direction:row; flex-wrap:wrap;}
     .main{ margin-left:0; padding:40px 22px 80px;}
     .ch-num{ font-size:60px;} .ch-title{ font-size:23px;}
-    .prow,.layer,.is{ grid-template-columns:1fr; gap:12px;}
+    .prow,.layer,.is,.plans{ grid-template-columns:1fr; gap:12px;}
     .fw{ flex-direction:column; gap:12px;} .aar{ transform:rotate(90deg);}
     .reqi{ grid-template-columns:1fr; gap:6px;} .reqi .tg{ justify-self:start; padding:3px 10px;}
   }
@@ -136,7 +148,8 @@
     <a href="#c2"><span class="nn">02</span><span class="nt">笔记的定位</span></a>
     <a href="#c3"><span class="nn">03</span><span class="nt">三个根本变化</span></a>
     <a href="#c4"><span class="nn">04</span><span class="nt">一条飞轮</span></a>
-    <a href="#c5"><span class="nn">05</span><span class="nt">需求清单拆解</span></a>
+    <a href="#c5"><span class="nn">05</span><span class="nt">OS5 规划主线</span></a>
+    <a href="#c6"><span class="nn">06</span><span class="nt">需求清单拆解</span></a>
   </nav>
   <div class="foot">定位对齐稿 · 内部讨论<br>汇报对象：李楠 · 笔记团队</div>
 </aside>
@@ -208,9 +221,24 @@
 
   <section class="ch" id="c5">
     <div class="ch-num">05</div>
+    <div class="ch-title">OS5 规划：这一程把飞轮真正转起来</div>
+    <div class="ch-divider"></div>
+    <div class="insight"><div class="t">这 一 程 的 主 张</div><p>今年完成了从 0 到 1——把 AI 笔记立起来、功能铺开。OS5 这一程，重点从"有没有功能"转向<span class="hi">"飞轮转不转得动、体验做没做扎实"</span>：让用户真的把内容用起来、留下来。</p></div>
+    <div class="ch-desc">基于这个主张，OS5 收敛成四条主线——前两条决定输赢，后两条决定口碑与差距。</div>
+    <div class="plans">
+      <div class="plan l1"><div class="ph"><span class="pt">主线一 · 押胜负手</span><span class="pp">P0</span></div><p>把<b>"写得出"和"用得上"</b>做深做透。这两环决定笔记是记事本，还是真正能用的知识库。</p></div>
+      <div class="plan l2"><div class="ph"><span class="pt">主线二 · 补卡点 · 通触达</span><span class="pp">P0 / P1</span></div><p>补"收得进"的<b>文档 / 链接解析</b>，把笔记能力在<b>小爱入口显化</b>——内容进得来、能力被看见。</p></div>
+      <div class="plan l3"><div class="ph"><span class="pt">主线三 · 体验做扎实</span><span class="pp">P0 · 持续</span></div><p>把这一年铺开的功能<b>打磨到好用</b>——转写、AI 编辑、搜索、性能。体验是留存的根本。</p></div>
+      <div class="plan l4"><div class="ph"><span class="pt">主线四 · 起步拉差距</span><span class="pp">P1</span></div><p><b>"自己长"（主动服务）</b>在前三环跑通后起步，做出别人短期补不上的差异化。</p></div>
+    </div>
+    <div class="tip orange"><div class="t">取 舍 与 节 奏</div><p>节奏上，P0（写得出 / 用得上 / 收得进卡点 / 体验优化）本程先行，P1（自己长 / 入口显化）跟上。<b>明确不在本程：生成物消费（PPT / 播客）、出海、PAD 大屏——属于另一条线；"记忆进笔记"方向待定。</b></p></div>
+  </section>
+
+  <section class="ch" id="c6">
+    <div class="ch-num">06</div>
     <div class="ch-title">需求清单：沿飞轮四环拆解 + 三类横切</div>
     <div class="ch-divider"></div>
-    <div class="ch-desc">把定位落成可执行的需求。前四组沿飞轮逐环，对应解决四类痛点；后三组是横切全程的能力与优化。胜负手是<b>"写得出"和"用得上"</b>——它们决定笔记是不是真从记事本变成了能用的知识库。</div>
+    <div class="ch-desc">把上面四条主线落成可执行的需求。前四组沿飞轮逐环、对应解决四类痛点；后三组是横切全程的入口、体验与待定项。</div>
 
     <div class="reqg r1">
       <div class="gh"><div class="gt">写得出 <small>对应：起不了笔</small></div><div class="pr">P0 · 胜负手</div></div>
@@ -258,8 +286,6 @@
       <div class="gh"><div class="gt">待定 · 需进一步探索 <small>方向未定，先不投入</small></div><div class="pr">待定</div></div>
       <div class="reqi"><div class="rn">记忆进笔记</div><div class="rd">MiClaw / 小爱的"记忆"是否沉淀进笔记、以何种形态呈现与管理，方向尚未确定，待对齐后再评估。</div><div class="tg tbd">待定</div></div>
     </div>
-
-    <div class="tip orange"><div class="t">取 舍</div><p>头部资源压在"写得出 + 用得上"两个胜负手，"收得进"补齐卡点、"体验优化"持续投入；"自己长"在前三环跑通后加力。<b>生成物消费（PPT / 播客）、出海、PAD 大屏不在本期，属于另一条线。</b></p></div>
   </section>
 
 </main>
