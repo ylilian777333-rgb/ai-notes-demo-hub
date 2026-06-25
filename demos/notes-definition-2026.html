@@ -54,9 +54,9 @@
 
   .def{ padding:36px 44px; border-radius:22px; background:rgba(87,128,255,.08); border:1px solid rgba(87,128,255,.25); text-align:center; margin:6px 0 8px;}
   .def .lab{ font-size:13px; letter-spacing:2px; color:rgba(255,255,255,.5); font-weight:700; margin-bottom:14px;}
-  .def .m{ font-size:25px; font-weight:800; color:#fff; line-height:1.6;}
+  .def .m{ font-size:26px; font-weight:800; color:#fff; line-height:1.55;}
   .def .m em{ font-style:normal; color:#8aa6ff;}
-  .def .s{ font-size:14.5px; color:var(--tx2); margin-top:12px; line-height:1.7;}
+  .def .s{ font-size:14.5px; color:var(--tx2); margin-top:14px; line-height:1.75;}
 
   .is{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:8px 0;}
   .iscard{ padding:26px 30px; border-radius:22px; border:1px solid;}
@@ -72,9 +72,8 @@
   .tip p{ font-size:15px; line-height:1.8; color:var(--tx2); margin:0;} .tip p b{ color:#fff; font-weight:700;}
   .tip.orange{ background:rgba(255,133,20,.08); border-color:rgba(255,133,20,.28);} .tip.orange .t{ color:var(--orange);}
   .tip.blue{ background:rgba(87,128,255,.08); border-color:rgba(87,128,255,.25);} .tip.blue .t{ color:var(--blue);}
-  .tip.gray{ background:rgba(255,255,255,.03); border-color:var(--line);} .tip.gray .t{ color:var(--tx3);}
 
-  /* 记录→加工→产物 */
+  /* 知识库三段 */
   .abc{ display:flex; align-items:stretch; gap:0; padding:26px; background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:24px; margin:8px 0;}
   .stage{ flex:1; padding:22px 18px; border-radius:18px; border:1px solid;}
   .stage .s{ font-size:11.5px; font-weight:700; letter-spacing:.5px; margin-bottom:8px;}
@@ -95,7 +94,6 @@
   .out.l3{ background:rgba(51,212,153,.06); border-color:rgba(51,212,153,.2);} .out.l3 .ol{ color:#6fe3bd;}
   .out.l4{ background:rgba(255,133,20,.06); border-color:rgba(255,133,20,.2);} .out.l4 .ol{ color:#ffb469;}
 
-  /* OS5 主线 */
   .plans{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0;}
   .plan{ padding:22px 24px; border-radius:18px; border:1px solid; background:rgba(255,255,255,.03);}
   .plan.span{ grid-column:1 / -1;}
@@ -108,7 +106,6 @@
   .plan.l3{ border-color:rgba(51,212,153,.32);} .plan.l3 .pt{ color:#6fe3bd;} .plan.l3 .pp{ background:rgba(51,212,153,.18); color:#6fe3bd;}
   .plan.l4{ border-color:var(--line);} .plan.l4 .pt{ color:var(--tx2);} .plan.l4 .pp{ background:rgba(255,255,255,.08); color:var(--tx3);}
 
-  /* 需求清单 */
   .reqg{ margin:16px 0; border:1px solid var(--line); border-radius:18px; overflow:hidden;}
   .reqg .gh{ padding:15px 24px; display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,.03);}
   .reqg .gh .gt{ font-size:17px; font-weight:800; color:#fff;} .reqg .gh .gt small{ color:var(--tx3); font-weight:600; margin-left:10px; font-size:13px;}
@@ -145,8 +142,8 @@
   <nav class="nav" id="nav">
     <a href="#c1"><span class="nn">01</span><span class="nt">用户的真实处境</span></a>
     <a href="#c2"><span class="nn">02</span><span class="nt">笔记的定位</span></a>
-    <a href="#c3"><span class="nn">03</span><span class="nt">记录 → 加工 → 能用</span></a>
-    <a href="#c4"><span class="nn">04</span><span class="nt">OS5 规划主线</span></a>
+    <a href="#c3"><span class="nn">03</span><span class="nt">知识库怎么运转</span></a>
+    <a href="#c4"><span class="nn">04</span><span class="nt">OS5 规划</span></a>
     <a href="#c5"><span class="nn">05</span><span class="nt">需求清单拆解</span></a>
   </nav>
   <div class="foot">定位对齐稿 · 内部讨论<br>汇报对象：李楠 · 笔记团队</div>
@@ -162,103 +159,104 @@
     <div class="prow">
       <div class="persona blue"><h4>👨‍💼 上班族</h4><div class="q">"开了一上午会都录了音，下午客户问起上周的决议，我翻了十分钟没找着。"</div><div class="pain">痛点：记是记了，要用的时候用不起来。</div><div class="want">想要：问一句就答，自动帮我列出待办。</div></div>
       <div class="persona purple"><h4>🎓 学生</h4><div class="q">"这学期录了二十多节课，期末想复习，点开全是几十分钟的录音，根本没法看。"</div><div class="pain">痛点：记下来的是原始素材，没变成能用的东西。</div><div class="want">想要：变成复习大纲、考点，最好还能听。</div></div>
-      <div class="persona green"><h4>🧑 普通人</h4><div class="q">"想记点东西，还得开 App、新建、一个字一个字敲，常常懒得记，或者记一半就放下了。"</div><div class="pain">痛点：记的门槛太高，经常起不了笔。</div><div class="want">想要：说一句话，就帮我记好、写顺。</div></div>
+      <div class="persona green"><h4>🧑 普通人</h4><div class="q">"想记点东西，还得开 App、新建、一个字一个字敲，常常懒得记，或者记一半就放下了。"</div><div class="pain">痛点：记的门槛太高，经常起不了笔。</div><div class="want">想要：随口说一句，就帮我记好、写顺。</div></div>
       <div class="persona orange"><h4>🗂️ 重度用户</h4><div class="q">"东西记在便签、记在微信、记在备忘录，到处都是，真要用的时候想不起在哪。"</div><div class="pain">痛点：散在各处，等于没记。</div><div class="want">想要：值得留的都汇到一处，随时调出来用。</div></div>
     </div>
-    <div class="insight"><div class="t">共 性 洞 察</div><p>没有人的真正需求是"管理笔记"或"给笔记分类"。大家要的是同一件事——<span class="hi">我随手记的，能省事地变成一个能直接用的东西。</span></p></div>
+    <div class="insight"><div class="t">共 性 洞 察</div><p>没有人真正想要"管理笔记""给笔记分类"。大家要的是同一件事——<span class="hi">我随手记的东西，能攒成我自己的一个库，需要时随时能调出来用。</span></p></div>
   </section>
 
   <section class="ch" id="c2">
     <div class="ch-num">02</div>
     <div class="ch-title">所以，笔记该是什么</div>
     <div class="ch-divider"></div>
-    <div class="ch-desc">顺着洞察往下推：用户要的是"记的东西能变成能用的"，那笔记的定位就该聚焦在这件事上，而不是去做一个无所不包的大平台。</div>
+    <div class="ch-desc">顺着洞察往下推：用户要的，是"我的东西攒成一个库、随时能调来用"。那笔记的定位就清楚了——</div>
     <div class="def">
       <div class="lab">一 句 话 定 位</div>
-      <div class="m">笔记 = <em>用户的记录</em> + <em>AI 把记录变成能直接用的内容</em>。</div>
-      <div class="s">用户负责"记"，AI 负责让它"能用"——能听、能看、能做、能学。</div>
+      <div class="m">笔记 = <em>你自己的个人知识库</em>。</div>
+      <div class="s">你随时随地能往里写，AI 把它变成结构化、能查能调的内容，需要时随时调出来用。</div>
     </div>
-    <div class="ch-desc">定位聚焦，关键在于<b>想清楚什么不做</b>。下面右边是笔记要做的，左边是刻意不碰的——尤其"系统级记忆/画像"这类，是系统和小爱的事，笔记不越位、不重复建设。</div>
+    <div class="ch-desc">它的运转，就是三件事接起来：<b>随时能写进去 → AI 变成能用的结构 → 随时能调出来用</b>（第 03 节展开）。这里的关键是<b>想清楚什么不做</b>——尤其"系统级记忆 / 画像"那类，是系统和小爱的事，笔记不越位。</div>
     <div class="is">
       <div class="iscard no"><h4>✕ 笔记不做（不越位）</h4><ul>
-        <li><b>不做系统级记忆 / 用户画像</b>：那是系统、小爱的事，笔记不抢、不重复造。</li>
-        <li><b>不做知识库 / 收纳分类管理</b>：不让用户花精力去"管理"。</li>
+        <li><b>不做系统级记忆 / 用户画像</b>：那是系统、小爱在背后给你建模的事，笔记不抢、不重复造。</li>
+        <li><b>不做要你操心的收纳箱</b>：整理交给 AI，不让用户花精力分类管理。</li>
         <li><b>不做团队协作</b>：只聚焦个人，不碰飞书 / 钉钉的事。</li>
-        <li><b>不做"更聪明的记事本"</b>：记完只能翻看、不被用，等于没做。</li>
+        <li><b>不做记完只能翻的记事本</b>：调不出来用，等于没记。</li>
       </ul></div>
       <div class="iscard yes"><h4>✓ 笔记要做</h4><ul>
-        <li><b>AI 增强的个人记录</b>：记录是基础，AI 加工是核心价值。</li>
-        <li><b>把记录变成能直接消费的内容</b>：待办、摘要、复习、问答、播客。</li>
-        <li><b>极简记录</b>：说一句、点一下就开始，门槛低到想记就记。</li>
-        <li><b>用你记过的内容帮你写新的</b>：记下来的内容能被调用，不是死素材。</li>
+        <li><b>你自己写入、自己可控的库</b>：写什么、改什么、删什么，你说了算。</li>
+        <li><b>随时随地能写进去</b>：说一句、随手记、各端汇入，别的应用还能通过 MCP 写入。</li>
+        <li><b>变成结构化、能查能调的内容</b>：像你自己的一个数据库，不是一堆原始素材。</li>
+        <li><b>随时调出来用</b>：搜得到、一问就答、被 AI 拿来写新的、被各场景调用。</li>
       </ul></div>
     </div>
-    <div class="tip blue"><div class="t">和 MiClaw 的关系</div><p>笔记是用户<b>创作和消费 AI 内容的地方</b>，也承接 MiClaw 产出的内容供用户消费、再加工。<b>但记忆、画像这类系统级能力不归笔记</b>——笔记做好"记录变内容"这件事，不越位、不抢系统的活。</p></div>
+    <div class="tip blue"><div class="t">和 MiClaw 的关系</div><p>笔记是<b>你自己写入、自己可控的个人知识库</b>，也承接 MiClaw 产出的内容供你留存、再用。<b>记忆、画像这类系统级能力不归笔记</b>——笔记做好"你的库"，系统做"懂你"，各司其职、不越位、不重复建设。</p></div>
   </section>
 
   <section class="ch" id="c3">
     <div class="ch-num">03</div>
-    <div class="ch-title">笔记的核心逻辑：记录 → 加工 → 能直接用</div>
+    <div class="ch-title">知识库怎么运转：能写进去 → 变成结构 → 调出来用</div>
     <div class="ch-divider"></div>
-    <div class="ch-desc">把定位讲成一条链——用户的价值，在这条链的终点：拿到一个不用再加工、直接能用的东西。</div>
+    <div class="ch-desc">把定位讲成一条线。三段都顺，知识库才真正活起来——能写进去的越多、整理得越好，调出来才越有用。</div>
     <div class="abc">
-      <div class="stage s1"><div class="s">A · 记录</div><h4>用户记的原始内容</h4><p>语音速记 / 手写文字 / 录音 / 照片 / 文档链接导入。门槛越低，记得越多。</p></div>
-      <div class="aar">→<small>AI 理解</small></div>
-      <div class="stage s2"><div class="s">B · 加工</div><h4>AI 理解 + 结构化</h4><p>识别重点、整理成纪要 / 大纲 / 摘要，让内容从"一堆原始素材"变得有条理、能被调用。</p></div>
-      <div class="aar">→<small>再生成</small></div>
-      <div class="stage s3"><div class="s">C · 能直接用</div><h4>拿到就能用的产物</h4><p>待办、复习大纲、考点、问答、播客……不用再做任何事，直接消费。</p></div>
+      <div class="stage s1"><div class="s">① 写进去</div><h4>随时随地能写</h4><p>说一句、随手记、录音、文档链接导入、各端汇入；别的应用 / Agent 还能通过 MCP 写入。门槛越低、通道越多，库才攒得起来。</p></div>
+      <div class="aar">→<small>AI 整理</small></div>
+      <div class="stage s2"><div class="s">② 变成结构</div><h4>整理成能查能调的内容</h4><p>AI 把写进来的东西理解、结构化——纪要 / 要点 / 标签，变成像数据库一样能检索、能被调用的内容，而不是一堆原始素材。</p></div>
+      <div class="aar">→<small>随时取用</small></div>
+      <div class="stage s3"><div class="s">③ 调出来用</div><h4>需要时拿来就用</h4><p>搜得到、一问就答、被 AI 拿来写新的、被各场景与 MCP 读取调用，生成能直接用的产物。</p></div>
     </div>
-    <div class="ch-desc">按用户的消费方式，产物分成四类——这也是后面需求要支撑的终点：</div>
+    <div class="ch-desc">"调出来用"的产物，按用户怎么消费分四类——这也是需求要支撑的终点：</div>
     <div class="outs">
-      <div class="out l1"><div class="ol">🎧 听</div><p>不方便看屏幕时：播客 / 音频要点</p></div>
-      <div class="out l2"><div class="ol">👁️ 看</div><p>需要呈现时：PPT / 脑图 / 摘要</p></div>
-      <div class="out l3"><div class="ol">✋ 做</div><p>需要执行时：待办 / 日程 / 提醒</p></div>
-      <div class="out l4"><div class="ol">🧠 学</div><p>需要记忆时：复习大纲 / 考点 / 问答</p></div>
+      <div class="out l1"><div class="ol">🎧 听</div><p>不便看屏时：播客 / 音频要点</p></div>
+      <div class="out l2"><div class="ol">👁️ 看</div><p>要呈现时：PPT / 脑图 / 摘要</p></div>
+      <div class="out l3"><div class="ol">✋ 做</div><p>要执行时：待办 / 日程 / 提醒</p></div>
+      <div class="out l4"><div class="ol">🧠 学</div><p>要记忆时：复习大纲 / 考点 / 问答</p></div>
     </div>
-    <div class="tip blue"><div class="t">判 断 标 准</div><p>用户拿到后，<b>下一步还要不要再做点什么？</b>要，就还没到终点；不用，就是真的"能直接用"。这是判断一个需求做没做到位的尺子。</p></div>
+    <div class="tip blue"><div class="t">判 断 标 准</div><p>用户调出来后，<b>下一步还要不要再做点什么？</b>要，就还没到位；拿到就能用，才算这个库真的有用。</p></div>
   </section>
 
   <section class="ch" id="c4">
     <div class="ch-num">04</div>
-    <div class="ch-title">OS5 规划：集中把一件事做好</div>
+    <div class="ch-title">OS5 规划：把这个知识库做立起来</div>
     <div class="ch-divider"></div>
-    <div class="insight"><div class="t">这 一 程 想 清 楚 的</div><p>今年功能铺开了（从 0 到 1）。OS5 不再铺新摊子，而是集中把一件事做好——<span class="hi">让用户随手记的，AI 能快速变成一个能直接用的东西，</span>顺带把已有功能的体验做扎实。</p></div>
-    <div class="ch-desc">围绕这件事，这一程的活分四块，先后清楚：</div>
+    <div class="insight"><div class="t">这 一 程 想 清 楚 的</div><p>今年功能铺开了（从 0 到 1）。OS5 不再铺新摊子，而是<span class="hi">把"个人知识库"这件事做立起来——让用户随时写得进、AI 整理得好、需要时调得出，</span>并把已有功能的体验做扎实。</p></div>
+    <div class="ch-desc">围绕"写进去 → 变成结构 → 调出来用"这条线，这一程的活分四块：</div>
     <div class="plans">
-      <div class="plan l1 span"><div class="ph"><span class="pt">① 重点做：帮你写出来 + 让记的能用上</span><span class="pp">最优先</span></div><p><b>帮你写出来</b>＝你说一句 / 记个要点，AI 帮你补全、理顺、成稿；<b>让记的能用上</b>＝记过的东西能被搜到、被引用、一问就答、一键变成待办或复习。<b>这条链通不通、好不好，直接决定笔记到底有没有用——OS5 主要就赌这一件事。</b></p></div>
-      <div class="plan l2"><div class="ph"><span class="pt">② 配合补：让内容进得来、能力被看见</span><span class="pp">跟着做</span></div><p>补上文档、网页链接的解析（现在卡着）；在小爱入口让用户能直接"存进笔记 / 调出笔记"，别把能力藏在 App 里。</p></div>
-      <div class="plan l3"><div class="ph"><span class="pt">③ 同时打磨：把已有功能做到好用</span><span class="pp">持续做</span></div><p>录音转写、AI 编辑、搜索、性能——这些"有了但还不够好用"的，持续打磨。体验是用户留不留下来的根本。</p></div>
-      <div class="plan l4"><div class="ph"><span class="pt">④ 先不做：这一程不碰的</span><span class="pp">往后放</span></div><p>"越用越懂你"的主动服务放下一程；"记忆进笔记"方向没定，先不投；PPT / 播客、出海、PAD 是另一条线，不在这一程。</p></div>
+      <div class="plan l1 span"><div class="ph"><span class="pt">① 重点做：写得进 + 调得出</span><span class="pp">最优先</span></div><p><b>写得进</b>＝降低记录门槛（说一句就成稿）、打开写入通道（各端汇入 + MCP 写入），让东西源源不断进库；<b>调得出</b>＝搜得到、一问就答、被 AI 拿来写新的。<b>这两头通了，知识库才是活的、才有用。</b></p></div>
+      <div class="plan l2"><div class="ph"><span class="pt">② 配合补：把"变成结构"做实</span><span class="pp">跟着做</span></div><p>AI 整理 + 结构化 + 可检索做扎实（库的地基）；补文档 / 链接解析卡点；在小爱入口让用户能直接存进 / 调出笔记。</p></div>
+      <div class="plan l3"><div class="ph"><span class="pt">③ 同时打磨：把已有功能做到好用</span><span class="pp">持续做</span></div><p>录音转写、AI 编辑、搜索、性能——"有了但还不够好用"的，持续打磨。体验是用户留不留下来的根本。</p></div>
+      <div class="plan l4"><div class="ph"><span class="pt">④ 先不做：这一程不碰的</span><span class="pp">往后放</span></div><p>"越用越懂你"的主动服务放下一程；"记忆进笔记"方向没定，先不投；PPT / 播客、出海、PAD 是另一条线。</p></div>
     </div>
-    <div class="tip orange"><div class="t">为 什 么 只 做 这 些</div><p>四个人、一个版本窗口，<b>什么都做，就什么都做不好。</b>把"随手记的能快速变成能用的"这件事做到用户真有感受，比四条线各做一半，值得多。</p></div>
+    <div class="tip orange"><div class="t">为 什 么 这 么 排</div><p>四个人、一个版本窗口，<b>什么都做，就什么都做不好。</b>把"随时写得进、随时调得出"这个知识库的骨架立起来、做到用户有感，比四条线各做一半值得多。</p></div>
   </section>
 
   <section class="ch" id="c5">
     <div class="ch-num">05</div>
-    <div class="ch-title">需求清单：按主线拆解</div>
+    <div class="ch-title">需求清单：按规划拆解</div>
     <div class="ch-divider"></div>
     <div class="ch-desc">把上面的规划落成可执行的需求。"重点"两组先做透，"配套"和"体验"跟上，往后放的明确标出。</div>
 
     <div class="reqg k">
-      <div class="gh"><div class="gt">帮你写出来 <small>重点 · 把记录变成内容</small></div><div class="pr">重点 · 先做</div></div>
+      <div class="gh"><div class="gt">写得进 <small>重点 · 让东西源源不断进库</small></div><div class="pr">重点 · 先做</div></div>
       <div class="reqi"><div class="rn">空页起手式</div><div class="rd">进笔记给一句引导 + 起手式（写一段 / 列清单 / 记要点），点一下就开始，不再对着白板发呆。</div><div class="tg new">新做</div></div>
       <div class="reqi"><div class="rn">工具条随写随帮</div><div class="rd">看你写了什么，随手给扩写、补全、理顺，全程不切页面。</div><div class="tg new">新做</div></div>
       <div class="reqi"><div class="rn">一句话成稿</div><div class="rd">给一个主题，直接生成整篇，或先给大纲再展开。</div><div class="tg new">新做</div></div>
-      <div class="reqi"><div class="rn">选中即改</div><div class="rd">选中一段，精简 / 换正式语气 / 总结成一句。</div><div class="tg new">新做</div></div>
+      <div class="reqi"><div class="rn">全生态一键存入</div><div class="rd">小爱、其他 App 产出的内容，用户判断有价值就一键存进笔记。</div><div class="tg new">新做</div></div>
+      <div class="reqi"><div class="rn">开放写入（含 MCP）</div><div class="rd">其他应用 / Agent 能通过 MCP 把内容写进你的笔记，让写入通道真正打开。</div><div class="tg new">新做</div></div>
     </div>
 
     <div class="reqg k">
-      <div class="gh"><div class="gt">让记的能用上 <small>重点 · 内容能被调用、能消费</small></div><div class="pr">重点 · 先做</div></div>
-      <div class="reqi"><div class="rn">用你的内容写新的（RAG）</div><div class="rd">写新笔记时引用你存过的相关内容，标来源、可核对、可一键去掉。</div><div class="tg core">核心</div></div>
-      <div class="reqi"><div class="rn">问答 · 拿来即用的产物</div><div class="rd">对笔记问一句就答；一键生成待办 / 复习大纲 / 摘要等可直接消费的产物。</div><div class="tg new">新做</div></div>
+      <div class="gh"><div class="gt">调得出 <small>重点 · 需要时拿来就用</small></div><div class="pr">重点 · 先做</div></div>
+      <div class="reqi"><div class="rn">用你的内容写新的（RAG）</div><div class="rd">写新笔记时引用你库里相关的内容，标来源、可核对、可一键去掉。</div><div class="tg core">核心</div></div>
+      <div class="reqi"><div class="rn">一问就答 + 生成产物</div><div class="rd">对库里的内容问一句就答；一键生成待办 / 复习大纲 / 摘要等能直接用的产物。</div><div class="tg new">新做</div></div>
       <div class="reqi"><div class="rn">自动关联 + 相关推荐</div><div class="rd">写或看一篇时，自动浮现相关的旧笔记、录音、文档。</div><div class="tg new">新做</div></div>
     </div>
 
     <div class="reqg c">
-      <div class="gh"><div class="gt">内容进得来 + 入口被看见 <small>配合补</small></div><div class="pr">配套</div></div>
-      <div class="reqi"><div class="rn">打通文档 / 链接解析</div><div class="rd">图片、录音已能导入；文档与网页链接的解析必须打通，多模态导入才算完整。</div><div class="tg gap">补卡点</div></div>
-      <div class="reqi"><div class="rn">全生态一键存入</div><div class="rd">小爱、其他 App、MCP 产出的内容，用户判断有价值就一键存进笔记。</div><div class="tg new">新做</div></div>
-      <div class="reqi"><div class="rn">小爱入口显化笔记能力</div><div class="rd">在小爱对话里就能"存进笔记 / 唤起笔记内容"，让能力在高频入口显性可达。</div><div class="tg new">新做</div></div>
+      <div class="gh"><div class="gt">变成结构 + 进得来 + 看得见 <small>配套 · 库的地基与通道</small></div><div class="pr">配套</div></div>
+      <div class="reqi"><div class="rn">结构化 / 可检索做实</div><div class="rd">AI 整理成纪要 / 要点 / 标签，让内容像数据库一样能被准确检索和调用。</div><div class="tg new">新做</div></div>
+      <div class="reqi"><div class="rn">打通文档 / 链接解析</div><div class="rd">图片、录音已能导入；文档与网页链接的解析必须打通，写入才算完整。</div><div class="tg gap">补卡点</div></div>
+      <div class="reqi"><div class="rn">小爱入口显化笔记能力</div><div class="rd">在小爱对话里就能"存进笔记 / 调出笔记内容"，让能力在高频入口显性可达。</div><div class="tg new">新做</div></div>
     </div>
 
     <div class="reqg c">
@@ -270,7 +268,7 @@
     </div>
 
     <div class="reqg g">
-      <div class="gh"><div class="gt">后置 / 待定 <small>本程不投或待对齐</small></div><div class="pr">后置</div></div>
+      <div class="gh"><div class="gt">后置 / 待定 <small>本程不投或待对齐</small></div><div class="pr">往后放</div></div>
       <div class="reqi"><div class="rn">主动服务（越用越懂你）</div><div class="rd">主动浮现、定期回顾、个性化推荐——方向认可，但放下一程，避免本程铺太宽。</div><div class="tg tbd">下一程</div></div>
       <div class="reqi"><div class="rn">记忆进笔记</div><div class="rd">MiClaw / 小爱"记忆"是否沉淀进笔记、以何形态呈现，属系统级方向，未对齐前不投。</div><div class="tg tbd">待定</div></div>
     </div>
