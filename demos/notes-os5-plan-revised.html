@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记 OS5 规划</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#0a0a0b; --side:#0d0e11; --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.05);
+    --tx:#c9d1d9; --tx2:rgba(255,255,255,.74); --tx3:rgba(255,255,255,.5); --white:#fff;
+    --blue:#5780ff; --green:#33d499; --purple:#a68cfa; --orange:#ff8514; --yellow:#ffc73d; --red:#ff6b4d;
+  }
+  html{ scroll-behavior:smooth;}
+  body{ background:var(--bg); color:var(--tx); font-family:"MiSans","PingFang SC","Inter",system-ui,sans-serif; -webkit-font-smoothing:antialiased; line-height:1.8;}
+  p,.ch-desc,li{ text-wrap:pretty;} .ch-title,.def .m,h4{ text-wrap:balance;}
+  .side{ position:fixed; top:0; left:0; width:256px; height:100vh; background:var(--side); border-right:1px solid var(--line); padding:40px 26px; display:flex; flex-direction:column; gap:8px; overflow-y:auto; z-index:30;}
+  .side .brand{ font-size:12px; letter-spacing:2px; color:var(--blue); font-weight:800; margin-bottom:6px;}
+  .side .dt{ font-size:18px; font-weight:800; color:#fff; line-height:1.45; margin-bottom:6px;}
+  .side .sub{ font-size:11.5px; color:var(--tx3); margin-bottom:24px; line-height:1.6;}
+  .side .nav{ display:flex; flex-direction:column; gap:3px;}
+  .side a{ display:flex; gap:12px; align-items:baseline; padding:11px 14px; border-radius:11px; text-decoration:none; color:var(--tx3); transition:.18s;}
+  .side a .nn{ font-size:12px; font-weight:800; color:rgba(255,255,255,.32); flex:0 0 20px;}
+  .side a .nt{ font-size:14px; font-weight:600; line-height:1.4;}
+  .side a:hover{ background:rgba(255,255,255,.04); color:var(--tx);}
+  .side a.on{ background:rgba(87,128,255,.14); color:#fff;} .side a.on .nn{ color:var(--blue);}
+  .side .foot{ margin-top:auto; padding-top:20px; font-size:11px; color:rgba(255,255,255,.28); line-height:1.7;}
+  .main{ margin-left:256px; padding:56px 56px 100px;}
+  .ch{ max-width:760px; margin:0 auto; padding:44px 0 8px; border-top:1px solid var(--line); scroll-margin-top:24px;}
+  #c0{ border-top:none; padding-top:20px;}
+  .ch-num{ font-size:15px; font-weight:800; color:var(--blue); letter-spacing:3px; font-family:"Inter",sans-serif; opacity:.85;}
+  .ch-title{ font-size:24px; font-weight:800; color:var(--white); line-height:1.35; margin-top:6px; letter-spacing:-.2px;}
+  .ch-divider{ height:2px; background:linear-gradient(90deg,rgba(87,128,255,.7),rgba(87,128,255,0)); border-radius:2px; margin:14px 0 20px; width:52px;}
+  .ch-desc{ font-size:15px; color:var(--tx2); line-height:1.8; margin:14px 0 18px;}
+  .ch-desc b{ color:#fff; font-weight:700;} .ch-desc .em{ color:var(--green); font-weight:700;} .ch-desc .warn{ color:var(--orange); font-weight:700;}
+  .klabel{ font-size:11.5px; letter-spacing:1.5px; font-weight:800; color:var(--blue); margin:24px 0 10px; text-transform:uppercase;}
+  .def{ padding:26px 32px; border-radius:18px; background:rgba(87,128,255,.08); border:1px solid rgba(87,128,255,.25); text-align:center; margin:8px 0;}
+  .def .lab{ font-size:11.5px; letter-spacing:2px; color:rgba(255,255,255,.5); font-weight:700; margin-bottom:10px;}
+  .def .m{ font-size:19px; font-weight:800; color:#fff; line-height:1.55; letter-spacing:-.2px;}
+  .def .m em{ font-style:normal; color:#8aa6ff;}
+  .def .s{ font-size:13.5px; color:var(--tx2); margin-top:12px; line-height:1.75;}
+  .stmt{ padding:22px 26px; border-radius:16px; background:rgba(87,128,255,.07); border:1px solid rgba(87,128,255,.22); border-left:3px solid var(--blue); margin:10px 0 4px;}
+  .stmt-lab{ font-size:11px; letter-spacing:2px; font-weight:800; color:var(--blue); text-transform:uppercase; margin-bottom:12px;}
+  .stmt-main{ font-size:20px; font-weight:700; color:#fff; line-height:1.66; letter-spacing:-.2px;}
+  .stmt-main em{ font-style:normal; color:#8aa6ff;}
+  .stmt-sub{ font-size:14px; color:var(--tx2); line-height:1.8; margin-top:14px;}
+  .insight{ padding:18px 22px; border-radius:14px; background:rgba(255,133,20,.09); border:1px solid rgba(255,133,20,.28); margin:14px 0;}
+  .insight.blue{ background:rgba(87,128,255,.09); border-color:rgba(87,128,255,.28);}
+  .insight.green{ background:rgba(51,212,153,.09); border-color:rgba(51,212,153,.28);}
+  .insight .t{ font-size:12px; font-weight:800; letter-spacing:1px; color:var(--orange); margin-bottom:9px;}
+  .insight.blue .t{ color:var(--blue);} .insight.green .t{ color:var(--green);}
+  .insight p{ font-size:15px; color:#fff; line-height:1.88; margin:0; font-weight:500;}
+  .insight p .hi{ color:var(--yellow); font-weight:700;}
+  .cards{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;}
+  .card{ padding:18px 20px; border-radius:14px; border:1px solid var(--line); background:rgba(255,255,255,.025);}
+  .card h4{ font-size:15px; font-weight:800; color:#fff; margin-bottom:10px; display:flex; gap:8px; align-items:center;}
+  .card p{ font-size:13.5px; color:var(--tx2); line-height:1.72;}
+  .card .tag{ display:inline-block; font-size:10.5px; font-weight:800; padding:2px 8px; border-radius:20px; margin-left:auto;}
+  .tag.p0{ background:rgba(255,107,77,.18); color:var(--red);} .tag.key{ background:rgba(51,212,153,.18); color:var(--green);}
+  .flow{ display:flex; align-items:stretch; gap:10px; margin:18px 0; flex-wrap:wrap;}
+  .flow .step{ flex:1; min-width:150px; padding:20px; border-radius:16px; background:rgba(255,255,255,.03); border:1px solid var(--line); text-align:center;}
+  .flow .step .ic{ font-size:24px;} .flow .step .st{ font-size:15px; font-weight:800; color:#fff; margin:8px 0 4px;} .flow .step .sd{ font-size:12.5px; color:var(--tx3); line-height:1.6;}
+  .flow .arrow{ align-self:center; color:var(--blue); font-size:20px; font-weight:800;}
+  .flow .step.gear{ border-color:rgba(255,133,20,.4); background:rgba(255,133,20,.07);}
+  table{ width:100%; border-collapse:collapse; margin:14px 0; font-size:13.5px;}
+  th,td{ text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{ color:var(--blue); font-weight:800; font-size:12px; letter-spacing:.5px;}
+  td b{ color:#fff;}
+  .pri{ display:inline-block; font-size:10.5px; font-weight:800; padding:2px 9px; border-radius:20px;}
+  .pri.p0{ background:rgba(255,107,77,.18); color:var(--red);} .pri.p1{ background:rgba(255,133,20,.18); color:var(--orange);} .pri.p2{ background:rgba(87,128,255,.18); color:var(--blue);} .pri.later{ background:rgba(255,255,255,.08); color:var(--tx3);}
+  .phase{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:16px 0;}
+  .phase .p{ padding:22px 24px; border-radius:18px; border:1px solid var(--line); background:rgba(255,255,255,.025);}
+  .phase .p .ph{ font-size:12px; font-weight:800; letter-spacing:1px; color:var(--blue); margin-bottom:4px;}
+  .phase .p .pt{ font-size:16px; font-weight:800; color:#fff; margin-bottom:12px;}
+  .phase .p ul{ list-style:none; display:flex; flex-direction:column; gap:9px;}
+  .phase .p li{ font-size:13px; color:var(--tx2); line-height:1.55; padding-left:16px; position:relative;}
+  .phase .p li:before{ content:"›"; position:absolute; left:0; color:var(--blue); font-weight:800;}
+  .metric{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:16px 0;}
+  .metric .m{ padding:18px; border-radius:14px; background:rgba(255,255,255,.03); border:1px solid var(--line); text-align:center;}
+  .metric .m .v{ font-size:15px; font-weight:800; color:#fff; line-height:1.3;} .metric .m .l{ font-size:11.5px; color:var(--tx3); margin-top:6px; line-height:1.5;}
+  .hero{ max-width:760px; margin:0 auto; padding-bottom:8px;}
+  .hero .eyebrow{ font-size:13px; letter-spacing:3px; color:var(--blue); font-weight:800;}
+  .hero h1{ font-size:33px; font-weight:900; color:#fff; line-height:1.25; margin:12px 0 16px; letter-spacing:-.5px;}
+  .hero .lead{ font-size:15.5px; color:var(--tx2); line-height:1.85; max-width:700px;}
+  .note{ font-size:12.5px; color:var(--tx3); border-left:2px solid var(--line); padding-left:14px; margin:18px 0; line-height:1.7;}
+  @media(max-width:900px){ .side{display:none;} .main{margin-left:0; padding:40px 22px 80px;} .cards,.def{grid-template-columns:1fr;} .metric,.phase{grid-template-columns:1fr;} .hero h1{font-size:32px;} }
+</style>
+</head>
+<body>
+<nav class="side">
+  <div class="brand">XIAOMI NOTES · OS5</div>
+  <div class="dt">笔记 OS5 规划</div>
+  <div class="sub">产品策略 · 建立在代码现状<br>与真实用户场景之上</div>
+  <div class="nav">
+    <a href="#c0"><span class="nn">00</span><span class="nt">主张：从"存得下"到"调得动"</span></a>
+    <a href="#c1"><span class="nn">01</span><span class="nt">定位与护城河</span></a>
+    <a href="#c2"><span class="nn">02</span><span class="nt">知识库怎么建立起来</span></a>
+    <a href="#c3"><span class="nn">03</span><span class="nt">四个工作重点</span></a>
+    <a href="#c4"><span class="nn">04</span><span class="nt">笔记内的智能管理</span></a>
+    <a href="#c5"><span class="nn">05</span><span class="nt">需求清单与优先级</span></a>
+    <a href="#c6"><span class="nn">06</span><span class="nt">落地节奏</span></a>
+  </div>
+  <div class="foot">基于笔记代码梳理 + 用户场景<br>2026-06-25</div>
+</nav>
+
+<main class="main">
+
+  <div class="hero">
+    <div class="eyebrow">PRODUCT PLAN</div>
+    <h1>OS5：把"个人知识库"<br>从存得下，做到调得动。</h1>
+    <p class="lead">本程聚焦一件事：把"个人知识库"立起来——让用户<b style="color:#fff">随时写得进、AI 整理得好、需要时调得出，且拿到就能用</b>。核心判断：<span style="color:var(--green);font-weight:700">写得进不是稀缺能力，调得动才是；资源优先投入"调得动"及支撑它的地基。</span></p>
+  </div>
+
+  <!-- 00 -->
+  <section class="ch" id="c0">
+    <div class="ch-num">00</div>
+    <div class="ch-title">主张：从"存得下"到"调得动"</div>
+    <div class="ch-divider"></div>
+    <div class="stmt">
+      <div class="stmt-lab">一句话</div>
+      <p class="stmt-main">笔记 ＝ 你<em>可控</em>的个人知识库。真正决定价值的，不是"能写多少进去"，而是<em>"需要时调得出、且拿到就能用"</em>。</p>
+      <p class="stmt-sub">写进去 → AI 变结构 → 调出来用，三段缺一不可；但本程把投入压向后两段——"写"在生态中并不稀缺，"调得准、调得动"才是笔记不可替代的地方。</p>
+    </div>
+    <div class="insight blue">
+      <div class="t">核心判断</div>
+      <p>用户的痛点不在"记不下"，而在"<span class="hi">用不起来</span>"：开会录了音、事后查找却要翻找许久；上了二十节课，期末面对几十分钟录音难以复习。<span class="hi">这些痛点全部发生在调用侧</span>。写入门槛低、通道多本身不构成壁垒——微信、便签、备忘录都能随手记。所以本程的最优先级，放在让内容"调得出、拿来即用"。</p>
+    </div>
+  </section>
+
+  <!-- 01 -->
+  <section class="ch" id="c1">
+    <div class="ch-num">01</div>
+    <div class="ch-title">定位与护城河</div>
+    <div class="ch-divider"></div>
+    <div class="ch-desc">"系统级记忆 / 用户画像"交给系统和小爱在背后建模，笔记不越位、不重复造。笔记专注做<b>"你自己可控的那一份库"</b>。个人知识库赛道已相当拥挤，笔记的不可替代性需要明确回答。以下四点构成其核心壁垒。</div>
+    <div class="klabel">笔记的四个不可替代点</div>
+    <div class="cards">
+      <div class="card"><h4>🔒 你可控的私域库</h4><p>系统记忆是"系统替你建模、用户不可见、不可控"；笔记是<b>用户可见、可改、可删、可授权</b>的那一份。可控性本身就是差异化——尤其在隐私敏感的内容上。</p></div>
+      <div class="card"><h4>🧩 全端 + 全生态的沉淀池</h4><p>录音、手写、拍照、文档、各 App 经 MCP 汇入——<b>笔记是这些异构输入唯一"留得下、调得出"的落点</b>。瞬时对话不承接用户主动留存的长内容。</p></div>
+      <div class="card"><h4>🤝 与小爱互补</h4><p>小爱做"懂你"（瞬时、对话态），笔记做"你的库"（沉淀、可调用态）。<b>笔记是小爱产出的留存与再利用层</b>。这层协同关系要在产品上显性表达。</p></div>
+      <div class="card"><h4>⚡ 拿到即用</h4><p>别家知识库止于"搜得到"。笔记要做到<b>调出来直接是待办 / 复习大纲 / 摘要</b>等成品——少一步操作，就是壁垒。</p></div>
+    </div>
+    <div class="insight"><div class="t">一个必须先对齐的决策</div><p>笔记能不能<span class="hi">只读引用小爱对用户的理解</span>，直接决定"调得准"的天花板。这是一条必须厘清的边界，<b>需要在 OS5 启动前与小爱 / 系统侧明确对齐：哪些记忆可被笔记只读取用、以什么形态</b>。该边界明确后，"懂你"方能在笔记中真正落地。<b style="color:var(--orange)"> 这是依赖外部团队的前置项——存在兜底（先以库内 RAG 落地），但对齐进度直接决定"调得准"的上限，是本程最大的交付风险。</b></p></div>
+  </section>
+
+  <!-- 02 -->
+  <section class="ch" id="c2">
+    <div class="ch-num">02</div>
+    <div class="ch-title">知识库怎么建立起来</div>
+    <div class="ch-divider"></div>
+    <div class="ch-desc">把定位落为一条可运转的链路。四段里，<b>"懂你"是让"调得准"成立的关键一环</b>——它不靠系统画像，而是靠<span class="em">库内 RAG（以用户自身内容为上下文）+ 小爱记忆的只读引用</span>。这样既不越界，又使产出持续贴合用户。</div>
+        <div class="flow">
+      <div class="step"><div class="ic">✍️</div><div class="st">写进去</div><div class="sd">说一句 / 随手记 / 各端汇入 / MCP 写入</div></div>
+      <div class="arrow">→</div>
+      <div class="step gear"><div class="ic">��️</div><div class="st">智能承接</div><div class="sd">自动归类 / 归档 / 合并去重</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="ic">🧩</div><div class="st">变成结构 · 懂你</div><div class="sd">索引 + 库内 RAG</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="ic">🎯</div><div class="st">调出来用</div><div class="sd">问答 / 待办 / 摘要 / 复习大纲</div></div>
+    </div>
+    <div class="insight green"><div class="t">为什么"懂你"靠 RAG 先行落地</div><p>先用"<span class="hi">库内 RAG</span>"在笔记自己的数据上把"懂你"建立起来——<span class="hi">不依赖系统记忆即可运转</span>，形成可用基线；再通过"小爱记忆只读引用"逐步增强。边界清晰，飞轮持续。</p></div>
+  </section>
+
+  <!-- 03 -->
+  <section class="ch" id="c3">
+    <div class="ch-num">03</div>
+    <div class="ch-title">四个工作重点</div>
+    <div class="ch-divider"></div>
+    <div class="ch-desc">围绕"写进去 → 变结构 → 调出来用"，本程工作拆为四块重点并明确优先级；另有一道贯穿"写"与"调"的<b>承接层</b>，因其相对独立，单列于 04。</div>
+
+    <div class="klabel">重点一 · 地基：结构化 + 数据打通</div>
+    <div class="cards">
+      <div class="card"><h4>🧩 全库数据打通 <span class="tag p0">P0 地基</span></h4><p>"调出整个库"的前提是全库统一。当前首页 AI 与详情页 AI 是<b>两套独立数据、未打通</b>——这是地基里的硬阻塞，必须先解。</p></div>
+      <div class="card"><h4>🔎 可检索索引 <span class="tag p0">P0 地基</span></h4><p>把承接层打好的标签与结构，建成<b>能被精准检索、能被 RAG 调用的索引</b>。当前标签只是固定 5 个枚举，不足以支撑"像数据库一样检索"——需要实体 / 时间 / 来源的多维索引。<span style="color:var(--tx3)">（打标签在 04 承接层）</span></p></div>
+    </div>
+
+    <div class="klabel">重点二 · 调得动：让内容拿来即用</div>
+    <div class="cards">
+      <div class="card"><h4>🎯 RAG + 一问就答 + 生成产物 <span class="tag p0">P0 核心</span></h4><p>对库里内容问一句就答；写新笔记时引用你库里的相关内容（标来源、可核对、可一键去掉）；一键生成待办 / 复习大纲 / 摘要等能直接用的成品。<b>这是本程的核心价值。</b></p></div>
+      <div class="card"><h4>🔗 自动关联 + 相关推荐 <span class="tag p0">P0</span></h4><p>写或看一篇时，自动浮现相关的旧笔记、录音、文档，让"库"的价值在使用现场被感知到。</p></div>
+    </div>
+
+    <div class="klabel">重点三 · 写入门控随通道内建</div>
+    <div class="insight"><div class="t">开放写入 ≠ 无门槛写入</div><p>降低记录门槛、打开写入通道（含 MCP 外部 Agent 写入）是必要的；但通道一旦放开，<span class="hi">"什么都往笔记里写"会让库迅速失去价值感</span>。所以门控必须随通道一起内建——<b>门控只管"入口：要不要写"</b>：意图判断、空内容与噪声拦截、对 MCP 外部写入加可信来源校验与配额。<span class="hi">写进来之后怎么归位、要不要并到已有篇，是 04 承接层的事</span>。写入通道有多宽，门控就要有多严。</p></div>
+
+    <div class="klabel">重点四 · 守住一个"回报锚点" + 诚实分人群</div>
+    <div class="cards">
+      <div class="card"><h4>👁️ 留一个"看"类成品 <span class="tag key">体感</span></h4><p>调出来如果只剩"搜到 + 答出"，用户对"库"的回报感不足。<b>保留脑图 / 结构化摘要</b>作为低成本的"看"类成品，维持"值得记"的体感，驱动持续写入。</p></div>
+      <div class="card"><h4>🎓 明确本程优先人群 <span class="tag key">对齐</span></h4><p>本程的"调得动"最先满足<b>上班族 + 重度用户</b>（会议→待办→问答→汇聚）。学生的"复习播客"等更重的产物放后续，<b>规划里明确标注，不对所有人群过度承诺</b>。</p></div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="ch" id="c4">
+    <div class="ch-num">04</div>
+    <div class="ch-title">笔记内的智能管理：写进来的，自动归位</div>
+    <div class="ch-divider"></div>
+    <div class="ch-desc">内容写进来之后，若仍需用户自行分类、整理、排重，库很快会沦为"内容堆积、却难以调用"。<b>"写"和"调"之间必须有一道"智能承接"层</b>——写入即归位、同主题合并、自动打标签、自动起标题摘要，让库始终保持整洁、随时可调，用户几乎无需花费精力管理。<span style="color:var(--tx3)">（"要不要写"的入口拦截在 03 门控，不重复。）</span></div>
+    <div class="klabel">承接层做的四件事</div>
+    <div class="cards">
+      <div class="card"><h4>🗂️ 写入即归类归档</h4><p>内容进来自动判断类别，归入或新建对应文件夹（工作 / 学习 / 生活…），<b>用户不手动分类</b>。</p></div>
+      <div class="card"><h4>🔗 同主题合并去重</h4><p>先搜后写，同主题追加到已有笔记、不重复建篇；识别重复内容自动合并，避免一个主题散落多篇。</p></div>
+      <div class="card"><h4>🏷️ 自动结构化标签</h4><p>多维标签（主题 / 实体 / 时间 / 来源），让内容可被精准检索与关联——这也是"调得出"的料。</p></div>
+      <div class="card"><h4>📝 自动标题 / 摘要</h4><p>写进来的内容自动起一个能扫读的标题和一句话摘要，<b>列表中清晰可辨、调用时便于定位</b>——这是"调得出"的入口。</p></div>
+    </div>
+    <div class="insight green"><div class="t">承接是"写"和"调"之间的桥</div><p>整理由 AI 承担，<span class="hi">用户专注于写与用</span>。承接做得扎实，库无需用户维护、调用也更顺畅——它将随手记录的零散内容，沉淀为随时可调用的库。</p></div>
+  </section>
+
+  <!-- 05 -->
+  <section class="ch" id="c5">
+    <div class="ch-num">05</div>
+    <div class="ch-title">需求清单与优先级</div>
+    <div class="ch-divider"></div>
+    <table>
+      <tr><th style="width:36%">需求</th><th style="width:12%">优先级</th><th>为什么</th></tr>
+      <tr><td><b>全库数据打通</b>（首页AI ↔ 详情AI 统一底座）</td><td><span class="pri p0">P0 地基</span></td><td>两套独立数据不通，"调出整个库"在架构上不成立。</td></tr>
+      <tr><td><b>结构化 + 索引做厚</b>（多维标签 / 实体 / 时间）</td><td><span class="pri p0">P0 地基</span></td><td>RAG 检索的依据来源于此；固定 5 标签不足以支撑检索。</td></tr>
+      <tr><td><b>RAG + 一问就答 + 一键生成产物</b></td><td><span class="pri p0">P0 调得动</span></td><td>本程的核心价值。标来源、可核对、可撤销。</td></tr>
+      <tr><td><b>写入门控随通道内建</b>（意图判断 / 空内容噪声拦截 / MCP 可信校验）</td><td><span class="pri p0">P0 守底线</span></td><td>通道有多宽，门控就要有多严，防止低质内容入库。</td></tr>
+      <tr><td><b>智能整理（承接层）</b>：写入即归类归档 / 同主题合并 / 标签与标题摘要</td><td><span class="pri p1">P1 承接</span></td><td>将写入内容自动整理为可调用状态，用户无需操心收纳。</td></tr>
+      <tr><td>记忆边界对齐（笔记可只读引用小爱记忆）</td><td><span class="pri p1">P1 前置</span></td><td>启动前与小爱对齐，决定"调得准"天花板。</td></tr>
+      <tr><td>降低记录门槛：空页起手式 / 一句话成稿 / 随写随帮</td><td><span class="pri p1">P1 写得进</span></td><td>起笔门槛是真实痛点，降低后可持续供给内容。</td></tr>
+      <tr><td>开放写入通道：全生态一键存入 / MCP 写入</td><td><span class="pri p1">P1 写得进</span></td><td>打开通道，但必须与门控同时上线。</td></tr>
+      <tr><td>自动关联 + 相关推荐</td><td><span class="pri p1">P1 调得动</span></td><td>在使用现场让"库"的价值被感知。</td></tr>
+      <tr><td>回报锚点：脑图 / 结构化摘要</td><td><span class="pri p2">P2 体感</span></td><td>保留一个"看"类成品，维持"值得记"的体感。</td></tr>
+      <tr><td>文档 / 链接解析打通</td><td><span class="pri p2">P2 配套</span></td><td>写入完整性的补点。</td></tr>
+      <tr><td>小爱入口显化"存进 / 调出笔记"</td><td><span class="pri p2">P2 配套</span></td><td>在高频入口表达与小爱的协同。</td></tr>
+      <tr><td>体验打磨：录音转写 / AI编辑 / 搜索 / 性能</td><td><span class="pri p2">P2 持续</span></td><td>留存的根本。</td></tr>
+      <tr><td>PPT / 完整播客 / 出海 / PAD</td><td><span class="pri later">后置</span></td><td>另一条线，本程不投。</td></tr>
+      <tr><td>主动服务（越用越懂你）</td><td><span class="pri later">下一程</span></td><td>避免本程铺太宽。</td></tr>
+    </table>
+  </section>
+
+  <!-- 06 -->
+  <section class="ch" id="c6">
+    <div class="ch-num">06</div>
+    <div class="ch-title">落地节奏</div>
+    <div class="ch-divider"></div>
+    <div class="ch-desc">按"先打地基、再做调用、最后补体感"的顺序推进，每个阶段都有一个可验收的里程碑。</div>
+    <div class="phase">
+      <div class="p"><div class="ph">阶段一 · 地基</div><div class="pt">把库立稳</div><ul>
+        <li>首页 AI 与详情 AI 数据打通，统一底座</li>
+        <li>多维结构化 + 可检索索引上线</li>
+        <li>写入门控（意图 / 噪声拦截）内建</li>
+        <li>智能承接：自动归类归档 + 同主题合并上线</li>
+        <li>记忆边界与小爱对齐</li>
+        <li><b style="color:#fff">里程碑：全库可被统一检索</b></li>
+      </ul></div>
+      <div class="p"><div class="ph">阶段二 · 调得动</div><div class="pt">让内容拿来即用</div><ul>
+        <li>库内 RAG + 一问就答</li>
+        <li>一键生成待办 / 摘要 / 复习大纲</li>
+        <li>自动关联 + 相关推荐</li>
+        <li>开放写入通道（含 MCP，门控随行）</li>
+        <li><b style="color:#fff">里程碑：库内问答可用、产出可直接用</b></li>
+      </ul></div>
+      <div class="p"><div class="ph">阶段三 · 体感</div><div class="pt">打磨与回报</div><ul>
+        <li>保留脑图 / 摘要"看"类成品</li>
+        <li>录音转写 / AI 编辑 / 搜索 / 性能打磨</li>
+        <li>小爱入口显化笔记能力</li>
+        <li>智能整理与门控效果持续复盘</li>
+        <li><b style="color:#fff">里程碑：留存与调用率双升</b></li>
+      </ul></div>
+    </div>
+    <div class="insight blue"><div class="t">一句话收束</div><p>本程不扩张范围，聚焦一件事——<span class="hi">把"个人知识库"从"存得下"做到"调得动"</span>：先把地基（结构化 + 数据打通）打稳，将资源集中于不可替代的"调得动"上，同时守住写入质量这条底线。</p></div>
+    <div class="note">说明：基于笔记 feature-ai-os4 代码梳理（AI 能力清单、首页/详情 AI 数据未打通、固定标签枚举等现状）与真实用户场景。为产品策略建议。</div>
+  </section>
+
+</main>
+<script>
+  const links=[...document.querySelectorAll('.side a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('on'));const i=secs.indexOf(e.target);if(i>=0)links[i].classList.add('on');}});},{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(s=>s&&io.observe(s));
+</script>
+</body>
+</html>
