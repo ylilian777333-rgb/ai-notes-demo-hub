@@ -145,16 +145,16 @@
   </div>
 
   <div class="section">
-    <div class="sechead"><div class="secnum">04</div><div><div class="sectitle">和小爱的衔接 · 把现有检索开放给小爱</div><div class="secsub">笔记的 AI 搜索 / 检索今年已具备，这条衔接更多是开放复用 + 对齐授权，不是从零新建</div></div></div>
+    <div class="sechead"><div class="secnum">04</div><div><div class="sectitle">和小爱的衔接 · 复用已有的搜索与 tools</div><div class="secsub">笔记语义搜索已合入、承接方式也已定（笔记把能力做成 tools 给小爱调用）；这一版重点是补能力 + 对齐授权，不是重做</div></div></div>
     <div class="divider"></div>
-    <div class="callout blue"><b>笔记的 AI 搜索 / 资料库检索今年已经具备。</b>所以这条衔接大概率不用从零做新接口——把现有的笔记检索能力开放给小爱复用、再把授权口径对齐，基本就能满足现状。</div>
+    <div class="callout blue"><b>笔记的语义搜索已经合入（支持同义词、时间、人名），和小爱的承接方式也已经定了——笔记把能力做成 tools 提供给小爱调用。</b>所以"供小爱调用"在机制上已经走通，这一版重点是把能力补全、把授权对齐。</div>
     <ul class="reqs">
-      <li><span class="bdg p0">已具备</span><b>检索能力</b>：<span class="d">笔记已有 AI 搜索 / 资料库检索，能按内容找到对应笔记——这就是"供小爱调用"的基础，不用重做。</span></li>
-      <li><span class="bdg key">要补 1</span><b>开放给小爱复用</b>：<span class="d">把现有检索能力开放给小爱调用，调用结果标来源、可核对（以接入复用为主，而非另造一套）。</span></li>
-      <li><span class="bdg key">要补 2</span><b>对齐授权口径</b>：<span class="d">哪些笔记可被小爱调、用户随时可见、可关、可撤回——这是主要要谈拢的点，也是用户敢把内容交出来的前提。</span></li>
-      <li><span class="bdg key">要补 3</span><b>对齐边界</b>：<span class="d">和记忆 / 安全团队对齐"笔记里用户主动存的显式内容"与"小爱系统侧黑盒记忆"的分工，互补不重叠。</span></li>
+      <li><span class="bdg p0">已具备</span><b>搜索 + 承接机制</b>：<span class="d">语义搜索已合入（同义词扩展 + 时间理解 + 人名关联）；承接方式已定——笔记提供 tools 给小爱（miclaw）调用，不用另造一套接口。</span></li>
+      <li><span class="bdg key">要补 1</span><b>把更多能力包成 tools</b>：<span class="d">除了搜索，把"按范围检索 / 写入 / 关联"等也提供给小爱调用，调用结果标来源、可核对。</span></li>
+      <li><span class="bdg key">要补 2</span><b>接住小爱产出</b>：<span class="d">让"小爱来源内容滚动更新进已有笔记"落地（《笔记接入 miclaw 来源内容》目前 P0、尚未启动）——这是"收得进"的关键承接。</span></li>
+      <li><span class="bdg key">要补 3</span><b>对齐授权口径</b>：<span class="d">哪些笔记可被小爱调、用户随时可见、可关、可撤回；和记忆 / 安全对齐"笔记显式内容"与"小爱黑盒记忆"的边界。</span></li>
     </ul>
-    <div class="note-s"><b>现状判断（待和检索团队复核）：</b>现有检索能力基本能满足"供小爱调用"，所以这一版的重点从"开发新接口"变成"开放复用 + 授权对齐"，工作量和风险都更低。建议早点和小爱 / 记忆 / 安全团队对齐口径即可。</div>
+    <div class="note-s"><b>现状判断（已核对二期需求合集）：</b>搜索已合入、tools 承接机制已定，所以"供小爱调用"不用重做。这一版重点是把能力补全（写入 / 关联）、把"接住小爱产出"做起来、把授权口径对齐——以补全和对齐为主，工作量和风险都更低。</div>
   </div>
 
   <div class="section">
@@ -177,6 +177,7 @@
       <tr><td>　</td><td>文字笔记 AI 化（扩写 / 补全 / 精简 / 换语气 / 一句话成稿）</td><td><span class="bdg p0">P0</span></td></tr>
       <tr><td>　</td><td>AI 入口从二级页前置到编辑页</td><td><span class="bdg p0">P0</span></td></tr>
       <tr><td>② 收得进</td><td>全生态一键存入（小爱 / 三方 / MCP 产出 → 笔记）</td><td><span class="bdg p0">P0</span></td></tr>
+      <tr><td>　</td><td>小爱 / Agent 来源内容滚动更新进已有笔记（不每次新建）</td><td><span class="bdg p0">P0</span></td></tr>
       <tr><td>　</td><td>打通文档 / 网页链接解析</td><td><span class="bdg p0">P0</span></td></tr>
       <tr><td>　</td><td>多模态导入补齐（图片、录音已具备）</td><td><span class="bdg p1">P1</span></td></tr>
       <tr><td>③ 用得上</td><td><span class="hl">笔记内容可被小爱检索调用（RAG），标来源、可核对</span></td><td><span class="bdg p0">P0</span></td></tr>
@@ -186,7 +187,7 @@
       <tr><td>⑤ 跨设备</td><td>笔记内容多端实时同步、一份内容多端一致</td><td><span class="bdg p0">P0</span></td></tr>
       <tr><td>　</td><td>跨端采集（手表 / 车机 / 耳机 / 平板 记入同一篇笔记）</td><td><span class="bdg p0">P0</span></td></tr>
       <tr><td>　</td><td>跨端调用（任意设备让小爱调出笔记内容）</td><td><span class="bdg p1">P1</span></td></tr>
-      <tr><td>⑥ 接口</td><td class="b">把现有笔记检索能力开放给小爱复用 + 对齐授权口径（读什么 / 怎么授权），和小爱 · 记忆 · 安全对齐边界</td><td><span class="bdg key">P0 前置</span></td></tr>
+      <tr><td>⑥ 接口</td><td class="b">把笔记能力做成 tools 提供给小爱（搜索已合入，补按范围检索 / 写入 / 关联）+ 对齐授权口径，和小爱 · 记忆 · 安全对齐边界</td><td><span class="bdg key">P0 前置</span></td></tr>
     </table>
     <div class="note-s"><b>读法：</b>⑥接口是前置项（跨团队，越早对齐越好）；③用得上是和小爱衔接最直接的一环，建议优先做实；其余按飞轮顺序补。跨设备（⑤）和小爱团队的跨端基建对齐推进。</div>
     <div class="callout">收口：<b>笔记 OS5 的方向，是把自己和小爱衔接起来——成为小爱可调用的个人内容层。</b>接口对齐、内容能被用上、且能跨设备随处记随处调，笔记的价值就从"好用的记录工具"，延伸到"让全生态 AI 更懂用户"。</div>
