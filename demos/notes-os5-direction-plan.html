@@ -129,10 +129,23 @@
       <tr><td>④ 自己长</td><td class="b">内容越多，小爱越懂你——主动浮现、定期回顾、越用越贴合</td><td>相关场景主动带出 · 定期回顾 + 到期提醒</td></tr>
     </table>
     <div class="callout">四环里，<b>"用得上"是笔记和小爱衔接最直接的一环</b>——让存进笔记的内容能被小爱调出来用。建议这一环优先做实，其余三环按飞轮顺序补。</div>
+    <div class="note-s"><b>一条完整的例子（四环怎么转起来）：</b>你随口对小爱说几句对一篇直播文章的想法，小爱帮你起个头 → 这些零散的话<b>一键存进笔记</b>，被理成初稿（写得出 + 收得进）→ 过几天写正式稿，小爱<b>自动引用</b>你之前存的《直播复盘》里的原话，并标明来源（用得上）→ 存得越多，小爱越清楚你关心什么、写东西越像你（自己长）。这条循环里，小爱是入口和笔，笔记是内容的来处和去处。</div>
   </div>
 
   <div class="section">
-    <div class="sechead"><div class="secnum">03</div><div><div class="sectitle">需要和小爱团队共建的衔接 · 内容调用接口</div><div class="secsub">比起单点功能，这一版更需要先和小爱团队对齐一条内容调用的接口</div></div></div>
+    <div class="sechead"><div class="secnum">03</div><div><div class="sectitle">跨设备 · 内容随处记、随处调</div><div class="secsub">笔记的内容天然是跨端的；小爱在哪台设备，笔记内容就该在哪台被记进来、也能被调出去</div></div></div>
+    <div class="divider"></div>
+    <div class="callout">小爱负责跨端的<b>交互和执行</b>，笔记负责跨端内容的<b>统一沉淀和供给</b>——一份笔记，所有设备同一份。</div>
+    <ul class="reqs">
+      <li><b>随处记（采集跨端）</b>：<span class="d">手机、手表、车机、耳机、平板，哪个顺手用哪个——说一句、拍一张、存一篇，都进同一篇笔记。</span></li>
+      <li><b>随处调（调用跨端）</b>：<span class="d">在任意设备让小爱调出笔记内容——车上让小爱念今天要点、平板上调出课堂笔记复习、复诊时手机调出健康档案。</span></li>
+      <li><b>承接跨端产出</b>：<span class="d">小爱在任意设备产出的内容（车机串好的要点、平板生成的大纲、手机拼好的游记），用户判断有价值，一键沉淀回同一篇笔记。</span></li>
+    </ul>
+    <div class="note-s"><b>依赖与协作：</b>这一层走 OS5 "跨端同步的记忆"通道——笔记内容端到端加密同步、多端一致、离线可用，和小爱团队的跨端基建对齐，不重复建。<b>配套场景：</b>开会办公、上课学习、看病陪诊、出行旅游、随身灵感这 5 个跨端场景，就是这一层的具体体现（已有单独方案与原型）。</div>
+  </div>
+
+  <div class="section">
+    <div class="sechead"><div class="secnum">04</div><div><div class="sectitle">需要和小爱团队共建的衔接 · 内容调用接口</div><div class="secsub">比起单点功能，这一版更需要先和小爱团队对齐一条内容调用的接口</div></div></div>
     <div class="divider"></div>
     <div class="callout blue"><b>把"笔记内容供小爱调用"做成一条和小爱团队共建的接口——接口对齐了，笔记的内容才能真正被小爱用上；否则两边的功能容易对不齐。</b></div>
     <ul class="reqs">
@@ -144,7 +157,7 @@
   </div>
 
   <div class="section">
-    <div class="sechead"><div class="secnum">04</div><div><div class="sectitle">边界 · 做什么，不做什么</div><div class="secsub">把界划清，既不越位，也守住差异化价值</div></div></div>
+    <div class="sechead"><div class="secnum">05</div><div><div class="sectitle">边界 · 做什么，不做什么</div><div class="secsub">把界划清，既不越位，也守住差异化价值</div></div></div>
     <div class="divider"></div>
     <table class="matrix">
       <tr><th style="width:120px;">　</th><th>内容</th></tr>
@@ -155,17 +168,27 @@
   </div>
 
   <div class="section">
-    <div class="sechead"><div class="secnum">05</div><div><div class="sectitle">节奏与建议优先级</div><div class="secsub">建议先把接口和"用得上"做实，其余按飞轮顺序补</div></div></div>
+    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">需求拆分</div><div class="secsub">按四环 + 跨设备 + 接口，把这一版要做的具体需求列清楚</div></div></div>
     <div class="divider"></div>
     <table class="matrix">
-      <tr><th>事项</th><th>优先级</th><th>定位</th></tr>
-      <tr><td>笔记 ↔ 小爱 调用接口</td><td><span class="bdg key">P0 · 前置</span></td><td>横跨多团队，决定笔记内容能否被小爱用上，建议尽早启动对齐</td></tr>
-      <tr><td>③ 用得上（供调用）</td><td><span class="bdg p0">P0 · 重点</span></td><td>笔记内容被小爱用上的直接环节</td></tr>
-      <tr><td>② 收得进（接产出）</td><td><span class="bdg p0">P0 · 配套</td><td>接住小爱与全生态产出 + 补文档/链接解析卡点</td></tr>
-      <tr><td>① 写得出</td><td><span class="bdg p0">P0 · 入口</span></td><td>飞轮起点，也是只打字那群用户的入口</td></tr>
-      <tr><td>④ 自己长</td><td><span class="bdg p1">P1 · 后续</span></td><td>差异化与粘性，前三环跑通后加力</td></tr>
+      <tr><th style="width:96px;">模块</th><th>具体需求</th><th style="width:96px;">优先级</th></tr>
+      <tr><td>① 写得出</td><td>空白笔记 0→1 起手式（空页引导 + 起手式 + 语音入口）</td><td><span class="bdg p0">P0</span></td></tr>
+      <tr><td>　</td><td>文字笔记 AI 化（扩写 / 补全 / 精简 / 换语气 / 一句话成稿）</td><td><span class="bdg p0">P0</span></td></tr>
+      <tr><td>　</td><td>AI 入口从二级页前置到编辑页</td><td><span class="bdg p0">P0</span></td></tr>
+      <tr><td>② 收得进</td><td>全生态一键存入（小爱 / 三方 / MCP 产出 → 笔记）</td><td><span class="bdg p0">P0</span></td></tr>
+      <tr><td>　</td><td>打通文档 / 网页链接解析</td><td><span class="bdg p0">P0</span></td></tr>
+      <tr><td>　</td><td>多模态导入补齐（图片、录音已具备）</td><td><span class="bdg p1">P1</span></td></tr>
+      <tr><td>③ 用得上</td><td><span class="hl">笔记内容可被小爱检索调用（RAG），标来源、可核对</span></td><td><span class="bdg p0">P0</span></td></tr>
+      <tr><td>　</td><td>写新笔记时自动关联相关旧内容、相关推荐</td><td><span class="bdg p1">P1</span></td></tr>
+      <tr><td>④ 自己长</td><td>相关场景主动浮现相关笔记</td><td><span class="bdg p1">P1</span></td></tr>
+      <tr><td>　</td><td>定期回顾 + 待办 / 日程到期提醒</td><td><span class="bdg p1">P1</span></td></tr>
+      <tr><td>⑤ 跨设备</td><td>笔记内容多端实时同步、一份内容多端一致</td><td><span class="bdg p0">P0</span></td></tr>
+      <tr><td>　</td><td>跨端采集（手表 / 车机 / 耳机 / 平板 记入同一篇笔记）</td><td><span class="bdg p0">P0</span></td></tr>
+      <tr><td>　</td><td>跨端调用（任意设备让小爱调出笔记内容）</td><td><span class="bdg p1">P1</span></td></tr>
+      <tr><td>⑥ 接口</td><td class="b">笔记 ↔ 小爱 内容调用接口（读什么 / 怎么读 / 怎么授权），和小爱 · 记忆 · 安全共建</td><td><span class="bdg key">P0 前置</span></td></tr>
     </table>
-    <div class="callout">收口：<b>笔记 OS5 的方向，是把自己和小爱衔接起来——成为小爱可调用的个人内容层。</b>接口对齐、内容能被用上，笔记的价值就从"好用的记录工具"，延伸到"让全生态 AI 更懂用户"。</div>
+    <div class="note-s"><b>读法：</b>⑥接口是前置项（跨团队，越早对齐越好）；③用得上是和小爱衔接最直接的一环，建议优先做实；其余按飞轮顺序补。跨设备（⑤）和小爱团队的跨端基建对齐推进。</div>
+    <div class="callout">收口：<b>笔记 OS5 的方向，是把自己和小爱衔接起来——成为小爱可调用的个人内容层。</b>接口对齐、内容能被用上、且能跨设备随处记随处调，笔记的价值就从"好用的记录工具"，延伸到"让全生态 AI 更懂用户"。</div>
   </div>
 
   <div class="footer">笔记 OS5 · 方向规划（PM 判断稿）｜ 内部讨论稿 · 2026-06</div>
