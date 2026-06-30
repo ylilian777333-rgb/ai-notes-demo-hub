@@ -125,7 +125,7 @@
       <tr><th style="width:120px;">飞轮环节</th><th style="width:300px;">和小爱怎么承接</th><th>这一版的重点需求</th></tr>
       <tr><td>① 写得出</td><td class="b">小爱帮你起手第一篇、随写随改，AI 从二级页搬到你正在写的地方</td><td>空白笔记 0→1 起手式 · 文字笔记 AI 化（扩写/精简/成稿）</td></tr>
       <tr><td>② 收得进</td><td class="b">接住小爱与全生态的产出——用户判断有价值，一键沉淀进笔记</td><td>全生态一键存入（小爱/三方/MCP 产出）· 打通文档 & 链接解析</td></tr>
-      <tr><td>③ 用得上</td><td class="hl">供小爱调用——小爱回答、写作时引用笔记内容，标来源、可核对（和小爱衔接最直接的一环）</td><td><span class="hl">笔记内容可被小爱检索调用（RAG）</span> · 写新内容时自动关联旧内容</td></tr>
+      <tr><td>③ 用得上</td><td class="hl">供小爱调用——小爱回答、写作时引用笔记内容，标来源、可核对（和小爱衔接最直接的一环）</td><td><span class="hl">AI 搜索已上线，补：把检索接给小爱调用（标来源）</span> · 写新内容时自动关联旧内容</td></tr>
       <tr><td>④ 自己长</td><td class="b">内容越多，小爱越懂你——主动浮现、定期回顾、越用越贴合</td><td>相关场景主动带出 · 定期回顾 + 到期提醒</td></tr>
     </table>
     <div class="callout">四环里，<b>"用得上"是笔记和小爱衔接最直接的一环</b>——让存进笔记的内容能被小爱调出来用。建议这一环优先做实，其余三环按飞轮顺序补。</div>
@@ -147,9 +147,9 @@
   <div class="section">
     <div class="sechead"><div class="secnum">04</div><div><div class="sectitle">和小爱的衔接 · 复用已有的搜索与 tools</div><div class="secsub">笔记语义搜索已合入、承接方式也已定（笔记把能力做成 tools 给小爱调用）；这一版重点是补能力 + 对齐授权，不是重做</div></div></div>
     <div class="divider"></div>
-    <div class="callout blue"><b>笔记的语义搜索已经合入（支持同义词、时间、人名），和小爱的承接方式也已经定了——笔记把能力做成 tools 提供给小爱调用。</b>所以"供小爱调用"在机制上已经走通，这一版重点是把能力补全、把授权对齐。</div>
+    <div class="callout blue"><b>笔记的 AI 搜索 / 语义搜索已经上线（支持同义词、时间、人名），和小爱的承接方式也已经定了——笔记把能力做成 tools 提供给小爱调用。</b>所以"供小爱调用"在机制上已经走通，这一版重点是把能力补全、把授权对齐。</div>
     <ul class="reqs">
-      <li><span class="bdg p0">已具备</span><b>搜索 + 承接机制</b>：<span class="d">语义搜索已合入（同义词扩展 + 时间理解 + 人名关联）；承接方式已定——笔记提供 tools 给小爱（miclaw）调用，不用另造一套接口。</span></li>
+      <li><span class="bdg p0">已上线</span><b>AI 搜索 + 承接机制</b>：<span class="d">AI 搜索 / 语义搜索已上线（同义词扩展 + 时间理解 + 人名关联），用户已能在笔记里 AI 搜；承接方式已定——笔记提供 tools 给小爱（miclaw）调用，不用另造一套接口。</span></li>
       <li><span class="bdg key">要补 1</span><b>把更多能力包成 tools</b>：<span class="d">除了搜索，把"按范围检索 / 写入 / 关联"等也提供给小爱调用，调用结果标来源、可核对。</span></li>
       <li><span class="bdg key">要补 2</span><b>接住小爱产出</b>：<span class="d">让"小爱来源内容滚动更新进已有笔记"落地（《笔记接入 miclaw 来源内容》目前 P0、尚未启动）——这是"收得进"的关键承接。</span></li>
       <li><span class="bdg key">要补 3</span><b>对齐授权口径</b>：<span class="d">哪些笔记可被小爱调、用户随时可见、可关、可撤回；和记忆 / 安全对齐"笔记显式内容"与"小爱黑盒记忆"的边界。</span></li>
@@ -180,8 +180,9 @@
       <tr><td>　</td><td>小爱 / Agent 来源内容滚动更新进已有笔记（不每次新建）</td><td><span class="bdg p0">P0</span></td></tr>
       <tr><td>　</td><td>打通文档 / 网页链接解析</td><td><span class="bdg p0">P0</span></td></tr>
       <tr><td>　</td><td>多模态导入补齐（图片、录音已具备）</td><td><span class="bdg p1">P1</span></td></tr>
-      <tr><td>③ 用得上</td><td><span class="hl">笔记内容可被小爱检索调用（RAG），标来源、可核对</span></td><td><span class="bdg p0">P0</span></td></tr>
-      <tr><td>　</td><td>写新笔记时自动关联相关旧内容、相关推荐</td><td><span class="bdg p1">P1</span></td></tr>
+      <tr><td>③ 用得上</td><td>笔记 AI 搜索 / 语义搜索（用户已能在笔记里 AI 搜）</td><td><span class="bdg p0">已上线</span></td></tr>
+      <tr><td>　</td><td><span class="hl">把检索作为 tool 接给小爱调用，标来源、可核对</span></td><td><span class="bdg p0">P0</span></td></tr>
+      <tr><td>　</td><td>写新笔记时自动关联相关旧内容、相关推荐（依赖 AI 搜索，可接着做）</td><td><span class="bdg p1">P1</span></td></tr>
       <tr><td>④ 自己长</td><td>相关场景主动浮现相关笔记</td><td><span class="bdg p1">P1</span></td></tr>
       <tr><td>　</td><td>定期回顾 + 待办 / 日程到期提醒</td><td><span class="bdg p1">P1</span></td></tr>
       <tr><td>⑤ 跨设备</td><td>笔记内容多端实时同步、一份内容多端一致</td><td><span class="bdg p0">P0</span></td></tr>
