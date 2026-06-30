@@ -145,15 +145,16 @@
   </div>
 
   <div class="section">
-    <div class="sechead"><div class="secnum">04</div><div><div class="sectitle">需要和小爱团队共建的衔接 · 内容调用接口</div><div class="secsub">比起单点功能，这一版更需要先和小爱团队对齐一条内容调用的接口</div></div></div>
+    <div class="sechead"><div class="secnum">04</div><div><div class="sectitle">和小爱的衔接 · 把现有检索开放给小爱</div><div class="secsub">笔记的 AI 搜索 / 检索今年已具备，这条衔接更多是开放复用 + 对齐授权，不是从零新建</div></div></div>
     <div class="divider"></div>
-    <div class="callout blue"><b>把"笔记内容供小爱调用"做成一条和小爱团队共建的接口——接口对齐了，笔记的内容才能真正被小爱用上；否则两边的功能容易对不齐。</b></div>
+    <div class="callout blue"><b>笔记的 AI 搜索 / 资料库检索今年已经具备。</b>所以这条衔接大概率不用从零做新接口——把现有的笔记检索能力开放给小爱复用、再把授权口径对齐，基本就能满足现状。</div>
     <ul class="reqs">
-      <li><span class="bdg key">读什么</span><b>范围划清</b>：<span class="d">小爱只读用户<b>主动沉淀</b>进笔记的显式内容，不碰隐私敏感与未授权内容；和小爱系统侧的黑盒记忆解耦、互补。</span></li>
-      <li><span class="bdg key">怎么读</span><b>调用方式</b>：<span class="d">笔记内容进入可被检索的记忆层（文档已有"记忆数据单独存储、与原业务解耦、支撑数据融合"的接口），小爱通过统一检索接口调用、标来源。</span></li>
-      <li><span class="bdg key">怎么授权</span><b>用户可控</b>：<span class="d">哪些笔记可被小爱调用、用户随时可见、可关、可撤回；调用要标明来源、可核对——这是用户敢把内容交出来的前提。</span></li>
+      <li><span class="bdg p0">已具备</span><b>检索能力</b>：<span class="d">笔记已有 AI 搜索 / 资料库检索，能按内容找到对应笔记——这就是"供小爱调用"的基础，不用重做。</span></li>
+      <li><span class="bdg key">要补 1</span><b>开放给小爱复用</b>：<span class="d">把现有检索能力开放给小爱调用，调用结果标来源、可核对（以接入复用为主，而非另造一套）。</span></li>
+      <li><span class="bdg key">要补 2</span><b>对齐授权口径</b>：<span class="d">哪些笔记可被小爱调、用户随时可见、可关、可撤回——这是主要要谈拢的点，也是用户敢把内容交出来的前提。</span></li>
+      <li><span class="bdg key">要补 3</span><b>对齐边界</b>：<span class="d">和记忆 / 安全团队对齐"笔记里用户主动存的显式内容"与"小爱系统侧黑盒记忆"的分工，互补不重叠。</span></li>
     </ul>
-    <div class="note-s"><b>建议尽早启动：</b>这条接口横跨笔记、小爱、记忆、安全几方，越早拉通对齐，后面的场景越好落地。建议作为这一版的前置项，先和相关团队对齐口径。</div>
+    <div class="note-s"><b>现状判断（待和检索团队复核）：</b>现有检索能力基本能满足"供小爱调用"，所以这一版的重点从"开发新接口"变成"开放复用 + 授权对齐"，工作量和风险都更低。建议早点和小爱 / 记忆 / 安全团队对齐口径即可。</div>
   </div>
 
   <div class="section">
@@ -185,7 +186,7 @@
       <tr><td>⑤ 跨设备</td><td>笔记内容多端实时同步、一份内容多端一致</td><td><span class="bdg p0">P0</span></td></tr>
       <tr><td>　</td><td>跨端采集（手表 / 车机 / 耳机 / 平板 记入同一篇笔记）</td><td><span class="bdg p0">P0</span></td></tr>
       <tr><td>　</td><td>跨端调用（任意设备让小爱调出笔记内容）</td><td><span class="bdg p1">P1</span></td></tr>
-      <tr><td>⑥ 接口</td><td class="b">笔记 ↔ 小爱 内容调用接口（读什么 / 怎么读 / 怎么授权），和小爱 · 记忆 · 安全共建</td><td><span class="bdg key">P0 前置</span></td></tr>
+      <tr><td>⑥ 接口</td><td class="b">把现有笔记检索能力开放给小爱复用 + 对齐授权口径（读什么 / 怎么授权），和小爱 · 记忆 · 安全对齐边界</td><td><span class="bdg key">P0 前置</span></td></tr>
     </table>
     <div class="note-s"><b>读法：</b>⑥接口是前置项（跨团队，越早对齐越好）；③用得上是和小爱衔接最直接的一环，建议优先做实；其余按飞轮顺序补。跨设备（⑤）和小爱团队的跨端基建对齐推进。</div>
     <div class="callout">收口：<b>笔记 OS5 的方向，是把自己和小爱衔接起来——成为小爱可调用的个人内容层。</b>接口对齐、内容能被用上、且能跨设备随处记随处调，笔记的价值就从"好用的记录工具"，延伸到"让全生态 AI 更懂用户"。</div>
