@@ -56,6 +56,17 @@
   .pchip-hi b{color:#fff;} .pchip-hi i{color:#ffe4d2;}
   .parr{color:var(--orange);font-weight:900;font-size:1.3vw;opacity:.6;}
 
+  /* 主线四段卡片流 */
+  .flowline{align-items:stretch;}
+  .flowline .fa{flex:0 0 auto;align-self:center;color:var(--orange);opacity:.5;font-weight:900;font-size:1.7vw;}
+  .stepcard h3 i{font-style:normal;font-size:.82vw;color:var(--orange);font-weight:800;margin-left:.55vw;background:var(--orange-soft);border:1px solid var(--orange-line);padding:.25vh .7vw;border-radius:20px;vertical-align:.12em;}
+  .stepcard.sc-hi{background:var(--grad-orange);border:none;box-shadow:0 14px 34px rgba(242,102,10,.3);}
+  .stepcard.sc-hi::after{display:none;}
+  .stepcard.sc-hi .num{background:#fff;color:var(--orange);box-shadow:none;}
+  .stepcard.sc-hi h3{color:#fff;}
+  .stepcard.sc-hi h3 i{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.3);color:#fff;}
+  .stepcard.sc-hi p{color:#ffe9db;}
+
   .story{display:flex;gap:1.3vw;margin-top:3.5vh;}
   .stepcard{flex:1;background:#fff;border:1px solid var(--line);border-radius:18px;padding:3.2vh 1.5vw;box-shadow:var(--shadow);position:relative;overflow:hidden;}
   .stepcard::after{content:"";position:absolute;left:0;top:0;width:100%;height:.4vh;background:var(--grad-orange);}
@@ -205,17 +216,14 @@
     <div class="rule"></div>
     <div class="content">
       <div class="lead">核心不是"加 AI 功能"，而是把系统笔记<span class="o">重新定义成"以语音速记为核心的 AI 笔记"</span>——开口就记、AI 全程加工，并借小米生态<span class="o">沉淀成越用越懂你的个人内容数据库</span>。</div>
-      <div class="pipe">
-        <span class="pchip"><b>语音速记</b><i>入口</i></span><span class="parr">→</span>
-        <span class="pchip"><b>AI 加工</b><i>中枢</i></span><span class="parr">→</span>
-        <span class="pchip"><b>个人数据库</b><i>沉淀</i></span><span class="parr">→</span>
-        <span class="pchip pchip-hi"><b>MiClaw 调用</b><i>放大</i></span>
-      </div>
-      <div class="story">
-        <div class="stepcard"><div class="num">1</div><h3>用户洞察</h3><p>记录、整理、调用全流程都有断点</p></div>
-        <div class="stepcard"><div class="num">2</div><h3>定位重构</h3><p>从打字工具，到语音速记为核心的 <span class="nb">AI 笔记</span></p></div>
-        <div class="stepcard"><div class="num">3</div><h3>范式创新</h3><p>交互 / 分工 / 数据 / 价值 四范式重做</p></div>
-        <div class="stepcard"><div class="num">4</div><h3>生态与交付</h3><p>跨端沉淀、<span class="nb">tools 化</span>接生态，<span class="nb">AI coding</span> 快速重构</p></div>
+      <div class="story flowline">
+        <div class="stepcard"><div class="num">1</div><h3>语音速记<i>入口</i></h3><p>开口就记，门槛最低，随时随地都能记</p></div>
+        <span class="fa">→</span>
+        <div class="stepcard"><div class="num">2</div><h3>AI 加工<i>中枢</i></h3><p>记录 / 整理 / 查找全链路，AI 自动完成</p></div>
+        <span class="fa">→</span>
+        <div class="stepcard"><div class="num">3</div><h3>个人数据库<i>沉淀</i></h3><p>全端内容汇聚，越攒越多、越用越值钱</p></div>
+        <span class="fa">→</span>
+        <div class="stepcard sc-hi"><div class="num">4</div><h3>MiClaw 调用<i>放大</i></h3><p>数据库被系统 AI 调用，越用越懂你</p></div>
       </div>
     </div>
     <div class="pager">02</div>
