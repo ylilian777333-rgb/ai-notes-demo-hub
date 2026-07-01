@@ -154,6 +154,20 @@
   .eco li:before{content:"";position:absolute;left:0;top:.62em;width:.5vw;height:.5vw;border-radius:50%;background:var(--orange);}
   .eco .back li:before{background:var(--blue);}
 
+  /* 生态输出侧：两栏对照 + 底部手机竖屏图（对齐首页前后样式） */
+  .eco2{display:flex;gap:1.8vw;align-items:stretch;margin-top:1vh;}
+  .eco2 .zc{flex:1;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:18px;padding:2.4vh 1.6vw;box-shadow:var(--shadow);}
+  .eco2 .zc.give{border-top:.5vw solid var(--orange);}
+  .eco2 .zc.back{border-top:.5vw solid var(--blue);}
+  .eco2 .zc h3{font-size:1.4vw;font-weight:900;margin-bottom:1.3vh;}
+  .eco2 .zc.back h3{color:var(--blue);}
+  .eco2 ul{list-style:none;}
+  .eco2 li{font-size:.98vw;color:#3a4150;line-height:1.5;padding-left:1.1vw;position:relative;margin:.9vh 0;word-break:keep-all;overflow-wrap:break-word;}
+  .eco2 li:before{content:"";position:absolute;left:0;top:.6em;width:.45vw;height:.45vw;border-radius:50%;background:var(--orange);}
+  .eco2 .zc.back li:before{background:var(--blue);}
+  .eco-shot{height:32vh;aspect-ratio:9/19.5;width:auto;max-width:100%;margin:1.8vh auto 0;border-radius:20px;padding:0;overflow:hidden;background:linear-gradient(180deg,#fbfcfe,#f2f5f9);border:1.5px dashed #d3d6dd;display:flex;align-items:center;justify-content:center;color:#aab0ba;font-size:.85vw;font-weight:600;text-align:center;}
+  .eco-shot img{width:100%;height:100%;object-fit:contain;display:block;}
+
   .prop3{display:flex;gap:1.5vw;}
   .prop{flex:1;background:#fff;border:1px solid var(--line);border-radius:18px;padding:3.4vh 1.7vw;border-top:.5vw solid var(--orange);box-shadow:var(--shadow);}
   .prop .pq{font-size:1vw;color:var(--orange);font-weight:800;}
@@ -221,7 +235,7 @@
     <h1>不是功能升级，而是一次<span class="o">产品定义重构</span></h1>
     <div class="rule"></div>
     <div class="content">
-      <div class="lead">核心不是"加 AI 功能"，而是把系统笔记<span class="o">重新定义成"以语音速记为核心的 AI 笔记"</span>——开口就记、AI 全程加工，并借小米生态<span class="o">沉淀成越用越懂你的个人内容数据库</span>。</div>
+      <div class="lead" style="font-size:1.3vw;font-weight:500;color:#5a6472;">不是"加 AI 功能"，而是把系统笔记重新定义为<span class="o">以语音速记为核心的 AI 笔记</span>——开口就记、AI 全程加工，借小米生态沉淀成越用越懂你的个人内容数据库。</div>
       <div class="story flowline">
         <div class="stepcard"><div class="num">1</div><h3>语音速记<i>入口</i></h3><p>开口就记，门槛最低，随时随地都能记</p></div>
         <span class="fa">→</span>
@@ -282,7 +296,7 @@
   <section class="slide">
     <div class="kicker">洞察二 · 竞品与市场分析</div>
     <h1>AI 正在重新定义笔记，<span class="o">系统级尚无成熟范式</span></h1>
-    <div class="sub">我们不按产品形态对标，而是拆解它们在 AI 知识处理上的能力启发</div>
+    <div class="sub">我们不按产品形态对标，而是拆解它们在 AI 内容 / 数据处理上的能力启发</div>
     <div class="content">
       <div class="split">
         <div style="flex:1.25;background:#fff;border:1px solid var(--line);border-radius:18px;padding:2.6vh 1.6vw;display:flex;flex-direction:column;box-shadow:var(--shadow);">
@@ -387,7 +401,6 @@
           <div class="hero-cap hero-cap-new">语音入口 · AI 全链路加工 · 个人数据库</div>
         </div>
       </div>
-      <div class="keyline"><span class="kltag">关键</span><span>系统级笔记的价值不在编辑器，而在<b>入口、设备、账号、权限与 AI 生态的连接能力</b></span></div>
     </div>
     <div class="pager">10</div>
   </section>
@@ -449,7 +462,7 @@
   <section class="slide">
     <div class="kicker">命题三 · 生态成就数据库（1/2）· 输入侧</div>
     <h1>多端便捷记录，全端内容<span class="o">汇聚成个人数据库</span></h1>
-    <div class="sub">普通笔记只有一个 App 入口、只装用户手打的东西；小米生态让内容源源不断自动汇聚——这才撑得起"数据库"</div>
+    <div class="sub">开口 / 网页 / 微信读书 / 通话 / 可穿戴——全端内容源源不断自动汇聚成个人数据库，靠的是小米的先天优势：<b style="color:var(--orange);font-weight:800;">系统级入口 · 多端设备 · MiClaw · 账号与权限体系</b></div>
     <div class="content">
       <div class="grid3">
         <div class="xc2">
@@ -469,7 +482,6 @@
         </div>
       </div>
       <div class="xbar">全端内容 → 统一沉淀进个人数据库、跨设备整合、随取随用</div>
-      <div class="note-line" style="margin-top:1.5vh;font-size:1.02vw;color:#556;text-align:center;font-weight:600;">这套多端汇聚，靠的是小米的先天优势：系统级入口 · 多端设备 · MiClaw · 账号与权限体系</div>
     </div>
     <div class="pager">14</div>
   </section>
@@ -480,27 +492,25 @@
     <h1>数据库反过来，<span class="o">供 MiClaw 与全生态调用</span></h1>
     <div class="sub">内容喂进来还不够——数据库还要能被系统 AI 调出来用，"数据库"的价值才闭环</div>
     <div class="content">
-      <div class="eco">
-        <div class="col give">
+      <div class="eco2">
+        <div class="zc give">
           <h3>笔记 → MiClaw</h3>
           <ul>
             <li>个人数据库供 MiClaw 检索引用（AI 语义搜索已上线）</li>
             <li>语音速记、结构化、语义检索封装为标准 tools</li>
             <li>经 MCP 与 MiClaw 打通、供其调用</li>
           </ul>
+          <div class="eco-shot">笔记能力接入 MiClaw · 被调用示意</div>
         </div>
-        <div class="col back">
+        <div class="zc back">
           <h3>MiClaw → 笔记</h3>
           <ul>
             <li>MiClaw 产出的高价值内容可一键沉淀</li>
             <li>AI 回答不再是一次性结果</li>
             <li>内容越积累，越贴合用户个人上下文</li>
           </ul>
+          <div class="eco-shot">MiClaw 内容一键存入笔记</div>
         </div>
-      </div>
-      <div class="split" style="margin-top:1.8vh;gap:1.5vw;">
-        <div class="imgbox wide" style="flex:1;height:15vh;">笔记能力接入 MiClaw · 被调用示意 / 截图</div>
-        <div class="imgbox wide" style="flex:1;height:15vh;">MiClaw 内容一键存入笔记 截图</div>
       </div>
     </div>
     <div class="pager">15</div>
