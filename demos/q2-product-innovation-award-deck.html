@@ -173,6 +173,8 @@
   .prop .pq{font-size:1vw;color:var(--orange);font-weight:800;}
   .prop .pt2{font-size:1.4vw;font-weight:900;margin:.8vh 0;}
   .prop .pa{font-size:1.02vw;color:#475467;line-height:1.55;}
+  .prop .pa-q{color:#1d2939;font-weight:700;}            /* 问题：加重强调 */
+  .prop .pa-ans{color:#98a2b3;font-weight:500;}          /* 答案：弱化浅灰 */
 
   .split{display:flex;gap:2vw;align-items:stretch;}
 
@@ -337,9 +339,9 @@
     <div class="rule"></div>
     <div class="content">
       <div class="prop3">
-        <div class="prop"><div class="pq">命题一 · 定义</div><div class="pt2">定义成什么</div><div class="pa">AI 时代笔记该被定义成什么 → 以语音速记为核心的 AI 笔记，沉淀成个人数据库</div></div>
-        <div class="prop"><div class="pq">命题二 · 创新</div><div class="pt2">怎么做创新</div><div class="pa">如何做范式创新而非叠加功能 → 重构四范式，并用小米生态跨端能力放大</div></div>
-        <div class="prop"><div class="pq">命题三 · 生态</div><div class="pt2">怎么形成系统级差异</div><div class="pa">怎么借小米生态把笔记做成真正的数据库 → 全端内容喂养 + 能力 tools 化供 MiClaw 调用</div></div>
+        <div class="prop"><div class="pq">命题一 · 定义</div><div class="pt2">定义成什么</div><div class="pa"><span class="pa-q">AI 时代笔记该被定义成什么</span><span class="pa-ans"> → 以语音速记为核心的 AI 笔记，沉淀成个人数据库</span></div></div>
+        <div class="prop"><div class="pq">命题二 · 创新</div><div class="pt2">怎么做创新</div><div class="pa"><span class="pa-q">如何做范式创新而非叠加功能</span><span class="pa-ans"> → 重构四范式，并用小米生态跨端能力放大</span></div></div>
+        <div class="prop"><div class="pq">命题三 · 生态</div><div class="pt2">怎么形成系统级差异</div><div class="pa"><span class="pa-q">怎么借小米生态把笔记做成真正的数据库</span><span class="pa-ans"> → 全端内容喂养 + 能力 tools 化供 MiClaw 调用</span></div></div>
       </div>
     </div>
     <div class="pager">07</div>
