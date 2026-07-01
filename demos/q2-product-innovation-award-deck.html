@@ -14,6 +14,10 @@
   body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;color:var(--ink);text-wrap:pretty;}
   /* 杜绝孤字/半词跨行：中文词组不从中间断开，只在标点或空格处换行 */
   .lead,.sub,.csub,.dsub,.concl,.synth,.synth small,.qbox .qd,.card .insight,.card .voice,.mc p,.mcard p,.stepcard p,.prop .pa,.step .sd,.step .stt,.eco li,.ba li,.xd .xc .dev,.xc2 p,.mfoot,.mgold,.xbar,.hero-cap,.note-line{word-break:keep-all;overflow-wrap:break-word;}
+  /* 短文本块两行长度自动均衡，避免长一行+孤字一行 */
+  .stepcard p,.qbox .qd,.card .insight,.card .voice,.prop .pa,.mc p,.mcard p,.step .sd,.step .stt,.eco li,.ba li,.xc2 p,.synth,.concl,.mfoot,.mgold,.note-line,.sub{text-wrap:balance;}
+  /* 英文/混排词组锁死不可从空格处断开 */
+  .nb{white-space:nowrap;}
   .deck{scroll-snap-type:y mandatory;overflow-y:scroll;height:100vh;scroll-behavior:smooth;}
   .slide{scroll-snap-align:start;position:relative;width:100vw;height:100vh;background:#fff;padding:8.5vh 7vw 7vh;display:flex;flex-direction:column;overflow:hidden;}
   .kicker{color:var(--orange);font-weight:800;letter-spacing:.16em;font-size:.95vw;margin-bottom:1.2vh;}
@@ -185,9 +189,9 @@
       <div style="margin-top:1.8vh;font-size:1.25vw;font-weight:800;color:var(--ink);">语音速记 <span style="color:#9aa3b6;font-weight:600;">入口</span>　→　AI 加工 <span style="color:#9aa3b6;font-weight:600;">中枢</span>　→　个人数据库 <span style="color:#9aa3b6;font-weight:600;">沉淀</span>　→　MiClaw 调用 <span style="color:#9aa3b6;font-weight:600;">放大</span></div>
       <div class="story">
         <div class="stepcard"><div class="num">1</div><h3>用户洞察</h3><p>记录、整理、调用全流程都有断点</p></div>
-        <div class="stepcard"><div class="num">2</div><h3>定位重构</h3><p>从打字工具，到语音速记为核心的 AI 笔记</p></div>
+        <div class="stepcard"><div class="num">2</div><h3>定位重构</h3><p>从打字工具，到语音速记为核心的 <span class="nb">AI 笔记</span></p></div>
         <div class="stepcard"><div class="num">3</div><h3>范式创新</h3><p>交互 / 分工 / 数据 / 价值 四范式重做</p></div>
-        <div class="stepcard"><div class="num">4</div><h3>生态与交付</h3><p>跨端沉淀、tools 化接生态，AI coding 快速重构</p></div>
+        <div class="stepcard"><div class="num">4</div><h3>生态与交付</h3><p>跨端沉淀、<span class="nb">tools 化</span>接生态，<span class="nb">AI coding</span> 快速重构</p></div>
       </div>
     </div>
     <div class="pager">02</div>
