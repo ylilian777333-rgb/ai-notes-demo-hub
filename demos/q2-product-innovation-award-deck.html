@@ -11,7 +11,9 @@
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{background:#e9e9ea;}
-  body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;color:var(--ink);}
+  body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;color:var(--ink);text-wrap:pretty;}
+  /* 杜绝孤字/半词跨行：中文词组不从中间断开，只在标点或空格处换行 */
+  .lead,.sub,.csub,.dsub,.concl,.synth,.synth small,.qbox .qd,.card .insight,.card .voice,.mc p,.mcard p,.stepcard p,.prop .pa,.step .sd,.step .stt,.eco li,.ba li,.xd .xc .dev,.xc2 p,.mfoot,.mgold,.xbar,.hero-cap,.note-line{word-break:keep-all;overflow-wrap:break-word;}
   .deck{scroll-snap-type:y mandatory;overflow-y:scroll;height:100vh;scroll-behavior:smooth;}
   .slide{scroll-snap-align:start;position:relative;width:100vw;height:100vh;background:#fff;padding:8.5vh 7vw 7vh;display:flex;flex-direction:column;overflow:hidden;}
   .kicker{color:var(--orange);font-weight:800;letter-spacing:.16em;font-size:.95vw;margin-bottom:1.2vh;}
@@ -37,7 +39,7 @@
   .lead .o{color:var(--orange);font-weight:800;} .lead .b{color:var(--blue);font-weight:800;}
 
   .story{display:flex;gap:1.3vw;margin-top:3.5vh;}
-  .stepcard{flex:1;background:var(--panel);border-radius:16px;padding:2.6vh 1.4vw;}
+  .stepcard{flex:1;background:var(--panel);border-radius:16px;padding:3.1vh 1.4vw;}
   .stepcard .num{display:inline-grid;place-items:center;width:2.3vw;height:2.3vw;border-radius:.6vw;background:var(--orange);color:#fff;font-weight:900;font-size:1.15vw;margin-bottom:1.3vh;}
   .stepcard h3{font-size:1.45vw;font-weight:900;}
   .stepcard p{font-size:1vw;color:#556;line-height:1.5;margin-top:.8vh;}
@@ -54,7 +56,7 @@
   .card .insight .ilab{display:block;font-size:.78vw;color:var(--orange);font-weight:800;margin-bottom:.5vh;letter-spacing:.08em;}
 
   .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5vw;}
-  .qbox{background:var(--panel);border-radius:16px;padding:2.6vh 1.7vw;border-left:.4vw solid var(--orange);}
+  .qbox{background:var(--panel);border-radius:16px;padding:3.3vh 1.7vw;border-left:.4vw solid var(--orange);}
   .qbox .qh{font-size:1.5vw;font-weight:900;}
   .qbox .qh small{font-size:.95vw;color:var(--orange);font-weight:700;margin-left:.5vw;}
   .qbox .qd{font-size:1.05vw;color:#444;margin-top:1vh;line-height:1.6;}
@@ -62,7 +64,7 @@
 
   table.grid{width:100%;border-collapse:collapse;font-size:1.05vw;}
   table.grid th{background:var(--panel);color:var(--ink);padding:1.4vh 1vw;text-align:left;font-weight:800;border-bottom:2px solid var(--orange);}
-  table.grid td{padding:1.4vh 1vw;border-bottom:1px solid var(--line);vertical-align:middle;line-height:1.5;}
+  table.grid td{padding:1.7vh 1vw;border-bottom:1px solid var(--line);vertical-align:middle;line-height:1.5;}
   table.grid tr td:first-child{font-weight:800;}
   table.grid .old{color:var(--gray);} table.grid .new{color:var(--ink);}
 
@@ -103,7 +105,7 @@
   .step .sn{font-size:.9vw;color:var(--orange);font-weight:800;}
   .step .stt{font-size:1.12vw;font-weight:800;line-height:1.35;}
   .step .sd{font-size:.9vw;color:#667;line-height:1.4;min-height:3.2vw;}
-  .step .imgbox{height:25vh;}
+  .step .imgbox{height:30vh;}
   .arrow{align-self:center;color:#d8a06f;font-size:1.5vw;font-weight:900;padding-top:5.5vh;}
 
   .eco{display:flex;gap:2vw;}
@@ -115,7 +117,7 @@
   .eco .back li:before{background:var(--blue);}
 
   .prop3{display:flex;gap:1.5vw;}
-  .prop{flex:1;background:var(--panel);border-radius:16px;padding:2.6vh 1.6vw;border-top:.4vw solid var(--orange);}
+  .prop{flex:1;background:var(--panel);border-radius:16px;padding:3.3vh 1.6vw;border-top:.4vw solid var(--orange);}
   .prop .pq{font-size:1vw;color:var(--orange);font-weight:800;}
   .prop .pt2{font-size:1.35vw;font-weight:900;margin:.6vh 0;}
   .prop .pa{font-size:1.02vw;color:#444;line-height:1.5;}
@@ -146,7 +148,7 @@
 
   /* 方法论卡 */
   .m3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.6vw;}
-  .mc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:2.8vh 1.7vw;border-top:.5vw solid #d8dbe0;}
+  .mc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:3.4vh 1.7vw;border-top:.5vw solid #d8dbe0;}
   .mc-hi{border-top-color:var(--orange);box-shadow:0 8px 26px rgba(242,102,10,.12);}
   .mc .mcn{font-size:1.5vw;font-weight:900;color:var(--orange);margin-bottom:.7vh;}
   .mc h3{font-size:1.3vw;font-weight:900;line-height:1.3;}
@@ -344,7 +346,7 @@
           <div class="hero-cap hero-cap-new">语音入口 · AI 全链路加工 · 个人数据库</div>
         </div>
       </div>
-      <div style="margin-top:2.4vh;text-align:center;font-size:1.05vw;color:#556;font-weight:600;">系统级笔记的价值不在编辑器，而在<b style="color:#1a1a1a">入口、设备、账号、权限与 AI 生态的连接能力</b></div>
+      <div class="note-line" style="margin-top:2.4vh;text-align:center;font-size:1.05vw;color:#556;font-weight:600;">系统级笔记的价值不在编辑器，而在<b style="color:#1a1a1a">入口、设备、账号、权限与 AI 生态的连接能力</b></div>
     </div>
     <div class="pager">10</div>
   </section>
@@ -426,7 +428,7 @@
         </div>
       </div>
       <div class="xbar">全端内容 → 统一沉淀进个人数据库、跨设备整合、随取随用</div>
-      <div style="margin-top:1.5vh;font-size:1.02vw;color:#556;text-align:center;font-weight:600;">这套多端汇聚，靠的是小米的先天优势：系统级入口 · 多端设备 · MiClaw · 账号与权限体系</div>
+      <div class="note-line" style="margin-top:1.5vh;font-size:1.02vw;color:#556;text-align:center;font-weight:600;">这套多端汇聚，靠的是小米的先天优势：系统级入口 · 多端设备 · MiClaw · 账号与权限体系</div>
     </div>
     <div class="pager">14</div>
   </section>
@@ -510,9 +512,9 @@
       </div>
       <div class="concl" style="border-left-color:var(--orange);background:#fff7f0;color:#5a3a20;margin-top:2.2vh;"><b style="color:var(--orange);">说明：</b>产品处于灰度小流量阶段，DAU / 留存尚未放量；我们已系统梳理 <b style="color:var(--orange)">40+ 项</b>用户易用性问题、按 P0/P1/P2 分级，依托<b style="color:var(--orange)">日更</b>持续闭环——用户当天提的问题当天修，问题从提出到修复平均【X】天，保障体验评分不降。社媒也已自发出现正向评价与二次传播。</div>
       <div class="split" style="margin-top:1.8vh;gap:1.5vw;">
-        <div class="imgbox wide" style="flex:1;height:22vh;">社媒正向反馈 / 传播截图</div>
-        <div class="imgbox wide" style="flex:1;height:22vh;">beta 用户好评原声</div>
-        <div class="imgbox wide" style="flex:1;height:22vh;">体验问题闭环看板</div>
+        <div class="imgbox wide" style="flex:1;height:15vh;">社媒正向反馈 / 传播截图</div>
+        <div class="imgbox wide" style="flex:1;height:15vh;">beta 用户好评原声</div>
+        <div class="imgbox wide" style="flex:1;height:15vh;">体验问题闭环看板</div>
       </div>
     </div>
     <div class="pager">18</div>
