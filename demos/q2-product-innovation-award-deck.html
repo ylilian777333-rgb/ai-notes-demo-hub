@@ -154,19 +154,11 @@
   .eco li:before{content:"";position:absolute;left:0;top:.62em;width:.5vw;height:.5vw;border-radius:50%;background:var(--orange);}
   .eco .back li:before{background:var(--blue);}
 
-  /* 生态输出侧：两栏对照 + 底部手机竖屏图（对齐首页前后样式） */
-  .eco2{display:flex;gap:1.8vw;align-items:stretch;margin-top:1vh;}
-  .eco2 .zc{flex:1;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:18px;padding:2.4vh 1.6vw;box-shadow:var(--shadow);}
-  .eco2 .zc.give{border-top:.5vw solid var(--orange);}
-  .eco2 .zc.back{border-top:.5vw solid var(--blue);}
-  .eco2 .zc h3{font-size:1.4vw;font-weight:900;margin-bottom:1.3vh;}
-  .eco2 .zc.back h3{color:var(--blue);}
-  .eco2 ul{list-style:none;}
-  .eco2 li{font-size:.98vw;color:#3a4150;line-height:1.5;padding-left:1.1vw;position:relative;margin:.9vh 0;word-break:keep-all;overflow-wrap:break-word;}
-  .eco2 li:before{content:"";position:absolute;left:0;top:.6em;width:.45vw;height:.45vw;border-radius:50%;background:var(--orange);}
-  .eco2 .zc.back li:before{background:var(--blue);}
-  .eco-shot{height:32vh;aspect-ratio:9/19.5;width:auto;max-width:100%;margin:1.8vh auto 0;border-radius:20px;padding:0;overflow:hidden;background:linear-gradient(180deg,#fbfcfe,#f2f5f9);border:1.5px dashed #d3d6dd;display:flex;align-items:center;justify-content:center;color:#aab0ba;font-size:.85vw;font-weight:600;text-align:center;}
-  .eco-shot img{width:100%;height:100%;object-fit:contain;display:block;}
+  /* 生态输出侧：对齐首页"变化前后"样式——手机图为主角 + 胶囊标题 + 要点胶囊 */
+  .eco-cmp{display:flex;align-items:flex-start;justify-content:center;gap:3.2vw;margin-top:1vh;}
+  .eco-cmp .cmp-zone{flex:0 1 40vw;}
+  .eco-cmp .phbox{height:42vh;aspect-ratio:9/19.5;border-radius:12px;background:linear-gradient(180deg,#fbfcfe,#f2f5f9);display:flex;align-items:center;justify-content:center;text-align:center;color:#aab0ba;font-size:.85vw;font-weight:600;line-height:1.5;padding:1vh;}
+  .hero-cap-blue{color:var(--blue);background:var(--blue-soft);border-color:#cfe0ff;}
 
   .prop3{display:flex;gap:1.5vw;}
   .prop{flex:1;background:#fff;border:1px solid var(--line);border-radius:18px;padding:3.4vh 1.7vw;border-top:.5vw solid var(--orange);box-shadow:var(--shadow);}
@@ -494,24 +486,16 @@
     <h1>数据库反过来，<span class="o">供 MiClaw 与全生态调用</span></h1>
     <div class="sub">内容喂进来还不够——数据库还要能被系统 AI 调出来用，"数据库"的价值才闭环</div>
     <div class="content">
-      <div class="eco2">
-        <div class="zc give">
-          <h3>笔记 → MiClaw</h3>
-          <ul>
-            <li>个人数据库供 MiClaw 检索引用（AI 语义搜索已上线）</li>
-            <li>语音速记、结构化、语义检索封装为标准 tools</li>
-            <li>经 MCP 与 MiClaw 打通、供其调用</li>
-          </ul>
-          <div class="eco-shot">笔记能力接入 MiClaw · 被调用示意</div>
+      <div class="eco-cmp">
+        <div class="cmp-zone">
+          <div class="ba-pill ba-pill-new">笔记 → MiClaw</div>
+          <div class="shot-card"><div class="phbox">笔记能力接入 MiClaw<br>被调用示意</div></div>
+          <div class="hero-cap hero-cap-new">语义检索引用 · 能力 tools 化 · 经 MCP 打通供调用</div>
         </div>
-        <div class="zc back">
-          <h3>MiClaw → 笔记</h3>
-          <ul>
-            <li>MiClaw 产出的高价值内容可一键沉淀</li>
-            <li>AI 回答不再是一次性结果</li>
-            <li>内容越积累，越贴合用户个人上下文</li>
-          </ul>
-          <div class="eco-shot">MiClaw 内容一键存入笔记</div>
+        <div class="cmp-zone">
+          <div class="ba-pill" style="background:var(--blue);color:#fff;">MiClaw → 笔记</div>
+          <div class="shot-card"><div class="phbox">MiClaw 内容<br>一键存入笔记</div></div>
+          <div class="hero-cap hero-cap-blue">高价值内容一键沉淀 · 越积累越懂你</div>
         </div>
       </div>
     </div>
