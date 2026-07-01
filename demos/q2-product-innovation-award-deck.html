@@ -141,8 +141,10 @@
   .step .sn{font-size:.9vw;color:var(--orange);font-weight:800;}
   .step .stt{font-size:1.12vw;font-weight:800;line-height:1.35;}
   .step .sd{font-size:.9vw;color:#667;line-height:1.4;min-height:3.2vw;}
-  .step .imgbox{height:27vh;}
-  .arrow{align-self:center;color:var(--orange);opacity:.55;font-size:1.6vw;font-weight:900;padding-top:5.5vh;}
+  /* 手机竖屏贴图位：高度驱动 + 9:19.5 机身比例，双向约束保证永远是竖屏形状、居中不裁切 */
+  .step .imgbox.phone{height:46vh;aspect-ratio:9/19.5;width:auto;max-width:100%;margin:.6vh auto 0;border-radius:22px;padding:0;overflow:hidden;background:linear-gradient(180deg,#fbfcfe,#f2f5f9);border:1.5px dashed #d3d6dd;}
+  .step .imgbox.phone img{width:100%;height:100%;object-fit:contain;display:block;}
+  .arrow{align-self:center;color:var(--orange);opacity:.55;font-size:1.6vw;font-weight:900;padding-top:3vh;}
 
   .eco{display:flex;gap:2vw;}
   .eco .col{flex:1;background:#fff;border:1px solid var(--line);border-radius:18px;padding:2.8vh 2vw;box-shadow:var(--shadow);}
