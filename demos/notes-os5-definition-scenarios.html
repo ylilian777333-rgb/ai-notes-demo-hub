@@ -20,7 +20,7 @@
   .wrap{ padding:0 52px 120px 284px;}
 
   /* 中文按词不拆、避免一两个字跨行；关键词组用 .nb 锁死不断行 */
-  .hero-lead,.hero-sub,.feat p,.feat .fl li,.pos,.dir .desc,.dir .pay .pd,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
+  .hero-lead,.hero-sub,.feat p,.feat .fl li,.pos,.dir .fl li,.dir .pay .pd,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
   .nb{ white-space:nowrap;}
 
   .cover{ padding:76px 0 40px; border-bottom:1px solid var(--line);}
@@ -67,7 +67,11 @@
   .dir .dhead{ display:flex; align-items:center; gap:12px; margin-bottom:15px;}
   .dir .dn{ width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,#0f8f68,#12b886); color:#fff; font-weight:800; font-size:16px; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(16,150,110,.30); flex:0 0 auto;}
   .dir h4{ font-size:17.5px; font-weight:800; line-height:1.25;}
-  .dir .desc{ font-size:14.5px; color:var(--sub); line-height:1.95; padding-bottom:22px;} .dir .desc b{ color:var(--ink); font-weight:700;}
+  .dir .fl{ list-style:none; padding-bottom:22px;}
+  .dir .fl li{ position:relative; padding-left:16px; font-size:13.5px; color:var(--sub); line-height:1.7; margin-bottom:9px;}
+  .dir .fl li:last-child{ margin-bottom:0;}
+  .dir .fl li:before{ content:""; position:absolute; left:2px; top:8px; width:5px; height:5px; border-radius:50%; background:var(--ac);}
+  .dir .fl li b{ color:var(--ink); font-weight:700;}
   /* 每张方向卡底部的价值收口带 */
   .dir .pay{ margin-top:auto; padding:14px 22px; background:var(--ac-soft); border-top:1px solid var(--ac-line);}
   .dir .pay .pt{ display:inline-block; font-size:11px; font-weight:800; letter-spacing:.4px; color:#fff; background:var(--ac); border-radius:6px; padding:2px 10px; margin-bottom:7px;}
@@ -190,21 +194,33 @@
       <div class="dir">
         <div class="din">
           <div class="dhead"><div class="dn">1</div><h4>随手就能记</h4></div>
-          <div class="desc">一句话就记下来——<b><span class="nb">手机 / 手表 / 车机 / 耳机</span></b>随身都能说，<b><span class="nb">网页 / 截图 / 聊天</span></b>一键存进同一处，不用特意打开、不用整理格式。</div>
+          <ul class="fl">
+            <li>一句话就记下来，<b>不用特意打开、不用整理</b></li>
+            <li><span class="nb">手机 / 手表 / 车机 / 耳机</span>随身都能说</li>
+            <li><span class="nb">网页 / 截图 / 聊天</span>一键存进同一处</li>
+          </ul>
         </div>
         <div class="pay"><span class="pt">基础体验</span><div class="pd"><b>随口就记、随时问得到</b>，顺手不费劲</div></div>
       </div>
       <div class="dir">
         <div class="din">
           <div class="dhead"><div class="dn">2</div><h4>AI 自动帮你理好</h4></div>
-          <div class="desc">记完<b>不用自己整理</b>——AI 自动理成结构、把相关内容串起来，<b>一句话就能问遍你的全部笔记</b>、还带出处。</div>
+          <ul class="fl">
+            <li>记完<b>不用自己整理</b>，AI 理成结构</li>
+            <li>相关内容<b>自动串到一起</b></li>
+            <li><b>一句话问遍全部笔记</b>、带出处</li>
+          </ul>
         </div>
         <div class="pay"><span class="pt">竞争力</span><div class="pd">问"我上次…"，<b>翻你自己的笔记答你</b>，不是通用答案</div></div>
       </div>
       <div class="dir">
         <div class="din">
           <div class="dhead"><div class="dn">3</div><h4>被小爱调用、主动找你</h4></div>
-          <div class="desc">内容不只躺在笔记里——<b>小爱随时调用来答你、帮你写</b>，一份内容跨端一致，该看的主动浮现、到期主动提醒。</div>
+          <ul class="fl">
+            <li>小爱随时调用来<b>答你、帮你写</b></li>
+            <li>一份内容<b>跨端一致</b></li>
+            <li>该看的<b>主动浮现</b>、到期<b>主动提醒</b></li>
+          </ul>
         </div>
         <div class="pay"><span class="pt">生态服务</span><div class="pd"><b>一份内容跨端一致</b>，全生态都用得上</div></div>
       </div>
