@@ -212,7 +212,8 @@
   /* 竖屏手机整机占位：放完整手机截图（9:19.5），高度驱动、居中、双向约束不裁切走形 */
   .xc2 .imgbox.phone{flex:0 0 auto;height:42vh;aspect-ratio:9/19.5;width:auto;max-width:94%;min-height:0;margin:.6vh auto 0;border-radius:22px;padding:0;overflow:hidden;background:linear-gradient(180deg,#fbfcfe,#f2f5f9);}
   .xc2 .imgbox.phone img{width:100%;height:100%;object-fit:cover;display:block;}
-  .xc2 .imgbox.phone.has-img{border:none;background:none;box-shadow:0 8px 22px rgba(16,24,40,.14);}
+  .xc2 .imgbox.phone.has-img{border:none;background:none;box-shadow:none;border-radius:0;}
+  .xc2 .imgbox.phone.has-img img{object-fit:contain;}
   /* 通话卡：两张手机并排 */
   .xc2 .phonepair{display:flex;gap:.5vw;justify-content:center;align-items:flex-start;margin:.6vh auto 0;}
   .xc2 .phonepair .imgbox.phone{margin:0;height:42vh;max-width:100%;}
