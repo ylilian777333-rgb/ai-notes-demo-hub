@@ -190,8 +190,11 @@
   .xc2{background:#fff;border:1px solid var(--line);border-radius:18px;padding:2.6vh 1.6vw;border-top:.5vw solid var(--orange);display:flex;flex-direction:column;box-shadow:var(--shadow);}
   .xc2 h3{font-size:1.3vw;font-weight:900;margin-bottom:.9vh;display:flex;align-items:center;gap:.6vw;}
   .xc2 h3 .ic{display:inline-grid;place-items:center;width:2.1vw;height:2.1vw;border-radius:.6vw;background:var(--orange-soft);border:1px solid var(--orange-line);font-size:1.1vw;flex:0 0 auto;}
-  .xc2 p{font-size:1vw;color:#556;line-height:1.5;margin-bottom:1.4vh;flex:0 0 auto;min-height:4.6vh;}
+  .xc2 p{font-size:1vw;color:#556;line-height:1.5;margin-bottom:1vh;flex:0 0 auto;min-height:3.4vh;}
   .xc2 .imgbox{flex:1;min-height:18vh;}
+  /* 竖屏手机整机占位：放完整手机截图（9:19.5），高度驱动、居中、双向约束不裁切走形 */
+  .xc2 .imgbox.phone{flex:0 0 auto;height:42vh;aspect-ratio:9/19.5;width:auto;max-width:94%;min-height:0;margin:.6vh auto 0;border-radius:22px;padding:0;overflow:hidden;background:linear-gradient(180deg,#fbfcfe,#f2f5f9);}
+  .xc2 .imgbox.phone img{width:100%;height:100%;object-fit:cover;display:block;}
 
   /* 方法论卡 */
   .m3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.6vw;}
@@ -462,17 +465,17 @@
         <div class="xc2">
           <h3><span class="ic">📱</span>手机 · 多入口</h3>
           <p>长按 AI 键说一句就记；网页 / 截图一键收</p>
-          <div class="imgbox wide">手机多入口记录截图</div>
+          <div class="imgbox phone">手机多入口记录截图</div>
         </div>
         <div class="xc2">
           <h3><span class="ic">⌚</span>手表 / 手环 · 无感</h3>
           <p>抬手或语音就记，走路途中的想法也接得住（耳机 / 车机为后续）</p>
-          <div class="imgbox wide">手表 / 手环记录截图</div>
+          <div class="imgbox phone">手表 / 手环记录截图</div>
         </div>
         <div class="xc2">
           <h3><span class="ic">📞</span>通话录音 · 自动成纪要</h3>
           <p>通话录音自动生成纪要，一键保存进笔记</p>
-          <div class="imgbox wide">通话纪要截图</div>
+          <div class="imgbox phone">通话纪要截图</div>
         </div>
       </div>
       <div class="xbar">多端记录 → 用户把有价值的内容沉淀进个人数据库、跨设备整合、随取随用</div>
