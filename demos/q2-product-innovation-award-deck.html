@@ -118,6 +118,11 @@
   .praisewall .pw img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
   .note-gray{margin-top:1.6vh;border-left:.35vw solid #dcdfe4;background:#f7f8fa;color:#98a2b3;font-size:.88vw;font-weight:500;line-height:1.5;padding:1.3vh 1.5vw;border-radius:10px;}
   .note-gray b{color:#7b828e;font-weight:700;}
+  /* 第9页竞品双机截图 */
+  .compshots{flex:1;display:flex;gap:1vw;align-items:center;justify-content:center;align-self:center;}
+  .compshots .cshot{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7vh;}
+  .compshots .cshot img{max-height:30vh;max-width:100%;object-fit:contain;border-radius:14px;box-shadow:0 8px 22px rgba(16,24,40,.14);}
+  .compshots .cshot figcaption{font-size:.85vw;color:var(--gray);font-weight:700;}
   .phone{aspect-ratio:1080/2340;} .wide{aspect-ratio:16/9;}
 
   .ba-wrap{display:flex;gap:2vw;}
@@ -390,7 +395,10 @@
           <tr><td>三方笔记</td><td class="old">资料级 AI 问答（NotebookLM）、双链知识图谱（Obsidian）</td><td class="old">要手动导入、是独立工具，无系统级入口</td></tr>
           <tr><td>AI 助手</td><td class="old">自然语言交互、生成、总结强</td><td class="old">停留在一次性对话，缺沉淀</td></tr>
         </table>
-        <div class="imgbox" style="flex:1;">竞品扫描 / 方案草图 /<br>团队方向讨论白板</div>
+        <div class="compshots">
+          <figure class="cshot"><img src="img/comp-vivo.jpg" alt="vivo 笔记"><figcaption>vivo 笔记</figcaption></figure>
+          <figure class="cshot"><img src="img/comp-oppo.jpg" alt="OPPO 笔记"><figcaption>OPPO 笔记</figcaption></figure>
+        </div>
       </div>
       <div class="concl"><b>所以：</b>我们没有照搬任何一条现成路线，而是取三者所长、补其所短，再叠加小米独有的<b>系统级 + 生态</b>能力——因此，我们选择率先验证这条系统级重构路径。</div>
     </div>
@@ -629,16 +637,16 @@
 
   <!-- 22 团队（最后一页） -->
   <section class="slide">
-    <div class="kicker">团队与分工 · 15 人以内，可跨部门</div>
+    <div class="kicker">团队与分工</div>
     <h1>产研一体的<span class="o">敏捷小组</span></h1>
     <div class="rule"></div>
     <div class="content">
       <table class="grid">
         <tr><th style="width:12vw;">工种</th><th style="width:26vw;">成员</th><th>主要职责</th></tr>
-        <tr><td>产品</td><td style="color:var(--red);font-weight:700;">【产品团队成员】</td><td class="old">定位重构、产品规划、0→1 生成 / 搜索 / 多模态 / 跨端 / MiClaw 结合需求</td></tr>
-        <tr><td>设计</td><td style="color:var(--red);font-weight:700;">【设计师姓名】</td><td class="old">交互与视觉设计、原型走查、体验把控</td></tr>
-        <tr><td>开发</td><td style="color:var(--red);font-weight:700;">【研发负责人 + 核心研发】</td><td class="old">AI coding 应用重写、日更机制、AI 能力落地</td></tr>
-        <tr><td>测试 / 数据</td><td style="color:var(--red);font-weight:700;">【测试 / 数据负责人】</td><td class="old">质量保障、灰度验证、日更回归、数据看板</td></tr>
+        <tr><td>产品</td><td style="font-weight:700;color:var(--ink);">杨李莲、刘塔玉、沈竹琦、漆泓艺</td><td class="old">定位重构、产品规划、0→1 生成 / 搜索 / 多模态 / 跨端 / MiClaw 结合需求</td></tr>
+        <tr><td>设计</td><td style="font-weight:700;color:var(--ink);">杨敬荣、姜佳欣</td><td class="old">交互与视觉设计、原型走查、体验把控</td></tr>
+        <tr><td>开发</td><td style="font-weight:700;color:var(--ink);">宋世超、赵洋、刘超飞、李雨薇、夏徐东、朱柄丞、张泽</td><td class="old">AI coding 应用重写、日更机制、AI 能力落地</td></tr>
+        <tr><td>测试 / 数据</td><td style="font-weight:700;color:var(--ink);">段宗意、李晓东、熊棉</td><td class="old">质量保障、灰度验证、日更回归、数据看板</td></tr>
       </table>
     </div>
     <div class="pager">22</div>
