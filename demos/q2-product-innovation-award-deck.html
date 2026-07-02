@@ -212,15 +212,16 @@
   /* 竖屏手机整机占位：放完整手机截图（9:19.5），高度驱动、居中、双向约束不裁切走形 */
   .xc2 .imgbox.phone{flex:0 0 auto;height:42vh;aspect-ratio:9/19.5;width:auto;max-width:94%;min-height:0;margin:.6vh auto 0;border-radius:22px;padding:0;overflow:hidden;background:linear-gradient(180deg,#fbfcfe,#f2f5f9);}
   .xc2 .imgbox.phone img{width:100%;height:100%;object-fit:cover;display:block;}
-  .xc2 .imgbox.phone.has-img{border:none;background:none;box-shadow:none;border-radius:0;}
-  .xc2 .imgbox.phone.has-img img{object-fit:contain;}
+  .xc2 .imgbox.phone.has-img{border:none;background:none;box-shadow:none;border-radius:0;height:auto;aspect-ratio:auto;width:auto;max-width:100%;display:flex;justify-content:center;align-items:flex-start;overflow:visible;margin:.6vh auto 0;}
+  .xc2 .imgbox.phone.has-img img{height:42vh;width:auto;max-width:100%;object-fit:contain;display:block;}
   /* 通话卡：两张手机并排 */
   .xc2 .phonepair{display:flex;gap:.5vw;justify-content:center;align-items:flex-start;margin:.6vh auto 0;}
-  .xc2 .phonepair .imgbox.phone{margin:0;height:42vh;max-width:100%;}
+  .xc2 .phonepair .imgbox.phone{margin:0;}
+  .xc2 .phonepair .imgbox.phone.has-img img{height:42vh;}
 
   /* 方法论卡 */
   .m3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.6vw;}
-  .mc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:2.4vh 1.5vw;border-top:.5vw solid #d8dbe0;box-shadow:var(--shadow);position:relative;}
+  .mc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:1.9vh 1.4vw;border-top:.5vw solid #d8dbe0;box-shadow:var(--shadow);position:relative;}
   .mc-hi{border-top-color:var(--orange);box-shadow:0 14px 34px rgba(242,102,10,.16);}
   .mc .mcn{display:inline-grid;place-items:center;width:2.6vw;height:2.6vw;border-radius:.7vw;background:var(--panel);color:var(--orange);font-size:1.35vw;font-weight:900;margin-bottom:1vh;border:1px solid var(--line);}
   .mc-hi .mcn{background:var(--grad-orange);color:#fff;border:none;box-shadow:0 6px 16px rgba(242,102,10,.28);}
@@ -228,6 +229,10 @@
   .mc p{font-size:1vw;color:#556;line-height:1.55;margin-top:1vh;}
   .mfoot{margin-top:2.4vh;padding:2.2vh 1.9vw;border-radius:16px;background:var(--orange-soft);border:1px solid var(--orange-line);color:#7a3d10;font-size:1.15vw;line-height:1.5;font-weight:700;border-left:.5vw solid var(--orange);}
   .mfoot b{color:var(--orange);}
+  /* 方法论配图：两张按高度放大、居中、贴合边框 */
+  .methodshots{display:flex;gap:2vw;justify-content:center;align-items:center;margin-top:1.3vh;}
+  .methodshots figure{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 14px rgba(16,24,40,.08);padding:.5vh;display:flex;}
+  .methodshots img{height:30vh;width:auto;max-width:100%;object-fit:contain;border-radius:8px;display:block;}
 
   .kpis{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1.3vw;}
   .kpi{background:#fff;border:1px solid var(--line);border-top:.5vw solid var(--orange);border-radius:18px;padding:2.4vh 1.5vw;box-shadow:var(--shadow);}
@@ -618,11 +623,11 @@
         <div class="mc mc-hi"><div class="mcn">02</div><h3>系统生态接入方法</h3><p>能力 tools 化、与 MiClaw 打通，把有价值的内容沉淀成个人数据库——不做孤岛。</p></div>
         <div class="mc"><div class="mcn">03</div><h3>AI coding 敏捷交付方法</h3><p>PM 先写 demo 先验证、AI coding 生成代码、产研一体当天决策——不做瀑布。</p></div>
       </div>
-      <div class="split" style="margin-top:1.5vh;gap:1.5vw;">
-        <div class="shotcell" style="height:20vh;"><img src="img/method-1.jpg" alt="方法论配图 1"></div>
-        <div class="shotcell" style="height:20vh;"><img src="img/method-2.jpg" alt="方法论配图 2"></div>
+      <div class="methodshots">
+        <figure><img src="img/method-1.jpg" alt="方法论配图 1"></figure>
+        <figure><img src="img/method-2.jpg" alt="方法论配图 2"></figure>
       </div>
-      <div class="mfoot" style="margin-top:1.5vh;">对小米：这三件资产合起来，就是一套<b>可被复用的 AI 原生产品组织能力</b>。</div>
+      <div class="mfoot" style="margin-top:1.3vh;">对小米：这三件资产合起来，就是一套<b>可被复用的 AI 原生产品组织能力</b>。</div>
     </div>
     <div class="pager">20</div>
   </section>
