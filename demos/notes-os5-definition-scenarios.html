@@ -20,7 +20,7 @@
   .wrap{ padding:0 52px 120px 284px;}
 
   /* 中文按词不拆、避免一两个字跨行；关键词组用 .nb 锁死不断行 */
-  .hero-lead,.hero-sub,.feat p,.pos,.dir .base,.dir .up,.wi,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
+  .hero-lead,.hero-sub,.feat p,.feat .fl li,.pos,.dir .base,.dir .up,.wi,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
   .nb{ white-space:nowrap;}
 
   .cover{ padding:76px 0 40px; border-bottom:1px solid var(--line);}
@@ -54,6 +54,11 @@
   .feat h4{ font-size:19px; font-weight:800; margin-bottom:8px;}
   .feat h4 small{ font-size:13px; font-weight:600; color:var(--dim); margin-left:8px;}
   .feat p{ font-size:14px; color:var(--sub); line-height:1.8;} .feat p b{ color:var(--ink); font-weight:700;}
+  .feat .fl{ list-style:none; margin-top:4px;}
+  .feat .fl li{ position:relative; padding-left:16px; font-size:13.5px; color:var(--sub); line-height:1.7; margin-bottom:7px;}
+  .feat .fl li:last-child{ margin-bottom:0;}
+  .feat .fl li:before{ content:""; position:absolute; left:2px; top:8px; width:5px; height:5px; border-radius:50%; background:var(--ac);}
+  .feat .fl li b{ color:var(--ink); font-weight:700;}
 
   /* 产品方向 */
   .dirs{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:4px;}
@@ -152,9 +157,27 @@
     </div>
 
     <div class="feats" style="grid-template-columns:repeat(3,1fr);">
-      <div class="feat"><div class="ic">⇄</div><h4>随处记 · AI 理好</h4><p><span class="nb">手机 / 手表 / 车机 / 耳机</span><b>随处记</b>，<span class="nb">网页 / 截图 / 聊天</span><b>多源一键入库</b>；AI 自动转写、结构化、整理成型。</p></div>
-      <div class="feat"><div class="ic">🔗</div><h4>自动关联 · 随时问</h4><p>相关的笔记 AI <b>自动帮你串到一起</b>；翻遍你所有笔记<b>一句话就能问到</b>、带出处，也能被小爱调用来写新的——记得多，更用得上。</p></div>
-      <div class="feat"><div class="ic">✦</div><h4>会主动 · 越用越懂</h4><p>该看的<b>主动浮现</b>、到期<b>主动提醒</b>，还把长期积累<b>帮你发现规律</b>；去重纠错、管得住信得过。</p></div>
+      <div class="feat"><div class="ic">⇄</div><h4>随处记 · AI 理好</h4>
+        <ul class="fl">
+          <li><span class="nb">手机 / 手表 / 车机 / 耳机</span><b>随处记</b></li>
+          <li><span class="nb">网页 / 截图 / 聊天</span><b>多源一键入库</b></li>
+          <li>AI 自动<b>转写、结构化、整理成型</b></li>
+        </ul>
+      </div>
+      <div class="feat"><div class="ic">🔗</div><h4>自动关联 · 随时问</h4>
+        <ul class="fl">
+          <li>相关的笔记 AI <b>自动帮你串到一起</b></li>
+          <li>翻遍全库<b>一句话就能问到</b>、带出处</li>
+          <li>也能<b>被小爱调用</b>来写新的</li>
+        </ul>
+      </div>
+      <div class="feat"><div class="ic">✦</div><h4>会主动 · 越用越懂</h4>
+        <ul class="fl">
+          <li>该看的<b>主动浮现</b>、到期<b>主动提醒</b></li>
+          <li>长期积累<b>帮你发现规律</b></li>
+          <li>去重纠错、<b>管得住信得过</b></li>
+        </ul>
+      </div>
     </div>
 
     <div class="two">
