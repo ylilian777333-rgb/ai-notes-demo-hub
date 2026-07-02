@@ -107,6 +107,9 @@
   .concl b{color:var(--blue);}
 
   .imgbox{border:1.5px dashed #d3d6dd;border-radius:14px;background:linear-gradient(180deg,#fbfcfe,#f4f6f9);display:flex;align-items:center;justify-content:center;color:#aab0ba;font-size:.9vw;font-weight:600;text-align:center;padding:1vh;}
+  /* 已贴图的图片框：白底、细边、不裁切居中 */
+  .shotcell{flex:1;height:30vh;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;padding:.8vh;overflow:hidden;}
+  .shotcell img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;display:block;}
   .phone{aspect-ratio:1080/2340;} .wide{aspect-ratio:16/9;}
 
   .ba-wrap{display:flex;gap:2vw;}
@@ -530,9 +533,10 @@
           <div class="insight" style="background:#fff;border-left-color:var(--blue);">用真实用户反馈验证方向，而非闭门打磨——<b style="color:var(--blue);">2 个月累计 32 个日更版本迭代</b>，高优问题当天进版本、快速可见。</div>
         </div>
       </div>
-      <div class="split" style="margin-top:1.8vh;gap:1.5vw;">
-        <div class="imgbox wide" style="flex:1;height:15vh;">产研一体协作 / 敏捷看板</div>
-        <div class="imgbox wide" style="flex:1;height:15vh;">日更记录 / 版本节奏 / 问题闭环</div>
+      <div class="split" style="margin-top:1.8vh;gap:1.2vw;">
+        <div class="shotcell"><img src="img/agile-board.jpg" alt="产研一体协作 / 敏捷看板"></div>
+        <div class="shotcell"><img src="img/daily-build.png" alt="日更记录 / 版本节奏 / 问题闭环"></div>
+        <div class="shotcell"><img src="img/daily-build-notify.png" alt="日更包提醒"></div>
       </div>
     </div>
     <div class="pager">17</div>
