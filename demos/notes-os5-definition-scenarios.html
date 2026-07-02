@@ -87,6 +87,16 @@
   .tag.fly{ color:var(--ac-ink); border-color:var(--ac-line); background:var(--ac-soft);}
   .tag.warn{ color:var(--warn); border-color:var(--warn-line); background:var(--warn-soft);}
 
+  /* 收口 */
+  .closer{ background:linear-gradient(180deg,#f2fbf7,#ffffff); border:1px solid var(--ac-line); border-radius:20px; padding:42px 44px 38px; text-align:center; box-shadow:var(--shadow); position:relative; overflow:hidden;}
+  .closer:before{ content:""; position:absolute; left:0; right:0; top:0; height:5px; background:linear-gradient(90deg,#0f8f68,#12b886);}
+  .closer-tag{ display:inline-block; font-size:11px; letter-spacing:3px; font-weight:800; color:var(--ac-ink); background:var(--ac-soft); border:1px solid var(--ac-line); padding:5px 16px; border-radius:30px; margin-bottom:18px;}
+  .closer-main{ font-size:32px; font-weight:800; color:var(--ink); line-height:1.4; letter-spacing:.3px;}
+  .closer-main span{ color:var(--ac);}
+  .closer-line{ width:54px; height:3px; background:var(--ac); border-radius:2px; margin:20px auto;}
+  .closer-sub{ font-size:15px; color:var(--sub); line-height:1.95; max-width:720px; margin:0 auto;} .closer-sub b{ color:var(--ac-ink); font-weight:700;}
+  .foot-note{ font-size:12.5px; color:var(--dim); margin-top:16px; line-height:1.6; text-align:center;}
+
   .footer{ margin-top:70px; padding-top:22px; border-top:1px solid var(--line); font-size:13px; color:var(--dim); text-align:center;}
 
   /* 左侧目录（一行看懂、不折行） */
@@ -114,16 +124,17 @@
 
     <div class="hero">
       <div class="lbl">定位</div>
-      <div class="big">笔记 = 你<em>主动沉淀</em>、看得见、改得动的<em>个人内容层</em>。你决定存什么；AI 帮你把它理好、随时找出来用，还会主动找你——内容越攒越多，越用越懂你。</div>
+      <div class="big">笔记 = 你<em>主动沉淀</em>、看得见、改得动的<em>个人内容层</em>。你决定存什么；AI 帮你理好、连成网、随时问得到，还会主动找你——越攒越多，长成越用越懂你的<em>个人知识库</em>。</div>
     </div>
 
-    <div class="feats">
-      <div class="feat"><div class="ic">✦</div><h4>会主动<small>不只被动记录</small></h4><p>该看的内容<b>主动浮现</b>、到期<b>主动提醒</b>；笔记还能被小爱调用，回答、写作时引用你存过的内容——从"等你来翻"变成"主动帮你"。</p></div>
-      <div class="feat"><div class="ic">⇄</div><h4>跨端<small>一份内容，随处记随处调</small></h4><p>手机 / 手表 / 车机 / 耳机 / 平板，<b>哪个顺手用哪个</b>记；任意设备都能把内容<b>调出来用</b>；多端一份、跨端接力，在每块屏之间自己跑。</p></div>
+    <div class="feats" style="grid-template-columns:repeat(3,1fr);">
+      <div class="feat"><div class="ic">⇄</div><h4>随处记 · AI 理好</h4><p>手机 / 手表 / 车机 / 耳机<b>随处记</b>，网页 / 截图 / 聊天<b>多源一键入库</b>；AI 自动转写、结构化、整理成型。</p></div>
+      <div class="feat"><div class="ic">🕸</div><h4>连成网 · 随时问</h4><p>笔记之间<b>自动关联、连成知识网</b>；基于你<b>所有</b>笔记一句话问得到，也能被小爱调用来写新的——记得多，更用得上。</p></div>
+      <div class="feat"><div class="ic">✦</div><h4>会主动 · 越用越懂</h4><p>该看的<b>主动浮现</b>、到期<b>主动提醒</b>，还把长期积累<b>提炼成洞察</b>；去重纠错、管得住信得过。</p></div>
     </div>
 
     <div class="two">
-      <div class="pos do"><span class="t">笔记做</span>用户<b>主动存的、看得见、改得动</b>的个人内容；把它结构化、可检索、能被调用，也会主动浮现。</div>
+      <div class="pos do"><span class="t">笔记做</span>用户<b>主动存的、看得见、改得动</b>的个人内容；结构化、连成网、可检索、能被调用、会主动浮现；<b>可个人、可共享</b>（家庭 / 团队）。</div>
       <div class="pos dont"><span class="t">笔记不做</span>不做隐式行为画像 / 后台黑盒记忆；<b>不默认全收</b>——用户主动挑有价值的内容存进来。</div>
     </div>
   </div>
@@ -132,7 +143,7 @@
   <div class="section" data-toc="5 个明星场景">
     <div class="sechead"><div class="secnum">01</div><div><div class="sectitle">从定义到场景 · 5 个明星场景</div></div></div>
     <div class="divider"></div>
-    <div class="note" style="font-size:15px;padding:16px 20px;">五个不是五个功能，而是<b>同一件事在五个场合的样子</b>：随处记 → AI 帮你理好 → 沉进笔记、越用越懂你。</div>
+    <div class="note" style="font-size:15px;padding:16px 20px;">五个不是五个功能，而是<b>同一件事在五个场合的样子</b>：随处记 → AI 帮你理好 → 沉进笔记。而这些内容不是散着放——它们<b>彼此连成网、能整库问到、还会长出洞察</b>，越攒越成你的个人知识库。</div>
   </div>
 
   <!-- 场景 1 开会办公 -->
@@ -232,30 +243,17 @@
     <div class="scfoot"><div class="note"><b>价值：</b>把"想到"和"写成"之间的断点补上——哪块设备顺手用哪块、随口进同一处，AI 用你自己的积累帮你产，越写越像你。</div></div>
   </div>
 
-  <!-- 知识库还差什么 -->
-  <div class="section" data-toc="知识库还差什么">
-    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">如果笔记是你的个人知识库，还差什么</div></div></div>
-    <div class="divider"></div>
-    <div class="note" style="font-size:15px;padding:16px 20px;margin-bottom:18px;">上面 5 个场景解决的是"<b>把单件事记好、用好</b>"；但笔记要成为真正的<b>个人知识库</b>，还有这些"长期价值"维度没进场景，值得补：</div>
-    <div class="feats" style="grid-template-columns:1fr 1fr 1fr;">
-      <div class="feat"><div class="ic">🕸</div><h4>内容连成网</h4><p>自动分类、打标签、<b>双向关联</b>，让笔记之间连成一张知识网，而不只是一堆孤立的篇。</p></div>
-      <div class="feat"><div class="ic">🔎</div><h4>跨全库问答</h4><p>基于你<b>所有</b>笔记的 AI 问答——"我关于 X 都记过啥"，一句话跨库调出，不用一篇篇翻。</p></div>
-      <div class="feat"><div class="ic">💡</div><h4>主动长出洞察</h4><p>把长期积累<b>提炼成结论</b>：年度回顾、主题聚合、习惯发现——知识库自己长出价值。</p></div>
-      <div class="feat"><div class="ic">📥</div><h4>多源自动沉淀</h4><p>网页 / 截图 / 聊天 / 看过的文章视频要点，用户<b>选择性一键入库</b>，把采集面铺满。</p></div>
-      <div class="feat"><div class="ic">👥</div><h4>可共享的知识库</h4><p>家庭健康档案、团队 / 项目协作库——从"<b>个人</b>"走到"<b>可共享</b>"。</p></div>
-      <div class="feat"><div class="ic">🛡</div><h4>越多越管得住</h4><p>去重、纠错、过期内容标注、来源可追溯、隐私与权限——内容越多，越要<b>管得住、信得过</b>。</p></div>
-    </div>
-  </div>
-
   <!-- 收口 -->
   <div class="section" data-toc="一句话收口">
-    <div class="sechead"><div class="secnum">07</div><div><div class="sectitle">一句话收口</div></div></div>
+    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">一句话收口</div></div></div>
     <div class="divider"></div>
-    <div class="hero" style="background:linear-gradient(120deg,#0e7a8f 0%,#2f6bff 100%);box-shadow:0 16px 40px rgba(47,107,255,.24);">
-      <div class="lbl" style="color:#cfe0ff;">收口</div>
-      <div class="big">定义先行：<em>笔记是你主动沉淀、越用越懂你的个人内容层</em>。五个明星场景，就是这条定义在开会、上课、看病、出行、灵感里的显化——随处记 → AI 理好 → 沉进内容层 → 用得上、主动找你。</div>
+    <div class="closer">
+      <div class="closer-tag">一句话</div>
+      <div class="closer-main">笔记 = 你越用越懂你的<span>个人知识库</span></div>
+      <div class="closer-line"></div>
+      <div class="closer-sub">五个场景随处记下的内容，不是散着放——<b>彼此连成网、能整库问到、会长出洞察</b>。这，就是笔记从"记录工具"长成"个人知识库"的价值。</div>
     </div>
-    <p class="secsub" style="margin-top:14px;">注：场景配图均为占位，选定头部场景后填入 Figma 稿 / 真机截图。三条赛道边界（会议↔生产力、健康↔运动健康、出行↔日程 / 影像）建议先对齐。</p>
+    <p class="foot-note">注：场景配图均为占位，选定头部场景后填入 Figma 稿 / 真机截图。三条赛道边界（会议↔生产力、健康↔运动健康、出行↔日程 / 影像）建议先对齐。</p>
   </div>
 
   <div class="footer">笔记 OS5 · 产品定义 → 明星场景｜ 内部讨论稿 · 2026-07</div>
