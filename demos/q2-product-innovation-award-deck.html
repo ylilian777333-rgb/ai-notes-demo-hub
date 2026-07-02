@@ -110,6 +110,14 @@
   /* 已贴图的图片框：白底、细边、不裁切居中 */
   .shotcell{flex:1;height:30vh;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;padding:.8vh;overflow:hidden;}
   .shotcell img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;display:block;}
+  /* 社媒好评墙：一排竖屏手机 */
+  .wallhead{font-size:1vw;font-weight:800;color:var(--ink);margin:1.4vh 0 .7vh;display:flex;align-items:center;gap:.5vw;}
+  .wallhead:before{content:"";width:.32vw;height:1.15vw;background:var(--grad-orange);border-radius:2px;display:inline-block;}
+  .praisewall{display:flex;gap:.6vw;justify-content:center;}
+  .praisewall .pw{height:34vh;aspect-ratio:9/19.5;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;}
+  .praisewall .pw img{width:100%;height:100%;object-fit:cover;display:block;}
+  .note-gray{margin-top:1.6vh;border-left:.35vw solid #dcdfe4;background:#f7f8fa;color:#98a2b3;font-size:.88vw;font-weight:500;line-height:1.5;padding:1.3vh 1.5vw;border-radius:10px;}
+  .note-gray b{color:#7b828e;font-weight:700;}
   .phone{aspect-ratio:1080/2340;} .wide{aspect-ratio:16/9;}
 
   .ba-wrap{display:flex;gap:2vw;}
@@ -284,9 +292,11 @@
           <div class="insight"><span class="ilab">痛点本质</span>内容跨应用割裂、彼此孤立，有价值的沉不下来、更复用不起来</div>
         </div>
       </div>
-      <div class="split" style="margin-top:1.8vh;gap:1.5vw;">
-        <div class="imgbox wide" style="flex:1;height:13vh;">用户反馈截图</div>
-        <div class="imgbox wide" style="flex:1;height:13vh;">访谈 / 问卷原声</div>
+      <div class="split" style="margin-top:1.6vh;gap:1vw;">
+        <div class="shotcell" style="height:15vh;"><img src="img/feedback-1.jpg" alt="用户反馈1"></div>
+        <div class="shotcell" style="height:15vh;"><img src="img/feedback-2.jpg" alt="用户反馈2"></div>
+        <div class="shotcell" style="height:15vh;"><img src="img/feedback-3.jpg" alt="用户反馈3"></div>
+        <div class="shotcell" style="height:15vh;"><img src="img/feedback-4.jpg" alt="用户反馈4"></div>
       </div>
     </div>
     <div class="pager">04</div>
@@ -548,17 +558,21 @@
     <h1>灰度阶段，已有<span class="o">可感知的正向信号</span></h1>
     <div class="sub">规模数据仍在灰度积累；以下是当前能拿到的量化信号与真实反馈（数字待填）</div>
     <div class="content">
-      <div class="kpis" style="grid-template-columns:1fr 1fr 1fr;">
+      <div class="kpis" style="grid-template-columns:1fr 1fr;">
         <div class="kpi"><div class="kl">体验问题闭环</div><div class="kv">40+ 项<br><span style="font-size:.9vw;color:var(--gray);font-weight:600">P0/P1/P2 分级 · 日更持续修</span></div></div>
-        <div class="kpi"><div class="kl">社媒自发好评 / 传播</div><div class="kv">【填】</div></div>
-        <div class="kpi"><div class="kl">内部 NPS（环比）</div><div class="kv">【本季 XX · 不降低】</div></div>
+        <div class="kpi"><div class="kl">社媒自发好评 / 传播</div><div class="kv">持续涌现<br><span style="font-size:.9vw;color:var(--gray);font-weight:600">用户主动晒单、自来水传播</span></div></div>
       </div>
-      <div class="concl" style="border-left:.35vw solid #dcdfe4;background:#f7f8fa;color:#98a2b3;font-size:.88vw;font-weight:500;line-height:1.5;box-shadow:none;padding:1.4vh 1.6vw;margin-top:2vh;"><b style="color:#7b828e;font-weight:700;">说明：</b>灰度小流量阶段，DAU / 留存尚未放量；已梳理 40+ 项易用性问题按 P0/P1/P2 分级、日更闭环，高优问题当天进版本、快速可见，保障 NPS 不降。</div>
-      <div class="split" style="margin-top:1.8vh;gap:1.5vw;">
-        <div class="imgbox wide" style="flex:1;height:15vh;">社媒正向反馈 / 传播截图</div>
-        <div class="imgbox wide" style="flex:1;height:15vh;">beta 用户好评原声</div>
-        <div class="imgbox wide" style="flex:1;height:15vh;">体验问题闭环看板</div>
+      <div class="wallhead">社媒好评墙 · 用户自发反馈</div>
+      <div class="praisewall">
+        <div class="pw"><img src="img/social-1.png" alt="社媒好评1"></div>
+        <div class="pw"><img src="img/social-2.png" alt="社媒好评2"></div>
+        <div class="pw"><img src="img/social-3.png" alt="社媒好评3"></div>
+        <div class="pw"><img src="img/social-4.png" alt="社媒好评4"></div>
+        <div class="pw"><img src="img/social-5.png" alt="社媒好评5"></div>
+        <div class="pw"><img src="img/social-6.png" alt="社媒好评6"></div>
+        <div class="pw"><img src="img/social-7.png" alt="社媒好评7"></div>
       </div>
+      <div class="note-gray"><b>说明：</b>灰度小流量阶段，DAU / 留存尚未放量；已梳理 40+ 项易用性问题按 P0/P1/P2 分级、日更闭环，高优问题当天进版本、快速可见。</div>
     </div>
     <div class="pager">18</div>
   </section>
