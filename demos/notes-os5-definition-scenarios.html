@@ -20,7 +20,7 @@
   .wrap{ padding:0 52px 120px 284px;}
 
   /* 中文按词不拆、避免一两个字跨行；关键词组用 .nb 锁死不断行 */
-  .hero-lead,.hero-sub,.feat p,.pos,.dir .base,.dir .up,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
+  .hero-lead,.hero-sub,.feat p,.pos,.dir .base,.dir .up,.wi,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
   .nb{ white-space:nowrap;}
 
   .cover{ padding:76px 0 40px; border-bottom:1px solid var(--line);}
@@ -66,8 +66,13 @@
   .dir .up .k{ display:inline-block; font-size:10.5px; font-weight:800; color:#fff; background:var(--ac); border-radius:6px; padding:2px 9px; margin-right:8px; vertical-align:1px; letter-spacing:.3px;}
   .dir p{ font-size:14px; color:var(--sub); line-height:1.85;} .dir p b{ color:var(--ink); font-weight:700;}
 
-  /* 做 / 不做 */
-  .two{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0 0;}
+  /* 为什么这么定（自洽 / 体验 / 竞争力 自检条） */
+  .why{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px;}
+  .wi{ background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--ac); border-radius:12px; padding:14px 16px; font-size:13.5px; color:var(--sub); line-height:1.7; box-shadow:var(--shadow);}
+  .wi .wt{ display:inline-block; font-size:11px; font-weight:800; letter-spacing:.5px; color:var(--ac-ink); background:var(--ac-soft); border:1px solid var(--ac-line); border-radius:6px; padding:2px 9px; margin-right:8px;}
+  .wi b{ color:var(--ink); font-weight:700;}
+
+  /* 做 / 不做 */  .two{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0 0;}
   .pos{ border-radius:14px; padding:16px 20px; font-size:14px; line-height:1.7;}
   .pos .t{ font-size:12px; font-weight:800; letter-spacing:.6px; margin-bottom:7px; display:block;}
   .pos.do{ background:var(--ac-soft); border:1px solid var(--ac-line);} .pos.do .t{ color:var(--ac-ink);} .pos.do{ color:var(--ac-deep);}
@@ -176,6 +181,11 @@
         <div class="base"><span class="bt">今年已有</span>能力做成 tools 供小爱调用已跑通。</div>
         <div class="up"><span class="k">这一版更进一步</span>更多能力<b>接给小爱</b>、<b>一份内容跨端一致</b>；该看的主动浮现、到期主动提醒。</div>
       </div>
+    </div>
+    <div class="why">
+      <div class="wi"><span class="wt">体验</span>不用整理、<b>随口就记、随时问得到</b>——少一步操作，多一分顺手。</div>
+      <div class="wi"><span class="wt">竞争力</span>内容<b>越攒越贴合你本人</b>，这是笔记区别于通用工具的长期价值。</div>
+      <div class="wi"><span class="wt">自洽</span>三件事不是三个功能，是<b>同一件事的三段</b>：记进来 → 理明白 → 用得上。</div>
     </div>
   </div>
 
