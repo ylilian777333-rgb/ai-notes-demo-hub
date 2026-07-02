@@ -42,7 +42,7 @@
   .hero:after{ content:""; position:absolute; right:-60px; top:-60px; width:260px; height:260px; border-radius:50%; background:rgba(255,255,255,.08);}
   .hero .lbl{ font-size:12px; letter-spacing:3px; font-weight:800; color:#d9d3ff; margin-bottom:14px;}
   .hero .big{ font-size:27px; font-weight:800; line-height:1.55; letter-spacing:.3px; position:relative; z-index:1;}
-  .hero em{ font-style:normal; background:rgba(255,255,255,.22); border-radius:6px; padding:1px 8px;}
+  .hero em{ font-style:normal; background:transparent; border-bottom:2px solid rgba(255,255,255,.55); border-radius:0; padding:0 1px 2px;}
   .hero-lead{ font-size:27px; font-weight:800; line-height:1.5; position:relative; z-index:1;}
   .hero-sub{ font-size:16px; font-weight:600; line-height:1.9; margin-top:16px; color:#eafaf3; position:relative; z-index:1;}
   .hero-sub b{ color:#fff; font-weight:800; background:rgba(255,255,255,.15); border-radius:6px; padding:1px 8px;}
@@ -58,7 +58,7 @@
   .feat .fl li{ position:relative; padding-left:16px; font-size:13.5px; color:var(--sub); line-height:1.7; margin-bottom:7px;}
   .feat .fl li:last-child{ margin-bottom:0;}
   .feat .fl li:before{ content:""; position:absolute; left:2px; top:8px; width:5px; height:5px; border-radius:50%; background:var(--ac);}
-  .feat .fl li b{ color:var(--ink); font-weight:700;}
+  .feat .fl li b{ color:var(--sub); font-weight:600;}
 
   /* 产品方向 */
   .dirs{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:4px;}
@@ -71,7 +71,7 @@
   .dir .fl li{ position:relative; padding-left:16px; font-size:13.5px; color:var(--sub); line-height:1.7; margin-bottom:9px;}
   .dir .fl li:last-child{ margin-bottom:0;}
   .dir .fl li:before{ content:""; position:absolute; left:2px; top:8px; width:5px; height:5px; border-radius:50%; background:var(--ac);}
-  .dir .fl li b{ color:var(--ink); font-weight:700;}
+  .dir .fl li b{ color:var(--sub); font-weight:600;}
   /* 每张方向卡底部的价值收口带 */
   .dir .pay{ margin-top:auto; padding:14px 22px; background:var(--ac-soft); border-top:1px solid var(--ac-line);}
   .dir .pay .pt{ display:inline-block; font-size:11px; font-weight:800; letter-spacing:.4px; color:#fff; background:var(--ac); border-radius:6px; padding:2px 10px; margin-bottom:7px;}
@@ -156,21 +156,21 @@
     </div>
 
     <div class="feats" style="grid-template-columns:repeat(3,1fr);">
-      <div class="feat"><div class="ic">⇄</div><h4>全生态随手记 · 多源入库</h4>
+      <div class="feat"><div class="ic">⇄</div><h4>全生态随手记</h4>
         <ul class="fl">
           <li><span class="nb">手机 / 手表 / 车机 / 耳机</span><b>随处记</b></li>
           <li><span class="nb">网页 / 截图 / 聊天</span><b>多源一键入库</b></li>
           <li>说的、录的，<b>AI 自动转成文字</b></li>
         </ul>
       </div>
-      <div class="feat"><div class="ic">🔗</div><h4>AI 帮你整理 · 一问就答</h4>
+      <div class="feat"><div class="ic">🔗</div><h4>AI 帮你整理</h4>
         <ul class="fl">
           <li>记完<b>不用自己整理</b>，AI 理成条理</li>
           <li>相关的笔记 AI <b>自动放到一起</b></li>
           <li>翻遍全库<b>一句话就能问到</b>、带出处</li>
         </ul>
       </div>
-      <div class="feat"><div class="ic">✦</div><h4>小爱随时能调 · 到点提醒</h4>
+      <div class="feat"><div class="ic">✦</div><h4>小爱随时能调</h4>
         <ul class="fl">
           <li>小爱随时<b>调用笔记</b>答你、帮你写</li>
           <li>手机记的，<span class="nb"><b>平板 / 车机都用得上</b></span></li>
