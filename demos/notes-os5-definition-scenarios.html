@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<title>笔记 OS5 · 产品定义 → 明星场景</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#0c0d0f; --panel:#151619; --panel2:#1b1c20; --line:#2a2b30;
+    --ac:#35cf95; --ac-b:rgba(53,207,149,.09); --ac-l:rgba(53,207,149,.32); --ac-t:#bdeed8;
+    --blue:#6f8dff; --blue-b:rgba(111,141,255,.1); --blue-l:rgba(111,141,255,.34); --blue-t:#c4d0ff;
+    --warn:#e6a052; --warn-l:rgba(230,160,82,.34); --neg:#e2727a; --neg-l:rgba(226,114,122,.34);
+    --txt:#ececee; --sub:#9a9ba3; --dim:#66676e;
+  }
+  body{ background:var(--bg); color:var(--txt); width:1440px; margin:0 auto;
+    font-family:-apple-system,"SF Pro SC","MiSans","PingFang SC",system-ui,sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  .wrap{ padding:0 84px 120px;}
+
+  .cover{ padding:88px 0 50px; border-bottom:1px solid var(--line);}
+  .kicker{ font-size:13px; letter-spacing:4px; color:var(--ac); font-weight:700; margin-bottom:20px;}
+  .cover h1{ font-size:48px; font-weight:800; letter-spacing:.5px; line-height:1.2;}
+  .cover h1 .hl{ color:var(--ac);}
+  .cover .lead{ font-size:17px; color:var(--sub); margin-top:22px; max-width:1040px; line-height:1.85; text-wrap:pretty;}
+  .cover .lead b{ color:var(--txt); font-weight:700;}
+  .cover .meta{ margin-top:30px; display:flex; gap:12px; flex-wrap:wrap;}
+  .cover .meta .m{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px 18px; font-size:13px; color:var(--sub);}
+  .cover .meta .m b{ color:var(--dim); font-weight:700; display:block; margin-bottom:5px; font-size:10.5px; letter-spacing:1.5px;}
+
+  .section{ padding:70px 0 0;}
+  .sechead{ display:flex; align-items:flex-start; gap:18px;}
+  .secnum{ font-size:50px; font-weight:800; color:rgba(53,207,149,.2); line-height:.86;}
+  .sectitle{ font-size:26px; font-weight:800; line-height:1.2;}
+  .secsub{ font-size:14px; color:var(--sub); margin-top:8px; max-width:940px; line-height:1.6;}
+  .divider{ height:2px; background:linear-gradient(90deg,var(--ac),rgba(53,207,149,0)); margin:18px 0 26px; border-radius:2px; opacity:.7;}
+
+  .callout{ background:var(--ac-b); border:1px solid var(--ac-l); border-left:4px solid var(--ac); border-radius:12px; padding:20px 24px; margin:16px 0; font-size:18px; line-height:1.75; font-weight:600; color:var(--ac-t); text-wrap:pretty;}
+  .callout b{ font-weight:800; color:#eafbf4;}
+  .callout.blue{ background:var(--blue-b); border-color:var(--blue-l); border-left-color:var(--blue); color:var(--blue-t);}
+  .callout.blue b{ color:#eaefff;}
+  .callout.neg{ background:rgba(226,114,122,.1); border-color:var(--neg-l); border-left-color:var(--neg); color:#f4cdd0;}
+  .callout.neg b{ color:#fff;}
+  .callout.big{ font-size:22px; }
+  .p{ font-size:15px; color:var(--txt); line-height:1.9; margin:12px 0; max-width:960px;}
+  .p b{ color:#fff; font-weight:700;} .p .g{ color:var(--sub);}
+
+  /* 飞轮 */
+  .flowbar{ display:grid; grid-template-columns:repeat(4,1fr); gap:26px; margin:16px 0 4px;}
+  .fb{ position:relative; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px 18px; text-align:center;}
+  .fb + .fb::before{ content:"\2192"; position:absolute; left:-18px; top:50%; transform:translateY(-50%); color:var(--ac); font-size:20px; font-weight:800;}
+  .fb .s{ font-size:11.5px; font-weight:800; color:var(--ac); letter-spacing:1px;}
+  .fb h4{ font-size:18px; font-weight:800; margin:8px 0 6px; color:#fff;}
+  .fb p{ font-size:13px; color:var(--sub); line-height:1.6;}
+
+  /* 做 / 不做 */
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0;}
+  .pos{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px 22px;}
+  .pos .t{ font-size:12px; font-weight:800; letter-spacing:1px; margin-bottom:10px;}
+  .pos.do .t{ color:var(--ac);} .pos.dont .t{ color:var(--neg);}
+  .pos p{ font-size:14.5px; color:var(--txt); line-height:1.75;}
+  .pos p b{ color:#fff;}
+
+  /* 场景 */
+  .scene{ padding:60px 0 0;}
+  .schead{ display:flex; align-items:flex-start; gap:20px;}
+  .scnum{ font-size:54px; font-weight:800; color:rgba(53,207,149,.2); line-height:.84;}
+  .sctitle{ font-size:25px; font-weight:800; line-height:1.18;}
+  .scsay{ font-size:15px; color:var(--ac-t); margin-top:9px; font-weight:600; font-style:italic;}
+  .scsay:before{ content:"用户会说："; font-style:normal; color:var(--dim); font-weight:700; font-size:12.5px; letter-spacing:.5px;}
+
+  .flow{ display:flex; align-items:stretch; gap:0; flex-wrap:nowrap; margin-top:22px;}
+  .step{ flex:1; display:flex; flex-direction:column; align-items:center; min-width:0;}
+  .arrow{ flex:0 0 34px; align-self:flex-start; margin-top:150px; text-align:center; color:var(--ac); font-size:20px; font-weight:800;}
+  .arrow.plus{ color:var(--blue);}
+  .dtag{ font-size:11px; font-weight:800; letter-spacing:.6px; color:var(--ac); background:var(--ac-b); border:1px solid var(--ac-l); border-radius:20px; padding:3px 11px; margin-bottom:12px;}
+  .dtag.b{ color:#9fbcff; background:rgba(120,150,255,.1); border-color:rgba(120,150,255,.3);}
+  /* 占位图 */
+  .ph{ border:1.5px dashed #3a3c44; border-radius:16px; background:linear-gradient(180deg,#141519,#0f1013); display:flex; align-items:center; justify-content:center; text-align:center; color:var(--dim); font-size:11.5px; line-height:1.5; padding:10px;}
+  .ph.phone{ width:150px; height:300px; border-radius:22px;}
+  .ph.wide{ width:210px; height:132px; }
+  .ph .lab{ max-width:120px;} .ph.wide .lab{ max-width:180px;}
+  .ph .lab b{ color:var(--sub); font-weight:700; display:block; margin-bottom:3px; font-size:11px;}
+  .stepbox{ height:300px; display:flex; align-items:center; justify-content:center;}
+  .cap{ text-align:center; font-size:12.5px; color:var(--sub); margin-top:14px; line-height:1.55; max-width:200px;}
+  .cap b{ color:var(--ac-t); font-weight:700;}
+
+  .scfoot{ display:flex; gap:14px; margin-top:22px; flex-wrap:wrap; align-items:center;}
+  .comp{ flex:1; min-width:420px; background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--ac); border-radius:10px; padding:13px 18px; font-size:13.5px; color:var(--txt); line-height:1.7;}
+  .comp b{ color:var(--ac-t);}
+  .tags{ display:flex; gap:8px; flex-wrap:wrap;}
+  .tag{ font-size:11.5px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--panel2); border:1px solid var(--line); color:var(--sub);}
+  .tag.fly{ color:var(--ac); border-color:var(--ac-l); background:var(--ac-b);}
+  .tag.warn{ color:var(--warn); border-color:var(--warn-l); background:rgba(230,160,82,.1);}
+
+  .footer{ margin-top:80px; padding-top:26px; border-top:1px solid var(--line); font-size:13px; color:var(--dim); text-align:center; letter-spacing:.5px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="cover">
+    <div class="kicker">笔记 · OS5 · 产品定义 → 明星场景</div>
+    <h1>先立住笔记是什么，<span class="hl">再讲要做的场景</span></h1>
+    <p class="lead">这一版先把<b>笔记的产品定义</b>立住：笔记 = 你主动沉淀、看得见改得动、还能被小爱调用的<b>个人内容层</b>。下面的 5 个明星场景，都是这条定义在不同人群 / 场合的显化——不是孤立功能，而是同一条飞轮转起来。（场景配图为占位，Figma 稿后续填入）</p>
+    <div class="meta">
+      <div class="m"><b>定位</b>笔记 = 小爱可调用的个人内容层</div>
+      <div class="m"><b>飞轮</b>写得出 → 收得进 → 用得上 → 自己长</div>
+      <div class="m"><b>主张</b>随口记 → AI 理好 → 随时调出来用 · 越用越懂你</div>
+    </div>
+  </div>
+
+  <!-- 产品定义 -->
+  <div class="section">
+    <div class="sechead"><div class="secnum">00</div><div><div class="sectitle">产品定义 · 笔记是什么</div><div class="secsub">一句话立住定位，划清做什么 / 不做什么，再讲飞轮和与小爱的关系</div></div></div>
+    <div class="divider"></div>
+    <div class="callout big"><b>笔记 = 用户主动沉淀、看得见、改得动，并且能被小爱调用的个人内容层。</b>它不是又一个并列的功能，而是"内容"这一层——AI 要真正懂你、能基于你的积累办事，就需要这样一层用户认可、可管理的个人内容，这层由笔记承接。</div>
+
+    <div class="two">
+      <div class="pos do"><div class="t">笔记做</div><p>用户<b>主动存的、看得见、改得动</b>的个人内容；把它<b>结构化、可检索、可供小爱调用</b>。用户决定存什么，一键存、随时改。</p></div>
+      <div class="pos dont"><div class="t">笔记不做</div><p>不做隐式行为画像 / 黑盒系统记忆（那是小爱系统侧的事）；<b>不默认全收</b>——口径是用户主动挑有价值的内容存进来。</p></div>
+    </div>
+
+    <div class="p" style="margin-top:22px;"><b>一条飞轮把它转起来</b>——四个环节，也正是笔记和小爱的四个承接点：</div>
+    <div class="flowbar">
+      <div class="fb"><div class="s">01 写得出</div><h4>第一篇</h4><p>AI 帮你起手、把内容写出来、改好</p></div>
+      <div class="fb"><div class="s">02 收得进</div><h4>有内容进来</h4><p>有价值的内容，用户一键沉淀进笔记</p></div>
+      <div class="fb"><div class="s">03 用得上</div><h4>被调用</h4><p>能搜到、能关联、供小爱引用来写新的</p></div>
+      <div class="fb"><div class="s">04 自己长</div><h4>越用越懂</h4><p>越攒越多 → 小爱越用越懂你</p></div>
+    </div>
+
+    <div class="callout blue" style="margin-top:22px;"><b>和小爱的关系：小爱是入口和笔，笔记是内容的来处和去处。</b>小爱负责跨端对话、把事办成；笔记负责把内容沉淀好、供得出去。内容存得越多，小爱越懂你、办事越贴合你。</div>
+  </div>
+
+  <!-- 从定义到场景 -->
+  <div class="section">
+    <div class="sechead"><div class="secnum">01</div><div><div class="sectitle">从定义到场景 · 同一条飞轮的 5 次显化</div><div class="secsub">下面 5 个明星场景，每个都在跑通"采集 → AI 加工 → 沉淀进内容层 → 被调用 / 主动提醒"这条链路</div></div></div>
+    <div class="divider"></div>
+    <div class="callout">五个场景不是五个功能，而是<b>同一条飞轮在开会、上课、看病、出行、灵感五个场合的显化</b>。共同的竞争力：<b>系统级</b>（免唤醒 / AI 键 / 跨端接力）+ <b>生态</b>（被小爱调用、越用越懂你）+ <b>内容生产</b>（用你的积累 RAG 成稿）。</div>
+  </div>
+
+  <!-- 场景 1 开会办公 -->
+  <div class="scene">
+    <div class="schead"><div class="scnum">01</div><div>
+      <div class="sctitle">开会办公 · 散会即得</div>
+      <div class="scsay">开完会最烦回工位再整理一遍——纪要、待办、给老板的汇报都得重弄。</div>
+    </div></div>
+    <div class="divider"></div>
+    <div class="flow">
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>手机·桌上开录</span></div></div><div class="cap"><b>一键开录</b>：手机往桌上一放，免耳机、免唤醒</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>自动纪要+待办</span></div></div><div class="cap"><b>散会自动出纪要+待办</b>：结论/分工/责任人/deadline</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>一句话生成汇报</span></div></div><div class="cap"><b>一句话成汇报</b>：对小爱说一句，纪要直接变 PPT</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag b">手表</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>到点提醒</span></div></div><div class="cap"><b>认领的事进日程</b>：到点手表主动提醒</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag b">车机</span><div class="stepbox"><div class="ph wide"><span class="lab"><b>占位</b>路上听要点</span></div></div><div class="cap"><b>路上听 AI 串好的今天要点</b>：开车不看屏</div></div>
+    </div>
+    <div class="scfoot">
+      <div class="comp"><b>竞争力：</b>要的不是"录音转文字"，是"散会活就办完了"；免唤醒 + 跨端接力，是一方系统才串得起来的连贯体验。</div>
+      <div class="tags"><span class="tag fly">飞轮 · 写得出 + 用得上</span><span class="tag warn">⚠ 边界：与生产力赛道对齐</span></div>
+    </div>
+  </div>
+
+  <!-- 场景 2 上课学习 -->
+  <div class="scene">
+    <div class="schead"><div class="scnum">02</div><div>
+      <div class="sctitle">上课学习 · 一份内容，看 / 听 / 练随场景切换</div>
+      <div class="scsay">平板记的、路上想复习的、睡前想练的，是同一份东西，别让我来回倒腾。</div>
+    </div></div>
+    <div class="divider"></div>
+    <div class="flow">
+      <div class="step"><span class="dtag b">平板</span><div class="stepbox"><div class="ph wide"><span class="lab"><b>占位</b>手写+录音</span></div></div><div class="cap"><b>手写+录音对齐</b>：手写的字和老师讲的话同一份</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>复习大纲+考点</span></div></div><div class="cap"><b>下课自动出大纲+3个考点</b>：一节课重点即理好</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag b">耳机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>通勤听播客</span></div></div><div class="cap"><b>笔记转播客</b>：通勤路上把这章听一遍</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>睡前做题</span></div></div><div class="cap"><b>AI 出几道题</b>：睡前当场练，知识点不丢</div></div>
+    </div>
+    <div class="scfoot">
+      <div class="comp"><b>竞争力：</b>一份课堂内容在多屏之间"自己变形"，看听练不断档；生成物消费（大纲/播客/题目）是内容攒下来后独有的下游价值。</div>
+      <div class="tags"><span class="tag fly">飞轮 · 用得上 + 自己长</span></div>
+    </div>
+  </div>
+
+  <!-- 场景 3 看病陪诊 -->
+  <div class="scene">
+    <div class="schead"><div class="scnum">03</div><div>
+      <div class="sctitle">看病陪诊 · 把爸妈看病这件事管明白</div>
+      <div class="scsay">医生说得太快、报告一堆记不住，下次复诊翻半天找不着上次的。</div>
+    </div></div>
+    <div class="divider"></div>
+    <div class="flow">
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>录医嘱+拍报告</span></div></div><div class="cap"><b>AI 键一按边问边录</b>：医嘱、报告一起收进来</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>自动健康档案</span></div></div><div class="cap"><b>自动汇成健康档案</b>：症状/诊断/用药/复诊时间</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag b">手表</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>吃药提醒</span></div></div><div class="cap"><b>吃药/复诊主动提醒</b>：到点手表提醒，不漏</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>复诊一键调出</span></div></div><div class="cap"><b>复诊一句话调出上次记录</b>：给医生看，接得上</div></div>
+    </div>
+    <div class="scfoot">
+      <div class="comp"><b>竞争力：</b>把零散就诊变成一条连续、可被小爱调用的<b>个人健康档案</b>——越积累越贴合、越难替代，这是长期价值。</div>
+      <div class="tags"><span class="tag fly">飞轮 · 收得进 + 自己长</span><span class="tag warn">⚠ 边界：与运动健康·体检档案对齐</span></div>
+    </div>
+  </div>
+
+  <!-- 场景 4 出行旅游 -->
+  <div class="scene">
+    <div class="schead"><div class="scnum">04</div><div>
+      <div class="sctitle">出行旅游 · 玩回到家，游记已经写好</div>
+      <div class="scsay">出去玩还得抽时间记录，照片一堆懒得整理，回来游记永远没写成。</div>
+    </div></div>
+    <div class="divider"></div>
+    <div class="flow">
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>攻略→行程单</span></div></div><div class="cap"><b>攻略/机酒一键变行程单</b>：出发前就理好</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>随手拍随手记</span></div></div><div class="cap"><b>玩当中随手拍随手记</b>：照片、定位、感受都收</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag b">手表</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>一句话记感受</span></div></div><div class="cap"><b>手表一句话记下当下感受</b>：不打断玩</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>一键成游记</span></div></div><div class="cap"><b>回家一键成游记</b>：碎片自动拼成一篇</div></div>
+    </div>
+    <div class="scfoot">
+      <div class="comp"><b>竞争力：</b>记录不再占用玩的时间，回家即得；把碎片攒成一篇内容是"内容生产"能力，不只是相册。</div>
+      <div class="tags"><span class="tag fly">飞轮 · 收得进 + 用得上</span><span class="tag warn">⚠ 边界：与日程出行 / 影像对齐</span></div>
+    </div>
+  </div>
+
+  <!-- 场景 5 随身灵感 -->
+  <div class="scene">
+    <div class="schead"><div class="scnum">05</div><div>
+      <div class="sctitle">随身灵感 · 好点子再也不丢</div>
+      <div class="scsay">灵感总在开车、跑步、走路这种手不方便的时候冒出来，等能记下来早忘了。</div>
+    </div></div>
+    <div class="divider"></div>
+    <div class="flow">
+      <div class="step"><span class="dtag b">车机</span><div class="stepbox"><div class="ph wide"><span class="lab"><b>占位</b>方向盘键说</span></div></div><div class="cap"><b>开车方向盘键说一句</b></div></div>
+      <div class="arrow plus">＋</div>
+      <div class="step"><span class="dtag b">手表</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>抬手说</span></div></div><div class="cap"><b>跑步抬手说一句</b></div></div>
+      <div class="arrow plus">＋</div>
+      <div class="step"><span class="dtag b">耳机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>走路说</span></div></div><div class="cap"><b>走路对耳机说一句</b></div></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>攒成初稿</span></div></div><div class="cap"><b>零散想法攒成一篇初稿</b>：AI 起手、续写、引用你的旧内容</div></div>
+    </div>
+    <div class="scfoot">
+      <div class="comp"><b>竞争力：</b>把"想到"和"写成"之间的断点补上——哪块设备顺手用哪块，随口进同一处；用你自己的积累帮你产，越写越像你。</div>
+      <div class="tags"><span class="tag fly">飞轮 · 写得出 + 用得上</span></div>
+    </div>
+  </div>
+
+  <!-- 收口 -->
+  <div class="section">
+    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">收口 · 一句话</div></div></div>
+    <div class="divider"></div>
+    <div class="callout big">定义先行：<b>笔记是小爱可调用的个人内容层。</b>五个明星场景，是这条定义在开会、上课、看病、出行、灵感里的显化——<b>随口记 → AI 理好 → 沉进内容层 → 被小爱调出来用，越用越懂你。</b></div>
+    <div class="p g" style="margin-top:14px;">注：场景配图均为占位，选定头部明星场景后填入 Figma 稿 / 真机截图。三条赛道边界（会议↔生产力、健康↔运动健康、出行↔日程 / 影像）建议与楠哥先对齐。</div>
+  </div>
+
+</div>
+</body>
+</html>
