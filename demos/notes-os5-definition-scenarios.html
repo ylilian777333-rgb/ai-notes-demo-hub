@@ -56,18 +56,6 @@
   .pos.dont{ background:#fbeef0; border:1px solid #f3d3d8;} .pos.dont .t{ color:#c23a4d;} .pos.dont{ color:#8f3742;}
   .pos b{ font-weight:800;}
 
-  /* 飞轮 */
-  .flowwrap{ margin-top:22px;}
-  .flowlbl{ font-size:14px; font-weight:700; color:var(--ink); margin-bottom:12px;} .flowlbl b{ color:var(--ac-ink);}
-  .flowbar{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
-  .fb{ position:relative; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 16px; text-align:center; box-shadow:var(--shadow);}
-  .fb + .fb::before{ content:"\2192"; position:absolute; left:-15px; top:50%; transform:translateY(-50%); color:var(--ac); font-size:18px; font-weight:800;}
-  .fb .s{ font-size:11px; font-weight:800; color:var(--dim); letter-spacing:.5px;}
-  .fb h4{ font-size:16px; font-weight:800; margin:6px 0 4px; color:var(--ink);}
-  .fb p{ font-size:12px; color:var(--sub); line-height:1.5;}
-  .fb.on{ border-color:var(--ac-line); background:var(--ac-soft);}
-  .fb.on .s{ color:var(--ac-ink);}
-
   /* 场景 */
   .scene{ padding:52px 0 0;}
   .schead{ display:flex; align-items:flex-start; gap:16px;}
@@ -117,12 +105,11 @@
   <div class="cover">
     <div class="kicker">笔记 · OS5 · 产品定义 → 明星场景</div>
     <h1>先说清笔记是什么，<span class="hl">再讲要做的场景</span></h1>
-    <p class="lead">这份材料只讲一件事：<b>笔记</b>。先用一句话立住笔记的定义，再讲基于定义、这一版要做的 <b>5 个明星场景</b>。（场景配图为占位，Figma 稿后续填入）</p>
   </div>
 
   <!-- 产品定义 -->
-  <div class="section" data-toc="产品定义">
-    <div class="sechead"><div class="secnum">00</div><div><div class="sectitle">产品定义 · 笔记是什么</div><div class="secsub">一句话立住定位，再补两个特点、划清边界，最后一条飞轮把它转起来</div></div></div>
+  <div class="section" data-toc="笔记是什么">
+    <div class="sechead"><div class="secnum">00</div><div><div class="sectitle">产品定义 · 笔记是什么</div></div></div>
     <div class="divider"></div>
 
     <div class="hero">
@@ -139,27 +126,17 @@
       <div class="pos do"><span class="t">笔记做</span>用户<b>主动存的、看得见、改得动</b>的个人内容；把它结构化、可检索、能被调用，也会主动浮现。</div>
       <div class="pos dont"><span class="t">笔记不做</span>不做隐式行为画像 / 后台黑盒记忆；<b>不默认全收</b>——用户主动挑有价值的内容存进来。</div>
     </div>
-
-    <div class="flowwrap">
-      <div class="flowlbl">一条飞轮把它转起来 · <b>写得出 → 收得进 → 用得上 → 自己长</b></div>
-      <div class="flowbar">
-        <div class="fb"><div class="s">01 写得出</div><h4>第一篇</h4><p>AI 帮你起手、写出来、改好</p></div>
-        <div class="fb"><div class="s">02 收得进</div><h4>有内容进来</h4><p>有价值的内容一键沉淀进笔记</p></div>
-        <div class="fb on"><div class="s">03 用得上</div><h4>被调用</h4><p>能搜到、能被小爱引用来写新的</p></div>
-        <div class="fb on"><div class="s">04 自己长</div><h4>主动服务</h4><p>主动浮现、提醒，越用越懂你</p></div>
-      </div>
-    </div>
   </div>
 
   <!-- 从定义到场景 -->
-  <div class="section" data-toc="从定义到场景">
-    <div class="sechead"><div class="secnum">01</div><div><div class="sectitle">从定义到场景 · 5 个明星场景</div><div class="secsub">每个场景都跑通"随处记 → AI 理好 → 沉进内容层 → 用得上 / 主动服务"这条闭环</div></div></div>
+  <div class="section" data-toc="5 个明星场景">
+    <div class="sechead"><div class="secnum">01</div><div><div class="sectitle">从定义到场景 · 5 个明星场景</div></div></div>
     <div class="divider"></div>
-    <div class="note" style="font-size:15px;padding:16px 20px;"><b>五个不是五个功能，而是同一条飞轮在五个场合的显化。</b>共同点：随处记（跨端）+ AI 主动理好、主动找你 + 内容沉淀下来越用越懂你。</div>
+    <div class="note" style="font-size:15px;padding:16px 20px;">五个不是五个功能，而是<b>同一件事在五个场合的样子</b>：随处记 → AI 帮你理好 → 沉进笔记、越用越懂你。</div>
   </div>
 
   <!-- 场景 1 开会办公 -->
-  <div class="scene" data-toc="开会 · 散会即得">
+  <div class="scene" data-toc="开会：自动出纪要待办">
     <div class="schead"><div class="scnum">01</div><div>
       <div class="sctitle">开会办公 · 散会即得</div>
       <div class="scsay">开完会最烦回工位再整理一遍——纪要、待办、给老板的汇报都得重弄。</div>
@@ -177,11 +154,10 @@
       <div class="step"><span class="dtag b">车机</span><div class="stepbox"><div class="ph wide"><span class="lab"><b>占位</b>路上听要点</span></div></div><div class="cap"><b>路上听 AI 串好的要点</b>：开车不看屏</div></div>
     </div>
     <div class="scfoot"><div class="note"><b>价值：</b>要的不是"录音转文字"，是"散会活就办完了"——纪要一份，手机记录、手表提醒、车机播报，跨端接力。</div></div>
-    <div class="tags"><span class="tag fly">飞轮 · 写得出 + 用得上</span><span class="tag warn">⚠ 边界：与生产力赛道对齐</span></div>
   </div>
 
   <!-- 场景 2 上课学习 -->
-  <div class="scene" data-toc="上课 · 看听练">
+  <div class="scene" data-toc="上课：一份内容看听练">
     <div class="schead"><div class="scnum">02</div><div>
       <div class="sctitle">上课学习 · 一份内容，看 / 听 / 练随场景切换</div>
       <div class="scsay">平板记的、路上想复习的、睡前想练的，是同一份东西，别让我来回倒腾。</div>
@@ -197,11 +173,10 @@
       <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>睡前做题</span></div></div><div class="cap"><b>AI 出几道题</b>：睡前当场练，知识点不丢</div></div>
     </div>
     <div class="scfoot"><div class="note"><b>价值：</b>一份课堂内容在多屏之间"自己变形"，看听练不断档；大纲 / 播客 / 题目是内容攒下来后的下游价值。</div></div>
-    <div class="tags"><span class="tag fly">飞轮 · 用得上 + 自己长</span></div>
   </div>
 
   <!-- 场景 3 看病陪诊 -->
-  <div class="scene" data-toc="看病 · 健康档案">
+  <div class="scene" data-toc="看病：攒成健康档案">
     <div class="schead"><div class="scnum">03</div><div>
       <div class="sctitle">看病陪诊 · 个人健康档案</div>
       <div class="scsay">医生说得太快、报告一堆记不住，下次复诊翻半天找不着上次的。</div>
@@ -217,11 +192,10 @@
       <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>复诊一键调出</span></div></div><div class="cap"><b>复诊一句话调出上次记录</b>：给医生看，接得上</div></div>
     </div>
     <div class="scfoot"><div class="note"><b>价值：</b>把零散就诊变成一条连续、随时能调出来的<b>个人健康档案</b>——越积累越贴合、越难替代。</div></div>
-    <div class="tags"><span class="tag fly">飞轮 · 收得进 + 自己长</span><span class="tag warn">⚠ 边界：与运动健康·体检档案对齐</span></div>
   </div>
 
   <!-- 场景 4 出行旅游 -->
-  <div class="scene" data-toc="出行 · 攻略笔记">
+  <div class="scene" data-toc="出行：自动汇成攻略笔记">
     <div class="schead"><div class="scnum">04</div><div>
       <div class="sctitle">出行旅游 · 出发前汇入各处信息，玩完就是一份完整攻略笔记</div>
       <div class="scsay">攻略散在小红书、群聊、订单、地图收藏里，玩完还得自己整理成能用能分享的一份。</div>
@@ -237,11 +211,10 @@
       <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>完整攻略笔记</span></div></div><div class="cap"><b>玩完即成一份完整攻略笔记</b>：可复用、可分享，不用再回头整理</div></div>
     </div>
     <div class="scfoot"><div class="note"><b>价值：</b>把散在各处的攻略信息<b>汇成结构化的一份</b>，边玩边补——出发前有攻略、玩完即成一份完整可分享的攻略笔记，全程不用手动整理。</div></div>
-    <div class="tags"><span class="tag fly">飞轮 · 收得进 + 用得上</span><span class="tag warn">⚠ 边界：与日程出行 / 影像对齐</span></div>
   </div>
 
   <!-- 场景 5 随身灵感 -->
-  <div class="scene" data-toc="灵感 · 攒成初稿">
+  <div class="scene" data-toc="灵感：随口说攒成初稿">
     <div class="schead"><div class="scnum">05</div><div>
       <div class="sctitle">随身灵感 · 好点子再也不丢</div>
       <div class="scsay">灵感总在开车、跑步、走路这种手不方便的时候冒出来，等能记下来早忘了。</div>
@@ -257,12 +230,26 @@
       <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>攒成初稿</span></div></div><div class="cap"><b>零散想法攒成一篇初稿</b>：AI 起手、续写、引用你的旧内容</div></div>
     </div>
     <div class="scfoot"><div class="note"><b>价值：</b>把"想到"和"写成"之间的断点补上——哪块设备顺手用哪块、随口进同一处，AI 用你自己的积累帮你产，越写越像你。</div></div>
-    <div class="tags"><span class="tag fly">飞轮 · 写得出 + 用得上</span></div>
+  </div>
+
+  <!-- 知识库还差什么 -->
+  <div class="section" data-toc="知识库还差什么">
+    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">如果笔记是你的个人知识库，还差什么</div></div></div>
+    <div class="divider"></div>
+    <div class="note" style="font-size:15px;padding:16px 20px;margin-bottom:18px;">上面 5 个场景解决的是"<b>把单件事记好、用好</b>"；但笔记要成为真正的<b>个人知识库</b>，还有这些"长期价值"维度没进场景，值得补：</div>
+    <div class="feats" style="grid-template-columns:1fr 1fr 1fr;">
+      <div class="feat"><div class="ic">🕸</div><h4>内容连成网</h4><p>自动分类、打标签、<b>双向关联</b>，让笔记之间连成一张知识网，而不只是一堆孤立的篇。</p></div>
+      <div class="feat"><div class="ic">🔎</div><h4>跨全库问答</h4><p>基于你<b>所有</b>笔记的 AI 问答——"我关于 X 都记过啥"，一句话跨库调出，不用一篇篇翻。</p></div>
+      <div class="feat"><div class="ic">💡</div><h4>主动长出洞察</h4><p>把长期积累<b>提炼成结论</b>：年度回顾、主题聚合、习惯发现——知识库自己长出价值。</p></div>
+      <div class="feat"><div class="ic">📥</div><h4>多源自动沉淀</h4><p>网页 / 截图 / 聊天 / 看过的文章视频要点，用户<b>选择性一键入库</b>，把采集面铺满。</p></div>
+      <div class="feat"><div class="ic">👥</div><h4>可共享的知识库</h4><p>家庭健康档案、团队 / 项目协作库——从"<b>个人</b>"走到"<b>可共享</b>"。</p></div>
+      <div class="feat"><div class="ic">🛡</div><h4>越多越管得住</h4><p>去重、纠错、过期内容标注、来源可追溯、隐私与权限——内容越多，越要<b>管得住、信得过</b>。</p></div>
+    </div>
   </div>
 
   <!-- 收口 -->
   <div class="section" data-toc="一句话收口">
-    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">一句话收口</div></div></div>
+    <div class="sechead"><div class="secnum">07</div><div><div class="sectitle">一句话收口</div></div></div>
     <div class="divider"></div>
     <div class="hero" style="background:linear-gradient(120deg,#0e7a8f 0%,#2f6bff 100%);box-shadow:0 16px 40px rgba(47,107,255,.24);">
       <div class="lbl" style="color:#cfe0ff;">收口</div>
