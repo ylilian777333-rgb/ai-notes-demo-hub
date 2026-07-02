@@ -20,7 +20,7 @@
   .wrap{ padding:0 52px 120px 284px;}
 
   /* 中文按词不拆、避免一两个字跨行；关键词组用 .nb 锁死不断行 */
-  .hero-lead,.hero-foot,.hp,.feat p,.pos,.dir .base,.dir .up,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
+  .hero-lead,.hero-sub,.feat p,.pos,.dir .base,.dir .up,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
   .nb{ white-space:nowrap;}
 
   .cover{ padding:76px 0 40px; border-bottom:1px solid var(--line);}
@@ -43,12 +43,9 @@
   .hero .lbl{ font-size:12px; letter-spacing:3px; font-weight:800; color:#c7f5e6; margin-bottom:14px;}
   .hero .big{ font-size:27px; font-weight:800; line-height:1.55; letter-spacing:.3px; position:relative; z-index:1;}
   .hero em{ font-style:normal; background:rgba(255,255,255,.22); border-radius:6px; padding:1px 8px;}
-  .hero-lead{ font-size:25px; font-weight:800; line-height:1.5; position:relative; z-index:1;}
-  .hero-points{ display:flex; gap:12px; margin:18px 0 16px; position:relative; z-index:1;}
-  .hp{ flex:1; background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.30); border-radius:13px; padding:14px 16px; font-size:14.5px; font-weight:600; line-height:1.55;}
-  .hp .k{ display:inline-block; font-weight:800; background:#fff; color:var(--ac-ink); border-radius:6px; padding:1px 9px; margin-right:8px; font-size:13px;}
-  .hero-foot{ font-size:16.5px; font-weight:700; position:relative; z-index:1; display:flex; align-items:center; gap:9px;}
-  .hero-foot .ar{ color:#bff0dd; font-weight:800;}
+  .hero-lead{ font-size:27px; font-weight:800; line-height:1.5; position:relative; z-index:1;}
+  .hero-sub{ font-size:16px; font-weight:600; line-height:1.9; margin-top:16px; color:#eafaf3; position:relative; z-index:1;}
+  .hero-sub b{ color:#fff; font-weight:800; background:rgba(255,255,255,.15); border-radius:6px; padding:1px 8px;}
 
   /* 两个特点 */
   .feats{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0 0;}
@@ -146,12 +143,7 @@
     <div class="hero">
       <div class="lbl">定位</div>
       <div class="hero-lead">笔记 = 你<em>主动沉淀</em>、看得见、改得动的<em>个人知识库</em></div>
-      <div class="hero-points">
-        <div class="hp"><span class="k">你</span>决定存什么，一键存、随时改</div>
-        <div class="hp"><span class="k">AI</span>帮你理好、自动关联、随时问得到</div>
-        <div class="hp"><span class="k">它</span>还会主动找你、主动帮你</div>
-      </div>
-      <div class="hero-foot"><span class="ar">→</span>越攒越多、越用越懂你，还能被小爱调用来帮你办事</div>
+      <div class="hero-sub">你决定存什么、随时改；AI 帮你理好、随时问得到；<b>越用越懂你，还能被小爱调用来帮你办事</b>。</div>
     </div>
 
     <div class="feats" style="grid-template-columns:repeat(3,1fr);">
