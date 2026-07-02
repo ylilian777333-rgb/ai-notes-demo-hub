@@ -113,9 +113,9 @@
   /* 社媒好评墙：一排竖屏手机 */
   .wallhead{font-size:1vw;font-weight:800;color:var(--ink);margin:1.4vh 0 .7vh;display:flex;align-items:center;gap:.5vw;}
   .wallhead:before{content:"";width:.32vw;height:1.15vw;background:var(--grad-orange);border-radius:2px;display:inline-block;}
-  .praisewall{display:flex;gap:.6vw;justify-content:center;}
-  .praisewall .pw{height:34vh;aspect-ratio:9/19.5;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;}
-  .praisewall .pw img{width:100%;height:100%;object-fit:cover;display:block;}
+  .praisewall{display:flex;gap:.6vw;align-items:stretch;}
+  .praisewall .pw{flex:1;height:38vh;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;}
+  .praisewall .pw img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
   .note-gray{margin-top:1.6vh;border-left:.35vw solid #dcdfe4;background:#f7f8fa;color:#98a2b3;font-size:.88vw;font-weight:500;line-height:1.5;padding:1.3vh 1.5vw;border-radius:10px;}
   .note-gray b{color:#7b828e;font-weight:700;}
   .phone{aspect-ratio:1080/2340;} .wide{aspect-ratio:16/9;}
@@ -557,7 +557,7 @@
   <section class="slide">
     <div class="kicker">用户价值与结果 · 数据优先</div>
     <h1>灰度阶段，已有<span class="o">可感知的正向信号</span></h1>
-    <div class="sub">规模数据仍在灰度积累；以下是当前能拿到的量化信号与真实反馈（数字待填）</div>
+    <div class="sub">规模数据仍在灰度积累；以下是当前能拿到的量化信号与用户真实反馈</div>
     <div class="content">
       <div class="kpis" style="grid-template-columns:1fr 1fr;">
         <div class="kpi"><div class="kl">体验问题闭环</div><div class="kv">40+ 项<br><span style="font-size:.9vw;color:var(--gray);font-weight:600">P0/P1/P2 分级 · 日更持续修</span></div></div>
