@@ -20,7 +20,7 @@
   .wrap{ padding:0 52px 120px 284px;}
 
   /* 中文按词不拆、避免一两个字跨行；关键词组用 .nb 锁死不断行 */
-  .hero-lead,.hero-sub,.feat p,.feat .fl li,.pos,.dir .base,.dir .up,.wi,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
+  .hero-lead,.hero-sub,.feat p,.feat .fl li,.pos,.dir .base,.dir .up,.wi .wd,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
   .nb{ white-space:nowrap;}
 
   .cover{ padding:76px 0 40px; border-bottom:1px solid var(--line);}
@@ -71,11 +71,12 @@
   .dir .up .k{ display:inline-block; font-size:10.5px; font-weight:800; color:#fff; background:var(--ac); border-radius:6px; padding:2px 9px; margin-right:8px; vertical-align:1px; letter-spacing:.3px;}
   .dir p{ font-size:14px; color:var(--sub); line-height:1.85;} .dir p b{ color:var(--ink); font-weight:700;}
 
-  /* 为什么这么定（自洽 / 体验 / 竞争力 自检条） */
+  /* 为什么这么定（基础体验 / 竞争力 / 生态服务 自检条） */
   .why{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px;}
-  .wi{ background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--ac); border-radius:12px; padding:14px 16px; font-size:13.5px; color:var(--sub); line-height:1.7; box-shadow:var(--shadow);}
-  .wi .wt{ display:inline-block; font-size:11px; font-weight:800; letter-spacing:.5px; color:var(--ac-ink); background:var(--ac-soft); border:1px solid var(--ac-line); border-radius:6px; padding:2px 9px; margin-right:8px;}
-  .wi b{ color:var(--ink); font-weight:700;}
+  .wi{ background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--ac); border-radius:12px; padding:16px 18px; box-shadow:var(--shadow);}
+  .wi .wt{ display:inline-block; font-size:11.5px; font-weight:800; letter-spacing:.5px; color:var(--ac-ink); background:var(--ac-soft); border:1px solid var(--ac-line); border-radius:6px; padding:3px 10px; margin-bottom:10px;}
+  .wi .wd{ font-size:13.5px; color:var(--sub); line-height:1.75;}
+  .wi .wd b{ color:var(--ink); font-weight:700;}
 
   /* 做 / 不做 */  .two{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0 0;}
   .pos{ border-radius:14px; padding:16px 20px; font-size:14px; line-height:1.7;}
@@ -206,9 +207,9 @@
       </div>
     </div>
     <div class="why">
-      <div class="wi"><span class="wt">基础体验</span>不用整理、<b>随口就记、随时问得到</b>——少一步操作，多一分顺手。</div>
-      <div class="wi"><span class="wt">竞争力</span>内容<b>越攒越贴合你本人</b>、越用越离不开——这份靠时间积累出来的贴合度，就是笔记真正的竞争力。</div>
-      <div class="wi"><span class="wt">生态服务</span><b>接给小爱调用、一份内容跨端一致</b>——你存的内容，整个生态都用得上。</div>
+      <div class="wi"><span class="wt">基础体验</span><div class="wd">不用整理、<b>随口就记、随时问得到</b>——少一步操作，顺手不费劲。</div></div>
+      <div class="wi"><span class="wt">竞争力</span><div class="wd">笔记里全是你<b>亲手存、认可的内容</b>；AI 拿它帮你答、帮你写，<b>越用越懂你本人</b>。</div></div>
+      <div class="wi"><span class="wt">生态服务</span><div class="wd"><b>接给小爱调用、一份内容跨端一致</b>——你存的内容，整个生态都用得上。</div></div>
     </div>
   </div>
 
