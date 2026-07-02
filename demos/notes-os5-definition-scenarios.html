@@ -20,7 +20,7 @@
   .wrap{ padding:0 52px 120px 284px;}
 
   /* 中文按词不拆、避免一两个字跨行；关键词组用 .nb 锁死不断行 */
-  .hero-lead,.hero-sub,.feat p,.feat .fl li,.pos,.dir .base,.dir .up,.dir .pay .pd,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
+  .hero-lead,.hero-sub,.feat p,.feat .fl li,.pos,.dir .desc,.dir .pay .pd,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
   .nb{ white-space:nowrap;}
 
   .cover{ padding:76px 0 40px; border-bottom:1px solid var(--line);}
@@ -67,10 +67,7 @@
   .dir .dhead{ display:flex; align-items:center; gap:12px; margin-bottom:15px;}
   .dir .dn{ width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,#0f8f68,#12b886); color:#fff; font-weight:800; font-size:16px; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(16,150,110,.30); flex:0 0 auto;}
   .dir h4{ font-size:17.5px; font-weight:800; line-height:1.25;}
-  .dir .base{ font-size:12.5px; color:var(--dim); background:var(--panel); border-radius:9px; padding:9px 12px; margin-bottom:12px; line-height:1.6;}
-  .dir .base .bt{ display:inline-block; font-size:10.5px; font-weight:800; color:var(--sub); background:#e4e7ec; border-radius:6px; padding:2px 8px; margin-right:7px; vertical-align:1px;}
-  .dir .up{ font-size:14px; color:var(--sub); line-height:1.85; padding-bottom:20px;} .dir .up b{ color:var(--ink); font-weight:700;}
-  .dir .up .k{ display:inline-block; font-size:10.5px; font-weight:800; color:#fff; background:var(--ac); border-radius:6px; padding:2px 9px; margin-right:8px; vertical-align:1px; letter-spacing:.3px;}
+  .dir .desc{ font-size:14.5px; color:var(--sub); line-height:1.95; padding-bottom:22px;} .dir .desc b{ color:var(--ink); font-weight:700;}
   /* 每张方向卡底部的价值收口带 */
   .dir .pay{ margin-top:auto; padding:14px 22px; background:var(--ac-soft); border-top:1px solid var(--ac-line);}
   .dir .pay .pt{ display:inline-block; font-size:11px; font-weight:800; letter-spacing:.4px; color:#fff; background:var(--ac); border-radius:6px; padding:2px 10px; margin-bottom:7px;}
@@ -194,24 +191,21 @@
       <div class="dir">
         <div class="din">
           <div class="dhead"><div class="dn">1</div><h4>随手就能记</h4></div>
-          <div class="base"><span class="bt">今年已有</span>录音转写、多模态导入，存了就能搜。</div>
-          <div class="up"><span class="k">这一版更进一步</span>语音做主入口，扩到<b><span class="nb">手表 / 车机 / 耳机</span></b>；<span class="nb">网页 / 截图 / 聊天</span><b>一键入库</b>。</div>
+          <div class="desc">一句话就记下来——<b><span class="nb">手机 / 手表 / 车机 / 耳机</span></b>随身都能说，<b><span class="nb">网页 / 截图 / 聊天</span></b>一键存进同一处，不用特意打开、不用整理格式。</div>
         </div>
         <div class="pay"><span class="pt">基础体验</span><div class="pd"><b>随口就记、随时问得到</b>，顺手不费劲</div></div>
       </div>
       <div class="dir">
         <div class="din">
-          <div class="dhead"><div class="dn">2</div><h4>AI 自动理好、连起来</h4></div>
-          <div class="base"><span class="bt">今年已有</span>AI / 语义搜索已上线。</div>
-          <div class="up"><span class="k">这一版更进一步</span>从"能搜到"升级为<b>自动理成结构、相关内容自动串起来</b>，一句话问遍全库、带出处。</div>
+          <div class="dhead"><div class="dn">2</div><h4>AI 自动帮你理好</h4></div>
+          <div class="desc">记完<b>不用自己整理</b>——AI 自动理成结构、把相关内容串起来，<b>一句话就能问遍你的全部笔记</b>、还带出处。</div>
         </div>
         <div class="pay"><span class="pt">竞争力</span><div class="pd">AI 拿你<b>认可的内容</b>，越用越懂你本人</div></div>
       </div>
       <div class="dir">
         <div class="din">
           <div class="dhead"><div class="dn">3</div><h4>被小爱调用、主动找你</h4></div>
-          <div class="base"><span class="bt">今年已有</span>能力做成 tools 供小爱调用已跑通。</div>
-          <div class="up"><span class="k">这一版更进一步</span>更多能力<b>接给小爱</b>、<b>一份内容跨端一致</b>；该看的主动浮现、到期主动提醒。</div>
+          <div class="desc">内容不只躺在笔记里——<b>小爱随时调用来答你、帮你写</b>，一份内容跨端一致，该看的主动浮现、到期主动提醒。</div>
         </div>
         <div class="pay"><span class="pt">生态服务</span><div class="pd"><b>一份内容跨端一致</b>，全生态都用得上</div></div>
       </div>
