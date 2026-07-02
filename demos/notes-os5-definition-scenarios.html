@@ -19,6 +19,10 @@
     font-family:-apple-system,"SF Pro SC","MiSans","PingFang SC",system-ui,sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased;}
   .wrap{ padding:0 52px 120px 284px;}
 
+  /* 中文按词不拆、避免一两个字跨行；关键词组用 .nb 锁死不断行 */
+  .hero-lead,.hero-foot,.hp,.feat p,.pos,.dir .base,.dir .up,.note,.cap,.scsay,.closer-sub,.secsub,.foot-note{ word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;}
+  .nb{ white-space:nowrap;}
+
   .cover{ padding:76px 0 40px; border-bottom:1px solid var(--line);}
   .kicker{ display:inline-block; font-size:12.5px; letter-spacing:2px; color:var(--ac-ink); font-weight:800; margin-bottom:18px; background:var(--ac-soft); border:1px solid var(--ac-line); padding:6px 14px; border-radius:30px;}
   .cover h1{ font-size:44px; font-weight:800; letter-spacing:.3px; line-height:1.25;}
@@ -56,13 +60,13 @@
 
   /* 产品方向 */
   .dirs{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:4px;}
-  .dir{ background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--ac); border-radius:16px; padding:22px 22px; box-shadow:var(--shadow);}
-  .dir .dn{ width:34px; height:34px; border-radius:10px; background:var(--ac-soft); color:var(--ac-ink); font-weight:800; font-size:16px; display:flex; align-items:center; justify-content:center; margin-bottom:13px;}
-  .dir h4{ font-size:18px; font-weight:800; margin-bottom:9px;}
-  .dir .base{ font-size:12.5px; color:var(--dim); background:var(--panel); border-radius:8px; padding:8px 11px; margin-bottom:10px; line-height:1.6;}
-  .dir .base b{ color:var(--sub); font-weight:800;}
-  .dir .up{ font-size:14px; color:var(--sub); line-height:1.85;} .dir .up b{ color:var(--ink); font-weight:700;}
-  .dir .up .k{ color:var(--ac-ink); font-weight:800;}
+  .dir{ background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--ac); border-radius:16px; padding:26px 24px; box-shadow:var(--shadow);}
+  .dir .dn{ width:36px; height:36px; border-radius:11px; background:linear-gradient(135deg,#0f8f68,#12b886); color:#fff; font-weight:800; font-size:17px; display:flex; align-items:center; justify-content:center; margin-bottom:15px; box-shadow:0 6px 16px rgba(16,150,110,.30);}
+  .dir h4{ font-size:18px; font-weight:800; margin-bottom:11px;}
+  .dir .base{ font-size:12.5px; color:var(--dim); background:var(--panel); border-radius:9px; padding:10px 12px; margin-bottom:12px; line-height:1.65;}
+  .dir .base .bt{ display:inline-block; font-size:10.5px; font-weight:800; color:var(--sub); background:#e4e7ec; border-radius:6px; padding:2px 8px; margin-right:7px; vertical-align:1px;}
+  .dir .up{ font-size:14px; color:var(--sub); line-height:1.9;} .dir .up b{ color:var(--ink); font-weight:700;}
+  .dir .up .k{ display:inline-block; font-size:10.5px; font-weight:800; color:#fff; background:var(--ac); border-radius:6px; padding:2px 9px; margin-right:8px; vertical-align:1px; letter-spacing:.3px;}
   .dir p{ font-size:14px; color:var(--sub); line-height:1.85;} .dir p b{ color:var(--ink); font-weight:700;}
 
   /* 做 / 不做 */
@@ -144,20 +148,20 @@
       <div class="hero-lead">笔记 = 你<em>主动沉淀</em>、看得见、改得动的<em>个人知识库</em></div>
       <div class="hero-points">
         <div class="hp"><span class="k">你</span>决定存什么，一键存、随时改</div>
-        <div class="hp"><span class="k">AI</span>帮你理好、连成网、随时问得到</div>
+        <div class="hp"><span class="k">AI</span>帮你理好、自动关联、随时问得到</div>
         <div class="hp"><span class="k">它</span>还会主动找你、主动帮你</div>
       </div>
       <div class="hero-foot"><span class="ar">→</span>越攒越多、越用越懂你，还能被小爱调用来帮你办事</div>
     </div>
 
     <div class="feats" style="grid-template-columns:repeat(3,1fr);">
-      <div class="feat"><div class="ic">⇄</div><h4>随处记 · AI 理好</h4><p>手机 / 手表 / 车机 / 耳机<b>随处记</b>，网页 / 截图 / 聊天<b>多源一键入库</b>；AI 自动转写、结构化、整理成型。</p></div>
-      <div class="feat"><div class="ic">🕸</div><h4>连成网 · 随时问</h4><p>笔记之间<b>自动关联、连成知识网</b>；基于你<b>所有</b>笔记一句话问得到，也能被小爱调用来写新的——记得多，更用得上。</p></div>
-      <div class="feat"><div class="ic">✦</div><h4>会主动 · 越用越懂</h4><p>该看的<b>主动浮现</b>、到期<b>主动提醒</b>，还把长期积累<b>提炼成洞察</b>；去重纠错、管得住信得过。</p></div>
+      <div class="feat"><div class="ic">⇄</div><h4>随处记 · AI 理好</h4><p><span class="nb">手机 / 手表 / 车机 / 耳机</span><b>随处记</b>，<span class="nb">网页 / 截图 / 聊天</span><b>多源一键入库</b>；AI 自动转写、结构化、整理成型。</p></div>
+      <div class="feat"><div class="ic">🔗</div><h4>自动关联 · 随时问</h4><p>相关的笔记 AI <b>自动帮你串到一起</b>；翻遍你所有笔记<b>一句话就能问到</b>、带出处，也能被小爱调用来写新的——记得多，更用得上。</p></div>
+      <div class="feat"><div class="ic">✦</div><h4>会主动 · 越用越懂</h4><p>该看的<b>主动浮现</b>、到期<b>主动提醒</b>，还把长期积累<b>帮你发现规律</b>；去重纠错、管得住信得过。</p></div>
     </div>
 
     <div class="two">
-      <div class="pos do"><span class="t">笔记做</span>用户<b>主动存的、看得见、改得动</b>的个人内容；结构化、连成网、可检索、能被调用、会主动浮现；<b>可个人、可共享</b>（家庭 / 团队）。</div>
+      <div class="pos do"><span class="t">笔记做</span>用户<b>主动存的、看得见、改得动</b>的个人内容；结构化、自动关联、可检索、能被调用、会主动浮现；<b>可个人、可共享</b>（家庭 / 团队）。</div>
       <div class="pos dont"><span class="t">笔记不做</span>不做隐式行为画像 / 后台黑盒记忆；<b>不默认全收</b>——用户主动挑有价值的内容存进来。</div>
     </div>
   </div>
@@ -169,16 +173,16 @@
     <div class="note" style="font-size:15px;padding:16px 20px;margin-bottom:18px;">今年，笔记已经把"<b>能记、能搜、能存</b>"立起来了。OS5 不是从零开始——<b>是在这个基础上，把下面三件事做得更自动、更懂你。</b></div>
     <div class="dirs">
       <div class="dir"><div class="dn">1</div><h4>随手就能记</h4>
-        <div class="base"><b>今年已有</b>：录音 / 通话转写、多模态导入，存进来就能搜。</div>
-        <div class="up"><span class="k">这一版更进一步：</span>把语音做成主入口，扩到<b>手表 / 车机 / 耳机全设备</b>，网页 / 截图 / 聊天<b>多源一键入库</b>——随手记、不用特意打开、不用整理格式。</div>
+        <div class="base"><span class="bt">今年已有</span><span class="nb">录音 / 通话转写</span>、多模态导入，存进来就能搜。</div>
+        <div class="up"><span class="k">这一版更进一步</span>把语音做成主入口，扩到<b><span class="nb">手表 / 车机 / 耳机</span>全设备</b>，<span class="nb">网页 / 截图 / 聊天</span><b>多源一键入库</b>——随手记、不用特意打开、不用整理格式。</div>
       </div>
       <div class="dir"><div class="dn">2</div><h4>AI 自动理好、连起来</h4>
-        <div class="base"><b>今年已有</b>：AI 搜索 / 语义搜索已上线（同义词、时间、人名）。</div>
-        <div class="up"><span class="k">这一版更进一步：</span>从"能搜到"升级为<b>自动理成结构、自动连成一张网</b>，一句话整库问得到、带出处，还能把长期积累<b>提炼成回顾和发现</b>。</div>
+        <div class="base"><span class="bt">今年已有</span>AI 搜索 / 语义搜索已上线（同义词、时间、人名）。</div>
+        <div class="up"><span class="k">这一版更进一步</span>从"能搜到"升级为<b>自动理成结构、把相关内容自动串到一起</b>，翻遍你所有笔记一句话就能答上来、带出处，还能把长期积累<b>帮你发现规律</b>。</div>
       </div>
       <div class="dir"><div class="dn">3</div><h4>被小爱调用、主动找你</h4>
-        <div class="base"><b>今年已有</b>：能力做成 tools 供小爱调用的机制已经跑通。</div>
-        <div class="up"><span class="k">这一版更进一步：</span>把更多能力<b>接给小爱调用</b>（答问题、写东西），<b>一份内容跨端一致</b>；该看的主动浮现、到期主动提醒——<b>从"等你翻"变成"主动帮你"。</b></div>
+        <div class="base"><span class="bt">今年已有</span>能力做成 tools 供小爱调用的机制已经跑通。</div>
+        <div class="up"><span class="k">这一版更进一步</span>把更多能力<b>接给小爱调用</b>（答问题、写东西），<b>一份内容跨端一致</b>；该看的主动浮现、到期主动提醒——<b>从"等你翻"变成"主动帮你"。</b></div>
       </div>
     </div>
   </div>
@@ -187,7 +191,7 @@
   <div class="section" data-toc="5 个明星场景">
     <div class="sechead"><div class="secnum">02</div><div><div class="sectitle">从定义到场景 · 5 个明星场景</div></div></div>
     <div class="divider"></div>
-    <div class="note" style="font-size:15px;padding:16px 20px;">五个不是五个功能，而是<b>同一件事在五个场合的样子</b>：随处记 → AI 帮你理好 → 沉进笔记。而这些内容不是散着放——它们<b>彼此连成网、能整库问到、还会长出洞察</b>，越攒越成你的个人知识库。</div>
+    <div class="note" style="font-size:15px;padding:16px 20px;">五个不是五个功能，而是<b>同一件事在五个场合的样子</b>：随处记 → AI 帮你理好 → 沉进笔记。而这些内容不是散着放——它们<b>之间会自动关联、一句话就能问到、还会帮你发现规律</b>，越攒越成你的个人知识库。</div>
   </div>
 
   <!-- 场景 1 开会办公 -->
@@ -295,7 +299,7 @@
       <div class="closer-tag">一句话</div>
       <div class="closer-main">笔记 = 你越用越懂你的<span>个人知识库</span></div>
       <div class="closer-line"></div>
-      <div class="closer-sub">五个场景随处记下的内容，不是散着放——<b>彼此连成网、能整库问到、会长出洞察</b>。这，就是笔记从"记录工具"长成"个人知识库"的价值。</div>
+      <div class="closer-sub">五个场景随处记下的内容，不是散着放——<b>之间会自动关联、一句话就能问到、还会帮你发现规律</b>。这，就是笔记从"记录工具"长成"个人知识库"的价值。</div>
     </div>
     <p class="foot-note">注：场景配图均为占位，选定头部场景后填入 Figma 稿 / 真机截图。三条赛道边界（会议↔生产力、健康↔运动健康、出行↔日程 / 影像）建议先对齐。</p>
   </div>
