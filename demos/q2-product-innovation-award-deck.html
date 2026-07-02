@@ -207,7 +207,7 @@
   .xc2{background:#fff;border:1px solid var(--line);border-radius:18px;padding:2.6vh 1.6vw;border-top:.5vw solid var(--orange);display:flex;flex-direction:column;box-shadow:var(--shadow);}
   .xc2 h3{font-size:1.3vw;font-weight:900;margin-bottom:.9vh;display:flex;align-items:center;gap:.6vw;}
   .xc2 h3 .ic{display:inline-grid;place-items:center;width:2.1vw;height:2.1vw;border-radius:.6vw;background:var(--orange-soft);border:1px solid var(--orange-line);font-size:1.1vw;flex:0 0 auto;}
-  .xc2 p{font-size:1vw;color:#556;line-height:1.5;margin-bottom:1vh;flex:0 0 auto;min-height:3.4vh;}
+  .xc2 p{font-size:1vw;color:#556;line-height:1.5;margin-bottom:1vh;flex:0 0 auto;min-height:5.4vh;}
   .xc2 .imgbox{flex:1;min-height:18vh;}
   /* 竖屏手机整机占位：放完整手机截图（9:19.5），高度驱动、居中、双向约束不裁切走形 */
   .xc2 .imgbox.phone{flex:0 0 auto;height:42vh;aspect-ratio:9/19.5;width:auto;max-width:94%;min-height:0;margin:.6vh auto 0;border-radius:22px;padding:0;overflow:hidden;background:linear-gradient(180deg,#fbfcfe,#f2f5f9);}
@@ -229,10 +229,10 @@
   .mc p{font-size:1vw;color:#556;line-height:1.55;margin-top:1vh;}
   .mfoot{margin-top:2.4vh;padding:2.2vh 1.9vw;border-radius:16px;background:var(--orange-soft);border:1px solid var(--orange-line);color:#7a3d10;font-size:1.15vw;line-height:1.5;font-weight:700;border-left:.5vw solid var(--orange);}
   .mfoot b{color:var(--orange);}
-  /* 方法论配图：两张按高度放大、居中、贴合边框 */
-  .methodshots{display:flex;gap:2vw;justify-content:center;align-items:center;margin-top:1.3vh;}
-  .methodshots figure{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 14px rgba(16,24,40,.08);padding:.5vh;display:flex;}
-  .methodshots img{height:30vh;width:auto;max-width:100%;object-fit:contain;border-radius:8px;display:block;}
+  /* 方法论配图：对齐两栏、等高、居中，避免飘散杂乱 */
+  .methodshots{display:grid;grid-template-columns:1fr 1fr;gap:1.6vw;margin-top:1.3vh;}
+  .methodshots figure{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 14px rgba(16,24,40,.08);padding:1vh;display:flex;align-items:center;justify-content:center;height:27vh;}
+  .methodshots img{max-height:100%;max-width:100%;object-fit:contain;border-radius:8px;display:block;}
 
   .kpis{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1.3vw;}
   .kpi{background:#fff;border:1px solid var(--line);border-top:.5vw solid var(--orange);border-radius:18px;padding:2.4vh 1.5vw;box-shadow:var(--shadow);}
