@@ -154,7 +154,8 @@
   .step .sd{font-size:.9vw;color:#667;line-height:1.4;min-height:3.2vw;}
   /* 手机竖屏贴图位：高度驱动 + 9:19.5 机身比例，双向约束保证永远是竖屏形状、居中不裁切 */
   .step .imgbox.phone{height:46vh;aspect-ratio:9/19.5;width:auto;max-width:100%;margin:.6vh auto 0;border-radius:22px;padding:0;overflow:hidden;background:linear-gradient(180deg,#fbfcfe,#f2f5f9);border:1.5px dashed #d3d6dd;}
-  .step .imgbox.phone img{width:100%;height:100%;object-fit:contain;display:block;}
+  .step .imgbox.phone.has-img{border:none;background:none;box-shadow:0 10px 26px rgba(16,24,40,.14);}
+  .step .imgbox.phone img{width:100%;height:100%;object-fit:cover;display:block;}
   .arrow{align-self:center;color:var(--orange);opacity:.55;font-size:1.6vw;font-weight:900;padding-top:3vh;}
 
   .eco{display:flex;gap:2vw;}
@@ -219,9 +220,12 @@
   .mfoot b{color:var(--orange);}
 
   .kpis{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1.3vw;}
-  .kpi{background:#fff;border:1px solid var(--line);border-top:.5vw solid var(--orange);border-radius:18px;padding:2.6vh 1.4vw;box-shadow:var(--shadow);}
-  .kpi .kl{font-size:.92vw;color:var(--gray);font-weight:700;}
-  .kpi .kv{font-size:1.7vw;font-weight:900;color:var(--orange);margin-top:1vh;line-height:1.25;}
+  .kpi{background:#fff;border:1px solid var(--line);border-top:.5vw solid var(--orange);border-radius:18px;padding:2.4vh 1.5vw;box-shadow:var(--shadow);}
+  .kpi .kh{display:flex;align-items:center;gap:.55vw;margin-bottom:.4vh;}
+  .kpi .kicon{width:1.9vw;height:1.9vw;border-radius:.5vw;display:grid;place-items:center;font-size:1vw;background:var(--orange-soft);border:1px solid var(--orange-line);flex:0 0 auto;}
+  .kpi .kl{font-size:.95vw;color:var(--gray);font-weight:700;}
+  .kpi .kv{font-size:1.7vw;font-weight:900;color:var(--orange);margin-top:.8vh;line-height:1.25;}
+  .kpi .ksub{font-size:.9vw;color:var(--gray);font-weight:600;margin-top:.5vh;}
 
   .hint{position:fixed;bottom:1.6vh;left:50%;transform:translateX(-50%);font-size:11px;background:rgba(0,0,0,.55);color:#fff;padding:5px 13px;border-radius:20px;z-index:99;}
 </style>
@@ -439,13 +443,13 @@
     <h1>开会时专注讨论，<span class="o">会后自动生成纪要和待办</span></h1>
     <div class="content">
       <div class="flow">
-        <div class="step"><div class="sn">输入 · 会中专注</div><div class="stt">边开会边语音速记</div><div class="sd">不用分心打字，讨论内容完整留下</div><div class="imgbox phone">【贴图】</div></div>
+        <div class="step"><div class="sn">输入 · 会中专注</div><div class="stt">边开会边语音速记</div><div class="sd">不用分心打字，讨论内容完整留下</div><div class="imgbox phone has-img"><img src="img/scene-12-1.png" alt="会议·边开会边语音速记"></div></div>
         <div class="arrow">›</div>
-        <div class="step"><div class="sn">加工 · 会后清楚</div><div class="stt">AI 自动生成纪要</div><div class="sd">重点、结论、分歧一目了然</div><div class="imgbox phone">【贴图】</div></div>
+        <div class="step"><div class="sn">加工 · 会后清楚</div><div class="stt">AI 自动生成纪要</div><div class="sd">重点、结论、分歧一目了然</div><div class="imgbox phone has-img"><img src="img/scene-12-2.png" alt="会议·AI自动生成纪要"></div></div>
         <div class="arrow">›</div>
-        <div class="step"><div class="sn">查找 · 回头找得到</div><div class="stt">一句话语义找回</div><div class="sd">按大概意思找回，不靠关键词</div><div class="imgbox phone">【贴图】</div></div>
+        <div class="step"><div class="sn">查找 · 回头找得到</div><div class="stt">一句话语义找回</div><div class="sd">按大概意思找回，不靠关键词</div><div class="imgbox phone has-img"><img src="img/scene-12-3.png" alt="会议·一句话语义找回"></div></div>
         <div class="arrow">›</div>
-        <div class="step"><div class="sn">沉淀 · 待办不漏</div><div class="stt">进数据库 · 待办进日历</div><div class="sd">谁做什么、何时完成，落到行动</div><div class="imgbox phone">【贴图】</div></div>
+        <div class="step"><div class="sn">沉淀 · 待办不漏</div><div class="stt">进数据库 · 待办进日历</div><div class="sd">谁做什么、何时完成，落到行动</div><div class="imgbox phone has-img"><img src="img/scene-12-4.png" alt="会议·待办进日历"></div></div>
       </div>
     </div>
     <div class="pager">12</div>
@@ -457,13 +461,13 @@
     <h1>问诊时安心沟通，<span class="o">复诊时接得上上次记录</span></h1>
     <div class="content">
       <div class="flow">
-        <div class="step"><div class="sn">输入 · 问诊安心</div><div class="stt">AI 键一按，边问诊边记下</div><div class="sd">不用一边听一边慌忙记</div><div class="imgbox phone">【贴图】</div></div>
+        <div class="step"><div class="sn">输入 · 问诊安心</div><div class="stt">AI 键一按，边问诊边记下</div><div class="sd">不用一边听一边慌忙记</div><div class="imgbox phone has-img"><img src="img/scene-13-1.png" alt="问诊·AI键边问诊边记"></div></div>
         <div class="arrow">›</div>
-        <div class="step"><div class="sn">加工 · 医嘱清楚</div><div class="stt">AI 整理成病历卡</div><div class="sd">症状 / 用药 / 注意 / 复诊时间</div><div class="imgbox phone">【贴图】</div></div>
+        <div class="step"><div class="sn">加工 · 医嘱清楚</div><div class="stt">AI 整理成病历卡</div><div class="sd">症状 / 用药 / 注意 / 复诊时间</div><div class="imgbox phone has-img"><img src="img/scene-13-2.png" alt="问诊·AI整理病历卡"></div></div>
         <div class="arrow">›</div>
-        <div class="step"><div class="sn">查找 · 复诊找得到</div><div class="stt">一句话调出上次病历</div><div class="sd">看病前快速找回上次记录</div><div class="imgbox phone">【贴图】</div></div>
+        <div class="step"><div class="sn">查找 · 复诊找得到</div><div class="stt">一句话调出上次病历</div><div class="sd">看病前快速找回上次记录</div><div class="imgbox phone has-img"><img src="img/scene-13-3.png" alt="问诊·调出上次病历"></div></div>
         <div class="arrow">›</div>
-        <div class="step"><div class="sn">沉淀 · 记录连起来</div><div class="stt">进个人健康档案</div><div class="sd">多次问诊连成连续健康线索</div><div class="imgbox phone">【贴图】</div></div>
+        <div class="step"><div class="sn">沉淀 · 记录连起来</div><div class="stt">进个人健康档案</div><div class="sd">多次问诊连成连续健康线索</div><div class="imgbox phone has-img"><img src="img/scene-13-4.png" alt="问诊·个人健康档案"></div></div>
       </div>
     </div>
     <div class="pager">13</div>
@@ -560,8 +564,8 @@
     <div class="sub">规模数据仍在灰度积累；以下是当前能拿到的量化信号与用户真实反馈</div>
     <div class="content">
       <div class="kpis" style="grid-template-columns:1fr 1fr;">
-        <div class="kpi"><div class="kl">体验问题闭环</div><div class="kv">40+ 项<br><span style="font-size:.9vw;color:var(--gray);font-weight:600">P0/P1/P2 分级 · 日更持续修</span></div></div>
-        <div class="kpi"><div class="kl">社媒自发好评 / 传播</div><div class="kv">持续涌现<br><span style="font-size:.9vw;color:var(--gray);font-weight:600">用户主动晒单、自来水传播</span></div></div>
+        <div class="kpi"><div class="kh"><span class="kicon">🛠️</span><span class="kl">体验问题闭环</span></div><div class="kv">40+ 项</div><div class="ksub">P0/P1/P2 分级 · 日更持续修</div></div>
+        <div class="kpi"><div class="kh"><span class="kicon">💬</span><span class="kl">社媒自发好评 / 传播</span></div><div class="kv">持续涌现</div><div class="ksub">用户主动晒单、自来水传播</div></div>
       </div>
       <div class="wallhead">社媒好评墙 · 用户自发反馈</div>
       <div class="praisewall">
