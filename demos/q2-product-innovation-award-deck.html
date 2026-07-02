@@ -119,10 +119,10 @@
   .note-gray{margin-top:1.6vh;border-left:.35vw solid #dcdfe4;background:#f7f8fa;color:#98a2b3;font-size:.88vw;font-weight:500;line-height:1.5;padding:1.3vh 1.5vw;border-radius:10px;}
   .note-gray b{color:#7b828e;font-weight:700;}
   /* 第9页竞品双机截图 */
-  .compshots{flex:1;display:flex;gap:1vw;align-items:center;justify-content:center;align-self:center;}
-  .compshots .cshot{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7vh;}
-  .compshots .cshot img{max-height:30vh;max-width:100%;object-fit:contain;border-radius:14px;box-shadow:0 8px 22px rgba(16,24,40,.14);}
-  .compshots .cshot figcaption{font-size:.85vw;color:var(--gray);font-weight:700;}
+  .compshots{flex:1;display:flex;gap:.5vw;align-items:center;justify-content:center;align-self:center;}
+  .compshots .cshot{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6vh;}
+  .compshots .cshot img{max-height:27vh;max-width:100%;object-fit:contain;border-radius:12px;box-shadow:0 8px 22px rgba(16,24,40,.14);}
+  .compshots .cshot figcaption{font-size:.82vw;color:var(--gray);font-weight:700;}
   .phone{aspect-ratio:1080/2340;} .wide{aspect-ratio:16/9;}
 
   .ba-wrap{display:flex;gap:2vw;}
@@ -212,6 +212,10 @@
   /* 竖屏手机整机占位：放完整手机截图（9:19.5），高度驱动、居中、双向约束不裁切走形 */
   .xc2 .imgbox.phone{flex:0 0 auto;height:42vh;aspect-ratio:9/19.5;width:auto;max-width:94%;min-height:0;margin:.6vh auto 0;border-radius:22px;padding:0;overflow:hidden;background:linear-gradient(180deg,#fbfcfe,#f2f5f9);}
   .xc2 .imgbox.phone img{width:100%;height:100%;object-fit:cover;display:block;}
+  .xc2 .imgbox.phone.has-img{border:none;background:none;box-shadow:0 8px 22px rgba(16,24,40,.14);}
+  /* 通话卡：两张手机并排 */
+  .xc2 .phonepair{display:flex;gap:.5vw;justify-content:center;align-items:flex-start;margin:.6vh auto 0;}
+  .xc2 .phonepair .imgbox.phone{margin:0;height:42vh;max-width:100%;}
 
   /* 方法论卡 */
   .m3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.6vw;}
@@ -389,7 +393,7 @@
     <div class="sub">备忘录记得轻、三方笔记理得深、AI 助手聊得好——各取一段所长，补上各自的短板</div>
     <div class="content">
       <div class="split">
-        <table class="grid" style="flex:1.5;">
+        <table class="grid" style="flex:2.4;">
           <tr><th style="width:8vw;">参照对象</th><th>可借鉴</th><th>局限性</th></tr>
           <tr><td>系统备忘录</td><td class="old">入口轻、系统预装、记录成本低</td><td class="old">仍以手动输入、静态文档为主</td></tr>
           <tr><td>三方笔记</td><td class="old">资料级 AI 问答（NotebookLM）、双链知识图谱（Obsidian）</td><td class="old">要手动导入、是独立工具，无系统级入口</td></tr>
@@ -491,17 +495,20 @@
         <div class="xc2">
           <h3><span class="ic">📱</span>手机 · 多入口</h3>
           <p>长按 AI 键说一句就记；网页 / 截图一键收</p>
-          <div class="imgbox phone">手机多入口记录截图</div>
+          <div class="imgbox phone has-img"><img src="img/p14-1-ai-key.png" alt="AI键记录"></div>
         </div>
         <div class="xc2">
           <h3><span class="ic">⌚</span>手表 / 手环 · 无感</h3>
           <p>抬手或语音就记，走路途中的想法也接得住（耳机 / 车机为后续）</p>
-          <div class="imgbox phone">手表 / 手环记录截图</div>
+          <div class="imgbox phone has-img"><img src="img/p14-2-crossdevice.png" alt="跨端音频记录"></div>
         </div>
         <div class="xc2">
           <h3><span class="ic">📞</span>通话录音 · 自动成纪要</h3>
           <p>通话录音自动生成纪要，一键保存进笔记</p>
-          <div class="imgbox phone">通话纪要截图</div>
+          <div class="phonepair">
+            <div class="imgbox phone has-img"><img src="img/p14-3-call-1.jpg" alt="通话纪要1"></div>
+            <div class="imgbox phone has-img"><img src="img/p14-3-call-2.png" alt="通话纪要2"></div>
+          </div>
         </div>
       </div>
       <div class="xbar">多端记录 → 用户把有价值的内容沉淀进个人数据库、跨设备整合、随取随用</div>
@@ -644,9 +651,9 @@
       <table class="grid">
         <tr><th style="width:12vw;">工种</th><th style="width:26vw;">成员</th><th>主要职责</th></tr>
         <tr><td>产品</td><td style="font-weight:700;color:var(--ink);">杨李莲、刘塔玉、沈竹琦、漆泓艺</td><td class="old">定位重构、产品规划、0→1 生成 / 搜索 / 多模态 / 跨端 / MiClaw 结合需求</td></tr>
-        <tr><td>设计</td><td style="font-weight:700;color:var(--ink);">杨敬荣、姜佳欣</td><td class="old">交互与视觉设计、原型走查、体验把控</td></tr>
-        <tr><td>开发</td><td style="font-weight:700;color:var(--ink);">宋世超、赵洋、刘超飞、李雨薇、夏徐东、朱柄丞、张泽、段宗意、李晓东</td><td class="old">AI coding 应用重写、日更机制、AI 能力落地</td></tr>
-        <tr><td>测试 / 数据</td><td style="font-weight:700;color:var(--ink);">熊棉</td><td class="old">质量保障、灰度验证、日更回归、数据看板</td></tr>
+        <tr><td>设计</td><td style="font-weight:700;color:var(--ink);">姜佳欣</td><td class="old">交互与视觉设计、原型走查、体验把控</td></tr>
+        <tr><td>开发</td><td style="font-weight:700;color:var(--ink);">宋世超、赵洋、刘超飞、李雨薇、夏徐东、朱柄丞、张泽、段宗意、李晓东、熊棉</td><td class="old">AI coding 应用重写、日更机制、AI 能力落地</td></tr>
+        <tr><td>测试 / 数据</td><td style="font-weight:700;color:var(--ink);">杨敬荣</td><td class="old">质量保障、灰度验证、日更回归、数据看板</td></tr>
       </table>
     </div>
     <div class="pager">22</div>
