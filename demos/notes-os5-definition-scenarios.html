@@ -3,181 +3,170 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1440, initial-scale=1.0">
-<title>笔记 OS5 · 产品定义 → 明星场景（Agentic OS）</title>
+<title>笔记 OS5 · 产品定义 → 明星场景</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
   :root{
-    --bg:#f5f6f8; --surface:#ffffff; --panel:#f0f2f5; --panel2:#f7f8fa; --line:#e7e9ee;
-    --ink:#1a1e27; --sub:#5b6472; --dim:#98a0ac;
-    --ac:#10b981; --ac-soft:#e8f7f1; --ac-line:#bfe8d8; --ac-ink:#0a7d5a;
-    --blue:#2f6bff; --blue-soft:#ecf1ff; --blue-line:#cfdcff; --blue-ink:#2354d6;
-    --vio:#7c5cff; --vio-soft:#f0ecff; --vio-line:#dcd3ff; --vio-ink:#5d3fe0;
-    --warn:#e08a1e; --warn-soft:#fdf3e4; --warn-line:#f4dcae;
-    --shadow:0 1px 2px rgba(16,24,40,.04),0 6px 20px rgba(16,24,40,.06);
+    --bg:#f5f6f8; --surface:#ffffff; --panel:#f1f3f6; --line:#e7e9ee;
+    --ink:#1a1e27; --sub:#5b6472; --dim:#9aa1ad;
+    --ac:#10b981; --ac-soft:#e9f8f1; --ac-line:#c2e9da; --ac-ink:#0a7d5a; --ac-deep:#075740;
+    --blue:#2f6bff; --blue-soft:#eef3ff; --blue-line:#d5e0ff; --blue-ink:#2455d6;
+    --warn:#d98a1e; --warn-soft:#fdf4e6; --warn-line:#f2ddb2;
+    --shadow:0 1px 2px rgba(16,24,40,.03),0 6px 18px rgba(16,24,40,.05);
     --shadow-lg:0 12px 40px rgba(16,24,40,.10);
   }
   body{ background:var(--bg); color:var(--ink); width:1440px; margin:0 auto;
     font-family:-apple-system,"SF Pro SC","MiSans","PingFang SC",system-ui,sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased;}
-  .wrap{ padding:0 56px 120px 296px;}
+  .wrap{ padding:0 52px 120px 284px;}
 
-  .cover{ padding:80px 0 46px; border-bottom:1px solid var(--line);}
-  .kicker{ display:inline-flex; align-items:center; gap:8px; font-size:12.5px; letter-spacing:2px; color:var(--ac-ink); font-weight:800; margin-bottom:20px; background:var(--ac-soft); border:1px solid var(--ac-line); padding:6px 14px; border-radius:30px;}
-  .cover h1{ font-size:46px; font-weight:800; letter-spacing:.3px; line-height:1.22;}
-  .cover h1 .hl{ color:var(--ac);} .cover h1 .hb{ color:var(--blue);}
-  .cover .lead{ font-size:16.5px; color:var(--sub); margin-top:22px; max-width:1000px; line-height:1.9; text-wrap:pretty;}
+  .cover{ padding:76px 0 40px; border-bottom:1px solid var(--line);}
+  .kicker{ display:inline-block; font-size:12.5px; letter-spacing:2px; color:var(--ac-ink); font-weight:800; margin-bottom:18px; background:var(--ac-soft); border:1px solid var(--ac-line); padding:6px 14px; border-radius:30px;}
+  .cover h1{ font-size:44px; font-weight:800; letter-spacing:.3px; line-height:1.25;}
+  .cover h1 .hl{ color:var(--ac);}
+  .cover .lead{ font-size:16px; color:var(--sub); margin-top:20px; max-width:900px; line-height:1.85;}
   .cover .lead b{ color:var(--ink); font-weight:700;}
-  .cover .meta{ margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;}
-  .cover .meta .m{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 18px; font-size:13px; color:var(--sub); box-shadow:var(--shadow);}
-  .cover .meta .m b{ color:var(--dim); font-weight:800; display:block; margin-bottom:5px; font-size:10.5px; letter-spacing:1.2px;}
 
-  .section{ padding:64px 0 0;}
-  .sechead{ display:flex; align-items:flex-start; gap:18px;}
-  .secnum{ font-size:46px; font-weight:800; color:var(--ac-line); line-height:.9;}
-  .sectitle{ font-size:25px; font-weight:800; line-height:1.2;}
-  .secsub{ font-size:14px; color:var(--sub); margin-top:8px; max-width:940px; line-height:1.6;}
-  .divider{ height:2px; background:linear-gradient(90deg,var(--ac),rgba(16,185,129,0)); margin:16px 0 24px; border-radius:2px;}
+  .section{ padding:60px 0 0;}
+  .sechead{ display:flex; align-items:flex-start; gap:16px;}
+  .secnum{ font-size:42px; font-weight:800; color:var(--ac-line); line-height:.9;}
+  .sectitle{ font-size:24px; font-weight:800; line-height:1.2;}
+  .secsub{ font-size:13.5px; color:var(--sub); margin-top:7px; max-width:900px; line-height:1.6;}
+  .divider{ height:2px; background:linear-gradient(90deg,var(--ac),rgba(16,185,129,0)); margin:14px 0 24px; border-radius:2px;}
 
-  .callout{ background:var(--ac-soft); border:1px solid var(--ac-line); border-left:4px solid var(--ac); border-radius:12px; padding:18px 22px; margin:14px 0; font-size:17px; line-height:1.75; font-weight:600; color:var(--ac-ink); text-wrap:pretty;}
-  .callout b{ font-weight:800; color:#065f42;}
-  .callout.big{ font-size:21px;}
-  .callout.blue{ background:var(--blue-soft); border-color:var(--blue-line); border-left-color:var(--blue); color:var(--blue-ink);}
-  .callout.blue b{ color:#1c46bd;}
-  .callout.vio{ background:var(--vio-soft); border-color:var(--vio-line); border-left-color:var(--vio); color:var(--vio-ink);}
-  .callout.vio b{ color:#4a30c0;}
-  .p{ font-size:15px; color:var(--ink); line-height:1.9; margin:12px 0; max-width:960px;}
-  .p b{ color:#000; font-weight:700;} .p .g{ color:var(--sub);}
+  /* 定位 hero */
+  .hero{ background:linear-gradient(120deg,#0f8f68 0%,#12b886 100%); border-radius:20px; padding:34px 40px; color:#fff; box-shadow:0 16px 40px rgba(16,150,110,.28); position:relative; overflow:hidden;}
+  .hero:after{ content:""; position:absolute; right:-60px; top:-60px; width:260px; height:260px; border-radius:50%; background:rgba(255,255,255,.08);}
+  .hero .lbl{ font-size:12px; letter-spacing:3px; font-weight:800; color:#c7f5e6; margin-bottom:14px;}
+  .hero .big{ font-size:27px; font-weight:800; line-height:1.55; letter-spacing:.3px; position:relative; z-index:1;}
+  .hero .big em{ font-style:normal; background:rgba(255,255,255,.22); border-radius:6px; padding:1px 8px;}
 
-  /* 两维度卡 */
-  .dims{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0;}
-  .dim{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px 22px; box-shadow:var(--shadow); position:relative; overflow:hidden;}
-  .dim .tag{ display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:800; padding:5px 12px; border-radius:20px; margin-bottom:12px;}
-  .dim.a .tag{ color:var(--vio-ink); background:var(--vio-soft); border:1px solid var(--vio-line);}
-  .dim.b .tag{ color:var(--blue-ink); background:var(--blue-soft); border:1px solid var(--blue-line);}
-  .dim h4{ font-size:19px; font-weight:800; margin-bottom:8px; color:var(--ink);}
-  .dim p{ font-size:14px; color:var(--sub); line-height:1.75;} .dim p b{ color:var(--ink); font-weight:700;}
-  .dim .os{ margin-top:12px; font-size:12px; color:var(--dim); border-top:1px dashed var(--line); padding-top:10px; line-height:1.6;}
-  .dim .os b{ color:var(--sub);}
+  /* 两个特点 */
+  .feats{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0 0;}
+  .feat{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px 24px; box-shadow:var(--shadow); position:relative;}
+  .feat .ic{ width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:20px; background:var(--ac-soft); color:var(--ac-ink); margin-bottom:13px;}
+  .feat h4{ font-size:19px; font-weight:800; margin-bottom:8px;}
+  .feat h4 small{ font-size:13px; font-weight:600; color:var(--dim); margin-left:8px;}
+  .feat p{ font-size:14px; color:var(--sub); line-height:1.8;} .feat p b{ color:var(--ink); font-weight:700;}
 
   /* 做 / 不做 */
-  .two{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0;}
-  .pos{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px 22px; box-shadow:var(--shadow);}
-  .pos .t{ font-size:12px; font-weight:800; letter-spacing:.8px; margin-bottom:9px;}
-  .pos.do .t{ color:var(--ac-ink);} .pos.dont .t{ color:#d1495b;}
-  .pos p{ font-size:14.5px; color:var(--ink); line-height:1.75;} .pos p b{ color:#000;}
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0 0;}
+  .pos{ border-radius:14px; padding:16px 20px; font-size:14px; line-height:1.7;}
+  .pos .t{ font-size:12px; font-weight:800; letter-spacing:.6px; margin-bottom:7px; display:block;}
+  .pos.do{ background:var(--ac-soft); border:1px solid var(--ac-line);} .pos.do .t{ color:var(--ac-ink);} .pos.do{ color:var(--ac-deep);}
+  .pos.dont{ background:#fbeef0; border:1px solid #f3d3d8;} .pos.dont .t{ color:#c23a4d;} .pos.dont{ color:#8f3742;}
+  .pos b{ font-weight:800;}
 
   /* 飞轮 */
-  .flowbar{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin:16px 0 4px;}
-  .fb{ position:relative; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px 16px; text-align:center; box-shadow:var(--shadow);}
-  .fb + .fb::before{ content:"\2192"; position:absolute; left:-16px; top:50%; transform:translateY(-50%); color:var(--ac); font-size:19px; font-weight:800;}
-  .fb .s{ font-size:11px; font-weight:800; color:var(--ac-ink); letter-spacing:.5px;}
-  .fb h4{ font-size:17px; font-weight:800; margin:7px 0 5px; color:var(--ink);}
-  .fb p{ font-size:12.5px; color:var(--sub); line-height:1.55;}
-  .fb .pill{ margin-top:8px; font-size:10px; font-weight:800; color:var(--vio-ink); background:var(--vio-soft); border:1px solid var(--vio-line); border-radius:20px; padding:2px 9px; display:inline-block;}
+  .flowwrap{ margin-top:22px;}
+  .flowlbl{ font-size:14px; font-weight:700; color:var(--ink); margin-bottom:12px;} .flowlbl b{ color:var(--ac-ink);}
+  .flowbar{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
+  .fb{ position:relative; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 16px; text-align:center; box-shadow:var(--shadow);}
+  .fb + .fb::before{ content:"\2192"; position:absolute; left:-15px; top:50%; transform:translateY(-50%); color:var(--ac); font-size:18px; font-weight:800;}
+  .fb .s{ font-size:11px; font-weight:800; color:var(--dim); letter-spacing:.5px;}
+  .fb h4{ font-size:16px; font-weight:800; margin:6px 0 4px; color:var(--ink);}
+  .fb p{ font-size:12px; color:var(--sub); line-height:1.5;}
+  .fb.on{ border-color:var(--ac-line); background:var(--ac-soft);}
+  .fb.on .s{ color:var(--ac-ink);}
 
   /* 场景 */
-  .scene{ padding:54px 0 0;}
-  .schead{ display:flex; align-items:flex-start; gap:18px;}
-  .scnum{ font-size:48px; font-weight:800; color:var(--ac-line); line-height:.86;}
-  .sctitle{ font-size:24px; font-weight:800; line-height:1.18;}
-  .scsay{ font-size:14.5px; color:var(--ac-ink); margin-top:8px; font-weight:600; font-style:italic;}
+  .scene{ padding:52px 0 0;}
+  .schead{ display:flex; align-items:flex-start; gap:16px;}
+  .scnum{ font-size:44px; font-weight:800; color:var(--ac-line); line-height:.86;}
+  .sctitle{ font-size:23px; font-weight:800; line-height:1.2;}
+  .scsay{ font-size:14px; color:var(--ac-ink); margin-top:8px; font-weight:600; font-style:italic;}
   .scsay:before{ content:"用户会说："; font-style:normal; color:var(--dim); font-weight:800; font-size:12px;}
 
-  .flow{ display:flex; align-items:stretch; gap:0; flex-wrap:nowrap; margin-top:20px;}
+  .flow{ display:flex; align-items:stretch; gap:0; flex-wrap:nowrap; margin-top:18px;}
   .step{ flex:1; display:flex; flex-direction:column; align-items:center; min-width:0;}
-  .arrow{ flex:0 0 32px; align-self:flex-start; margin-top:150px; text-align:center; color:var(--ac); font-size:20px; font-weight:800;}
+  .arrow{ flex:0 0 30px; align-self:flex-start; margin-top:148px; text-align:center; color:var(--ac); font-size:19px; font-weight:800;}
   .arrow.plus{ color:var(--blue);}
-  .dtag{ font-size:11px; font-weight:800; letter-spacing:.4px; color:var(--ac-ink); background:var(--ac-soft); border:1px solid var(--ac-line); border-radius:20px; padding:3px 11px; margin-bottom:12px;}
+  .dtag{ font-size:11px; font-weight:800; color:var(--ac-ink); background:var(--ac-soft); border:1px solid var(--ac-line); border-radius:20px; padding:3px 11px; margin-bottom:11px;}
   .dtag.b{ color:var(--blue-ink); background:var(--blue-soft); border-color:var(--blue-line);}
   .ph{ border:1.5px dashed #c7ccd6; border-radius:16px; background:linear-gradient(180deg,#fbfcfe,#eef1f5); display:flex; align-items:center; justify-content:center; text-align:center; color:var(--dim); font-size:11.5px; line-height:1.5; padding:10px;}
-  .ph.phone{ width:150px; height:300px; border-radius:22px;}
-  .ph.wide{ width:210px; height:132px;}
-  .ph .lab{ max-width:120px;} .ph.wide .lab{ max-width:180px;}
+  .ph.phone{ width:148px; height:296px; border-radius:22px;}
+  .ph.wide{ width:206px; height:130px;}
+  .ph .lab{ max-width:118px;} .ph.wide .lab{ max-width:176px;}
   .ph .lab b{ color:var(--sub); font-weight:800; display:block; margin-bottom:3px; font-size:11px;}
-  .stepbox{ height:300px; display:flex; align-items:center; justify-content:center;}
-  .cap{ text-align:center; font-size:12.5px; color:var(--sub); margin-top:13px; line-height:1.55; max-width:200px;}
+  .stepbox{ height:296px; display:flex; align-items:center; justify-content:center;}
+  .cap{ text-align:center; font-size:12.5px; color:var(--sub); margin-top:12px; line-height:1.55; max-width:196px;}
   .cap b{ color:var(--ac-ink); font-weight:700;}
 
-  .scfoot{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px;}
-  .note{ border-radius:10px; padding:12px 16px; font-size:13px; line-height:1.65;}
-  .note b{ font-weight:800;}
-  .note.comp{ background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--ac); color:var(--ink); box-shadow:var(--shadow);} .note.comp b{ color:var(--ac-ink);}
-  .note.agx{ background:var(--vio-soft); border:1px solid var(--vio-line); border-left:3px solid var(--vio); color:var(--vio-ink);} .note.agx b{ color:#4a30c0;}
-  .tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;}
+  .scfoot{ margin-top:18px;}
+  .note{ border-radius:10px; padding:12px 16px; font-size:13px; line-height:1.65; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--ac); color:var(--ink); box-shadow:var(--shadow);}
+  .note b{ color:var(--ac-ink); font-weight:800;}
+  .tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:11px;}
   .tag{ font-size:11.5px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--panel); border:1px solid var(--line); color:var(--sub);}
   .tag.fly{ color:var(--ac-ink); border-color:var(--ac-line); background:var(--ac-soft);}
   .tag.warn{ color:var(--warn); border-color:var(--warn-line); background:var(--warn-soft);}
 
-  .footer{ margin-top:72px; padding-top:24px; border-top:1px solid var(--line); font-size:13px; color:var(--dim); text-align:center; letter-spacing:.5px;}
+  .footer{ margin-top:70px; padding-top:22px; border-top:1px solid var(--line); font-size:13px; color:var(--dim); text-align:center;}
 
-  /* 左侧目录 */
-  .toc{ position:fixed; left:18px; top:50%; transform:translateY(-50%); width:242px; z-index:60; max-height:92vh; overflow-y:auto; padding:16px 12px; background:rgba(255,255,255,.92); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow-lg); backdrop-filter:blur(8px);}
-  .toc .tt{ font-size:10.5px; letter-spacing:2px; color:var(--dim); font-weight:800; margin:2px 0 12px 9px;}
-  .toc a{ display:flex; gap:9px; align-items:center; padding:8px 10px; border-radius:9px; color:var(--sub); text-decoration:none; margin-bottom:2px; transition:.15s; font-size:12.5px;}
-  .toc a .n{ color:var(--dim); font-weight:800; font-size:11px; flex:0 0 20px;}
-  .toc a .t{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1;}
+  /* 左侧目录（一行看懂、不折行） */
+  .toc{ position:fixed; left:16px; top:50%; transform:translateY(-50%); width:236px; z-index:60; max-height:92vh; overflow-y:auto; padding:16px 12px; background:rgba(255,255,255,.94); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow-lg); backdrop-filter:blur(8px);}
+  .toc .tt{ font-size:10.5px; letter-spacing:2px; color:var(--dim); font-weight:800; margin:2px 0 10px 9px;}
+  .toc .grp{ font-size:10px; letter-spacing:1px; color:var(--dim); font-weight:800; margin:12px 0 4px 9px;}
+  .toc a{ display:flex; gap:9px; align-items:center; padding:8px 10px; border-radius:9px; color:var(--sub); text-decoration:none; margin-bottom:2px; transition:.15s; font-size:13px; white-space:nowrap;}
+  .toc a .n{ color:var(--dim); font-weight:800; font-size:11px; flex:0 0 18px;}
   .toc a:hover{ background:var(--panel); color:var(--ink);}
   .toc a.active{ background:var(--ac-soft); color:var(--ac-ink);} .toc a.active .n{ color:var(--ac-ink);}
-  .toc .grp{ font-size:10px; letter-spacing:1px; color:var(--dim); font-weight:800; margin:12px 0 4px 9px;}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <div class="cover">
-    <div class="kicker">笔记 · OS5 · 第一代 Agentic OS · 产品定义 → 明星场景</div>
-    <h1>先立住笔记是什么，<span class="hl">再讲要做的场景</span></h1>
-    <p class="lead">OS5 是小米第一代 <b>Agentic OS</b>——AI 从"问答框"走向"<b>Agent 化主动服务</b>"，并做<b>多设备 AI 强互联</b>。在这条主线里，笔记 = 用户的<b>个人内容层</b>，也是内容领域的<b>垂域 Agent</b>：你主动沉淀、看得见改得动的内容，既能被小爱 / MiClaw 主 Agent 调用，也能主动感知场景、把该看的内容和服务推到你面前，还能一份内容跨端随处记、随处调。下面 5 个明星场景，都是这条定义的闭环显化。（场景配图为占位，Figma 稿后续填入）</p>
-    <div class="meta">
-      <div class="m"><b>定位</b>个人内容层 + 内容垂域 Agent</div>
-      <div class="m"><b>两个维度</b>Agentic 主动服务 · 跨端互联</div>
-      <div class="m"><b>飞轮</b>写得出 → 收得进 → 用得上 → 自己长</div>
-      <div class="m"><b>牵引</b>NSS 提升 · 5 个闭环场景</div>
-    </div>
+    <div class="kicker">笔记 · OS5 · 产品定义 → 明星场景</div>
+    <h1>先说清笔记是什么，<span class="hl">再讲要做的场景</span></h1>
+    <p class="lead">这份材料只讲一件事：<b>笔记</b>。先用一句话立住笔记的定义，再讲基于定义、这一版要做的 <b>5 个明星场景</b>。（场景配图为占位，Figma 稿后续填入）</p>
   </div>
 
   <!-- 产品定义 -->
-  <div class="section">
-    <div class="sechead"><div class="secnum">00</div><div><div class="sectitle">产品定义 · 笔记在 Agentic OS 里是什么</div><div class="secsub">一句话立住定位，补上 Agentic 与跨端互联两个维度，划清边界，再讲飞轮和与主 Agent 的关系</div></div></div>
+  <div class="section" data-toc="产品定义">
+    <div class="sechead"><div class="secnum">00</div><div><div class="sectitle">产品定义 · 笔记是什么</div><div class="secsub">一句话立住定位，再补两个特点、划清边界，最后一条飞轮把它转起来</div></div></div>
     <div class="divider"></div>
-    <div class="callout big"><b>笔记 = 用户主动沉淀、看得见改得动的个人内容层，也是内容领域的垂域 Agent。</b>它承接"内容"这一层——主 Agent（小爱 / MiClaw）要真正懂你、能基于你的积累办事，就需要这样一层用户认可、可管理、且能被调用的个人内容。</div>
 
-    <div class="dims">
-      <div class="dim a"><div class="tag">✦ 维度一 · Agentic</div><h4>从"被动记录"到"主动服务"</h4><p>笔记不只等你翻——<b>主动感知</b>（写相似主题 / 到某地 / 提到某人时浮现相关内容）、<b>主动服务</b>（到期提醒、生成服务卡片），并把检索 / 写入 / 关联能力 <b>tools 化</b>，作为内容垂域 Agent 被主 Agent 编排调用。</p><div class="os"><b>对齐 OS5：</b>AI 从"输入框交互"升级为"AI 主动推荐交互"（服务卡片 / 双击 AI 键协作）。</div></div>
-      <div class="dim b"><div class="tag">⇄ 维度二 · 跨端互联</div><h4>一份内容，随处记、随处调</h4><p>手机 / 手表 / 车机 / 耳机 / 平板，<b>哪个顺手用哪个</b>记；任意设备让小爱<b>调出内容、一句话操控</b>；内容多端一致、跨端接力，在每块屏之间自己跑。</p><div class="os"><b>对齐 OS5：</b>AI 强互联——多设备 AI 体验统一（唤醒 / 视觉 / 任务执行 / 数据调用）。</div></div>
+    <div class="hero">
+      <div class="lbl">定位</div>
+      <div class="big">笔记 = 你<em>主动沉淀</em>、看得见、改得动的<em>个人内容层</em>。你决定存什么；AI 帮你把它理好、随时找出来用，还会主动找你——内容越攒越多，越用越懂你。</div>
+    </div>
+
+    <div class="feats">
+      <div class="feat"><div class="ic">✦</div><h4>会主动<small>不只被动记录</small></h4><p>该看的内容<b>主动浮现</b>、到期<b>主动提醒</b>；笔记还能被小爱调用，回答、写作时引用你存过的内容——从"等你来翻"变成"主动帮你"。</p></div>
+      <div class="feat"><div class="ic">⇄</div><h4>跨端<small>一份内容，随处记随处调</small></h4><p>手机 / 手表 / 车机 / 耳机 / 平板，<b>哪个顺手用哪个</b>记；任意设备都能把内容<b>调出来用</b>；多端一份、跨端接力，在每块屏之间自己跑。</p></div>
     </div>
 
     <div class="two">
-      <div class="pos do"><div class="t">笔记做</div><p>用户<b>主动存的、看得见、改得动</b>的个人内容；把它<b>结构化、可检索、tools 化</b>，供主 Agent 调用、也能主动浮现。用户决定存什么，一键存、随时改。</p></div>
-      <div class="pos dont"><div class="t">笔记不做</div><p>不做隐式行为画像 / 黑盒系统记忆（主 Agent 系统侧负责）；<b>不默认全收</b>——口径是用户主动挑有价值的内容存进来。</p></div>
+      <div class="pos do"><span class="t">笔记做</span>用户<b>主动存的、看得见、改得动</b>的个人内容；把它结构化、可检索、能被调用，也会主动浮现。</div>
+      <div class="pos dont"><span class="t">笔记不做</span>不做隐式行为画像 / 后台黑盒记忆；<b>不默认全收</b>——用户主动挑有价值的内容存进来。</div>
     </div>
 
-    <div class="p" style="margin-top:20px;"><b>一条飞轮把它转起来</b>——后两环正是 Agentic 的落点（被调用 + 主动服务）：</div>
-    <div class="flowbar">
-      <div class="fb"><div class="s">01 写得出</div><h4>第一篇</h4><p>AI 帮你起手、写出来、改好</p></div>
-      <div class="fb"><div class="s">02 收得进</div><h4>有内容进来</h4><p>有价值的内容，一键沉淀进笔记</p></div>
-      <div class="fb"><div class="s">03 用得上</div><h4>被调用</h4><p>tools 化供主 Agent 引用来写新的</p><span class="pill">Agentic</span></div>
-      <div class="fb"><div class="s">04 自己长</div><h4>主动服务</h4><p>主动浮现、提醒，越用越懂你</p><span class="pill">Agentic</span></div>
+    <div class="flowwrap">
+      <div class="flowlbl">一条飞轮把它转起来 · <b>写得出 → 收得进 → 用得上 → 自己长</b></div>
+      <div class="flowbar">
+        <div class="fb"><div class="s">01 写得出</div><h4>第一篇</h4><p>AI 帮你起手、写出来、改好</p></div>
+        <div class="fb"><div class="s">02 收得进</div><h4>有内容进来</h4><p>有价值的内容一键沉淀进笔记</p></div>
+        <div class="fb on"><div class="s">03 用得上</div><h4>被调用</h4><p>能搜到、能被小爱引用来写新的</p></div>
+        <div class="fb on"><div class="s">04 自己长</div><h4>主动服务</h4><p>主动浮现、提醒，越用越懂你</p></div>
+      </div>
     </div>
-
-    <div class="callout blue" style="margin-top:20px;"><b>和主 Agent 的关系：小爱 / MiClaw 是主 Agent（对话、编排、办事），笔记是内容垂域 Agent + 个人内容层（沉淀、供给、主动浮现）。</b>内容存得越多，主 Agent 越懂你、办事越贴合——这正是 Agentic OS 里"内容"这一层不可替代的位置。</div>
   </div>
 
   <!-- 从定义到场景 -->
-  <div class="section">
-    <div class="sechead"><div class="secnum">01</div><div><div class="sectitle">从定义到场景 · 5 个闭环明星场景</div><div class="secsub">每个场景都跑通"采集 → AI 加工 → 沉淀进内容层 → 被主 Agent 调用 / 主动服务"，且跨端闭环</div></div></div>
+  <div class="section" data-toc="从定义到场景">
+    <div class="sechead"><div class="secnum">01</div><div><div class="sectitle">从定义到场景 · 5 个明星场景</div><div class="secsub">每个场景都跑通"随处记 → AI 理好 → 沉进内容层 → 用得上 / 主动服务"这条闭环</div></div></div>
     <div class="divider"></div>
-    <div class="callout">五个场景不是五个功能，而是<b>同一条飞轮在开会、上课、看病、出行、灵感五个场合的闭环显化</b>。每个都同时踩中 OS5 的两条主线：<b>Agentic 主动服务</b> + <b>跨端互联</b>；竞争力落在<b>系统级</b>（免唤醒 / AI 键 / 跨端接力）与<b>越用越懂你</b>（内容沉淀 + 主 Agent 调用），最终牵引 <b>NSS</b>。</div>
+    <div class="note" style="font-size:15px;padding:16px 20px;"><b>五个不是五个功能，而是同一条飞轮在五个场合的显化。</b>共同点：随处记（跨端）+ AI 主动理好、主动找你 + 内容沉淀下来越用越懂你。</div>
   </div>
 
   <!-- 场景 1 开会办公 -->
-  <div class="scene">
+  <div class="scene" data-toc="开会 · 散会即得">
     <div class="schead"><div class="scnum">01</div><div>
       <div class="sctitle">开会办公 · 散会即得</div>
       <div class="scsay">开完会最烦回工位再整理一遍——纪要、待办、给老板的汇报都得重弄。</div>
     </div></div>
     <div class="divider"></div>
     <div class="flow">
-      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>手机·桌上开录</span></div></div><div class="cap"><b>一键开录</b>：手机往桌上一放，免耳机、免唤醒</div></div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>桌上一放开录</span></div></div><div class="cap"><b>一键开录</b>：手机往桌上一放，免耳机、免唤醒</div></div>
       <div class="arrow">→</div>
       <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>自动纪要+待办</span></div></div><div class="cap"><b>散会自动出纪要+待办</b>：结论/分工/责任人/deadline</div></div>
       <div class="arrow">→</div>
@@ -187,15 +176,12 @@
       <div class="arrow">→</div>
       <div class="step"><span class="dtag b">车机</span><div class="stepbox"><div class="ph wide"><span class="lab"><b>占位</b>路上听要点</span></div></div><div class="cap"><b>路上听 AI 串好的要点</b>：开车不看屏</div></div>
     </div>
-    <div class="scfoot">
-      <div class="note comp"><b>竞争力：</b>要的不是"录音转文字"，是"散会活就办完了"；免唤醒 + 跨端接力，是一方系统才串得起来的连贯体验。</div>
-      <div class="note agx"><b>Agentic × 跨端：</b>主 Agent 主动把待办排进日程、路上主动播报要点；纪要一份，手机 / 手表 / 车机接力。</div>
-    </div>
+    <div class="scfoot"><div class="note"><b>价值：</b>要的不是"录音转文字"，是"散会活就办完了"——纪要一份，手机记录、手表提醒、车机播报，跨端接力。</div></div>
     <div class="tags"><span class="tag fly">飞轮 · 写得出 + 用得上</span><span class="tag warn">⚠ 边界：与生产力赛道对齐</span></div>
   </div>
 
   <!-- 场景 2 上课学习 -->
-  <div class="scene">
+  <div class="scene" data-toc="上课 · 看听练">
     <div class="schead"><div class="scnum">02</div><div>
       <div class="sctitle">上课学习 · 一份内容，看 / 听 / 练随场景切换</div>
       <div class="scsay">平板记的、路上想复习的、睡前想练的，是同一份东西，别让我来回倒腾。</div>
@@ -210,15 +196,12 @@
       <div class="arrow">→</div>
       <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>睡前做题</span></div></div><div class="cap"><b>AI 出几道题</b>：睡前当场练，知识点不丢</div></div>
     </div>
-    <div class="scfoot">
-      <div class="note comp"><b>竞争力：</b>一份课堂内容在多屏之间"自己变形"，看听练不断档；生成物消费（大纲/播客/题目）是内容攒下来后独有的下游价值。</div>
-      <div class="note agx"><b>Agentic × 跨端：</b>主 Agent 主动把内容转成大纲 / 播客 / 题目；平板 / 手机 / 耳机同一份内容随场景切形态。</div>
-    </div>
+    <div class="scfoot"><div class="note"><b>价值：</b>一份课堂内容在多屏之间"自己变形"，看听练不断档；大纲 / 播客 / 题目是内容攒下来后的下游价值。</div></div>
     <div class="tags"><span class="tag fly">飞轮 · 用得上 + 自己长</span></div>
   </div>
 
   <!-- 场景 3 看病陪诊 -->
-  <div class="scene">
+  <div class="scene" data-toc="看病 · 健康档案">
     <div class="schead"><div class="scnum">03</div><div>
       <div class="sctitle">看病陪诊 · 个人健康档案</div>
       <div class="scsay">医生说得太快、报告一堆记不住，下次复诊翻半天找不着上次的。</div>
@@ -233,38 +216,32 @@
       <div class="arrow">→</div>
       <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>复诊一键调出</span></div></div><div class="cap"><b>复诊一句话调出上次记录</b>：给医生看，接得上</div></div>
     </div>
-    <div class="scfoot">
-      <div class="note comp"><b>竞争力：</b>把零散就诊变成一条连续、可被主 Agent 调用的<b>个人健康档案</b>——越积累越贴合、越难替代，这是长期价值。</div>
-      <div class="note agx"><b>Agentic × 跨端：</b>主 Agent 主动做吃药 / 复诊提醒、复诊时主动调出上次记录；手机采集、手表提醒、可对接健康 Agent。</div>
-    </div>
-    <div class="tags"><span class="tag fly">飞轮 · 收得进 + 自己长</span><span class="tag warn">⚠ 边界：与运动健康·体检档案 / 健康 Agent 对齐</span></div>
+    <div class="scfoot"><div class="note"><b>价值：</b>把零散就诊变成一条连续、随时能调出来的<b>个人健康档案</b>——越积累越贴合、越难替代。</div></div>
+    <div class="tags"><span class="tag fly">飞轮 · 收得进 + 自己长</span><span class="tag warn">⚠ 边界：与运动健康·体检档案对齐</span></div>
   </div>
 
   <!-- 场景 4 出行旅游 -->
-  <div class="scene">
+  <div class="scene" data-toc="出行 · 攻略笔记">
     <div class="schead"><div class="scnum">04</div><div>
-      <div class="sctitle">出行旅游 · 玩回到家，游记已经写好</div>
-      <div class="scsay">出去玩还得抽时间记录，照片一堆懒得整理，回来游记永远没写成。</div>
+      <div class="sctitle">出行旅游 · 出发前汇入各处信息，玩完就是一份完整攻略笔记</div>
+      <div class="scsay">攻略散在小红书、群聊、订单、地图收藏里，玩完还得自己整理成能用能分享的一份。</div>
     </div></div>
     <div class="divider"></div>
     <div class="flow">
-      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>攻略→行程单</span></div></div><div class="cap"><b>攻略/机酒一键变行程单</b>：出发前就理好</div></div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>各来源一键收</span></div></div><div class="cap"><b>出发前各处信息汇入</b>：小红书种草 / 机酒订单 / 地图收藏 / 群里攻略，一键收进同一篇</div></div>
       <div class="arrow">→</div>
-      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>随手拍随手记</span></div></div><div class="cap"><b>玩当中随手拍随手记</b>：照片、定位、感受都收</div></div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>AI 汇成攻略笔记</span></div></div><div class="cap"><b>AI 汇成一份攻略笔记</b>：行程单 + 必去 + 必带 + 预算，出发前就成型</div></div>
       <div class="arrow">→</div>
-      <div class="step"><span class="dtag b">手表</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>一句话记感受</span></div></div><div class="cap"><b>手表一句话记下当下感受</b>：不打断玩</div></div>
+      <div class="step"><span class="dtag b">多端</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>玩当中随手补</span></div></div><div class="cap"><b>玩当中随手补进同一篇</b>：新发现、照片、花费自动归位</div></div>
       <div class="arrow">→</div>
-      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>一键成游记</span></div></div><div class="cap"><b>回家一键成游记</b>：碎片自动拼成一篇</div></div>
+      <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>完整攻略笔记</span></div></div><div class="cap"><b>玩完即成一份完整攻略笔记</b>：可复用、可分享，不用再回头整理</div></div>
     </div>
-    <div class="scfoot">
-      <div class="note comp"><b>竞争力：</b>记录不再占用玩的时间，回家即得；把碎片攒成一篇内容是"内容生产"能力，不只是相册。</div>
-      <div class="note agx"><b>Agentic × 跨端：</b>主 Agent 主动把碎片按时间地点聚合成篇；手机拍记 + 手表随口记，跨端汇进同一篇。</div>
-    </div>
+    <div class="scfoot"><div class="note"><b>价值：</b>把散在各处的攻略信息<b>汇成结构化的一份</b>，边玩边补——出发前有攻略、玩完即成一份完整可分享的攻略笔记，全程不用手动整理。</div></div>
     <div class="tags"><span class="tag fly">飞轮 · 收得进 + 用得上</span><span class="tag warn">⚠ 边界：与日程出行 / 影像对齐</span></div>
   </div>
 
   <!-- 场景 5 随身灵感 -->
-  <div class="scene">
+  <div class="scene" data-toc="灵感 · 攒成初稿">
     <div class="schead"><div class="scnum">05</div><div>
       <div class="sctitle">随身灵感 · 好点子再也不丢</div>
       <div class="scsay">灵感总在开车、跑步、走路这种手不方便的时候冒出来，等能记下来早忘了。</div>
@@ -279,43 +256,43 @@
       <div class="arrow">→</div>
       <div class="step"><span class="dtag">手机</span><div class="stepbox"><div class="ph phone"><span class="lab"><b>占位</b>攒成初稿</span></div></div><div class="cap"><b>零散想法攒成一篇初稿</b>：AI 起手、续写、引用你的旧内容</div></div>
     </div>
-    <div class="scfoot">
-      <div class="note comp"><b>竞争力：</b>把"想到"和"写成"之间的断点补上——哪块设备顺手用哪块，随口进同一处；用你自己的积累帮你产，越写越像你。</div>
-      <div class="note agx"><b>Agentic × 跨端：</b>车机 / 手表 / 耳机全端语音入口汇进同一处，主 Agent 主动把碎片攒成初稿并引用旧内容。</div>
-    </div>
+    <div class="scfoot"><div class="note"><b>价值：</b>把"想到"和"写成"之间的断点补上——哪块设备顺手用哪块、随口进同一处，AI 用你自己的积累帮你产，越写越像你。</div></div>
     <div class="tags"><span class="tag fly">飞轮 · 写得出 + 用得上</span></div>
   </div>
 
   <!-- 收口 -->
-  <div class="section">
-    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">收口 · 一句话</div></div></div>
+  <div class="section" data-toc="一句话收口">
+    <div class="sechead"><div class="secnum">06</div><div><div class="sectitle">一句话收口</div></div></div>
     <div class="divider"></div>
-    <div class="callout big">定义先行：<b>在 Agentic OS 里，笔记是主 Agent 可调用的个人内容层 + 内容垂域 Agent。</b>五个闭环明星场景，是这条定义在开会、上课、看病、出行、灵感里的显化——<b>随口记（跨端）→ AI 理好 → 沉进内容层 → 被主 Agent 调用 / 主动服务，越用越懂你，牵引 NSS。</b></div>
-    <div class="p g" style="margin-top:12px;">注：场景配图均为占位，选定头部明星场景后填入 Figma 稿 / 真机截图。三条赛道边界（会议↔生产力、健康↔运动健康 / 健康 Agent、出行↔日程 / 影像）建议与楠哥先对齐。</div>
+    <div class="hero" style="background:linear-gradient(120deg,#0e7a8f 0%,#2f6bff 100%);box-shadow:0 16px 40px rgba(47,107,255,.24);">
+      <div class="lbl" style="color:#cfe0ff;">收口</div>
+      <div class="big">定义先行：<em>笔记是你主动沉淀、越用越懂你的个人内容层</em>。五个明星场景，就是这条定义在开会、上课、看病、出行、灵感里的显化——随处记 → AI 理好 → 沉进内容层 → 用得上、主动找你。</div>
+    </div>
+    <p class="secsub" style="margin-top:14px;">注：场景配图均为占位，选定头部场景后填入 Figma 稿 / 真机截图。三条赛道边界（会议↔生产力、健康↔运动健康、出行↔日程 / 影像）建议先对齐。</p>
   </div>
 
-  <div class="footer">笔记 OS5 · 产品定义 → 明星场景（Agentic OS）｜ 内部讨论稿 · 2026-07</div>
+  <div class="footer">笔记 OS5 · 产品定义 → 明星场景｜ 内部讨论稿 · 2026-07</div>
 
 </div>
 <script>
 (function(){
   var secs=[].slice.call(document.querySelectorAll('.section,.scene'));
   var nav=document.createElement('nav'); nav.className='toc';
-  var html='<div class="tt">全文目录</div>';
   var items=[];
   secs.forEach(function(s){
     var isScene=s.classList.contains('scene');
-    var numEl=s.querySelector('.secnum,.scnum'), titEl=s.querySelector('.sectitle,.sctitle');
-    if(!numEl||!titEl) return;
-    var num=numEl.textContent.trim(), tit=titEl.textContent.trim();
+    var numEl=s.querySelector('.secnum,.scnum');
+    if(!numEl) return;
+    var num=numEl.textContent.trim();
+    var label=s.getAttribute('data-toc') || (s.querySelector('.sectitle,.sctitle')||{}).textContent.trim();
     var id=(isScene?'sc':'sec')+num; s.id=id;
-    items.push({id:id,num:num,tit:tit,scene:isScene,el:s});
+    items.push({id:id,num:num,label:label,scene:isScene,el:s});
   });
-  var lastGrp='';
+  var html='<div class="tt">全文目录</div>', lastGrp='';
   items.forEach(function(it){
     var grp=it.scene?'明星场景':'产品定义';
     if(grp!==lastGrp){ html+='<div class="grp">'+grp+'</div>'; lastGrp=grp; }
-    html+='<a href="#'+it.id+'" data-id="'+it.id+'"><span class="n">'+it.num+'</span><span class="t">'+it.tit+'</span></a>';
+    html+='<a href="#'+it.id+'" data-id="'+it.id+'"><span class="n">'+it.num+'</span><span class="t">'+it.label+'</span></a>';
   });
   nav.innerHTML=html; document.body.appendChild(nav);
   var links=[].slice.call(nav.querySelectorAll('a'));
