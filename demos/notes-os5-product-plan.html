@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记 · OS5 产品规划</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --ink:#17181c; --sub:#5f6672; --faint:#9aa0aa; --line:#ededef;
+    --bg:#ffffff; --soft:#fafafa;
+    --ac:#0f7a56; --ac-soft:#eef7f2; --ac-line:#d3e9df;
+  }
+  html{scroll-behavior:smooth;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.75; -webkit-font-smoothing:antialiased;
+    font-size:15px;}
+  .wrap{max-width:840px; margin:0 auto; padding:0 28px;}
+
+  /* hero — 纯白、克制、大留白 */
+  .hero{padding:96px 28px 64px; max-width:840px; margin:0 auto;}
+  .hero .kicker{font-size:12px; letter-spacing:.22em; color:var(--ac); font-weight:700; margin-bottom:22px;}
+  .hero h1{font-size:44px; font-weight:850; letter-spacing:-.02em; line-height:1.2; margin-bottom:28px;}
+  .hero h1 .g{color:var(--ac);}
+  .hero .lead{font-size:16.5px; line-height:1.95; color:var(--sub); max-width:720px;}
+  .hero .lead b{color:var(--ink); font-weight:650;}
+  .hr{height:1px; background:var(--line); max-width:784px; margin:0 auto;}
+
+  section{padding:60px 0 0;}
+  .sec-head{display:flex; align-items:baseline; gap:12px; margin-bottom:26px;}
+  .sec-head .lab{font-size:12px; font-weight:800; letter-spacing:.14em; color:var(--ac);}
+  .sec-head h2{font-size:26px; font-weight:800; letter-spacing:-.01em;}
+  .sec-head .en{font-size:13px; color:var(--faint); font-weight:500;}
+
+  .card{background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:24px 26px;}
+  .lead-line{color:var(--sub); font-size:15px;}
+  .lead-line b{color:var(--ink);}
+
+  /* A点 两栏 */
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:16px;}
+  .ct{font-size:13px; font-weight:800; letter-spacing:.02em; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--line);}
+  .did .ct{color:var(--ac);}
+  .gap .ct{color:var(--sub);}
+  .li{display:flex; gap:12px; padding:9px 0; font-size:14px; color:var(--sub); line-height:1.65;}
+  .li .k{color:var(--ink); font-weight:700;}
+  .idx{flex:0 0 auto; width:20px; height:20px; border-radius:6px; font-size:11px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; margin-top:2px;}
+  .did .idx{background:var(--ac-soft); color:var(--ac);}
+  .gap .idx{background:#f0f1f3; color:var(--sub);}
+  .note{font-size:12.5px; color:var(--faint); margin-top:14px; text-align:center;}
+
+  /* 定位 */
+  .pos{border:1px solid var(--line); background:#fff; border-radius:16px; padding:48px 38px; text-align:center;}
+  .pos .eq{font-size:30px; font-weight:850; letter-spacing:-.02em; line-height:1.4; margin-bottom:18px;}
+  .pos .eq .g{color:var(--ac);}
+  .pos .desc{max-width:640px; margin:0 auto; color:var(--sub); font-size:15px; line-height:1.9;}
+  .why{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px; text-align:left;}
+  .why .w{background:var(--soft); border:1px solid var(--line); border-radius:12px; padding:18px 20px;}
+  .pos .eq{padding-bottom:20px; margin-bottom:20px; border-bottom:1px solid var(--line);}
+  .why .w b{display:block; margin-bottom:7px; font-size:14.5px; color:var(--ink); font-weight:750;}
+  .why .w span{color:var(--sub); font-size:13.5px; line-height:1.75;}
+  .trend{margin-top:18px; font-size:13px; color:var(--faint); text-align:center;}
+
+  /* 总览表 */
+  .ov{width:100%; border-collapse:collapse; margin:6px 0 34px; border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+  .ov th{background:var(--soft); color:var(--faint); font-size:12px; font-weight:800; letter-spacing:.08em;
+    text-transform:uppercase; padding:13px 18px; text-align:left; border-bottom:1px solid var(--line);}
+  .ov td{padding:15px 18px; font-size:14px; border-bottom:1px solid var(--line); vertical-align:top;}
+  .ov tr:last-child td{border-bottom:none;}
+  .ov .now{color:var(--faint);}
+  .ov .to{color:var(--ink); font-weight:750;}
+  .ov .to em{color:var(--ac); font-style:normal; font-weight:800; margin-right:4px;}
+  .ov .feel{color:var(--sub);}
+
+  /* 升级块 */
+  .up{display:grid; grid-template-columns:56px 1fr; gap:20px; padding:30px 0; border-top:1px solid var(--line);}
+  .up .no{font-size:34px; font-weight:850; color:var(--ac); letter-spacing:-.03em; line-height:1;}
+  .up .fromto{font-size:19px; font-weight:800; letter-spacing:-.01em; margin-bottom:16px; line-height:1.4;}
+  .up .fromto .from{color:var(--faint); font-weight:600;}
+  .up .fromto .arr{color:var(--ac); margin:0 9px; font-weight:700;}
+  .up .now{font-size:14px; color:var(--sub); margin-bottom:16px; padding-left:14px; border-left:2px solid var(--line);}
+  .up .now .t{color:var(--faint); font-weight:700; margin-right:6px;}
+  .do{list-style:none; margin-bottom:4px;}
+  .do li{position:relative; padding:7px 0 7px 20px; font-size:14.5px; color:var(--ink); line-height:1.6;}
+  .do li::before{content:""; position:absolute; left:2px; top:15px; width:6px; height:6px; border-radius:50%; background:var(--ac);}
+  .pr{display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.03em; padding:1px 6px; border-radius:4px; margin-left:7px; vertical-align:middle; border:1px solid;}
+  .p0{color:var(--ac); border-color:var(--ac-line); background:var(--ac-soft);}
+  .p1{color:var(--faint); border-color:var(--line); background:var(--soft);}
+  .eg{margin-top:16px; background:var(--soft); border-radius:10px; padding:14px 18px; font-size:13.5px; color:var(--sub); line-height:1.75;}
+  .eg b{color:var(--ac); font-weight:700;}
+
+  /* 次要 */
+  .grp{margin-top:16px;}
+  .grp .gt{font-size:14px; font-weight:750; margin-bottom:9px;}
+  .pill{display:inline-block; background:var(--soft); border:1px solid var(--line); color:var(--sub);
+    font-size:13px; padding:5px 13px; border-radius:8px; margin:0 7px 8px 0;}
+  .pad{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px;}
+  .pad .p{border:1px solid var(--line); border-radius:12px; padding:18px 20px; font-size:14px; color:var(--sub); line-height:1.7;}
+  .pad .p b{display:block; color:var(--ink); font-weight:750; margin-bottom:5px; font-size:14.5px;}
+
+  .foot{margin-top:70px; padding:28px 0 60px; border-top:1px solid var(--line); text-align:center; color:var(--faint); font-size:12.5px;}
+  @media(max-width:680px){
+    .hero{padding:60px 24px 44px;} .hero h1{font-size:30px;}
+    .two,.why,.pad{grid-template-columns:1fr;}
+    .pos .eq{font-size:22px;} .sec-head h2{font-size:21px;}
+    .up{grid-template-columns:1fr; gap:8px;} .up .no{font-size:26px;}
+  }
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="kicker">NOTES · OS5 PRODUCT PLAN</div>
+  <h1>笔记 · OS5 产品规划</h1>
+  <p class="lead">OS4 用 AI 把笔记重做了一遍，「能记、能生成、能问」都铺齐了，但这些能力还散在一篇篇笔记里、只能在你打开的那一篇里使。<br><br>OS5 就做一件事——<b>把笔记做成一个能被调起来干活的个人数据库</b>：有价值的内容存进来、理成一个库，一句话，agent 就能调起整个库替你找、替你写、替你办；而且这个库对 OS 开放，笔记自己的 agent 能调，小爱也能调。</p>
+</div>
+<div class="hr"></div>
+
+<div class="wrap">
+
+  <!-- A点 -->
+  <section>
+    <div class="sec-head"><span class="lab">A 点</span><h2>OS4 交付到哪了</h2><span class="en">现状</span></div>
+    <div class="card lead-line"><b>OS4 = 以语音速记为核心的 AI 笔记</b>——对用户就是「说话，AI 帮你写完、改好、记住」。</div>
+    <div class="two">
+      <div class="card did">
+        <div class="ct">做到了 · 单点能力基本铺齐</div>
+        <div class="li"><span class="idx">记</span><div><span class="k">能记</span>　语音速记、拍照取字、文档 / 链接导入，随手都能存进来</div></div>
+        <div class="li"><span class="idx">生</span><div><span class="k">能生成</span>　一段录音自动出纪要、待办，还能生成 PPT / 脑图 / 摘要</div></div>
+        <div class="li"><span class="idx">问</span><div><span class="k">能问</span>　在一篇笔记里问 AI，答案带出处，背后已建起索引 / 检索</div></div>
+      </div>
+      <div class="card gap">
+        <div class="ct">还差一步 · 都卡在"单篇、散着"</div>
+        <div class="li"><span class="idx">1</span><div><span class="k">没理成一个库</span>　一条条孤立笔记，AI 只认得标题摘要和几个固定标签</div></div>
+        <div class="li"><span class="idx">2</span><div><span class="k">只能在单篇里使</span>　只在你打开那篇里帮忙，跨笔记找、拼做不到</div></div>
+        <div class="li"><span class="idx">3</span><div><span class="k">锁在 App 里</span>　内容出不了笔记，小爱只能基础检索，别的应用用不上</div></div>
+      </div>
+    </div>
+    <div class="note">新版还没大规模外发，市场也还没验证</div>
+  </section>
+
+  <!-- 定位 -->
+  <section>
+    <div class="sec-head"><span class="lab">方向</span><h2>OS5 就做一件事</h2><span class="en">定位</span></div>
+    <div class="pos">
+      <div class="eq">笔记 = <span class="g">你自己的个人数据库</span></div>
+      <div class="desc">但不是存着就算了——有价值的内容存进来，它帮你理成一个能调用的库；<b style="color:var(--ink);">一句话，agent 就把整个库调起来替你找、替你写、替你办</b>；而且这个库对 OS 开放，笔记自己的 agent 能调，小爱、别的应用也能调。</div>
+      <div class="why">
+        <div class="w"><b>为什么是最顺的下一步</b><span>内容都收进来了、AI 能力也都有了，用户却还是"记完就扔、用得少"——就差把它们理成一个库、让 agent 能整个调起来用。不用另找新方向。</span></div>
+        <div class="w"><b>笔记就该这么长</b><span>笔记在系统里，能做成对 OS 开放、谁都能调的库——你存的内容不锁在这一个 App 里，小爱和别的应用要用，直接来调。</span></div>
+      </div>
+      <div class="trend">行业也在这么走：Notion、苹果都在把笔记从"单篇帮个忙"做成"对着你整个内容替你办事"</div>
+    </div>
+  </section>
+
+  <!-- 三升级 -->
+  <section>
+    <div class="sec-head"><span class="lab">怎么做</span><h2>补上 A 点差的三步</h2><span class="en">OS5 做什么</span></div>
+    <table class="ov">
+      <tr><th>现在 · OS4</th><th>OS5 补成</th><th>你能感觉到</th></tr>
+      <tr><td class="now">内容散在一条条孤立的笔记里</td><td class="to"><em>01</em>理成一个能调用的库</td><td class="feel">存哪都不散，自动归到一处</td></tr>
+      <tr><td class="now">AI 只能在你打开的单篇里使</td><td class="to"><em>02</em>agent 能对整个库调起来干活</td><td class="feel">一句话，从我所有笔记里找、拼、办</td></tr>
+      <tr><td class="now">内容锁在笔记 App 里</td><td class="to"><em>03</em>对 OS 开放、谁都能调</td><td class="feel">小爱、别的应用也用得上我的笔记</td></tr>
+    </table>
+
+    <div class="up">
+      <div class="no">01</div>
+      <div>
+        <div class="fromto"><span class="from">记完就散着</span><span class="arr">→</span>存进来就理成一个能调用的库</div>
+        <div class="now"><span class="t">现在</span>存进来是一条条孤立的笔记，AI 只认得标题摘要和几个固定标签，历史笔记、附件、图里的字都没建全索引，想精准找到、关联，力不从心。</div>
+        <ul class="do">
+          <li>存进来自动分类、该合并的合并、起好标题，不用你自己动手整理<span class="pr p0">P0</span></li>
+          <li>给全部内容都建上索引（历史笔记、附件、图片里的字、AI 生成物），从"只认一部分"到"全量、更准"<span class="pr p0">P0</span></li>
+          <li>笔记之间按人 / 项目 / 主题 / 时间线自动关联起来<span class="pr p1">P1</span></li>
+        </ul>
+        <div class="eg"><b>比如</b>　你陆陆续续存了报价单、装修群的聊天截图、几段灵感，它自动归到"装修"一处、关联起来，不用你自己建文件夹一条条拖。</div>
+      </div>
+    </div>
+
+    <div class="up">
+      <div class="no">02</div>
+      <div>
+        <div class="fromto"><span class="from">只能在单篇里使</span><span class="arr">→</span>agent 能对整个库调起来干活</div>
+        <div class="now"><span class="t">现在</span>AI 只在你打开的那一篇里帮忙——你得先想起来是哪篇、找到它、打开它，才能问、才能改。</div>
+        <ul class="do">
+          <li>首页问一句，从你所有笔记里找答案、带出处能点开核对<span class="pr p0">P0</span></li>
+          <li>把相关的好几篇拼成一份新的（比如几次会议记录合成一份完整汇报），改完还能存回原来那篇<span class="pr p0">P0</span></li>
+          <li>记、改、整理、管待办，一句话它就替你做<span class="pr p0">P0</span></li>
+        </ul>
+        <div class="eg"><b>比如</b>　一个项目开了一周会、你每次都记了，周五问一句"这项目这周定了哪几件事、谁负责"，它从这一周所有会议笔记里给你列出来——不用一篇篇翻。</div>
+      </div>
+    </div>
+
+    <div class="up">
+      <div class="no">03</div>
+      <div>
+        <div class="fromto"><span class="from">锁在 App 里</span><span class="arr">→</span>对 OS 开放、谁都能调</div>
+        <div class="now"><span class="t">现在</span>你存的内容锁在笔记 App 里，小爱只能做基础检索问答（一期），别的应用根本用不上。</div>
+        <ul class="do">
+          <li>把笔记的内容和能力开放出去，授权后小爱、别的应用都能调你的笔记帮你办事<span class="pr p0">P0</span></li>
+          <li>全程你说了算：哪些能被调、看得见、可关、可撤回<span class="pr p1">P1</span></li>
+        </ul>
+        <div class="eg"><b>比如</b>　你问小爱"我上次体检血糖多少"，它直接从你存进笔记的体检报告里答你，不用你自己打开笔记翻。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 基础体验 -->
+  <section>
+    <div class="sec-head"><span class="lab">配套</span><h2>基础体验</h2><span class="en">跟大盘专项走</span></div>
+    <div class="card">
+      <div class="lead-line" style="margin-bottom:16px;">基础体验、易用性也要做，但跟着大盘的专项一起推进，不占笔记这一版的主攻。</div>
+      <div class="grp"><div class="gt">基础体验</div>
+        <span class="pill">记的东西不丢不崩</span><span class="pill">字改得动</span><span class="pill">用着顺</span></div>
+      <div class="grp"><div class="gt">易用性高频糙点</div>
+        <span class="pill">随手记更准</span><span class="pill">图片多选</span><span class="pill">待办排序 / 分类</span><span class="pill">局部改字体颜色 / 插表格</span></div>
+    </div>
+  </section>
+
+  <!-- PAD -->
+  <section>
+    <div class="sec-head"><span class="lab">另一条</span><h2>PAD</h2><span class="en">大屏手写学习办公</span></div>
+    <div class="card">
+      <div class="lead-line" style="margin-bottom:16px;">PAD 跟手机是两个方向：手机做"能被调起来干活的数据库"，PAD 做<b>大屏上的手写学习与办公闭环</b>。最重要两件：</div>
+      <div class="pad">
+        <div class="p"><b>① 手写体验对标一流</b>识别 / 笔刷 / 翻页，对标 GoodNotes</div>
+        <div class="p"><b>② 边写边录、课后成成品</b>上课手写和录音对齐，课后 AI 理成大纲 / 考点 / 卡片</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">笔记 · OS5 产品规划　|　2026-07</div>
+</div>
+</body>
+</html>
