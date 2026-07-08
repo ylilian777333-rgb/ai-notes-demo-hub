@@ -72,22 +72,19 @@
   .note{font-size:12.5px; color:var(--faint); margin-top:16px; text-align:center;}
 
   /* 定位 */
-  .pos{border:1px solid var(--ac-line); background:linear-gradient(180deg,var(--ac-soft),#fff 70%); border-radius:20px; padding:40px 44px; text-align:center;}
-  .pos .eq{font-size:32px; font-weight:850; letter-spacing:-.025em; line-height:1.35; padding-bottom:20px; margin-bottom:20px; border-bottom:1px solid var(--ac-line);}
+  .pos{border:1px solid var(--line); background:var(--soft); border-radius:16px; padding:32px 44px; text-align:center;}
+  .pos .eq{font-size:29px; font-weight:850; letter-spacing:-.025em; line-height:1.35; padding-bottom:16px; margin-bottom:16px; border-bottom:1px solid var(--line);}
   .pos .eq .g{color:var(--ac);}
-  .pos .desc{max-width:600px; margin:0 auto; color:var(--sub); font-size:15.5px; line-height:1.9; text-wrap:balance;}
+  .pos .desc{max-width:600px; margin:0 auto; color:var(--sub); font-size:15px; line-height:1.9; text-wrap:balance;}
   .pos .desc b{color:var(--ink); font-weight:750;}
 
-  /* 为什么最重要 —— 核心结论：白底 + 绿左条，跟定位绿盒区分开 */
-  .keystone{margin-top:18px; background:#fff; border:1px solid var(--line); border-left:4px solid var(--ac); border-radius:4px 14px 14px 4px; padding:26px 30px;}
-  .keystone .kl{font-size:12px; font-weight:800; letter-spacing:.14em; color:var(--ac); margin-bottom:14px;}
-  .keystone .p{color:var(--sub); font-size:15px; line-height:1.9; text-wrap:pretty;}
-  .keystone .p b{color:var(--ink); font-weight:750;}
-  .keystone .q{margin-top:14px; font-size:19px; font-weight:850; color:var(--ac2); letter-spacing:-.01em; line-height:1.55; text-wrap:balance;}
-
-  /* 两个理由 */
-  .reasons{margin-top:26px;}
-  .rlabel{font-size:12px; font-weight:800; letter-spacing:.12em; color:var(--faint); margin-bottom:14px;}
+  /* 定位下面：统一的"小标签 + 卡片"节奏，最重要 / 三个理由 共用 */
+  .reasons{margin-top:24px;}
+  .rlabel{font-size:12px; font-weight:800; letter-spacing:.12em; color:var(--faint); margin-bottom:13px;}
+  .keycard{background:var(--soft); border:1px solid var(--line); border-radius:14px; padding:20px 24px;}
+  .keycard p{color:var(--sub); font-size:14.5px; line-height:1.85; text-wrap:pretty;}
+  .keycard p b{color:var(--ink); font-weight:750;}
+  .keycard .q{margin-top:12px; font-size:16.5px; font-weight:850; color:var(--ac2); letter-spacing:-.01em; line-height:1.55; text-wrap:balance;}
   .why{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;}
   .why .w{background:var(--soft); border:1px solid var(--line); border-radius:14px; padding:20px 22px;}
   .why .w b{display:block; margin-bottom:8px; font-size:14.5px; color:var(--ink); font-weight:800;}
@@ -210,10 +207,12 @@
       </div>
 
       <!-- 2 为什么这是最重要的事（核心结论） -->
-      <div class="keystone">
-        <div class="kl">为什么这是 OS5 最重要的事</div>
-        <div class="p">OS4 让内容记得进来、AI 也能处理单篇；但内容要是<b>找不到、用不上</b>，用户就不会一直用笔记。</div>
-        <div class="q">让用户相信"存进笔记，以后一定用得上"，他才会持续把重要的东西交给笔记。</div>
+      <div class="reasons">
+        <div class="rlabel">为什么这是 OS5 最重要的事</div>
+        <div class="keycard">
+          <p>OS4 让内容记得进来、AI 也能处理单篇；但内容要是<b>找不到、用不上</b>，用户就不会一直用笔记。</p>
+          <p class="q">让用户相信"存进笔记，以后一定用得上"，他才会持续把重要的东西交给笔记。</p>
+        </div>
       </div>
 
       <!-- 3 三个理由 -->
