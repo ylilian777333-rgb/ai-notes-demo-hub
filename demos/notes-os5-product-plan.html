@@ -83,6 +83,12 @@
   .why .w span{color:var(--sub); font-size:13.5px; line-height:1.78;}
   .trend{margin-top:20px; font-size:13px; color:var(--faint); text-align:center;}
 
+  /* 为什么最重要 */
+  .keystone{margin-top:22px; border:1px solid var(--ac-line); background:var(--ac-soft); border-radius:18px; padding:30px 34px;}
+  .keystone .p{color:var(--sub); font-size:15.5px; line-height:1.92;}
+  .keystone .p b{color:var(--ink); font-weight:750;}
+  .keystone .q{margin-top:16px; padding-top:16px; border-top:1px solid var(--ac-line); font-size:19px; font-weight:850; color:var(--ac2); letter-spacing:-.01em; line-height:1.55;}
+
   /* 总览表 */
   .ov{width:100%; border-collapse:separate; border-spacing:0; margin:4px 0 40px; border:1px solid var(--line); border-radius:14px; overflow:hidden;}
   .ov th{background:var(--soft); color:var(--faint); font-size:11.5px; font-weight:800; letter-spacing:.06em;
@@ -150,7 +156,7 @@
     <ul class="toc" id="toc">
       <li><a href="#a-point"><span class="n">01</span>OS4 交付到哪了</a></li>
       <li><a href="#direction"><span class="n">02</span>OS5 就做一件事</a></li>
-      <li><a href="#how"><span class="n">03</span>补上差的三步</a></li>
+      <li><a href="#how"><span class="n">03</span>串成完整体验</a></li>
       <li><a href="#basic"><span class="n">04</span>基础体验</a></li>
       <li><a href="#pad"><span class="n">05</span>PAD</a></li>
     </ul>
@@ -164,7 +170,7 @@
     <div class="hero" id="top">
       <div class="kicker">NOTES · OS5 PRODUCT PLAN</div>
       <h1>笔记 · OS5 产品规划</h1>
-      <p class="lead">OS4 用 AI 把笔记重做了一遍，「能记、能生成、能问」都铺齐了，但这些能力还散在一篇篇笔记里、只能在你打开的那一篇里使。<br><br>OS5 就做一件事——<span class="hl">把笔记做成一个能被调起来干活的个人数据库</span>：有价值的内容存进来、理成一个库，一句话，agent 就帮你从整个库里找、写、办；也能跟系统里的小爱、别的应用打通，你在别处也用得上自己存的内容。</p>
+      <p class="lead">OS4 用 AI 把笔记重做了一遍，「能记、能生成、能问」都铺齐了，但这些能力还散在一篇篇笔记里、只能在你打开的那一篇里使。<br><br>OS5 就做一件事——<span class="hl">把你觉得有价值的内容，做成一个能被调起来干活的个人数据库</span>：存进来、理成一个能查能调用的库，一句话，agent 就帮你从整个库里找、写、办；系统里的其他能力，也能在授权下用上你存的内容。</p>
     </div>
 
     <!-- A点 -->
@@ -182,7 +188,7 @@
           <div class="ct"><span class="dot"></span>还差一步 · 都卡在"单篇、散着"</div>
           <div class="li"><span class="idx">1</span><div><span class="k">没理成一个库</span>　一条条孤立笔记，AI 只认得标题摘要和几个固定标签</div></div>
           <div class="li"><span class="idx">2</span><div><span class="k">只能在单篇里使</span>　只在你打开那篇里帮忙，跨笔记找、拼做不到</div></div>
-          <div class="li"><span class="idx">3</span><div><span class="k">锁在 App 里</span>　内容出不了笔记，小爱只能基础检索，别的应用用不上</div></div>
+          <div class="li"><span class="idx">3</span><div><span class="k">只在笔记里用得上</span>　存的内容出不了笔记，系统里其他能力还用不上</div></div>
         </div>
       </div>
       <div class="note">新版还没大规模外发，市场也还没验证</div>
@@ -193,23 +199,28 @@
       <div class="sec-head"><span class="lab">方向</span><h2>OS5 就做一件事</h2><span class="en">定位</span></div>
       <div class="pos">
         <div class="eq">笔记 = <span class="g">你自己的个人数据库</span></div>
-        <div class="desc">不只是存进去堆着：有价值的内容存进来，它帮你理成一个能调用的库；<b>一句话，agent 就帮你从整个库里找、写、办</b>；也跟系统里的小爱、别的应用打通，你在别处也用得上自己存的内容。</div>
+        <div class="desc">不是存着堆着就完了——把你觉得<b>有价值的内容</b>长期管好，理成一个能查、能调用的库，让它以后<b>找得到、用得上、还能在授权下被系统调用</b>。一句话，agent 就帮你从整个库里找、写、办；系统里的其他能力，也能在授权下用上你存的内容。</div>
         <div class="why">
           <div class="w"><b>为什么现在做</b><span>用户记了不少，可记完就扔、要用时找不到、也用不上。内容和 AI 能力现在都有了，把它们理顺、能调起来，用户存的东西才用得上——是把已经做的往前接一步，不是推倒重来。</span></div>
-          <div class="w"><b>为什么笔记来做</b><span>笔记不封闭在自己 App 里，能跟系统里的小爱、别的应用打通，用户在别处也用得上自己存的内容。存得越多，能帮上的场合越多。</span></div>
+          <div class="w"><b>为什么笔记来做</b><span>笔记不封闭在自己 App 里，能跟系统里的其他能力打通，用户在别处也用得上自己存的内容。存得越多，能帮上的场合越多。</span></div>
         </div>
         <div class="trend">行业也在这么走：Notion、苹果都在把笔记从"单篇帮个忙"做成"对着你整个内容替你办事"</div>
+      </div>
+
+      <div class="keystone">
+        <div class="p">OS4 已经让用户更容易把内容记进来，也让 AI 能处理好单篇内容。下一步真正关键的，是让这些内容不白记——以后<b>找得到、串得起来、用得上</b>。</div>
+        <div class="q">用户只有相信"存进笔记，以后一定用得上"，才会持续把重要的东西交给笔记。这就是 OS5 最重要的事。</div>
       </div>
     </section>
 
     <!-- 三升级 -->
     <section id="how">
-      <div class="sec-head"><span class="lab">怎么做</span><h2>补上 A 点差的三步</h2><span class="en">OS5 做什么</span></div>
+      <div class="sec-head"><span class="lab">怎么做</span><h2>把 OS4 的单点能力串成完整体验</h2><span class="en">OS5 做什么</span></div>
       <table class="ov">
-        <tr><th>现在 · OS4</th><th>OS5 补成</th><th>用户感知</th></tr>
-        <tr><td class="now">内容散在一条条孤立的笔记里</td><td class="to"><em>1</em>理成一个能调用的库</td><td class="feel">"我随手存，不用自己建文件夹归类，<b>找的时候它都能翻出来</b>。"</td></tr>
-        <tr><td class="now">AI 只能在你打开的单篇里使</td><td class="to"><em>2</em>agent 能对整个库调起来干活</td><td class="feel">"我不用记在哪篇，<b>问一句就从我所有笔记里找出来、拼给我</b>。"</td></tr>
-        <tr><td class="now">内容锁在笔记 App 里</td><td class="to"><em>3</em>跟小爱、别的应用打通</td><td class="feel">"我问小爱，<b>它直接用上我笔记里的东西</b>，不用自己打开翻。"</td></tr>
+        <tr><th>OS4 单点能力</th><th>OS5 串成</th><th>用户感知</th></tr>
+        <tr><td class="now">内容散在一篇篇笔记里</td><td class="to"><em>1</em>理成一个能调用的库</td><td class="feel">"我随手存，不用自己归类，<b>要用时都能翻出来</b>。"</td></tr>
+        <tr><td class="now">AI 只在单篇里帮忙</td><td class="to"><em>2</em>agent 对整个库找、拼、办</td><td class="feel">"我不用记在哪篇，<b>问一句就从所有笔记里找出来、拼给我</b>。"</td></tr>
+        <tr><td class="now">内容只在笔记里用得上</td><td class="to"><em>3</em>跟系统其他能力打通</td><td class="feel">"我在别处问，<b>也能用上笔记里存的东西</b>，不用自己打开翻。"</td></tr>
       </table>
 
       <div class="up">
@@ -243,10 +254,10 @@
       <div class="up">
         <div class="no">03</div>
         <div>
-          <div class="fromto"><span class="from">锁在 App 里</span><span class="arr">→</span>跟系统里其他地方打通</div>
-          <div class="now"><span class="t">现在</span>你存的内容基本只在笔记 App 里用，小爱只能做基础检索问答（一期），别的应用用不上。</div>
+          <div class="fromto"><span class="from">只在笔记里用得上</span><span class="arr">→</span>跟系统里其他能力打通</div>
+          <div class="now"><span class="t">现在</span>你存的内容基本只在笔记里用，系统里其他能力还用不上（今年只做到最基础的检索问答）。</div>
           <ul class="do">
-            <li>授权后，小爱、别的应用能跟笔记打通，用上你存的内容帮你办事<span class="pr p0">P0</span></li>
+            <li>授权后，系统里其他能力能跟笔记打通，用上你存的内容帮你办事<span class="pr p0">P0</span></li>
             <li>全程你说了算：哪些能被调、看得见、可关、可撤回<span class="pr p1">P1</span></li>
           </ul>
           <div class="eg"><b>比如</b>　你问小爱"我上次体检血糖多少"，它直接从你存进笔记的体检报告里答你，不用你自己打开笔记翻。</div>
