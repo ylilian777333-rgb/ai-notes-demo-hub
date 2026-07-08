@@ -72,11 +72,10 @@
   .note{font-size:12.5px; color:var(--faint); margin-top:16px; text-align:center;}
 
   /* 定位 */
-  .pos{padding:12px 0 8px; text-align:center;}
-  .pos .eq{font-size:28px; font-weight:850; letter-spacing:-.025em; line-height:1.35;}
+  .pos{background:var(--ac-soft); border:1px solid var(--ac-line); border-radius:16px; padding:28px 40px; text-align:center;}
+  .pos .eq{font-size:27px; font-weight:850; letter-spacing:-.025em; line-height:1.35; margin-bottom:12px;}
   .pos .eq .g{color:var(--ac);}
-  .pos .eq::after{content:""; display:block; width:38px; height:3px; background:var(--ac); border-radius:3px; margin:15px auto 0; opacity:.85;}
-  .pos .desc{max-width:680px; margin:15px auto 0; color:var(--sub); font-size:14.5px; line-height:1.75; text-wrap:balance;}
+  .pos .desc{max-width:700px; margin:0 auto; color:var(--sub); font-size:14.5px; line-height:1.75; text-wrap:balance;}
   .pos .desc b{color:var(--ink); font-weight:750;}
 
   /* 定位下面：统一的"小标签 + 卡片"节奏，最重要 / 三个理由 共用 */
@@ -143,7 +142,7 @@
     .inner{padding:0 24px;}
     .hero{padding:52px 0 40px;} .hero h1{font-size:32px;}
     .two,.why,.pad{grid-template-columns:1fr;}
-    .pos{padding:2px 0;} .pos .eq{font-size:22px;} .sec-head h2{font-size:22px;}
+    .pos{padding:24px 22px;} .pos .eq{font-size:22px;} .sec-head h2{font-size:22px;}
     .up{grid-template-columns:1fr; gap:10px;} .up .no{font-size:30px;} .up .no::after{display:none;}
     .ov .now,.ov .to{width:auto;}
   }
