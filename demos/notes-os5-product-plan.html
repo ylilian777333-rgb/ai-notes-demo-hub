@@ -85,6 +85,15 @@
   .keycard p{color:var(--sub); font-size:14.5px; line-height:1.85; text-wrap:pretty;}
   .keycard p b{color:var(--ink); font-weight:750;}
   .keycard .q{margin-top:12px; font-size:16.5px; font-weight:850; color:var(--ac2); letter-spacing:-.01em; line-height:1.55; text-wrap:balance;}
+  /* Why 三层 */
+  .whyflow{display:flex; flex-direction:column; gap:12px; margin-top:14px;}
+  .wl{background:var(--soft); border:1px solid var(--line); border-left:3px solid var(--ac-line); border-radius:0 12px 12px 0; padding:16px 20px;}
+  .wl .h{font-size:14.5px; font-weight:850; color:var(--ink); margin-bottom:6px;}
+  .wl .b{font-size:14px; color:var(--sub); line-height:1.78; text-wrap:pretty;}
+  .wl .b em{color:var(--ac2); font-style:normal; font-weight:750;}
+  .whyend{margin-top:14px; background:var(--ac-soft); border:1px solid var(--ac-line); border-radius:12px; padding:18px 22px; font-size:14.5px; color:var(--ink); line-height:1.75;}
+  .whyend b{color:var(--ac2); font-weight:850;}
+  .whyend .note{display:block; margin-top:8px; font-size:12.5px; color:var(--faint); line-height:1.6;}
   .why{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;}
   .why .w{background:var(--soft); border:1px solid var(--line); border-radius:14px; padding:20px 22px;}
   .why .w b{display:block; margin-bottom:8px; font-size:14.5px; color:var(--ink); font-weight:800;}
@@ -205,23 +214,28 @@
         <div class="desc">你觉得<b>有价值的内容</b>，存进来不会散、不会丢；以后要<b>找、要写、要整理</b>，都还能用得上。</div>
       </div>
 
-      <!-- 2 为什么这是最重要的事（核心结论） -->
+      <!-- 为什么走这条路（Why） -->
       <div class="reasons">
-        <div class="rlabel">为什么这是 OS5 最重要的事</div>
+        <div class="rlabel">为什么走"个人内容库"这条路</div>
         <div class="keycard">
-          <p>OS4 让内容记得进来、AI 也能处理单篇；但内容要是<b>找不到、用不上</b>，用户就不会一直用笔记。</p>
-          <p class="q">让用户相信"存进笔记，以后一定用得上"，他才会持续把重要的东西交给笔记。</p>
+          <p>用户记东西，要的不是"记下来"，是"以后用得上"；再深一层——他连自己翻都嫌烦，张嘴就想要结果。</p>
+          <p class="q">OS5 就干一件事：让你存进笔记的东西，自己用得上，也能在你需要时被直接调出来用。</p>
         </div>
-      </div>
-
-      <!-- 3 三个理由 -->
-      <div class="reasons">
-        <div class="rlabel">为什么是这个方向 · 三个理由</div>
-        <div class="why">
-          <div class="w"><b>① 时机对：能力已就位</b><span>入口、内容、AI 处理、检索，OS4 都已跑通——OS5 只需把它们汇成个人内容库，顺势往前一步，不重复建设。</span></div>
-          <div class="w"><b>② 位置对：笔记在系统里</b><span>笔记长在系统里，装的又是用户亲手认可、愿意长期留的内容——要做"长期沉淀"这件事，这个位置最合适。</span></div>
-          <div class="w"><b>③ 趋势对：行业方向一致</b><span>类似趋势在 Notion、苹果等产品上也能看到——笔记正从"单篇编辑"，变成长期内容的管理和使用入口。</span></div>
+        <div class="whyflow">
+          <div class="wl">
+            <div class="h">浅一层：记了的东西，以后要用得上</div>
+            <div class="b">记会议为了以后交周报、回顾当时定了什么；拍化验单为了复诊给医生看。可 OS4 让"记"变容易了、"用"没跟上——五篇会议记录，周五写周报宁可重写也懒得翻；化验单在一堆照片里找不出来。<em>→ 让存进来的自己理好、找得到、能拼成一份新的、围绕一件事看全（①②③）。</em></div>
+          </div>
+          <div class="wl">
+            <div class="h">深一层：用户连自己动手都嫌烦，要的是结果</div>
+            <div class="b">更多时候用户手腾不开、也不会专门打开笔记翻：做饭照着你存的菜谱，手上全是油，喊一句"下一步是啥"，比擦手翻手机现实得多；开车想起个事，也只能嘴说。这时候要的是"张嘴一说、东西就来"。<em>→ 内容得能被小爱、被系统在那个当口直接调出来用（④）。</em></div>
+          </div>
+          <div class="wl">
+            <div class="h">市场趋势：能"调用你的内容替你办"才是方向</div>
+            <div class="b">帮你总结、改写现在谁都能做；下一步大家抢的，是接入你的个人数据、直接给结果——Notion、苹果、微软都在这么走。而用户愿意主动、认真沉淀个人内容的，正是笔记。</div>
+          </div>
         </div>
+        <div class="whyend">存进来是你认过、有价值的内容；理得好、你自己调得动、系统也调得动——<b>让你"用得上"，也让你"张嘴要结果"</b>。走这条路，是用户需求和行业方向一起指向的结果。<span class="note">能力上也做得动：OS4 已把记录、单篇 AI、检索、小爱接入都铺好，做库是把这些接起来，不是从零起。</span></div>
       </div>
     </section>
 
@@ -286,7 +300,7 @@
             <li>系统其他场景需要时，能用上你笔记里的内容，帮你找、写、整理、提醒<span class="pr p0">P0</span></li>
             <li>哪些内容能被用，你自己说了算，随时可关、可撤回<span class="pr p1">P1</span></li>
           </ul>
-          <div class="eg"><b>比如</b>　出去玩前你在笔记里整理了攻略——想去的景点、想吃的店。到了当地让小爱安排今天怎么走，它直接照你攻略排好路线、订上餐位，不用你再挑一遍——你存的攻略，成了它替你办事的依据，不只是被翻出来看。</div>
+          <div class="eg"><b>比如</b>　出去玩前你在笔记里整理了攻略——想去的景点、想吃的店。到了当地让小爱安排今天怎么走，它直接照你攻略排好路线、订上餐位，不用你再挑一遍——你存的攻略，成了它替你做事的依据，不只是被翻出来看。</div>
         </div>
       </div>
     </section>
