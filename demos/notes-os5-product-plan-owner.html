@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记 · OS5 产品规划（业务负责人版）</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --ink:#16181d; --sub:#565d6a; --faint:#98a0ab; --line:#ecedf0; --line2:#f4f5f7;
+    --bg:#ffffff; --soft:#fafbfc;
+    --ac:#0f7a56; --ac2:#0b5f43; --ac-soft:#edf6f1; --ac-line:#cfe7dc;
+    --warn:#b5761a; --warn-soft:#fbf3e6; --warn-line:#ecd9b4;
+    --sbw:248px; --mw:1000px;
+  }
+  html{scroll-behavior:smooth;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.78; -webkit-font-smoothing:antialiased; font-size:15.5px;}
+  .app{display:grid; grid-template-columns:var(--sbw) 1fr;}
+  .side{position:sticky; top:0; align-self:start; height:100vh; border-right:1px solid var(--line);
+    padding:40px 26px; display:flex; flex-direction:column; background:var(--soft);}
+  .side .brand{font-size:12px; letter-spacing:.2em; color:var(--ac); font-weight:800; margin-bottom:8px;}
+  .side .stitle{font-size:19px; font-weight:850; letter-spacing:-.01em; line-height:1.35; margin-bottom:28px;}
+  .toc{list-style:none; display:flex; flex-direction:column; gap:2px;}
+  .toc a{display:flex; align-items:center; gap:12px; text-decoration:none; padding:9px 12px; border-radius:9px;
+    color:var(--sub); font-size:14px; font-weight:600; transition:.16s; position:relative;}
+  .toc a .n{font-size:11px; font-weight:800; color:var(--faint); width:16px;}
+  .toc a:hover{background:#fff; color:var(--ink);}
+  .toc a.on{background:#fff; color:var(--ac); box-shadow:0 1px 0 var(--line);}
+  .toc a.on .n{color:var(--ac);}
+  .toc a.on::before{content:""; position:absolute; left:0; top:9px; bottom:9px; width:3px; border-radius:3px; background:var(--ac);}
+  .side .meta{margin-top:auto; padding-top:24px; font-size:11.5px; color:var(--faint); line-height:1.7; border-top:1px solid var(--line);}
+  .main{min-width:0;}
+  .inner{max-width:var(--mw); margin:0 auto; padding:0 60px;}
+
+  .hero{padding:72px 0 34px;}
+  .hero .kicker{font-size:12px; letter-spacing:.22em; color:var(--ac); font-weight:800; margin-bottom:18px;}
+  .hero h1{font-size:40px; font-weight:850; letter-spacing:-.025em; line-height:1.18; margin-bottom:26px;}
+
+  /* 战略判断帽子 */
+  .thesis{background:var(--ink); color:#fff; border-radius:18px; padding:34px 38px;}
+  .thesis .tl{font-size:11.5px; letter-spacing:.18em; color:#9fb4ab; font-weight:800; margin-bottom:16px;}
+  .thesis .big{font-size:21px; font-weight:750; line-height:1.6; letter-spacing:-.01em;}
+  .thesis .big b{color:#5fd6a6;}
+  .thesis .two{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:22px;}
+  .thesis .two .c{background:#22262e; border-radius:12px; padding:16px 18px;}
+  .thesis .two .c .h{font-size:12px; color:#9fb4ab; font-weight:800; margin-bottom:6px;}
+  .thesis .two .c .b{font-size:14.5px; color:#e8ecea; line-height:1.6;}
+  .thesis .one{margin-top:20px; padding-top:18px; border-top:1px solid #333; font-size:17px; font-weight:800; color:#fff;}
+  .thesis .one b{color:#5fd6a6;}
+
+  section{padding:50px 0; border-top:1px solid var(--line);}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:24px;}
+  .sec-head .lab{flex:0 0 auto; font-size:11px; font-weight:800; letter-spacing:.14em; color:#fff; background:var(--ac); padding:4px 10px; border-radius:20px;}
+  .sec-head h2{font-size:26px; font-weight:850; letter-spacing:-.02em;}
+  .sec-head .en{font-size:13px; color:var(--faint); font-weight:500; margin-left:auto;}
+  .card{background:var(--bg); border:1px solid var(--line); border-radius:16px; padding:24px 26px;}
+  .lead-line{color:var(--sub); font-size:15px;} .lead-line b{color:var(--ink);}
+
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:16px;}
+  .ct{font-size:13.5px; font-weight:800; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px;}
+  .ct .dot{width:8px; height:8px; border-radius:50%;}
+  .did .ct{color:var(--ac);} .did .ct .dot{background:var(--ac);}
+  .gap .ct{color:var(--sub);} .gap .ct .dot{background:var(--faint);}
+  .li{display:flex; gap:12px; padding:10px 0; font-size:14px; color:var(--sub); line-height:1.6; border-bottom:1px solid var(--line2);}
+  .li:last-child{border-bottom:none;} .li .k{color:var(--ink); font-weight:700;}
+  .idx{flex:0 0 auto; width:22px; height:22px; border-radius:7px; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:1px;}
+  .did .idx{background:var(--ac-soft); color:var(--ac);} .gap .idx{background:#eef0f2; color:var(--sub);}
+
+  .pos{background:var(--ac-soft); border:1px solid var(--ac-line); border-radius:16px; padding:26px 40px; text-align:center;}
+  .pos .eq{font-size:26px; font-weight:850; letter-spacing:-.025em; margin-bottom:10px;} .pos .eq .g{color:var(--ac);}
+  .pos .desc{max-width:680px; margin:0 auto; color:var(--sub); font-size:14.5px; line-height:1.75;} .pos .desc b{color:var(--ink);}
+  .keycard{background:var(--soft); border:1px solid var(--line); border-radius:14px; padding:20px 24px; margin-top:20px;}
+  .keycard p{color:var(--sub); font-size:14.5px; line-height:1.85;} .keycard p b{color:var(--ink);}
+  .keycard .q{margin-top:10px; font-size:16.5px; font-weight:850; color:var(--ac2); line-height:1.5;}
+
+  /* 重心宣示 */
+  .bet{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:6px;}
+  .bet .b{border-radius:14px; padding:20px 22px; border:1px solid var(--line);}
+  .bet .main{background:var(--ac-soft); border-color:var(--ac-line);}
+  .bet .base{background:var(--soft);}
+  .bet .tag{display:inline-block; font-size:11px; font-weight:800; letter-spacing:.06em; padding:2px 9px; border-radius:20px; margin-bottom:10px;}
+  .bet .main .tag{background:var(--ac); color:#fff;}
+  .bet .base .tag{background:#e6e8eb; color:var(--sub);}
+  .bet h4{font-size:15px; font-weight:850; margin-bottom:6px;}
+  .bet p{font-size:13.5px; color:var(--sub); line-height:1.7;}
+  .bet .nums{color:var(--ink); font-weight:750;}
+
+  /* 四件事紧凑卡 */
+  .grid4{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px;}
+  .dir{border:1px solid var(--line); border-radius:14px; padding:20px 22px;}
+  .dir.m{border-color:var(--ac-line); background:linear-gradient(180deg,var(--ac-soft),#fff 55%);}
+  .dir .top{display:flex; align-items:center; gap:9px; margin-bottom:10px;}
+  .dir .no{font-size:13px; font-weight:850; color:#fff; background:var(--ac); width:22px; height:22px; border-radius:6px; display:flex; align-items:center; justify-content:center;}
+  .dir.b .no{background:var(--faint);}
+  .dir .role{font-size:11px; font-weight:800; letter-spacing:.05em; color:var(--faint);}
+  .dir .m-role{color:var(--ac);}
+  .dir h4{font-size:16px; font-weight:850; letter-spacing:-.01em; margin-bottom:9px; line-height:1.4;}
+  .dir .ex{font-size:13px; color:var(--sub); line-height:1.7; background:var(--soft); border-radius:9px; padding:11px 13px;}
+  .dir.m .ex{background:#fff;}
+  .dir .ex b{color:var(--ac2);}
+
+  /* 北极星 + 风险 */
+  .split{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:6px;}
+  .star{background:var(--ac-soft); border:1px solid var(--ac-line); border-radius:14px; padding:22px 24px;}
+  .star .h{font-size:12px; font-weight:800; letter-spacing:.1em; color:var(--ac); margin-bottom:12px;}
+  .star .m{font-size:18px; font-weight:850; color:var(--ink); line-height:1.45; margin-bottom:8px;}
+  .star .d{font-size:13px; color:var(--sub); line-height:1.7;}
+  .risk{background:var(--warn-soft); border:1px solid var(--warn-line); border-radius:14px; padding:22px 24px;}
+  .risk .h{font-size:12px; font-weight:800; letter-spacing:.1em; color:var(--warn); margin-bottom:12px;}
+  .risk .r{font-size:14px; color:var(--ink); font-weight:700; margin:10px 0 3px;}
+  .risk .r:first-of-type{margin-top:0;}
+  .risk .rd{font-size:13px; color:var(--sub); line-height:1.65;}
+
+  .grp{margin-top:16px;} .grp .gt{font-size:14px; font-weight:800; margin-bottom:10px;}
+  .pill{display:inline-block; background:var(--soft); border:1px solid var(--line); color:var(--sub); font-size:13px; padding:5px 13px; border-radius:8px; margin:0 8px 8px 0;}
+  .foot{margin:24px 0 70px; padding-top:26px; border-top:1px solid var(--line); text-align:center; color:var(--faint); font-size:12.5px;}
+  @media(max-width:960px){
+    .app{grid-template-columns:1fr;} .side{display:none;} .inner{padding:0 22px;}
+    .hero h1{font-size:30px;} .thesis .two,.bet,.grid4,.split{grid-template-columns:1fr;}
+    .thesis{padding:26px 22px;} .thesis .big{font-size:18px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand">NOTES · OS5</div>
+    <div class="stitle">笔记 · OS5<br>产品规划 · 业务负责人版</div>
+    <ul class="toc" id="toc">
+      <li><a href="#thesis"><span class="n">判</span>战略判断</a></li>
+      <li><a href="#now"><span class="n">一</span>OS4 到哪了</a></li>
+      <li><a href="#pos"><span class="n">二</span>核心定位</a></li>
+      <li><a href="#bet"><span class="n">三</span>这版赢什么</a></li>
+      <li><a href="#how"><span class="n">四</span>四件事</a></li>
+      <li><a href="#metric"><span class="n">五</span>北极星与风险</a></li>
+      <li><a href="#extra"><span class="n">六</span>专项协同</a></li>
+    </ul>
+    <div class="meta">笔记业务 · 内部战略稿<br>2026-07</div>
+  </aside>
+
+  <main class="main"><div class="inner">
+
+    <div class="hero" id="thesis">
+      <div class="kicker">NOTES · OS5 · 业务负责人视角</div>
+      <h1>笔记 · OS5 产品规划</h1>
+      <div class="thesis">
+        <div class="tl">战略判断</div>
+        <div class="big">系统级 agent 越来越强，笔记不退成"后台硬盘"，而是把<b>两个位置</b>同时坐实。</div>
+        <div class="two">
+          <div class="c"><div class="h">对用户</div><div class="b">你唯一愿意长期回来沉淀、也回来干活的地方。</div></div>
+          <div class="c"><div class="h">对生态</div><div class="b">全系统里质量最高、可被随时调用的个人内容供给。</div></div>
+        </div>
+        <div class="one">一句话落到用户身上：<b>存进笔记，以后一定用得上。</b></div>
+      </div>
+    </div>
+
+    <!-- 一 现状 -->
+    <section id="now">
+      <div class="sec-head"><span class="lab">一</span><h2>OS4 到哪了</h2><span class="en">现状</span></div>
+      <div class="card lead-line"><b>OS4 = 多入口记录 + 单篇 AI 处理的 AI 笔记</b>——对用户就是「随手记进来，AI 帮你写完、改好、记住」。关键单点能力已经跑通，但都还停在"单篇、散着"。</div>
+      <div class="two">
+        <div class="card did">
+          <div class="ct"><span class="dot"></span>已跑通</div>
+          <div class="li"><span class="idx">记</span><div><span class="k">能记</span>　语音速记、拍照取字、文档 / 链接导入</div></div>
+          <div class="li"><span class="idx">生</span><div><span class="k">能生成</span>　录音出纪要待办，生成 PPT / 脑图 / 摘要</div></div>
+          <div class="li"><span class="idx">问</span><div><span class="k">能问</span>　单篇问 AI、答案带出处，基础索引已起步</div></div>
+          <div class="li"><span class="idx">接</span><div><span class="k">能接</span>　手表手环跨端录音，小爱调用一期已接入</div></div>
+        </div>
+        <div class="card gap">
+          <div class="ct"><span class="dot"></span>四个缺口 · 让"存了一定用得上"还不成立</div>
+          <div class="li"><span class="idx">1</span><div><span class="k">存起来不够顺、又散</span>　得先开 App、还挑格式；存进来一条条堆着</div></div>
+          <div class="li"><span class="idx">2</span><div><span class="k">处理完就丢</span>　AI 结果用完即弃，跨不了篇、攒不成产出</div></div>
+          <div class="li"><span class="idx">3</span><div><span class="k">同一件事散多篇</span>　项目 / 就医的材料分散，得自己翻</div></div>
+          <div class="li"><span class="idx">4</span><div><span class="k">只在笔记里能用</span>　出不了笔记，系统别处还用不上</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 二 定位 -->
+    <section id="pos">
+      <div class="sec-head"><span class="lab">二</span><h2>核心定位</h2><span class="en">定位</span></div>
+      <div class="pos">
+        <div class="eq">笔记 = <span class="g">你自己的个人内容库</span></div>
+        <div class="desc">你觉得<b>有价值的内容</b>，存进来不会散、不会丢；以后要<b>找、要写、要整理</b>，都还能用得上。</div>
+      </div>
+      <div class="keycard">
+        <p>OS4 让内容记得进来、AI 也能处理单篇；但内容要是<b>找不到、用不上</b>，用户就不会一直把重要东西交给笔记。</p>
+        <p class="q">这一版不是又加一堆功能，是把 OS4 已经做出来的，串成"存了就一定用得上"。</p>
+      </div>
+    </section>
+
+    <!-- 三 这版赢什么 -->
+    <section id="bet">
+      <div class="sec-head"><span class="lab">三</span><h2>这版赢什么</h2><span class="en">重心宣示</span></div>
+      <div class="lead-line" style="margin-bottom:16px;">四件事是一条链，缺一不可；但资源不平摊——<b>①③是必须补的地基，②④是这版要赢的仗</b>。</div>
+      <div class="bet">
+        <div class="b main">
+          <span class="tag">主攻 · 差异化</span>
+          <h4>② 笔记内产出工作台　④ 内容被生态调用</h4>
+          <p>② 是用户为什么还回笔记、而不是只问小爱的<span class="nums">唯一理由</span>（产出、编辑、沉淀，问答框干不了）；④ 是笔记的<span class="nums">长期生态价值</span>（内容被系统各处拿去办事）。这两件决定笔记三年后是主角还是硬盘。</p>
+        </div>
+        <div class="b base">
+          <span class="tag">地基 · 必须补</span>
+          <h4>① 存得进理得顺　③ 按主题看得全</h4>
+          <p>没有①③，②④就是空中楼阁——存不顺、看不全，用户根本攒不下一个值得被调用的内容库。它们必须做扎实，但不是这版拿出来讲差异化的地方。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 四 四件事 -->
+    <section id="how">
+      <div class="sec-head"><span class="lab">四</span><h2>四件事</h2><span class="en">补齐四个缺口</span></div>
+      <div class="grid4">
+        <div class="dir b">
+          <div class="top"><span class="no">1</span><span class="role">地基</span></div>
+          <h4>随处一键存，存进来就自动理好</h4>
+          <div class="ex"><b>比如</b>　看到值得留的，在哪都能一键存进笔记、不挑格式；存进来自动理好、连图里的字都补上索引，要用一搜就出来。</div>
+        </div>
+        <div class="dir m">
+          <div class="top"><span class="no">2</span><span class="role m-role">主攻</span></div>
+          <h4>在笔记里加工成一份新产出</h4>
+          <div class="ex"><b>比如</b>　这周三次项目会你都记了，让笔记把三篇拼成一版周报草稿、还能引用库里别的资料，你改两句就发——问答框给不了这个。</div>
+        </div>
+        <div class="dir b">
+          <div class="top"><span class="no">3</span><span class="role">地基</span></div>
+          <h4>同主题内容自动归到一处、一眼看全</h4>
+          <div class="ex"><b>比如</b>　装修三个月的报价单、聊天记录、灵感图，打开"装修"就一目了然、按时间摆好，不用一篇篇翻。</div>
+        </div>
+        <div class="dir m">
+          <div class="top"><span class="no">4</span><span class="role m-role">主攻</span></div>
+          <h4>笔记内容能被系统别处拿去办事</h4>
+          <div class="ex"><b>比如</b>　出去玩前你在笔记里整理了攻略，到当地让小爱安排路线、订餐位，它直接照你攻略办——你存的内容成了它办事的依据。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 五 北极星与风险 -->
+    <section id="metric">
+      <div class="sec-head"><span class="lab">五</span><h2>北极星与风险</h2><span class="en">怎么算赢 · 什么会拦路</span></div>
+      <div class="split">
+        <div class="star">
+          <div class="h">北极星指标</div>
+          <div class="m">内容"回捞率"——存进来的东西，后来被再次用到的比例。</div>
+          <div class="d">不看大盘留存，看这一个数：它直接验证"存了就一定用得上"到底成没成。回捞率起得来，双入口和生态调用才立得住。</div>
+        </div>
+        <div class="risk">
+          <div class="h">两个头号风险</div>
+          <div class="r">① ④ 依赖系统那端进度</div>
+          <div class="rd">内容被别处调用，一半在小爱 / 系统那侧。笔记先把"内容可被调用"这端做扎实，不等对方。</div>
+          <div class="r">② ③ 自动聚合做不准是负体验</div>
+          <div class="rd">归错、该聚没聚，比没有还烦。先做用户可感、可纠正的聚合，不追全自动。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 六 专项协同 -->
+    <section id="extra">
+      <div class="sec-head"><span class="lab">六</span><h2>专项协同：基础体验与 PAD</h2><span class="en">配套 · 不抢主线</span></div>
+      <div class="card">
+        <div class="lead-line" style="margin-bottom:14px;">这两块也要做，但跟着大盘专项走，不占笔记这一版的主攻。</div>
+        <div class="grp"><div class="gt">基础体验 · 跟大盘专项补齐</div>
+          <span class="pill">记的不丢不崩</span><span class="pill">字改得动</span><span class="pill">随手记更准</span><span class="pill">图片多选</span><span class="pill">待办排序</span></div>
+        <div class="grp"><div class="gt">PAD · 大屏手写学习与办公闭环</div>
+          <span class="pill">手写对标 GoodNotes</span><span class="pill">边写边录，课后 AI 理成大纲 / 考点</span></div>
+      </div>
+    </section>
+
+    <div class="foot">笔记 · OS5 产品规划（业务负责人版 · 对比稿）　|　2026-07</div>
+  </div></main>
+</div>
+<script>
+  const links=[...document.querySelectorAll('#toc a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+  const spy=()=>{let idx=0,y=window.scrollY+140; secs.forEach((s,i)=>{if(s&&s.offsetTop<=y)idx=i;}); links.forEach((a,i)=>a.classList.toggle('on',i===idx));};
+  window.addEventListener('scroll',spy,{passive:true}); window.addEventListener('load',spy); spy();
+</script>
+</body>
+</html>
