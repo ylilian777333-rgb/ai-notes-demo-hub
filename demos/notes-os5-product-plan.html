@@ -85,12 +85,14 @@
   .keycard p{color:var(--sub); font-size:14.5px; line-height:1.85; text-wrap:pretty;}
   .keycard p b{color:var(--ink); font-weight:750;}
   .keycard .q{margin-top:12px; font-size:16.5px; font-weight:850; color:var(--ac2); letter-spacing:-.01em; line-height:1.55; text-wrap:balance;}
-  /* Why 三层 */
-  .whyflow{display:flex; flex-direction:column; gap:12px; margin-top:14px;}
-  .wl{background:var(--soft); border:1px solid var(--line); border-left:3px solid var(--ac-line); border-radius:0 12px 12px 0; padding:16px 20px;}
-  .wl .h{font-size:14.5px; font-weight:850; color:var(--ink); margin-bottom:6px;}
-  .wl .b{font-size:14px; color:var(--sub); line-height:1.78; text-wrap:pretty;}
-  .wl .b em{color:var(--ac2); font-style:normal; font-weight:750;}
+  /* Why 三层 · 横列 + 小圆点 */
+  .whyflow{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:14px;}
+  .wl{background:var(--soft); border:1px solid var(--line); border-radius:14px; padding:18px 20px;}
+  .wl .h{font-size:14px; font-weight:850; color:var(--ink); margin-bottom:11px; padding-bottom:10px; border-bottom:1px solid var(--line);}
+  .wl ul{list-style:none;}
+  .wl li{position:relative; padding:7px 0 7px 15px; font-size:13px; color:var(--sub); line-height:1.62;}
+  .wl li::before{content:""; position:absolute; left:0; top:14px; width:5px; height:5px; border-radius:50%; background:var(--ac);}
+  .wl li b{color:var(--ink); font-weight:700;}
   .whyend{margin-top:14px; background:var(--ac-soft); border:1px solid var(--ac-line); border-radius:12px; padding:18px 22px; font-size:14.5px; color:var(--ink); line-height:1.75;}
   .whyend b{color:var(--ac2); font-weight:850;}
   .whyend .note{display:block; margin-top:8px; font-size:12.5px; color:var(--faint); line-height:1.6;}
@@ -150,7 +152,7 @@
     .side{display:none;}
     .inner{padding:0 24px;}
     .hero{padding:52px 0 40px;} .hero h1{font-size:32px;}
-    .two,.why,.pad{grid-template-columns:1fr;}
+    .two,.why,.pad,.whyflow{grid-template-columns:1fr;}
     .pos{padding:24px 22px;} .pos .eq{font-size:22px;} .sec-head h2{font-size:22px;}
     .up{grid-template-columns:1fr; gap:10px;} .up .no{font-size:30px;} .up .no::after{display:none;}
     .ov .now,.ov .to{width:auto;}
@@ -223,16 +225,28 @@
         </div>
         <div class="whyflow">
           <div class="wl">
-            <div class="h">浅一层：记了的东西，以后要用得上</div>
-            <div class="b">记会议为了以后交周报、回顾当时定了什么；拍化验单为了复诊给医生看。可 OS4 让"记"变容易了、"用"没跟上——五篇会议记录，周五写周报宁可重写也懒得翻；化验单在一堆照片里找不出来。<em>→ 让存进来的自己理好、找得到、能拼成一份新的、围绕一件事看全（①②③）。</em></div>
+            <div class="h">浅层：记了要用得上</div>
+            <ul>
+              <li>记会议，为了以后交周报、回顾定了什么</li>
+              <li>拍化验单、存攻略，为了复诊给医生看、到当地照着走</li>
+              <li>可 OS4「记」顺了、「用」没跟上：周报宁可重写也懒得翻，化验单在照片堆里找不出来</li>
+            </ul>
           </div>
           <div class="wl">
-            <div class="h">深一层：用户连自己动手都嫌烦，要的是结果</div>
-            <div class="b">更多时候用户手腾不开、也不会专门打开笔记翻：做饭照着你存的菜谱，手上全是油，喊一句"下一步是啥"，比擦手翻手机现实得多；开车想起个事，也只能嘴说。这时候要的是"张嘴一说、东西就来"。<em>→ 内容得能被小爱、被系统在那个当口直接调出来用（④）。</em></div>
+            <div class="h">深层：不想动手，要结果</div>
+            <ul>
+              <li>很多当口手腾不开：做饭手上全是油、开车只能嘴说</li>
+              <li>也不会为点小事，专门打开笔记翻</li>
+              <li>要的是<b>「张嘴一说、东西就来」</b>，不是自己翻出来</li>
+            </ul>
           </div>
           <div class="wl">
-            <div class="h">市场趋势：能"调用你的内容替你办"才是方向</div>
-            <div class="b">帮你总结、改写现在谁都能做；下一步大家抢的，是接入你的个人数据、直接给结果——Notion、苹果、微软都在这么走。而用户愿意主动、认真沉淀个人内容的，正是笔记。</div>
+            <div class="h">市场趋势：调用你的内容才是方向</div>
+            <ul>
+              <li>总结、改写谁都能做，已经不稀缺</li>
+              <li>大家抢的是接入你的个人数据、直接给结果（Notion / 苹果 / 微软）</li>
+              <li>用户愿意主动、认真沉淀内容的，正是笔记</li>
+            </ul>
           </div>
         </div>
         <div class="whyend">存进来是你认过、有价值的内容；理得好、你自己调得动、系统也调得动——<b>让你"用得上"，也让你"张嘴要结果"</b>。走这条路，是用户需求和行业方向一起指向的结果。<span class="note">能力上也做得动：OS4 已把记录、单篇 AI、检索、小爱接入都铺好，做库是把这些接起来，不是从零起。</span></div>
