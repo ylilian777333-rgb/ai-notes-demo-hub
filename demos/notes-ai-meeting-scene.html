@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>小米笔记 · 开会明星场景（发布会页）</title>
+<style>
+:root{--bg:#050506;--ink:#f6f7f8;--muted:#9aa0ad;--brand:#aeb4ff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{overflow:hidden}
+.deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:radial-gradient(72% 92% at 80% 50%,rgba(90,82,255,.12),transparent 60%),var(--bg);display:flex;align-items:center;justify-content:center;gap:6vw;padding:0 9vw}
+.slide:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(80% 80% at 50% 50%,#000,transparent);pointer-events:none}
+.slide>*{position:relative;z-index:1}
+.ph{height:58vh;aspect-ratio:9/19.5;border:2px dashed #3a3d47;border-radius:2.4vw;background:linear-gradient(180deg,#111218,#0b0c11);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.3vh;color:#6b7080;text-align:center;padding:0 1.6vw;flex:0 0 auto;position:relative}
+.ph .cam{width:.9vw;height:.9vw;border-radius:50%;background:#23262f;position:absolute;top:1.4vh;left:50%;transform:translateX(-50%)}
+.ph .ico{font-size:2.2vw;opacity:.5}
+.ph .plabel{font-size:.82vw;letter-spacing:.14em;color:#7b8090;font-weight:700}
+.ph .pdesc{font-size:.72vw;line-height:1.6;color:#5b606d}
+.copy{max-width:40vw}
+.step{display:inline-flex;align-items:center;gap:.6vw;font-size:.9vw;color:var(--brand);font-weight:700;letter-spacing:.14em}
+.step .num{display:grid;place-items:center;width:2vw;height:2vw;border-radius:50%;border:1.5px solid rgba(174,180,255,.5);font-size:.95vw}
+.stage{font-size:3vw;font-weight:780;letter-spacing:-.02em;margin-top:1.8vh;line-height:1.18}
+.stage b{color:var(--brand);font-weight:780}
+.line{font-size:1.3vw;line-height:1.7;margin-top:2.4vh;color:#e7e8ee;font-weight:500}
+.say{margin-top:2.6vh;display:inline-block;background:#fff;color:#12141c;border-radius:1.1vw;padding:1.3vh 1.2vw;font-size:1.05vw;line-height:1.5;position:relative;box-shadow:0 14px 34px rgba(0,0,0,.35)}
+.say:before{content:"“";position:absolute;left:.5vw;top:-.4vh;font-size:1.6vw;color:#c9ccf5}
+.say b{color:#5261df}
+.brand{position:absolute;left:3vw;bottom:2.4vh;color:#767a85;font-size:.8vw;letter-spacing:.06em}
+.pager{position:absolute;right:3vw;bottom:2.4vh;color:#676b75;font-size:.85vw;letter-spacing:.12em}
+.nav{position:fixed;right:1.6vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:10px}
+.dot{width:8px;height:8px;border-radius:50%;background:#555;border:0;cursor:pointer;transition:.25s}
+.dot.on{height:26px;border-radius:8px;background:var(--brand)}
+.hint{position:fixed;left:50%;bottom:1.1vh;transform:translateX(-50%);z-index:20;color:#646872;font-size:.72vw;letter-spacing:.08em}
+@media(max-aspect-ratio:4/3){.stage{font-size:4.4vw}.line{font-size:2.2vw}.ph{height:46vh}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide" data-title="开会中">
+    <div class="ph"><span class="cam"></span><span class="ico">🎙️</span><span class="plabel">截图占位</span><span class="pdesc">会议实时记录页 →<br>边听边转写、区分发言人</span></div>
+    <div class="copy">
+      <div class="step"><span class="num">1</span>开会中</div>
+      <div class="stage">手机往桌上一放，<br><b>它自动帮你记</b></div>
+      <div class="line">不用分心打字，讨论内容完整留下，还能分清谁在说话。</div>
+      <div class="say">这场会我先专心聊，<b>记录交给它</b></div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">01 / 03</div>
+  </section>
+
+  <section class="slide" data-title="散会后">
+    <div class="ph"><span class="cam"></span><span class="ico">📋</span><span class="plabel">截图占位</span><span class="pdesc">AI 会议纪要页 →<br>摘要 / 结论 / 待办分好块</span></div>
+    <div class="copy">
+      <div class="step"><span class="num">2</span>散会后</div>
+      <div class="stage">会一结束，<br><b>纪要和待办就位</b></div>
+      <div class="line">重点、结论、谁做什么、什么时候完成，一目了然，不用回听。</div>
+      <div class="say">散会就有纪要，<b>待办也帮我列好了</b></div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">02 / 03</div>
+  </section>
+
+  <section class="slide" data-title="过几天">
+    <div class="ph"><span class="cam"></span><span class="ico">💬</span><span class="plabel">截图占位</span><span class="pdesc">笔记内问答 →<br>一句话找回结论 + 来源</span></div>
+    <div class="copy">
+      <div class="step"><span class="num">3</span>过几天</div>
+      <div class="stage">想不起来当时定了啥，<br><b>问一句就回来</b></div>
+      <div class="line">不用翻笔记，按意思问一句，答案直接给出来，还能回到原文出处。</div>
+      <div class="say">上次那场会，<b>最后定了什么来着？</b></div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">03 / 03</div>
+  </section>
+
+</div>
+<nav class="nav" id="nav"></nav><div class="hint">← → / SPACE 翻页</div>
+<script>
+const deck=document.getElementById('deck'),slides=[...document.querySelectorAll('.slide')],nav=document.getElementById('nav');let current=0;
+slides.forEach((s,i)=>{const b=document.createElement('button');b.className='dot'+(i===0?' on':'');b.title=s.dataset.title||`第 ${i+1} 页`;b.onclick=()=>go(i);nav.appendChild(b)});const dots=[...nav.children];
+function go(i){current=Math.max(0,Math.min(slides.length-1,i));slides[current].scrollIntoView({behavior:'smooth'});dots.forEach((d,n)=>d.classList.toggle('on',n===current))}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){current=slides.indexOf(e.target);dots.forEach((d,n)=>d.classList.toggle('on',n===current))}}),{root:deck,threshold:.6});slides.forEach(s=>io.observe(s));
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(current+1)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1)});
+</script>
+</body>
+</html>
