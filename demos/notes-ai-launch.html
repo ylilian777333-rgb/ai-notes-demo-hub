@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>超级小爱 × 小米笔记｜AI 应用发布会 Demo</title>
+<style>
+:root{--bg:#050506;--ink:#f7f7f8;--muted:#aaaeb8;--line:rgba(255,255,255,.13);--card:#111216;--blue:#7d8cff;--violet:#a678ff;--cyan:#68dcff;--red:#ff4d3d;--green:#5ee2a0;--shadow:0 28px 80px rgba(0,0,0,.45)}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{overflow:hidden}.deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:radial-gradient(70% 90% at 50% 110%,rgba(89,80,255,.18),transparent 60%),var(--bg);padding:7vh 7vw 6vh;display:flex;flex-direction:column}.slide:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:52px 52px;mask-image:linear-gradient(to bottom,transparent,#000 26%,#000 76%,transparent);pointer-events:none}.slide>*{position:relative;z-index:1}.eyebrow{font-size:.9vw;letter-spacing:.18em;text-transform:uppercase;color:#aeb4ff;font-weight:700}.title{font-size:3.15vw;line-height:1.18;font-weight:760;letter-spacing:-.045em;margin-top:1.4vh;text-wrap:balance}.title em{font-style:normal;color:#aeb4ff}.subtitle{font-size:1.15vw;color:var(--muted);line-height:1.7;margin-top:1.4vh;max-width:78vw;text-wrap:balance}.content{flex:1;display:flex;align-items:center;justify-content:center}.pager{position:absolute;right:3vw;bottom:2.6vh;color:#676b75;font-size:.85vw;letter-spacing:.12em}.brand{position:absolute;left:3vw;bottom:2.4vh;color:#737782;font-size:.82vw}.accent{color:#b7baff}.red{color:var(--red)}
+.nav{position:fixed;right:1.7vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:10px}.dot{width:8px;height:8px;border-radius:50%;background:#555;border:0;cursor:pointer;transition:.25s}.dot.on{height:26px;border-radius:8px;background:#b7baff}.hint{position:fixed;left:50%;bottom:1.1vh;transform:translateX(-50%);z-index:20;color:#646872;font-size:.72vw;letter-spacing:.08em}
+.hero{justify-content:center;align-items:center;text-align:center;background:radial-gradient(40% 52% at 50% 37%,rgba(110,104,255,.18),transparent 70%),#020203}.hero .mark{font-size:1.05vw;color:#b9bbc3;letter-spacing:.22em}.hero h1{font-size:5.5vw;font-weight:420;letter-spacing:.02em;margin-top:1.1vh}.vbadge{display:inline-block;font-size:1.1vw;font-weight:700;vertical-align:top;margin:.5vh 0 0 .5vw;padding:.55vh .85vw;border-radius:.8vw;background:linear-gradient(135deg,#777b86,#a5a8b1);color:#fff;letter-spacing:0}.hero h2{font-size:1.75vw;font-weight:500;margin-top:6.2vh}.abilities{display:grid;grid-template-columns:repeat(4,1fr);gap:3.2vw;width:78vw;margin-top:3.6vh}.ability{text-align:center}.orb{width:10.2vw;aspect-ratio:1;margin:auto;border-radius:50%;position:relative;overflow:hidden;background:linear-gradient(145deg,#272933,#101116);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 0 40px rgba(255,255,255,.04),0 20px 50px rgba(0,0,0,.45)}.ability h3{font-size:1.35vw;font-weight:520;margin-top:1.8vh}.ability p{font-size:.78vw;color:#818691;margin-top:.65vh;line-height:1.45;white-space:nowrap}.hero-foot{font-size:.9vw;color:#737783;margin-top:3.4vh}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+<style>
+.orb-ui{position:absolute;inset:18%;display:flex;flex-direction:column;gap:.45vw;text-align:left}.mini-top{font-size:.58vw;color:#c6c9d1;font-weight:700}.mini-search{height:1.55vw;border-radius:.9vw;background:#f6f7fa;color:#20222a;padding:.38vw .6vw;font-size:.52vw;white-space:nowrap}.mini-line{height:.36vw;border-radius:1vw;background:#666b78}.mini-line.short{width:62%}.mini-source{font-size:.45vw;color:#aeb4ff;margin-top:.15vw}.sel{background:rgba(125,140,255,.42);border-radius:.25vw;padding:.42vw;font-size:.52vw;line-height:1.35}.mini-chip{font-size:.45vw;color:#d9dbff;background:rgba(125,140,255,.18);border:1px solid rgba(174,180,255,.25);padding:.28vw .45vw;border-radius:.6vw;align-self:flex-start}.summary-box{border-radius:.65vw;background:#f5f6f8;color:#20222a;padding:.65vw}.summary-box b{display:block;font-size:.55vw}.summary-box span{display:block;font-size:.42vw;margin-top:.3vw;color:#666}.safe-row{display:flex;gap:.3vw;margin-top:auto}.safe-btn{flex:1;text-align:center;font-size:.4vw;padding:.3vw;border-radius:.5vw;background:#262a35;color:#d4d7df}.safe-btn.primary{background:#7d8cff;color:#fff}.lock{font-size:1.9vw;text-align:center;margin-top:.5vw}.safe-note{text-align:center;font-size:.46vw;color:#b8bdc9}
+.change-grid{width:86vw;display:grid;grid-template-columns:1fr .12fr 1fr;align-items:center;gap:2vw}.change-card{min-height:46vh;border-radius:2vw;background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.035));border:1px solid var(--line);padding:3.1vh 2.3vw;box-shadow:var(--shadow)}.change-card.old{opacity:.62}.change-card.new{border-color:rgba(174,180,255,.42);background:linear-gradient(155deg,rgba(125,140,255,.16),rgba(255,255,255,.04))}.change-card .tag{font-size:.72vw;letter-spacing:.14em;color:#9da2ad}.change-card h3{font-size:1.65vw;margin-top:1.4vh}.change-card ul{list-style:none;margin-top:2.3vh}.change-card li{font-size:1vw;color:#c6c9d1;margin:1.4vh 0;padding-left:1.15vw;position:relative}.change-card li:before{content:"";position:absolute;left:0;top:.55em;width:.42vw;height:.42vw;border-radius:50%;background:#777}.new li:before{background:#aeb4ff}.big-arrow{font-size:3vw;color:#8289ff;text-align:center}.moments{display:flex;gap:.8vw;margin-top:2.8vh}.moment{flex:1;border-radius:1vw;background:#0b0c10;border:1px solid var(--line);padding:1.2vh .9vw}.moment b{font-size:.9vw}.moment span{font-size:.72vw;color:#8f94a0;margin-left:.35vw}
+.flow{width:88vw;display:flex;align-items:center;justify-content:center;gap:1.15vw}.shot{width:22.3vw;background:#101116;border:1px solid var(--line);border-radius:1.6vw;padding:1.2vh 1vw 1.5vh;box-shadow:var(--shadow)}.shot .step-no{font-size:.72vw;color:#9ba2ff;letter-spacing:.1em}.shot h3{font-size:1.15vw;margin-top:.55vh}.shot p{font-size:.75vw;color:#9297a2;margin-top:.5vh;line-height:1.45}.phone-img{height:48vh;margin:1.2vh auto 0;display:block;max-width:100%;object-fit:contain;border-radius:1.1vw}.arrow{font-size:2.3vw;color:#7e8492}.speech{position:absolute;left:7vw;bottom:5.5vh;width:21vw;border-radius:1.2vw;background:#fff;color:#11131a;padding:1.4vh 1.15vw;font-size:1vw;line-height:1.5;box-shadow:0 15px 40px rgba(0,0,0,.35)}.speech:after{content:"";position:absolute;right:-1.1vw;top:45%;border-width:.7vw 0 .7vw 1.15vw;border-style:solid;border-color:transparent transparent transparent #fff}.speech b{color:#f04438}
+</style>
+<style>
+.write-grid{width:86vw;display:grid;grid-template-columns:repeat(3,1fr);gap:2.1vw}.write-card{background:linear-gradient(165deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border:1px solid var(--line);border-radius:1.7vw;padding:2.2vh 1.5vw 1.7vh;text-align:center}.write-card .phase{font-size:.72vw;color:#aeb4ff;letter-spacing:.1em}.write-card h3{font-size:1.25vw;margin-top:.55vh}.write-card>p{font-size:.72vw;color:#8d929d;margin-top:.45vh}.device{width:12.2vw;height:41vh;margin:1.6vh auto 0;border-radius:2vw;background:#f7f7f9;color:#17181d;padding:1.15vh .7vw;position:relative;overflow:hidden;border:3px solid #2b2d33;box-shadow:0 18px 42px rgba(0,0,0,.38);text-align:left}.status{display:flex;justify-content:space-between;font-size:.5vw;font-weight:700}.navline{display:flex;justify-content:space-between;margin-top:1.1vh;font-size:.72vw}.note-title{font-size:.92vw;font-weight:750;margin-top:1.7vh}.meta{font-size:.48vw;color:#9a9ca3;margin-top:.35vh}.bodycopy{font-size:.68vw;line-height:1.65;margin-top:1.5vh;color:#33363d}.guide{color:#a7a9b0}.cursor{display:inline-block;width:1.5px;height:.8vw;background:#6574ff;vertical-align:-.1vw;animation:blink 1s infinite}.chips{position:absolute;left:.6vw;right:.6vw;bottom:4.8vh;display:flex;gap:.35vw;overflow:hidden}.chip{font-size:.48vw;white-space:nowrap;border-radius:1vw;padding:.42vw .6vw;background:#ebeefe;color:#5261df;font-weight:700}.chip.gray{background:#eceef1;color:#5e626b}.toolbar{position:absolute;left:0;right:0;bottom:0;height:4.2vh;border-top:1px solid #e3e4e7;display:flex;align-items:center;justify-content:space-around;font-size:.72vw;color:#575b64}.ai-star{color:#6674ff;font-weight:800}.highlight{background:#dce1ff;padding:.05vw .15vw;border-radius:.18vw}.edit-pop{position:absolute;left:.8vw;right:.8vw;bottom:5.3vh;background:#fff;border-radius:.75vw;box-shadow:0 8px 24px rgba(0,0,0,.16);padding:.45vw}.edit-pop div{font-size:.5vw;padding:.36vw;border-radius:.4vw}.edit-pop div:first-child{background:#eef0ff;color:#5261df;font-weight:700}.safety{width:83vw;display:grid;grid-template-columns:1.08fr .92fr;gap:3vw;align-items:center}.big-note{height:50vh;border-radius:2vw;background:#f7f7f9;color:#17181d;padding:3.2vh 2vw;box-shadow:var(--shadow);position:relative}.big-note h3{font-size:1.45vw}.big-note .meta{font-size:.65vw}.big-note p{font-size:.9vw;line-height:1.75;color:#343740;margin-top:2vh}.xiaoai-bar{position:absolute;left:2vw;right:2vw;bottom:2.3vh;height:6.6vh;border-radius:1.4vw;background:#fff;border:1px solid #e3e5eb;box-shadow:0 12px 35px rgba(32,35,48,.15);display:flex;align-items:center;padding:0 1.2vw;gap:.8vw}.spark{width:2vw;height:2vw;border-radius:50%;background:linear-gradient(135deg,#6979ff,#af76ff);display:grid;place-items:center;color:#fff;font-size:.85vw}.xiaoai-bar span{font-size:.86vw;color:#555965}.xiaoai-bar b{margin-left:auto;color:#6978ff;font-size:.78vw}.command-list{display:flex;flex-direction:column;gap:1.2vh}.command{border:1px solid var(--line);background:rgba(255,255,255,.055);border-radius:1.1vw;padding:1.55vh 1.2vw}.command small{display:block;color:#8d93ff;font-size:.65vw;letter-spacing:.08em}.command b{display:block;font-size:1.05vw;margin-top:.5vh}.command p{font-size:.72vw;color:#8d929e;margin-top:.4vh}.trust-row{display:flex;gap:.7vw;margin-top:1.6vh}.trust{font-size:.68vw;color:#aeb3bf;border:1px solid var(--line);border-radius:1vw;padding:.65vh .75vw}.closing{margin-top:2.2vh;color:#9297a3;font-size:.82vw;text-align:center}.closing strong{color:#d5d7ff}
+@keyframes blink{50%{opacity:0}}@media(max-aspect-ratio:4/3){.title{font-size:4vw}.slide{padding-left:5vw;padding-right:5vw}.abilities{width:90vw}.ability p{display:none}}
+</style>
+
+<section class="slide hero" data-title="全生态助手">
+  <div class="mark">SUPER XIAOAI</div>
+  <h1>超级小爱<span class="vbadge">2.0</span></h1>
+  <h2>全生态 AI 专属助手</h2>
+  <div class="abilities">
+    <div class="ability"><div class="orb"><div class="orb-ui"><div class="mini-top">问小爱</div><div class="mini-search">上次产品会定了什么？</div><div class="mini-line"></div><div class="mini-line short"></div><div class="mini-source">来自《产品周会》</div></div></div><h3>很好找</h3><p>问一句，旧笔记也能找到</p></div>
+    <div class="ability"><div class="orb"><div class="orb-ui"><div class="mini-top">正在编辑 · 当前段落</div><div class="sel">这段写得太长，需要更简洁、正式一点。</div><div class="mini-chip">✦ 精简并改写</div></div></div><h3>很懂你</h3><p>知道你在写什么、想改哪里</p></div>
+    <div class="ability"><div class="orb"><div class="orb-ui"><div class="mini-top">小爱已整理</div><div class="summary-box"><b>会议结论</b><span>3 个决策 · 4 项待办</span><span>已生成结构化纪要</span></div><div class="mini-chip">插入当前笔记</div></div></div><h3>很强大</h3><p>长内容直接总结、写作、整理</p></div>
+    <div class="ability"><div class="orb"><div class="orb-ui"><div class="lock">⌁</div><div class="safe-note">参考内容和修改范围都看得见</div><div class="safe-row"><div class="safe-btn">保留原文</div><div class="safe-btn primary">替换</div></div></div></div><h3>很安心</h3><p>来源看得见，修改可撤回</p></div>
+  </div>
+  <div class="hero-foot">同一个小爱，进入笔记后，直接理解和处理你的笔记内容</div>
+  <div class="pager">01 / 05</div>
+</section>
+
+<section class="slide" data-title="AI应用变更">
+  <div class="eyebrow">AI 应用 · 这次变更</div>
+  <h1 class="title">小爱进入笔记，AI 不再躲在功能菜单里</h1>
+  <p class="subtitle">过去要先想“该点哪个 AI 功能”；现在小爱就在编辑现场，跟着当前内容给出下一步。</p>
+  <div class="content">
+    <div class="change-grid">
+      <div class="change-card old"><div class="tag">BEFORE · 单点工具</div><h3>写完以后，再去找 AI</h3><ul><li>总结、改写、续写分散在不同入口</li><li>先选功能，再告诉 AI 要处理什么</li><li>每次只完成一个孤立动作</li></ul></div>
+      <div class="big-arrow">→</div>
+      <div class="change-card new"><div class="tag">NOW · 笔记里的小爱</div><h3>写到哪，小爱就跟到哪</h3><ul><li>空白时帮你开始，不用盯着空页</li><li>写一半帮你接着写，沿用当前上下文</li><li>选中一段就改这一段，结果可预览</li></ul><div class="moments"><div class="moment"><b>没写</b><span>帮你开始</span></div><div class="moment"><b>写一半</b><span>帮你写下去</span></div><div class="moment"><b>选中一段</b><span>帮你改好</span></div></div></div>
+    </div>
+  </div>
+  <div class="brand">XIAOMI NOTES × SUPER XIAOAI</div><div class="pager">02 / 05</div>
+</section>
+
+<section class="slide" data-title="总结与找回">
+  <div class="eyebrow">AI 应用 · 长内容处理</div>
+  <h1 class="title">长笔记不再自己翻，小爱直接提炼成可用结果</h1>
+  <p class="subtitle">一篇会议记录，从完整留下，到自动整理，再到一句话问回关键结论。</p>
+  <div class="content">
+    <div class="flow">
+      <div class="shot"><div class="step-no">01 · 看懂整篇</div><h3>会议内容完整留下</h3><p>录音与文字对齐，当前笔记就是小爱的上下文</p><img class="phone-img" src="img/scene-12-1.png" alt="边开会边语音速记"></div>
+      <div class="arrow">›</div>
+      <div class="shot"><div class="step-no">02 · 自动整理</div><h3>提炼结论和待办</h3><p>重点、结论、分歧、谁来做，直接整理清楚</p><img class="phone-img" src="img/scene-12-2.png" alt="AI自动生成会议纪要"></div>
+      <div class="arrow">›</div>
+      <div class="shot"><div class="step-no">03 · 随时追问</div><h3>问一句，答案回到原文</h3><p>不靠关键词翻找，回答同时标出内容来源</p><img class="phone-img" src="img/scene-12-3.png" alt="一句话语义找回"></div>
+    </div>
+  </div>
+  <div class="speech">“帮我总结这次会议，列出<b>结论和待办</b>”</div>
+  <div class="brand">XIAOMI NOTES × SUPER XIAOAI</div><div class="pager">03 / 05</div>
+</section>
+
+<section class="slide" data-title="伴随写作">
+  <div class="eyebrow">AI 应用 · 伴随写作</div>
+  <h1 class="title">写不出来、写到一半、写完要改，小爱都能接上</h1>
+  <p class="subtitle">不是摆一排 AI 按钮，而是根据笔记当前状态，直接给最需要的下一步。</p>
+  <div class="content">
+    <div class="write-grid">
+      <div class="write-card"><div class="phase">01 · 还没写</div><h3>帮你开始</h3><p>说一句主题，直接起稿</p><div class="device"><div class="status"><span>9:41</span><span>100%</span></div><div class="navline"><span>‹</span><span>↶　↷　✓</span></div><div class="note-title">未命名笔记</div><div class="meta">今天 10:29 ｜ 0 字</div><div class="bodycopy"><span class="cursor"></span><span class="guide"> 开始书写，或说出你的想法</span></div><div class="chips"><span class="chip">写一段</span><span class="chip gray">列清单</span><span class="chip gray">记要点</span></div><div class="toolbar"><span class="ai-star">✦ 小爱</span><span>🎙</span><span>✎</span><span>☑</span><span>T</span></div></div></div>
+      <div class="write-card"><div class="phase">02 · 写一半</div><h3>帮你写下去</h3><p>顺着已有内容扩写、补全</p><div class="device"><div class="status"><span>9:41</span><span>100%</span></div><div class="navline"><span>‹</span><span>↶　↷　✓</span></div><div class="note-title">直播间的信任</div><div class="meta">今天 16:20 ｜ 写了一半</div><div class="bodycopy">直播间的信任，靠主播每天准点出现攒下来。但光准点还不够，还得<span class="cursor"></span></div><div class="chips"><span class="chip">扩写成段</span><span class="chip gray">补个案例</span><span class="chip gray">换个开头</span></div><div class="toolbar"><span class="ai-star">✦ 小爱</span><span>🎙</span><span>✎</span><span>☑</span><span>T</span></div></div></div>
+      <div class="write-card"><div class="phase">03 · 选中一段</div><h3>帮你改好</h3><p>选中哪里，就只改哪里</p><div class="device"><div class="status"><span>9:41</span><span>100%</span></div><div class="navline"><span>‹</span><span>↶　↷　✓</span></div><div class="note-title">直播间的信任</div><div class="meta">今天 16:22</div><div class="bodycopy">真正的信任，是<span class="highlight">观众知道你一定在——每天准点只是开始，长期稳定才行。</span></div><div class="edit-pop"><div>✦ 精简这段</div><div>换成正式语气</div><div>总结成一句</div></div><div class="toolbar"><span class="ai-star">✦ 小爱</span><span>🎙</span><span>✎</span><span>☑</span><span>T</span></div></div></div>
+    </div>
+  </div>
+  <div class="brand">XIAOMI NOTES × SUPER XIAOAI</div><div class="pager">04 / 05</div>
+</section>
+
+<section class="slide" data-title="能力收束">
+  <div class="eyebrow">小米笔记 × 超级小爱</div>
+  <h1 class="title">在笔记里，小爱随时帮你<em>找、理、写、改</em></h1>
+  <p class="subtitle">同一个入口，理解当前笔记和选中内容；你说想要的结果，小爱直接在笔记里完成。</p>
+  <div class="content">
+    <div class="safety">
+      <div class="big-note"><h3>本周产品进展</h3><div class="meta">今天 17:40 ｜ 860 字</div><p>本周完成产品方案第一轮评审，会上重点讨论了入口、生成质量与结果回写……</p><p>当前需要继续确认首版范围、评测标准和协同排期。</p><div class="xiaoai-bar"><div class="spark">✦</div><span>问小爱，或告诉它你想怎么处理这篇笔记</span><b>发送 ↑</b></div></div>
+      <div><div class="command-list"><div class="command"><small>很好找</small><b>“上次评审最后定了什么？”</b><p>从笔记内容中回答，并回到原文</p></div><div class="command"><small>很强大</small><b>“把这篇整理成汇报”</b><p>提炼重点，生成可继续编辑的完整结果</p></div><div class="command"><small>很懂你</small><b>“把我选中的这段写得更正式”</b><p>理解当前笔记和选区，只修改指定内容</p></div></div><div class="trust-row"><span class="trust">来源可查看</span><span class="trust">原文可保留</span><span class="trust">修改可撤回</span></div></div>
+    </div>
+  </div>
+  <div class="closing">不是多了几个 AI 功能，而是<span class="accent">小爱真正进入了笔记的记录、整理和写作过程</span></div>
+  <div class="brand">XIAOMI NOTES × SUPER XIAOAI</div><div class="pager">05 / 05</div>
+</section>
+</div>
+<nav class="nav" id="nav"></nav><div class="hint">← → / SPACE 翻页</div>
+<script>
+const deck=document.getElementById('deck'),slides=[...document.querySelectorAll('.slide')],nav=document.getElementById('nav');let current=0;
+slides.forEach((s,i)=>{const b=document.createElement('button');b.className='dot'+(i===0?' on':'');b.title=s.dataset.title||`第 ${i+1} 页`;b.onclick=()=>go(i);nav.appendChild(b)});const dots=[...nav.children];
+function go(i){current=Math.max(0,Math.min(slides.length-1,i));slides[current].scrollIntoView({behavior:'smooth'});dots.forEach((d,n)=>d.classList.toggle('on',n===current))}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){current=slides.indexOf(e.target);dots.forEach((d,n)=>d.classList.toggle('on',n===current))}}),{root:deck,threshold:.62});slides.forEach(s=>io.observe(s));
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(current+1)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1)});
+</script>
+</body>
+</html>
