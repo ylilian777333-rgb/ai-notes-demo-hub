@@ -5,118 +5,81 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>小米笔记 · 笔记里的小爱（发布会页）</title>
 <style>
-:root{--bg:#050506;--ink:#f6f7f8;--muted:#a7abb5;--brand:#8b93ff;--brand2:#b98cff;--red:#ff5647;--paper:#f7f7f9;--pink:#6674ff}
+:root{--bg:#050506;--ink:#f6f7f8;--muted:#a7abb5;--brand:#aeb4ff}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{background:radial-gradient(80% 100% at 50% 115%,rgba(90,82,255,.16),transparent 62%),var(--bg);color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;height:100vh;overflow:hidden;position:relative;display:flex;flex-direction:column;padding:7vh 6vw 5vh}
-body:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);background-size:54px 54px;mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 82%,transparent);pointer-events:none}
-.head{position:relative;z-index:1;text-align:center}
-.eyebrow{font-size:.95vw;letter-spacing:.22em;color:#aeb4ff;font-weight:700}
-h1{font-size:2.9vw;font-weight:740;letter-spacing:-.02em;margin-top:1.3vh;line-height:1.2}
-h1 em{font-style:normal;color:#aeb4ff}
-.sub{font-size:1.1vw;color:var(--muted);margin-top:1.3vh;font-weight:500}
-.row{position:relative;z-index:1;flex:1;display:flex;align-items:center;justify-content:center;gap:2.4vw}
-.col{display:flex;flex-direction:column;align-items:center;gap:1.7vh}
-.tag{font-size:1.15vw;font-weight:680}
-.tag small{display:block;font-size:.72vw;color:#8b90a0;font-weight:500;margin-top:.4vh;letter-spacing:.02em}
-/* 手机 */
-.phone{width:15.5vw;aspect-ratio:9/19.5;border-radius:2.4vw;background:var(--paper);border:3px solid #26282f;box-shadow:0 26px 60px rgba(0,0,0,.5);padding:1vh .7vw 0;color:#17181d;position:relative;overflow:hidden;display:flex;flex-direction:column}
-.st{display:flex;justify-content:space-between;font-size:.52vw;font-weight:700;padding:0 .3vw}
-.nv{display:flex;justify-content:space-between;font-size:.8vw;color:#3b3e45;margin-top:.9vh;padding:0 .1vw}
-.nt{font-size:1vw;font-weight:760;margin-top:1.2vh}
-.mt{font-size:.5vw;color:#9a9ca3;margin-top:.3vh}
-/* 对话气泡 */
-.ask{align-self:flex-end;background:var(--pink);color:#fff;font-size:.66vw;line-height:1.4;padding:.7vh .8vw;border-radius:1vw 1vw .3vw 1vw;max-width:82%;margin-top:1.5vh}
-.ans{background:#eef0fb;border-radius:.9vw;padding:.8vh .8vw;margin-top:1.1vh}
-.ans .li{font-size:.62vw;line-height:1.5;color:#2b2e36;padding-left:.7vw;position:relative;margin:.35vh 0}
-.ans .li:before{content:"";position:absolute;left:0;top:.5em;width:.28vw;height:.28vw;border-radius:50%;background:var(--pink)}
-.src{font-size:.5vw;color:#7b82e6;margin-top:.7vh;font-weight:600}
-/* 纪要卡 */
-.card{background:#fff;border:1px solid #eceef2;border-radius:.9vw;box-shadow:0 6px 16px rgba(20,22,30,.06);padding:.9vh .8vw;margin-top:1.3vh}
-.card .h{font-size:.6vw;font-weight:800;color:var(--pink);letter-spacing:.05em}
-.card .l{height:.32vw;border-radius:1vw;background:#dfe1e8;margin:.5vh 0}
-.card .l.s{width:60%}
-.todo{display:flex;align-items:center;gap:.4vw;font-size:.6vw;color:#2b2e36;margin:.5vh 0}
-.box{width:.62vw;height:.62vw;border-radius:.16vw;border:1.4px solid var(--pink)}
-.box.on{background:var(--pink)}
-/* 编辑+选中 */
-.body{font-size:.66vw;line-height:1.7;color:#33363d;margin-top:1.5vh}
-.hl{background:#dce1ff;border-radius:.2vw;padding:.06vw .12vw}
-.pop{background:#fff;border-radius:.7vw;box-shadow:0 8px 22px rgba(0,0,0,.16);padding:.4vw;margin-top:1.4vh}
-.pop div{font-size:.6vw;padding:.5vh .6vw;border-radius:.4vw;color:#33363d}
-.pop div.on{background:#eef0ff;color:#4c5bdf;font-weight:700}
-/* 底部小爱条 */
-.bar{margin-top:auto;margin-bottom:1vh;height:4vh;border-radius:1.4vw;background:#fff;border:1px solid #e6e7ec;box-shadow:0 4px 14px rgba(20,22,30,.08);display:flex;align-items:center;gap:.5vw;padding:0 .7vw}
-.spark{width:1.5vw;height:1.5vw;border-radius:50%;background:linear-gradient(135deg,#6979ff,#af76ff);display:grid;place-items:center;color:#fff;font-size:.7vw;flex:0 0 auto}
-.bar span{font-size:.56vw;color:#8a8f9b}
-.foot{position:relative;z-index:1;text-align:center;font-size:.92vw;color:#787c88;margin-top:1.4vh}
-.foot strong{color:#cfd1ff;font-weight:700}
-.brand{position:absolute;left:2.6vw;bottom:1.8vh;color:#767a85;font-size:.8vw;letter-spacing:.06em;z-index:1}
-@media(max-aspect-ratio:4/3){h1{font-size:4vw}.tag small{display:none}}
+html,body{height:100%;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{overflow:hidden}
+.deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:radial-gradient(70% 90% at 82% 50%,rgba(90,82,255,.12),transparent 60%),var(--bg);display:flex;align-items:center;justify-content:center;gap:6vw;padding:0 9vw}
+.slide:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(80% 80% at 50% 50%,#000,transparent);pointer-events:none}
+.slide>*{position:relative;z-index:1}
+/* 左侧手机截图占位 */
+.ph{width:20vw;aspect-ratio:9/19.5;border-radius:2.4vw;border:2px dashed #3a3d47;background:linear-gradient(180deg,#111218,#0b0c11);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4vh;color:#6b7080;text-align:center;padding:0 1.6vw;flex:0 0 auto}
+.ph .cam{width:1vw;height:1vw;border-radius:50%;background:#23262f;position:absolute;top:1.4vh;left:50%;transform:translateX(-50%)}
+.ph .ico{font-size:2.2vw;opacity:.5}
+.ph .plabel{font-size:.82vw;letter-spacing:.14em;color:#7b8090;font-weight:700}
+.ph .pdesc{font-size:.72vw;line-height:1.6;color:#5b606d}
+/* 右侧文案 */
+.copy{max-width:40vw}
+.eyebrow{font-size:.95vw;letter-spacing:.2em;color:var(--brand);font-weight:700}
+.stage{font-size:3.4vw;font-weight:780;letter-spacing:-.02em;margin-top:1.6vh;line-height:1.1}
+.line{font-size:1.5vw;line-height:1.7;margin-top:2.6vh;color:#e7e8ee;font-weight:520}
+.line b{color:#fff;font-weight:760}
+.quote{color:var(--brand);font-weight:800}
+.result{font-size:1vw;color:#8b909c;margin-top:2vh;line-height:1.6}
+.brand{position:absolute;left:3vw;bottom:2.4vh;color:#767a85;font-size:.8vw;letter-spacing:.06em}
+.pager{position:absolute;right:3vw;bottom:2.4vh;color:#676b75;font-size:.85vw;letter-spacing:.12em}
+.nav{position:fixed;right:1.6vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:10px}
+.dot{width:8px;height:8px;border-radius:50%;background:#555;border:0;cursor:pointer;transition:.25s}
+.dot.on{height:26px;border-radius:8px;background:var(--brand)}
+.hint{position:fixed;left:50%;bottom:1.1vh;transform:translateX(-50%);z-index:20;color:#646872;font-size:.72vw;letter-spacing:.08em}
+@media(max-aspect-ratio:4/3){.stage{font-size:5vw}.line{font-size:2.4vw}}
 </style>
 </head>
 <body>
-<div class="head">
-  <div class="eyebrow">小米笔记 · AI 应用</div>
-  <h1>在小米笔记里，随时喊一声<em>小爱</em></h1>
-  <div class="sub">找内容、理笔记、帮你写，一句话就行——它看得懂你正在写的这篇。</div>
+<div class="deck" id="deck">
+
+  <section class="slide" data-title="翻笔记">
+    <div class="ph"><span class="cam"></span><span class="ico">🔍</span><span class="plabel">截图占位</span><span class="pdesc">笔记内小爱问答：<br>问一句 → 从多篇笔记里给出答案 + 来源笔记</span></div>
+    <div class="copy">
+      <div class="eyebrow">笔记里的小爱 · 找</div>
+      <div class="stage">想找旧笔记</div>
+      <div class="line">让小爱 <span class="quote">「找出上次产品评审定了哪三件事，告诉我记在哪篇笔记里」</span></div>
+      <div class="result">不用自己翻——它直接从你存过的笔记里回答，并带上出处。</div>
+    </div>
+    <div class="brand">XIAOMI NOTES</div><div class="pager">01 / 03</div>
+  </section>
+
+  <section class="slide" data-title="开完会">
+    <div class="ph"><span class="cam"></span><span class="ico">🗂️</span><span class="plabel">截图占位</span><span class="pdesc">一篇长会议录音笔记 →<br>小爱自动生成的纪要：摘要 / 结论 / 待办</span></div>
+    <div class="copy">
+      <div class="eyebrow">笔记里的小爱 · 理</div>
+      <div class="stage">开完一场会</div>
+      <div class="line">让小爱 <span class="quote">「把刚才的会议录音整理成纪要，列出结论和待办」</span></div>
+      <div class="result">一段长录音，一句话就变成能直接用的重点、结论和待办。</div>
+    </div>
+    <div class="brand">XIAOMI NOTES</div><div class="pager">02 / 03</div>
+  </section>
+
+  <section class="slide" data-title="写东西">
+    <div class="ph"><span class="cam"></span><span class="ico">✍️</span><span class="plabel">截图占位</span><span class="pdesc">笔记编辑页选中一段 →<br>小爱给出：精简 / 换正式语气 / 接着写</span></div>
+    <div class="copy">
+      <div class="eyebrow">笔记里的小爱 · 写</div>
+      <div class="stage">写到一半</div>
+      <div class="line">让小爱 <span class="quote">「把我选中的这段，改得更简洁、正式一点」</span></div>
+      <div class="result">选中哪段就改哪段，看得懂你这篇写了什么，原文保留、可撤回。</div>
+    </div>
+    <div class="brand">XIAOMI NOTES</div><div class="pager">03 / 03</div>
+  </section>
+
 </div>
-
-<div class="row">
-  <div class="col">
-    <div class="phone">
-      <div class="st"><span>9:41</span><span>5G ▮</span></div>
-      <div class="nv"><span>‹ 全部笔记</span><span>⋯</span></div>
-      <div class="nt">问小爱</div>
-      <div class="mt">从你存过的笔记里找答案</div>
-      <div class="ask">上次产品会最后定了什么？</div>
-      <div class="ans">
-        <div class="li">首版先做会议、旅行两个场景</div>
-        <div class="li">生成质量本周内对齐评测标准</div>
-        <div class="li">下周五提交排期</div>
-        <div class="src">来源 ·《产品周会》6/18 ↗</div>
-      </div>
-      <div class="bar"><div class="spark">✦</div><span>接着问，或让它继续整理</span></div>
-    </div>
-    <div class="tag">问笔记<small>问一句，答案带出处</small></div>
-  </div>
-
-  <div class="col">
-    <div class="phone">
-      <div class="st"><span>9:41</span><span>5G ▮</span></div>
-      <div class="nv"><span>‹ 产品周会</span><span>⋯</span></div>
-      <div class="nt">这次会议整理好了</div>
-      <div class="mt">一段长录音 · 已自动成形</div>
-      <div class="card"><div class="h">摘要</div><div class="l"></div><div class="l s"></div></div>
-      <div class="card"><div class="h">待办 · 4</div>
-        <div class="todo"><span class="box on"></span>确认首版范围</div>
-        <div class="todo"><span class="box"></span>对齐评测标准</div>
-        <div class="todo"><span class="box"></span>提交排期</div>
-      </div>
-      <div class="bar"><div class="spark">✦</div><span>再问一句，或生成汇报</span></div>
-    </div>
-    <div class="tag">理笔记<small>长内容一键成形</small></div>
-  </div>
-
-  <div class="col">
-    <div class="phone">
-      <div class="st"><span>9:41</span><span>5G ▮</span></div>
-      <div class="nv"><span>‹ 周会汇报</span><span>↶ ↷ ✓</span></div>
-      <div class="nt">本周进展</div>
-      <div class="mt">今天 17:40 ｜ 编辑中</div>
-      <div class="body">本周完成方案第一轮评审，<span class="hl">会上重点讨论了入口、生成质量和结果回写，大家都还挺认可的。</span></div>
-      <div class="pop">
-        <div class="on">✦ 精简这段</div>
-        <div>换成正式语气</div>
-        <div>接着往下写</div>
-      </div>
-      <div class="bar"><div class="spark">✦</div><span>选中哪段就改哪段 · 可撤回</span></div>
-    </div>
-    <div class="tag">帮你写<small>选中即改，原文可留</small></div>
-  </div>
-</div>
-
-<div class="foot">同一个小爱，进了笔记就<strong>看得懂你这篇内容</strong>——你说想要什么结果，它直接在笔记里做完。</div>
-<div class="brand">XIAOMI NOTES</div>
+<nav class="nav" id="nav"></nav><div class="hint">← → / SPACE 翻页</div>
+<script>
+const deck=document.getElementById('deck'),slides=[...document.querySelectorAll('.slide')],nav=document.getElementById('nav');let current=0;
+slides.forEach((s,i)=>{const b=document.createElement('button');b.className='dot'+(i===0?' on':'');b.title=s.dataset.title||`第 ${i+1} 页`;b.onclick=()=>go(i);nav.appendChild(b)});const dots=[...nav.children];
+function go(i){current=Math.max(0,Math.min(slides.length-1,i));slides[current].scrollIntoView({behavior:'smooth'});dots.forEach((d,n)=>d.classList.toggle('on',n===current))}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){current=slides.indexOf(e.target);dots.forEach((d,n)=>d.classList.toggle('on',n===current))}}),{root:deck,threshold:.6});slides.forEach(s=>io.observe(s));
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(current+1)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1)});
+</script>
 </body>
 </html>
