@@ -5,95 +5,67 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>小米笔记 · AI 笔记（发布会页）</title>
 <style>
-:root{--bg:#050506;--ink:#f6f7f8;--muted:#a7abb5;--brand:#aeb4ff}
+:root{--bg:#050506;--ink:#f6f7f8;--muted:#9aa0ad}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 body{overflow:hidden}
 .deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
-.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:radial-gradient(72% 92% at 80% 50%,rgba(90,82,255,.12),transparent 60%),var(--bg);display:flex;align-items:center;justify-content:center;gap:5.5vw;padding:0 8vw}
-.slide:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(82% 82% at 50% 50%,#000,transparent);pointer-events:none}
-.slide>*{position:relative;z-index:1}
-/* 左侧图区 */
-.media{flex:0 0 auto;display:flex;align-items:center;justify-content:center}
-.media.col{flex-direction:column;gap:2.2vh}
-.ph{border:2px dashed #3a3d47;background:linear-gradient(180deg,#111218,#0b0c11);border-radius:2.2vw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2vh;color:#6b7080;text-align:center;padding:0 1.5vw;position:relative;aspect-ratio:9/19.5}
-.ph .cam{width:.9vw;height:.9vw;border-radius:50%;background:#23262f;position:absolute;top:1.3vh;left:50%;transform:translateX(-50%)}
-.ph .ico{font-size:2vw;opacity:.5}
-.ph .plabel{font-size:.78vw;letter-spacing:.14em;color:#7b8090;font-weight:700}
-.ph .pdesc{font-size:.68vw;line-height:1.55;color:#5b606d}
-.ph.big{height:42vh}
-.ph.mid{height:38vh}
-.ph.tall{height:56vh}
-.arrow2{font-size:2vw;color:#7e8492;flex:0 0 auto}
-.row2{gap:1.4vw}
-/* 底部入口占位 */
-.devs{display:flex;gap:.7vw}
-.dev{width:6.4vw;height:6.4vw;border:1.5px dashed #34373f;border-radius:1vw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5vh;color:#6b7080}
-.dev .di{font-size:1.3vw;opacity:.6}
-.dev .dl{font-size:.62vw;color:#71768a}
-/* 右侧文案 */
-.copy{max-width:38vw}
-.eyebrow{font-size:.92vw;letter-spacing:.18em;color:var(--brand);font-weight:700}
-.stage{font-size:3.1vw;font-weight:780;letter-spacing:-.02em;margin-top:1.5vh;line-height:1.15}
-.line{font-size:1.32vw;line-height:1.75;margin-top:2.4vh;color:#e7e8ee;font-weight:500}
-.line b{color:#fff;font-weight:740}
-.tags{display:flex;gap:.6vw;margin-top:2.6vh;flex-wrap:wrap}
-.tg{font-size:.82vw;color:#c9ccf5;background:rgba(139,147,255,.14);border:1px solid rgba(174,180,255,.26);border-radius:2vw;padding:.7vh 1.1vw;font-weight:600}
+.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:#050506;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8vh 5vw 7vh}
+.htitle{font-size:2.5vw;font-weight:760;letter-spacing:-.01em;text-align:center;line-height:1.25}
+.htitle b{color:#aeb4ff;font-weight:760}
+.hsub{font-size:1vw;color:var(--muted);text-align:center;margin-top:1.6vh;font-weight:500;letter-spacing:.02em}
+.shots{display:flex;align-items:flex-start;justify-content:center;gap:2.2vw;margin-top:5vh}
+.item{display:flex;flex-direction:column;align-items:center;gap:1.8vh}
+.ph{height:46vh;aspect-ratio:9/19.5;border:2px dashed #3a3d47;border-radius:2vw;background:linear-gradient(180deg,#111218,#0b0c11);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1vh;color:#6b7080;text-align:center;padding:0 1.2vw;position:relative}
+.ph .cam{width:.8vw;height:.8vw;border-radius:50%;background:#23262f;position:absolute;top:1.2vh;left:50%;transform:translateX(-50%)}
+.ph .ico{font-size:1.7vw;opacity:.5}
+.ph .plabel{font-size:.72vw;letter-spacing:.12em;color:#7b8090;font-weight:700}
+.ph .pdesc{font-size:.66vw;line-height:1.55;color:#5b606d}
+.cap{font-size:1.02vw;font-weight:640;color:#eef0f6;text-align:center;max-width:15vw;line-height:1.4}
+.cap small{display:block;font-size:.76vw;color:#8b909c;font-weight:500;margin-top:.5vh}
 .brand{position:absolute;left:3vw;bottom:2.4vh;color:#767a85;font-size:.8vw;letter-spacing:.06em}
 .pager{position:absolute;right:3vw;bottom:2.4vh;color:#676b75;font-size:.85vw;letter-spacing:.12em}
 .nav{position:fixed;right:1.6vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:10px}
 .dot{width:8px;height:8px;border-radius:50%;background:#555;border:0;cursor:pointer;transition:.25s}
-.dot.on{height:26px;border-radius:8px;background:var(--brand)}
+.dot.on{height:26px;border-radius:8px;background:#aeb4ff}
 .hint{position:fixed;left:50%;bottom:1.1vh;transform:translateX(-50%);z-index:20;color:#646872;font-size:.72vw;letter-spacing:.08em}
-@media(max-aspect-ratio:4/3){.stage{font-size:4.6vw}.line{font-size:2.2vw}}
+@media(max-aspect-ratio:4/3){.htitle{font-size:3.6vw}.ph{height:38vh}}
 </style>
 </head>
 <body>
 <div class="deck" id="deck">
 
-  <section class="slide" data-title="记进来">
-    <div class="media col">
-      <div class="ph big"><span class="cam"></span><span class="ico">🎙️</span><span class="plabel">主图占位</span><span class="pdesc">按住说一句 → 自动转成<br>一篇整齐、分好段的笔记</span></div>
-      <div class="devs">
-        <div class="dev"><span class="di">⌨️</span><span class="dl">AI 键</span></div>
-        <div class="dev"><span class="di">📞</span><span class="dl">通话</span></div>
-        <div class="dev"><span class="di">🌐</span><span class="dl">网页</span></div>
-        <div class="dev"><span class="di">⌚</span><span class="dl">手表耳机</span></div>
-      </div>
-    </div>
-    <div class="copy">
-      <div class="eyebrow">AI 笔记 · 记进来</div>
-      <div class="stage">走到哪记到哪，<br>换设备内容都在</div>
-      <div class="line">开口就记，<b>AI 键、通话、网页随手一收</b>；手机、平板、手表、耳机都能记，换个设备，内容还在手边。</div>
-      <div class="tags"><span class="tg">开口就记</span><span class="tg">多入口采集</span><span class="tg">全设备同步</span></div>
+  <section class="slide" data-title="随手记">
+    <div class="htitle">随手就记，<b>走到哪都能记</b></div>
+    <div class="hsub">开口就记，多入口一键收，全设备内容都在手边</div>
+    <div class="shots">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🎙️</span><span class="plabel">截图占位</span><span class="pdesc">按住说一句 →<br>自动转成整齐笔记</span></div><div class="cap">开口就记<small>不用打字，说完就成型</small></div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">⌨️</span><span class="plabel">截图占位</span><span class="pdesc">AI 键 / 通话 / 网页<br>一键存进笔记</span></div><div class="cap">多入口一键收<small>看到就存，不用切来切去</small></div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">⌚</span><span class="plabel">截图占位</span><span class="pdesc">手表、耳机<br>随手也能记</span></div><div class="cap">可穿戴也能记<small>走路途中的想法也接得住</small></div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🔄</span><span class="plabel">截图占位</span><span class="pdesc">多端同步 →<br>换设备内容都在</span></div><div class="cap">全设备同步<small>手机、平板换着用都在</small></div></div>
     </div>
     <div class="brand">XIAOMI NOTES · AI</div><div class="pager">01 / 03</div>
   </section>
 
   <section class="slide" data-title="自动成型">
-    <div class="media row2">
-      <div class="ph mid"><span class="cam"></span><span class="ico">🎧</span><span class="plabel">图占位 · 前</span><span class="pdesc">一段长录音 /<br>一堆零散记录</span></div>
-      <div class="arrow2">→</div>
-      <div class="ph mid"><span class="cam"></span><span class="ico">📋</span><span class="plabel">图占位 · 后</span><span class="pdesc">自动理成：纪要 · 待办<br>思维导图 · 播客</span></div>
-    </div>
-    <div class="copy">
-      <div class="eyebrow">AI 笔记 · 自动成型</div>
-      <div class="stage">记完，自动<br>就是一份成品</div>
-      <div class="line">一段乱录音、一堆碎片，<b>自动转写、提炼</b>，理成纪要、待办和思维导图，还能生成一档播客。</div>
-      <div class="tags"><span class="tg">自动转写</span><span class="tg">纪要待办</span><span class="tg">思维导图</span><span class="tg">一键播客</span></div>
+    <div class="htitle">记完，<b>自动理成能用的成果</b></div>
+    <div class="hsub">一段乱录音、一堆碎片，AI 帮你理好、提炼、成稿</div>
+    <div class="shots">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📋</span><span class="plabel">截图占位</span><span class="pdesc">模板化纪要<br>重点免回听</span></div><div class="cap">自动生成纪要<small>会议、访谈一键成文</small></div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">✅</span><span class="plabel">截图占位</span><span class="pdesc">待办自动提取<br>谁做什么、何时完成</span></div><div class="cap">待办自动成清单<small>该做的事不遗漏</small></div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🧭</span><span class="plabel">截图占位</span><span class="pdesc">生成大纲 / 思维导图<br>一键溯源原文</span></div><div class="cap">大纲与思维导图<small>长内容一眼看清结构</small></div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🎧</span><span class="plabel">截图占位</span><span class="pdesc">碎片内容<br>一键生成播客</span></div><div class="cap">一键生成播客<small>用听的把内容过一遍</small></div></div>
     </div>
     <div class="brand">XIAOMI NOTES · AI</div><div class="pager">02 / 03</div>
   </section>
 
   <section class="slide" data-title="用起来">
-    <div class="media">
-      <div class="ph tall"><span class="cam"></span><span class="ico">🔎</span><span class="plabel">主图占位</span><span class="pdesc">在笔记里问一句 →<br>跨多篇给出答案 + 来源笔记，<br>下方可一键生成汇报</span></div>
-    </div>
-    <div class="copy">
-      <div class="eyebrow">AI 笔记 · 用起来</div>
-      <div class="stage">记得再多再乱，<br>一句话就问到</div>
-      <div class="line">按意思搜、不用记关键词；<b>跨多篇问一句就有答案、还带出处</b>；散在多篇的内容，也能合成一份汇报。</div>
-      <div class="tags"><span class="tg">语义搜索</span><span class="tg">跨篇 AI 问答</span><span class="tg">带出处</span><span class="tg">再产出</span></div>
+    <div class="htitle">记得再多再乱，<b>一句话就问到</b></div>
+    <div class="hsub">按意思搜、跨多篇问、还能把散在多处的内容合起来用</div>
+    <div class="shots">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🔎</span><span class="plabel">截图占位</span><span class="pdesc">按意思搜<br>不用记关键词</span></div><div class="cap">语义搜索<small>说个大概就能找到</small></div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">💬</span><span class="plabel">截图占位</span><span class="pdesc">跨多篇问一句<br>答案带来源笔记</span></div><div class="cap">笔记内 AI 问答<small>答案能回到原文出处</small></div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📝</span><span class="plabel">截图占位</span><span class="pdesc">散在多篇的内容<br>合成一份汇报</span></div><div class="cap">一键再产出<small>存过的内容拿来就用</small></div></div>
     </div>
     <div class="brand">XIAOMI NOTES · AI</div><div class="pager">03 / 03</div>
   </section>
