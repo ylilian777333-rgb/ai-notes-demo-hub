@@ -3,166 +3,120 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>小米笔记 · AI 应用发布会 Demo</title>
+<title>小米笔记 · 笔记里的小爱（发布会页）</title>
 <style>
-:root{--bg:#050506;--ink:#f6f7f8;--muted:#a7abb5;--line:rgba(255,255,255,.13);--brand:#8b93ff;--brand2:#b98cff;--soft:rgba(139,147,255,.16);--red:#ff5647;--shadow:0 26px 70px rgba(0,0,0,.5)}
+:root{--bg:#050506;--ink:#f6f7f8;--muted:#a7abb5;--brand:#8b93ff;--brand2:#b98cff;--red:#ff5647;--paper:#f7f7f9;--pink:#6674ff}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-body{overflow:hidden}
-.deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
-.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:radial-gradient(75% 95% at 50% 112%,rgba(90,82,255,.16),transparent 62%),var(--bg);padding:7vh 7vw 6vh;display:flex;flex-direction:column}
-.slide:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);background-size:54px 54px;mask-image:linear-gradient(to bottom,transparent,#000 24%,#000 78%,transparent);pointer-events:none}
-.slide>*{position:relative;z-index:1}
-.eyebrow{font-size:.9vw;letter-spacing:.2em;color:#aeb4ff;font-weight:700}
-.title{font-size:3vw;line-height:1.2;font-weight:760;letter-spacing:-.03em;margin-top:1.5vh;text-wrap:balance}
-.title em{font-style:normal;color:#aeb4ff}
-.subtitle{font-size:1.12vw;color:var(--muted);line-height:1.7;margin-top:1.5vh;max-width:74vw;text-wrap:balance}
-.content{flex:1;display:flex;align-items:center;justify-content:center}
-.pager{position:absolute;right:3vw;bottom:2.6vh;color:#676b75;font-size:.85vw;letter-spacing:.12em}
-.brand{position:absolute;left:3vw;bottom:2.5vh;color:#767a85;font-size:.82vw;letter-spacing:.06em}
-.accent{color:#b7baff}
-/* 能力四卡 */
-.caps{width:84vw;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5vw}
-.cap{background:linear-gradient(165deg,rgba(255,255,255,.085),rgba(255,255,255,.03));border:1px solid var(--line);border-radius:1.5vw;padding:3vh 1.5vw;min-height:44vh;display:flex;flex-direction:column;box-shadow:var(--shadow)}
-.cap .ic{width:3.4vw;height:3.4vw;border-radius:1vw;display:grid;place-items:center;font-size:1.7vw;background:var(--soft);border:1px solid rgba(174,180,255,.28)}
-.cap h3{font-size:1.5vw;font-weight:680;margin-top:2.2vh}
-.cap .say{font-size:.92vw;color:#cdd0ff;margin-top:1.1vh;font-weight:600;line-height:1.5}
-.cap p{font-size:.82vw;color:#8f94a0;margin-top:auto;line-height:1.55}
-.cap .kw{margin-top:1.4vh;font-size:.72vw;color:#8087ff;letter-spacing:.08em;font-weight:700}
-.hero-foot{margin-top:3.2vh;text-align:center;font-size:.92vw;color:#787c88}
-.hero-foot strong{color:#cfd1ff;font-weight:700}
-/* 场景流 */
-.flow{width:88vw;display:flex;align-items:center;justify-content:center;gap:1.1vw}
-.shot{width:22vw;background:#101116;border:1px solid var(--line);border-radius:1.6vw;padding:1.3vh 1vw 1.6vh;box-shadow:var(--shadow)}
-.shot .sn{font-size:.72vw;color:#9ba2ff;letter-spacing:.1em;font-weight:700}
-.shot h3{font-size:1.1vw;font-weight:640;margin-top:.5vh}
-.shot p{font-size:.74vw;color:#9297a2;margin-top:.5vh;line-height:1.45}
-.phone-img{height:47vh;margin:1.2vh auto 0;display:block;max-width:100%;object-fit:contain;border-radius:1vw}
-.arrow{font-size:2.1vw;color:#7e8492}
-.speech{position:absolute;left:7vw;bottom:6vh;width:22vw;border-radius:1.2vw;background:#fff;color:#12141c;padding:1.5vh 1.2vw;font-size:1.02vw;line-height:1.5;box-shadow:0 14px 38px rgba(0,0,0,.4)}
-.speech b{color:var(--red)}
-.speech:after{content:"";position:absolute;right:-1vw;top:46%;border-width:.65vw 0 .65vw 1vw;border-style:solid;border-color:transparent transparent transparent #fff}
-/* 伴随写作 */
-.write{width:84vw;display:grid;grid-template-columns:repeat(3,1fr);gap:2vw}
-.wc{background:linear-gradient(165deg,rgba(255,255,255,.08),rgba(255,255,255,.03));border:1px solid var(--line);border-radius:1.6vw;padding:2.2vh 1.4vw 1.7vh;text-align:center}
-.wc .phase{font-size:.72vw;color:#aeb4ff;letter-spacing:.1em;font-weight:700}
-.wc h3{font-size:1.25vw;font-weight:660;margin-top:.6vh}
-.wc>p{font-size:.74vw;color:#8d929d;margin-top:.45vh}
-.device{width:12vw;height:40vh;margin:1.7vh auto 0;border-radius:2vw;background:#f7f7f9;color:#17181d;padding:1.1vh .7vw;position:relative;overflow:hidden;border:3px solid #2b2d33;box-shadow:0 16px 40px rgba(0,0,0,.4);text-align:left}
-.status{display:flex;justify-content:space-between;font-size:.5vw;font-weight:700}
-.navline{display:flex;justify-content:space-between;margin-top:1.1vh;font-size:.72vw;color:#3a3d44}
-.nt{font-size:.92vw;font-weight:750;margin-top:1.7vh}
-.meta{font-size:.48vw;color:#9a9ca3;margin-top:.35vh}
-.body{font-size:.68vw;line-height:1.65;margin-top:1.5vh;color:#33363d}
-.guide{color:#a7a9b0}
-.cursor{display:inline-block;width:1.5px;height:.8vw;background:#6574ff;vertical-align:-.1vw;animation:blink 1s infinite}
-.chips{position:absolute;left:.6vw;right:.6vw;bottom:4.9vh;display:flex;gap:.35vw;overflow:hidden}
-.chip{font-size:.48vw;white-space:nowrap;border-radius:1vw;padding:.42vw .6vw;background:#ebeefe;color:#5261df;font-weight:700}
-.chip.g{background:#eceef1;color:#5e626b}
-.toolbar{position:absolute;left:0;right:0;bottom:0;height:4.1vh;border-top:1px solid #e3e4e7;display:flex;align-items:center;justify-content:space-around;font-size:.72vw;color:#575b64}
-.ai-star{color:#6674ff;font-weight:800}
-.hl{background:#dce1ff;border-radius:.18vw;padding:.05vw .12vw}
-.pop{position:absolute;left:.8vw;right:.8vw;bottom:5.4vh;background:#fff;border-radius:.7vw;box-shadow:0 8px 22px rgba(0,0,0,.16);padding:.4vw}
-.pop div{font-size:.5vw;padding:.36vw;border-radius:.4vw}
-.pop div:first-child{background:#eef0ff;color:#5261df;font-weight:700}
-.nav{position:fixed;right:1.6vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:10px}
-.dot{width:8px;height:8px;border-radius:50%;background:#555;border:0;cursor:pointer;transition:.25s}
-.dot.on{height:26px;border-radius:8px;background:#b7baff}
-.hint{position:fixed;left:50%;bottom:1.1vh;transform:translateX(-50%);z-index:20;color:#646872;font-size:.72vw;letter-spacing:.08em}
-@keyframes blink{50%{opacity:0}}
-@media(max-aspect-ratio:4/3){.title{font-size:4vw}.cap p{display:none}}
+html,body{height:100%}
+body{background:radial-gradient(80% 100% at 50% 115%,rgba(90,82,255,.16),transparent 62%),var(--bg);color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;height:100vh;overflow:hidden;position:relative;display:flex;flex-direction:column;padding:7vh 6vw 5vh}
+body:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);background-size:54px 54px;mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 82%,transparent);pointer-events:none}
+.head{position:relative;z-index:1;text-align:center}
+.eyebrow{font-size:.95vw;letter-spacing:.22em;color:#aeb4ff;font-weight:700}
+h1{font-size:2.9vw;font-weight:740;letter-spacing:-.02em;margin-top:1.3vh;line-height:1.2}
+h1 em{font-style:normal;color:#aeb4ff}
+.sub{font-size:1.1vw;color:var(--muted);margin-top:1.3vh;font-weight:500}
+.row{position:relative;z-index:1;flex:1;display:flex;align-items:center;justify-content:center;gap:2.4vw}
+.col{display:flex;flex-direction:column;align-items:center;gap:1.7vh}
+.tag{font-size:1.15vw;font-weight:680}
+.tag small{display:block;font-size:.72vw;color:#8b90a0;font-weight:500;margin-top:.4vh;letter-spacing:.02em}
+/* 手机 */
+.phone{width:15.5vw;aspect-ratio:9/19.5;border-radius:2.4vw;background:var(--paper);border:3px solid #26282f;box-shadow:0 26px 60px rgba(0,0,0,.5);padding:1vh .7vw 0;color:#17181d;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.st{display:flex;justify-content:space-between;font-size:.52vw;font-weight:700;padding:0 .3vw}
+.nv{display:flex;justify-content:space-between;font-size:.8vw;color:#3b3e45;margin-top:.9vh;padding:0 .1vw}
+.nt{font-size:1vw;font-weight:760;margin-top:1.2vh}
+.mt{font-size:.5vw;color:#9a9ca3;margin-top:.3vh}
+/* 对话气泡 */
+.ask{align-self:flex-end;background:var(--pink);color:#fff;font-size:.66vw;line-height:1.4;padding:.7vh .8vw;border-radius:1vw 1vw .3vw 1vw;max-width:82%;margin-top:1.5vh}
+.ans{background:#eef0fb;border-radius:.9vw;padding:.8vh .8vw;margin-top:1.1vh}
+.ans .li{font-size:.62vw;line-height:1.5;color:#2b2e36;padding-left:.7vw;position:relative;margin:.35vh 0}
+.ans .li:before{content:"";position:absolute;left:0;top:.5em;width:.28vw;height:.28vw;border-radius:50%;background:var(--pink)}
+.src{font-size:.5vw;color:#7b82e6;margin-top:.7vh;font-weight:600}
+/* 纪要卡 */
+.card{background:#fff;border:1px solid #eceef2;border-radius:.9vw;box-shadow:0 6px 16px rgba(20,22,30,.06);padding:.9vh .8vw;margin-top:1.3vh}
+.card .h{font-size:.6vw;font-weight:800;color:var(--pink);letter-spacing:.05em}
+.card .l{height:.32vw;border-radius:1vw;background:#dfe1e8;margin:.5vh 0}
+.card .l.s{width:60%}
+.todo{display:flex;align-items:center;gap:.4vw;font-size:.6vw;color:#2b2e36;margin:.5vh 0}
+.box{width:.62vw;height:.62vw;border-radius:.16vw;border:1.4px solid var(--pink)}
+.box.on{background:var(--pink)}
+/* 编辑+选中 */
+.body{font-size:.66vw;line-height:1.7;color:#33363d;margin-top:1.5vh}
+.hl{background:#dce1ff;border-radius:.2vw;padding:.06vw .12vw}
+.pop{background:#fff;border-radius:.7vw;box-shadow:0 8px 22px rgba(0,0,0,.16);padding:.4vw;margin-top:1.4vh}
+.pop div{font-size:.6vw;padding:.5vh .6vw;border-radius:.4vw;color:#33363d}
+.pop div.on{background:#eef0ff;color:#4c5bdf;font-weight:700}
+/* 底部小爱条 */
+.bar{margin-top:auto;margin-bottom:1vh;height:4vh;border-radius:1.4vw;background:#fff;border:1px solid #e6e7ec;box-shadow:0 4px 14px rgba(20,22,30,.08);display:flex;align-items:center;gap:.5vw;padding:0 .7vw}
+.spark{width:1.5vw;height:1.5vw;border-radius:50%;background:linear-gradient(135deg,#6979ff,#af76ff);display:grid;place-items:center;color:#fff;font-size:.7vw;flex:0 0 auto}
+.bar span{font-size:.56vw;color:#8a8f9b}
+.foot{position:relative;z-index:1;text-align:center;font-size:.92vw;color:#787c88;margin-top:1.4vh}
+.foot strong{color:#cfd1ff;font-weight:700}
+.brand{position:absolute;left:2.6vw;bottom:1.8vh;color:#767a85;font-size:.8vw;letter-spacing:.06em;z-index:1}
+@media(max-aspect-ratio:4/3){h1{font-size:4vw}.tag small{display:none}}
 </style>
 </head>
 <body>
-<div class="deck" id="deck">
-
-<section class="slide" data-title="笔记 AI 能力">
+<div class="head">
   <div class="eyebrow">小米笔记 · AI 应用</div>
-  <h1 class="title">在小米笔记里，AI 帮你把内容<em>用起来</em></h1>
-  <p class="subtitle">找得到、理得清、写得出、改得好——对着笔记说一句就行。</p>
-  <div class="content">
-    <div class="caps">
-      <div class="cap">
-        <div class="ic">🔍</div>
-        <h3>找得到</h3>
-        <div class="say">“上次产品会定了什么？”</div>
-        <p>从你存过的笔记里直接回答，并带上来源，点一下就回到原文。</p>
-        <div class="kw">问一句 · 回到原文</div>
-      </div>
-      <div class="cap">
-        <div class="ic">🗂️</div>
-        <h3>理得清</h3>
-        <div class="say">“帮我把这次会议整理一下”</div>
-        <p>一篇长录音、长笔记，自动整理成重点、结论和待办。</p>
-        <div class="kw">长内容 · 一键成形</div>
-      </div>
-      <div class="cap">
-        <div class="ic">✍️</div>
-        <h3>写得出</h3>
-        <div class="say">“顺着这段接着写”</div>
-        <p>从一句话到成稿，看得懂你已经写了什么，接着往下写。</p>
-        <div class="kw">一句话 · 写成稿</div>
-      </div>
-      <div class="cap">
-        <div class="ic">✨</div>
-        <h3>改得好</h3>
-        <div class="say">“这段写得更简洁、正式点”</div>
-        <p>选中哪段就改哪段，原文保留、结果可预览、随时能撤回。</p>
-        <div class="kw">选中即改 · 可撤回</div>
-      </div>
-    </div>
-  </div>
-  <div class="hero-foot">同一个入口，理解你当前的笔记内容——<strong>你说想要什么结果，AI 直接在笔记里做完。</strong></div>
-  <div class="brand">XIAOMI NOTES</div>
-  <div class="pager">01 / 03</div>
-</section>
-
-<section class="slide" data-title="明星场景 · 会议">
-  <div class="eyebrow">明星场景 · 开会</div>
-  <h1 class="title">开会只管讨论，会后自动成纪要、<em>随时问得到</em></h1>
-  <p class="subtitle">一场会议，从完整记下来，到自动理清楚，再到一句话就能找回结论。</p>
-  <div class="content">
-    <div class="flow">
-      <div class="shot"><div class="sn">01 · 记下来</div><h3>边开会边记</h3><p>不用分心打字，讨论内容完整留下</p><img class="phone-img" src="img/scene-12-1.png" alt="边开会边语音速记"></div>
-      <div class="arrow">›</div>
-      <div class="shot"><div class="sn">02 · 理清楚</div><h3>自动出纪要和待办</h3><p>重点、结论、分歧、谁来做，一目了然</p><img class="phone-img" src="img/scene-12-2.png" alt="AI自动生成会议纪要"></div>
-      <div class="arrow">›</div>
-      <div class="shot"><div class="sn">03 · 找得回</div><h3>一句话问回结论</h3><p>不靠关键词翻找，回答还带原文出处</p><img class="phone-img" src="img/scene-12-3.png" alt="一句话语义找回"></div>
-    </div>
-  </div>
-  <div class="speech">“这次会<b>最后定了什么</b>？谁负责？”</div>
-  <div class="brand">XIAOMI NOTES</div>
-  <div class="pager">02 / 03</div>
-</section>
-
-<section class="slide" data-title="伴随写作">
-  <div class="eyebrow">AI 应用 · 伴随写作</div>
-  <h1 class="title">写不出、写一半、写完要改，AI 都<em>接得上</em></h1>
-  <p class="subtitle">不是摆一排 AI 按钮，而是看你笔记写到哪，直接给最需要的下一步。</p>
-  <div class="content">
-    <div class="write">
-      <div class="wc"><div class="phase">01 · 还没写</div><h3>帮你开始</h3><p>说一句主题，直接起稿</p>
-        <div class="device"><div class="status"><span>9:41</span><span>100%</span></div><div class="navline"><span>‹</span><span>↶ ↷ ✓</span></div><div class="nt">未命名笔记</div><div class="meta">今天 10:29 ｜ 0 字</div><div class="body"><span class="cursor"></span><span class="guide"> 开始书写，或说出你的想法</span></div><div class="chips"><span class="chip">写一段</span><span class="chip g">列清单</span><span class="chip g">记要点</span></div><div class="toolbar"><span class="ai-star">✦ AI</span><span>🎙</span><span>✎</span><span>☑</span><span>T</span></div></div>
-      </div>
-      <div class="wc"><div class="phase">02 · 写一半</div><h3>帮你写下去</h3><p>顺着已有内容扩写、补全</p>
-        <div class="device"><div class="status"><span>9:41</span><span>100%</span></div><div class="navline"><span>‹</span><span>↶ ↷ ✓</span></div><div class="nt">直播间的信任</div><div class="meta">今天 16:20 ｜ 写了一半</div><div class="body">直播间的信任，靠主播每天准点出现攒下来。但光准点还不够，还得<span class="cursor"></span></div><div class="chips"><span class="chip">扩写成段</span><span class="chip g">补个案例</span><span class="chip g">换开头</span></div><div class="toolbar"><span class="ai-star">✦ AI</span><span>🎙</span><span>✎</span><span>☑</span><span>T</span></div></div>
-      </div>
-      <div class="wc"><div class="phase">03 · 选中一段</div><h3>帮你改好</h3><p>选中哪里，就只改哪里</p>
-        <div class="device"><div class="status"><span>9:41</span><span>100%</span></div><div class="navline"><span>‹</span><span>↶ ↷ ✓</span></div><div class="nt">直播间的信任</div><div class="meta">今天 16:22</div><div class="body">真正的信任，是<span class="hl">观众知道你一定在——每天准点只是开始，长期稳定才行。</span></div><div class="pop"><div>✦ 精简这段</div><div>换成正式语气</div><div>总结成一句</div></div><div class="toolbar"><span class="ai-star">✦ AI</span><span>🎙</span><span>✎</span><span>☑</span><span>T</span></div></div>
-      </div>
-    </div>
-  </div>
-  <div class="brand">XIAOMI NOTES</div>
-  <div class="pager">03 / 03</div>
-</section>
+  <h1>在小米笔记里，随时喊一声<em>小爱</em></h1>
+  <div class="sub">找内容、理笔记、帮你写，一句话就行——它看得懂你正在写的这篇。</div>
 </div>
-<nav class="nav" id="nav"></nav><div class="hint">← → / SPACE 翻页</div>
-<script>
-const deck=document.getElementById('deck'),slides=[...document.querySelectorAll('.slide')],nav=document.getElementById('nav');let current=0;
-slides.forEach((s,i)=>{const b=document.createElement('button');b.className='dot'+(i===0?' on':'');b.title=s.dataset.title||`第 ${i+1} 页`;b.onclick=()=>go(i);nav.appendChild(b)});const dots=[...nav.children];
-function go(i){current=Math.max(0,Math.min(slides.length-1,i));slides[current].scrollIntoView({behavior:'smooth'});dots.forEach((d,n)=>d.classList.toggle('on',n===current))}
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){current=slides.indexOf(e.target);dots.forEach((d,n)=>d.classList.toggle('on',n===current))}}),{root:deck,threshold:.6});slides.forEach(s=>io.observe(s));
-addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(current+1)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1)});
-</script>
+
+<div class="row">
+  <div class="col">
+    <div class="phone">
+      <div class="st"><span>9:41</span><span>5G ▮</span></div>
+      <div class="nv"><span>‹ 全部笔记</span><span>⋯</span></div>
+      <div class="nt">问小爱</div>
+      <div class="mt">从你存过的笔记里找答案</div>
+      <div class="ask">上次产品会最后定了什么？</div>
+      <div class="ans">
+        <div class="li">首版先做会议、旅行两个场景</div>
+        <div class="li">生成质量本周内对齐评测标准</div>
+        <div class="li">下周五提交排期</div>
+        <div class="src">来源 ·《产品周会》6/18 ↗</div>
+      </div>
+      <div class="bar"><div class="spark">✦</div><span>接着问，或让它继续整理</span></div>
+    </div>
+    <div class="tag">问笔记<small>问一句，答案带出处</small></div>
+  </div>
+
+  <div class="col">
+    <div class="phone">
+      <div class="st"><span>9:41</span><span>5G ▮</span></div>
+      <div class="nv"><span>‹ 产品周会</span><span>⋯</span></div>
+      <div class="nt">这次会议整理好了</div>
+      <div class="mt">一段长录音 · 已自动成形</div>
+      <div class="card"><div class="h">摘要</div><div class="l"></div><div class="l s"></div></div>
+      <div class="card"><div class="h">待办 · 4</div>
+        <div class="todo"><span class="box on"></span>确认首版范围</div>
+        <div class="todo"><span class="box"></span>对齐评测标准</div>
+        <div class="todo"><span class="box"></span>提交排期</div>
+      </div>
+      <div class="bar"><div class="spark">✦</div><span>再问一句，或生成汇报</span></div>
+    </div>
+    <div class="tag">理笔记<small>长内容一键成形</small></div>
+  </div>
+
+  <div class="col">
+    <div class="phone">
+      <div class="st"><span>9:41</span><span>5G ▮</span></div>
+      <div class="nv"><span>‹ 周会汇报</span><span>↶ ↷ ✓</span></div>
+      <div class="nt">本周进展</div>
+      <div class="mt">今天 17:40 ｜ 编辑中</div>
+      <div class="body">本周完成方案第一轮评审，<span class="hl">会上重点讨论了入口、生成质量和结果回写，大家都还挺认可的。</span></div>
+      <div class="pop">
+        <div class="on">✦ 精简这段</div>
+        <div>换成正式语气</div>
+        <div>接着往下写</div>
+      </div>
+      <div class="bar"><div class="spark">✦</div><span>选中哪段就改哪段 · 可撤回</span></div>
+    </div>
+    <div class="tag">帮你写<small>选中即改，原文可留</small></div>
+  </div>
+</div>
+
+<div class="foot">同一个小爱，进了笔记就<strong>看得懂你这篇内容</strong>——你说想要什么结果，它直接在笔记里做完。</div>
+<div class="brand">XIAOMI NOTES</div>
 </body>
 </html>
