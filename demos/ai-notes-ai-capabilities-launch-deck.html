@@ -3,66 +3,88 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>小米笔记 · AI 笔记（发布会页）</title>
+<title>小米笔记 · AI 应用（发布会页 · 按能力）</title>
 <style>
-:root{--bg:#050506;--ink:#f6f7f8;--muted:#9aa0ad}
+:root{--bg:#050506;--ink:#f6f7f8;--muted:#9aa0ad;--brand:#aeb4ff}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 body{overflow:hidden}
 .deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
-.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:#050506;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8vh 5vw 7vh}
-.htitle{font-size:2.5vw;font-weight:760;letter-spacing:-.01em;text-align:center;line-height:1.25}
-.htitle b{color:#aeb4ff;font-weight:760}
-.hsub{font-size:1vw;color:var(--muted);text-align:center;margin-top:1.6vh;font-weight:500;letter-spacing:.02em}
-.shots{display:flex;align-items:flex-start;justify-content:center;gap:2.2vw;margin-top:5vh}
-.item{display:flex;flex-direction:column;align-items:center;gap:1.8vh}
-.ph{height:46vh;aspect-ratio:9/19.5;border:2px dashed #3a3d47;border-radius:2vw;background:linear-gradient(180deg,#111218,#0b0c11);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1vh;color:#6b7080;text-align:center;padding:0 1.2vw;position:relative}
-.ph .cam{width:.8vw;height:.8vw;border-radius:50%;background:#23262f;position:absolute;top:1.2vh;left:50%;transform:translateX(-50%)}
-.ph .ico{font-size:1.7vw;opacity:.5}
-.ph .plabel{font-size:.72vw;letter-spacing:.12em;color:#7b8090;font-weight:700}
-.ph .pdesc{font-size:.66vw;line-height:1.55;color:#5b606d}
-.cap{font-size:1.02vw;font-weight:640;color:#eef0f6;text-align:center;max-width:15vw;line-height:1.4}
-.cap small{display:block;font-size:.76vw;color:#8b909c;font-weight:500;margin-top:.5vh}
+.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:radial-gradient(72% 92% at 80% 50%,rgba(90,82,255,.12),transparent 60%),var(--bg);display:flex;align-items:center;justify-content:center;gap:5.5vw;padding:0 8vw}
+.slide.center{flex-direction:column;gap:0;padding:8vh 6vw 7vh}
+.slide:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(82% 82% at 50% 50%,#000,transparent);pointer-events:none}
+.slide>*{position:relative;z-index:1}
+.ph{border:2px dashed #3a3d47;background:linear-gradient(180deg,#111218,#0b0c11);border-radius:2.2vw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2vh;color:#6b7080;text-align:center;padding:0 1.4vw;position:relative;aspect-ratio:9/19.5;flex:0 0 auto}
+.ph .cam{width:.85vw;height:.85vw;border-radius:50%;background:#23262f;position:absolute;top:1.3vh;left:50%;transform:translateX(-50%)}
+.ph .ico{font-size:2vw;opacity:.5}
+.ph .plabel{font-size:.76vw;letter-spacing:.12em;color:#7b8090;font-weight:700}
+.ph .pdesc{font-size:.68vw;line-height:1.55;color:#5b606d}
+.ph.big{height:58vh}
+.ph.mid{height:46vh}
+.copy{max-width:40vw}
+.eyebrow{font-size:.9vw;letter-spacing:.18em;color:var(--brand);font-weight:700}
+.stage{font-size:3vw;font-weight:780;letter-spacing:-.02em;margin-top:1.6vh;line-height:1.18}
+.stage b{color:var(--brand);font-weight:780}
+.line{font-size:1.28vw;line-height:1.7;margin-top:2.2vh;color:#e7e8ee;font-weight:500}
+.note{font-size:.92vw;color:#7f8490;margin-top:2.4vh;line-height:1.55;border-left:2px solid rgba(174,180,255,.4);padding-left:1vw}
+/* 第2页居中两图 */
+.htitle{font-size:2.7vw;font-weight:760;text-align:center;line-height:1.2}
+.htitle b{color:var(--brand)}
+.hsub{font-size:1vw;color:var(--muted);text-align:center;margin-top:1.5vh}
+.shots{display:flex;align-items:flex-start;justify-content:center;gap:3vw;margin-top:5vh}
+.item{display:flex;flex-direction:column;align-items:center;gap:1.7vh}
+.cap{font-size:1.05vw;font-weight:640;color:#eef0f6;text-align:center}
+/* 第3页功能陈列 */
+.caplist{display:flex;flex-direction:column;gap:1.15vh;max-width:34vw}
+.cl{display:flex;align-items:center;gap:1vw;background:linear-gradient(165deg,rgba(255,255,255,.075),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.1);border-radius:1vw;padding:1.35vh 1.2vw}
+.cl .ci{width:2.4vw;height:2.4vw;border-radius:.7vw;display:grid;place-items:center;font-size:1.2vw;background:rgba(174,180,255,.14);border:1px solid rgba(174,180,255,.25);flex:0 0 auto}
+.cl b{font-size:1.12vw;font-weight:660}
+.cl span{font-size:.82vw;color:#8b909c;margin-left:.5vw}
 .brand{position:absolute;left:3vw;bottom:2.4vh;color:#767a85;font-size:.8vw;letter-spacing:.06em}
 .pager{position:absolute;right:3vw;bottom:2.4vh;color:#676b75;font-size:.85vw;letter-spacing:.12em}
 .nav{position:fixed;right:1.6vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:10px}
 .dot{width:8px;height:8px;border-radius:50%;background:#555;border:0;cursor:pointer;transition:.25s}
-.dot.on{height:26px;border-radius:8px;background:#aeb4ff}
+.dot.on{height:26px;border-radius:8px;background:var(--brand)}
 .hint{position:fixed;left:50%;bottom:1.1vh;transform:translateX(-50%);z-index:20;color:#646872;font-size:.72vw;letter-spacing:.08em}
-@media(max-aspect-ratio:4/3){.htitle{font-size:3.6vw}.ph{height:38vh}}
+@media(max-aspect-ratio:4/3){.stage,.htitle{font-size:4.2vw}.line{font-size:2.2vw}.ph.big{height:46vh}}
 </style>
 </head>
 <body>
 <div class="deck" id="deck">
 
-  <section class="slide" data-title="记进来">
-    <div class="htitle">随口、随手，<b>都能记进笔记</b></div>
-    <div class="shots">
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🎙️</span><span class="plabel">截图占位</span><span class="pdesc">按住说一句 →<br>自动转成整齐笔记</span></div><div class="cap">说一句，自动成稿</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🖼️</span><span class="plabel">截图占位</span><span class="pdesc">一段音频 / 一张图 →<br>转写、识字生成笔记</span></div><div class="cap">音频、图片成笔记</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">⌚</span><span class="plabel">截图占位</span><span class="pdesc">手表、耳机等设备 →<br>随手记进同一处</span></div><div class="cap">跨端记进笔记</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">✦</span><span class="plabel">截图占位</span><span class="pdesc">小爱里写的、生成的 →<br>一键存进笔记</span></div><div class="cap">小爱内容存进笔记</div></div>
+  <section class="slide" data-title="语音速记">
+    <div class="ph big"><span class="cam"></span><span class="ico">🎙️</span><span class="plabel">主图占位</span><span class="pdesc">首页一点进入录音态 →<br>边说边实时转写、区分说话人</span></div>
+    <div class="copy">
+      <div class="eyebrow">AI 笔记 · 语音速记</div>
+      <div class="stage">点开就能说，<br><b>说完就成一篇笔记</b></div>
+      <div class="line">从首页一点进入录音，边说边转写；说完不用整理，直接就是一篇分好段的整齐笔记。</div>
     </div>
     <div class="brand">XIAOMI NOTES · AI</div><div class="pager">01 / 03</div>
   </section>
 
-  <section class="slide" data-title="自动成型">
-    <div class="htitle">记完不用整理，<b>自动帮你成型</b></div>
+  <section class="slide center" data-title="导入成笔记">
+    <div class="htitle">一段音频、一张图，<b>也能变成笔记</b></div>
+    <div class="hsub">不只是说——导入的音频、图片，一样自动整理成笔记</div>
     <div class="shots">
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📋</span><span class="plabel">截图占位</span><span class="pdesc">模板化纪要<br>重点免回听</span></div><div class="cap">一键出会议纪要</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">✅</span><span class="plabel">截图占位</span><span class="pdesc">待办自动提取<br>谁做什么、何时完成</span></div><div class="cap">待办自动提取出来</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🧭</span><span class="plabel">截图占位</span><span class="pdesc">生成大纲 / 思维导图<br>一键溯源原文</span></div><div class="cap">理成大纲、思维导图</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🎧</span><span class="plabel">截图占位</span><span class="pdesc">碎片内容<br>一键生成播客来听</span></div><div class="cap">一键生成播客来听</div></div>
+      <div class="item"><div class="ph mid"><span class="cam"></span><span class="ico">🎧</span><span class="plabel">截图占位</span><span class="pdesc">导入一段音频 →<br>自动转写成笔记</span></div><div class="cap">导入音频，自动成笔记</div></div>
+      <div class="item"><div class="ph mid"><span class="cam"></span><span class="ico">🖼️</span><span class="plabel">截图占位</span><span class="pdesc">拍照 / 传图 →<br>识别文字生成笔记</span></div><div class="cap">导入图片，识字成笔记</div></div>
     </div>
     <div class="brand">XIAOMI NOTES · AI</div><div class="pager">02 / 03</div>
   </section>
 
-  <section class="slide" data-title="用起来">
-    <div class="htitle">以前记的，<b>随时找出来用</b></div>
-    <div class="shots">
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🔎</span><span class="plabel">截图占位</span><span class="pdesc">按意思搜<br>不用记关键词</span></div><div class="cap">说个大概就搜到</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">💬</span><span class="plabel">截图占位</span><span class="pdesc">跨多篇问一句<br>答案带来源笔记</span></div><div class="cap">问一句，跨多篇答你</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📝</span><span class="plabel">截图占位</span><span class="pdesc">散在多篇的内容<br>合成一份汇报</span></div><div class="cap">多篇合成一份新内容</div></div>
+  <section class="slide" data-title="AI整理">
+    <div class="ph big"><span class="cam"></span><span class="ico">📋</span><span class="plabel">核心案例占位</span><span class="pdesc">一篇会议记录 →<br>AI 自动出的纪要 + 待办</span></div>
+    <div class="copy">
+      <div class="eyebrow">AI 笔记 · 自动整理</div>
+      <div class="stage">记完不用管，<br><b>AI 帮你整理好</b></div>
+      <div class="caplist">
+        <div class="cl"><span class="ci">📋</span><b>会议纪要</b><span>重点、结论一目了然</span></div>
+        <div class="cl"><span class="ci">✅</span><b>待办清单</b><span>谁做什么自动列出</span></div>
+        <div class="cl"><span class="ci">🧭</span><b>思维导图</b><span>长内容理清结构</span></div>
+        <div class="cl"><span class="ci">✍️</span><b>续写补全</b><span>顺着写、帮你改</span></div>
+        <div class="cl"><span class="ci">🎧</span><b>一键播客</b><span>用听的过一遍</span></div>
+      </div>
+      <div class="note">存下来的内容，小爱也能搜到、直接拿去用（详见小爱章节）</div>
     </div>
     <div class="brand">XIAOMI NOTES · AI</div><div class="pager">03 / 03</div>
   </section>
