@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>小米笔记 · AI 应用（发布会 · 按场景讲能力）</title>
+<style>
+:root{--bg:#050506;--ink:#f6f7f8;--muted:#9aa0ad;--brand:#aeb4ff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{overflow:hidden}
+.deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:#050506;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8vh 5vw 7vh}
+.htitle{font-size:2.6vw;font-weight:760;letter-spacing:-.01em;text-align:center;line-height:1.25}
+.htitle b{color:var(--brand);font-weight:760}
+.hsub{font-size:1.05vw;color:var(--muted);text-align:center;margin-top:1.5vh;font-weight:500}
+.shots{display:flex;align-items:flex-start;justify-content:center;gap:2.4vw;margin-top:5.5vh}
+.item{display:flex;flex-direction:column;align-items:center;gap:1.9vh}
+.ph{height:47vh;aspect-ratio:9/19.5;border:2px dashed #3a3d47;border-radius:2vw;background:linear-gradient(180deg,#111218,#0b0c11);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1vh;color:#6b7080;text-align:center;padding:0 1.2vw;position:relative}
+.ph .cam{width:.8vw;height:.8vw;border-radius:50%;background:#23262f;position:absolute;top:1.2vh;left:50%;transform:translateX(-50%)}
+.ph .ico{font-size:1.7vw;opacity:.5}
+.ph .plabel{font-size:.72vw;letter-spacing:.12em;color:#7b8090;font-weight:700}
+.ph .pdesc{font-size:.66vw;line-height:1.55;color:#5b606d}
+.cap{font-size:1.05vw;font-weight:640;color:#eef0f6;text-align:center;max-width:15vw;line-height:1.4}
+.brand{position:absolute;left:3vw;bottom:2.4vh;color:#767a85;font-size:.8vw;letter-spacing:.06em}
+.pager{position:absolute;right:3vw;bottom:2.4vh;color:#676b75;font-size:.85vw;letter-spacing:.12em}
+.nav{position:fixed;right:1.6vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:10px}
+.dot{width:8px;height:8px;border-radius:50%;background:#555;border:0;cursor:pointer;transition:.25s}
+.dot.on{height:26px;border-radius:8px;background:var(--brand)}
+.hint{position:fixed;left:50%;bottom:1.1vh;transform:translateX(-50%);z-index:20;color:#646872;font-size:.72vw;letter-spacing:.08em}
+@media(max-aspect-ratio:4/3){.htitle{font-size:3.8vw}.ph{height:38vh}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide" data-title="语音速记">
+    <div class="htitle">张口就能记，<b>比打字快多了</b></div>
+    <div class="hsub">打开笔记就能说，边说边转成文字，全程不用动手打字</div>
+    <div class="shots">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🎙️</span><span class="plabel">截图占位</span><span class="pdesc">首页一点进入录音 →<br>边录边显示文字</span></div><div class="cap">一点就开始录</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📝</span><span class="plabel">截图占位</span><span class="pdesc">录完 →<br>自动转成文字稿</span></div><div class="cap">说完转成文字稿</div></div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">01 / 04</div>
+  </section>
+
+  <section class="slide" data-title="多种方式都能记">
+    <div class="htitle">音频、图片、别的设备，<b>都能记进笔记</b></div>
+    <div class="hsub">不只是打字——导入一段音频、拍张图，或在别的设备上说一句，都能进到笔记里</div>
+    <div class="shots">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🎧</span><span class="plabel">截图占位</span><span class="pdesc">导入一段音频 →<br>自动转成文字</span></div><div class="cap">导入音频，转成文字</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🖼️</span><span class="plabel">截图占位</span><span class="pdesc">拍照 / 传图 →<br>识别出里面的文字</span></div><div class="cap">导入图片，识出文字</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🔁</span><span class="plabel">截图占位</span><span class="pdesc">在别的设备上说一句 →<br>回到手机就在笔记里</span></div><div class="cap">跨设备记，都同步进笔记</div></div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">02 / 04</div>
+  </section>
+
+  <section class="slide" data-title="AI整理">
+    <div class="htitle">记完不用动手，<b>自动帮你整理</b></div>
+    <div class="hsub">同一篇内容，AI 帮你理成纪要、待办、课堂笔记、思维导图</div>
+    <div class="shots">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📋</span><span class="plabel">截图占位</span><span class="pdesc">会议记录 →<br>自动出纪要</span></div><div class="cap">直接出会议纪要</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">✅</span><span class="plabel">截图占位</span><span class="pdesc">识别待办 →<br>可进日程</span></div><div class="cap">待办、日程自动提取</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📚</span><span class="plabel">截图占位</span><span class="pdesc">课程录音 →<br>整理成课堂笔记</span></div><div class="cap">直接出课堂笔记</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🧭</span><span class="plabel">截图占位</span><span class="pdesc">长内容 →<br>理成思维导图</span></div><div class="cap">生成思维导图</div></div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">03 / 04</div>
+  </section>
+
+  <section class="slide" data-title="问一句就找回">
+    <div class="htitle">存进来的东西，<b>问一句就能找回、用上</b></div>
+    <div class="hsub">不用自己翻——直接问笔记，它按意思帮你找到相关内容，还能帮你答、帮你写</div>
+    <div class="shots">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🔍</span><span class="plabel">截图占位</span><span class="pdesc">按意思搜 →<br>不用记住原话也能找到</span></div><div class="cap">按意思找，不只是关键词</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">💬</span><span class="plabel">截图占位</span><span class="pdesc">问笔记里的内容 →<br>答案带出处</span></div><div class="cap">问笔记，答案带出处</div></div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">04 / 04</div>
+  </section>
+
+</div>
+<nav class="nav" id="nav"></nav><div class="hint">← → / SPACE 翻页</div>
+<script>
+const deck=document.getElementById('deck'),slides=[...document.querySelectorAll('.slide')],nav=document.getElementById('nav');let current=0;
+slides.forEach((s,i)=>{const b=document.createElement('button');b.className='dot'+(i===0?' on':'');b.title=s.dataset.title||`第 ${i+1} 页`;b.onclick=()=>go(i);nav.appendChild(b)});const dots=[...nav.children];
+function go(i){current=Math.max(0,Math.min(slides.length-1,i));slides[current].scrollIntoView({behavior:'smooth'});dots.forEach((d,n)=>d.classList.toggle('on',n===current))}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){current=slides.indexOf(e.target);dots.forEach((d,n)=>d.classList.toggle('on',n===current))}}),{root:deck,threshold:.6});slides.forEach(s=>io.observe(s));
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(current+1)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1)});
+</script>
+</body>
+</html>
