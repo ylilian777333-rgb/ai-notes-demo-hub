@@ -3,20 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>小米笔记 · AI 应用（发布会 · 按场景讲能力）</title>
+<title>小米笔记 · AI 应用（发布会 · 两版对比）</title>
 <style>
 :root{--bg:#050506;--ink:#f6f7f8;--muted:#9aa0ad;--brand:#aeb4ff}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 body{overflow:hidden}
 .deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
-.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:#050506;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8vh 5vw 7vh}
+.deck.hidden{display:none}
+.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:#050506;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:11vh 5vw 7vh}
 .htitle{font-size:2.6vw;font-weight:760;letter-spacing:-.01em;text-align:center;line-height:1.25}
 .htitle b{color:var(--brand);font-weight:760}
-.hsub{font-size:1.05vw;color:var(--muted);text-align:center;margin-top:1.5vh;font-weight:500}
-.shots{display:flex;align-items:flex-start;justify-content:center;gap:2.4vw;margin-top:5.5vh}
+.scene{font-size:1vw;color:var(--muted);text-align:center;margin-top:1.6vh;font-weight:500;letter-spacing:.02em}
+.shots{display:flex;align-items:flex-start;justify-content:center;gap:2.4vw;margin-top:5vh}
+.shots.solo{margin-top:4vh}
 .item{display:flex;flex-direction:column;align-items:center;gap:1.9vh}
-.ph{height:47vh;aspect-ratio:9/19.5;border:2px dashed #3a3d47;border-radius:2vw;background:linear-gradient(180deg,#111218,#0b0c11);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1vh;color:#6b7080;text-align:center;padding:0 1.2vw;position:relative}
+.ph{height:46vh;aspect-ratio:9/19.5;border:2px dashed #3a3d47;border-radius:2vw;background:linear-gradient(180deg,#111218,#0b0c11);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1vh;color:#6b7080;text-align:center;padding:0 1.2vw;position:relative}
+.solo .ph{height:52vh}
 .ph .cam{width:.8vw;height:.8vw;border-radius:50%;background:#23262f;position:absolute;top:1.2vh;left:50%;transform:translateX(-50%)}
 .ph .ico{font-size:1.7vw;opacity:.5}
 .ph .plabel{font-size:.72vw;letter-spacing:.12em;color:#7b8090;font-weight:700}
@@ -28,59 +31,135 @@ body{overflow:hidden}
 .dot{width:8px;height:8px;border-radius:50%;background:#555;border:0;cursor:pointer;transition:.25s}
 .dot.on{height:26px;border-radius:8px;background:var(--brand)}
 .hint{position:fixed;left:50%;bottom:1.1vh;transform:translateX(-50%);z-index:20;color:#646872;font-size:.72vw;letter-spacing:.08em}
-@media(max-aspect-ratio:4/3){.htitle{font-size:3.8vw}.ph{height:38vh}}
+.switch{position:fixed;top:2.4vh;left:50%;transform:translateX(-50%);z-index:40;display:flex;gap:.5vw;background:rgba(20,21,26,.85);border:1px solid #2a2d36;border-radius:999px;padding:.5vh .5vw;backdrop-filter:blur(8px)}
+.sw{border:0;cursor:pointer;background:transparent;color:#9aa0ad;font-size:.85vw;font-weight:640;padding:.7vh 1.3vw;border-radius:999px;transition:.2s;font-family:inherit}
+.sw.on{background:var(--brand);color:#0b0c11}
+@media(max-aspect-ratio:4/3){.htitle{font-size:3.8vw}.ph{height:36vh}.solo .ph{height:44vh}.sw{font-size:1.6vw}.scene{font-size:1.6vw}.cap{font-size:1.7vw}}
 </style>
 </head>
 <body>
-<div class="deck" id="deck">
+
+<div class="switch">
+  <button class="sw on" data-deck="A">方案A · 场景化能力</button>
+  <button class="sw" data-deck="B">方案B · 开会明星场景</button>
+</div>
+
+<!-- ===================== 方案 A：场景化能力（4页，每页一个真实时刻） ===================== -->
+<div class="deck" id="deckA">
 
   <section class="slide" data-title="语音速记">
-    <div class="htitle">张口就能记，<b>比打字快多了</b></div>
+    <div class="htitle">开会、上课、路上，<b>张口就记</b></div>
+    <div class="scene">想到就说，边说边成文字，不用动手打字</div>
     <div class="shots">
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🎙️</span><span class="plabel">截图占位</span><span class="pdesc">首页一点进入录音 →<br>边录边显示文字</span></div><div class="cap">一点就开始录</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🎙️</span><span class="plabel">截图占位</span><span class="pdesc">一点进录音 →<br>边录边显示文字</span></div><div class="cap">一点就开始录</div></div>
       <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📝</span><span class="plabel">截图占位</span><span class="pdesc">录完 →<br>自动转成文字稿</span></div><div class="cap">说完转成文字稿</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">➕</span><span class="plabel">截图占位</span><span class="pdesc">导入音频 / 拍张图 →<br>也能记进笔记</span></div><div class="cap">传音频、拍图也能记</div></div>
     </div>
-    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">01 / 04</div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">A · 01 / 04</div>
   </section>
 
-  <section class="slide" data-title="多种方式都能记">
-    <div class="htitle">音频、图片、别的设备，<b>都能记进笔记</b></div>
+  <section class="slide" data-title="跨端记">
+    <div class="htitle">换个设备说一句，<b>回手机就在笔记里</b></div>
+    <div class="scene">在车上、戴着耳机、用平板——记的都同步进同一个笔记</div>
     <div class="shots">
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🎧</span><span class="plabel">截图占位</span><span class="pdesc">导入一段音频 →<br>自动转成文字</span></div><div class="cap">导入音频，转成文字</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🖼️</span><span class="plabel">截图占位</span><span class="pdesc">拍照 / 传图 →<br>识别出里面的文字</span></div><div class="cap">导入图片，识出文字</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🔁</span><span class="plabel">截图占位</span><span class="pdesc">在别的设备上说一句 →<br>回到手机就在笔记里</span></div><div class="cap">跨设备记，都同步进笔记</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🚗</span><span class="plabel">截图占位</span><span class="pdesc">车上、耳机上说一句 →<br>回手机就在笔记里</span></div><div class="cap">别的设备说，手机里就有</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🔁</span><span class="plabel">截图占位</span><span class="pdesc">平板上记的 →<br>自动同步到手机</span></div><div class="cap">多设备记，都汇到一处</div></div>
     </div>
-    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">02 / 04</div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">A · 02 / 04</div>
   </section>
 
   <section class="slide" data-title="AI整理">
-    <div class="htitle">记完不用动手，<b>自动帮你整理</b></div>
+    <div class="htitle">记完自动出<b>纪要、待办、课堂笔记</b></div>
+    <div class="scene">同一段录音，AI 按场景理成你要的样子</div>
     <div class="shots">
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📋</span><span class="plabel">截图占位</span><span class="pdesc">会议记录 →<br>自动出纪要</span></div><div class="cap">直接出会议纪要</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">✅</span><span class="plabel">截图占位</span><span class="pdesc">识别待办 →<br>可进日程</span></div><div class="cap">待办、日程自动提取</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📚</span><span class="plabel">截图占位</span><span class="pdesc">课程录音 →<br>整理成课堂笔记</span></div><div class="cap">直接出课堂笔记</div></div>
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🧭</span><span class="plabel">截图占位</span><span class="pdesc">长内容 →<br>理成思维导图</span></div><div class="cap">生成思维导图</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📋</span><span class="plabel">截图占位</span><span class="pdesc">开会录音 →<br>自动出纪要</span></div><div class="cap">开会 · 直接出纪要</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">✅</span><span class="plabel">截图占位</span><span class="pdesc">识别待办 →<br>一键进日程</span></div><div class="cap">待办 · 谁做什么自动提</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📚</span><span class="plabel">截图占位</span><span class="pdesc">上课录音 →<br>整理成课堂笔记</span></div><div class="cap">上课 · 直接出课堂笔记</div></div>
     </div>
-    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">03 / 04</div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">A · 03 / 04</div>
   </section>
 
   <section class="slide" data-title="问一句就找回">
-    <div class="htitle">存进来的东西，<b>问一句就能找回、用上</b></div>
+    <div class="htitle">存多了不用翻，<b>问一句就找回、用上</b></div>
+    <div class="scene">不用记住存在哪、叫什么，按意思问就行</div>
     <div class="shots">
-      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🔍</span><span class="plabel">截图占位</span><span class="pdesc">按意思搜 →<br>不用记住原话也能找到</span></div><div class="cap">按意思找，不只是关键词</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🔍</span><span class="plabel">截图占位</span><span class="pdesc">按意思搜 →<br>不用记住原话</span></div><div class="cap">按意思找，不只是关键词</div></div>
       <div class="item"><div class="ph"><span class="cam"></span><span class="ico">💬</span><span class="plabel">截图占位</span><span class="pdesc">问笔记里的内容 →<br>答案带出处</span></div><div class="cap">问笔记，答案带出处</div></div>
     </div>
-    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">04 / 04</div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">A · 04 / 04</div>
   </section>
 
 </div>
-<nav class="nav" id="nav"></nav><div class="hint">← → / SPACE 翻页</div>
+
+<!-- ===================== 方案 B：开会明星场景（一个开会从头串到尾） ===================== -->
+<div class="deck hidden" id="deckB">
+
+  <section class="slide" data-title="开会前">
+    <div class="htitle">开会前，<b>手机往桌上一放</b></div>
+    <div class="scene">点一下录音，剩下的交给它，你专心开会</div>
+    <div class="shots solo">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🎙️</span><span class="plabel">截图占位</span><span class="pdesc">会议界面一点录音 →<br>开始边听边记</span></div><div class="cap">一点开录，不用动手</div></div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">B · 01 / 04</div>
+  </section>
+
+  <section class="slide" data-title="会议中">
+    <div class="htitle">开会当中，<b>边听边记，还分清谁在说</b></div>
+    <div class="scene">发言实时转成文字，谁说的一句句对得上</div>
+    <div class="shots solo">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">💬</span><span class="plabel">截图占位</span><span class="pdesc">实时转写 →<br>按发言人分好段</span></div><div class="cap">实时转写，自动分说话人</div></div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">B · 02 / 04</div>
+  </section>
+
+  <section class="slide" data-title="散会后">
+    <div class="htitle">散会一看，<b>纪要、待办已经就位</b></div>
+    <div class="scene">重点结论、谁做什么、什么时候交，一目了然</div>
+    <div class="shots solo">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📋</span><span class="plabel">截图占位</span><span class="pdesc">自动出纪要 →<br>待办可一键进日程</span></div><div class="cap">纪要 + 待办自动就位</div></div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">B · 03 / 04</div>
+  </section>
+
+  <section class="slide" data-title="过几天">
+    <div class="htitle">过几天想不起来，<b>一句话就问回结论</b></div>
+    <div class="scene">直接问这场会定了啥，答案还带原文出处</div>
+    <div class="shots solo">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🔍</span><span class="plabel">截图占位</span><span class="pdesc">一句话提问 →<br>答案带原文出处</span></div><div class="cap">问一句，带出处答你</div></div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">B · 04 / 04</div>
+  </section>
+
+</div>
+
+<nav class="nav" id="nav"></nav>
+<div class="hint">顶部切换两版 · ← → / SPACE 翻页</div>
+
 <script>
-const deck=document.getElementById('deck'),slides=[...document.querySelectorAll('.slide')],nav=document.getElementById('nav');let current=0;
-slides.forEach((s,i)=>{const b=document.createElement('button');b.className='dot'+(i===0?' on':'');b.title=s.dataset.title||`第 ${i+1} 页`;b.onclick=()=>go(i);nav.appendChild(b)});const dots=[...nav.children];
-function go(i){current=Math.max(0,Math.min(slides.length-1,i));slides[current].scrollIntoView({behavior:'smooth'});dots.forEach((d,n)=>d.classList.toggle('on',n===current))}
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){current=slides.indexOf(e.target);dots.forEach((d,n)=>d.classList.toggle('on',n===current))}}),{root:deck,threshold:.6});slides.forEach(s=>io.observe(s));
+const decks={A:document.getElementById('deckA'),B:document.getElementById('deckB')};
+const nav=document.getElementById('nav');
+let deck,slides,current=0,io=null;
+
+function buildNav(){
+  nav.innerHTML='';
+  slides.forEach((s,i)=>{const b=document.createElement('button');b.className='dot'+(i===0?' on':'');b.title=s.dataset.title||('第 '+(i+1)+' 页');b.onclick=()=>go(i);nav.appendChild(b)});
+}
+function dots(){return [...nav.children]}
+function go(i){current=Math.max(0,Math.min(slides.length-1,i));slides[current].scrollIntoView({behavior:'smooth'});dots().forEach((d,n)=>d.classList.toggle('on',n===current))}
+function setupIO(){
+  if(io)io.disconnect();
+  io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){current=slides.indexOf(e.target);dots().forEach((d,n)=>d.classList.toggle('on',n===current))}}),{root:deck,threshold:.6});
+  slides.forEach(s=>io.observe(s));
+}
+function activate(key){
+  Object.entries(decks).forEach(([k,d])=>d.classList.toggle('hidden',k!==key));
+  document.querySelectorAll('.sw').forEach(b=>b.classList.toggle('on',b.dataset.deck===key));
+  deck=decks[key];slides=[...deck.querySelectorAll('.slide')];current=0;
+  buildNav();setupIO();deck.scrollTo({top:0});
+}
+document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>activate(b.dataset.deck));
 addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(current+1)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1)});
+activate('A');
 </script>
 </body>
 </html>
