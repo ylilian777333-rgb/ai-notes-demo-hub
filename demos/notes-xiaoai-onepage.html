@@ -35,13 +35,6 @@ body{overflow:hidden}
 .stitle .em{color:var(--acc)}
 .slide.in .stitle{opacity:1;transform:none}
 .cardstage{display:flex;justify-content:center;gap:calc(var(--u)*4);width:100%}
-.pcard{flex:0 0 40%;min-height:calc(var(--u)*22);background:#d5d7dc;color:#2a2d34;border-radius:calc(var(--u)*2);
-  padding:calc(var(--u)*3);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-  opacity:0;transform:translateY(calc(var(--u)*2));transition:opacity .55s ease,transform .55s ease}
-.pcard .past{font-size:calc(var(--u)*1.5);font-weight:800;color:#6a6f7c;margin-bottom:calc(var(--u)*1.4)}
-.pcard .ptxt{font-size:calc(var(--u)*1.85);line-height:1.7;font-weight:600}
-.slide.in .pcard{opacity:1;transform:none}
-.slide.in .pcard:nth-of-type(2){transition-delay:.15s}
 .case{width:100%;max-width:calc(var(--u)*152);display:flex;align-items:center;justify-content:space-between;gap:calc(var(--u)*7)}
 .copy{flex:1 1 auto;max-width:calc(var(--u)*62)}
 .copy .ttl{font-size:calc(var(--u)*4.2);font-weight:840;color:#fff;line-height:1.3;letter-spacing:.01em}
@@ -115,7 +108,6 @@ body{overflow:hidden}
 .slide.in .oldl{animation:gone .5s ease 2.4s forwards}
 .slide.in .newl{animation:rise .5s ease 2.6s forwards}
 @keyframes gone{to{opacity:0}}
-/* 续写 */
 .cur{display:inline-block;width:calc(var(--u)*.4);height:calc(var(--u)*1.6);background:var(--acc);vertical-align:middle;margin:0 calc(var(--u)*.4);opacity:0}
 .slide.in .cur{animation:blink 1s step-end 1.6s infinite}
 @keyframes blink{50%{opacity:0}}
@@ -127,40 +119,65 @@ body{overflow:hidden}
 .dot{width:7px;height:7px;border-radius:50%;background:#4c4f57;border:0;cursor:pointer;transition:.25s;padding:0}
 .dot.on{height:20px;border-radius:7px;background:#fff}
 .hint{position:fixed;left:50%;bottom:1vh;transform:translateX(-50%);z-index:20;color:#4c505a;font-size:calc(var(--u)*1)}
+.bawrap{display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*4);width:100%}
+.bcol{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*1.4)}
+.blabel{font-size:calc(var(--u)*1.4);font-weight:800;letter-spacing:.08em;color:#7c8496}
+.barrow{font-size:calc(var(--u)*3.2);color:#fff;opacity:0;transition:opacity .4s ease .35s}
+.device.sm{height:calc(var(--u)*40)}
+.device.xs{height:calc(var(--u)*34)}
+.bcol.past{opacity:0;transform:translateX(calc(var(--u)*-1.5));transition:opacity .55s ease .1s,transform .55s ease .1s}
+.bcol.now{opacity:0;transform:translateX(calc(var(--u)*-2.5));transition:opacity .6s ease .5s,transform .6s ease .5s}
+.slide.in .bcol.past,.slide.in .bcol.now,.slide.in .barrow{opacity:1;transform:none}
+.trio{display:flex;justify-content:center;gap:calc(var(--u)*3.5);width:100%}
+.trio .bcol{opacity:0;transform:translateY(calc(var(--u)*2));transition:opacity .55s ease,transform .55s ease}
+.slide.in .trio .bcol{opacity:1;transform:none}
+.slide.in .trio .bcol:nth-child(2){transition-delay:.15s}
+.slide.in .trio .bcol:nth-child(3){transition-delay:.3s}
+.kbd{position:absolute;left:calc(var(--u)*1);right:calc(var(--u)*1);bottom:calc(var(--u)*1.2);display:flex;flex-direction:column;gap:calc(var(--u)*.6)}
+.krow{display:flex;gap:calc(var(--u)*.5);justify-content:center}
+.krow span{flex:1;height:calc(var(--u)*2.2);background:#1b2130;border-radius:calc(var(--u)*.5)}
+.voice{display:flex !important;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*2.2)}
+.micbtn{width:calc(var(--u)*9);height:calc(var(--u)*9);border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;font-size:calc(var(--u)*3.6)}
+.slide.in .micbtn{animation:pulse 1.7s ease infinite 1s}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 calc(var(--u)*.8) rgba(77,130,255,.28)}50%{box-shadow:0 0 0 calc(var(--u)*2.6) rgba(77,130,255,0)}}
+.miclbl{color:#c9cdd6;font-size:calc(var(--u)*1.6);font-weight:700}
+.subhold{font-size:calc(var(--u)*1.7);color:#4a4f5b;margin-top:calc(var(--u)*2.6);letter-spacing:.06em;font-weight:600;border:1px dashed #2f3440;border-radius:999px;padding:calc(var(--u)*.6) calc(var(--u)*1.8)}
 </style>
 </head>
 <body>
 <div class="stage">
 <div class="deck" id="deck">
 
-  <section class="slide center" data-title="背景">
-    <div class="big">开会、上课、看病 ——<br>重要的内容，都想<span class="em">记下来</span></div>
-    <div class="sub">语音笔记　·　AI 笔记</div>
-    <div class="foot">XIAOMI NOTES · AI</div>
-  </section>
-
-  <section class="slide col" data-title="局限">
-    <div class="chapter">笔记</div>
-    <div class="stitle">但"记下来"，<span class="em">从来不轻松</span></div>
-    <div class="cardstage">
-      <div class="pcard"><div class="past">（图）过去</div><div class="ptxt">开会边听边打字，<br>手根本跟不上，<br>回头一看漏了一半</div></div>
-      <div class="pcard"><div class="past">（图）过去</div><div class="ptxt">干脆先录音，<br>可回去还得自己<br>一句句听、一点点敲</div></div>
+  <!-- 1 · 导入（主张式 + 过去→现在对比） -->
+  <section class="slide col" data-title="导入">
+    <div class="stitle">AI 时代，笔记从"记下来"，<br>变成<span class="em">说一句，就成一篇</span></div>
+    <div class="bawrap">
+      <div class="bcol past"><span class="blabel">过去 · 自己敲字</span>
+        <div class="device sm"><span class="notch"></span><div class="screen">
+          <div class="sbar"><span>14:10</span><span>5G ⚡ 100</span></div>
+          <div class="body">
+            <div class="nline t"></div><div class="nline" style="width:66%"></div><div class="nline" style="width:38%"></div>
+            <div class="kbd"><div class="krow"><span></span><span></span><span></span><span></span><span></span></div><div class="krow"><span></span><span></span><span></span><span></span><span></span></div><div class="krow"><span></span><span></span><span></span></div></div>
+          </div></div></div>
+      </div>
+      <span class="barrow">→</span>
+      <div class="bcol now"><span class="blabel">现在 · 开口成文</span>
+        <div class="device sm"><span class="notch"></span><div class="screen">
+          <div class="sbar"><span>14:10</span><span>5G ⚡ 100</span></div>
+          <div class="body voice"><div class="micbtn">🎙️</div><div class="miclbl">语音速记</div></div>
+        </div></div>
+      </div>
     </div>
-    <div class="pager">02</div><div class="foot">XIAOMI NOTES · AI</div>
+    <div class="pager">01</div><div class="foot">XIAOMI NOTES · AI</div>
   </section>
 
-  <section class="slide center" data-title="主张">
-    <div class="chapter">笔记</div>
-    <div class="big">现在，说完 ——<br>就是<span class="em">一篇完整的笔记</span></div>
-    <div class="pager">03</div><div class="foot">XIAOMI NOTES · AI</div>
-  </section>
-
-  <section class="slide" data-title="语音·会议">
+  <!-- 2 · 语音笔记 · 打透（开会→纪要+待办） -->
+  <section class="slide" data-title="语音·开会">
     <div class="chapter">语音笔记</div>
     <div class="case">
       <div class="copy">
-        <div class="ttl">开完一场会，<br><span class="em">纪要自动写好了</span></div>
-        <div class="desc">录一段就行，自动转写、分点整理成会议纪要，还把待办一并拎出来。</div>
+        <div class="ttl">开会说一段，<br><span class="em">纪要自动写好</span></div>
+        <div class="desc">放着录就行——自动转写、分点整理成会议纪要，待办也一并拎出来。</div>
       </div>
       <div class="device"><span class="notch"></span><div class="screen">
         <div class="sbar"><span>14:10</span><span>5G ⚡ 100</span></div>
@@ -173,82 +190,55 @@ body{overflow:hidden}
             <div class="todo"><span class="ck"></span>周五前提交排期</div><div class="todo"><span class="ck"></span>对齐设计稿</div></div>
         </div></div></div>
     </div>
-    <div class="pager">04</div><div class="foot">XIAOMI NOTES · AI</div>
+    <div class="pager">02</div><div class="foot">XIAOMI NOTES · AI</div>
   </section>
 
-  <section class="slide" data-title="语音·课堂">
+  <!-- 3 · 语音笔记 · 广度（换场景换产出） -->
+  <section class="slide col" data-title="语音·多场景">
     <div class="chapter">语音笔记</div>
-    <div class="case">
-      <div class="copy">
-        <div class="ttl">上完一节课，<br><span class="em">重点都在笔记里</span></div>
-        <div class="desc">课堂录音自动整理成课堂笔记，划出考点与关键概念，复习直接用。</div>
-      </div>
-      <div class="device"><span class="notch"></span><div class="screen">
-        <div class="sbar"><span>14:10</span><span>5G ⚡ 100</span></div>
-        <div class="body">
-          <div class="recwrap"><div class="recpill"><span class="dotr"></span>正在录音 32:05</div>
-            <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="autohint">停止后自动整理…</div></div>
-          <div class="sumwrap"><div class="sumttl">高数 · 课堂笔记</div>
-            <div class="sumcard"><div class="nline t"></div><div class="nline" style="width:88%"></div><div class="nline" style="width:74%"></div>
-              <div><span class="chip">考点：极限</span><span class="chip">导数定义</span><span class="chip">例题3</span></div></div></div>
+    <div class="stitle">换个场景，<span class="em">自动出对应的笔记</span></div>
+    <div class="trio">
+      <div class="bcol"><span class="blabel">开会 → 纪要</span>
+        <div class="device xs"><span class="notch"></span><div class="screen">
+          <div class="sbar"><span>14:10</span><span>100</span></div>
+          <div class="body"><div class="sumttl" style="font-size:calc(var(--u)*1.3)">会议纪要</div>
+            <div class="sumcard"><div class="nline t"></div><div class="nline" style="width:88%"></div><div class="nline" style="width:70%"></div></div>
+            <div class="todo"><span class="ck"></span>周五交排期</div></div>
         </div></div></div>
-    </div>
-    <div class="pager">05</div><div class="foot">XIAOMI NOTES · AI</div>
-  </section>
-
-  <section class="slide" data-title="语音·看病">
-    <div class="chapter">语音笔记</div>
-    <div class="case">
-      <div class="copy">
-        <div class="ttl">看完病，<br><span class="em">医嘱都记清楚了</span></div>
-        <div class="desc">诊室里录一段，自动整理成就诊记录：诊断、用药、复诊时间，回家不忘、不漏。</div>
-      </div>
-      <div class="device"><span class="notch"></span><div class="screen">
-        <div class="sbar"><span>14:10</span><span>5G ⚡ 100</span></div>
-        <div class="body">
-          <div class="recwrap"><div class="recpill"><span class="dotr"></span>正在录音 04:38</div>
-            <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="autohint">停止后自动整理…</div></div>
-          <div class="sumwrap"><div class="sumttl">就诊记录 · 呼吸内科</div>
-            <div class="sumcard"><div class="nline t"></div><div class="nline" style="width:86%"></div><div class="nline" style="width:76%"></div>
-              <div><span class="chip">诊断</span><span class="chip">用药 3 种</span><span class="chip">忌口</span></div></div>
+      <div class="bcol"><span class="blabel">上课 → 课堂笔记</span>
+        <div class="device xs"><span class="notch"></span><div class="screen">
+          <div class="sbar"><span>14:10</span><span>100</span></div>
+          <div class="body"><div class="sumttl" style="font-size:calc(var(--u)*1.3)">课堂笔记</div>
+            <div class="sumcard"><div class="nline t"></div><div class="nline" style="width:84%"></div>
+              <div><span class="chip">考点</span><span class="chip">公式</span></div></div></div>
+        </div></div></div>
+      <div class="bcol"><span class="blabel">看病 → 就诊记录</span>
+        <div class="device xs"><span class="notch"></span><div class="screen">
+          <div class="sbar"><span>14:10</span><span>100</span></div>
+          <div class="body"><div class="sumttl" style="font-size:calc(var(--u)*1.3)">就诊记录</div>
+            <div class="sumcard"><div class="nline t"></div><div class="nline" style="width:80%"></div>
+              <div><span class="chip">诊断</span><span class="chip">用药</span></div></div>
             <div class="todo"><span class="ck"></span>两周后复诊</div></div>
         </div></div></div>
     </div>
-    <div class="pager">06</div><div class="foot">XIAOMI NOTES · AI</div>
+    <div class="pager">03</div><div class="foot">XIAOMI NOTES · AI</div>
   </section>
 
-  <section class="slide center" data-title="过渡">
+  <!-- 4 · AI 笔记 · 引子（小爱 × 应用结合） -->
+  <section class="slide center" data-title="AI 引子">
     <div class="chapter">AI 笔记</div>
-    <div class="big">记完之后 ——<br>笔记里的超级小爱，帮你<span class="em">理清楚、改顺、补完整</span></div>
-    <div class="pager">07</div><div class="foot">XIAOMI NOTES · AI</div>
+    <div class="big">打开任意一篇笔记，<br><span class="em">随时唤醒超级小爱</span></div>
+    <div class="subhold">副标题待定 · 先空着</div>
+    <div class="pager">04</div><div class="foot">XIAOMI NOTES · AI</div>
   </section>
 
-  <section class="slide" data-title="脑图">
-    <div class="chapter">AI 笔记</div>
-    <div class="case">
-      <div class="copy">
-        <div class="ttl">复习前，<br>把整篇<span class="em">理成脑图</span></div>
-        <div class="desc">考前一堆课堂笔记，一键理成思维导图，脉络、考点一眼看清。</div>
-      </div>
-      <div class="device"><span class="notch"></span><div class="screen">
-        <div class="sbar"><span>14:10</span><span>5G ⚡ 100</span></div>
-        <div class="body">
-          <div class="nline t"></div><div class="nline" style="width:90%"></div><div class="nline" style="width:82%"></div>
-          <div class="mind"><div class="mroot">核心主题</div>
-            <div class="mnode mn1">要点一</div><div class="mnode mn2">要点二</div><div class="mnode mn3">要点三</div><div class="mnode mn4">结论</div></div>
-          <div class="toast">✓ 已插入笔记</div>
-          <div class="chat"><span class="d"></span>把这篇理成思维导图</div>
-        </div></div></div>
-    </div>
-    <div class="pager">08</div><div class="foot">XIAOMI NOTES · AI</div>
-  </section>
-
-  <section class="slide" data-title="改写">
+  <!-- 5 · AI · 校对 -->
+  <section class="slide" data-title="AI·校对">
     <div class="chapter">AI 笔记</div>
     <div class="case">
       <div class="copy">
-        <div class="ttl">口语记得潦草，<br><span class="em">一键改顺、改专业</span></div>
-        <div class="desc">随手记的口水话，改写润色成通顺、得体的表达，直接替换回原文。</div>
+        <div class="ttl">选中一段，<br><span class="em">改顺、改专业</span></div>
+        <div class="desc">随手记的口水话，一键改写润色成通顺得体的表达，直接替换回原文。</div>
       </div>
       <div class="device"><span class="notch"></span><div class="screen">
         <div class="sbar"><span>14:10</span><span>5G ⚡ 100</span></div>
@@ -262,15 +252,16 @@ body{overflow:hidden}
           <div class="chat"><span class="d"></span>选中这段 · 改写润色</div>
         </div></div></div>
     </div>
-    <div class="pager">09</div><div class="foot">XIAOMI NOTES · AI</div>
+    <div class="pager">05</div><div class="foot">XIAOMI NOTES · AI</div>
   </section>
 
-  <section class="slide" data-title="续写">
+  <!-- 6 · AI · 续写 -->
+  <section class="slide" data-title="AI·续写">
     <div class="chapter">AI 笔记</div>
     <div class="case">
       <div class="copy">
-        <div class="ttl">记了几点想法，<br><span class="em">补成一份方案</span></div>
-        <div class="desc">开家长会先列了几条提纲？AI 顺着补成一份完整的方案草稿。</div>
+        <div class="ttl">记了几条想法，<br><span class="em">补成一份方案</span></div>
+        <div class="desc">临时冒出的几点先列着，AI 接着往下补成一份完整方案。</div>
       </div>
       <div class="device"><span class="notch"></span><div class="screen">
         <div class="sbar"><span>14:10</span><span>5G ⚡ 100</span></div>
@@ -284,7 +275,35 @@ body{overflow:hidden}
           <div class="chat"><span class="d"></span>接着这段，帮我补充完整</div>
         </div></div></div>
     </div>
-    <div class="pager">10</div><div class="foot">XIAOMI NOTES · AI</div>
+    <div class="pager">06</div><div class="foot">XIAOMI NOTES · AI</div>
+  </section>
+
+  <!-- 7 · AI · 脑图 -->
+  <section class="slide" data-title="AI·脑图">
+    <div class="chapter">AI 笔记</div>
+    <div class="case">
+      <div class="copy">
+        <div class="ttl">一篇长笔记，<br><span class="em">一键理成脑图</span></div>
+        <div class="desc">考前一堆课堂笔记，一句话理成思维导图，脉络、考点一眼看清。</div>
+      </div>
+      <div class="device"><span class="notch"></span><div class="screen">
+        <div class="sbar"><span>14:10</span><span>5G ⚡ 100</span></div>
+        <div class="body">
+          <div class="nline t"></div><div class="nline" style="width:90%"></div><div class="nline" style="width:82%"></div>
+          <div class="mind"><div class="mroot">核心主题</div>
+            <div class="mnode mn1">要点一</div><div class="mnode mn2">要点二</div><div class="mnode mn3">要点三</div><div class="mnode mn4">结论</div></div>
+          <div class="toast">✓ 已插入笔记</div>
+          <div class="chat"><span class="d"></span>把这篇理成思维导图</div>
+        </div></div></div>
+    </div>
+    <div class="pager">07</div><div class="foot">XIAOMI NOTES · AI</div>
+  </section>
+
+  <!-- 8 · 收尾 -->
+  <section class="slide center" data-title="收尾">
+    <div class="big">说完，是一篇笔记 ——<br>交给超级小爱，是<span class="em">更好的一篇</span></div>
+    <div class="sub">语音笔记　·　AI 笔记</div>
+    <div class="pager">08</div><div class="foot">XIAOMI NOTES · AI</div>
   </section>
 
 </div>
