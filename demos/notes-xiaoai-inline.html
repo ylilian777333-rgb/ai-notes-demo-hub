@@ -5,100 +5,87 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>笔记 × 小爱对话框（发布会）</title>
 <style>
-:root{--ink:#f6f7f8;--muted:#9aa0ad}
+:root{--ink:#f6f7f8;--muted:#9aa0ad;--red:#f5333f}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 body{overflow:hidden}
 .deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
-.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9vh 6vw 8vh}
-.slide.center{justify-content:center}
-.big{font-size:3.1vw;font-weight:720;line-height:1.32;text-align:center;letter-spacing:-.01em}
-.subline{margin-top:2.6vh;color:var(--muted);font-size:1.15vw;text-align:center;font-weight:500}
-.ttop{position:absolute;top:8vh;left:0;width:100%;text-align:center;font-size:2.3vw;font-weight:700}
-.stage{display:flex;align-items:center;justify-content:center;gap:5vw;width:100%;padding:0 6vw;margin-top:5vh}
-.phone{width:15vw;aspect-ratio:9/19;border-radius:2.4vw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1vh;flex-shrink:0;position:relative}
-.phone.gray{background:#d5d6d8;color:#2a2a2a}
-.phone.red{background:#f5333f;color:#fff}
-.phone .lab{font-weight:700;font-size:1.15vw}
+.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8vh 6vw}
+.slide.top{justify-content:flex-start;padding-top:20vh}
+.line{font-size:3vw;font-weight:720;text-align:center;line-height:1.4;letter-spacing:-.01em}
+.line small{display:block;margin-top:2.4vh;font-size:1.15vw;color:var(--muted);font-weight:500;letter-spacing:0}
+.combine{display:flex;align-items:center;gap:3vw}
+.rblock{width:14vw;height:14vw;background:var(--red);border-radius:1.6vw;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.7vw;font-weight:700}
+.plus{font-size:2.2vw;color:#fff;font-weight:600}
+.stage{display:flex;align-items:center;justify-content:center;gap:4vw;margin-top:5vh}
+.phone{width:14vw;aspect-ratio:9/19;border-radius:2.4vw;background:#d5d6d8;color:#2a2a2a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1vh;flex-shrink:0}
+.phone .lab{font-weight:700;font-size:1.05vw}
 .phone .ph{font-size:.7vw;letter-spacing:.14em;opacity:.55}
-.rightcol{display:flex;flex-direction:column;gap:2.4vh;max-width:40vw}
-.rline{font-size:1.35vw;color:#e9ebee;font-weight:500;line-height:1.5}
-.rline .n{color:#ff6a63;font-weight:700;margin-right:.5vw}
-.cards{display:flex;gap:2vw;justify-content:center;width:100%;padding:0 5vw;margin-top:3vh}
-.card{flex:1;background:#d9d9db;color:#1a1a1a;border-radius:1.2vw;padding:5vh 2vw;min-height:36vh;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:2vh}
-.card b{font-size:1.5vw}
-.card span{font-size:1.1vw;line-height:1.6;color:#333}
-.bubbles{display:flex;flex-direction:column;gap:1.8vh;max-width:40vw}
-.bubble{padding:1.5vh 1.6vw;border-radius:1.3vw;font-size:1.2vw;line-height:1.5;max-width:34vw}
+.bubbles{display:flex;flex-direction:column;gap:1.8vh;max-width:34vw}
+.bubble{padding:1.5vh 1.6vw;border-radius:1.3vw;font-size:1.2vw;line-height:1.5;max-width:32vw}
 .bubble.user{background:#eceef1;color:#111;align-self:flex-start;border-bottom-left-radius:.3vw}
 .bubble.ai{background:#26272e;color:#f2f3f5;align-self:flex-start;border-bottom-right-radius:.3vw}
-.tag{margin-top:1.2vh;color:var(--muted);font-size:1.02vw;line-height:1.6}
 .brand{position:absolute;left:3vw;bottom:2.4vh;color:#6b6f79;font-size:.8vw;letter-spacing:.06em}
 .pager{position:absolute;right:3vw;bottom:2.4vh;color:#5f636d;font-size:.85vw;letter-spacing:.12em}
 .nav{position:fixed;right:1.6vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:10px}
 .dot{width:8px;height:8px;border-radius:50%;background:#555;border:0;cursor:pointer;transition:.25s}
 .dot.on{height:26px;border-radius:8px;background:#fff}
 .hint{position:fixed;left:50%;bottom:1.1vh;transform:translateX(-50%);z-index:20;color:#5f636d;font-size:.72vw;letter-spacing:.08em}
-@media(max-aspect-ratio:4/3){.big{font-size:5vw}.ttop{font-size:3.6vw}.rline{font-size:2.4vw}.card b{font-size:2.6vw}.card span{font-size:2vw}.bubble{font-size:2.2vw}.subline{font-size:2vw}}
+@media(max-aspect-ratio:4/3){.line{font-size:5.4vw}.line small{font-size:2vw}.rblock{width:26vw;height:26vw;font-size:3.4vw}.bubble{font-size:2.4vw}}
 </style>
 </head>
 <body>
 <div class="deck" id="deck">
 
-  <section class="slide center" data-title="痛点">
-    <div class="big">想用 AI 搭把手，却总要跳出笔记</div>
-    <div class="subline">复制、粘贴、切来切去——它还不知道你正看着哪一篇</div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">01 / 06</div>
+  <section class="slide" data-title="小爱+笔记">
+    <div class="combine">
+      <div class="rblock">小爱</div>
+      <div class="plus">＋</div>
+      <div class="rblock">笔记</div>
+    </div>
+    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">01 / 08</div>
   </section>
 
-  <section class="slide" data-title="痛点具体">
-    <div class="ttop">现在的别扭</div>
+  <section class="slide" data-title="小爱就在笔记里">
+    <div class="line">打开任意一篇笔记，小爱就在里面</div>
+    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">02 / 08</div>
+  </section>
+
+  <section class="slide top" data-title="痛点·问">
+    <div class="line">以前，想问这篇写了啥<br>还得先复制出去问</div>
+    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">03 / 08</div>
+  </section>
+
+  <section class="slide" data-title="解法·问">
+    <div class="line">现在，对着这篇直接问</div>
     <div class="stage">
-      <div class="phone red"><span class="lab">笔记</span><span class="ph">截图占位</span></div>
-      <div class="rightcol">
-        <div class="rline"><span class="n">1</span>想问这篇讲了啥 —— 得先把内容复制出去，再去别处问</div>
-        <div class="rline"><span class="n">2</span>想改这一段 —— 跳到别的地方改完，再粘回来</div>
-        <div class="rline"><span class="n">3</span>AI 不知道你在看哪篇 —— 每次都要从头交代一遍</div>
+      <div class="phone"><span class="lab">笔记里的对话框</span><span class="ph">截图占位</span></div>
+      <div class="bubbles">
+        <div class="bubble user">这篇会议记录，帮我列三个待办</div>
+        <div class="bubble ai">① 交付排期　② 对齐口径　③ 补数据（点每条回到原文）</div>
       </div>
     </div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">02 / 06</div>
+    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">04 / 08</div>
   </section>
 
-  <section class="slide" data-title="用户场景">
-    <div class="ttop">这些时刻，最想让 AI 就在手边</div>
-    <div class="cards">
-      <div class="card"><b>开会记完</b><span>想马上问"刚定了啥"，让它顺手出个纪要</span></div>
-      <div class="card"><b>写到一半</b><span>想让它接着往下写，或把这一段改顺</span></div>
-      <div class="card"><b>翻旧笔记</b><span>想问"上次那个方案，结论是啥来着"</span></div>
-    </div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">03 / 06</div>
+  <section class="slide top" data-title="痛点·改">
+    <div class="line">想改一段<br>还得跳出去改完再粘回来</div>
+    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">05 / 08</div>
   </section>
 
-  <section class="slide center" data-title="引出">
-    <div class="big">打开任意一篇笔记，小爱就在里面</div>
-    <div class="subline">不用跳出、不用复制——它就在这篇笔记里，等你说一句</div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">04 / 06</div>
+  <section class="slide" data-title="解法·改">
+    <div class="line">现在，说一句，它就改好了<small>"这段口气正式点""帮我缩成三句话"</small></div>
+    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">06 / 08</div>
   </section>
 
-  <section class="slide" data-title="更便捷">
-    <div class="ttop">对着这篇笔记，直接问、直接改</div>
-    <div class="stage">
-      <div class="phone gray"><span class="lab">笔记内对话框</span><span class="ph">截图占位</span></div>
-      <div class="rightcol">
-        <div class="bubbles">
-          <div class="bubble user">这篇会议记录，帮我列出三个待办</div>
-          <div class="bubble ai">已按这篇整理：① 交付排期　② 对齐口径　③ 补数据（点每条可回到原文）</div>
-        </div>
-        <div class="tag">就在当前笔记里 · 带着这篇的上下文 · 问 / 改 / 查一句话说完 · 结果直接落回这篇</div>
-      </div>
-    </div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">05 / 06</div>
+  <section class="slide top" data-title="痛点·找">
+    <div class="line">想找以前记过的东西<br>翻半天也翻不到</div>
+    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">07 / 08</div>
   </section>
 
-  <section class="slide center" data-title="收尾">
-    <div class="big">笔记里的每一次 AI，都更顺手一点</div>
-    <div class="subline">跟随你正在看的这篇，随手就能用</div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">06 / 06</div>
+  <section class="slide" data-title="解法·找">
+    <div class="line">现在，问一句就翻出来<small>还告诉你在哪篇、哪句话</small></div>
+    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">08 / 08</div>
   </section>
 
 </div>
