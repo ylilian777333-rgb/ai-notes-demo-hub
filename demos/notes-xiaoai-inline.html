@@ -5,82 +5,76 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>笔记内小爱对话框（发布会）</title>
 <style>
-:root{--ink:#f6f7f8;--muted:#9aa0ad;--red:#f5333f}
+:root{--ink:#f6f7f8;--muted:#aab0ba;--red:#f5333f;--accent:#5aa2ff}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 body{overflow:hidden}
 .deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
-.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8vh 6vw}
-.slide.top{justify-content:flex-start;padding-top:20vh}
-.line{font-size:3vw;font-weight:720;text-align:center;line-height:1.4;letter-spacing:-.01em}
-.line small{display:block;margin-top:2.4vh;font-size:1.15vw;color:var(--muted);font-weight:500;letter-spacing:0}
-.combine{display:flex;align-items:center;gap:3vw}
-.rblock{width:14vw;height:14vw;background:var(--red);border-radius:1.6vw;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.7vw;font-weight:700}
-.plus{font-size:2.2vw;color:#fff;font-weight:600}
-.stage{display:flex;align-items:center;justify-content:center;gap:4vw;margin-top:4.5vh}
-.phone{width:14vw;aspect-ratio:9/19;border-radius:2.4vw;background:#d5d6d8;color:#2a2a2a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1vh;flex-shrink:0}
-.phone .lab{font-weight:700;font-size:1.05vw}
-.phone .ph{font-size:.7vw;letter-spacing:.14em;opacity:.55}
-.bubbles{display:flex;flex-direction:column;gap:1.5vh;max-width:38vw}
-.bubble{padding:1.4vh 1.6vw;border-radius:1.3vw;font-size:1.12vw;line-height:1.5;max-width:36vw}
-.bubble.user{background:#eceef1;color:#111;align-self:flex-start;border-bottom-left-radius:.3vw}
-.bubble.ai{background:#26272e;color:#f2f3f5;align-self:flex-start;border-bottom-right-radius:.3vw}
-.brand{position:absolute;left:3vw;bottom:2.4vh;color:#6b6f79;font-size:.8vw;letter-spacing:.06em}
+.slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;overflow:hidden;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:11vh 5vw 7vh}
+.htitle{font-size:2.5vw;font-weight:740;letter-spacing:-.01em;text-align:center;line-height:1.3}
+.htitle b{color:var(--accent);font-weight:740}
+.hsub{font-size:1.1vw;color:var(--muted);text-align:center;margin-top:1.6vh;font-weight:500}
+.shots{display:flex;align-items:flex-start;justify-content:center;gap:3vw;margin-top:5vh}
+.item{display:flex;flex-direction:column;align-items:center;gap:2vh}
+.ph{height:50vh;aspect-ratio:9/19.5;border:2px dashed #3a3d47;border-radius:2vw;background:linear-gradient(180deg,#111218,#0b0c11);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2vh;color:#6b7080;text-align:center;padding:0 1.4vw;position:relative}
+.ph .cam{width:.8vw;height:.8vw;border-radius:50%;background:#23262f;position:absolute;top:1.4vh;left:50%;transform:translateX(-50%)}
+.ph .ico{font-size:1.9vw;opacity:.5}
+.ph .plabel{font-size:.72vw;letter-spacing:.14em;color:#7b8090;font-weight:700}
+.ph .pdesc{font-size:.72vw;line-height:1.6;color:#5b606d}
+.cap{font-size:1.05vw;font-weight:500;color:#c7ccd4;text-align:center;max-width:17vw;line-height:1.5}
+.badge{position:absolute;top:3vh;right:3vw;background:var(--red);color:#fff;padding:.55vh 1.1vw;border-radius:.6vw;font-size:.85vw;font-weight:700;letter-spacing:.02em}
 .pager{position:absolute;right:3vw;bottom:2.4vh;color:#5f636d;font-size:.85vw;letter-spacing:.12em}
-.nav{position:fixed;right:1.6vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:10px}
+.nav{position:fixed;right:1.4vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:10px}
 .dot{width:8px;height:8px;border-radius:50%;background:#555;border:0;cursor:pointer;transition:.25s}
 .dot.on{height:26px;border-radius:8px;background:#fff}
 .hint{position:fixed;left:50%;bottom:1.1vh;transform:translateX(-50%);z-index:20;color:#5f636d;font-size:.72vw;letter-spacing:.08em}
-@media(max-aspect-ratio:4/3){.line{font-size:5.4vw}.line small{font-size:2vw}.rblock{width:26vw;height:26vw;font-size:3.4vw}.bubble{font-size:2.3vw}}
+@media(max-aspect-ratio:4/3){.htitle{font-size:4vw}.ph{height:40vh}.cap{font-size:1.8vw;max-width:26vw}.hsub{font-size:2vw}.badge{font-size:1.5vw}}
 </style>
 </head>
 <body>
 <div class="deck" id="deck">
 
-  <section class="slide" data-title="小爱+笔记">
-    <div class="combine">
-      <div class="rblock">小爱</div>
-      <div class="plus">＋</div>
-      <div class="rblock">笔记</div>
+  <section class="slide" data-title="痛点·记得多又专业">
+    <div class="badge">@李莲</div>
+    <div class="htitle">开个会记一大篇，又长又专业</div>
+    <div class="hsub">回头想弄明白，只能自己一段段啃</div>
+    <div class="shots">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">📄</span><span class="plabel">截图占位</span><span class="pdesc">很长的会议记录 →<br>好几屏</span></div><div class="cap">记录好几屏，重点全埋在里面</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">😵‍💫</span><span class="plabel">截图占位</span><span class="pdesc">密密麻麻文字 +<br>专业术语</span></div><div class="cap">又多又专业，想搞懂得自己啃</div></div>
     </div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">01 / 06</div>
-  </section>
-
-  <section class="slide top" data-title="痛点·记得多">
-    <div class="line">开个会、上堂课<br>一记就是好几屏</div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">02 / 06</div>
-  </section>
-
-  <section class="slide top" data-title="痛点·啃不动">
-    <div class="line">内容又多又专业<br>回头想弄明白，自己啃很费劲</div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">03 / 06</div>
+    <div class="pager">01 / 04</div>
   </section>
 
   <section class="slide" data-title="小爱就在这篇里">
-    <div class="line">现在，打开这篇笔记，小爱就在里面</div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">04 / 06</div>
+    <div class="badge">@李莲</div>
+    <div class="htitle">打开这篇笔记，<b>小爱就在里面</b></div>
+    <div class="hsub">每一篇笔记里，都带一个对话框</div>
+    <div class="shots">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">💬</span><span class="plabel">截图占位</span><span class="pdesc">笔记页面下方 →<br>小爱对话框入口</span></div><div class="cap">不用跳出去，就在这篇里问</div></div>
+    </div>
+    <div class="pager">02 / 04</div>
   </section>
 
-  <section class="slide" data-title="解法·专业">
-    <div class="line">问得再专业，它也答得上</div>
-    <div class="stage">
-      <div class="phone"><span class="lab">笔记里的对话框</span><span class="ph">截图占位</span></div>
-      <div class="bubbles">
-        <div class="bubble user">会上聊的三个方案，帮我把利弊对比一下</div>
-        <div class="bubble ai">方案 A：成本低、周期长；方案 B：见效快、投入大；方案 C……（都出自这篇）</div>
-        <div class="bubble user">第二段那个技术风险，说人话讲一遍</div>
-        <div class="bubble ai">意思是……（点一下回到原文那句）</div>
-      </div>
+  <section class="slide" data-title="问得再专业也答得上">
+    <div class="badge">@李莲</div>
+    <div class="htitle">对着这篇问，<b>再专业也答得上</b></div>
+    <div class="hsub">它把这篇读透了，答的都出自这篇</div>
+    <div class="shots">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🙋</span><span class="plabel">截图占位</span><span class="pdesc">用户提问 →<br>"三个方案利弊对比一下"</span></div><div class="cap">对着这篇，问专业的问题</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">✅</span><span class="plabel">截图占位</span><span class="pdesc">专业回答 →<br>逐条带原文出处</span></div><div class="cap">答得又准又专业，点句回原文</div></div>
     </div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">05 / 06</div>
+    <div class="pager">03 / 04</div>
   </section>
 
-  <section class="slide" data-title="解法·便利">
-    <div class="line">想问就问，划哪问哪<small>不用复制、不用切出去；追着往下问，它一直跟着这篇</small></div>
-    <div class="stage">
-      <div class="phone"><span class="lab">划中一段 → 直接问</span><span class="ph">截图占位</span></div>
+  <section class="slide" data-title="划哪问哪·不用切来切去">
+    <div class="badge">@李莲</div>
+    <div class="htitle">想问就问，<b>划哪问哪</b></div>
+    <div class="hsub">不用复制、不用切出去，追着问它也跟得上</div>
+    <div class="shots">
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">✍️</span><span class="plabel">截图占位</span><span class="pdesc">划中一段 →<br>就地冒出"问小爱"</span></div><div class="cap">划中一段，直接问这一段</div></div>
+      <div class="item"><div class="ph"><span class="cam"></span><span class="ico">🔁</span><span class="plabel">截图占位</span><span class="pdesc">连续追问 →<br>一直聊的是这篇</span></div><div class="cap">追着往下问，它一直跟着这篇</div></div>
     </div>
-    <div class="brand">XIAOMI NOTES × 小爱</div><div class="pager">06 / 06</div>
+    <div class="pager">04 / 04</div>
   </section>
 
 </div>
