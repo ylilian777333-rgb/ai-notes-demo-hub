@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OS5 发布会场景页 · 排版布局候选</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --bg:#000; --ink:#fff; --sub:#8a8a8e; --line:#3a3a3c;
+    --card:#1c1c1e; --card2:#2c2c2e; --accent:#ff6a00;
+  }
+  body{
+    background:#0a0a0a; color:var(--ink);
+    font-family:"PingFang SC","Helvetica Neue",Arial,sans-serif;
+    padding:48px 0 96px;
+  }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 24px; }
+  .intro{ text-align:center; margin-bottom:56px; }
+  .intro h1{ font-size:30px; font-weight:800; letter-spacing:.5px; }
+  .intro p{ color:var(--sub); font-size:15px; margin-top:12px; line-height:1.7; }
+  .intro .tip{ color:var(--accent); }
+
+  .cap{ display:flex; align-items:baseline; gap:12px; margin:0 0 14px 2px; }
+  .cap .no{ font-size:13px; font-weight:800; color:#000; background:var(--accent);
+    border-radius:6px; padding:3px 9px; letter-spacing:.5px; }
+  .cap .nm{ font-size:16px; font-weight:700; }
+  .cap .ds{ font-size:13px; color:var(--sub); }
+
+  /* 16:9 slide */
+  .slide{
+    position:relative; width:100%; aspect-ratio:16/9; background:var(--bg);
+    border-radius:16px; overflow:hidden; margin-bottom:52px;
+    box-shadow:0 0 0 1px #1a1a1a, 0 24px 60px rgba(0,0,0,.6);
+  }
+  .slide .stitle{ position:absolute; top:7%; left:0; right:0; text-align:center;
+    font-size:26px; font-weight:700; }
+  .slide .ssub{ position:absolute; top:7%; left:0; right:0; text-align:center;
+    color:var(--sub); font-size:14px; }
+  .badge{ position:absolute; right:14px; bottom:10px; font-size:11px; color:#48484a; }
+
+  /* phone mock */
+  .phone{ background:#161618; border:1px solid #333; border-radius:30px;
+    box-shadow:0 20px 50px rgba(0,0,0,.5); overflow:hidden; }
+  .phone .scr{ padding:16px 14px; }
+  .ph-h{ font-size:12px; color:#cfcfd2; font-weight:700; margin-bottom:10px; }
+  .ln{ height:7px; border-radius:4px; background:#2f2f31; margin:7px 0; }
+  .ln.s{ width:55%; } .ln.m{ width:80%; } .ln.l{ width:96%; }
+  .ln.hot{ background:rgba(255,106,0,.35); }
+
+  /* result card */
+  .rcard{ background:var(--card); border-radius:16px; padding:22px 22px;
+    border-left:3px solid var(--accent); }
+  .rcard .k{ font-size:26px; font-weight:800; }
+  .rcard .v{ color:var(--sub); font-size:14px; margin-top:8px; line-height:1.6; }
+
+  .flag{ display:inline-block; font-size:12px; font-weight:700; color:var(--accent);
+    border:1px solid rgba(255,106,0,.5); border-radius:20px; padding:3px 12px; }
+  .orderbubble{ background:var(--accent); color:#000; font-weight:700;
+    font-size:16px; border-radius:16px 16px 16px 4px; padding:10px 16px; display:inline-block; }
+
+  .note{ color:var(--sub); font-size:13px; margin:-38px 2px 52px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <h1>OS5 发布会 · 场景页排版布局候选</h1>
+    <p>同一批真实场景内容（会议 / 课堂 / 就诊 / 跨篇问答 / 亮相），用不同排版各做一屏。<br>
+    纯黑背景、主色只用一点<span class="tip">小米橙</span>点缀，无红底高亮。翻着挑，看中哪个布局告诉我编号。</p>
+  </div>
+
+  <!-- ============ A 对照类 ============ -->
+  <div class="cap"><span class="no">01</span><span class="nm">左全文手机 ＋ 右要点卡</span><span class="ds">最稳的对照，一眼看懂"从全文提炼要点"</span></div>
+  <div class="slide">
+    <div class="stitle">开会 · 从纪要里拎出结论和待办</div>
+    <div style="position:absolute;top:22%;bottom:9%;left:7%;right:7%;display:flex;align-items:center;gap:6%;">
+      <div class="phone" style="width:230px;flex:none;">
+        <div class="scr">
+          <div class="ph-h">会议纪要 · 全文</div>
+          <div class="ln l"></div><div class="ln m"></div><div class="ln l"></div>
+          <div class="ln s"></div><div class="ln m"></div><div class="ln l"></div>
+          <div class="ln m"></div><div class="ln l"></div><div class="ln s"></div>
+          <div class="ln m"></div><div class="ln l"></div>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:22px;">
+        <div class="rcard"><div class="k">结论</div><div class="v">一句话说清这次会定了什么</div></div>
+        <div class="rcard"><div class="k">待办</div><div class="v">谁做、几号交，逐条列好，可直接转发</div></div>
+      </div>
+    </div>
+    <div class="badge">layout 01</div>
+  </div>
+  <div class="note">改良点：卡片用一条橙色左边条 + 大字要点 + 灰色小注，取代原来的红底高亮，干净很多。</div>
+
+  <div class="cap"><span class="no">02</span><span class="nm">前后对比 Before / After</span><span class="ds">左乱右齐，直接把"从流水账到结构化"的价值摆出来</span></div>
+  <div class="slide">
+    <div class="stitle">开会 · 从一段录音，到一份能用的纪要</div>
+    <div style="position:absolute;top:22%;bottom:9%;left:7%;right:7%;display:flex;align-items:stretch;gap:5%;">
+      <div style="flex:1;background:#101012;border:1px solid #242426;border-radius:14px;padding:20px;opacity:.55;">
+        <div class="ph-h" style="color:#6a6a6e;">录音转写 · 原文</div>
+        <div class="ln l"></div><div class="ln l"></div><div class="ln m"></div><div class="ln l"></div>
+        <div class="ln l"></div><div class="ln m"></div><div class="ln l"></div><div class="ln l"></div>
+        <div class="ln s"></div><div class="ln l"></div><div class="ln m"></div><div class="ln l"></div>
+      </div>
+      <div style="align-self:center;color:var(--sub);font-size:30px;">→</div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;">
+        <div class="rcard" style="padding:16px 20px;"><div class="k" style="font-size:20px;">结论</div><div class="v">这次会定了什么</div></div>
+        <div class="rcard" style="padding:16px 20px;"><div class="k" style="font-size:20px;">议题</div><div class="v">分好类的讨论点</div></div>
+        <div class="rcard" style="padding:16px 20px;"><div class="k" style="font-size:20px;">待办</div><div class="v">谁做 · 几号交</div></div>
+      </div>
+    </div>
+    <div class="badge">layout 02</div>
+  </div>
+
+  <div class="cap"><span class="no">03</span><span class="nm">分屏 50/50 · 只聚焦一个价值点</span><span class="ds">一页只讲一件最有钩子的事（如待办）</span></div>
+  <div class="slide">
+    <div class="stitle">开会 · 待办自动拎出来</div>
+    <div style="position:absolute;top:0;bottom:0;left:0;width:50%;background:#101012;display:flex;align-items:center;justify-content:center;">
+      <div class="phone" style="width:210px;opacity:.7;">
+        <div class="scr"><div class="ph-h">纪要全文</div>
+          <div class="ln l"></div><div class="ln m"></div><div class="ln l"></div><div class="ln s"></div>
+          <div class="ln m"></div><div class="ln l"></div><div class="ln m"></div><div class="ln l"></div>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;top:0;bottom:0;left:50%;right:0;display:flex;flex-direction:column;justify-content:center;padding:0 6%;">
+      <div class="flag" style="margin-bottom:18px;">待办</div>
+      <div style="font-size:30px;font-weight:800;line-height:1.35;">谁做、几号交<br>都写在上面</div>
+      <div class="v" style="color:var(--sub);font-size:15px;margin-top:16px;">一键加进日程，到点提醒</div>
+    </div>
+    <div class="badge">layout 03</div>
+  </div>
+
+  <div class="cap"><span class="no">04</span><span class="nm">手机半出血 ＋ 侧边大字结论</span><span class="ds">小米发布会最常见构图，价值一句话顶上去</span></div>
+  <div class="slide">
+    <div style="position:absolute;left:-40px;top:14%;bottom:-60px;width:300px;">
+      <div class="phone" style="width:300px;height:118%;border-radius:36px;">
+        <div class="scr" style="padding:22px 18px;"><div class="ph-h">会议纪要</div>
+          <div class="ln l"></div><div class="ln m"></div><div class="ln l"></div><div class="ln s"></div>
+          <div class="ln m"></div><div class="ln l"></div><div class="ln m"></div><div class="ln l"></div>
+          <div class="ln s"></div><div class="ln l"></div><div class="ln m"></div>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;left:44%;right:7%;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;">
+      <div style="font-size:38px;font-weight:800;line-height:1.3;">散会，<br>纪要已经在这儿了</div>
+      <div style="display:flex;gap:12px;margin-top:26px;">
+        <div class="rcard" style="padding:12px 16px;flex:1;"><div class="k" style="font-size:17px;">结论</div></div>
+        <div class="rcard" style="padding:12px 16px;flex:1;"><div class="k" style="font-size:17px;">待办</div></div>
+      </div>
+    </div>
+    <div class="badge">layout 04</div>
+  </div>
+
+  <!-- ============ B 抽取动效类 ============ -->
+  <div class="cap"><span class="no">05</span><span class="nm">手机居中 ＋ 要点飞出（引线）</span><span class="ds">讲"AI 从全文里抓重点"，动效感最强</span></div>
+  <div class="slide">
+    <div class="stitle">上课 · 一节课，自动抓出重点</div>
+    <svg viewBox="0 0 100 56" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;">
+      <line x1="50" y1="30" x2="24" y2="24" stroke="#3a3a3c" stroke-width=".3"/>
+      <line x1="50" y1="30" x2="76" y2="18" stroke="#3a3a3c" stroke-width=".3"/>
+      <line x1="50" y1="30" x2="77" y2="40" stroke="#3a3a3c" stroke-width=".3"/>
+    </svg>
+    <div class="phone" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-46%);width:190px;">
+      <div class="scr"><div class="ph-h">课堂笔记 · 全文</div>
+        <div class="ln l"></div><div class="ln m"></div><div class="ln l"></div><div class="ln s"></div>
+        <div class="ln m"></div><div class="ln l"></div><div class="ln m"></div><div class="ln l"></div>
+      </div>
+    </div>
+    <div class="rcard" style="position:absolute;left:9%;top:32%;padding:12px 18px;"><div class="k" style="font-size:19px;">知识点</div></div>
+    <div class="rcard" style="position:absolute;right:8%;top:22%;padding:12px 18px;"><div class="k" style="font-size:19px;">考点</div></div>
+    <div class="rcard" style="position:absolute;right:8%;top:60%;padding:12px 18px;"><div class="k" style="font-size:19px;">例题</div></div>
+    <div class="badge">layout 05</div>
+  </div>
+
+  <div class="cap"><span class="no">06</span><span class="nm">全屏大手机 ＋ 正文逐条高亮</span><span class="ds">最干净，靠动效逐句点亮关键句</span></div>
+  <div class="slide">
+    <div class="ssub">上课</div>
+    <div class="phone" style="position:absolute;left:50%;top:52%;transform:translate(-50%,-45%);width:250px;">
+      <div class="scr" style="padding:20px 18px;"><div class="ph-h">课堂笔记 · 全文</div>
+        <div class="ln l"></div><div class="ln m"></div>
+        <div class="ln l hot"></div><div class="ln m hot"></div>
+        <div class="ln l"></div><div class="ln s"></div>
+        <div class="ln l hot"></div>
+        <div class="ln m"></div><div class="ln l"></div>
+      </div>
+    </div>
+    <div style="position:absolute;right:9%;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;">
+      <div class="flag">考点已标出</div>
+      <div style="font-size:22px;font-weight:800;">重点，替你<br>画好了</div>
+    </div>
+    <div class="badge">layout 06</div>
+  </div>
+
+  <!-- ============ C 跨多篇 ============ -->
+  <div class="cap"><span class="no">07</span><span class="nm">卡片叠层 / 瀑布</span><span class="ds">专给"取"：从很多篇里命中答案</span></div>
+  <div class="slide">
+    <div class="stitle">跨多篇 · 问一句，从记过的里翻出答案</div>
+    <div style="position:absolute;left:8%;top:30%;">
+      <div style="position:absolute;width:150px;height:180px;background:#141416;border:1px solid #2a2a2c;border-radius:14px;transform:rotate(-8deg);top:8px;left:0;"></div>
+      <div style="position:absolute;width:150px;height:180px;background:#18181a;border:1px solid #2e2e30;border-radius:14px;transform:rotate(4deg);top:4px;left:22px;"></div>
+      <div class="phone" style="position:relative;width:158px;left:44px;">
+        <div class="scr"><div class="ph-h">育儿记录 · 多篇</div>
+          <div class="ln l hot"></div><div class="ln m"></div><div class="ln l"></div><div class="ln s hot"></div>
+          <div class="ln m"></div><div class="ln l"></div>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;right:8%;top:34%;width:40%;">
+      <div class="orderbubble">"宝宝对哪些食物过敏？"</div>
+      <div class="rcard" style="margin-top:18px;"><div class="k" style="font-size:20px;">花生 · 芒果</div>
+        <div class="v">从你 3 篇辅食记录里翻出，点开看到是哪天记的</div></div>
+    </div>
+    <div class="badge">layout 07</div>
+  </div>
+
+  <!-- ============ D 极简冲击 ============ -->
+  <div class="cap"><span class="no">08</span><span class="nm">三栏大卡（不放手机）</span><span class="ds">信息量低但气势足，适合章节转场</span></div>
+  <div class="slide">
+    <div class="stitle">看病 · 一次问诊，理清三件事</div>
+    <div style="position:absolute;top:26%;bottom:12%;left:6%;right:6%;display:flex;gap:26px;">
+      <div class="rcard" style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+        <div style="font-size:40px;margin-bottom:14px;">💊</div><div class="k" style="font-size:24px;">用药</div>
+        <div class="v">怎么吃、吃几天</div></div>
+      <div class="rcard" style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+        <div style="font-size:40px;margin-bottom:14px;">🚫</div><div class="k" style="font-size:24px;">忌口</div>
+        <div class="v">哪些不能碰</div></div>
+      <div class="rcard" style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+        <div style="font-size:40px;margin-bottom:14px;">📅</div><div class="k" style="font-size:24px;">复诊</div>
+        <div class="v">哪天去，一键进日程</div></div>
+    </div>
+    <div class="badge">layout 08</div>
+  </div>
+
+  <div class="cap"><span class="no">09</span><span class="nm">一句话大字页</span><span class="ds">亮相 / 场景收尾，纯黑一行巨字</span></div>
+  <div class="slide">
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <div style="font-size:52px;font-weight:800;letter-spacing:1px;">你只管说，剩下的交给它</div>
+      <div style="color:var(--sub);font-size:17px;margin-top:22px;">点一下录音，说完就是一篇整理好的笔记</div>
+    </div>
+    <div class="badge">layout 09</div>
+  </div>
+
+  <!-- ============ E 指令交互 ============ -->
+  <div class="cap"><span class="no">10</span><span class="nm">橙色指令气泡 ＋ 手机响应</span><span class="ds">突出"说一句话就行"，呼应李楠"橙色短指令"</span></div>
+  <div class="slide">
+    <div class="stitle">就着这篇，继续帮你写</div>
+    <div style="position:absolute;top:24%;bottom:9%;left:8%;right:8%;display:flex;align-items:center;gap:7%;">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:16px;">
+        <div class="orderbubble">"扩写成发言稿"</div>
+        <div style="color:var(--sub);font-size:15px;line-height:1.7;">你列的几条提纲，它顺着补成<br>一篇能直接照着念的稿子</div>
+      </div>
+      <div class="phone" style="width:220px;flex:none;">
+        <div class="scr" style="padding:18px 16px;"><div class="ph-h">家长会发言稿</div>
+          <div class="ln l"></div><div class="ln l"></div><div class="ln m"></div><div class="ln l"></div>
+          <div class="ln l"></div><div class="ln s"></div><div class="ln l"></div><div class="ln m"></div>
+        </div>
+      </div>
+    </div>
+    <div class="badge">layout 10</div>
+  </div>
+
+  <!-- ============ F 过程页 ============ -->
+  <div class="cap"><span class="no">11</span><span class="nm">横向四步流程条</span><span class="ds">讲"怎么做到的"，放场景之前当能力说明</span></div>
+  <div class="slide">
+    <div class="stitle">说完，到一篇笔记，只有四步</div>
+    <div style="position:absolute;top:0;bottom:0;left:5%;right:5%;display:flex;align-items:center;justify-content:space-between;">
+      <div style="text-align:center;flex:1;"><div style="font-size:34px;">🎙️</div><div style="font-weight:700;margin-top:10px;">录音</div></div>
+      <div style="color:#3a3a3c;font-size:22px;">→</div>
+      <div style="text-align:center;flex:1;"><div style="font-size:34px;">📝</div><div style="font-weight:700;margin-top:10px;">转写</div></div>
+      <div style="color:#3a3a3c;font-size:22px;">→</div>
+      <div style="text-align:center;flex:1;"><div style="font-size:34px;">✨</div><div style="font-weight:700;margin-top:10px;">提炼</div></div>
+      <div style="color:#3a3a3c;font-size:22px;">→</div>
+      <div style="text-align:center;flex:1;"><div style="font-size:34px;">📄</div><div style="font-weight:700;margin-top:10px;">成篇</div></div>
+    </div>
+    <div class="badge">layout 11</div>
+  </div>
+
+  <div class="note" style="margin-top:8px;text-align:center;">
+    看中哪几个编号告诉我，我把它们套到你真实的每一页场景里细化成最终发布会稿。
+  </div>
+</div>
+</body>
+</html>
