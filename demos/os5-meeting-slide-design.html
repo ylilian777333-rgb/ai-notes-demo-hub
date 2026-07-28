@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>开会页 · 卡片设计处理对比</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{ --accent:#ff6a00; }
+  body{ background:#0a0a0a; color:#fff;
+    font-family:"PingFang SC","Helvetica Neue",Arial,sans-serif; padding:44px 0 96px; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 24px; }
+  .intro{ text-align:center; margin-bottom:44px; }
+  .intro h1{ font-size:26px; font-weight:800; }
+  .intro p{ color:#8a8a8e; font-size:14px; margin-top:10px; line-height:1.7; }
+  .cap{ display:flex; align-items:baseline; gap:12px; margin:0 0 14px 2px; }
+  .cap .no{ font-size:13px; font-weight:800; color:#000; background:var(--accent); border-radius:6px; padding:3px 9px; }
+  .cap .nm{ font-size:16px; font-weight:700; }
+  .cap .ds{ font-size:13px; color:#8a8a8e; }
+  .slide{ position:relative; width:100%; aspect-ratio:16/9; background:#000;
+    border-radius:14px; overflow:hidden; margin-bottom:48px;
+    box-shadow:0 0 0 1px #1a1a1a,0 20px 50px rgba(0,0,0,.55); }
+  .stitle{ position:absolute; top:8%; left:0; right:0; text-align:center; font-size:25px; font-weight:700; letter-spacing:.5px; }
+  .stage{ position:absolute; top:24%; bottom:8%; left:7%; right:7%; display:flex; gap:5%; }
+
+  /* ---- phone ---- */
+  .phone{ flex:none; width:270px; background:#fff; border-radius:22px; overflow:hidden;
+    box-shadow:0 18px 44px rgba(0,0,0,.5); color:#111; align-self:stretch; }
+  .ph-status{ display:flex; justify-content:space-between; align-items:center; padding:8px 14px 2px; font-size:10px; color:#111; font-weight:600; }
+  .ph-bar{ display:flex; justify-content:space-between; padding:6px 14px; color:#333; font-size:13px; }
+  .ph-body{ padding:2px 16px 16px; }
+  .ph-title{ font-size:15px; font-weight:800; margin-top:2px; }
+  .ph-date{ font-size:9px; color:#999; margin:3px 0 10px; }
+  .audio{ background:#f6f6f6; border-radius:10px; padding:9px 10px; display:flex; gap:8px; align-items:flex-start; }
+  .play{ width:18px; height:18px; border-radius:50%; background:var(--accent); flex:none; position:relative; }
+  .play::after{ content:""; position:absolute; left:6px; top:5px; border-left:6px solid #fff; border-top:4px solid transparent; border-bottom:4px solid transparent; }
+  .audio .t{ font-size:10px; font-weight:700; }
+  .ai-tag{ font-size:10px; color:var(--accent); font-weight:700; margin:10px 0 5px; }
+  .ph-body p{ font-size:10px; color:#333; line-height:1.6; }
+  .ph-h2{ font-size:11px; font-weight:800; margin:11px 0 5px; }
+  .ph-body li{ font-size:9.5px; color:#444; line-height:1.75; list-style:none; }
+
+  /* ---- right column ---- */
+  .col{ flex:1; display:flex; flex-direction:column; gap:18px; }
+  .cardbase{ border-radius:18px; padding:18px 20px; flex:1; }
+  .c-head{ display:flex; gap:9px; align-items:center; margin-bottom:8px; }
+  .c-play{ width:22px; height:22px; border-radius:50%; background:var(--accent); flex:none; position:relative; }
+  .c-play::after{ content:""; position:absolute; left:8px; top:6px; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; }
+  .c-time{ font-weight:700; font-size:14px; }
+  .todo-title{ font-weight:800; font-size:15px; margin-bottom:12px; }
+  .todo{ display:flex; gap:9px; align-items:center; font-size:12px; margin:9px 0; }
+  .box{ width:13px; height:13px; border-radius:3px; flex:none; }
+  .n{ position:absolute; right:14px; bottom:9px; font-size:11px; color:#48484a; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <h1>开会页 · 右侧卡片的三种设计处理</h1>
+    <p>同一张会议页（左手机截图 ＋ 右 AI总结/待办），只改右侧卡的<b>配色、边框、成组、对齐</b>。<br>看哪种不发飘、更耐看。</p>
+  </div>
+
+  <!-- ========== 现状 ========== -->
+  <div class="cap"><span class="no">现状</span><span class="nm">纯白卡裸浮 · 未对齐</span><span class="ds">白块直接怼黑底、右下发空、两卡不成组</span></div>
+  <div class="slide">
+    <div class="stitle">开会时，整理结论和待办</div>
+    <div class="stage">
+      <div class="phone">
+        <div class="ph-status"><span>2:36</span><span>&#9679;&#9679;&#9679; 100</span></div>
+        <div class="ph-bar"><span>&lsaquo;</span><span>&#8613; &#8943;</span></div>
+        <div class="ph-body">
+          <div class="ph-title">Q3团队内部分享筹备会</div>
+          <div class="ph-date">2025年7月15日 10:29 · AI生成</div>
+          <div class="audio"><div class="play"></div><div class="t">2026/7/15 10点17分<br><span style="color:#999;font-weight:400;">26:11</span></div></div>
+          <div class="ai-tag">&#10022; AI总结</div>
+          <p>Q3内部分享会确定：8月28日下午举行，主题为AI笔记功能实战复盘；小陈负责内容PPT，张瑶负责视觉物料，月欢统筹报名。</p>
+          <div class="ph-h2">会议概况</div>
+          <li>· 时间：2026年7月15日 10:00</li>
+          <li>· 参会人：吴姐、小陈、张瑶、月欢</li>
+          <div class="ph-h2">会议共识</div>
+          <li>· 每周五下午群内同步进度，有卡点提前沟通</li>
+        </div>
+      </div>
+      <div class="col" style="justify-content:flex-start;">
+        <div style="background:#fff;color:#111;border-radius:18px;padding:16px 18px;box-shadow:0 14px 34px rgba(0,0,0,.45);">
+          <div class="c-head"><div class="c-play"></div><div><div class="c-time">2026年7月17日 10:24</div><div style="font-size:10px;color:#999;">10:58</div></div></div>
+          <div style="font-size:11px;color:var(--accent);font-weight:700;margin:4px 0 5px;">&#10022; AI总结</div>
+          <p style="font-size:12px;color:#333;line-height:1.6;">本次会议敲定 Q3 团队分享会方案，明确视觉物料、分享会现场各模块分工与时间节点。</p>
+        </div>
+        <div style="background:#fff;color:#111;border-radius:18px;padding:16px 18px;box-shadow:0 14px 34px rgba(0,0,0,.45);">
+          <div class="todo-title">待办事项</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>PPT初稿（小李 / 下周三前）</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>视觉物料第一版方案（张瑶 / 下周二）</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>发起报名通知并统计人数（悦姐 / 明天）</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>预订一楼大会议室（墨姐 / 明天）</div>
+        </div>
+      </div>
+    </div>
+    <div class="n">现状</div>
+  </div>
+
+  <!-- ========== 方案 A 深色卡统一（推荐） ========== -->
+  <div class="cap"><span class="no">A</span><span class="nm">深色卡统一（推荐）</span><span class="ds">卡与手机同色系，1px 淡边框＋微投影，撑到等高成栏</span></div>
+  <div class="slide">
+    <div class="stitle">开会时，整理结论和待办</div>
+    <div class="stage">
+      <div class="phone">
+        <div class="ph-status"><span>2:36</span><span>&#9679;&#9679;&#9679; 100</span></div>
+        <div class="ph-bar"><span>&lsaquo;</span><span>&#8613; &#8943;</span></div>
+        <div class="ph-body">
+          <div class="ph-title">Q3团队内部分享筹备会</div>
+          <div class="ph-date">2025年7月15日 10:29 · AI生成</div>
+          <div class="audio"><div class="play"></div><div class="t">2026/7/15 10点17分<br><span style="color:#999;font-weight:400;">26:11</span></div></div>
+          <div class="ai-tag">&#10022; AI总结</div>
+          <p>Q3内部分享会确定：8月28日下午举行，主题为AI笔记功能实战复盘；小陈负责内容PPT，张瑶负责视觉物料，月欢统筹报名。</p>
+          <div class="ph-h2">会议概况</div>
+          <li>· 时间：2026年7月15日 10:00</li>
+          <li>· 参会人：吴姐、小陈、张瑶、月欢</li>
+          <div class="ph-h2">会议共识</div>
+          <li>· 每周五下午群内同步进度，有卡点提前沟通</li>
+        </div>
+      </div>
+      <div class="col">
+        <div class="cardbase" style="background:#1a1a1c;border:1px solid rgba(255,255,255,.09);box-shadow:0 12px 30px rgba(0,0,0,.4);">
+          <div class="c-head"><div class="c-play"></div><div><div class="c-time" style="color:#fff;">2026年7月17日 10:24</div><div style="font-size:10px;color:#7a7a7e;">10:58</div></div></div>
+          <div style="font-size:12px;color:var(--accent);font-weight:700;margin:6px 0 7px;">&#10022; AI总结</div>
+          <p style="font-size:13px;color:#c8c8cc;line-height:1.65;">本次会议敲定 Q3 团队分享会方案，明确视觉物料、分享会现场各模块分工与时间节点。</p>
+        </div>
+        <div class="cardbase" style="background:#1a1a1c;border:1px solid rgba(255,255,255,.09);box-shadow:0 12px 30px rgba(0,0,0,.4);">
+          <div class="todo-title" style="color:#fff;">待办事项</div>
+          <div class="todo" style="color:#c8c8cc;"><span class="box" style="border:1.5px solid rgba(255,255,255,.35);"></span>PPT初稿（小李 / 下周三前）</div>
+          <div class="todo" style="color:#c8c8cc;"><span class="box" style="border:1.5px solid rgba(255,255,255,.35);"></span>视觉物料第一版方案（张瑶 / 下周二）</div>
+          <div class="todo" style="color:#c8c8cc;"><span class="box" style="border:1.5px solid rgba(255,255,255,.35);"></span>发起报名通知并统计人数（悦姐 / 明天）</div>
+          <div class="todo" style="color:#c8c8cc;"><span class="box" style="border:1.5px solid rgba(255,255,255,.35);"></span>预订一楼大会议室（墨姐 / 明天）</div>
+        </div>
+      </div>
+    </div>
+    <div class="n">A · 深色统一</div>
+  </div>
+
+  <!-- ========== 方案 B 白卡 + 深色底板 ========== -->
+  <div class="cap"><span class="no">B</span><span class="nm">白卡 ＋ 深色底板托住</span><span class="ds">想保留白卡就加一块深灰分区底板，白卡不再裸浮</span></div>
+  <div class="slide">
+    <div class="stitle">开会时，整理结论和待办</div>
+    <div class="stage">
+      <div class="phone">
+        <div class="ph-status"><span>2:36</span><span>&#9679;&#9679;&#9679; 100</span></div>
+        <div class="ph-bar"><span>&lsaquo;</span><span>&#8613; &#8943;</span></div>
+        <div class="ph-body">
+          <div class="ph-title">Q3团队内部分享筹备会</div>
+          <div class="ph-date">2025年7月15日 10:29 · AI生成</div>
+          <div class="audio"><div class="play"></div><div class="t">2026/7/15 10点17分<br><span style="color:#999;font-weight:400;">26:11</span></div></div>
+          <div class="ai-tag">&#10022; AI总结</div>
+          <p>Q3内部分享会确定：8月28日下午举行，主题为AI笔记功能实战复盘；小陈负责内容PPT，张瑶负责视觉物料，月欢统筹报名。</p>
+          <div class="ph-h2">会议概况</div>
+          <li>· 时间：2026年7月15日 10:00</li>
+          <li>· 参会人：吴姐、小陈、张瑶、月欢</li>
+          <div class="ph-h2">会议共识</div>
+          <li>· 每周五下午群内同步进度，有卡点提前沟通</li>
+        </div>
+      </div>
+      <div class="col" style="background:#151517;border:1px solid rgba(255,255,255,.06);border-radius:22px;padding:18px;gap:14px;">
+        <div style="background:#fff;color:#111;border-radius:14px;padding:15px 17px;flex:1;">
+          <div class="c-head"><div class="c-play"></div><div><div class="c-time">2026年7月17日 10:24</div><div style="font-size:10px;color:#999;">10:58</div></div></div>
+          <div style="font-size:11px;color:var(--accent);font-weight:700;margin:5px 0 6px;">&#10022; AI总结</div>
+          <p style="font-size:12px;color:#333;line-height:1.6;">本次会议敲定 Q3 团队分享会方案，明确视觉物料、分享会现场各模块分工与时间节点。</p>
+        </div>
+        <div style="background:#fff;color:#111;border-radius:14px;padding:15px 17px;flex:1;">
+          <div class="todo-title">待办事项</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>PPT初稿（小李 / 下周三前）</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>视觉物料第一版方案（张瑶 / 下周二）</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>发起报名通知并统计人数（悦姐 / 明天）</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>预订一楼大会议室（墨姐 / 明天）</div>
+        </div>
+      </div>
+    </div>
+    <div class="n">B · 白卡＋底板</div>
+  </div>
+
+  <!-- ========== 方案 C 白卡描边极简 · 等高成组 ========== -->
+  <div class="cap"><span class="no">C</span><span class="nm">白卡极简 · 等高成组对齐</span><span class="ds">保留白卡但两卡等宽等高、间距一致，顶底对齐手机</span></div>
+  <div class="slide">
+    <div class="stitle">开会时，整理结论和待办</div>
+    <div class="stage">
+      <div class="phone">
+        <div class="ph-status"><span>2:36</span><span>&#9679;&#9679;&#9679; 100</span></div>
+        <div class="ph-bar"><span>&lsaquo;</span><span>&#8613; &#8943;</span></div>
+        <div class="ph-body">
+          <div class="ph-title">Q3团队内部分享筹备会</div>
+          <div class="ph-date">2025年7月15日 10:29 · AI生成</div>
+          <div class="audio"><div class="play"></div><div class="t">2026/7/15 10点17分<br><span style="color:#999;font-weight:400;">26:11</span></div></div>
+          <div class="ai-tag">&#10022; AI总结</div>
+          <p>Q3内部分享会确定：8月28日下午举行，主题为AI笔记功能实战复盘；小陈负责内容PPT，张瑶负责视觉物料，月欢统筹报名。</p>
+          <div class="ph-h2">会议概况</div>
+          <li>· 时间：2026年7月15日 10:00</li>
+          <li>· 参会人：吴姐、小陈、张瑶、月欢</li>
+          <div class="ph-h2">会议共识</div>
+          <li>· 每周五下午群内同步进度，有卡点提前沟通</li>
+        </div>
+      </div>
+      <div class="col">
+        <div class="cardbase" style="background:#fafafa;color:#111;border:1px solid rgba(255,255,255,.14);box-shadow:0 16px 36px rgba(0,0,0,.45);">
+          <div class="c-head"><div class="c-play"></div><div><div class="c-time">2026年7月17日 10:24</div><div style="font-size:10px;color:#999;">10:58</div></div></div>
+          <div style="font-size:12px;color:var(--accent);font-weight:700;margin:6px 0 7px;">&#10022; AI总结</div>
+          <p style="font-size:13px;color:#333;line-height:1.65;">本次会议敲定 Q3 团队分享会方案，明确视觉物料、分享会现场各模块分工与时间节点。</p>
+        </div>
+        <div class="cardbase" style="background:#fafafa;color:#111;border:1px solid rgba(255,255,255,.14);box-shadow:0 16px 36px rgba(0,0,0,.45);">
+          <div class="todo-title">待办事项</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>PPT初稿（小李 / 下周三前）</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>视觉物料第一版方案（张瑶 / 下周二）</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>发起报名通知并统计人数（悦姐 / 明天）</div>
+          <div class="todo"><span class="box" style="border:1.5px solid #c8c8c8;"></span>预订一楼大会议室（墨姐 / 明天）</div>
+        </div>
+      </div>
+    </div>
+    <div class="n">C · 白卡等高</div>
+  </div>
+
+  <div class="intro" style="margin-top:8px;">
+    <p>我的建议：发布会黑底,首选 <b>A（深色卡统一）</b>——和手机截图一个调性,最不发飘、最高级。<br>要保留白卡就用 <b>B</b>（底板托住）。告诉我选哪个,我再精修间距和字号。</p>
+  </div>
+</div>
+</body>
+</html>
