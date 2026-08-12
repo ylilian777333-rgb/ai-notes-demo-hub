@@ -6,81 +6,93 @@
 <title>笔记 · OS 能调用的一方数据库 · 流转链路</title>
 <style>
   :root{
-    --ink:#1B2333; --sub:#5B6678; --dim:#8A93A6;
-    --line:#E7EAF0; --line2:#DfE3EC;
+    --ink:#141A26; --sub:#586074; --dim:#97A0B2;
+    --line:#EAEDF3; --line2:#E1E6EF;
     --blue:#3E6BFF; --blueSoft:#EEF2FF; --blueLine:#CBD8FF;
     --purple:#7C5CE6; --purpleSoft:#F3EFFF; --purpleLine:#DFD3FF;
-    --green:#12A97A; --greenSoft:#E8F8F1; --greenLine:#BEE9D8;
+    --green:#12A97A; --greenSoft:#E9F8F1; --greenLine:#BDE8D6;
     --amber:#E8720C;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
     font-family:"MiSans","PingFang SC",-apple-system,"Microsoft YaHei",sans-serif;
     background:
-      radial-gradient(70% 45% at 50% -5%,rgba(62,107,255,.10),transparent 60%),
-      radial-gradient(55% 40% at 100% 0%,rgba(124,92,230,.08),transparent 55%),
-      radial-gradient(50% 45% at 0% 100%,rgba(18,169,122,.07),transparent 55%),
-      linear-gradient(180deg,#FBFCFF,#F3F6FB);
-    color:var(--ink);min-height:100vh;padding:60px 56px 46px;
+      radial-gradient(75% 50% at 50% -8%,rgba(62,107,255,.12),transparent 60%),
+      radial-gradient(55% 45% at 100% 0%,rgba(124,92,230,.09),transparent 55%),
+      radial-gradient(50% 50% at 0% 100%,rgba(18,169,122,.08),transparent 55%),
+      linear-gradient(180deg,#FCFDFF,#F1F4FA);
+    color:var(--ink);min-height:100vh;padding:62px 58px 48px;
   }
-  .wrap{max-width:1460px;margin:0 auto;}
+  .wrap{max-width:1480px;margin:0 auto;}
 
+  /* top */
   .hd{text-align:center;}
-  .hd h1{font-size:33px;font-weight:800;letter-spacing:.5px;white-space:nowrap;}
+  .hd h1{font-size:34px;font-weight:800;letter-spacing:.5px;white-space:nowrap;}
   .hd h1 .g{background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .why{display:inline-flex;gap:10px;align-items:center;margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 10px 8px 18px;box-shadow:0 6px 18px rgba(20,30,60,.06);}
-  .why .lab{color:var(--dim);font-size:12.5px;font-weight:700;letter-spacing:2px;}
-  .why .chip{display:flex;align-items:center;gap:8px;background:#F7F9FC;border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:13.5px;color:var(--sub);white-space:nowrap;}
+  .why{display:inline-flex;gap:10px;align-items:center;margin-top:22px;background:rgba(255,255,255,.7);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:999px;padding:7px 9px 7px 18px;box-shadow:0 8px 22px rgba(20,30,60,.07);}
+  .why .lab{color:var(--dim);font-size:12px;font-weight:800;letter-spacing:2px;}
+  .why .chip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:13.5px;color:var(--sub);white-space:nowrap;box-shadow:0 2px 6px rgba(20,30,60,.04);}
   .why .chip b{color:var(--ink);font-weight:700;}
   .why .dot{width:7px;height:7px;border-radius:50%;}
   .why .dot.b{background:var(--blue);} .why .dot.a{background:var(--amber);}
 
-  .flow{display:flex;align-items:stretch;justify-content:center;margin-top:46px;}
-  .col{flex:1;display:flex;flex-direction:column;}
-  .col.center{flex:1.26;}
-  .conn{flex:0 0 122px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;}
+  /* flow */
+  .flow{display:flex;align-items:center;justify-content:center;margin-top:48px;}
+  .col{flex:1;display:flex;}
+  .col.center{flex:1.22;}
+  .conn{flex:0 0 128px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
 
-  .panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px 22px;height:100%;box-shadow:0 18px 44px rgba(20,30,60,.07);}
-  .ptitle{display:flex;align-items:center;gap:11px;margin-bottom:18px;}
-  .ptitle .ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;}
-  .ptitle h2{font-size:18px;font-weight:800;white-space:nowrap;}
+  .panel{width:100%;background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px 22px;box-shadow:0 22px 50px rgba(24,36,72,.08);}
+  .phead{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+  .phead .ico{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 6px 14px rgba(20,30,60,.08);}
+  .phead h2{font-size:18px;font-weight:800;white-space:nowrap;}
+  .phead .ico.b{background:linear-gradient(135deg,#EAF0FF,#DCE6FF);}
+  .phead .ico.g{background:linear-gradient(135deg,#E7F8F0,#D6F1E5);}
 
   .entry{display:flex;flex-direction:column;gap:11px;}
-  .entry .e{display:flex;align-items:center;gap:11px;background:#F7F9FC;white-space:nowrap;border:1px solid var(--line);border-radius:13px;padding:13px 16px;font-size:14.5px;font-weight:600;color:var(--ink);}
-  .entry .e span{font-size:17px;}
+  .entry .e{display:flex;align-items:center;gap:12px;background:#F7F9FC;white-space:nowrap;border:1px solid var(--line);border-radius:13px;padding:13px 16px;font-size:14.5px;font-weight:600;color:var(--ink);transition:.2s;}
+  .entry .e .d{width:30px;height:30px;border-radius:9px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 5px rgba(20,30,60,.05);}
 
-  .hero{
-    background:radial-gradient(120% 90% at 50% 0%,rgba(62,107,255,.08),transparent 60%),linear-gradient(180deg,#FBFCFF,#F4F7FE);
-    border:1px solid var(--blueLine);border-radius:24px;padding:26px 24px;height:100%;box-shadow:0 24px 56px rgba(62,107,255,.12);
-  }
-  .hero .cap{text-align:center;margin-bottom:18px;}
-  .hero h2{font-size:23px;font-weight:800;white-space:nowrap;}
-  .hero .cap p{color:var(--sub);font-size:13px;margin-top:9px;white-space:nowrap;}
+  /* center hero */
+  .hero{width:100%;display:flex;flex-direction:column;justify-content:center;
+    background:radial-gradient(130% 90% at 50% -10%,rgba(62,107,255,.12),transparent 62%),linear-gradient(180deg,#FCFDFF,#F2F6FF);
+    border:1px solid var(--blueLine);border-radius:26px;padding:30px 26px;box-shadow:0 30px 64px rgba(62,107,255,.16),inset 0 1px 0 rgba(255,255,255,.7);}
+  .hero .cap{text-align:center;margin-bottom:20px;}
+  .hero h2{font-size:24px;font-weight:800;white-space:nowrap;letter-spacing:.5px;}
+  .hero .cap p{color:var(--sub);font-size:13px;margin-top:10px;white-space:nowrap;}
   .tiles{display:flex;gap:14px;}
-  .tile{flex:1;background:#fff;border:1px solid var(--line2);border-radius:16px;padding:18px 14px;text-align:center;box-shadow:0 6px 16px rgba(20,30,60,.04);}
-  .tile .ti{font-size:24px;}
-  .tile h3{font-size:16px;font-weight:800;margin-top:9px;white-space:nowrap;color:var(--blue);}
-  .tile small{display:block;color:var(--dim);font-size:12px;margin-top:7px;white-space:nowrap;}
+  .tile{flex:1;background:#fff;border:1px solid var(--line2);border-radius:16px;padding:18px 14px 16px;text-align:center;box-shadow:0 8px 20px rgba(24,36,72,.06);}
+  .tile .ti{width:44px;height:44px;margin:0 auto;border-radius:13px;background:var(--blueSoft);display:flex;align-items:center;justify-content:center;font-size:21px;}
+  .tile h3{font-size:16px;font-weight:800;margin-top:11px;white-space:nowrap;color:var(--blue);}
+  .tile small{display:block;color:var(--dim);font-size:12px;margin-top:6px;white-space:nowrap;}
 
-  .use .ptitle .ico{background:var(--greenSoft);}
+  /* right */
   .use h2{color:var(--green);}
-  .ug{background:var(--greenSoft);border:1px solid var(--greenLine);border-radius:13px;padding:12px 15px;margin-bottom:10px;}
+  .ug{position:relative;background:var(--greenSoft);border:1px solid var(--greenLine);border-radius:13px;padding:12px 15px 12px 18px;margin-bottom:10px;overflow:hidden;}
+  .ug::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--green);opacity:.55;}
   .ug .ugh{font-size:12px;font-weight:800;letter-spacing:.5px;margin-bottom:5px;color:var(--green);}
-  .ug .ul{font-size:13.5px;font-weight:600;color:#0E7355;white-space:nowrap;}
-  .scnote{color:var(--dim);font-size:12.5px;margin-top:2px;white-space:nowrap;}
+  .ug .ul{font-size:13.5px;font-weight:600;color:#0C5F47;white-space:nowrap;}
+  .scn{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:nowrap;}
+  .scn .lab{font-size:11.5px;font-weight:800;color:var(--dim);white-space:nowrap;}
+  .scn span.p{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700;color:var(--sub);white-space:nowrap;box-shadow:0 2px 5px rgba(20,30,60,.04);}
 
-  .seg{font-size:12.5px;font-weight:800;letter-spacing:.5px;padding:6px 13px;border-radius:999px;white-space:nowrap;}
-  .seg.w{color:var(--blue);background:var(--blueSoft);border:1px solid var(--blueLine);}
-  .seg.o{color:var(--green);background:var(--greenSoft);border:1px solid var(--greenLine);}
-  .arrow{width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--line2),transparent);position:relative;}
-  .arrow::after{content:"";position:absolute;right:24px;top:-4px;width:9px;height:9px;border-top:2px solid var(--dim);border-right:2px solid var(--dim);transform:rotate(45deg);}
+  /* connectors */
+  .seg{font-size:12.5px;font-weight:800;letter-spacing:.3px;padding:7px 14px;border-radius:999px;white-space:nowrap;box-shadow:0 4px 10px rgba(20,30,60,.06);}
+  .seg.w{color:var(--blue);background:#fff;border:1px solid var(--blueLine);}
+  .seg.o{color:var(--green);background:#fff;border:1px solid var(--greenLine);}
+  .track{width:100%;height:2px;border-radius:2px;position:relative;}
+  .track.b{background:linear-gradient(90deg,rgba(62,107,255,0),rgba(62,107,255,.55),rgba(62,107,255,0));}
+  .track.g{background:linear-gradient(90deg,rgba(18,169,122,0),rgba(18,169,122,.55),rgba(18,169,122,0));}
+  .track::after{content:"";position:absolute;right:20px;top:-4px;width:9px;height:9px;border-top:2px solid;border-right:2px solid;transform:rotate(45deg);}
+  .track.b::after{border-color:var(--blue);} .track.g::after{border-color:var(--green);}
   .step{font-size:11.5px;color:var(--dim);font-weight:700;white-space:nowrap;}
 
-  .foot{margin-top:38px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 26px;display:flex;align-items:center;gap:18px;justify-content:center;flex-wrap:wrap;box-shadow:0 10px 28px rgba(20,30,60,.06);}
+  /* footer */
+  .foot{margin-top:40px;background:linear-gradient(180deg,#fff,#FBFCFF);border:1px solid var(--line);border-radius:18px;padding:20px 28px;display:flex;align-items:center;gap:20px;justify-content:center;flex-wrap:wrap;box-shadow:0 14px 32px rgba(24,36,72,.07);}
   .foot .k{font-size:14px;color:var(--sub);white-space:nowrap;}
   .foot .k b{color:var(--ink);}
   .foot .p3{display:flex;gap:11px;flex-wrap:wrap;}
-  .foot .p3 em{font-style:normal;font-weight:800;font-size:13px;padding:7px 14px;border-radius:999px;white-space:nowrap;}
+  .foot .p3 em{font-style:normal;font-weight:800;font-size:13px;padding:8px 15px;border-radius:999px;white-space:nowrap;}
   .foot .p3 .a{color:var(--blue);background:var(--blueSoft);border:1px solid var(--blueLine);}
   .foot .p3 .b{color:var(--purple);background:var(--purpleSoft);border:1px solid var(--purpleLine);}
   .foot .p3 .c{color:var(--green);background:var(--greenSoft);border:1px solid var(--greenLine);}
@@ -101,20 +113,20 @@
     <!-- 记 · 写进来 -->
     <div class="col">
       <div class="panel">
-        <div class="ptitle"><div class="ico" style="background:var(--blueSoft)">✍️</div><h2>各入口写进来</h2></div>
+        <div class="phead"><div class="ico b">✍️</div><h2>各入口写进来</h2></div>
         <div class="entry">
-          <div class="e"><span>🤖</span>超级小爱</div>
-          <div class="e"><span>🔘</span>AI 键</div>
-          <div class="e"><span>🖊️</span>意图球 / 手写笔</div>
-          <div class="e"><span>📦</span>三方应用</div>
+          <div class="e"><span class="d">🤖</span>超级小爱</div>
+          <div class="e"><span class="d">🔘</span>AI 键</div>
+          <div class="e"><span class="d">🖊️</span>意图球 / 手写笔</div>
+          <div class="e"><span class="d">📦</span>三方应用</div>
         </div>
       </div>
     </div>
 
     <div class="conn">
       <div class="seg w">能写</div>
-      <div class="arrow"></div>
-      <div class="step">写入</div>
+      <div class="track b"></div>
+      <div class="step">内容进得来</div>
     </div>
 
     <!-- 数据库 -->
@@ -128,7 +140,7 @@
           <div class="tile">
             <div class="ti">🗂️</div>
             <h3>建索引</h3>
-            <small>存进来就拆解、打标签</small>
+            <small>按时间 / 事项 / 证件归类</small>
           </div>
           <div class="tile">
             <div class="ti">🔍</div>
@@ -141,14 +153,14 @@
 
     <div class="conn">
       <div class="seg o">对外 API</div>
-      <div class="arrow"></div>
-      <div class="step">取用 · 权限管控</div>
+      <div class="track g"></div>
+      <div class="step">内容用得上</div>
     </div>
 
     <!-- 用 · 笔记内外 -->
     <div class="col">
       <div class="panel use">
-        <div class="ptitle"><div class="ico">✨</div><h2>用 · 笔记内外都能用</h2></div>
+        <div class="phead"><div class="ico g">✨</div><h2>用 · 笔记内外都能用</h2></div>
         <div class="ug">
           <div class="ugh">笔记内</div>
           <div class="ul">加工成成品 · 生成 PPT / 网页 · 分享</div>
@@ -161,14 +173,17 @@
           <div class="ugh">笔记外 · 三方</div>
           <div class="ul">经对外 API 开放给三方（权限管控）</div>
         </div>
-        <div class="scnote">场景：学生学习 · 日常随想 · 旅行生活</div>
+        <div class="scn">
+          <span class="lab">首选场景</span>
+          <span class="p">学生学习</span><span class="p">日常随想</span><span class="p">旅行生活</span>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="foot">
-    <div class="k"><b>三项基建，让笔记可被 OS 控制</b> —— 记和用都建立在它之上</div>
-    <div class="p3"><em class="a">能写 · 写进来</em><em class="b">能搜 · 建索引可检索</em><em class="c">对外 API · 取出去用</em></div>
+    <div class="k"><b>这条链路能跑通，靠三项基建</b> —— 缺一件，记和用都做不成</div>
+    <div class="p3"><em class="a">能写 · 内容进得来</em><em class="b">能搜 · 找得到带出处</em><em class="c">对外 API · 调得动可管控</em></div>
   </div>
 </div>
 </body>
