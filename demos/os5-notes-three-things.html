@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记要做的三件事 · 推导关系图</title>
+<style>
+  :root{
+    --blue:#3A63E8; --blue-bg:#EEF2FF; --blue-line:#C7D3FF;
+    --purple:#7C5CE6; --purple-bg:#F3EFFF; --purple-line:#DCD0FF;
+    --green:#17B784; --green-bg:#E8F8F1; --green-line:#BEE9D8;
+    --orange:#E8720C; --orange-bg:#FFF2E6; --orange-line:#FAD9B8;
+    --ink:#1A1A1F; --gray:#6B7280; --line:#E6E8EC;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"MiSans","PingFang SC",-apple-system,"Microsoft YaHei",sans-serif;
+    background:radial-gradient(120% 120% at 50% 0%,#FBFCFF 0%,#F4F6FA 100%);
+    color:var(--ink);padding:48px 32px;min-height:100vh;
+  }
+  .wrap{max-width:1120px;margin:0 auto;}
+  .title{font-size:30px;font-weight:800;letter-spacing:.5px;text-align:center;}
+  .title .accent{color:var(--blue);}
+  .subtitle{text-align:center;color:var(--gray);font-size:15px;margin-top:10px;}
+
+  /* 依据 banner */
+  .basis{display:flex;gap:20px;justify-content:center;margin:34px 0 6px;}
+  .basis .chip{
+    flex:1;max-width:440px;background:#fff;border:1px solid var(--line);
+    border-radius:16px;padding:18px 22px;box-shadow:0 8px 24px rgba(20,30,60,.05);
+    position:relative;overflow:hidden;
+  }
+  .basis .chip::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;}
+  .basis .chip.trend::before{background:var(--blue);}
+  .basis .chip.status::before{background:var(--orange);}
+  .basis .tag{font-size:12px;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:999px;display:inline-block;margin-bottom:8px;}
+  .basis .trend .tag{background:var(--blue-bg);color:var(--blue);}
+  .basis .status .tag{background:var(--orange-bg);color:var(--orange);}
+  .basis .chip p{font-size:16px;font-weight:600;line-height:1.5;}
+
+  .soarrow{text-align:center;margin:14px 0 6px;}
+  .soarrow .pill{display:inline-block;background:var(--ink);color:#fff;font-size:14px;font-weight:700;padding:7px 22px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.15);}
+  .soarrow .v{width:2px;height:22px;background:var(--line);margin:0 auto;}
+
+  /* 分层堆叠 */
+  .stack{margin-top:8px;}
+  .layer{display:flex;align-items:stretch;gap:18px;margin-bottom:16px;}
+  .layer .rail{
+    flex:0 0 96px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;gap:4px;
+  }
+  .layer .rail .lname{font-size:15px;font-weight:800;}
+  .layer .rail .lno{font-size:12px;color:#fff;font-weight:800;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .card{
+    flex:1;border-radius:18px;padding:20px 24px;border:1px solid transparent;position:relative;
+  }
+  .card h3{font-size:19px;font-weight:800;margin-bottom:6px;}
+  .card .desc{font-size:14px;color:var(--gray);line-height:1.6;}
+  .card .items{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;}
+  .card .items .it{
+    background:#fff;border:1px solid var(--blue-line);border-radius:12px;
+    padding:12px 18px;font-weight:700;font-size:15px;color:var(--blue);flex:1;min-width:150px;text-align:center;
+    box-shadow:0 4px 12px rgba(58,99,232,.06);
+  }
+  .card .items .it small{display:block;font-weight:500;color:var(--gray);font-size:12px;margin-top:4px;}
+
+  /* 颜色分层 */
+  .use{background:var(--green-bg);border-color:var(--green-line);}
+  .use h3{color:var(--green);}
+  .use .rail .lname{color:var(--green);} .use .rail .lno{background:var(--green);}
+  .use .tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+  .use .tags span{background:#fff;border:1px solid var(--green-line);color:var(--green);font-weight:600;font-size:13px;padding:6px 14px;border-radius:999px;}
+
+  .mem{background:var(--purple-bg);border-color:var(--purple-line);}
+  .mem h3{color:var(--purple);}
+  .mem .rail .lname{color:var(--purple);} .mem .rail .lno{background:var(--purple);}
+
+  .base{background:var(--blue-bg);border-color:var(--blue-line);}
+  .base h3{color:var(--blue);}
+  .base .rail .lname{color:var(--blue);} .base .rail .lno{background:var(--blue);}
+  .base .foot{margin-top:14px;font-size:13px;color:var(--blue);font-weight:700;background:#fff;border:1px dashed var(--blue-line);border-radius:10px;padding:9px 14px;display:inline-block;}
+
+  /* 底：OS 调用 */
+  .os{display:flex;align-items:center;gap:18px;margin-top:4px;}
+  .os .rail{flex:0 0 96px;text-align:center;font-size:15px;font-weight:800;color:var(--gray);}
+  .os .bar{
+    flex:1;background:linear-gradient(90deg,#2E3340,#3A4152);color:#fff;border-radius:16px;
+    padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    box-shadow:0 10px 26px rgba(20,30,60,.18);
+  }
+  .os .bar b{font-size:17px;font-weight:800;}
+  .os .bar .ent{display:flex;gap:10px;flex-wrap:wrap;}
+  .os .bar .ent span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;}
+
+  .note{text-align:center;color:var(--gray);font-size:13px;margin-top:26px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">从趋势与现状，到<span class="accent">笔记要做的三件事</span></div>
+  <div class="subtitle">基建是前提，记忆与用建立在它之上</div>
+
+  <!-- 依据 -->
+  <div class="basis">
+    <div class="chip trend">
+      <span class="tag">趋势</span>
+      <p>Agent 时代，内容能被 OS 调用才有价值</p>
+    </div>
+    <div class="chip status">
+      <span class="tag">现状</span>
+      <p>搜不到、进不了 OS 上下文，是当前最大短板</p>
+    </div>
+  </div>
+
+  <div class="soarrow">
+    <div class="v"></div>
+    <span class="pill">所以，笔记要做这三件</span>
+    <div class="v"></div>
+  </div>
+
+  <!-- 三层 -->
+  <div class="stack">
+    <div class="layer">
+      <div class="rail"><span class="lno">3</span><span class="lname">用</span></div>
+      <div class="card use">
+        <h3>聚焦少数场景，做到首选</h3>
+        <div class="desc">内容零散攒、要用时才回头找；通用能力难做出差异，所以选少数场景做深，重度办公只做标准能力。</div>
+        <div class="tags"><span>学生学习</span><span>日常随想 · 备忘</span><span>旅行 · 生活收藏</span></div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="rail"><span class="lno">2</span><span class="lname">记忆</span></div>
+      <div class="card mem">
+        <h3>多入口内容，统一收进笔记</h3>
+        <div class="desc">记的入口越来越多，一条内容该记去哪判断不了——归到笔记一处沉淀、一处呈现和管理。</div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="rail"><span class="lno">1</span><span class="lname">基建<br>（前提）</span></div>
+      <div class="card base">
+        <h3>把笔记做成 OS 能调用的一方内容源</h3>
+        <div class="desc">内容能被搜到、被写入、被取用，才进得了 OS 的上下文——这是记忆和用的前提。</div>
+        <div class="items">
+          <div class="it">能搜<small>检索 · 索引</small></div>
+          <div class="it">能写<small>各入口写入接口</small></div>
+          <div class="it">对外 API<small>开放 · 权限管控</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OS 调用底座 -->
+  <div class="os">
+    <div class="rail">OS 侧</div>
+    <div class="bar">
+      <b>OS Agent 调用 · 写入</b>
+      <div class="ent"><span>超级小爱</span><span>AI 键</span><span>意图球 / 手写笔</span><span>三方应用</span></div>
+    </div>
+  </div>
+
+  <div class="note">① 基建是 ②③ 的前提；OS 侧各入口都通过统一接口向笔记写入、从笔记取用</div>
+</div>
+</body>
+</html>
