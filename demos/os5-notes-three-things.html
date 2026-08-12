@@ -21,12 +21,11 @@
       radial-gradient(55% 45% at 100% 10%,rgba(124,92,230,.08),transparent 55%),
       radial-gradient(55% 50% at 0% 100%,rgba(18,169,122,.09),transparent 55%),
       linear-gradient(180deg,#FCFDFF,#F1F4FA);
-    color:var(--ink);min-height:100vh;padding:60px 58px 46px;
+    color:var(--ink);min-height:100vh;padding:60px 56px 46px;
   }
-  .wrap{max-width:1480px;margin:0 auto;}
+  .wrap{max-width:1500px;margin:0 auto;}
 
-  /* header */
-  .hd{text-align:center;margin-bottom:40px;}
+  .hd{text-align:center;}
   .hd h1{font-size:34px;font-weight:800;letter-spacing:.5px;white-space:nowrap;}
   .hd h1 .g{background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;}
   .why{display:inline-flex;gap:10px;align-items:center;margin-top:22px;background:rgba(255,255,255,.72);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:999px;padding:7px 9px 7px 18px;box-shadow:0 8px 22px rgba(20,30,60,.07);}
@@ -35,57 +34,64 @@
   .why .chip b{color:var(--ink);font-weight:700;}
   .why .dot{width:7px;height:7px;border-radius:50%;} .why .dot.b{background:var(--blue);} .why .dot.a{background:var(--amber);}
 
-  /* section label */
-  .slabel{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-  .slabel .badge{font-size:13px;font-weight:800;letter-spacing:1px;padding:6px 14px;border-radius:999px;white-space:nowrap;}
-  .slabel .badge.use{color:var(--greenDeep);background:var(--greenSoft);border:1px solid var(--greenLine);}
-  .slabel .badge.base{color:var(--blueDeep);background:var(--blueSoft);border:1px solid var(--blueLine);}
-  .slabel .tip{color:var(--dim);font-size:13px;white-space:nowrap;}
-  .slabel .scn{margin-left:auto;display:flex;align-items:center;gap:8px;}
-  .slabel .scn .l{font-size:11.5px;font-weight:800;color:var(--dim);white-space:nowrap;}
-  .slabel .scn .p{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:700;color:var(--sub);white-space:nowrap;box-shadow:0 2px 5px rgba(20,30,60,.04);}
+  .flow{display:flex;align-items:stretch;justify-content:center;margin-top:48px;}
+  .col{flex:1;display:flex;flex-direction:column;}
+  .col.center{flex:1.5;}
+  .conn{flex:0 0 116px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;}
 
-  /* USE layer (top) */
-  .ucards{display:flex;gap:16px;}
-  .ucard{flex:1;background:#fff;border:1px solid var(--greenLine);border-radius:18px;padding:18px 18px;box-shadow:0 20px 44px rgba(18,120,86,.12);position:relative;}
-  .ucard .ct{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
-  .ucard .ct .tag{font-size:12px;font-weight:800;color:#fff;background:var(--green);border-radius:8px;padding:4px 10px;white-space:nowrap;}
-  .ucard .ct .tag.soft{color:var(--greenDeep);background:var(--greenSoft);border:1px solid var(--greenLine);}
-  .ucard .ul{font-size:13.5px;font-weight:600;color:#173a30;line-height:1.65;}
+  /* col label */
+  .clab{text-align:center;margin-bottom:12px;}
+  .clab .t{font-size:15px;font-weight:800;}
+  .clab .role{display:inline-block;font-size:11.5px;font-weight:700;color:var(--dim);margin-top:3px;white-space:nowrap;}
+  .clab.mid .t{color:var(--blueDeep);}
+  .clab .p0{font-size:11px;font-weight:800;color:#fff;background:var(--blueDeep);border-radius:7px;padding:2px 8px;margin-left:6px;vertical-align:middle;}
 
-  /* bridge */
-  .bridge{display:flex;align-items:center;justify-content:center;gap:12px;margin:16px 0 8px;}
-  .bridge .ln{flex:1;max-width:280px;height:2px;background:linear-gradient(90deg,transparent,var(--blueLine));}
-  .bridge .ln.r{background:linear-gradient(90deg,var(--blueLine),transparent);}
-  .bridge .mid{display:flex;align-items:center;gap:8px;color:var(--blueDeep);font-size:13px;font-weight:800;background:#fff;border:1px solid var(--blueLine);border-radius:999px;padding:8px 18px;box-shadow:0 6px 16px rgba(62,107,255,.12);white-space:nowrap;}
-  .bridge .mid .up{font-size:14px;}
+  .panel{flex:1;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 20px;box-shadow:0 18px 42px rgba(24,36,72,.07);}
 
-  /* BASE layer (bottom) */
-  .base{
-    background:radial-gradient(120% 80% at 50% 0%,rgba(62,107,255,.10),transparent 60%),linear-gradient(180deg,#F4F7FF,#EDF2FE);
-    border:1px solid var(--blueLine);border-radius:24px;padding:22px 24px 24px;box-shadow:0 26px 60px rgba(62,107,255,.16),inset 0 1px 0 rgba(255,255,255,.7);
-  }
-  .basehead{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
-  .basehead .ico{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#DCE6FF,#C9D8FF);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 6px 14px rgba(62,107,255,.18);}
-  .basehead h2{font-size:19px;font-weight:800;white-space:nowrap;}
-  .basehead .p0{font-size:11px;font-weight:800;color:#fff;background:var(--blueDeep);border-radius:7px;padding:3px 9px;white-space:nowrap;}
-  .basehead .cap{color:var(--sub);font-size:13px;margin-left:2px;white-space:nowrap;}
+  /* 记 */
+  .entry{display:flex;flex-direction:column;gap:11px;}
+  .entry .e{display:flex;align-items:center;gap:12px;background:#F7F9FC;white-space:nowrap;border:1px solid var(--line);border-radius:13px;padding:13px 16px;font-size:14.5px;font-weight:600;color:var(--ink);}
+  .entry .e .d{width:30px;height:30px;border-radius:9px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 5px rgba(20,30,60,.05);}
+  .ecap{color:var(--dim);font-size:12.5px;margin-bottom:14px;white-space:nowrap;text-align:center;}
 
-  .bflow{display:flex;align-items:stretch;gap:0;}
-  .bcell{flex:1;background:#fff;border:1px solid var(--line2);border-radius:16px;padding:18px 18px;box-shadow:0 8px 20px rgba(24,36,72,.06);}
-  .bcell.mid{flex:1.25;border-color:var(--blueLine);}
-  .bcell .bh{display:flex;align-items:center;gap:9px;margin-bottom:10px;}
-  .bcell .bh .bi{width:34px;height:34px;border-radius:10px;background:var(--blueSoft);display:flex;align-items:center;justify-content:center;font-size:17px;}
-  .bcell .bh h3{font-size:15.5px;font-weight:800;white-space:nowrap;}
-  .bcell .bh .ab{font-size:11.5px;font-weight:800;color:var(--blue);background:var(--blueSoft);border:1px solid var(--blueLine);border-radius:7px;padding:3px 8px;margin-left:auto;white-space:nowrap;}
-  .bcell .bd{font-size:13px;color:var(--sub);line-height:1.6;white-space:nowrap;}
-  .bcell .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
-  .bcell .chips span{background:#F7F9FC;border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-size:13px;font-weight:600;white-space:nowrap;}
-  .mem{margin-top:11px;font-size:12.5px;color:var(--purple);background:var(--purpleSoft);border:1px solid var(--purpleLine);border-radius:9px;padding:8px 11px;white-space:nowrap;}
-  .barrow{flex:0 0 44px;display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:20px;font-weight:800;}
+  /* 基建 hero */
+  .hero{flex:1;display:flex;flex-direction:column;justify-content:center;
+    background:radial-gradient(130% 80% at 50% -10%,rgba(62,107,255,.13),transparent 62%),linear-gradient(180deg,#FBFCFF,#EFF4FF);
+    border:1px solid var(--blueLine);border-radius:24px;padding:22px 22px;box-shadow:0 28px 62px rgba(62,107,255,.18),inset 0 1px 0 rgba(255,255,255,.8);}
+  .brow{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line2);border-radius:14px;padding:14px 16px;box-shadow:0 8px 18px rgba(24,36,72,.05);margin-bottom:11px;}
+  .brow:last-child{margin-bottom:0;}
+  .brow .bi{width:40px;height:40px;flex:0 0 40px;border-radius:11px;background:var(--blueSoft);display:flex;align-items:center;justify-content:center;font-size:19px;}
+  .brow .bt{flex:1;min-width:0;}
+  .brow .bt .h{display:flex;align-items:center;gap:8px;}
+  .brow .bt .h b{font-size:15.5px;font-weight:800;white-space:nowrap;}
+  .brow .bt .h .ab{font-size:11px;font-weight:800;color:var(--blue);background:var(--blueSoft);border:1px solid var(--blueLine);border-radius:6px;padding:2px 7px;white-space:nowrap;}
+  .brow .bt .d{font-size:12.5px;color:var(--sub);margin-top:3px;white-space:nowrap;}
+  .brow.mem .bi{background:var(--purpleSoft);}
+  .brow.mem .h .ab{color:var(--purple);background:var(--purpleSoft);border-color:var(--purpleLine);}
 
-  .note{text-align:center;color:var(--sub);font-size:13.5px;margin-top:26px;}
+  /* 用 */
+  .ug{position:relative;background:var(--greenSoft);border:1px solid var(--greenLine);border-radius:13px;padding:12px 15px 12px 18px;margin-bottom:10px;overflow:hidden;}
+  .ug::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--green);opacity:.55;}
+  .ug .ugh{font-size:12px;font-weight:800;letter-spacing:.5px;margin-bottom:5px;color:var(--green);}
+  .ug .ul{font-size:13.5px;font-weight:600;color:#0C5F47;white-space:nowrap;}
+  .scn{display:flex;align-items:center;gap:8px;margin-top:13px;}
+  .scn .l{font-size:11.5px;font-weight:800;color:var(--dim);white-space:nowrap;}
+  .scn .p{background:#F7F9FC;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700;color:var(--sub);white-space:nowrap;}
+
+  /* connectors */
+  .seg{font-size:12.5px;font-weight:800;letter-spacing:.3px;padding:7px 14px;border-radius:999px;white-space:nowrap;box-shadow:0 4px 10px rgba(20,30,60,.06);background:#fff;}
+  .seg.w{color:var(--blue);border:1px solid var(--blueLine);}
+  .seg.o{color:var(--green);border:1px solid var(--greenLine);}
+  .track{width:100%;height:2px;border-radius:2px;position:relative;}
+  .track.b{background:linear-gradient(90deg,rgba(62,107,255,0),rgba(62,107,255,.55),rgba(62,107,255,0));}
+  .track.g{background:linear-gradient(90deg,rgba(18,169,122,0),rgba(18,169,122,.55),rgba(18,169,122,0));}
+  .track::after{content:"";position:absolute;right:20px;top:-4px;width:9px;height:9px;border-top:2px solid;border-right:2px solid;transform:rotate(45deg);}
+  .track.b::after{border-color:var(--blue);} .track.g::after{border-color:var(--green);}
+  .step{font-size:11.5px;color:var(--dim);font-weight:700;white-space:nowrap;}
+
+  .note{text-align:center;color:var(--sub);font-size:13.5px;margin-top:30px;}
   .note b{color:var(--ink);}
+  .note .kb{color:var(--blueDeep);font-weight:800;}
 </style>
 </head>
 <body>
@@ -99,62 +105,76 @@
     </div>
   </div>
 
-  <!-- 上层：用 -->
-  <div class="slabel">
-    <span class="badge use">用</span>
-    <span class="tip">建立在基建之上，笔记内外都能用</span>
-    <span class="scn"><span class="l">首选场景</span><span class="p">学生学习</span><span class="p">日常随想</span><span class="p">旅行生活</span></span>
-  </div>
-  <div class="ucards">
-    <div class="ucard">
-      <div class="ct"><span class="tag">笔记内</span></div>
-      <div class="ul">加工成成品：提纲 / 周报 / 行程手册<br>生成 PPT · 网页，一键分享</div>
+  <div class="flow">
+    <!-- 左：记 -->
+    <div class="col">
+      <div class="clab"><div class="t">记</div><div class="role">基建之上 · 内容怎么进笔记</div></div>
+      <div class="panel">
+        <div class="ecap">记的方式（各入口）</div>
+        <div class="entry">
+          <div class="e"><span class="d">🤖</span>超级小爱</div>
+          <div class="e"><span class="d">🔘</span>AI 键</div>
+          <div class="e"><span class="d">🖊️</span>意图球 · 手写笔</div>
+          <div class="e"><span class="d">📦</span>三方摘录</div>
+        </div>
+      </div>
     </div>
-    <div class="ucard">
-      <div class="ct"><span class="tag soft">笔记外 · 系统内</span></div>
-      <div class="ul">被小爱 / OS 调用<br>订票带出证件、按笔记排行程</div>
+
+    <div class="conn">
+      <div class="seg w">写进来</div>
+      <div class="track b"></div>
+      <div class="step">存入数据库</div>
     </div>
-    <div class="ucard">
-      <div class="ct"><span class="tag soft">笔记外 · 三方</span></div>
-      <div class="ul">经对外 API 开放给三方<br>做好权限管控</div>
+
+    <!-- 中：基建 -->
+    <div class="col center">
+      <div class="clab mid"><div class="t">基建<span class="p0">P0</span></div><div class="role">一方数据库 · 记和用的地基</div></div>
+      <div class="hero">
+        <div class="brow">
+          <div class="bi">🔍</div>
+          <div class="bt"><div class="h"><b>检索</b><span class="ab">能搜</span></div><div class="d">建索引、按大品类归类，一句话找得准、带出处</div></div>
+        </div>
+        <div class="brow mem">
+          <div class="bi">🧠</div>
+          <div class="bt"><div class="h"><b>记忆迁移进笔记</b></div><div class="d">把小爱记忆并进来，和笔记统一沉淀、一处呈现</div></div>
+        </div>
+        <div class="brow">
+          <div class="bi">🔗</div>
+          <div class="bt"><div class="h"><b>读写 API</b><span class="ab">对内 / 对外</span></div><div class="d">各入口能写进来，OS / 三方能按需取用（权限管控）</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="conn">
+      <div class="seg o">用起来</div>
+      <div class="track g"></div>
+      <div class="step">取回 · 加工 · 被调用</div>
+    </div>
+
+    <!-- 右：用 -->
+    <div class="col">
+      <div class="clab"><div class="t">用</div><div class="role">基建之上 · 能做的事</div></div>
+      <div class="panel">
+        <div class="ug">
+          <div class="ugh">笔记内</div>
+          <div class="ul">加工成成品 · 生成 PPT / 网页 · 分享</div>
+        </div>
+        <div class="ug">
+          <div class="ugh">笔记外 · 系统内</div>
+          <div class="ul">被小爱 / OS 调用：订票带证件、排行程</div>
+        </div>
+        <div class="ug">
+          <div class="ugh">笔记外 · 三方</div>
+          <div class="ul">经 API 开放给三方（权限管控）</div>
+        </div>
+        <div class="scn">
+          <span class="l">首选场景</span><span class="p">学生学习</span><span class="p">日常随想</span><span class="p">旅行生活</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- 桥接 -->
-  <div class="bridge">
-    <div class="ln"></div>
-    <div class="mid"><span class="up">↑</span>用，都建立在基建之上</div>
-    <div class="ln r"></div>
-  </div>
-
-  <!-- 下层：基建 -->
-  <div class="base">
-    <div class="basehead">
-      <div class="ico">🧱</div>
-      <h2>基建 · 一方数据库</h2>
-      <span class="p0">P0</span>
-      <span class="cap">把笔记做成可被 OS 调用的数据库 —— 这是记和用的地基</span>
-    </div>
-    <div class="bflow">
-      <div class="bcell">
-        <div class="bh"><span class="bi">✍️</span><h3>各入口写进来</h3><span class="ab">能写</span></div>
-        <div class="chips"><span>超级小爱</span><span>AI 键</span><span>意图球 / 笔</span><span>三方应用</span></div>
-      </div>
-      <div class="barrow">→</div>
-      <div class="bcell mid">
-        <div class="bh"><span class="bi">🔍</span><h3>数据库建索引</h3><span class="ab">能搜</span></div>
-        <div class="bd">按时间 / 事项 / 证件归类，一句话找得准、带出处</div>
-        <div class="mem">统一收纳：用户笔记 + 小爱记忆</div>
-      </div>
-      <div class="barrow">→</div>
-      <div class="bcell">
-        <div class="bh"><span class="bi">🔗</span><h3>对外提供</h3><span class="ab">对外 API</span></div>
-        <div class="bd">开放给 OS / 三方按需取用<br>做好权限管控</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="note">先有一个能被 OS 调用的数据库（<b>基建</b>），才谈得上把内容<b>用</b>起来 —— 基建不成立，记和用都无从谈起。</div>
+  <div class="note">中间的<span class="kb">数据库是基建（P0）</span>；左边的<b>记</b>、右边的<b>用</b>，都是有了基建能力之后能做的事 —— 基建不成立，记和用都无从谈起。</div>
 </div>
 </body>
 </html>
