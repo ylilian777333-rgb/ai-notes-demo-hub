@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>什么是好笔记 · 标准</title>
+<style>
+  :root{
+    --ink:#141A26; --sub:#586074; --dim:#8A93A6;
+    --line:#EAEDF3; --line2:#E1E6EF;
+    --blue:#3E6BFF; --blueSoft:#EEF2FF; --blueLine:#CBD8FF; --blueDeep:#2B50D8;
+    --green:#12A97A; --greenSoft:#E9F8F1; --greenLine:#BDE8D6; --greenDeep:#0C7C5A;
+    --purple:#7C5CE6; --purpleSoft:#F3EFFF; --purpleLine:#DFD3FF;
+    --amber:#E8720C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"MiSans","PingFang SC",-apple-system,"Microsoft YaHei",sans-serif;
+    background:
+      radial-gradient(70% 45% at 30% -8%,rgba(18,169,122,.12),transparent 60%),
+      radial-gradient(60% 45% at 100% 5%,rgba(62,107,255,.11),transparent 58%),
+      linear-gradient(180deg,#FCFDFF,#F0F3F9);
+    color:var(--ink);min-height:100vh;padding:64px 60px 52px;
+  }
+  .wrap{max-width:1240px;margin:0 auto;}
+
+  .hd{text-align:center;margin-bottom:40px;}
+  .hd h1{font-size:34px;font-weight:800;letter-spacing:.5px;white-space:nowrap;}
+  .hd h1 .g{background:linear-gradient(90deg,var(--green),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hd .sub{color:var(--sub);font-size:15.5px;margin-top:12px;white-space:nowrap;font-weight:500;}
+
+  .cols{display:flex;align-items:stretch;justify-content:center;gap:22px;}
+  .col{flex:1;display:flex;flex-direction:column;}
+  .col.os{flex:.92;}
+  .plus{flex:0 0 44px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:var(--dim);}
+
+  .clab{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .clab .badge{font-size:14px;font-weight:800;letter-spacing:1px;padding:7px 16px;border-radius:999px;white-space:nowrap;}
+  .clab.user .badge{color:var(--greenDeep);background:var(--greenSoft);border:1px solid var(--greenLine);}
+  .clab.os .badge{color:var(--blueDeep);background:var(--blueSoft);border:1px solid var(--blueLine);}
+  .clab .tip{color:var(--dim);font-size:13px;white-space:nowrap;}
+
+  .panel{flex:1;background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px 20px;box-shadow:0 20px 46px rgba(24,36,72,.08);}
+  .panel.user{border-color:var(--greenLine);}
+  .panel.osp{border-color:var(--blueLine);background:radial-gradient(130% 80% at 50% -10%,rgba(62,107,255,.10),transparent 62%),linear-gradient(180deg,#FBFCFF,#F1F5FF);display:flex;flex-direction:column;justify-content:center;box-shadow:0 26px 56px rgba(62,107,255,.16);}
+
+  .item{display:flex;align-items:center;gap:15px;background:#F8FBF9;border:1px solid var(--greenLine);border-radius:16px;padding:16px 18px;margin-bottom:13px;}
+  .item:last-child{margin-bottom:0;}
+  .item .ic{width:46px;height:46px;flex:0 0 46px;border-radius:13px;background:#fff;border:1px solid var(--greenLine);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 12px rgba(18,169,122,.10);}
+  .item .tx .k{font-size:16px;font-weight:800;color:var(--greenDeep);white-space:nowrap;}
+  .item .tx .v{font-size:14px;color:var(--sub);margin-top:4px;white-space:nowrap;}
+
+  .osbig{text-align:center;padding:8px 6px;}
+  .osbig .ic{width:64px;height:64px;margin:0 auto 16px;border-radius:18px;background:var(--blueSoft);display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 8px 20px rgba(62,107,255,.16);}
+  .osbig .big{font-size:22px;font-weight:800;color:var(--blueDeep);white-space:nowrap;}
+  .osbig .desc{font-size:13.5px;color:var(--sub);margin-top:12px;line-height:1.7;}
+
+  .note{text-align:center;color:var(--sub);font-size:14px;margin-top:34px;}
+  .note b{color:var(--ink);}
+  .note .u{color:var(--greenDeep);font-weight:800;} .note .o{color:var(--blueDeep);font-weight:800;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hd">
+    <h1>什么是<span class="g">好笔记</span></h1>
+    <div class="sub">对内对外，各满足一条线</div>
+  </div>
+
+  <div class="cols">
+    <!-- 对用户 -->
+    <div class="col user">
+      <div class="clab user"><span class="badge">对用户 · 好用</span><span class="tip">记 → 取 → 用，一条都不卡</span></div>
+      <div class="panel user">
+        <div class="item">
+          <div class="ic">✍️</div>
+          <div class="tx"><div class="k">记得省心</div><div class="v">想记，随手就记下，不用专门打开 App</div></div>
+        </div>
+        <div class="item">
+          <div class="ic">🔍</div>
+          <div class="tx"><div class="k">取得回</div><div class="v">要用时，一句话就取得回、看得到出处</div></div>
+        </div>
+        <div class="item">
+          <div class="ic">✨</div>
+          <div class="tx"><div class="k">用得上</div><div class="v">存过的，能直接拿来加工、接着用</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="plus">＋</div>
+
+    <!-- 对 OS -->
+    <div class="col os">
+      <div class="clab os"><span class="badge">对 OS · 可调用</span><span class="tip">进入 Agent 时代的前提</span></div>
+      <div class="panel osp">
+        <div class="osbig">
+          <div class="ic">🔗</div>
+          <div class="big">能被 OS Agent 调用</div>
+          <div class="desc">内容进得了 OS 的上下文，<br>才谈得上被搜到、被取用、被接着用</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note"><span class="u">对用户好用</span> ＋ <span class="o">对 OS 可调用</span> ，两条都满足，才是 <b>Agent 时代的好笔记</b></div>
+</div>
+</body>
+</html>
