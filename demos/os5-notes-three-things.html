@@ -20,61 +20,65 @@
       radial-gradient(75% 45% at 50% -8%,rgba(62,107,255,.12),transparent 60%),
       radial-gradient(55% 45% at 100% 10%,rgba(124,92,230,.08),transparent 55%),
       radial-gradient(55% 50% at 0% 100%,rgba(18,169,122,.09),transparent 55%),
-      linear-gradient(180deg,#FCFDFF,#F1F4FA);
-    color:var(--ink);min-height:100vh;padding:60px 56px 46px;
+      linear-gradient(180deg,#FCFDFF,#F0F3F9);
+    color:var(--ink);min-height:100vh;padding:58px 56px 46px;
   }
   .wrap{max-width:1500px;margin:0 auto;}
 
-  .hd{text-align:center;}
+  /* header */
+  .hd{text-align:center;margin-bottom:6px;}
   .hd h1{font-size:34px;font-weight:800;letter-spacing:.5px;white-space:nowrap;}
   .hd h1 .g{background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .why{display:inline-flex;gap:10px;align-items:center;margin-top:22px;background:rgba(255,255,255,.72);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:999px;padding:7px 9px 7px 18px;box-shadow:0 8px 22px rgba(20,30,60,.07);}
+  .hd .sub{color:var(--sub);font-size:15px;margin-top:12px;white-space:nowrap;font-weight:500;}
+  .hd .sub b{color:var(--ink);font-weight:700;}
+  .why{display:inline-flex;gap:10px;align-items:center;margin-top:18px;background:rgba(255,255,255,.72);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:999px;padding:7px 9px 7px 18px;box-shadow:0 8px 22px rgba(20,30,60,.07);}
   .why .lab{color:var(--dim);font-size:12px;font-weight:800;letter-spacing:2px;}
   .why .chip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:13.5px;color:var(--sub);white-space:nowrap;box-shadow:0 2px 6px rgba(20,30,60,.04);}
   .why .chip b{color:var(--ink);font-weight:700;}
   .why .dot{width:7px;height:7px;border-radius:50%;} .why .dot.b{background:var(--blue);} .why .dot.a{background:var(--amber);}
 
-  .flow{display:flex;align-items:stretch;justify-content:center;margin-top:48px;}
+  .flow{display:flex;align-items:stretch;justify-content:center;margin-top:46px;}
   .col{flex:1;display:flex;flex-direction:column;}
   .col.center{flex:1.5;}
   .conn{flex:0 0 116px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;}
 
-  /* col label */
-  .clab{text-align:center;margin-bottom:12px;}
-  .clab .t{font-size:15px;font-weight:800;}
-  .clab .role{display:inline-block;font-size:11.5px;font-weight:700;color:var(--dim);margin-top:3px;white-space:nowrap;}
-  .clab.mid .t{color:var(--blueDeep);}
-  .clab .p0{font-size:11px;font-weight:800;color:#fff;background:var(--blueDeep);border-radius:7px;padding:2px 8px;margin-left:6px;vertical-align:middle;}
+  .clab{text-align:center;margin-bottom:14px;}
+  .clab .t{font-size:17px;font-weight:800;letter-spacing:.5px;}
+  .clab.rec .t{color:var(--ink);} .clab.mid .t{color:var(--blueDeep);} .clab.use .t{color:var(--greenDeep);}
+  .clab .role{font-size:12px;font-weight:600;color:var(--dim);margin-top:4px;white-space:nowrap;}
 
-  .panel{flex:1;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 20px;box-shadow:0 18px 42px rgba(24,36,72,.07);}
+  .panel{flex:1;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 20px;box-shadow:0 18px 42px rgba(24,36,72,.07);position:relative;}
+  .panel::before{content:"";position:absolute;left:22px;right:22px;top:0;height:3px;border-radius:0 0 3px 3px;}
+  .panel.rec::before{background:linear-gradient(90deg,var(--blueLine),#E9EEFF);}
+  .panel.use::before{background:linear-gradient(90deg,var(--greenLine),#DBF4EA);}
 
-  /* 记 */
+  .ecap{color:var(--dim);font-size:12.5px;margin-bottom:14px;white-space:nowrap;text-align:center;}
   .entry{display:flex;flex-direction:column;gap:11px;}
   .entry .e{display:flex;align-items:center;gap:12px;background:#F7F9FC;white-space:nowrap;border:1px solid var(--line);border-radius:13px;padding:13px 16px;font-size:14.5px;font-weight:600;color:var(--ink);}
   .entry .e .d{width:30px;height:30px;border-radius:9px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 5px rgba(20,30,60,.05);}
-  .ecap{color:var(--dim);font-size:12.5px;margin-bottom:14px;white-space:nowrap;text-align:center;}
 
   /* 基建 hero */
   .hero{flex:1;display:flex;flex-direction:column;justify-content:center;
-    background:radial-gradient(130% 80% at 50% -10%,rgba(62,107,255,.13),transparent 62%),linear-gradient(180deg,#FBFCFF,#EFF4FF);
-    border:1px solid var(--blueLine);border-radius:24px;padding:22px 22px;box-shadow:0 28px 62px rgba(62,107,255,.18),inset 0 1px 0 rgba(255,255,255,.8);}
-  .brow{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line2);border-radius:14px;padding:14px 16px;box-shadow:0 8px 18px rgba(24,36,72,.05);margin-bottom:11px;}
+    background:radial-gradient(130% 80% at 50% -12%,rgba(62,107,255,.14),transparent 62%),linear-gradient(180deg,#FBFCFF,#EDF2FF);
+    border:1px solid var(--blueLine);border-radius:24px;padding:22px 22px;box-shadow:0 30px 66px rgba(62,107,255,.20),inset 0 1px 0 rgba(255,255,255,.85);}
+  .brow{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line2);border-radius:15px;padding:15px 17px;box-shadow:0 8px 20px rgba(24,36,72,.06);margin-bottom:12px;}
   .brow:last-child{margin-bottom:0;}
-  .brow .bi{width:40px;height:40px;flex:0 0 40px;border-radius:11px;background:var(--blueSoft);display:flex;align-items:center;justify-content:center;font-size:19px;}
+  .brow .bi{width:44px;height:44px;flex:0 0 44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;}
   .brow .bt{flex:1;min-width:0;}
-  .brow .bt .h{display:flex;align-items:center;gap:8px;}
-  .brow .bt .h b{font-size:15.5px;font-weight:800;white-space:nowrap;}
-  .brow .bt .h .ab{font-size:11px;font-weight:800;color:var(--blue);background:var(--blueSoft);border:1px solid var(--blueLine);border-radius:6px;padding:2px 7px;white-space:nowrap;}
-  .brow .bt .d{font-size:12.5px;color:var(--sub);margin-top:3px;white-space:nowrap;}
-  .brow.mem .bi{background:var(--purpleSoft);}
-  .brow.mem .h .ab{color:var(--purple);background:var(--purpleSoft);border-color:var(--purpleLine);}
+  .brow .bt .h{display:flex;align-items:center;gap:9px;}
+  .brow .bt .h b{font-size:16px;font-weight:800;white-space:nowrap;}
+  .brow .bt .h .ab{font-size:11px;font-weight:800;border-radius:6px;padding:2px 8px;white-space:nowrap;}
+  .brow .bt .d{font-size:12.5px;color:var(--sub);margin-top:4px;white-space:nowrap;}
+  .brow.c1 .bi{background:var(--purpleSoft);} .brow.c1 .ab{color:var(--purple);background:var(--purpleSoft);border:1px solid var(--purpleLine);}
+  .brow.c2 .bi{background:var(--blueSoft);}   .brow.c2 .ab{color:var(--blue);background:var(--blueSoft);border:1px solid var(--blueLine);}
+  .brow.c3 .bi{background:var(--greenSoft);}  .brow.c3 .ab{color:var(--green);background:var(--greenSoft);border:1px solid var(--greenLine);}
 
   /* 用 */
   .ug{position:relative;background:var(--greenSoft);border:1px solid var(--greenLine);border-radius:13px;padding:12px 15px 12px 18px;margin-bottom:10px;overflow:hidden;}
   .ug::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--green);opacity:.55;}
   .ug .ugh{font-size:12px;font-weight:800;letter-spacing:.5px;margin-bottom:5px;color:var(--green);}
   .ug .ul{font-size:13.5px;font-weight:600;color:#0C5F47;white-space:nowrap;}
-  .scn{display:flex;align-items:center;gap:8px;margin-top:13px;}
+  .scn{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;}
   .scn .l{font-size:11.5px;font-weight:800;color:var(--dim);white-space:nowrap;}
   .scn .p{background:#F7F9FC;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700;color:var(--sub);white-space:nowrap;}
 
@@ -90,14 +94,14 @@
   .step{font-size:11.5px;color:var(--dim);font-weight:700;white-space:nowrap;}
 
   .note{text-align:center;color:var(--sub);font-size:13.5px;margin-top:30px;}
-  .note b{color:var(--ink);}
-  .note .kb{color:var(--blueDeep);font-weight:800;}
+  .note b{color:var(--ink);} .note .kb{color:var(--blueDeep);font-weight:800;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="hd">
     <h1>笔记 = <span class="g">OS 能调用的一方数据库</span></h1>
+    <div class="sub">内容<b>记进来</b> → 在<b>数据库</b>沉淀、可检索 → 笔记内外都<b>用得上</b></div>
     <div class="why">
       <span class="lab">为什么</span>
       <div class="chip"><i class="dot b"></i>趋势 · <b>内容能被 OS 调用才有价值</b></div>
@@ -108,8 +112,8 @@
   <div class="flow">
     <!-- 左：记 -->
     <div class="col">
-      <div class="clab"><div class="t">记</div><div class="role">基建之上 · 内容怎么进笔记</div></div>
-      <div class="panel">
+      <div class="clab rec"><div class="t">记</div><div class="role">基建之上 · 内容怎么进笔记</div></div>
+      <div class="panel rec">
         <div class="ecap">记的方式（各入口）</div>
         <div class="entry">
           <div class="e"><span class="d">🤖</span>超级小爱</div>
@@ -128,19 +132,19 @@
 
     <!-- 中：基建 -->
     <div class="col center">
-      <div class="clab mid"><div class="t">基建<span class="p0">P0</span></div><div class="role">一方数据库 · 记和用的地基</div></div>
+      <div class="clab mid"><div class="t">基建</div><div class="role">一方数据库 · 记和用的地基</div></div>
       <div class="hero">
-        <div class="brow">
+        <div class="brow c1">
+          <div class="bi">🗂️</div>
+          <div class="bt"><div class="h"><b>内容统一沉淀</b></div><div class="d">各处记录 + 小爱记忆，都汇进同一个库</div></div>
+        </div>
+        <div class="brow c2">
           <div class="bi">🔍</div>
-          <div class="bt"><div class="h"><b>检索</b><span class="ab">能搜</span></div><div class="d">建索引、按大品类归类，一句话找得准、带出处</div></div>
+          <div class="bt"><div class="h"><b>检索</b><span class="ab">能搜</span></div><div class="d">建索引、按规则归类（规则待定），找得准、带出处</div></div>
         </div>
-        <div class="brow mem">
-          <div class="bi">🧠</div>
-          <div class="bt"><div class="h"><b>记忆迁移进笔记</b></div><div class="d">把小爱记忆并进来，和笔记统一沉淀、一处呈现</div></div>
-        </div>
-        <div class="brow">
+        <div class="brow c3">
           <div class="bi">🔗</div>
-          <div class="bt"><div class="h"><b>读写 API</b><span class="ab">对内 / 对外</span></div><div class="d">各入口能写进来，OS / 三方能按需取用（权限管控）</div></div>
+          <div class="bt"><div class="h"><b>对外开放能力</b></div><div class="d">把库的搜 / 写能力，通过 API 提供给 OS 和三方（权限管控）</div></div>
         </div>
       </div>
     </div>
@@ -153,8 +157,8 @@
 
     <!-- 右：用 -->
     <div class="col">
-      <div class="clab"><div class="t">用</div><div class="role">基建之上 · 能做的事</div></div>
-      <div class="panel">
+      <div class="clab use"><div class="t">用</div><div class="role">基建之上 · 能做的事</div></div>
+      <div class="panel use">
         <div class="ug">
           <div class="ugh">笔记内</div>
           <div class="ul">加工成成品 · 生成 PPT / 网页 · 分享</div>
@@ -174,7 +178,7 @@
     </div>
   </div>
 
-  <div class="note">中间的<span class="kb">数据库是基建（P0）</span>；左边的<b>记</b>、右边的<b>用</b>，都是有了基建能力之后能做的事 —— 基建不成立，记和用都无从谈起。</div>
+  <div class="note">中间的<span class="kb">数据库是基建</span>；左边的<b>记</b>、右边的<b>用</b>，都是有了基建能力之后能做的事 —— 基建不成立，记和用都无从谈起。</div>
 </div>
 </body>
 </html>
