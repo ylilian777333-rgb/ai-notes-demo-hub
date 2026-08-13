@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>用户需求的变化</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#e9ebf0; font-family:"MiSans","PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+  #fig {
+    width:1360px; background:#fff; padding:56px 60px 48px;
+    border-radius:28px;
+  }
+  .head { margin-bottom:8px; }
+  .title { font-size:44px; font-weight:800; color:#1a1d24; letter-spacing:-0.5px; }
+  .title .accent { color:#3a63e8; }
+  .sub { font-size:21px; color:#8a8f99; margin-top:12px; font-weight:500; }
+  .rows { margin-top:38px; display:flex; flex-direction:column; gap:22px; }
+
+  .row {
+    display:grid;
+    grid-template-columns:150px 1fr 78px 1.28fr;
+    align-items:stretch; gap:0;
+  }
+  .rail {
+    display:flex; flex-direction:column; justify-content:center; gap:10px;
+    padding-right:22px;
+  }
+  .badge {
+    width:44px; height:44px; border-radius:13px; background:#3a63e8;
+    color:#fff; font-size:23px; font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .rail .name { font-size:24px; font-weight:800; color:#1a1d24; line-height:1.25; }
+
+  .card { border-radius:18px; padding:24px 26px; display:flex; flex-direction:column; justify-content:center; }
+  .card .tag { font-size:16px; font-weight:800; letter-spacing:1px; margin-bottom:10px; }
+  .card .body { font-size:20px; line-height:1.5; font-weight:600; }
+  .card .meta { font-size:16px; margin-top:10px; font-weight:600; }
+
+  .before { background:#f3f4f7; }
+  .before .tag { color:#a6abb5; }
+  .before .body { color:#6b7079; }
+  .before .meta { color:#a6abb5; }
+
+  .after { background:#eef1fd; border:2px solid #d3dbfb; }
+  .after .tag { color:#3a63e8; }
+  .after .body { color:#1a1d24; }
+  .after .meta { color:#3a63e8; }
+
+  .arrow { display:flex; align-items:center; justify-content:center; }
+  .arrow svg { width:44px; height:44px; }
+
+  .foot {
+    margin-top:34px; background:#3a63e8; border-radius:20px;
+    padding:26px 34px; display:flex; align-items:center; gap:20px;
+  }
+  .foot .k { font-size:26px; font-weight:800; color:#fff; line-height:1.4; }
+  .foot .k .hl { color:#ffd84d; }
+  .foot .to { flex-shrink:0; color:#bcccff; font-size:30px; font-weight:800; }
+</style>
+</head>
+<body>
+  <div id="fig">
+    <div class="head">
+      <div class="title">用户需求的变化<span class="accent"> · 记什么、为什么记，都在变</span></div>
+      <div class="sub">同一批用户，记的内容和使用目的都变了，老办法跟不上了</div>
+    </div>
+
+    <div class="rows">
+      <!-- row 1 -->
+      <div class="row">
+        <div class="rail"><div class="badge">1</div><div class="name">记的<br>内容</div></div>
+        <div class="card before">
+          <div class="tag">以前</div>
+          <div class="body">自己敲的几行字</div>
+          <div class="meta">备忘、待办、随手一个想法 · 量小</div>
+        </div>
+        <div class="arrow">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="#3a63e8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="card after">
+          <div class="tag">现在</div>
+          <div class="body">会议课堂录音、AI 生成、跨 App 收藏、AI 问答产出</div>
+          <div class="meta">多来源 · 多模态 · 量猛涨</div>
+        </div>
+      </div>
+
+      <!-- row 2 -->
+      <div class="row">
+        <div class="rail"><div class="badge">2</div><div class="name">用的<br>目的</div></div>
+        <div class="card before">
+          <div class="tag">以前</div>
+          <div class="body">存着怕忘，偶尔翻一翻</div>
+          <div class="meta">使用很浅</div>
+        </div>
+        <div class="arrow">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="#3a63e8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="card after">
+          <div class="tag">现在</div>
+          <div class="body">想让它产出东西：攒成一篇、做复习材料、提炼发出去、做成攻略</div>
+          <div class="meta">还要能被系统和小爱调用</div>
+        </div>
+      </div>
+
+      <!-- row 3 -->
+      <div class="row">
+        <div class="rail"><div class="badge">3</div><div class="name">结果</div></div>
+        <div class="card before">
+          <div class="tag">以前</div>
+          <div class="body">按时间排够用</div>
+          <div class="meta">内容少，翻一翻就找到</div>
+        </div>
+        <div class="arrow">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="#3a63e8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="card after">
+          <div class="tag">现在 · 老办法撑不住</div>
+          <div class="body">又多又杂还按时间排，首页被碎片淹没、记完就沉底、找不回</div>
+          <div class="meta">就像相册全是截图，没法浏览</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div class="k">用户不缺「记」，缺的是记完之后<span class="hl">能用上</span></div>
+      <div class="to">→</div>
+      <div class="k" style="font-size:22px;font-weight:700;color:#dbe4ff;">先读懂它，再按品类聚起来</div>
+    </div>
+  </div>
+</body>
+</html>
