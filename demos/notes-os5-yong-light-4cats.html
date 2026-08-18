@@ -35,6 +35,18 @@
   .o .dot{background:var(--orange);} .o .name,.o .lb{color:var(--orange);}
   .p{background:#F4F1FC;border-color:#D1C4F0;}
   .p .dot{background:var(--purple);} .p .name,.p .lb{color:var(--purple);}
+
+  .band{width:1036px;margin-top:24px;background:#EFF3FF;border-radius:14px;
+        position:relative;overflow:hidden;padding:20px 28px 20px 34px;
+        display:flex;align-items:center;gap:20px;}
+  .band .edge{position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--blue);}
+  .band .txt{flex:1;}
+  .band .k{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:5px;}
+  .band .m{font-size:17px;font-weight:700;line-height:24px;color:var(--ink2);}
+  .outs{display:flex;align-items:center;gap:10px;flex:0 0 auto;}
+  .outs .ar{font-size:18px;color:var(--blue);font-weight:700;}
+  .pill{background:#fff;border:1.5px solid #B8C9FF;border-radius:999px;
+        padding:9px 18px;font-size:15px;font-weight:700;color:var(--blue);white-space:nowrap;}
 </style>
 </head>
 <body>
@@ -78,6 +90,19 @@
         <div class="lb">帮你</div>
         <div class="bt">出报价汇总单，客户生意信息一人一份</div>
       </div>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="edge"></div>
+    <div class="txt">
+      <div class="k">贯穿四类</div>
+      <div class="m">待办 · 日程：四类内容里都会记到，识别出来直接分发出去，不用进笔记也能看到</div>
+    </div>
+    <div class="outs">
+      <span class="ar">→</span>
+      <span class="pill">待办中心</span>
+      <span class="pill">日历</span>
     </div>
   </div>
 </section>
