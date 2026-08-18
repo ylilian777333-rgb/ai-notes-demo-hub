@@ -15,7 +15,7 @@
   h1{font-size:52px;font-weight:800;letter-spacing:-1px;}
   .sub{font-size:19px;color:var(--ink3);margin-top:18px;}
   .bar{height:6px;border-radius:6px;margin:30px 0 36px;
-       background:linear-gradient(90deg,#17A87B 0%,#E0790F 34%,#7A57DE 67%,#3A63E8 100%);opacity:.85;}
+       background:linear-gradient(90deg,#3A63E8 0%,#17A87B 34%,#E0790F 67%,#7A57DE 100%);opacity:.85;}
   .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
   .card{border-radius:26px;padding:32px 28px 34px;border:1.5px solid;display:flex;flex-direction:column;}
   .head{display:flex;align-items:center;gap:14px;margin-bottom:26px;}
@@ -44,10 +44,17 @@
 <body>
 <section class="slide">
   <h1>关键用户场景</h1>
-  <div class="sub">主场：生活管理 · 学习备考 · 工作经营 · 想法随记；共性——长期零散积累，要用时才回头找</div>
+  <div class="sub">主场：想法随记 · 生活管理 · 学习备考 · 工作经营；共性——长期零散积累，要用时才回头找</div>
   <div class="bar"></div>
 
   <div class="cards">
+    <div class="card b">
+      <div class="head"><div class="ic">💡</div><div class="name">想法随记</div></div>
+      <div class="lbl">平时记什么</div>
+      <div class="txt">随手想法、日记与感悟、摘录金句、文稿草稿</div>
+      <div class="eg">「一部小说写到第 98 章」<br>「摘一句：耐心比聪明重要」</div>
+    </div>
+
     <div class="card g">
       <div class="head"><div class="ic">🏡</div><div class="name">生活管理</div></div>
       <div class="lbl">平时记什么</div>
@@ -67,13 +74,6 @@
       <div class="lbl">平时记什么</div>
       <div class="txt">工作灵感、思路框架、客户单与尺寸参数、工作流水、会议记录</div>
       <div class="eg">「XX 项目先拆成三块」<br>「今天装维 6 户，李工 3 点数」</div>
-    </div>
-
-    <div class="card b">
-      <div class="head"><div class="ic">💡</div><div class="name">想法随记</div></div>
-      <div class="lbl">平时记什么</div>
-      <div class="txt">随手想法、日记与感悟、摘录金句、文稿草稿</div>
-      <div class="eg">「一部小说写到第 98 章」<br>「摘一句：耐心比聪明重要」</div>
     </div>
   </div>
 
