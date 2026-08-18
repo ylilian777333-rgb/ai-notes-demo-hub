@@ -7,25 +7,24 @@
 <style>
   :root{
     --green:#17A87B; --orange:#E0790F; --purple:#7A57DE; --blue:#3A63E8;
-    --ink:#16181C; --ink2:#4A4E57; --ink3:#8B9099; --line:#ECEDF0;
+    --ink:#16181C; --ink2:#4A4E57; --ink3:#8B9099;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{background:#EFF0F3;font-family:"MiSans","PingFang SC",-apple-system,"Segoe UI",sans-serif;color:var(--ink);}
-  .slide{width:1440px;margin:0 auto;background:#fff;padding:64px 72px 60px;}
+  .slide{width:1440px;margin:0 auto;background:#fff;padding:64px 72px 66px;}
   h1{font-size:52px;font-weight:800;letter-spacing:-1px;}
-  .sub{font-size:19px;color:var(--ink3);margin-top:18px;line-height:1.6;}
-  .bar{height:6px;border-radius:6px;margin:30px 0 34px;
+  .sub{font-size:19px;color:var(--ink3);margin-top:18px;}
+  .bar{height:6px;border-radius:6px;margin:30px 0 36px;
        background:linear-gradient(90deg,#17A87B 0%,#E0790F 34%,#7A57DE 67%,#3A63E8 100%);opacity:.85;}
   .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
-  .card{border-radius:26px;padding:30px 28px 32px;border:1.5px solid;display:flex;flex-direction:column;}
-  .head{display:flex;align-items:center;gap:14px;margin-bottom:24px;}
+  .card{border-radius:26px;padding:32px 28px 34px;border:1.5px solid;display:flex;flex-direction:column;}
+  .head{display:flex;align-items:center;gap:14px;margin-bottom:26px;}
   .ic{width:56px;height:56px;border-radius:50%;background:#fff;border:1.5px solid;
       display:flex;align-items:center;justify-content:center;font-size:27px;flex:0 0 auto;}
-  .name{font-size:25px;font-weight:800;line-height:1.25;}
-  .lbl{font-size:15px;font-weight:700;margin-bottom:9px;}
-  .txt{font-size:17px;line-height:1.75;color:var(--ink2);}
-  .sep{height:1px;background:rgba(0,0,0,.09);margin:20px 0;}
-  .eg{font-size:15px;line-height:1.7;color:var(--ink3);margin-top:auto;padding-top:20px;}
+  .name{font-size:26px;font-weight:800;line-height:1.25;}
+  .lbl{font-size:15px;font-weight:700;margin-bottom:10px;}
+  .txt{font-size:18px;line-height:1.8;color:var(--ink2);}
+  .eg{font-size:15px;line-height:1.8;color:var(--ink3);margin-top:auto;padding-top:26px;}
   .g{background:rgba(23,168,123,.07);border-color:rgba(23,168,123,.26);}
   .g .name,.g .lbl{color:var(--green);} .g .ic{border-color:rgba(23,168,123,.34);}
   .o{background:rgba(224,121,15,.07);border-color:rgba(224,121,15,.26);}
@@ -34,16 +33,12 @@
   .p .name,.p .lbl{color:var(--purple);} .p .ic{border-color:rgba(122,87,222,.34);}
   .b{background:rgba(58,99,232,.07);border-color:rgba(58,99,232,.26);}
   .b .name,.b .lbl{color:var(--blue);} .b .ic{border-color:rgba(58,99,232,.34);}
-  .foot{margin-top:30px;background:#F5F6F8;border:1px solid var(--line);border-radius:20px;padding:26px 30px;}
-  .foot p{font-size:18px;line-height:1.8;color:var(--ink2);}
-  .foot b{color:var(--ink);font-weight:700;}
-  .foot p+p{margin-top:10px;}
 </style>
 </head>
 <body>
 <section class="slide">
   <h1>关键用户场景</h1>
-  <div class="sub">主场：生活管理 · 学习备考 · 工作经营 · 想法随记；共性——长期零散积累，需要时能找回、接着用</div>
+  <div class="sub">主场：生活管理 · 学习备考 · 工作经营 · 想法随记；共性——长期零散积累，要用时才回头找</div>
   <div class="bar"></div>
 
   <div class="cards">
@@ -51,47 +46,29 @@
       <div class="head"><div class="ic">🏡</div><div class="name">生活管理</div></div>
       <div class="lbl">平时记什么</div>
       <div class="txt">收支账目、育儿记录、健康与健身、旅行攻略、收藏清单、证件与密码</div>
-      <div class="sep"></div>
-      <div class="lbl">记完怎么用</div>
-      <div class="txt">持续追加、统计核对；攻略按主题聚合；日期和行程进入日历</div>
-      <div class="eg">例：「孩子疫苗第二针 9 月 12 日」<br>「宽带账号密码」</div>
+      <div class="eg">「孩子疫苗第二针 9 月 12 日」<br>「宽带账号密码」</div>
     </div>
 
     <div class="card o">
       <div class="head"><div class="ic">📚</div><div class="name">学习备考</div></div>
       <div class="lbl">平时记什么</div>
       <div class="txt">课堂与网课笔记、拍下的讲义投影、手写演算、错题与考点</div>
-      <div class="sep"></div>
-      <div class="lbl">记完怎么用</div>
-      <div class="txt">识别图片和录音；按课程、章节聚合；查重点、整理复习资料</div>
-      <div class="eg">例：「第三章受力分析是重点」<br>「物理错题：大题第 2 问」</div>
+      <div class="eg">「第三章受力分析是重点」<br>「物理错题：大题第 2 问」</div>
     </div>
 
     <div class="card p">
       <div class="head"><div class="ic">💼</div><div class="name">工作经营</div></div>
       <div class="lbl">平时记什么</div>
       <div class="txt">工作灵感、思路框架、客户单与尺寸参数、工作流水、会议记录</div>
-      <div class="sep"></div>
-      <div class="lbl">记完怎么用</div>
-      <div class="txt">按客户、项目归集；流水整理成表格；待办流转到桌面和 PC 接着办</div>
-      <div class="eg">例：「XX 项目先拆成三块」<br>「今天装维 6 户，李工 3 点数」</div>
+      <div class="eg">「XX 项目先拆成三块」<br>「今天装维 6 户，李工 3 点数」</div>
     </div>
 
     <div class="card b">
       <div class="head"><div class="ic">💡</div><div class="name">想法随记</div></div>
       <div class="lbl">平时记什么</div>
       <div class="txt">个人灵感、随手想法、日记感悟、摘录金句、文稿草稿</div>
-      <div class="sep"></div>
-      <div class="lbl">记完怎么用</div>
-      <div class="txt">关联同类想法、接着写；改成文章、公告、发言稿或口播稿</div>
-
-      <div class="eg">例：「突然想到一个故事开头」<br>「这段改成正式语气」</div>
+      <div class="eg">「突然想到一个故事开头」<br>「这段改成正式语气」</div>
     </div>
-  </div>
-
-  <div class="foot">
-    <p><b>待办和行程不单列一类</b>：它们从四类内容里识别出来，进入待办、日历和多端提醒，内容仍留在原来的类别里。</p>
-    <p><b>灵感按服务对象分</b>：服务项目和业务的进工作经营，个人感悟和写作的进想法随记。</p>
   </div>
 </section>
 </body>
