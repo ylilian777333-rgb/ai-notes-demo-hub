@@ -33,6 +33,12 @@
   .p .name,.p .lbl{color:var(--purple);} .p .ic{border-color:rgba(122,87,222,.34);}
   .b{background:rgba(58,99,232,.07);border-color:rgba(58,99,232,.26);}
   .b .name,.b .lbl{color:var(--blue);} .b .ic{border-color:rgba(58,99,232,.34);}
+  .cross{margin-top:22px;background:#F5F6F8;border:1.5px dashed #D6D9DE;border-radius:20px;
+         padding:24px 30px;display:flex;align-items:center;gap:20px;}
+  .chip{flex:0 0 auto;font-size:15px;font-weight:700;color:#6B7079;
+        background:#fff;border:1.5px solid #DDE0E5;border-radius:999px;padding:8px 18px;}
+  .ctxt{font-size:18px;line-height:1.7;color:var(--ink2);}
+  .ctxt b{color:var(--ink);font-weight:700;}
 </style>
 </head>
 <body>
@@ -66,9 +72,14 @@
     <div class="card b">
       <div class="head"><div class="ic">💡</div><div class="name">想法随记</div></div>
       <div class="lbl">平时记什么</div>
-      <div class="txt">个人灵感、随手想法、日记感悟、摘录金句、文稿草稿</div>
-      <div class="eg">「突然想到一个故事开头」<br>「这段改成正式语气」</div>
+      <div class="txt">随手想法、日记与感悟、摘录金句、文稿草稿</div>
+      <div class="eg">「一部小说写到第 98 章」<br>「摘一句：耐心比聪明重要」</div>
     </div>
+  </div>
+
+  <div class="cross">
+    <div class="chip">贯穿四类</div>
+    <div class="ctxt"><b>待办 · 日程</b>不是单独一类：四类内容里都会记到，识别出来后进入待办、日历和多端提醒，原内容仍留在所属类别。</div>
   </div>
 </section>
 </body>
