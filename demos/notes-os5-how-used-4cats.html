@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>记完怎么用 · 四类</title>
+<style>
+  :root{
+    --blue:#3A63E8; --green:#17A87B; --orange:#E0790F; --purple:#7A57DE;
+    --ink:#16181C; --ink2:#4A4E57; --ink3:#8B9099;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#EFF0F3;font-family:"MiSans","PingFang SC",-apple-system,"Segoe UI",sans-serif;color:var(--ink);}
+  .slide{width:1440px;margin:0 auto;background:#fff;padding:64px 72px 66px;}
+  h1{font-size:52px;font-weight:800;letter-spacing:-1px;}
+  .sub{font-size:19px;color:var(--ink3);margin-top:18px;}
+  .bar{height:6px;border-radius:6px;margin:30px 0 36px;
+       background:linear-gradient(90deg,#3A63E8 0%,#17A87B 34%,#E0790F 67%,#7A57DE 100%);opacity:.85;}
+
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .card{border-radius:26px;padding:32px 28px 34px;border:1.5px solid;display:flex;flex-direction:column;}
+  .head{display:flex;align-items:center;gap:14px;margin-bottom:24px;}
+  .ic{width:56px;height:56px;border-radius:50%;background:#fff;border:1.5px solid;
+      display:flex;align-items:center;justify-content:center;font-size:27px;flex:0 0 auto;}
+  .name{font-size:26px;font-weight:800;line-height:1.25;}
+  .lbl{font-size:15px;font-weight:700;margin-bottom:10px;}
+  .say{font-size:17px;line-height:1.75;color:var(--ink2);}
+  .uses{margin-top:auto;padding-top:24px;display:flex;flex-direction:column;gap:10px;}
+  .u{background:#fff;border:1.5px solid;border-radius:14px;padding:12px 16px;
+     font-size:16px;font-weight:600;color:var(--ink);}
+
+  .b{background:rgba(58,99,232,.07);border-color:rgba(58,99,232,.26);}
+  .b .name,.b .lbl{color:var(--blue);} .b .ic,.b .u{border-color:rgba(58,99,232,.3);}
+  .g{background:rgba(23,168,123,.07);border-color:rgba(23,168,123,.26);}
+  .g .name,.g .lbl{color:var(--green);} .g .ic,.g .u{border-color:rgba(23,168,123,.3);}
+  .o{background:rgba(224,121,15,.07);border-color:rgba(224,121,15,.26);}
+  .o .name,.o .lbl{color:var(--orange);} .o .ic,.o .u{border-color:rgba(224,121,15,.3);}
+  .p{background:rgba(122,87,222,.07);border-color:rgba(122,87,222,.26);}
+  .p .name,.p .lbl{color:var(--purple);} .p .ic,.p .u{border-color:rgba(122,87,222,.3);}
+
+  .cross{margin-top:22px;background:rgba(58,99,232,.06);border:1.5px solid rgba(58,99,232,.24);
+         border-radius:22px;padding:26px 32px;display:flex;align-items:center;gap:22px;}
+  .chip{flex:0 0 auto;font-size:16px;font-weight:800;color:#fff;background:var(--blue);
+        border-radius:999px;padding:11px 22px;}
+  .ctxt{font-size:23px;font-weight:700;color:var(--ink);line-height:1.5;}
+  .ctxt em{font-style:normal;color:var(--blue);}
+</style>
+</head>
+<body>
+<section class="slide">
+  <h1>记完怎么用</h1>
+  <div class="sub">同一批内容，四类各有各的用法；用户来找的是结果，不是那篇笔记</div>
+  <div class="bar"></div>
+
+  <div class="cards">
+    <div class="card b">
+      <div class="head"><div class="ic">💡</div><div class="name">想法随记</div></div>
+      <div class="lbl">要用时想干什么</div>
+      <div class="say">「上次记的那个想法，接着往下写」</div>
+      <div class="uses">
+        <div class="u">找回同主题的想法</div>
+        <div class="u">续写成整篇</div>
+        <div class="u">改语气、改成发言稿</div>
+      </div>
+    </div>
+
+    <div class="card g">
+      <div class="head"><div class="ic">🏡</div><div class="name">生活管理</div></div>
+      <div class="lbl">要用时想干什么</div>
+      <div class="say">「这个月花了多少，孩子哪天打针」</div>
+      <div class="uses">
+        <div class="u">账目自动算总</div>
+        <div class="u">攻略拼成行程</div>
+        <div class="u">证件密码精确调取</div>
+      </div>
+    </div>
+
+    <div class="card o">
+      <div class="head"><div class="ic">📚</div><div class="name">学习备考</div></div>
+      <div class="lbl">要用时想干什么</div>
+      <div class="say">「这章的重点和错题，给我理出来」</div>
+      <div class="uses">
+        <div class="u">提炼重点与考点</div>
+        <div class="u">整理成复习资料</div>
+        <div class="u">按错题出题自测</div>
+      </div>
+    </div>
+
+    <div class="card p">
+      <div class="head"><div class="ic">💼</div><div class="name">工作经营</div></div>
+      <div class="lbl">要用时想干什么</div>
+      <div class="say">「这个月记的工，帮我算清对上」</div>
+      <div class="uses">
+        <div class="u">流水整理成表格</div>
+        <div class="u">纪要提待办到人到点</div>
+        <div class="u">写成日报、周报</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cross">
+    <div class="chip">共用底层</div>
+    <div class="ctxt"><em>检索</em>：一句话跨多篇找回，答案标出处，内容不足时如实说明</div>
+  </div>
+</section>
+</body>
+</html>
