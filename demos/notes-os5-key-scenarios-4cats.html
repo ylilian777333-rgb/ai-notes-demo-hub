@@ -35,13 +35,16 @@
   .b .name,.b .lbl{color:var(--blue);} .b .ic{border-color:rgba(58,99,232,.34);}
   .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:18px;}
   .ar{text-align:center;font-size:24px;line-height:1;color:#BFC4CC;}
-  .cross{margin-top:16px;background:#16181C;border-radius:22px;padding:30px 36px;
-         display:flex;align-items:center;gap:26px;box-shadow:0 12px 32px rgba(0,0,0,.18);}
-  .chip{flex:0 0 auto;font-size:16px;font-weight:800;color:#fff;
-        background:rgba(255,255,255,.13);border:1.5px solid rgba(255,255,255,.3);
+  .cross{margin-top:16px;border-radius:22px;overflow:hidden;border:1.5px solid #DFE3EA;
+         box-shadow:0 8px 26px rgba(24,36,72,.07);}
+  .cross .edge{height:5px;
+       background:linear-gradient(90deg,#3A63E8 0%,#17A87B 34%,#E0790F 67%,#7A57DE 100%);}
+  .cross .inner{background:#F7F9FC;padding:28px 34px;display:flex;align-items:center;gap:26px;}
+  .chip{flex:0 0 auto;font-size:16px;font-weight:800;color:var(--blue);
+        background:rgba(58,99,232,.09);border:1.5px solid rgba(58,99,232,.28);
         border-radius:999px;padding:10px 20px;}
-  .ctop{font-size:26px;font-weight:800;color:#fff;line-height:1.4;}
-  .cbot{font-size:17px;line-height:1.65;color:#A9AEB7;margin-top:9px;}
+  .ctop{font-size:27px;font-weight:800;color:var(--ink);line-height:1.4;}
+  .cbot{font-size:17px;line-height:1.65;color:var(--ink3);margin-top:9px;}
 </style>
 </head>
 <body>
@@ -85,10 +88,13 @@
   </div>
 
   <div class="cross">
-    <div class="chip">贯穿四类</div>
-    <div>
-      <div class="ctop">待办 · 日程：四类内容里都会记到</div>
-      <div class="cbot">不单列成一类。识别出来后进入待办、日历和多端提醒，原内容仍留在所属类别。</div>
+    <div class="edge"></div>
+    <div class="inner">
+      <div class="chip">贯穿四类</div>
+      <div>
+        <div class="ctop">待办 · 日程：四类内容里都会记到</div>
+        <div class="cbot">不单列成一类。识别出来后进入待办、日历和多端提醒，原内容仍留在所属类别。</div>
+      </div>
     </div>
   </div>
 </section>
