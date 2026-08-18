@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>记 · 随手记进来，AI 自动理好归好类</title>
+<style>
+  :root{
+    --blue:#3A63E8; --green:#17A87B; --orange:#E0790F; --purple:#7A57DE;
+    --ink:#16181C; --ink2:#4A4E57; --ink3:#8B9099; --line:#ECECEF; --page:#F5F5F7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#fff;font-family:"MiSans","PingFang SC",-apple-system,"Segoe UI",sans-serif;color:var(--ink);}
+  .slide{width:1440px;margin:0 auto;background:#fff;padding:60px 72px 62px;}
+  h1{font-size:50px;font-weight:800;letter-spacing:-1px;}
+  .sub{font-size:19px;color:var(--ink3);margin-top:16px;}
+  .bar{height:6px;border-radius:6px;margin:26px 0 34px;
+       background:linear-gradient(90deg,#3A63E8 0%,#17A87B 34%,#E0790F 67%,#7A57DE 100%);opacity:.85;}
+
+  .flow{display:flex;align-items:center;gap:18px;}
+  .stage{width:258px;flex:0 0 auto;min-height:500px;border-radius:22px;padding:24px 22px;border:1.5px solid;}
+  .step{font-size:13px;font-weight:700;letter-spacing:.5px;margin-bottom:8px;}
+  .st{font-size:22px;font-weight:800;line-height:1.3;margin-bottom:4px;}
+  .sd{font-size:14px;color:var(--ink3);margin-bottom:16px;}
+  .li{background:#fff;border:1px solid;border-radius:12px;padding:11px 13px;
+      font-size:15px;font-weight:600;color:var(--ink);margin-bottom:8px;}
+  .li:last-child{margin-bottom:0;}
+  .li span{display:block;font-size:12.5px;font-weight:400;color:var(--ink3);margin-top:3px;}
+
+  .s1{background:rgba(58,99,232,.06);border-color:rgba(58,99,232,.26);}
+  .s1 .step,.s1 .st{color:var(--blue);} .s1 .li{border-color:rgba(58,99,232,.22);}
+  .s2{background:#F4F5F7;border-color:#DFE1E6;}
+  .s2 .step,.s2 .st{color:#5B6069;} .s2 .li{border-color:#E4E6EA;}
+  .s3{background:#FAFAFC;border-color:#E4E6EA;}
+  .s3 .step,.s3 .st{color:var(--ink);}
+  .cat{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid;
+       border-radius:12px;padding:11px 13px;margin-bottom:8px;font-size:16px;font-weight:700;}
+  .cat:last-child{margin-bottom:0;}
+  .cb{border-color:rgba(58,99,232,.3);color:var(--blue);}
+  .cg{border-color:rgba(23,168,123,.3);color:var(--green);}
+  .co{border-color:rgba(224,121,15,.3);color:var(--orange);}
+  .cp{border-color:rgba(122,87,222,.3);color:var(--purple);}
+  .ar{flex:0 0 auto;font-size:26px;color:#C2C7CF;font-weight:700;}
+
+  /* phone */
+  .ph{width:392px;height:851px;flex:0 0 auto;border-radius:44px;background:var(--page);
+      position:relative;overflow:hidden;border:1px solid #E3E4E8;}
+  .sb{height:52px;padding:16px 28px 0;display:flex;justify-content:space-between;
+      font-size:14px;font-weight:600;}
+  .nav{height:44px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;
+       color:var(--ink2);font-size:17px;}
+  .nav .r{display:flex;gap:16px;}
+  .pt{padding:6px 22px 0;font-size:31px;font-weight:700;letter-spacing:-.5px;}
+  .search{margin:14px 22px 0;height:42px;border-radius:11px;background:#EBEBEF;
+          display:flex;align-items:center;gap:8px;padding:0 14px;color:var(--ink3);font-size:15px;}
+  .chips{margin:14px 0 0;padding:0 22px;display:flex;gap:8px;overflow:hidden;}
+  .chip{height:34px;padding:0 14px;border-radius:17px;background:#fff;border:1px solid #E6E6EA;
+        display:flex;align-items:center;font-size:14px;color:var(--ink2);white-space:nowrap;}
+  .chip.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700;}
+  .glist{margin:16px 22px 0;display:flex;flex-direction:column;gap:11px;}
+  .gc{background:#fff;border-radius:16px;padding:17px 18px;}
+  .gc .gh{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
+  .gc .gn{font-size:16.5px;font-weight:700;}
+  .gc .num{font-size:13px;color:var(--ink3);}
+  .gc .gp{font-size:13px;line-height:1.6;color:var(--ink3);}
+  .fade{position:absolute;left:0;right:0;bottom:0;height:118px;
+        background:linear-gradient(180deg,rgba(245,245,247,0),var(--page) 62%);}
+  .dock{position:absolute;left:50%;transform:translateX(-50%);bottom:26px;
+        width:250px;height:58px;border-radius:29px;background:#fff;
+        box-shadow:0 8px 26px rgba(20,24,40,.14);display:flex;align-items:center;
+        justify-content:space-around;padding:0 26px;font-size:19px;color:var(--ink2);}
+  .dock .mic{color:#E8422F;}
+  .caption{margin-top:12px;text-align:center;font-size:14px;color:var(--ink3);}
+
+  .foot{margin-top:30px;background:rgba(58,99,232,.06);border:1.5px solid rgba(58,99,232,.24);
+        border-radius:20px;padding:24px 30px;display:flex;align-items:center;gap:20px;}
+  .fchip{flex:0 0 auto;font-size:15px;font-weight:800;color:#fff;background:var(--blue);
+         border-radius:999px;padding:10px 20px;}
+  .ftxt{font-size:21px;font-weight:700;line-height:1.5;}
+</style>
+</head>
+<body>
+<section class="slide">
+  <h1>记 · 随手记进来，AI 自动理好归好类</h1>
+  <div class="sub">三步：各端零成本记进来 → 后台自动理解（用户看不见）→ 归到四大品类，首页始终是理好的</div>
+  <div class="bar"></div>
+
+  <div class="flow">
+    <!-- ① -->
+    <div class="stage s1">
+      <div class="step">① 零成本捕获</div>
+      <div class="st">全局都能记</div>
+      <div class="sd">想到就记，不用先找入口</div>
+      <div class="li">语音速记<span>4.0 已交付</span></div>
+      <div class="li">AI 键 / 悬浮球<span>任意界面随手记</span></div>
+      <div class="li">唤起小爱记<span>说一句就进笔记</span></div>
+      <div class="li">跨端记<span>手表 / 车机 / PC</span></div>
+      <div class="li">开会、通话自动帮你记<span>腾不出手的时候</span></div>
+    </div>
+
+    <div class="ar">→</div>
+
+    <!-- ② -->
+    <div class="stage s2">
+      <div class="step">② 自动理解</div>
+      <div class="st">用户不可见</div>
+      <div class="sd">后台读懂，不用自己起名归类</div>
+      <div class="li">分类、打标<span>主体 / 地点 / 时间</span></div>
+      <div class="li">提取一句话概要<span>不用自己起标题</span></div>
+      <div class="li">读图片、听录音<span>正文 0 字也知道存了什么</span></div>
+      <div class="li">敏感内容端侧处理<span>证件、密码不上云</span></div>
+    </div>
+
+    <div class="ar">→</div>
+
+    <!-- ③ -->
+    <div class="stage s3">
+      <div class="step">③ 智能聚类</div>
+      <div class="st">归到四大品类</div>
+      <div class="sd">按内容自动归好，翻起来省事</div>
+      <div class="cat cb">💡 想法随记</div>
+      <div class="cat cg">🏡 生活管理</div>
+      <div class="cat co">📚 学习备考</div>
+      <div class="cat cp">💼 工作经营</div>
+      <div class="li" style="margin-top:12px;border-color:#E4E6EA;">品类下再按主题分<span>育儿感想 / 卡证单据 / 课程科目…</span></div>
+    </div>
+
+    <div class="ar">→</div>
+
+    <!-- phone -->
+    <div>
+      <div class="ph">
+        <div class="sb"><span>2:36</span><span>▪▪▫ ⌃ 100</span></div>
+        <div class="nav"><span>☰</span><div class="r"><span>☑</span><span>⋮</span></div></div>
+        <div class="pt">笔记</div>
+        <div class="search"><span>🔍</span><span>搜索</span></div>
+        <div class="chips">
+          <div class="chip on">全部</div>
+          <div class="chip">想法随记</div>
+          <div class="chip">生活管理</div>
+          <div class="chip">学习备考</div>
+        </div>
+        <div class="glist">
+          <div class="gc">
+            <div class="gh"><div class="gn">💡 想法随记</div><div class="num">32 条</div></div>
+            <div class="gp">育儿感想、工作思考、装修置办</div>
+          </div>
+          <div class="gc">
+            <div class="gh"><div class="gn">🏡 生活管理</div><div class="num">48 条</div></div>
+            <div class="gp">卡证单据、健康管理、收支账目</div>
+          </div>
+          <div class="gc">
+            <div class="gh"><div class="gn">📚 学习备考</div><div class="num">26 条</div></div>
+            <div class="gp">高数第三章、法考真题、错题本</div>
+          </div>
+          <div class="gc">
+            <div class="gh"><div class="gn">💼 工作经营</div><div class="num">61 条</div></div>
+            <div class="gp">客户单、装维点数、项目周会</div>
+          </div>
+        </div>
+        <div class="fade"></div>
+        <div class="dock"><span>📎</span><span class="mic">🎙</span><span>＋</span></div>
+      </div>
+      <div class="caption">首页干净：进来就归好，不用自己建文件夹</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="fchip">写入口径</div>
+    <div class="ftxt">用户主动一键存、自己决定存什么；AI 只在后台理解和归类，不改用户记的内容</div>
+  </div>
+</section>
+</body>
+</html>
