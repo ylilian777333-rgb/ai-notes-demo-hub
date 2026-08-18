@@ -33,12 +33,15 @@
   .p .name,.p .lbl{color:var(--purple);} .p .ic{border-color:rgba(122,87,222,.34);}
   .b{background:rgba(58,99,232,.07);border-color:rgba(58,99,232,.26);}
   .b .name,.b .lbl{color:var(--blue);} .b .ic{border-color:rgba(58,99,232,.34);}
-  .cross{margin-top:22px;background:#F5F6F8;border:1.5px dashed #D6D9DE;border-radius:20px;
-         padding:24px 30px;display:flex;align-items:center;gap:20px;}
-  .chip{flex:0 0 auto;font-size:15px;font-weight:700;color:#6B7079;
-        background:#fff;border:1.5px solid #DDE0E5;border-radius:999px;padding:8px 18px;}
-  .ctxt{font-size:18px;line-height:1.7;color:var(--ink2);}
-  .ctxt b{color:var(--ink);font-weight:700;}
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:18px;}
+  .ar{text-align:center;font-size:24px;line-height:1;color:#BFC4CC;}
+  .cross{margin-top:16px;background:#16181C;border-radius:22px;padding:30px 36px;
+         display:flex;align-items:center;gap:26px;box-shadow:0 12px 32px rgba(0,0,0,.18);}
+  .chip{flex:0 0 auto;font-size:16px;font-weight:800;color:#fff;
+        background:rgba(255,255,255,.13);border:1.5px solid rgba(255,255,255,.3);
+        border-radius:999px;padding:10px 20px;}
+  .ctop{font-size:26px;font-weight:800;color:#fff;line-height:1.4;}
+  .cbot{font-size:17px;line-height:1.65;color:#A9AEB7;margin-top:9px;}
 </style>
 </head>
 <body>
@@ -77,9 +80,16 @@
     </div>
   </div>
 
+  <div class="flow">
+    <div class="ar">↓</div><div class="ar">↓</div><div class="ar">↓</div><div class="ar">↓</div>
+  </div>
+
   <div class="cross">
     <div class="chip">贯穿四类</div>
-    <div class="ctxt"><b>待办 · 日程</b>不是单独一类：四类内容里都会记到，识别出来后进入待办、日历和多端提醒，原内容仍留在所属类别。</div>
+    <div>
+      <div class="ctop">待办 · 日程：四类内容里都会记到</div>
+      <div class="cbot">不单列成一类。识别出来后进入待办、日历和多端提醒，原内容仍留在所属类别。</div>
+    </div>
   </div>
 </section>
 </body>
