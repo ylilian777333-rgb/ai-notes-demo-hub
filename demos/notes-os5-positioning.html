@@ -22,12 +22,15 @@
   .pos .s{font-size:18px;line-height:1.7;color:rgba(255,255,255,.88);margin-top:14px;}
 
   .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:22px;}
-  .f{border-radius:20px;padding:26px;border:1.5px solid;}
+  .f{border-radius:20px;padding:26px;border:1.5px solid;display:flex;flex-direction:column;}
   .f .h{font-size:22px;font-weight:800;margin-bottom:16px;}
   .r{background:#fff;border:1px solid;border-radius:12px;padding:16px 18px;margin-bottom:10px;}
-  .r:last-child{margin-bottom:0;}
+  .r:last-of-type{margin-bottom:0;}
   .r .rk{font-size:17px;font-weight:800;margin-bottom:6px;}
   .r .rd{font-size:16px;line-height:1.6;color:var(--ink2);}
+  .note{margin-top:14px;font-size:14px;line-height:1.6;color:var(--ink3);}
+  .note b{color:var(--ink2);font-weight:700;}
+
   .fu{background:rgba(58,99,232,.06);border-color:rgba(58,99,232,.26);}
   .fu .h,.fu .rk{color:var(--blue);} .fu .r{border-color:rgba(58,99,232,.22);}
   .fs{background:rgba(23,168,123,.06);border-color:rgba(23,168,123,.26);}
@@ -62,17 +65,18 @@
         <div class="rk">用得上</div>
         <div class="rd">攻略拼成行程、课堂笔记能复习、开会记的变周报</div>
       </div>
+      <div class="note"><b>检索是这两件事的底层支撑</b>：存进来就建好索引，要用时才找得回</div>
     </div>
 
     <div class="f fs">
-      <div class="h">对系统与生态</div>
+      <div class="h">生态</div>
       <div class="r">
-        <div class="rk">找得回</div>
-        <div class="rd">存进来就建好索引，一句话从多篇里找回，答案带原文出处</div>
+        <div class="rk">小米生态</div>
+        <div class="rd">手机、车、耳机、PC 各端都能记，记完接着改接着用；待办推到桌面，不用进笔记也能看到</div>
       </div>
       <div class="r">
-        <div class="rk">别处也能用</div>
-        <div class="rd">各端接着用；经用户授权，小爱和三方也能取用笔记里的内容</div>
+        <div class="rk">三方生态</div>
+        <div class="rd">别处生成的网页、文档一键写进笔记；经用户授权，小爱和三方也能取用笔记里的内容</div>
       </div>
     </div>
   </div>
