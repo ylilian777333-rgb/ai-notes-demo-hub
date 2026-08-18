@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用 · 分场景，把记的用起来</title>
+<style>
+  :root{
+    --blue:#5780FF; --green:#0FB98A; --orange:#CC5900; --purple:#7F60D4;
+    --ink:#212121; --ink2:#212124; --ink3:#6B7380; --sub:#737373;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#fff;font-family:"MiSans","PingFang SC",-apple-system,"Segoe UI",sans-serif;color:var(--ink);}
+  .slide{width:1180px;margin:0 auto;background:#fff;padding:50px 72px 56px;border-radius:16px;}
+  h1{font-size:38px;font-weight:700;letter-spacing:-.5px;}
+  .sub{font-size:16px;line-height:24px;color:var(--sub);margin-top:14px;}
+  .bar{width:1036px;height:6px;border-radius:3px;background:#8AA1FF;margin:22px 0 30px;}
+
+  .grid{display:grid;grid-template-columns:508px 508px;gap:24px 20px;}
+  .card{min-height:190px;border-radius:16px;border:2px solid;padding:24px 28px;
+        display:flex;flex-direction:column;}
+  .head{display:flex;align-items:center;gap:12px;}
+  .dot{width:12px;height:12px;border-radius:6px;flex:0 0 auto;}
+  .name{font-size:20px;font-weight:700;}
+  .rec{font-size:14px;line-height:22px;color:var(--ink3);margin-top:14px;}
+  .box{margin-top:12px;background:#fff;border-radius:10px;padding:14px 20px;}
+  .lb{font-size:13px;font-weight:700;margin-bottom:6px;}
+  .bt{font-size:14px;line-height:22px;color:var(--ink2);}
+
+  .b{background:#EFF3FF;border-color:#B8C9FF;}
+  .b .dot{background:var(--blue);} .b .name,.b .lb{color:var(--blue);}
+  .g{background:#E5F7F0;border-color:#99E0C7;}
+  .g .dot{background:var(--green);} .g .name,.g .lb{color:var(--green);}
+  .o{background:#FCF2EB;border-color:#EDC7A6;}
+  .o .dot{background:var(--orange);} .o .name,.o .lb{color:var(--orange);}
+  .p{background:#F4F1FC;border-color:#D1C4F0;}
+  .p .dot{background:var(--purple);} .p .name,.p .lb{color:var(--purple);}
+</style>
+</head>
+<body>
+<section class="slide">
+  <h1>用 · 分场景，把记的用起来</h1>
+  <div class="sub">四类场景，记下的笔记帮你用起来</div>
+  <div class="bar"></div>
+
+  <div class="grid">
+    <div class="card b">
+      <div class="head"><span class="dot"></span><span class="name">想法随记</span></div>
+      <div class="rec">记的：育儿感想、工作思考、随手想法</div>
+      <div class="box">
+        <div class="lb">帮你</div>
+        <div class="bt">育儿感想攒成宝宝成长记录，工作思考汇成阶段总结</div>
+      </div>
+    </div>
+
+    <div class="card g">
+      <div class="head"><span class="dot"></span><span class="name">生活管理</span></div>
+      <div class="rec">记的：卡证单据、健康档案、收支账目</div>
+      <div class="box">
+        <div class="lb">帮你</div>
+        <div class="bt">证件号可拨可复制，复诊调出血压与服药记录</div>
+      </div>
+    </div>
+
+    <div class="card o">
+      <div class="head"><span class="dot"></span><span class="name">学习备考</span></div>
+      <div class="rec">记的：课堂 / 网课笔记、讲义投影、错题</div>
+      <div class="box">
+        <div class="lb">帮你</div>
+        <div class="bt">按科目归到一起，生成互动问答，考前自测</div>
+      </div>
+    </div>
+
+    <div class="card p">
+      <div class="head"><span class="dot"></span><span class="name">工作经营</span></div>
+      <div class="rec">记的：客户单、报价、装维点数、会议记录</div>
+      <div class="box">
+        <div class="lb">帮你</div>
+        <div class="bt">出报价汇总单，客户生意信息一人一份</div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
