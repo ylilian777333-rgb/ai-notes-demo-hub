@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用 · 按主题聚合（想法随记 / 生活管理）</title>
+<style>
+  :root{
+    --ink:#1A1A1C; --ink2:#5B6069; --ink3:#8E939B; --line:#ECECEF;
+    --page:#F5F5F7; --amber:#FFB114; --blue:#3A63E8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#fff;font-family:"MiSans","PingFang SC",-apple-system,"Segoe UI",sans-serif;color:var(--ink);}
+  .slide{width:1440px;margin:0 auto;background:#fff;padding:56px 72px 64px;}
+
+  .groups{display:flex;gap:40px;align-items:flex-start;}
+  .group{display:flex;flex-direction:column;gap:22px;}
+  .ghead{background:#F6F7F9;border:1px solid var(--line);border-radius:14px;
+         padding:20px 26px;font-size:20px;font-weight:700;color:var(--ink);}
+  .row{display:flex;gap:40px;}
+
+  /* ---------- phone ---------- */
+  .ph{width:392px;height:851px;border-radius:44px;background:var(--page);
+      position:relative;overflow:hidden;border:1px solid #E3E4E8;}
+  .sb{height:52px;padding:16px 28px 0;display:flex;justify-content:space-between;
+      font-size:14px;font-weight:600;color:var(--ink);}
+  .nav{height:44px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;
+       color:var(--ink2);font-size:17px;}
+  .nav .r{display:flex;gap:16px;}
+  .h1{padding:6px 22px 0;font-size:31px;font-weight:700;letter-spacing:-.5px;}
+  .search{margin:14px 22px 0;height:42px;border-radius:11px;background:#EBEBEF;
+          display:flex;align-items:center;gap:8px;padding:0 14px;color:var(--ink3);font-size:15px;}
+  .chips{margin:14px 0 0;padding:0 22px;display:flex;gap:9px;overflow:hidden;}
+  .chip{height:34px;padding:0 15px;border-radius:17px;background:#fff;border:1px solid #E6E6EA;
+        display:flex;align-items:center;font-size:14px;color:var(--ink2);white-space:nowrap;}
+  .chip.on{background:var(--amber);border-color:var(--amber);color:#fff;font-weight:700;}
+  .list{margin:16px 22px 0;display:flex;flex-direction:column;gap:11px;}
+  .agg{background:#fff;border-radius:16px;padding:20px 18px;}
+  .agg .t{font-size:17px;font-weight:700;margin-bottom:8px;}
+  .agg .d{font-size:13.5px;line-height:1.65;color:var(--ink2);}
+  .btn{margin-top:16px;display:inline-flex;align-items:center;gap:7px;height:38px;
+       padding:0 15px;border-radius:19px;background:#F1F2F6;
+       font-size:13.5px;font-weight:600;color:var(--ink);}
+  .btn .sp{width:16px;height:16px;border-radius:50%;
+      background:conic-gradient(from 210deg,#5B8CFF,#9B7BFF,#5BD6C0,#5B8CFF);flex:0 0 auto;}
+  .it{background:#fff;border-radius:16px;padding:16px 18px;position:relative;}
+  .it .t{font-size:15.5px;font-weight:700;margin-bottom:6px;}
+  .it .p{font-size:13px;line-height:1.6;color:var(--ink3);padding-right:56px;}
+  .it .dt{margin-top:9px;font-size:12px;color:#A9AEB6;}
+  .thumb{position:absolute;right:16px;bottom:14px;width:52px;height:44px;border-radius:9px;
+         background:linear-gradient(150deg,#E8EEF9,#DCE6F6);}
+  .wave{position:absolute;right:18px;bottom:16px;display:flex;align-items:flex-end;gap:2.5px;height:16px;}
+  .wave i{width:2.5px;background:#C6CBD3;border-radius:2px;}
+  .dock{position:absolute;left:50%;transform:translateX(-50%);bottom:26px;
+        width:250px;height:58px;border-radius:29px;background:#fff;
+        box-shadow:0 8px 26px rgba(20,24,40,.14);display:flex;align-items:center;
+        justify-content:space-around;padding:0 26px;font-size:19px;color:var(--ink2);}
+  .dock .mic{color:#E8422F;}
+  .fade{position:absolute;left:0;right:0;bottom:0;height:120px;
+        background:linear-gradient(180deg,rgba(245,245,247,0),var(--page) 62%);}
+</style>
+</head>
+<body>
+<section class="slide">
+  <div class="groups">
+
+    <!-- ============ 想法随记 ============ -->
+    <div class="group">
+      <div class="ghead">想法随记：按主题聚合，提炼一句话摘要</div>
+      <div class="row">
+        <div class="ph">
+          <div class="sb"><span>2:36</span><span>▪▪▫ ⌃ 100</span></div>
+          <div class="nav"><span>☰</span><div class="r"><span>☑</span><span>⋮</span></div></div>
+          <div class="h1">笔记</div>
+          <div class="search"><span>🔍</span><span>搜索</span></div>
+          <div class="chips">
+            <div class="chip">全部</div>
+            <div class="chip on">育儿感想</div>
+            <div class="chip">工作思考</div>
+            <div class="chip">装修置办</div>
+          </div>
+          <div class="list">
+            <div class="agg">
+              <div class="t">宝宝成长记录</div>
+              <div class="d">已记录 28 条育儿感受，从第一次叫妈妈到自己走三步，都是和团子一起长大的痕迹。</div>
+              <div class="btn"><span class="sp"></span>生成宝宝成长记录合集</div>
+            </div>
+            <div class="it">
+              <div class="t">团子14个月5天小记录</div>
+              <div class="p">今天终于敢松开手自己走三步了，摇摇晃…</div>
+              <div class="dt">9月20日</div>
+              <div class="thumb"></div>
+            </div>
+            <div class="it">
+              <div class="t">第一次清晰叫妈妈</div>
+              <div class="p">下班刚进门，含糊地喊了一声，愣了几秒…</div>
+              <div class="dt">7月13日</div>
+              <div class="wave"><i style="height:6px"></i><i style="height:11px"></i><i style="height:16px"></i><i style="height:9px"></i><i style="height:13px"></i></div>
+            </div>
+            <div class="it">
+              <div class="t">今天对团子发脾气了</div>
+              <div class="p">因为把辅食碗扣在地上发脾气了，吼完立刻…</div>
+              <div class="dt">9月23日</div>
+            </div>
+          </div>
+          <div class="fade"></div>
+          <div class="dock"><span>📎</span><span class="mic">🎙</span><span>＋</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 生活管理 ============ -->
+    <div class="group">
+      <div class="ghead">生活管理：按品类聚合，要用时精确调取</div>
+      <div class="row">
+
+        <!-- 卡证单据 -->
+        <div class="ph">
+          <div class="sb"><span>2:36</span><span>▪▪▫ ⌃ 100</span></div>
+          <div class="nav"><span>☰</span><div class="r"><span>☑</span><span>⋮</span></div></div>
+          <div class="h1">笔记</div>
+          <div class="search"><span>🔍</span><span>搜索</span></div>
+          <div class="chips">
+            <div class="chip">全部</div>
+            <div class="chip on">卡证单据</div>
+            <div class="chip">健康管理</div>
+            <div class="chip">收支账目</div>
+          </div>
+          <div class="list">
+            <div class="agg">
+              <div class="t">常用证件与账号</div>
+              <div class="d">已收 16 条证件、账号和单据，办事要填的号码都在这，敏感信息默认打码。</div>
+              <div class="btn"><span class="sp"></span>生成常用证件清单</div>
+            </div>
+            <div class="it">
+              <div class="t">宽带账号与密码</div>
+              <div class="p">账号 •••••••，报修电话 10000…</div>
+              <div class="dt">8月06日</div>
+            </div>
+            <div class="it">
+              <div class="t">团子出生证明</div>
+              <div class="p">编号 •••••••，办社保入园都要用…</div>
+              <div class="dt">7月28日</div>
+              <div class="thumb"></div>
+            </div>
+            <div class="it">
+              <div class="t">车牌与行驶证信息</div>
+              <div class="p">京A•••••，年检到期 2027年3月，保险…</div>
+              <div class="dt">6月11日</div>
+            </div>
+          </div>
+          <div class="fade"></div>
+          <div class="dock"><span>📎</span><span class="mic">🎙</span><span>＋</span></div>
+        </div>
+
+        <!-- 健康管理 -->
+        <div class="ph">
+          <div class="sb"><span>2:36</span><span>▪▪▫ ⌃ 100</span></div>
+          <div class="nav"><span>☰</span><div class="r"><span>☑</span><span>⋮</span></div></div>
+          <div class="h1">笔记</div>
+          <div class="search"><span>🔍</span><span>搜索</span></div>
+          <div class="chips">
+            <div class="chip">全部</div>
+            <div class="chip">卡证单据</div>
+            <div class="chip on">健康管理</div>
+            <div class="chip">收支账目</div>
+          </div>
+          <div class="list">
+            <div class="agg">
+              <div class="t">血压与服药记录</div>
+              <div class="d">已连续记 92 天血压和服药，含 3 次漏服；复诊时按医生问的那几项直接调出来。</div>
+              <div class="btn"><span class="sp"></span>生成复诊记录</div>
+            </div>
+            <div class="it">
+              <div class="t">9月23日 128/82 已服药</div>
+              <div class="p">早上量的，比上周稳一些，晚饭后散步…</div>
+              <div class="dt">9月23日</div>
+            </div>
+            <div class="it">
+              <div class="t">团子疫苗第二针</div>
+              <div class="p">9月12日下午，社区医院三楼，带上接种…</div>
+              <div class="dt">9月02日</div>
+            </div>
+            <div class="it">
+              <div class="t">体检报告 2026</div>
+              <div class="p">医生说复查一项，三个月后再看一次…</div>
+              <div class="dt">5月19日</div>
+              <div class="thumb"></div>
+            </div>
+          </div>
+          <div class="fade"></div>
+          <div class="dock"><span>📎</span><span class="mic">🎙</span><span>＋</span></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+</body>
+</html>
