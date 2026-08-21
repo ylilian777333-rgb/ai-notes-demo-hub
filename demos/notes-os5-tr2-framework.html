@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TR2 方案框架</title>
+<title>TR2 方案框架 · 按场景串记与用</title>
 <style>
   :root{
     --blue:#3A63E8; --green:#17A87B; --orange:#E0790F; --purple:#7A57DE;
@@ -12,144 +12,182 @@
   *{box-sizing:border-box;margin:0;padding:0;}
   body{background:#EFF0F3;font-family:"MiSans","PingFang SC",-apple-system,"Segoe UI",sans-serif;color:var(--ink);}
   .slide{width:1440px;margin:0 auto;background:#fff;padding:56px 72px 58px;}
-  h1{font-size:46px;font-weight:800;letter-spacing:-.8px;}
-  .sub{font-size:18px;color:var(--ink3);margin-top:14px;}
-  .bar{width:1296px;height:6px;border-radius:3px;margin:22px 0 0;
+  h1{font-size:44px;font-weight:800;letter-spacing:-.8px;}
+  .sub{font-size:18px;color:var(--ink3);margin-top:12px;}
+  .bar{width:1296px;height:6px;border-radius:3px;margin:20px 0 26px;
        background:linear-gradient(90deg,#3A63E8 0%,#17A87B 34%,#E0790F 67%,#7A57DE 100%);opacity:.85;}
 
-  .lead{margin:30px 0 26px;background:var(--blue);border-radius:20px;padding:26px 32px;
-        box-shadow:0 10px 26px rgba(58,99,232,.16);}
-  .lead .m{font-size:29px;font-weight:800;color:#fff;line-height:1.4;letter-spacing:-.4px;}
-  .lead .s{font-size:17px;color:rgba(255,255,255,.86);margin-top:10px;}
+  .lead{background:var(--blue);border-radius:18px;padding:22px 28px;margin-bottom:26px;}
+  .lead .m{font-size:26px;font-weight:800;color:#fff;line-height:1.4;}
+  .lead .s{font-size:16px;color:rgba(255,255,255,.85);margin-top:8px;}
 
-  .grid{display:grid;grid-template-columns:150px repeat(5,1fr);gap:10px;}
-  .hd{font-size:15px;font-weight:800;color:var(--ink3);padding:0 4px 4px;}
-  .hd .n{color:#C3C8D2;margin-right:6px;}
-  .rowlbl{border-radius:14px;padding:18px 16px;display:flex;flex-direction:column;justify-content:center;
-          border:1.5px solid;}
-  .rowlbl .rn{font-size:21px;font-weight:800;line-height:1.3;}
-  .cell{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 15px;
-        font-size:15px;line-height:1.65;color:var(--ink2);}
-  .cell b{font-weight:800;color:var(--ink);}
-  .out{border-width:1.5px;}
+  .phase{display:grid;grid-template-columns:150px repeat(4,1fr);gap:10px;margin-bottom:8px;}
+  .ph{font-size:14px;font-weight:800;color:var(--ink3);padding-left:4px;}
+  .ph i{font-style:normal;color:#C3C8D2;margin-right:6px;}
 
-  .b .rowlbl,.b.rowlbl{background:rgba(58,99,232,.08);border-color:rgba(58,99,232,.26);}
-  .b .rn{color:var(--blue);} .b.out{border-color:rgba(58,99,232,.4);background:rgba(58,99,232,.05);}
-  .g.rowlbl{background:rgba(23,168,123,.08);border-color:rgba(23,168,123,.26);}
-  .g .rn{color:var(--green);} .g.out{border-color:rgba(23,168,123,.4);background:rgba(23,168,123,.05);}
-  .o.rowlbl{background:rgba(224,121,15,.08);border-color:rgba(224,121,15,.26);}
-  .o .rn{color:var(--orange);} .o.out{border-color:rgba(224,121,15,.4);background:rgba(224,121,15,.05);}
-  .p.rowlbl{background:rgba(122,87,222,.08);border-color:rgba(122,87,222,.26);}
-  .p .rn{color:var(--purple);} .p.out{border-color:rgba(122,87,222,.4);background:rgba(122,87,222,.05);}
-  .b.rowlbl{background:rgba(58,99,232,.08);border-color:rgba(58,99,232,.26);}
+  .sc{display:grid;grid-template-columns:150px repeat(4,1fr);gap:10px;margin-bottom:16px;}
+  .lb{border-radius:14px;border:1.5px solid;padding:16px 14px;display:flex;flex-direction:column;justify-content:center;}
+  .lb .n{font-size:20px;font-weight:800;line-height:1.3;}
+  .lb .w{font-size:13px;line-height:1.55;color:var(--ink3);margin-top:8px;}
+  .st{border:1px solid var(--line);border-radius:14px;padding:14px 14px 15px;background:#fff;display:flex;flex-direction:column;}
+  .st .say{font-size:15px;line-height:1.6;color:var(--ink);font-weight:700;margin-bottom:10px;}
+  .st .rq{font-size:13.5px;line-height:1.55;color:var(--ink2);display:flex;gap:6px;margin-bottom:6px;}
+  .st .rq:last-child{margin-bottom:0;}
+  .pp{flex:0 0 auto;font-size:11px;font-weight:800;color:#fff;background:#B9BFC9;border-radius:5px;
+      padding:2px 5px;line-height:1.5;height:18px;}
+  .p0{background:#E0524B;} .p1{background:#B9BFC9;}
 
-  .cross{margin-top:12px;background:#EDF1FF;border:1.5px solid rgba(58,99,232,.28);border-radius:14px;
-         padding:16px 24px;display:flex;align-items:center;gap:18px;}
-  .cross .ck{flex:0 0 auto;font-size:14px;font-weight:800;color:#fff;background:var(--blue);
-             border-radius:999px;padding:8px 18px;}
-  .cross .cv{font-size:17px;font-weight:700;color:var(--ink);}
+  .b .n{color:var(--blue);} .b.lb{background:rgba(58,99,232,.07);border-color:rgba(58,99,232,.26);}
+  .g .n{color:var(--green);} .g.lb{background:rgba(23,168,123,.07);border-color:rgba(23,168,123,.26);}
+  .o .n{color:var(--orange);} .o.lb{background:rgba(224,121,15,.07);border-color:rgba(224,121,15,.26);}
+  .p .n{color:var(--purple);} .p.lb{background:rgba(122,87,222,.07);border-color:rgba(122,87,222,.26);}
+  .kb{background:rgba(58,99,232,.045);border-color:rgba(58,99,232,.3);}
+  .kg{background:rgba(23,168,123,.045);border-color:rgba(23,168,123,.3);}
+  .ko{background:rgba(224,121,15,.045);border-color:rgba(224,121,15,.3);}
+  .kp{background:rgba(122,87,222,.045);border-color:rgba(122,87,222,.3);}
 
-  .base{margin-top:30px;background:#F5F6F8;border:1px solid var(--line);border-radius:20px;padding:26px 28px 28px;}
-  .base .bt{font-size:22px;font-weight:800;margin-bottom:4px;}
-  .base .bs{font-size:16px;color:var(--ink3);margin-bottom:20px;}
-  .caps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
-  .cap{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 16px 18px;}
-  .cap .cn{font-size:17px;font-weight:800;margin-bottom:8px;}
-  .cap .cd{font-size:14px;line-height:1.6;color:var(--ink2);}
+  .cross{background:#EDF1FF;border:1.5px solid rgba(58,99,232,.28);border-radius:14px;
+         padding:14px 22px;display:flex;align-items:center;gap:16px;margin-top:6px;}
+  .cross .ck{flex:0 0 auto;font-size:13px;font-weight:800;color:#fff;background:var(--blue);
+             border-radius:999px;padding:7px 16px;}
+  .cross .cv{font-size:16px;font-weight:700;}
 
-  .foot{margin-top:26px;border-top:1px solid var(--line);padding-top:20px;display:flex;gap:30px;}
-  .foot .fk{font-size:14px;font-weight:800;color:var(--ink3);margin-bottom:6px;}
-  .foot .fv{font-size:16px;line-height:1.7;color:var(--ink);}
+  .foot{margin-top:24px;border-top:1px solid var(--line);padding-top:18px;display:flex;gap:28px;}
+  .foot .fk{font-size:13px;font-weight:800;color:var(--ink3);margin-bottom:6px;}
+  .foot .fv{font-size:15px;line-height:1.7;color:var(--ink);}
 </style>
 </head>
 <body>
 <section class="slide">
-  <h1>TR2 方案框架</h1>
-  <div class="sub">TR1 定了做什么，TR2 要讲透怎么做</div>
+  <h1>TR2 方案框架 · 按场景把记和用串起来</h1>
+  <div class="sub">TR1 定了做什么，TR2 每个场景写一节，需求点挂在用户走到的那一步上</div>
   <div class="bar"></div>
 
   <div class="lead">
-    <div class="m">按用户场景展开：四类场景各走一条完整链路，能力在下面做一遍、四类共用</div>
-    <div class="s">不按功能模块分章，避免同一个能力在四个地方各写一遍；场景讲清用户拿到什么，能力层讲清怎么支撑</div>
+    <div class="m">一个场景 = 一条完整故事：他在什么时候记 → 存完 AI 做了什么 → 要用时拿到什么 → 结果去了哪</div>
+    <div class="s">红标 P0 是本版必须交付的，灰标 P1 排在后面；同一条需求被多个场景用到的，在能力层只做一遍</div>
   </div>
 
-  <div class="grid">
-    <div class="hd">用户场景</div>
-    <div class="hd"><span class="n">01</span>什么情况下</div>
-    <div class="hd"><span class="n">02</span>怎么记</div>
-    <div class="hd"><span class="n">03</span>AI 怎么理</div>
-    <div class="hd"><span class="n">04</span>要用时给什么</div>
-    <div class="hd"><span class="n">05</span>分发到哪</div>
+  <div class="phase">
+    <div class="ph">场景</div>
+    <div class="ph"><i>01</i>当时怎么记</div>
+    <div class="ph"><i>02</i>存完 AI 做什么</div>
+    <div class="ph"><i>03</i>要用时拿到什么</div>
+    <div class="ph"><i>04</i>结果去哪</div>
+  </div>
 
-    <div class="rowlbl b"><div class="rn">想法随记</div></div>
-    <div class="cell">育儿点滴、工作上的想法随口就记，记完散在几十条里</div>
-    <div class="cell">语音随口说、AI 键、随手拍</div>
-    <div class="cell">归到想法类，按主题（孩子、某个项目）聚到一起</div>
-    <div class="cell b out"><b>宝宝成长记录合集</b>，能存能分享；某个主题的阶段复盘</div>
-    <div class="cell">合集可分享；想法里提到的待办进待办中心</div>
+  <div class="sc b">
+    <div class="lb b"><div class="n">想法随记</div><div class="w">孩子这两年的点滴、工作上冒出来的想法，随口就记，记完散在几十条里</div></div>
+    <div class="st">
+      <div class="say">「团子今天第一次叫妈妈」——抬手对着手机说一句，顺手拍张照</div>
+      <div class="rq"><span class="pp p0">P0</span>语音速记随处唤起：AI 键、悬浮球、小爱</div>
+      <div class="rq"><span class="pp p0">P0</span>照片、录音、文字存进同一条</div>
+    </div>
+    <div class="st">
+      <div class="say">认出是育儿类，按「孩子」这个主题把散着的记录聚到一起，起好标题</div>
+      <div class="rq"><span class="pp p0">P0</span>分类打标：主体 / 时间 / 地点</div>
+      <div class="rq"><span class="pp p0">P0</span>同主题自动聚拢，不用建文件夹</div>
+      <div class="rq"><span class="pp p1">P1</span>一句话概要</div>
+    </div>
+    <div class="st kb">
+      <div class="say">28 条育儿记录汇成一份宝宝成长记录，按月排好，带当时的照片和原声</div>
+      <div class="rq"><span class="pp p0">P0</span>按主题生成合集（网页版）</div>
+      <div class="rq"><span class="pp p1">P1</span>时间轴版式、引用原文与原声</div>
+    </div>
+    <div class="st">
+      <div class="say">发给家人看；里面提到的「9 月 12 日第二针」自己变成提醒</div>
+      <div class="rq"><span class="pp p0">P0</span>待办与日程识别，进待办中心和日历</div>
+      <div class="rq"><span class="pp p1">P1</span>合集分享后可二次编辑</div>
+    </div>
+  </div>
 
-    <div class="rowlbl g"><div class="rn">生活管理</div></div>
-    <div class="cell">卡证、体检报告、账目平时拍下来存着，要用时翻不到</div>
-    <div class="cell">拍证件、拍报告、随手记账</div>
-    <div class="cell">读图抽字段：证件号、指标、金额、日期；敏感项端侧处理并打码</div>
-    <div class="cell g out"><b>历年指标趋势图</b>；账目自动合计的表格</div>
-    <div class="cell">经授权订票时填证件号；复诊时间进日历</div>
+  <div class="sc g">
+    <div class="lb g"><div class="n">生活管理</div><div class="w">卡证、体检报告、账目平时拍下来存着，真要用的时候翻不到</div></div>
+    <div class="st">
+      <div class="say">体检报告拿到手就拍下来，身份证、银行卡也拍着存</div>
+      <div class="rq"><span class="pp p0">P0</span>拍照存入，多张归成一条</div>
+      <div class="rq"><span class="pp p0">P0</span>证件类端侧识别，不上云</div>
+    </div>
+    <div class="st">
+      <div class="say">读图把指标、日期、证件号抽出来，敏感的默认打码</div>
+      <div class="rq"><span class="pp p0">P0</span>读图抽字段：指标 / 金额 / 日期 / 证件号</div>
+      <div class="rq"><span class="pp p0">P0</span>敏感内容打码，查看与导出二次确认</div>
+    </div>
+    <div class="st kg">
+      <div class="say">历年血压、血糖汇成一张趋势图，哪年开始变化一眼看清</div>
+      <div class="rq"><span class="pp p0">P0</span>同类指标跨年汇总</div>
+      <div class="rq"><span class="pp p1">P1</span>趋势图生成与导出</div>
+    </div>
+    <div class="st">
+      <div class="say">订机票时证件号自动填上；复诊那天到点提醒</div>
+      <div class="rq"><span class="pp p0">P0</span>证件字段经授权对外提供，可撤回</div>
+      <div class="rq"><span class="pp p0">P0</span>动作卡片：加日历 / 复制 / 拨号</div>
+    </div>
+  </div>
 
-    <div class="rowlbl o"><div class="rn">学习备考</div></div>
-    <div class="cell">上课拍投影、录音，考前不知道从哪儿开始复习</div>
-    <div class="cell">拍讲义投影、课堂录音、手写</div>
-    <div class="cell">0 字笔记靠读图听音补内容，按科目章节归拢、抽考点</div>
-    <div class="cell o out"><b>按考点出题自测</b>，用自己的话讲、判断是否真懂；一门课重点导图</div>
-    <div class="cell">没掌握的点按间隔重复推送复习提醒</div>
+  <div class="sc o">
+    <div class="lb o"><div class="n">学习备考</div><div class="w">上课来不及记就拍投影、开录音，考前不知道从哪儿开始复习</div></div>
+    <div class="st">
+      <div class="say">投影拍两张，录音一开就是一节课，正文一个字没打</div>
+      <div class="rq"><span class="pp p0">P0</span>拍照与录音同条存入</div>
+      <div class="rq"><span class="pp p0">P0</span>长录音转写与热词校对</div>
+    </div>
+    <div class="st">
+      <div class="say">读图听音把内容补出来，按科目和章节归到一起，把考点挑出来</div>
+      <div class="rq"><span class="pp p0">P0</span>0 字笔记补内容（读图 + 听音）</div>
+      <div class="rq"><span class="pp p0">P0</span>按科目章节聚类</div>
+      <div class="rq"><span class="pp p0">P0</span>考点抽取</div>
+    </div>
+    <div class="st ko">
+      <div class="say">按考点出题，用自己的话讲一遍，AI 判断哪里其实没懂</div>
+      <div class="rq"><span class="pp p0">P0</span>按考点出题与口述作答</div>
+      <div class="rq"><span class="pp p0">P0</span>掌握度判定与错点记录</div>
+      <div class="rq"><span class="pp p1">P1</span>一门课重点导图</div>
+    </div>
+    <div class="st">
+      <div class="say">没掌握的点隔几天再送到眼前，不用自己安排复习</div>
+      <div class="rq"><span class="pp p1">P1</span>间隔重复推送</div>
+      <div class="rq"><span class="pp p1">P1</span>复习安排进日历</div>
+    </div>
+  </div>
 
-    <div class="rowlbl p"><div class="rn">工作经营</div></div>
-    <div class="cell">客户单、报价、装维点数跨年记，靠手写算式和空格对齐</div>
-    <div class="cell">语音记工单、拍现场、手动填表</div>
-    <div class="cell">抽成表格字段：客户、金额、数量、日期</div>
-    <div class="cell p out"><b>合计算好的报价单 PDF</b>，导出发客户；同话题历史记录自动带出</div>
-    <div class="cell">交付日期进日历；客户信息可拨号、可存通讯录</div>
+  <div class="sc p">
+    <div class="lb p"><div class="n">工作经营</div><div class="w">客户单、报价、装维点数跨年在记，现在靠手写算式和空格对齐</div></div>
+    <div class="st">
+      <div class="say">上门做完一户，说一句「李工今天 3 个点数」，再拍张现场</div>
+      <div class="rq"><span class="pp p0">P0</span>语音记工单，边干边记</div>
+      <div class="rq"><span class="pp p0">P0</span>手动插入与编辑表格</div>
+    </div>
+    <div class="st">
+      <div class="say">把客户、金额、数量、日期抽出来，同一个客户的记录归到一起</div>
+      <div class="rq"><span class="pp p0">P0</span>抽取表格字段</div>
+      <div class="rq"><span class="pp p0">P0</span>跨篇按客户 / 项目归拢</div>
+    </div>
+    <div class="st kp">
+      <div class="say">一个项目的零散记录汇成合计算好的报价单，导出 PDF 直接发客户</div>
+      <div class="rq"><span class="pp p0">P0</span>生成报价汇总单，合计与格式规整</div>
+      <div class="rq"><span class="pp p0">P0</span>导出 PDF / 分享图不错位</div>
+    </div>
+    <div class="st">
+      <div class="say">交付日期到点提醒；写新单时自动带出这家之前记过的</div>
+      <div class="rq"><span class="pp p0">P0</span>动作卡片：拨号 / 存通讯录 / 加日历</div>
+      <div class="rq"><span class="pp p1">P1</span>同话题历史带出，引用带出处</div>
+    </div>
   </div>
 
   <div class="cross">
-    <div class="ck">贯穿四类</div>
-    <div class="cv">待办 · 日程：四类里都会记到，识别出来直接进待办中心和日历，多端提醒</div>
-  </div>
-
-  <div class="base">
-    <div class="bt">底下的能力层 · 做一遍，四类共用</div>
-    <div class="bs">场景决定要什么，能力层决定做多深；每项写清规则、边界和依赖方</div>
-    <div class="caps">
-      <div class="cap">
-        <div class="cn">捕获入口</div>
-        <div class="cd">AI 键、悬浮球、截图分享、小爱、跨端；用户一键存，自己决定存什么</div>
-      </div>
-      <div class="cap">
-        <div class="cn">自动理解</div>
-        <div class="cd">分类打标、读图听音、一句话概要；判定规则与置信度阈值，不准时不硬归</div>
-      </div>
-      <div class="cap">
-        <div class="cn">检索</div>
-        <div class="cd">按字段拆解建索引，跨多篇取回带出处；系统做引擎，业务侧出规则</div>
-      </div>
-      <div class="cap">
-        <div class="cn">授权与开放</div>
-        <div class="cd">按品类授权、可撤回、调用留痕；对系统和三方双向读写</div>
-      </div>
-      <div class="cap">
-        <div class="cn">基础体验</div>
-        <div class="cd">编辑与表格、手写、待办、搜索；手机与 PAD 分开，按 P00 / P0 收口</div>
-      </div>
-    </div>
+    <div class="ck">四类都会走到</div>
+    <div class="cv">待办 · 日程贯穿：识别出来直接进待办中心和日历，多端提醒，不用打开笔记</div>
   </div>
 
   <div class="foot">
     <div style="flex:1">
-      <div class="fk">每个场景章节按同一套写</div>
-      <div class="fv">现在怎么做、卡在哪 → 我们给的产出与规格 → 交互与界面 → 规则与边界 → 依赖与验收</div>
+      <div class="fk">正文每个场景一节，按这条故事线往下写</div>
+      <div class="fv">用户当时在干什么、现在卡在哪 → 每一步的交互与界面稿 → 规则与边界（识别不准、内容不足、授权被拒）→ 产出物规格 → 依赖方与验收标准</div>
     </div>
-    <div style="flex:0 0 420px">
-      <div class="fk">另附两张表</div>
-      <div class="fv">范围与优先级（含本版不做）· 依赖清单与 TR1 遗留问题闭环</div>
+    <div style="flex:0 0 400px">
+      <div class="fk">被多个场景共用的，单独一节只写一遍</div>
+      <div class="fv">捕获入口 · 自动理解 · 检索字段 · 授权与开放 · 编辑与手写等基础体验</div>
     </div>
   </div>
 </section>
