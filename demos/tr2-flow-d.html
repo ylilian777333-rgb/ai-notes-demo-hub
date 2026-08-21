@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>TR2 · 工作经营 交互流程</title>
+<style>
+  :root{--c:#7A57DE;--ink:#16181C;--ink2:#4A4E57;--ink3:#8B9099;--line:#E6E8EC;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#EFF0F3;font-family:"MiSans","PingFang SC",-apple-system,sans-serif;color:var(--ink);}
+  .slide{width:2960px;background:#fff;padding:56px 72px 64px;}
+  .hd{display:flex;align-items:flex-end;gap:22px;border-left:8px solid var(--c);padding-left:22px;}
+  h1{font-size:42px;font-weight:800;letter-spacing:-.6px;}
+  .hs{font-size:18px;color:var(--ink3);padding-bottom:6px;}
+  .ctx{margin:20px 0 8px;background:rgba(122,87,222,.06);border:1.5px solid rgba(122,87,222,.24);
+       border-radius:16px;padding:18px 24px;font-size:17px;line-height:1.7;color:var(--ink2);}
+  .ctx b{color:var(--c);}
+  .chain{margin:18px 0 30px;font-size:16px;font-weight:700;color:var(--ink3);}
+  .chain em{font-style:normal;color:var(--c);}
+  .flow{display:flex;align-items:flex-start;}
+  .col{width:392px;flex:0 0 auto;}
+  .arw{width:84px;flex:0 0 auto;padding-top:400px;text-align:center;}
+  .arw .a{font-size:26px;color:#C3C8D2;line-height:1;}
+  .arw .t{font-size:13px;color:var(--ink3);margin-top:8px;line-height:1.5;}
+  .cap{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+  .no{font-size:12px;font-weight:800;color:#fff;background:var(--c);border-radius:6px;padding:3px 7px;}
+  .cn{font-size:19px;font-weight:800;}
+  .cs{font-size:13px;color:var(--ink3);}
+  .ph{width:392px;height:851px;border-radius:44px;border:2px solid #D8DCE3;background:#fff;
+      overflow:hidden;position:relative;box-shadow:0 8px 24px rgba(0,0,0,.06);}
+  .sb{height:46px;display:flex;justify-content:space-between;align-items:center;padding:0 28px;
+      font-size:12px;color:var(--ink3);}
+  .pt{padding:6px 24px 0;font-size:20px;font-weight:800;}
+  .pb{padding:14px 24px 0;}
+  .blk{border:1px dashed #D8DCE3;border-radius:12px;padding:14px;margin-bottom:10px;font-size:14px;
+       line-height:1.6;color:var(--ink2);background:#FAFBFC;}
+  .blk .bt{font-size:12px;font-weight:800;color:var(--ink3);margin-bottom:6px;}
+  .blk.s{background:rgba(122,87,222,.06);border-color:rgba(122,87,222,.32);color:var(--ink);}
+  .blk.w{background:#FFF8E6;border-color:#F0C86B;color:#7A5B12;}
+  .tb{font-size:13px;line-height:1.9;font-family:"SF Mono",Menlo,monospace;color:var(--ink);}
+  .btn{margin:14px 24px 0;height:50px;border-radius:25px;background:var(--c);color:#fff;font-size:16px;
+       font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .btn.g{background:#F0F1F4;color:var(--ink2);}
+  .row{display:flex;gap:8px;}.row>*{flex:1;}
+  .ann{margin-top:16px;border:1px solid var(--line);border-radius:16px;padding:16px 16px 18px;background:#FCFCFD;}
+  .ann .k{font-size:12px;font-weight:800;color:var(--c);margin:10px 0 4px;}
+  .ann .k:first-child{margin-top:0;}
+  .ann .v{font-size:13.5px;line-height:1.65;color:var(--ink2);}
+  .foot{margin-top:34px;border-top:1px solid var(--line);padding-top:24px;display:flex;gap:34px;}
+  .foot .fc{flex:1;}
+  .foot .fk{font-size:13px;font-weight:800;color:var(--ink3);margin-bottom:10px;}
+  .foot .fv{font-size:15px;line-height:1.85;color:var(--ink2);}
+  .p0,.p1{font-size:11px;font-weight:800;color:#fff;border-radius:5px;padding:2px 5px;margin-right:6px;}
+  .p0{background:#E0524B;} .p1{background:#B9BFC9;}
+</style>
+</head>
+<body>
+<section class="slide">
+  <div class="hd"><h1>场景四 · 工作经营</h1><div class="hs">装维流水从手写算式，到一份合计算好的报价单发给客户 ｜ TR2 交互流程与界面（占位）</div></div>
+
+  <div class="ctx">
+    这是持续时间最长的一批用户：装维、门窗安装、计件工、电厂检修，跨两年多天天在记。Q2 截图里方式很一致——<b>账目是手写的连加算式（3+2+4+1.5=）</b>，流水靠空格对齐成列，<b>没人用表格</b>，导出成图分享出去列会错位，反馈里反复催表格功能。<br>
+    他们的目标很明确：一个项目做完，把这段时间零散记的点数和材料<b>汇成一份能发给客户的报价单</b>，金额是算好的、格式是整齐的。
+  </div>
+  <div class="chain">流程：<em>边干边记</em> → <em>抽字段并按客户归拢</em> → <em>要成列时插表格</em> → <em>汇成报价单并校对合计</em> → <em>导出发客户</em></div>
+
+  <div class="flow">
+
+    <div class="col">
+      <div class="cap"><span class="no">D1</span><span class="cn">语音记工单</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>00:04</span></div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">转写区</div>李工今天 3 个点数，现场拍了一张</div>
+          <div class="blk s"><div class="bt">结构预览行 · 每项可点开改</div>李工 · 3 点数 · 今天</div>
+          <div class="blk"><div class="bt">记到哪个项目</div>记到 城南小区改造 ▾（默认沿用上一条）</div>
+          <div class="blk">📷 现场照片作为凭证附在同一行</div>
+        </div>
+        <div class="btn">完 成</div>
+      </div>
+      <div class="ann">
+        <div class="k">进入路径</div><div class="v">AI 键 / 悬浮球 / 耳机唤起（干活时手不方便）</div>
+        <div class="k">字段</div><div class="v">record.client · qty · unit · date · project</div>
+        <div class="k">异常</div><div class="v">数量或客户识别错 → 结构预览行直接改，改动作为该用户偏好样本，同名客户后续优先匹配；出现两个「李工」→ 标注两个候选让用户点选，不自动挑一个；只说一句没数量 → 不出结构预览，按普通笔记存</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">存入后<br>抽字段</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">D2</span><span class="cn">表格插入与编辑</span><span class="cs">新增 · 欠账 P00</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>⋯</span></div>
+        <div class="pt">城南小区改造 · 7月</div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">表格 · 横向可滑动、列宽可拖</div><div class="tb">客户　│数量│单价│小计　⇢<br>李工　│ 3 │ 80 │ 240<br>王姐　│ 2 │ 80 │ 160<br>张师傅│ 4 │ 75 │ 300<br>合计　│ 9 │ 　 │ 700</div></div>
+          <div class="blk w">数字列里输入了文字：该格标黄，合计跳过并注明「有 1 格没算进去」</div>
+          <div class="blk"><div class="bt">键盘上方工具行</div>⊞行　⊟行　⊞列　⊟列　≡对齐　Σ合计</div>
+        </div>
+        <div class="blk" style="margin:0 24px">空表格给浅色列头占位：客户 / 数量 / 单价，点一下即替换</div>
+      </div>
+      <div class="ann">
+        <div class="k">为什么这条最高优先级</div><div class="v">这批用户现在靠空格对齐，是反馈里催得最多的一条。本版要给到真正的表格：增删行列、拖列宽、数字列合计随单元格变化自动更新</div>
+        <div class="k">规则</div><div class="v">表格横向超出屏宽时右侧给渐隐提示，不让用户以为只有这几列；口述填表按当前列结构填入一行，对不上时填最近似列并高亮待确认</div>
+        <div class="k">字段</div><div class="v">table.rows[][] · col_meta[].type（文本/数字/日期）· total_row</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">跨篇按客户<br>项目归拢</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">G3</span><span class="cn">主题页 · 项目</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>⋯</span></div>
+        <div class="pt">城南小区改造</div>
+        <div class="pb">
+          <div class="blk">2026.05.02 到 2026.07.21，63 条记录，41 条带数量</div>
+          <div class="blk s"><div class="bt">生成入口</div>汇成报价单</div>
+          <div class="blk"><div class="bt">列表</div>▸ 07-21 李工 3 点数［图］<br>▸ 07-20 王姐 2 点数<br>▸ 07-18 材料 520 元</div>
+          <div class="blk">写新单时自动带出这家之前记过的 <span class="p1">P1</span></div>
+        </div>
+      </div>
+      <div class="ann">
+        <div class="k">后台做了什么</div><div class="v">抽客户 / 数量 / 单位 / 单价 / 日期 / 项目，跨篇按客户与项目归拢成主题；照片作为凭证挂在对应行</div>
+        <div class="k">去向</div><div class="v">识别到交付日期 → 待办条；识别到电话 → 动作卡片可拨号、存通讯录</div>
+        <div class="k">空态</div><div class="v">项目内没有带数量的记录 → 不出生成入口，「这个项目还没有记到数量」</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">点汇成<br>报价单</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">D4</span><span class="cn">报价单生成设置</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>✕</span></div>
+        <div class="pt">汇成报价单</div>
+        <div class="pb">
+          <div class="blk"><div class="bt">时间范围</div>2026.05.02 – 2026.07.21（默认全部）</div>
+          <div class="blk s"><div class="bt">单价 · 按客户或工序填</div>李工 80／点　王姐 80／点<br>张师傅 75／点　<span style="color:#B8860B">来自笔记</span></div>
+          <div class="blk"><div class="bt">包含项</div>人工点数 ✔　材料 ✔　现场照片作附页 ✕</div>
+          <div class="blk"><div class="bt">抬头</div>项目名 / 客户名 / 我的名号与联系方式（首次填后记住）</div>
+          <div class="blk w">会用到 63 条里的 41 条，其余没有数量、不计入</div>
+        </div>
+        <div class="btn">生 成</div>
+      </div>
+      <div class="ann">
+        <div class="k">为什么要写清没计入哪些</div><div class="v">生成前让用户知道差在哪，避免拿着少算的单子发给客户</div>
+        <div class="k">异常</div><div class="v">某客户没单价 → 该行单价位标黄、不给小计，生成后在预览顶部列出「有 2 行还没填单价」；生成失败保留全部设置，不产出半成品</div>
+        <div class="k">性能</div><div class="v">生成 ≤5s，超时转后台并通知（长任务跑在独立服务进程，界面退出不中断）</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">生成完成</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">D5</span><span class="cn">报价单预览与合计校对</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>⋯</span></div>
+        <div class="pb">
+          <div class="blk w">⚠ 有 2 行还没填单价　处理 ＞</div>
+          <div class="blk"><div class="bt">抬头</div>城南小区改造 · 报价单<br>客户：城南物业　2026.05.02 – 07.21</div>
+          <div class="blk s"><div class="bt">明细 · 每行可跳回源笔记</div><div class="tb">07-21 李工　3　80　240 ↗<br>07-20 王姐　2　80　160 ↗<br>07-18 张师傅 4　75　300 ↗<br>07-15 材料　—　—　520 ↗</div></div>
+          <div class="blk s"><div class="bt">合计</div>人工小计 700　材料小计 520<br><b>总计 1,220</b>　由 41 条记录合计得出</div>
+        </div>
+        <div class="row" style="padding:0 24px;margin-top:8px">
+          <div class="btn g" style="margin:0">改单价</div>
+          <div class="btn g" style="margin:0">分享图</div>
+          <div class="btn" style="margin:0">导出 PDF</div>
+        </div>
+      </div>
+      <div class="ann">
+        <div class="k">这一屏要解决什么</div><div class="v">让他敢把这份发出去：每一行能对到原始记录，合计是算出来的不是抄来的</div>
+        <div class="k">规则</div><div class="v">任一格改动后小计与总计立即重算并标「已修改」；明细与总计对不上时禁止导出，顶部红条「明细和总计对不上，先核对一下」</div>
+        <div class="k">异常</div><div class="v">某行数量与源笔记不符 → 跳回核对，改完回来提示「源记录有变化，重新算一次？」；合计计算完成前总计位显示「计算中」而不是 0</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">确认导出</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">D6</span><span class="cn">导出 PDF 与分享</span><span class="cs">改造</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>✕</span></div>
+        <div class="pt">导出</div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">格式</div>PDF（默认）／ 长图 ／ Excel <span class="p1">P1</span></div>
+          <div class="blk"><div class="bt">纸张与方向</div>A4 纵向（默认）<br>列比较多，横向排更清楚 → 一键切换</div>
+          <div class="blk"><div class="bt">内容检查</div>现场照片作附页 ✕　联系方式显示 ✔　敏感项 无</div>
+          <div class="blk w">渲染完成后与预览做一致性校验：行数、列数、总计一致才产出文件</div>
+        </div>
+        <div class="btn">导 出</div>
+        <div class="blk" style="margin:10px 24px 0">导出后调起系统分享；文件挂到生成物列表，下次可直接取用</div>
+      </div>
+      <div class="ann">
+        <div class="k">这是哪条欠账的收口点</div><div class="v">「导出分享图错位」。四类共用同一套导出通道，一致性校验不通过就不产出文件，不给用户一份错的</div>
+        <div class="k">异常</div><div class="v">字体缺失 → 回退系统字体，不出现方框；存储权限被拒 → 直接分享文件流不落盘；横向建议只在列宽超出时出现，不常驻</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <div class="fc">
+      <div class="fk">这一节的需求点</div>
+      <div class="fv"><span class="p0">P0</span>语音记工单，识别客户 / 数量 / 单位 / 日期并给可改的结构预览<br><span class="p0">P0</span>手动插入与编辑表格：增删行列、列宽、数字列合计（欠账 P00）<br><span class="p0">P0</span>跨篇按客户与项目归拢成主题<br><span class="p0">P0</span>汇成报价单：逐行明细 + 小计 + 总计，每行可回溯源笔记<br><span class="p0">P0</span>导出 PDF / 分享图不错位，导出前一致性校验<br><span class="p0">P0</span>动作卡片：拨号 / 存通讯录 / 加日历<br><span class="p1">P1</span>同话题历史带出并引用带出处 ·<span class="p1">P1</span>导出 Excel</div>
+    </div>
+    <div class="fc">
+      <div class="fk">依赖方</div>
+      <div class="fv">算法：客户 / 数量 / 单位 / 金额抽取，跨篇归拢，同名客户消歧<br>编辑器：表格插入与编辑、列宽、合计公式<br>导出渲染：PDF 与长图排版、一致性校验<br>系统：拨号、通讯录、日历、分享面板<br>跨端：PAD 表格编辑与导入 PDF/PPT/Word 批注（PAD P0）</div>
+    </div>
+    <div class="fc">
+      <div class="fk">验收标准</div>
+      <div class="fv">1 插入、增删行列、拖列宽、数字列合计全可用；30 行以上横滑不卡，非数字格不参与合计并有标记<br>2 100 条真实口述样本，客户+数量+单位三项全对 ≥85%，错的可在结构预览行一次改完<br>3 明细行数与参与计算的记录数一致；总计等于各行小计之和，改任一格实时重算；每行可跳回源笔记<br>4 PDF 与长图的行数列数总计与预览完全一致，抽查 50 份无错位；校验不通过不产出文件<br>5 跨两年 63 条记录的项目，生成报价单 ≤5s（超时转后台通知）</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

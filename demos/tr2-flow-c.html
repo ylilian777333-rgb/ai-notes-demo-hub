@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>TR2 · 学习备考 交互流程</title>
+<style>
+  :root{--c:#E0790F;--ink:#16181C;--ink2:#4A4E57;--ink3:#8B9099;--line:#E6E8EC;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#EFF0F3;font-family:"MiSans","PingFang SC",-apple-system,sans-serif;color:var(--ink);}
+  .slide{width:2960px;background:#fff;padding:56px 72px 64px;}
+  .hd{display:flex;align-items:flex-end;gap:22px;border-left:8px solid var(--c);padding-left:22px;}
+  h1{font-size:42px;font-weight:800;letter-spacing:-.6px;}
+  .hs{font-size:18px;color:var(--ink3);padding-bottom:6px;}
+  .ctx{margin:20px 0 8px;background:rgba(224,121,15,.06);border:1.5px solid rgba(224,121,15,.24);
+       border-radius:16px;padding:18px 24px;font-size:17px;line-height:1.7;color:var(--ink2);}
+  .ctx b{color:var(--c);}
+  .chain{margin:18px 0 30px;font-size:16px;font-weight:700;color:var(--ink3);}
+  .chain em{font-style:normal;color:var(--c);}
+  .flow{display:flex;align-items:flex-start;}
+  .col{width:392px;flex:0 0 auto;}
+  .arw{width:84px;flex:0 0 auto;padding-top:400px;text-align:center;}
+  .arw .a{font-size:26px;color:#C3C8D2;line-height:1;}
+  .arw .t{font-size:13px;color:var(--ink3);margin-top:8px;line-height:1.5;}
+  .cap{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+  .no{font-size:12px;font-weight:800;color:#fff;background:var(--c);border-radius:6px;padding:3px 7px;}
+  .cn{font-size:19px;font-weight:800;}
+  .cs{font-size:13px;color:var(--ink3);}
+  .ph{width:392px;height:851px;border-radius:44px;border:2px solid #D8DCE3;background:#fff;
+      overflow:hidden;position:relative;box-shadow:0 8px 24px rgba(0,0,0,.06);}
+  .sb{height:46px;display:flex;justify-content:space-between;align-items:center;padding:0 28px;
+      font-size:12px;color:var(--ink3);}
+  .pt{padding:6px 24px 0;font-size:20px;font-weight:800;}
+  .pb{padding:14px 24px 0;}
+  .blk{border:1px dashed #D8DCE3;border-radius:12px;padding:14px;margin-bottom:10px;font-size:14px;
+       line-height:1.6;color:var(--ink2);background:#FAFBFC;}
+  .blk .bt{font-size:12px;font-weight:800;color:var(--ink3);margin-bottom:6px;}
+  .blk.s{background:rgba(224,121,15,.06);border-color:rgba(224,121,15,.32);color:var(--ink);}
+  .btn{margin:14px 24px 0;height:50px;border-radius:25px;background:var(--c);color:#fff;font-size:16px;
+       font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .btn.g{background:#F0F1F4;color:var(--ink2);}
+  .row{display:flex;gap:8px;}.row>*{flex:1;}
+  .ann{margin-top:16px;border:1px solid var(--line);border-radius:16px;padding:16px 16px 18px;background:#FCFCFD;}
+  .ann .k{font-size:12px;font-weight:800;color:var(--c);margin:10px 0 4px;}
+  .ann .k:first-child{margin-top:0;}
+  .ann .v{font-size:13.5px;line-height:1.65;color:var(--ink2);}
+  .foot{margin-top:34px;border-top:1px solid var(--line);padding-top:24px;display:flex;gap:34px;}
+  .foot .fc{flex:1;}
+  .foot .fk{font-size:13px;font-weight:800;color:var(--ink3);margin-bottom:10px;}
+  .foot .fv{font-size:15px;line-height:1.85;color:var(--ink2);}
+  .p0,.p1{font-size:11px;font-weight:800;color:#fff;border-radius:5px;padding:2px 5px;margin-right:6px;}
+  .p0{background:#E0524B;} .p1{background:#B9BFC9;}
+</style>
+</head>
+<body>
+<section class="slide">
+  <div class="hd"><h1>场景三 · 学习备考</h1><div class="hs">一节课拍两张投影加一段录音，正文一个字没打，考前能出题、能知道哪里没懂 ｜ TR2 交互流程与界面（占位）</div></div>
+
+  <div class="ctx">
+    上课来不及记，投影拍两张、录音一开就是一节课。Q2 截图里这类记录占比很高：<b>正文 0 字</b>，附件是照片或录音，其中一条录音 91 分钟。到考前面对几十条无标题记录，不知道从哪条开始复习，也不知道自己哪块其实没掌握。<br>
+    所以这条链路要做两件事：<b>让 0 字笔记有内容</b>（读图 + 听录音补出来），<b>复习不是重读而是出题</b>——给考点、让他讲、判断掌握度。
+  </div>
+  <div class="chain">流程：<em>上课捕获</em> → <em>补出内容（后台）</em> → <em>按科目章节归拢</em> → <em>出题与口述作答</em> → <em>没掌握的隔几天再来</em></div>
+
+  <div class="flow">
+
+    <div class="col">
+      <div class="cap"><span class="no">C1</span><span class="cn">上课捕获</span><span class="cs">改造</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>● 录音 41:20</span></div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">录音条常驻顶部</div>录音在继续，拍的照片会对齐到这一段</div>
+          <div class="blk" style="height:230px"><div class="bt">取景 · 拍投影</div>［投影：受力分析三步］</div>
+          <div class="blk"><div class="bt">缩略图 · 自动带时间戳</div>［08:15］［22:40］</div>
+        </div>
+        <div class="btn">结束并存入</div>
+      </div>
+      <div class="ann">
+        <div class="k">进入路径</div><div class="v">首页悬浮按钮 / AI 键 / 会议与通话自动记（课堂手动开）</div>
+        <div class="k">规则</div><div class="v">录音期间不做转写，结束后统一处理，避免课堂发热与耗电；照片记录 audio_offset 对齐到录音第几分钟</div>
+        <div class="k">异常</div><div class="v">超 60 分钟分段落盘，单段失败不影响其他段；存储不足提示并给「转低码率继续录」</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">存入后<br>后台处理</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">C2</span><span class="cn">补内容进度（0 字笔记）</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span></span></div>
+        <div class="pt">正在把投影上的字和录音里说的补出来</div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">处理状态</div>● 读图 完成<br>● 转写 12:30 / 91:12<br>○ 整理</div>
+          <div class="blk"><div class="bt">来自投影第 1 张</div>受力分析三步：确定研究对象、画出所有外力…</div>
+          <div class="blk"><div class="bt">来自录音 08:15</div>老师强调第三章受力分析是重点</div>
+          <div class="blk">段落级「这段不对」→ 折叠回原始附件并记负样本</div>
+        </div>
+        <div class="btn g">后台继续</div>
+      </div>
+      <div class="ann">
+        <div class="k">来源标注</div><div class="v">每段落前标「来自投影第 1 张」「来自录音 12:30」，补出来的内容可回溯</div>
+        <div class="k">空态</div><div class="v">图片无文字且录音无有效人声 → 不生成正文，保持附件态，「这条里没找到可以补出来的内容」，不硬凑</div>
+        <div class="k">异常</div><div class="v">热词错字进个人热词表，改一次后同主题沿用；处理失败保留附件，不写半截正文；用户离开界面不中断</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">归入<br>物理·第三章</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">C4</span><span class="cn">考点清单</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>⋯</span></div>
+        <div class="pt">物理 · 第三章</div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">范围</div>这一章（默认）／ 选笔记 ／ 整门课</div>
+          <div class="blk"><div class="bt">考点 · 12 个</div>☑ 受力分析三步　来自 2 条笔记<br>☑ 摩擦力方向判断　来自 3 条 · 老师说过是重点<br>☑ 平衡条件　来自 1 条<br>☐ 斜面模型　未测</div>
+          <div class="blk">「这个不是考点」可删；也可手动加一个</div>
+        </div>
+        <div class="btn">开始（已选 8 个）</div>
+      </div>
+      <div class="ann">
+        <div class="k">规则</div><div class="v">考点用课本口径的说法，不改写成新术语；「老师说过是重点」必须能定位到录音原句，定位不到就不显示这个标注</div>
+        <div class="k">空态</div><div class="v">内容不足抽不出考点 → 「这一章的内容还看不出考点，再存两节课的记录」，不给编造的考点</div>
+        <div class="k">字段</div><div class="v">exam_point.title · source_note_ids · emphasis_evidence · mastery.state</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">开始出题</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">C5</span><span class="cn">出题与口述作答</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>3 / 8</span></div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">题目</div>受力分析的三个步骤是什么？<br>来自 2 条笔记 ＞</div>
+          <div class="blk" style="text-align:center;padding:26px 14px"><div class="bt">作答区</div>（ 按住说 ）　或 打字</div>
+          <div class="blk"><div class="bt">反馈 · 逐点列出</div>你讲清了：确定研究对象、画出所有外力<br>没提到：摩擦力方向的判断</div>
+          <div class="blk">我觉得我讲对了 → 标记待复核，不计入没掌握</div>
+        </div>
+        <div class="row" style="padding:0 24px;margin-top:8px">
+          <div class="btn g" style="margin:0">看原文</div>
+          <div class="btn g" style="margin:0">跳过</div>
+          <div class="btn" style="margin:0">下一题</div>
+        </div>
+      </div>
+      <div class="ann">
+        <div class="k">文案边界</div><div class="v">「用你自己的话讲一遍，讲错也没关系」；反馈具体指出没提到哪一步，不给分数</div>
+        <div class="k">规则</div><div class="v">考点在原笔记里拆不出判定步骤 → 不出这道题，避免用原文没有的内容判定用户</div>
+        <div class="k">异常</div><div class="v">口述识别不准 → 展示转写文字可改，改完重新判定；判定有争议 → 记负样本并进评测用例集</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">答完</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">C6</span><span class="cn">掌握度报告</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>⋯</span></div>
+        <div class="pt">这次测了 8 个考点</div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">概览</div>5 个讲清了，3 个没讲清</div>
+          <div class="blk"><div class="bt">没讲清的逐条</div>摩擦力方向判断　卡在方向怎么定　回原文 ＞<br>平衡条件　少了合力为零这一步　回原文 ＞<br>斜面模型　没提到分解方向　回原文 ＞</div>
+          <div class="blk">有 3 个考点讲的时候卡在同一处：摩擦力方向</div>
+        </div>
+        <div class="row" style="padding:0 24px;margin-top:14px">
+          <div class="btn g" style="margin:0">生成导图 <span class="p1">P1</span></div>
+          <div class="btn" style="margin:0">安排复习</div>
+        </div>
+      </div>
+      <div class="ann">
+        <div class="k">文案边界</div><div class="v">不写「掌握率 62%」这类分数，写卡在同一处的具体是什么</div>
+        <div class="k">空态</div><div class="v">全部讲清 → 不出没讲清区块，底部改为「隔 3 天再测一次」</div>
+        <div class="k">异常</div><div class="v">报告生成失败 → 保留逐题反馈原始记录，用户仍可逐题回看</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">安排复习</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">C7</span><span class="cn">复习安排</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>✕</span></div>
+        <div class="pt">安排复习</div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">节奏 · 可改</div>隔 1 天 ／ 3 天 ／ 7 天各再测一次</div>
+          <div class="blk"><div class="bt">复习内容</div>只测没讲清的 3 个（默认）／ 全部 8 个</div>
+          <div class="blk"><div class="bt">提醒</div>时间 20:00　设备跟随系统提醒（手机 + PAD）</div>
+          <div class="blk">安排好后：待办中心出现 3 条、日历出现对应事件，到点提醒直接打开对应题目</div>
+        </div>
+        <div class="btn">安排好</div>
+      </div>
+      <div class="ann">
+        <div class="k">去向</div><div class="v">写入待办中心与系统日历（贯穿层同一套规则），同一事项不重复创建</div>
+        <div class="k">异常</div><div class="v">日历写入失败 → 待办仍保留并提示可重试，不静默丢；未授权日历权限 → 只进待办中心并说明缺哪项权限</div>
+        <div class="k">优先级</div><div class="v"><span class="p1">P1</span>间隔重复推送与复习进日历</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <div class="fc">
+      <div class="fk">这一节的需求点</div>
+      <div class="fv"><span class="p0">P0</span>拍照与录音同条存入，照片对齐到录音时间点<br><span class="p0">P0</span>长录音（≥90 分钟）转写与学科热词校对<br><span class="p0">P0</span>0 字笔记补内容：读图 + 听录音合成正文，段落标注来源<br><span class="p0">P0</span>按科目章节聚类<br><span class="p0">P0</span>考点抽取，可删可加、来源可回溯<br><span class="p0">P0</span>按考点出题 + 口述作答 + 逐步反馈<br><span class="p0">P0</span>掌握度判定与没懂点记录<br><span class="p1">P1</span>间隔重复推送、复习进日历 ·<span class="p1">P1</span>一门课重点导图</div>
+    </div>
+    <div class="fc">
+      <div class="fk">依赖方</div>
+      <div class="fv">算法：长音频转写、热词、考点抽取、口述判定、掌握度模型<br>识屏视觉：投影与板书读图、公式识别<br>系统待办与日历：复习安排写入与到点提醒<br>跨端：PAD 手写与批注（触控笔标点空格英文识别、导入 PDF/PPT/Word 批注，均为 PAD P0）<br>系统：后台长任务与通知栏结果</div>
+    </div>
+    <div class="fc">
+      <div class="fk">验收标准</div>
+      <div class="fv">1 91 分钟单条录音完整转写落库，切后台锁屏来电不丢段<br>2 100 条纯照片纯录音样本，能补出可读正文 ≥85%；补不出的保持附件态不拼凑<br>3 补出的每段可点到来源（投影第几张 / 录音第几分钟），抽查 50 段全可回溯<br>4 标「老师说过是重点」的必须定位到录音原句，否则不展示<br>5 拆不出判定步骤的考点不生成题目；题目与反馈不含原笔记之外的知识点，抽检 100 题<br>6 到点提醒可直接进入对应题目；日历失败时待办仍在</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

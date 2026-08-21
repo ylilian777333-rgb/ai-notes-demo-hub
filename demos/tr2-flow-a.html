@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>TR2 · 想法随记 交互流程</title>
+<style>
+  :root{--c:#3A63E8;--ink:#16181C;--ink2:#4A4E57;--ink3:#8B9099;--line:#E6E8EC;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#EFF0F3;font-family:"MiSans","PingFang SC",-apple-system,sans-serif;color:var(--ink);}
+  .slide{width:2960px;background:#fff;padding:56px 72px 64px;}
+  .hd{display:flex;align-items:flex-end;gap:22px;border-left:8px solid var(--c);padding-left:22px;}
+  h1{font-size:42px;font-weight:800;letter-spacing:-.6px;}
+  .hs{font-size:18px;color:var(--ink3);padding-bottom:6px;}
+  .ctx{margin:20px 0 8px;background:rgba(58,99,232,.06);border:1.5px solid rgba(58,99,232,.24);
+       border-radius:16px;padding:18px 24px;font-size:17px;line-height:1.7;color:var(--ink2);}
+  .ctx b{color:var(--c);}
+  .chain{margin:18px 0 30px;font-size:16px;font-weight:700;color:var(--ink3);}
+  .chain em{font-style:normal;color:var(--c);}
+
+  .flow{display:flex;align-items:flex-start;}
+  .col{width:392px;flex:0 0 auto;}
+  .arw{width:84px;flex:0 0 auto;padding-top:400px;text-align:center;}
+  .arw .a{font-size:26px;color:#C3C8D2;line-height:1;}
+  .arw .t{font-size:13px;color:var(--ink3);margin-top:8px;line-height:1.5;}
+
+  .cap{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+  .no{font-size:12px;font-weight:800;color:#fff;background:var(--c);border-radius:6px;padding:3px 7px;}
+  .cn{font-size:19px;font-weight:800;}
+  .cs{font-size:13px;color:var(--ink3);}
+
+  .ph{width:392px;height:851px;border-radius:44px;border:2px solid #D8DCE3;background:#fff;
+      overflow:hidden;position:relative;box-shadow:0 8px 24px rgba(0,0,0,.06);}
+  .sb{height:46px;display:flex;justify-content:space-between;align-items:center;padding:0 28px;
+      font-size:12px;color:var(--ink3);}
+  .pt{padding:6px 24px 0;font-size:20px;font-weight:800;}
+  .pb{padding:14px 24px 0;}
+  .blk{border:1px dashed #D8DCE3;border-radius:12px;padding:14px;margin-bottom:10px;font-size:14px;
+       line-height:1.6;color:var(--ink2);background:#FAFBFC;}
+  .blk .bt{font-size:12px;font-weight:800;color:var(--ink3);margin-bottom:6px;}
+  .blk.s{background:rgba(58,99,232,.05);border-color:rgba(58,99,232,.3);color:var(--ink);}
+  .btn{margin:14px 24px 0;height:50px;border-radius:25px;background:var(--c);color:#fff;font-size:16px;
+       font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .btn.g{background:#F0F1F4;color:var(--ink2);}
+  .row{display:flex;gap:8px;}.row>*{flex:1;}
+  .fab{position:absolute;right:24px;bottom:28px;width:64px;height:64px;border-radius:50%;
+       background:var(--c);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;}
+  .ph .ftr{position:absolute;left:0;right:0;bottom:0;height:64px;border-top:1px solid var(--line);
+           display:flex;align-items:center;justify-content:space-around;font-size:13px;color:var(--ink3);}
+  .ann{margin-top:16px;border:1px solid var(--line);border-radius:16px;padding:16px 16px 18px;background:#FCFCFD;}
+  .ann .k{font-size:12px;font-weight:800;color:var(--c);margin:10px 0 4px;}
+  .ann .k:first-child{margin-top:0;}
+  .ann .v{font-size:13.5px;line-height:1.65;color:var(--ink2);}
+  .foot{margin-top:34px;border-top:1px solid var(--line);padding-top:24px;display:flex;gap:34px;}
+  .foot .fc{flex:1;}
+  .foot .fk{font-size:13px;font-weight:800;color:var(--ink3);margin-bottom:10px;}
+  .foot .fv{font-size:15px;line-height:1.85;color:var(--ink2);}
+  .p0,.p1{font-size:11px;font-weight:800;color:#fff;border-radius:5px;padding:2px 5px;margin-right:6px;}
+  .p0{background:#E0524B;} .p1{background:#B9BFC9;}
+</style>
+</head>
+<body>
+<section class="slide">
+  <div class="hd"><h1>场景一 · 想法随记</h1><div class="hs">孩子这两年的点滴，两年后汇成一份成长记录 ｜ TR2 交互流程与界面（界面为占位，视觉稿另出）</div></div>
+
+  <div class="ctx">
+    她从孩子半岁开始记：第一次叫妈妈、每次打疫苗的日期。方式是<b>抬手说一句、顺手拍一张</b>。两年下来 28 条，标题是「1」「2」「0912」，散着。想给家人看孩子这两年，只能一条条翻。
+    <br>Q2 反馈 368 张露出真实内容的截图里，这类记录特征一致：单条极短、带照片或语音、跨年持续记、不建文件夹。
+  </div>
+  <div class="chain">流程：<em>当时怎么记</em> → <em>存完系统做了什么（用户不可见）</em> → <em>内容怎么归到一起</em> → <em>要用时拿到什么</em> → <em>结果去了哪</em></div>
+
+  <div class="flow">
+
+    <div class="col">
+      <div class="cap"><span class="no">A1</span><span class="cn">语音速记浮层</span><span class="cs">改造</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>00:07</span></div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">转写区 · 边说边出字</div>团子今天第一次叫妈妈，在客厅玩积木的时候突然喊了一声</div>
+          <div class="blk"><div class="bt">波形</div>▁▂▅▇▅▂▁</div>
+          <div class="blk"><div class="bt">附加区</div>📷 拍照　🖼 相册　🔗 文档链接</div>
+        </div>
+        <div class="btn">完 成</div>
+        <div class="blk" style="margin:14px 24px 0">已出的字可点进去改；长按整段重录</div>
+      </div>
+      <div class="ann">
+        <div class="k">进入路径</div><div class="v">AI 键 / 悬浮球 / 唤起小爱说「记一下」/ 首页悬浮按钮；PAD、车机同入口</div>
+        <div class="k">文案</div><div class="v">占位「说吧，边说边写」；转写中不出百分比进度</div>
+        <div class="k">字段</div><div class="v">raw_text · audio_ref · duration · source_entry（记入口，用于评估哪些入口继续投）</div>
+        <div class="k">异常</div><div class="v">没识别到内容 → 保留录音「这段没听清，录音已经留着了」；中途来电 → 暂存草稿，回来接着说</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">点完成</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">A2</span><span class="cn">存入确认卡</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span></span></div>
+        <div class="pb" style="padding-top:300px">
+          <div class="blk"><div class="bt">内容预览</div>团子今天第一次叫妈妈，在客厅玩积木的时候突然喊了一声<br>［照片］</div>
+          <div class="blk s"><div class="bt">建议归到哪 · 可改可去掉</div>看着像： 想法随记 ▾　孩子的成长 ▾</div>
+          <div class="row" style="padding:0 0 0 0">
+            <div class="btn g" style="margin:0">不存</div>
+            <div class="btn" style="margin:0">存入笔记</div>
+          </div>
+        </div>
+      </div>
+      <div class="ann">
+        <div class="k">为什么必须有这一屏</div><div class="v">存入要有用户的一次明确点击——「存什么由用户决定」在界面上的落点，没有绕过确认直接落库的路径</div>
+        <div class="k">规则</div><div class="v">置信度 ≥0.85 给建议标签；0.60–0.85 待确认；&lt;0.60 不给建议、存入后落未分类并在首页出角标</div>
+        <div class="k">异常</div><div class="v">建议 800ms 未返回 → 隐藏标签区，不阻塞存入；三方来源顶部标「来自 DeepSeek」并留痕</div>
+        <div class="k">去向</div><div class="v">存入后回到用户原来的界面，不强行跳进笔记</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">存入后<br>后台理解</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">G4</span><span class="cn">笔记详情</span><span class="cs">改造 · 想法随记态</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>⋯</span></div>
+        <div class="pt">团子第一次叫妈妈</div>
+        <div class="pb">
+          <div class="blk">正文（段落级可编辑、可改局部格式）</div>
+          <div class="blk"><div class="bt">附件</div>照片按插入位置显示、可预览　▶ 录音 00:12</div>
+          <div class="blk s"><div class="bt">T1 待办条</div>9 月 12 日 第二针，加到待办？</div>
+          <div class="blk s"><div class="bt">T3 动作卡片</div>13800001111 → 拨号 / 存通讯录</div>
+        </div>
+        <div class="ftr">⊞ 表格　🖼 图　Aa 格式　⋯ 更多 ⇢</div>
+      </div>
+      <div class="ann">
+        <div class="k">后台做了什么（用户看不见）</div><div class="v">打标：主体=团子、时间、地点 → 补标题与一句话概要 → 识别到日期成为待办候选</div>
+        <div class="k">欠账落点</div><div class="v"><span class="p0">P0</span>标题内容折叠 ·<span class="p0">P0</span>插图位置与预览 ·<span class="p0">P0</span>编辑条滑动暗示 ·<span class="p0">P0</span>局部改文字格式</div>
+        <div class="k">异常</div><div class="v">打标错了：长按标签「不是这个」，移出主题并记为负样本；0 字笔记正文位给「补出文字内容」按钮</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">聚类归到<br>主题</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">G3</span><span class="cn">主题页</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>⋯</span></div>
+        <div class="pt">孩子的成长</div>
+        <div class="pb">
+          <div class="blk">2024 年 3 月到 2026 年 7 月，28 条记录，多数是照片和语音</div>
+          <div class="blk s"><div class="bt">生成入口 · 按品类给</div>汇成成长记录</div>
+          <div class="blk"><div class="bt">笔记列表</div>▸ 第一次叫妈妈　［图］<br>▸ 打第二针　9-12<br>▸ 半夜咳嗽　▶ 00:41</div>
+          <div class="blk">这些内容归得不对？→ 移出 / 并入 / 改名</div>
+        </div>
+      </div>
+      <div class="ann">
+        <div class="k">三层术语（全篇统一）</div><div class="v">品类＝首页四个入口，固定四类；主题＝聚类产出，用户可改名可拆并；笔记＝一次记录</div>
+        <div class="k">规则</div><div class="v">同主题 ≥3 条才显示为主题，不足留在「零散」；用户手动归过的条目后续聚类不再移动它</div>
+        <div class="k">文案</div><div class="v">摘要用陈述句，不用形容词</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">点汇成<br>成长记录</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">A4</span><span class="cn">生成设置</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>✕</span></div>
+        <div class="pt">汇成成长记录</div>
+        <div class="pb">
+          <div class="blk"><div class="bt">时间范围</div>2024.03 – 2026.07（默认全部跨度）</div>
+          <div class="blk"><div class="bt">包含什么</div>文字 ✔　照片 ✔　录音原声 ✔　待办与日期 ✕</div>
+          <div class="blk"><div class="bt">排列方式</div>按月（默认）／ 时间轴 <span class="p1">P1</span></div>
+          <div class="blk s">会用到 28 条记录、19 张照片、6 段录音</div>
+        </div>
+        <div class="btn">生 成</div>
+      </div>
+      <div class="ann">
+        <div class="k">为什么要有说明行</div><div class="v">生成前让用户知道范围，避免拿到结果才发现少了东西</div>
+        <div class="k">规则</div><div class="v">主题内少于 3 条不出生成入口，改为「再记几条就能汇成一份」</div>
+        <div class="k">异常</div><div class="v">生成失败 → 停在本屏保留选择，不产出半成品；超 15s 转后台，通知栏给结果</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">生成完成</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">A5 / A6</span><span class="cn">成长记录预览 · 分享</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>⋯</span></div>
+        <div class="pb">
+          <div class="blk" style="height:120px"><div class="bt">封面</div>团子的两年<br>2024.03 – 2026.07 · 28 条</div>
+          <div class="blk">2024 年 3 月<br>这个月记了 3 条，主要是刚会翻身<br>［图］［图］　▶ 原声 00:12</div>
+          <div class="blk s">来自 3 条记录　＞　可跳回原笔记</div>
+          <div class="blk"><div class="bt">A6 分享前确认</div>出生日期 已打码 ▾　医院名 已打码 ▾</div>
+        </div>
+        <div class="row" style="padding:0 24px;margin-top:14px">
+          <div class="btn g" style="margin:0">编辑</div>
+          <div class="btn" style="margin:0">分享</div>
+        </div>
+      </div>
+      <div class="ann">
+        <div class="k">不编造</div><div class="v">每月概述只能来自当月记录本身，定位不到源片段的句子不输出（对应不变量 4）</div>
+        <div class="k">分享</div><div class="v">网页链接（可设有效期）/ 长图 / PDF；敏感项默认打码，逐项放开；分享后在授权管理留一条记录</div>
+        <div class="k">异常</div><div class="v">源笔记被删 → 段落保留、出处标「原记录已删除」，不静默丢内容；导出走一致性校验，不一致不产出文件</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <div class="fc">
+      <div class="fk">这一节的需求点</div>
+      <div class="fv"><span class="p0">P0</span>语音速记多入口唤起（AI 键 / 悬浮球 / 小爱 / 首页）<br><span class="p0">P0</span>文字照片录音存进同一条、照片按插入位置显示可预览<br><span class="p0">P0</span>打标主体时间地点、自动补标题<br><span class="p0">P0</span>同主题自动聚拢，可改名拆并移出<br><span class="p0">P0</span>按主题汇成网页版合集，带原照片原声、每段可回溯出处<br><span class="p0">P0</span>分享前敏感项确认、默认打码<br><span class="p1">P1</span>一句话概要 ·<span class="p1">P1</span>时间轴版式与生成后增删条目</div>
+    </div>
+    <div class="fc">
+      <div class="fk">依赖方</div>
+      <div class="fv">算法：分类打标、主题聚类、概要与标题补全<br>识屏视觉：照片内容理解（0 字笔记补内容、封面选图）<br>系统：AI 键与悬浮球唤起、通知栏后台结果<br>跨端：PAD 与车机同入口记录与接续<br>系统待办与日历：日期识别后写入</div>
+    </div>
+    <div class="fc">
+      <div class="fk">验收标准</div>
+      <div class="fv">1 任一入口唤起到浮层 ≤300ms；断网仍可录音与存入<br>2 一条笔记内文字照片录音顺序与插入一致，抽查 50 条无错位<br>3 随机 100 条育儿记录归入正确主题 ≥90%，其余落未分类而不是错归<br>4 合集每个月份段落可展开到源笔记；抽查文字不出现源记录没有的人物日期地点<br>5 分享路径上出生日期等敏感项默认打码</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>TR2 · 生活管理 交互流程</title>
+<style>
+  :root{--c:#17A87B;--ink:#16181C;--ink2:#4A4E57;--ink3:#8B9099;--line:#E6E8EC;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#EFF0F3;font-family:"MiSans","PingFang SC",-apple-system,sans-serif;color:var(--ink);}
+  .slide{width:2960px;background:#fff;padding:56px 72px 64px;}
+  .hd{display:flex;align-items:flex-end;gap:22px;border-left:8px solid var(--c);padding-left:22px;}
+  h1{font-size:42px;font-weight:800;letter-spacing:-.6px;}
+  .hs{font-size:18px;color:var(--ink3);padding-bottom:6px;}
+  .ctx{margin:20px 0 8px;background:rgba(23,168,123,.06);border:1.5px solid rgba(23,168,123,.24);
+       border-radius:16px;padding:18px 24px;font-size:17px;line-height:1.7;color:var(--ink2);}
+  .ctx b{color:var(--c);}
+  .chain{margin:18px 0 30px;font-size:16px;font-weight:700;color:var(--ink3);}
+  .chain em{font-style:normal;color:var(--c);}
+  .flow{display:flex;align-items:flex-start;}
+  .col{width:392px;flex:0 0 auto;}
+  .arw{width:84px;flex:0 0 auto;padding-top:400px;text-align:center;}
+  .arw .a{font-size:26px;color:#C3C8D2;line-height:1;}
+  .arw .t{font-size:13px;color:var(--ink3);margin-top:8px;line-height:1.5;}
+  .cap{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+  .no{font-size:12px;font-weight:800;color:#fff;background:var(--c);border-radius:6px;padding:3px 7px;}
+  .cn{font-size:19px;font-weight:800;}
+  .cs{font-size:13px;color:var(--ink3);}
+  .ph{width:392px;height:851px;border-radius:44px;border:2px solid #D8DCE3;background:#fff;
+      overflow:hidden;position:relative;box-shadow:0 8px 24px rgba(0,0,0,.06);}
+  .sb{height:46px;display:flex;justify-content:space-between;align-items:center;padding:0 28px;
+      font-size:12px;color:var(--ink3);}
+  .pt{padding:6px 24px 0;font-size:20px;font-weight:800;}
+  .pb{padding:14px 24px 0;}
+  .blk{border:1px dashed #D8DCE3;border-radius:12px;padding:14px;margin-bottom:10px;font-size:14px;
+       line-height:1.6;color:var(--ink2);background:#FAFBFC;}
+  .blk .bt{font-size:12px;font-weight:800;color:var(--ink3);margin-bottom:6px;}
+  .blk.s{background:rgba(23,168,123,.05);border-color:rgba(23,168,123,.32);color:var(--ink);}
+  .blk.w{background:#FFF8E6;border-color:#F0C86B;color:#7A5B12;}
+  .btn{margin:14px 24px 0;height:50px;border-radius:25px;background:var(--c);color:#fff;font-size:16px;
+       font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .btn.g{background:#F0F1F4;color:var(--ink2);}
+  .row{display:flex;gap:8px;}.row>*{flex:1;}
+  .ann{margin-top:16px;border:1px solid var(--line);border-radius:16px;padding:16px 16px 18px;background:#FCFCFD;}
+  .ann .k{font-size:12px;font-weight:800;color:var(--c);margin:10px 0 4px;}
+  .ann .k:first-child{margin-top:0;}
+  .ann .v{font-size:13.5px;line-height:1.65;color:var(--ink2);}
+  .foot{margin-top:34px;border-top:1px solid var(--line);padding-top:24px;display:flex;gap:34px;}
+  .foot .fc{flex:1;}
+  .foot .fk{font-size:13px;font-weight:800;color:var(--ink3);margin-bottom:10px;}
+  .foot .fv{font-size:15px;line-height:1.85;color:var(--ink2);}
+  .p0,.p1{font-size:11px;font-weight:800;color:#fff;border-radius:5px;padding:2px 5px;margin-right:6px;}
+  .p0{background:#E0524B;} .p1{background:#B9BFC9;}
+</style>
+</head>
+<body>
+<section class="slide">
+  <div class="hd"><h1>场景二 · 生活管理</h1><div class="hs">每年拍下来的体检单汇成一张趋势；证件号在订票时经授权填上 ｜ TR2 交互流程与界面（占位）</div></div>
+
+  <div class="ctx">
+    体检报告拿到手就拍一张，一年一次，四五年存了十几张。真正想知道的是<b>血压是从哪一年开始高的</b>，但存进来是图片，看不见里面的数字，只能一张张点开对着看。<br>
+    同一类里还有身份证、银行卡、宽带账号密码——用户确实在往笔记里存。这类内容的诉求不是翻出来看，而是<b>别处要填的时候能直接用上</b>，同时不希望被谁都看见。
+  </div>
+  <div class="chain">流程：<em>拍下来</em> → <em>敏感判定与端侧处理</em> → <em>读图抽字段</em> → <em>要用时给趋势</em> → <em>经授权被别处用上</em></div>
+
+  <div class="flow">
+
+    <div class="col">
+      <div class="cap"><span class="no">B1</span><span class="cn">拍照存入</span><span class="cs">改造</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>已拍 3 张</span></div>
+        <div class="pb">
+          <div class="blk" style="height:300px"><div class="bt">取景</div>［体检报告］</div>
+          <div class="blk"><div class="bt">已拍缩略图 · 可删可拖动排序</div>［1］［2］［3］</div>
+          <div class="blk s"><div class="bt">底部二选一</div>这几张归成一条笔记（默认）／ 分成多条</div>
+        </div>
+        <div class="btn">归成一条</div>
+      </div>
+      <div class="ann">
+        <div class="k">进入路径</div><div class="v">首页悬浮按钮拍照 / 相机分享到笔记 / 相册多选存入</div>
+        <div class="k">字段</div><div class="v">media[] · media.order · media.captured_at</div>
+        <div class="k">异常</div><div class="v">相机权限被拒 → 跳设置引导，同时给「从相册选」替代入口；关键区域模糊 → 缩略图角标「这张里的数字没看清，要不要重拍」，不拦截存入</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">命中敏感<br>判定</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">B2</span><span class="cn">敏感内容提示</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span></span></div>
+        <div class="pb" style="padding-top:260px">
+          <div class="blk s"><div class="bt">说明</div>ⓘ 这条里有证件信息，已在本机处理、默认打码</div>
+          <div class="blk"><div class="bt">识别到</div>身份证号　姓名　出生日期</div>
+          <div class="blk"><div class="bt">两个开关</div>默认打码　［开］<br>只存在本机、不同步其他设备　［开］</div>
+        </div>
+        <div class="btn">继 续</div>
+      </div>
+      <div class="ann">
+        <div class="k">口径</div><div class="v">证件 / 密码 / 健康端侧处理不上云；对用户说「不同步到其他设备」，不出现「上云」这类内部说法</div>
+        <div class="k">规则</div><div class="v">端侧识别 ≤1.5s，超时按敏感从严处理；关网也能识别与打码</div>
+        <div class="k">异常</div><div class="v">漏判 → 用户可在详情手动标「这是证件」，标记后转端侧并删除已上传的云端副本；误判 → 取消需二次确认</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">存入确认<br>后台读图</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">G3</span><span class="cn">主题页 · 体检记录</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>⋯</span></div>
+        <div class="pt">体检记录</div>
+        <div class="pb">
+          <div class="blk">2022 年到 2026 年，12 条记录，都是报告照片</div>
+          <div class="blk s"><div class="bt">生成入口</div>看指标趋势</div>
+          <div class="blk"><div class="bt">列表</div>▸ 2026-06-18 体检报告［图］<br>▸ 2025-05-30 体检报告［图］<br>▸ 2024-06-02 体检报告［图］</div>
+          <div class="blk">归得不对？→ 移出 / 并入 / 改名</div>
+        </div>
+      </div>
+      <div class="ann">
+        <div class="k">后台做了什么</div><div class="v">读图抽字段：血压 138/92、体检日期、机构名；证件类走结构化 + 打码存储，明文不落库</div>
+        <div class="k">规则</div><div class="v">置信度低于阈值不自动归类，落未分类，不硬归</div>
+        <div class="k">去向</div><div class="v">识别到复诊日期 → 待办条 → 待办中心与日历</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">点看<br>指标趋势</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">B4</span><span class="cn">指标趋势图</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>⋯</span></div>
+        <div class="pt">指标趋势</div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">指标选择 · 只列至少两年都抽到值的</div>血压 ｜ 血糖 ｜ 血脂</div>
+          <div class="blk" style="height:200px"><div class="bt">折线图 · 带参考区间底色</div>150 ┤　　　　　　　●<br>140 ┤　　　　●<br>130 ┤　●<br>120 ┤●　　（参考上限）<br>　　└ 22　23　24　25　26</div>
+          <div class="blk">2023 年起高于参考区间上限</div>
+          <div class="blk"><div class="bt">数值表 · 每行可回源报告</div>2026-06-18　138/92　报告 ＞<br>2025-05-30　136/90　报告 ＞</div>
+        </div>
+        <div class="btn">导出图片</div>
+      </div>
+      <div class="ann">
+        <div class="k">文案边界</div><div class="v">图下只写事实（哪一年起高于参考上限），不给健康建议、不做判断</div>
+        <div class="k">异常</div><div class="v">抽取不准 → 每个点长按改数值，改过标「已手动修正」并记负样本；同指标单位不一致 → 不自动换算，分组显示并提示；只有一次体检 → 不出折线，改单次数值表</div>
+        <div class="k">导出</div><div class="v">走统一导出通道：渲染后与预览做一致性校验，敏感项默认打码</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">另一条支线<br>证件</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">B5</span><span class="cn">证件卡片（打码态）</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span>🔒</span></div>
+        <div class="pt">身份证 · 本人</div>
+        <div class="pb">
+          <div class="blk s"><div class="bt">字段行 · 默认打码</div>号码　1101********1234　　查看 ｜ 复制</div>
+          <div class="blk">姓名　张**　　查看 ｜ 复制</div>
+          <div class="blk">有效期　2019.06 – 2039.06</div>
+          <div class="blk"><div class="bt">底部</div>谁用过这条 ＞</div>
+          <div class="blk w">查看需要验证一下是你（指纹 / 面容）</div>
+        </div>
+      </div>
+      <div class="ann">
+        <div class="k">规则</div><div class="v">卡片本地渲染不请网络；明文态禁止截屏录屏；复制后剪贴板 60s 自动清空</div>
+        <div class="k">异常</div><div class="v">身份校验连续 3 次失败锁定 30s，不给出任何字段内容</div>
+        <div class="k">去向</div><div class="v">「谁用过这条」→ 授权与开放管理的调用记录</div>
+      </div>
+    </div>
+
+    <div class="arw"><div class="a">→</div><div class="t">别处要用<br>订票填号</div></div>
+
+    <div class="col">
+      <div class="cap"><span class="no">B6</span><span class="cn">对外授权请求</span><span class="cs">新增</span></div>
+      <div class="ph">
+        <div class="sb"><span>9:41</span><span></span></div>
+        <div class="pb" style="padding-top:230px">
+          <div class="blk" style="text-align:center">［调用方图标］</div>
+          <div class="blk s" style="font-size:16px">订票要用到你笔记里的<br><b>身份证号 · 本人</b></div>
+          <div class="blk"><div class="bt">用来做什么</div>填写乘机人信息</div>
+          <div class="btn g" style="margin:14px 0 0">不允许</div>
+          <div class="btn g" style="margin:8px 0 0">这一次允许</div>
+          <div class="btn" style="margin:8px 0 0">一直允许</div>
+        </div>
+      </div>
+      <div class="ann">
+        <div class="k">这一屏是什么的落点</div><div class="v">「经用户授权、可撤回、调用留痕」三条口径在界面上的落点。授权到字段级，不是「读取你的笔记」</div>
+        <div class="k">规则</div><div class="v">允许 → 一次性提供该字段并写调用记录；一直允许可在授权管理单条撤回，撤回后下次重新问</div>
+        <div class="k">异常</div><div class="v">笔记里没有该字段 → 直接返回「没有这项内容」，不弹授权屏；请求字段超出登记范围 → 直接拒绝并记异常；被拒后同一调用方同一字段 24h 内不再问</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <div class="fc">
+      <div class="fk">这一节的需求点</div>
+      <div class="fv"><span class="p0">P0</span>多张照片归成一条，可排序可删单张<br><span class="p0">P0</span>读图抽字段（指标 / 金额 / 日期 / 证件号），结果可手动修正<br><span class="p0">P0</span>证件密码健康端侧不上云、默认打码、查看需身份校验<br><span class="p0">P0</span>同类指标跨年汇总并可回溯原报告<br><span class="p0">P0</span>对外授权到字段粒度，支持这一次 / 一直允许 / 撤回、调用留痕<br><span class="p0">P0</span>识别到复诊日期进待办与日历<br><span class="p1">P1</span>趋势图生成与导出</div>
+    </div>
+    <div class="fc">
+      <div class="fk">依赖方</div>
+      <div class="fv">识屏 OCR：报告版式解析、指标与单位抽取、证件字段抽取<br>端侧算法：敏感判定与端侧结构化、密钥与安全存储<br>系统：身份校验（指纹面容）、截屏管控、剪贴板超时清空<br>开放能力：授权协议、字段登记与范围校验、调用记录<br>三方：调用方接入与用途声明规范</div>
+    </div>
+    <div class="fc">
+      <div class="fk">验收标准</div>
+      <div class="fv">1 证件类全程无网络请求，抓包验证无外发；断网识别与打码照常<br>2 50 张常见报告版式，血压血糖血脂抽取准确率 ≥90%，可一键修正且趋势图立即更新<br>3 趋势图每点可回跳源笔记；源笔记删除后该点消失并注明<br>4 拒绝后 24h 不再弹；「一直允许」撤回后下次重新弹<br>5 所有导出通道默认不含明文证件号</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
