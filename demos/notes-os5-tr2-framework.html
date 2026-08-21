@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TR2 方案框架</title>
+<style>
+  :root{
+    --blue:#3A63E8; --green:#17A87B; --orange:#E0790F; --purple:#7A57DE;
+    --ink:#16181C; --ink2:#4A4E57; --ink3:#8B9099; --line:#E6E8EC;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#EFF0F3;font-family:"MiSans","PingFang SC",-apple-system,"Segoe UI",sans-serif;color:var(--ink);}
+  .slide{width:1440px;margin:0 auto;background:#fff;padding:56px 72px 58px;}
+  h1{font-size:46px;font-weight:800;letter-spacing:-.8px;}
+  .sub{font-size:18px;color:var(--ink3);margin-top:14px;}
+  .bar{width:1296px;height:6px;border-radius:3px;margin:22px 0 34px;
+       background:linear-gradient(90deg,#3A63E8 0%,#17A87B 34%,#E0790F 67%,#7A57DE 100%);opacity:.85;}
+
+  .step{display:flex;align-items:center;gap:14px;margin:0 0 20px;}
+  .no{width:34px;height:34px;border-radius:10px;background:var(--blue);color:#fff;
+      font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .st{font-size:27px;font-weight:800;letter-spacing:-.3px;}
+  .sd{font-size:16px;color:var(--ink3);margin-left:4px;}
+
+  /* ① 四类 */
+  .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .cat{border-radius:20px;padding:22px 22px 24px;border:1.5px solid;}
+  .cat .cn{font-size:22px;font-weight:800;margin-bottom:14px;}
+  .cat .k{font-size:14px;font-weight:700;color:var(--ink3);margin-bottom:6px;}
+  .cat .v{font-size:16px;line-height:1.65;color:var(--ink2);margin-bottom:14px;}
+  .cat .o{font-size:16px;line-height:1.65;font-weight:700;}
+  .b{background:rgba(58,99,232,.06);border-color:rgba(58,99,232,.24);} .b .cn,.b .o{color:var(--blue);}
+  .g{background:rgba(23,168,123,.06);border-color:rgba(23,168,123,.24);} .g .cn,.g .o{color:var(--green);}
+  .o1{background:rgba(224,121,15,.06);border-color:rgba(224,121,15,.24);} .o1 .cn,.o1 .o{color:var(--orange);}
+  .p{background:rgba(122,87,222,.06);border-color:rgba(122,87,222,.24);} .p .cn,.p .o{color:var(--purple);}
+
+  .cross{margin-top:16px;background:#F5F6F8;border:1px solid var(--line);border-radius:16px;
+         padding:16px 24px;display:flex;align-items:center;gap:18px;}
+  .chip{flex:0 0 auto;font-size:14px;font-weight:800;color:#fff;background:var(--blue);border-radius:999px;padding:8px 18px;}
+  .cross .ct{font-size:18px;font-weight:700;}
+
+  .finds{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px;}
+  .find{border:1.5px solid var(--line);border-radius:16px;padding:20px 22px;}
+  .find .fk{font-size:15px;font-weight:800;color:var(--blue);margin-bottom:8px;}
+  .find .fv{font-size:16px;line-height:1.7;color:var(--ink2);}
+
+  /* ② 主链路 */
+  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:stretch;}
+  .fl{background:rgba(58,99,232,.06);border:1.5px solid rgba(58,99,232,.24);border-radius:16px;
+      padding:20px 18px;text-align:center;}
+  .fl .fn{font-size:22px;font-weight:800;color:var(--blue);}
+  .fl .fd{font-size:15px;line-height:1.6;color:var(--ink2);margin-top:8px;}
+  .fl .fo{font-size:13px;color:var(--ink3);margin-top:10px;}
+
+  /* ③ 模块 */
+  .mods{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .mod{border:1.5px solid var(--line);border-radius:18px;padding:20px 20px 22px;background:#fff;}
+  .mod .mh{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .mod .mi{width:26px;height:26px;border-radius:8px;background:#EDF1FF;color:var(--blue);
+           font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .mod .mn{font-size:19px;font-weight:800;}
+  .mod ul{list-style:none;}
+  .mod li{font-size:15px;line-height:1.65;color:var(--ink2);padding-left:14px;position:relative;margin-bottom:8px;}
+  .mod li:last-child{margin-bottom:0;}
+  .mod li:before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:#C3C8D2;}
+
+  /* ④ 支撑 */
+  .sups{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .sup{background:#F5F6F8;border:1px solid var(--line);border-radius:18px;padding:20px 22px 22px;}
+  .sup .sn{font-size:19px;font-weight:800;margin-bottom:12px;}
+  .sup .sv{font-size:15px;line-height:1.75;color:var(--ink2);}
+
+  .foot{margin-top:26px;border-top:1px solid var(--line);padding-top:22px;display:flex;gap:26px;align-items:flex-start;}
+  .foot .fc{flex:1;}
+  .foot .fk{font-size:14px;font-weight:800;color:var(--ink3);margin-bottom:8px;}
+  .foot .fv{font-size:16px;line-height:1.7;color:var(--ink);}
+  .sec{margin-bottom:34px;}
+</style>
+</head>
+<body>
+<section class="slide">
+  <h1>TR2 方案框架</h1>
+  <div class="sub">TR1 讲清了做什么，TR2 要给出怎么做——先看用户大场景，再按主链路逐模块出设计逻辑，每个模块用同一套写法</div>
+  <div class="bar"></div>
+
+  <div class="sec">
+    <div class="step"><div class="no">1</div><div class="st">先看用户</div><div class="sd">大场景分析：用户存什么、我们给什么产出</div></div>
+    <div class="cats">
+      <div class="cat b">
+        <div class="cn">想法随记</div>
+        <div class="k">存什么</div>
+        <div class="v">育儿感想、工作思考、摘录草稿</div>
+        <div class="k">TR2 要给的产出</div>
+        <div class="o">成长记录合集、主题复盘</div>
+      </div>
+      <div class="cat g">
+        <div class="cn">生活管理</div>
+        <div class="k">存什么</div>
+        <div class="v">卡证单据、健康档案、收支账目</div>
+        <div class="k">TR2 要给的产出</div>
+        <div class="o">指标趋势图、证件调用、账目表格</div>
+      </div>
+      <div class="cat o1">
+        <div class="cn">学习备考</div>
+        <div class="k">存什么</div>
+        <div class="v">课堂笔记、讲义投影、错题</div>
+        <div class="k">TR2 要给的产出</div>
+        <div class="o">出题自测、复习推送、重点导图</div>
+      </div>
+      <div class="cat p">
+        <div class="cn">工作经营</div>
+        <div class="k">存什么</div>
+        <div class="v">客户单、报价、装维点数、会议记录</div>
+        <div class="k">TR2 要给的产出</div>
+        <div class="o">报价单 PDF、历史内容带出</div>
+      </div>
+    </div>
+    <div class="cross">
+      <div class="chip">贯穿四类</div>
+      <div class="ct">待办 · 日程：四类里都会记到，识别后进待办中心和日历，多端提醒</div>
+    </div>
+    <div class="finds">
+      <div class="find">
+        <div class="fk">发现一 · 最黏的用户，给得最少</div>
+        <div class="fv">装维、门窗、计件跨年记录，靠手写算式和空格对齐；表格、导出、对账是硬需求 → TR2 要给编辑与导出的完整方案</div>
+      </div>
+      <div class="find">
+        <div class="fk">发现二 · 系统看不见笔记里是什么</div>
+        <div class="fv">拍投影、拍工单、纯录音，正文 0 字；多数人不建文件夹 → TR2 要给读图听音的触发规则和自动归类规则</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="step"><div class="no">2</div><div class="st">主链路</div><div class="sd">所有模块挂在这条线上，标清每步的责任方</div></div>
+    <div class="flow">
+      <div class="fl"><div class="fn">记</div><div class="fd">各入口捕获，用户一键存</div><div class="fo">应用侧 + 系统入口</div></div>
+      <div class="fl"><div class="fn">理</div><div class="fd">分类打标、补内容、提概要</div><div class="fo">端侧模型 + 算法侧</div></div>
+      <div class="fl"><div class="fn">存与索引</div><div class="fd">结构化落库，存入即建索引</div><div class="fo">应用侧 + 系统引擎</div></div>
+      <div class="fl"><div class="fn">用</div><div class="fd">五类场景各出一个产出</div><div class="fo">应用侧</div></div>
+      <div class="fl"><div class="fn">分发</div><div class="fd">进待办日历、经授权被调用</div><div class="fo">系统侧 + 三方</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="step"><div class="no">3</div><div class="st">详细方案 · 按模块展开</div><div class="sd">每个模块一节，写清规则和边界，不只写功能</div></div>
+    <div class="mods">
+      <div class="mod">
+        <div class="mh"><div class="mi">01</div><div class="mn">捕获入口</div></div>
+        <ul>
+          <li>AI 键、悬浮球、截图分享、小爱、跨端各自的唤起路径</li>
+          <li>落库时机与存完给用户什么反馈</li>
+          <li>口径：用户一键存、自己决定存什么</li>
+        </ul>
+      </div>
+      <div class="mod">
+        <div class="mh"><div class="mi">02</div><div class="mn">自动理解</div></div>
+        <ul>
+          <li>四类判定规则、标签体系、置信度阈值</li>
+          <li>0 字笔记读图听音的触发时机与失败兜底</li>
+          <li>概要与打标字段规格；端侧处理边界</li>
+        </ul>
+      </div>
+      <div class="mod">
+        <div class="mh"><div class="mi">03</div><div class="mn">组织与首页</div></div>
+        <ul>
+          <li>四类首页信息架构、品类下主题分层</li>
+          <li>主题聚类规则；归错了怎么改</li>
+          <li>与原列表、文件夹的关系；老用户过渡</li>
+        </ul>
+      </div>
+      <div class="mod">
+        <div class="mh"><div class="mi">04</div><div class="mn">五场景产出</div></div>
+        <ul>
+          <li>每类一条完整用户路径</li>
+          <li>产出物规格：字段、版式、导出格式</li>
+          <li>内容不足时怎么提示</li>
+        </ul>
+      </div>
+      <div class="mod">
+        <div class="mh"><div class="mi">05</div><div class="mn">待办与日程</div></div>
+        <ul>
+          <li>识别规则与可点卡片类型</li>
+          <li>写进待办中心、日历的协议</li>
+          <li>去重、冲突、提醒与跨端同步策略</li>
+        </ul>
+      </div>
+      <div class="mod">
+        <div class="mh"><div class="mi">06</div><div class="mn">检索</div></div>
+        <ul>
+          <li>字段拆解方案：按哪些字段拆</li>
+          <li>查询类型与排序规则</li>
+          <li>与系统引擎的接口和分工</li>
+        </ul>
+      </div>
+      <div class="mod">
+        <div class="mh"><div class="mi">07</div><div class="mn">生态开放</div></div>
+        <ul>
+          <li>往里写：接口、字段、鉴权的接入规范</li>
+          <li>往外读：开放清单，哪些品类哪些字段</li>
+          <li>授权粒度、授权页与撤回交互</li>
+        </ul>
+      </div>
+      <div class="mod">
+        <div class="mh"><div class="mi">08</div><div class="mn">易用性</div></div>
+        <ul>
+          <li>手机 P00 / P0 清单逐条方案</li>
+          <li>PAD 手写、批注、文档导入</li>
+          <li>表格编辑等待评估项给结论</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="step"><div class="no">4</div><div class="st">三块支撑</div><div class="sd">单独成节，合规、技术、项目各看一块</div></div>
+    <div class="sups">
+      <div class="sup">
+        <div class="sn">数据与权限</div>
+        <div class="sv">三层数据模型：内容层 / 结构层实体字段 / 生成层<br>敏感内容清单与端侧处理边界<br>授权模型、撤回与调用留痕<br>存量笔记补理与迁移</div>
+      </div>
+      <div class="sup">
+        <div class="sn">效果与验收</div>
+        <div class="sv">每个 AI 功能的评测口径与阈值<br>用例集、衡量指标、CI 门禁<br>灰度与放量计划<br>上线判定标准</div>
+      </div>
+      <div class="sup">
+        <div class="sn">依赖与排期</div>
+        <div class="sv">依赖清单：能力 / 提供方 / 时间点 / 兜底<br>识屏、跨端、三方、算法四条外部线<br>里程碑：首版与敏捷版本各交付什么</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="fc">
+      <div class="fk">每个模块统一七项写法</div>
+      <div class="fv">用户场景与触发 · 交互流程 · 界面稿 · 规则与边界 · 数据与字段 · 依赖 · 验收标准</div>
+    </div>
+    <div class="fc">
+      <div class="fk">另设两页</div>
+      <div class="fv">范围与优先级（含本版不做）· TR1 遗留问题闭环表</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
