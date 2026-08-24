@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>笔记 TR2 · 02 内容的获取与理解</title>
+<style>
+  :root{--bg:#1C1C1C;--blue:#5680FF;--orange:#FF8514;--gray:rgba(217,217,217,.18);--red:#FF0000;--green:#1DCD3A;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:"MiSans","PingFang SC",-apple-system,sans-serif;color:#fff;}
+  .page{width:4400px;padding:520px 411px 400px;}
+  .ch{display:flex;align-items:center;margin-bottom:420px;}
+  .ch .no{font-size:300px;font-weight:900;color:rgba(86,128,255,.5);line-height:80px;letter-spacing:-6px;}
+  .ch .tt{font-size:200px;font-weight:700;color:var(--blue);margin-left:-90px;}
+  h1{font-size:150px;font-weight:700;color:#fff;margin:0 0 200px;}
+  h1 i{font-style:normal;color:var(--blue);margin-right:30px;}
+  h2{font-size:120px;font-weight:900;color:#fff;margin:0 0 150px;}
+  h2 i{font-style:normal;color:var(--blue);margin-right:24px;}
+  .cal{background:rgba(255,133,20,.2);border:6px solid var(--orange);border-radius:50px;
+       padding:90px 100px;display:flex;align-items:center;gap:60px;margin:0 0 260px;}
+  .cal .em{font-size:120px;line-height:1;}
+  .cal .tx{font-size:110px;font-weight:700;color:var(--orange);line-height:1.4;}
+
+  .cur{display:flex;gap:80px;margin-bottom:260px;}
+  .cur .it{flex:1;}
+  .cur .ph{height:820px;border:8px dashed rgba(255,255,255,.28);border-radius:60px;
+           display:flex;align-items:center;justify-content:center;text-align:center;
+           font-size:80px;color:rgba(255,255,255,.45);line-height:1.5;padding:50px;}
+  .cur .cp{font-size:110px;margin-top:70px;line-height:1.4;}
+
+  .keys{background:var(--gray);border-radius:100px;padding:135px 180px;margin-bottom:300px;}
+  .keys .row{display:flex;align-items:baseline;gap:60px;margin-bottom:84px;}
+  .keys .row:last-child{margin-bottom:0;}
+  .keys .k{font-size:150px;font-weight:700;color:var(--orange);width:760px;flex:0 0 auto;}
+  .keys .v{font-size:150px;font-weight:300;color:var(--orange);}
+
+  .way{margin-bottom:120px;}
+  .wbar{background:var(--orange);border-radius:32px;padding:80px 200px;display:inline-flex;
+        font-size:100px;font-weight:700;margin-bottom:120px;}
+  .tag{font-size:110px;font-weight:700;margin-bottom:60px;}
+  .sub{font-size:70px;color:#fff;opacity:.9;margin:0 0 60px;}
+  .flow{display:flex;align-items:center;gap:60px;margin-bottom:120px;flex-wrap:wrap;}
+  .pill{border:10px solid var(--blue);border-radius:80px;padding:70px 140px;font-size:110px;}
+  .pill.r{border-color:#FF5600;}
+  .lk{width:200px;height:10px;background:var(--blue);flex:0 0 auto;}
+  .pros{background:#000;border:6px solid #fff;border-radius:60px;padding:80px 100px;
+        display:flex;gap:200px;margin-bottom:80px;}
+  .pros .c{flex:1;font-size:80px;line-height:1.6;}
+  .pros .h1g{color:var(--green);font-weight:700;margin-bottom:24px;font-size:80px;}
+  .pros .h1r{color:var(--red);font-weight:700;margin-bottom:24px;font-size:80px;}
+  .biz{font-size:60px;color:rgba(255,255,255,.7);margin-bottom:220px;}
+
+  .ba{display:flex;gap:160px;margin-bottom:260px;}
+  .ba .it{flex:1;}
+  .ba .lbl{font-size:60px;color:#9B9B9B;margin-bottom:40px;}
+  .ba .ph{height:1100px;border:8px dashed rgba(255,255,255,.28);border-radius:48px;
+          display:flex;align-items:center;justify-content:center;text-align:center;
+          font-size:70px;color:rgba(255,255,255,.45);line-height:1.6;padding:50px;}
+  .tbl{width:100%;border-collapse:collapse;font-size:90px;margin-bottom:260px;}
+  .tbl th,.tbl td{border:5px solid #fff;padding:60px 50px;text-align:left;}
+  .tbl th{font-weight:700;}
+</style>
+</head>
+<body>
+<section class="page">
+
+  <div class="ch"><span class="no">02</span><span class="tt">内容的获取与理解</span></div>
+
+  <h2><i>##</i>现状：只有笔记内能记，存进来之后系统看不见里面是什么</h2>
+  <div class="cur">
+    <div class="it">
+      <div class="ph">［待补图］0 字笔记<br>拍投影 / 拍工单 / 纯录音</div>
+      <div class="cp">正文 0 字，最长一条录音 91 分钟</div>
+    </div>
+    <div class="it">
+      <div class="ph">［待补图］用户自己排版<br>手写连加算式、空格对齐</div>
+      <div class="cp">账目全是手写连加，没有人用表格</div>
+    </div>
+    <div class="it">
+      <div class="ph">［待补图］标题命名<br>「1」「2」「0912」</div>
+      <div class="cp">多数人不建文件夹，靠标题加序号加日期归类</div>
+    </div>
+  </div>
+
+  <h2><i>##</i>三个关键</h2>
+  <div class="keys">
+    <div class="row"><div class="k">1. 收得全</div><div class="v">各端各处都能记，别处的内容也能一键存进来</div></div>
+    <div class="row"><div class="k">2. 理得准</div><div class="v">0 字笔记要补出内容，字段抽得对、不准就不硬归</div></div>
+    <div class="row"><div class="k">3. 拿得出</div><div class="v">要用时给的是结果，且能回溯到原文</div></div>
+  </div>
+
+  <h1><i>#</i>实现方案</h1>
+  <h2><i>##</i>补出内容的三种方式</h2>
+
+  <div class="way">
+    <div class="wbar">方式一：端侧读图 + 听录音，把 0 字笔记补成可读正文</div>
+    <div class="tag">主推</div>
+    <div class="sub">方案原理</div>
+    <div class="flow">
+      <div class="pill r">拍投影 / 录音</div><div class="lk"></div>
+      <div class="pill">端侧读图 + 转写</div><div class="lk"></div>
+      <div class="pill">合成正文，段落标来源</div><div class="lk"></div>
+      <div class="pill">参与聚类与检索</div>
+    </div>
+    <div class="pros">
+      <div class="c"><div class="h1g">优：</div>- 敏感内容不出设备<br>- 断网也能用，无调用成本<br>- 每段可回溯到投影第几张、录音第几分钟</div>
+      <div class="c"><div class="h1r">劣：</div>- 长录音耗时，需后台跑<br>- 端侧模型能力受机型限制</div>
+    </div>
+    <div class="biz">依赖：端侧模型（算法侧）、后台长任务（系统侧）</div>
+  </div>
+
+  <div class="way">
+    <div class="wbar">方式二：系统级入口一键存，内容进来即建索引</div>
+    <div class="tag">主推</div>
+    <div class="sub">方案原理</div>
+    <div class="flow">
+      <div class="pill r">AI 键 / 悬浮球 / 分享</div><div class="lk"></div>
+      <div class="pill">存入确认卡</div><div class="lk"></div>
+      <div class="pill">落库并建索引</div><div class="lk"></div>
+      <div class="pill">四类首页归位</div>
+    </div>
+    <div class="pros">
+      <div class="c"><div class="h1g">优：</div>- 用户一步就存，成本最低<br>- 存什么由用户决定，口径清楚<br>- 入口可埋点，能评估哪些入口真被用</div>
+      <div class="c"><div class="h1r">劣：</div>- 识屏、跨端入口依赖外部团队排期</div>
+    </div>
+    <div class="biz">依赖：小爱识屏、系统分享、互联与可穿戴、汽车</div>
+  </div>
+
+  <div class="way">
+    <div class="wbar">方式三：三方生成的内容写进笔记</div>
+    <div class="tag">兜底</div>
+    <div class="sub">方案原理</div>
+    <div class="flow">
+      <div class="pill r">三方对话生成网页 / 文档</div><div class="lk"></div>
+      <div class="pill">点「存进笔记」</div><div class="lk"></div>
+      <div class="pill">来源留痕</div><div class="lk"></div>
+      <div class="pill">与自记内容同一套理解链路</div>
+    </div>
+    <div class="pros">
+      <div class="c"><div class="h1g">优：</div>- 对接入方也是内容出口，谈得动<br>- 不改用户习惯，多一条进来的路</div>
+      <div class="c"><div class="h1r">劣：</div>- 需要对方改代码，覆盖多少家取决于商务节奏</div>
+    </div>
+    <div class="biz">商务进度：待拉通，优先谈内容产生量大的应用</div>
+  </div>
+
+  <h1><i>#</i>产品方案</h1>
+  <h2><i>##</i>0 字笔记：从看不出存了什么，到能读、能搜、能被调用</h2>
+  <div class="ba">
+    <div class="it">
+      <div class="lbl">Before</div>
+      <div class="ph">［待补图］笔记详情<br>正文空白，只有一张投影图和一条 91 分钟录音<br>标题「0912」</div>
+    </div>
+    <div class="it">
+      <div class="lbl">After：补出正文并标注来源</div>
+      <div class="ph">［待补图］笔记详情<br>正文按段落补出<br>每段前标「来自投影第 1 张」「来自录音 08:15」</div>
+    </div>
+  </div>
+
+  <h2><i>##</i>理解不准时怎么办</h2>
+  <table class="tbl">
+    <tr><th style="width:900px">情况</th><th>处理</th><th style="width:900px">用户看到什么</th></tr>
+    <tr><td>置信度 ≥ 0.85</td><td>自动归到品类与主题</td><td>直接在主题下看到这条</td></tr>
+    <tr><td>0.60 – 0.85</td><td>不自动归，等用户点一下确认</td><td>存入时出现可点的建议标签</td></tr>
+    <tr><td>低于 0.60</td><td>落未分类，不硬归</td><td>首页未分类入口带数字角标</td></tr>
+    <tr><td>图无文字、录音无人声</td><td>不生成正文，保持附件态</td><td>「这条里没找到可以补出来的内容」</td></tr>
+    <tr><td>用户说这段不对</td><td>该段折叠回原附件，记为负样本</td><td>段落级「这段不对」可点</td></tr>
+  </table>
+
+</section>
+</body>
+</html>

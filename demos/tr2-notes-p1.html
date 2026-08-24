@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>笔记 TR2 · 01 需求背景</title>
+<style>
+  :root{--bg:#1C1C1C;--blue:#5680FF;--orange:#FF8514;--gray:rgba(217,217,217,.18);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:"MiSans","PingFang SC",-apple-system,sans-serif;color:#fff;}
+  .page{width:4400px;padding:520px 411px 400px;}
+
+  .ch{display:flex;align-items:center;gap:0;margin-bottom:420px;position:relative;}
+  .ch .no{font-size:300px;font-weight:900;color:rgba(86,128,255,.5);line-height:80px;letter-spacing:-6px;}
+  .ch .tt{font-size:200px;font-weight:700;color:var(--blue);margin-left:-90px;}
+
+  h1{font-size:150px;font-weight:700;color:#fff;margin:0 0 200px;}
+  h1 i{font-style:normal;color:var(--blue);margin-right:30px;}
+  h2{font-size:120px;font-weight:900;color:#fff;margin:0 0 150px;}
+  h2 i{font-style:normal;color:var(--blue);margin-right:24px;}
+
+  .cal{background:rgba(255,133,20,.2);border:6px solid var(--orange);border-radius:50px;
+       padding:100px 108px;display:flex;align-items:center;gap:60px;margin:0 0 300px;}
+  .cal .em{font-size:120px;line-height:1;}
+  .cal .tx{font-size:110px;font-weight:700;color:var(--orange);line-height:1.4;}
+
+  .three{display:flex;gap:100px;margin-bottom:180px;}
+  .three .it{flex:1;}
+  .three .ph{height:900px;border:8px dashed rgba(255,255,255,.28);border-radius:60px;
+             display:flex;align-items:center;justify-content:center;text-align:center;
+             font-size:80px;color:rgba(255,255,255,.45);line-height:1.5;padding:60px;}
+  .three .cp{font-size:110px;margin-top:80px;line-height:1.4;}
+  .src{font-size:60px;color:rgba(255,255,255,.6);margin-bottom:300px;}
+
+  .lane{display:flex;gap:0;margin-top:60px;}
+  .lab{width:300px;flex:0 0 auto;padding-top:0;}
+  .lab div{font-size:110px;font-weight:900;}
+  .lab .l1{height:520px;} .lab .l2{height:1180px;} .lab .l3{height:900px;}
+  .cols{flex:1;display:flex;gap:40px;}
+  .col{flex:1;}
+  .chip{background:var(--gray);border-radius:100px;height:371px;display:flex;align-items:center;
+        justify-content:center;font-size:110px;font-weight:900;text-align:center;padding:0 20px;}
+  .arrow{position:relative;height:150px;}
+  .need{padding-top:150px;height:1180px;font-size:100px;line-height:1.55;color:#fff;}
+  .need p{margin-bottom:40px;padding-left:60px;position:relative;}
+  .need p:before{content:"-";position:absolute;left:0;}
+  .fn{border:8px dashed rgba(217,217,217,.55);border-radius:20px;height:820px;padding:60px 50px;
+      display:flex;flex-direction:column;gap:36px;}
+  .fn span{font-size:100px;font-weight:500;line-height:1.25;}
+  .o{color:var(--orange);} .b{color:var(--blue);}
+  .note{font-size:80px;color:rgba(255,255,255,.65);margin:100px 0 0 300px;}
+
+  .sum{margin-left:300px;margin-top:220px;}
+  .bar{border-radius:0;height:316px;display:flex;align-items:center;padding-left:180px;
+       font-size:110px;font-weight:900;margin-bottom:96px;}
+  .bar.b1{background:var(--blue);} .bar.b2{background:var(--orange);}
+  .gap{height:360px;}
+</style>
+</head>
+<body>
+<section class="page">
+
+  <div class="ch"><span class="no">01</span><span class="tt">需求背景</span></div>
+
+  <h1><i>#</i>背景</h1>
+
+  <div class="three">
+    <div class="it">
+      <div class="ph">［待补图］Q2 十三周<br>带图反馈量趋势</div>
+      <div class="cp">Q2 全部带图反馈 1943 条</div>
+    </div>
+    <div class="it">
+      <div class="ph">［待补图］截图内容<br>逐张标注分布</div>
+      <div class="cp">801 张截图逐张看完，368 张露出真实笔记内容</div>
+    </div>
+    <div class="it">
+      <div class="ph">［待补图］四类内容<br>相对分布</div>
+      <div class="cp">收下来就四类：想法随记 / 生活管理 / 学习备考 / 工作经营</div>
+    </div>
+  </div>
+  <div class="src">＊样本来自反馈平台带图反馈，只给相对分级不给占比</div>
+
+  <div class="cal">
+    <span class="em">💡</span>
+    <span class="tx">用户已经在把长期要用的内容存进笔记，但存完之后系统看不见里面是什么，用户自己也找不回来</span>
+  </div>
+
+  <h1><i>#</i>目标</h1>
+  <div class="cal">
+    <span class="em">✏️</span>
+    <span class="tx">记完不用管，要用时直接给结果；内容经用户授权能被系统和三方调用</span>
+  </div>
+
+  <h1><i>#</i>需求分析</h1>
+  <h2><i>##</i>一条笔记的一生：</h2>
+
+  <div class="lane">
+    <div class="lab">
+      <div class="l1">阶段</div>
+      <div class="l2">需求</div>
+      <div class="l3">功能</div>
+    </div>
+    <div class="cols">
+
+      <div class="col">
+        <div class="chip">产生内容</div>
+        <div class="need">
+          <p>开会、通话时腾不出手</p>
+          <p>上课来不及记，拍投影开录音</p>
+          <p>干活时手不方便，说一句就行</p>
+        </div>
+        <div class="fn">
+          <span class="o">语音速记</span>
+          <span class="b">AI 键 · 悬浮球</span>
+          <span class="b">唤起小爱记一下</span>
+          <span class="b">跨端记录</span>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="chip">存进来</div>
+        <div class="need">
+          <p>别处生成的内容想留下来</p>
+          <p>存完不想再自己整理</p>
+          <p>存什么我自己决定</p>
+        </div>
+        <div class="fn">
+          <span class="b">一键存入确认</span>
+          <span class="b">三方内容写进笔记</span>
+          <span class="b">文档、链接生成笔记</span>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="chip">后台理解</div>
+        <div class="need">
+          <p>拍的投影和录音正文 0 字，看不出存了什么</p>
+          <p>证件、密码这类不想传出去</p>
+        </div>
+        <div class="fn">
+          <span class="b">分类打标</span>
+          <span class="b">读图、听录音补内容</span>
+          <span class="b">敏感内容端侧处理</span>
+          <span class="o">一句话概要</span>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="chip">归到一起</div>
+        <div class="need">
+          <p>不想建文件夹</p>
+          <p>同一件事散在几十条里</p>
+          <p>现在靠标题加序号加日期找</p>
+        </div>
+        <div class="fn">
+          <span class="b">四类首页</span>
+          <span class="b">按主题聚类</span>
+          <span class="b">未分类兜底</span>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="chip">要用时</div>
+        <div class="need">
+          <p>要的是一份能发出去的东西，不是那篇笔记</p>
+          <p>账目要自动算好合计</p>
+          <p>复习要知道哪里没懂</p>
+        </div>
+        <div class="fn">
+          <span class="b">跨篇聚合生成</span>
+          <span class="b">表格与合计</span>
+          <span class="b">出题与掌握度</span>
+          <span class="b">导出 PDF、分享</span>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="chip">分发出去</div>
+        <div class="need">
+          <p>记到的日期要变成提醒</p>
+          <p>证件号在别处要能填上</p>
+          <p>换个设备接着改</p>
+        </div>
+        <div class="fn">
+          <span class="b">待办中心与日历</span>
+          <span class="b">动作卡片</span>
+          <span class="b">经授权对外读取</span>
+          <span class="o">多端同步</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="note">功能颜色：<span class="o">橙 = OS4 已交付，本版继续升级</span>　｜　<span class="b">蓝 = OS5 新增</span></div>
+
+  <div class="sum">
+    <div class="bar b1">存完不用管：AI 在后台把内容理成结构化数据</div>
+    <div class="bar b2">要用时直接给结果，并且经授权能被系统和三方调用</div>
+  </div>
+
+</section>
+</body>
+</html>
