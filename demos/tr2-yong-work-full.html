@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>TR2 · 用 · 工作经营 完整方案</title>
+<style>
+  :root{--blue:#5780FF;--orange:#FF8514;--purple:#7F60D4;--red:#E0524B;--green:#1DA35C;
+        --ink:#000;--ink6:rgba(0,0,0,.6);--ink85:rgba(0,0,0,.85);--line:rgba(0,0,0,.12);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#fff;font-family:"MiSans","PingFang SC",-apple-system,sans-serif;color:var(--ink);}
+  .page{width:4000px;padding:290px 290px 400px;}
+  h1{font-size:107px;font-weight:700;letter-spacing:-1px;}
+  .div{height:9px;background:rgba(87,140,255,.6);margin:48px 0 37px;}
+  .lead{font-size:45px;color:var(--ink6);line-height:1.4;}
+  h2{font-size:72px;font-weight:700;margin:220px 0 0;}
+  h2 .no{color:var(--blue);margin-right:28px;}
+  h3{font-size:56px;font-weight:700;margin:130px 0 0;color:#333;}
+  h4{font-size:45px;font-weight:700;margin:90px 0 0;}
+  .sub{font-size:39px;color:var(--ink6);margin-top:28px;line-height:1.45;}
+
+  table{width:3340px;border-collapse:collapse;background:#F8F8F8;border:1px solid var(--line);
+        margin-top:56px;font-size:36px;}
+  thead td{background:#EEEEEE;color:var(--orange);font-weight:700;padding:30px 28px;font-size:34px;}
+  tbody td{border-top:1px solid rgba(0,0,0,.1);padding:30px 28px;line-height:1.45;
+           color:var(--ink85);vertical-align:top;}
+  tbody td.b{font-weight:700;color:#000;}
+  .p0{display:inline-block;font-size:26px;font-weight:700;color:#fff;background:var(--red);
+      border-radius:8px;padding:4px 12px;margin-right:10px;}
+  .p1{display:inline-block;font-size:26px;font-weight:700;color:#fff;background:#B9BFC9;
+      border-radius:8px;padding:4px 12px;margin-right:10px;}
+  code{font-family:"SF Mono",Menlo,monospace;font-size:32px;background:rgba(87,128,255,.08);
+       padding:2px 10px;border-radius:6px;}
+
+  .flow{background:rgba(87,128,255,.05);border:2px solid rgba(87,128,255,.25);border-radius:36px;
+        padding:56px 64px;margin-top:60px;font-size:38px;line-height:2;color:var(--ink85);}
+  .flow b{color:var(--blue);}
+  .flow .br{color:var(--red);}
+
+  .cal{background:rgba(255,133,20,.1);border:3px solid var(--orange);border-radius:32px;
+       padding:44px 56px;margin-top:60px;font-size:40px;font-weight:700;color:#B85E00;line-height:1.5;}
+  .warn{background:rgba(224,82,75,.07);border:3px solid rgba(224,82,75,.35);border-radius:32px;
+        padding:44px 56px;margin-top:60px;font-size:38px;line-height:1.6;color:#8E2A24;}
+
+  .scr{display:flex;gap:80px;margin-top:70px;align-items:flex-start;}
+  .ph{width:392px;flex:0 0 auto;height:851px;border:1px solid rgba(0,0,0,.19);border-radius:58px;
+      background:#F5F6F8;padding:48px 26px;font-size:24px;color:rgba(0,0,0,.5);line-height:1.65;}
+  .ph b{display:block;font-size:28px;color:rgba(0,0,0,.85);margin:0 0 14px;}
+  .ph .row{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:14px;margin-bottom:12px;}
+  .ph .row .t{font-size:22px;color:rgba(0,0,0,.4);margin-bottom:6px;}
+  .ph .btn{background:#5780FF;color:#fff;border-radius:22px;height:64px;display:flex;
+           align-items:center;justify-content:center;font-size:26px;font-weight:700;margin-top:14px;}
+  .ann{flex:1;}
+  .note{font-size:32px;color:rgba(0,0,0,.4);margin-top:32px;}
+</style>
+</head>
+<body>
+<section class="page">
+
+  <h1>用 · 工作经营 —— 完整产品方案</h1>
+  <div class="div"></div>
+  <div class="lead">TR1 定的是「一个项目的零散笔记一键汇成合计算好的报价单」。这一节把它拆到可交付：逐屏区块与控件、字段与规则、四态与异常、埋点、可测验收。</div>
+
+  <h2><span class="no">01</span>场景定义与用户</h2>
+  <div class="sub">这一节要回答：谁、多久用一次、内容有多大、现在靠什么撑着。规模数字决定了性能指标和默认值。</div>
+  <table>
+    <thead><tr><td style="width:340px">项</td><td>内容</td><td style="width:900px">依据</td></tr></thead>
+    <tbody>
+      <tr><td class="b">典型用户</td><td>装维 / 门窗安装 / 计件工 / 电厂检修 / 小型工程从业者，一人对多个客户或项目，自己记账自己报价</td><td>Q2 截图分析，该类内容跨两年以上持续记录，是留存最稳的一批</td></tr>
+      <tr><td class="b">记录频次</td><td>每完成一户或一个工序记一次，日均 1–5 条；旺季单日可达 10 条以上</td><td>同一用户笔记时间序列</td></tr>
+      <tr><td class="b">单项目规模</td><td>典型 40–80 条记录，跨 1–3 个月；本方案按 63 条 / 3 个月为基准做性能设计</td><td>真实样本（城南小区改造 63 条，其中 41 条带数量）</td></tr>
+      <tr><td class="b">现状做法</td><td>账目为手写连加算式（<code>3+2+4+1.5=</code>）；流水靠空格对齐成列；无人使用表格；导出为分享图后列错位</td><td>截图中该类记录无一例使用表格控件</td></tr>
+      <tr><td class="b">要用的时刻</td><td>项目结束或月末对账时，需要一份能直接发客户的单子：金额算好、格式整齐、抬头齐全</td><td>反馈中反复催表格与导出</td></tr>
+      <tr><td class="b">失败代价</td><td>金额算错要重新对账并向客户解释，直接影响收款，用户对准确性零容忍</td><td>决定了「明细与总计不一致时禁止导出」这条硬规则</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="no">02</span>本节目标与衡量</h2>
+  <table>
+    <thead><tr><td style="width:520px">目标</td><td>可测口径</td><td style="width:520px">目标值</td></tr></thead>
+    <tbody>
+      <tr><td class="b">记得动</td><td>语音记一条工单的端到端耗时（唤起→存入完成）</td><td>≤ 8 秒</td></tr>
+      <tr><td class="b">抽得准</td><td>客户 + 数量 + 单位三项全对的比例（100 条真实口述样本）</td><td>≥ 85%</td></tr>
+      <tr><td class="b">算得对</td><td>总计等于各行小计之和；任一格修改后重算延迟</td><td>100% 一致，重算 ≤ 200ms</td></tr>
+      <tr><td class="b">发得出</td><td>导出文件的行数、列数、总计与预览一致</td><td>抽查 50 份 100% 一致</td></tr>
+      <tr><td class="b">省得下</td><td>生成一份报价单相比手工整理节省的操作步数</td><td>由 20+ 步降到 4 步以内</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="no">03</span>端到端流程与分支</h2>
+  <div class="flow">
+    <b>主流程</b>：上门完工 → 语音记一条（D1）→ 存入确认（A2）→ 后台抽字段并归到项目主题 → 需要成列时插表格（D2）→ 月末点「汇成报价单」（G3）→ 选范围与单价（D4）→ 预览校对合计（D5）→ 导出 PDF 发客户（D6）<br>
+    <span class="br">分支 1</span>：口述里没有数量 → 不出结构预览行，按普通笔记存，不进报价单可用集合<br>
+    <span class="br">分支 2</span>：出现两个同名客户 → 结构预览行给两个候选让用户点选，不自动挑<br>
+    <span class="br">分支 3</span>：某客户没有单价 → 该行单价位标黄、不给小计，预览顶部黄条汇总「有 N 行还没填单价」<br>
+    <span class="br">分支 4</span>：明细与总计校验不通过 → 顶部红条并禁用导出按钮，不产出文件<br>
+    <span class="br">分支 5</span>：源笔记被改动 → 回到预览时提示「源记录有变化，重新算一次？」，用户确认后重算<br>
+    <span class="br">分支 6</span>：生成超 5 秒 → 转后台，完成后通知栏提示，界面退出不中断
+  </div>
+
+  <h2><span class="no">04</span>屏级清单</h2>
+  <table>
+    <thead><tr><td style="width:200px">编号</td><td style="width:600px">屏名</td><td>进入路径</td><td style="width:420px">状态数</td><td style="width:260px">优先级</td></tr></thead>
+    <tbody>
+      <tr><td class="b">D1</td><td>语音记工单</td><td>AI 键 / 悬浮球 / 耳机唤起</td><td>4（聆听 / 已出结构 / 无结构 / 同名待选）</td><td><span class="p0">P0</span></td></tr>
+      <tr><td class="b">D2</td><td>表格插入与编辑</td><td>笔记详情底部编辑条「插入表格」</td><td>5（空表 / 编辑中 / 含合计 / 非法值 / 横向溢出）</td><td><span class="p0">P0</span> 欠账 P00</td></tr>
+      <tr><td class="b">G3</td><td>项目主题页</td><td>品类页点项目主题</td><td>3（可生成 / 无数量不可生成 / 摘要未就绪）</td><td><span class="p0">P0</span></td></tr>
+      <tr><td class="b">D4</td><td>报价单生成设置</td><td>G3「汇成报价单」</td><td>4（默认 / 单价缺失 / 生成中 / 生成失败）</td><td><span class="p0">P0</span></td></tr>
+      <tr><td class="b">D5</td><td>预览与合计校对</td><td>D4 生成完成 / 生成物列表</td><td>5（正常 / 有缺单价 / 已修改 / 校验不通过 / 源记录变更）</td><td><span class="p0">P0</span></td></tr>
+      <tr><td class="b">D6</td><td>导出与分享</td><td>D5 底部</td><td>4（默认 / 列宽溢出建议横向 / 渲染中 / 校验失败）</td><td><span class="p0">P0</span></td></tr>
+      <tr><td class="b">D7</td><td>历史带出（写新单时）</td><td>笔记详情内联</td><td>2（有历史 / 无历史不出现）</td><td><span class="p1">P1</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="no">05</span>D1 语音记工单 · 详细规格</h2>
+  <div class="scr">
+    <div class="ph">
+      <b>D1 · 已出结构态</b>
+      <div class="row"><div class="t">转写区</div>李工今天 3 个点数，现场拍了一张</div>
+      <div class="row"><div class="t">结构预览行 · 每项可点开改</div>李工 ▾　·　3 ▾　·　点数 ▾　·　今天 ▾</div>
+      <div class="row"><div class="t">项目归属</div>记到 城南小区改造 ▾（沿用上一条）</div>
+      <div class="row"><div class="t">附加</div>📷 现场照片作为凭证附在同一行</div>
+      <div class="btn">完 成</div>
+    </div>
+    <div class="ann">
+      <h4>区块与控件</h4>
+      <table style="width:2540px">
+        <thead><tr><td style="width:360px">区块</td><td>控件与行为</td></tr></thead>
+        <tbody>
+          <tr><td class="b">转写区</td><td>边说边出字，实时上滑；已出文字可点入光标改；长按整段可重录</td></tr>
+          <tr><td class="b">结构预览行</td><td>识别到「人名 + 数量 + 单位」时浮出，四段独立可点：客户、数量、单位、日期。点开为轻量选择器，不跳页</td></tr>
+          <tr><td class="b">项目归属</td><td>下拉，默认沿用该用户上一条的项目；列表按最近使用排序，支持新建项目</td></tr>
+          <tr><td class="b">附加区</td><td>拍照 / 相册；照片挂到该条记录，报价单中作为可选附页</td></tr>
+          <tr><td class="b">底部</td><td>主按钮「完成」；左「取消」需二次确认；右侧计时</td></tr>
+        </tbody>
+      </table>
+
+      <h4>字段规格</h4>
+      <table style="width:2540px">
+        <thead><tr><td style="width:420px">字段</td><td style="width:300px">类型</td><td>抽取规则与默认</td></tr></thead>
+        <tbody>
+          <tr><td class="b">record.client</td><td>text</td><td>人名或称呼（李工 / 王姐 / 张师傅）；与该项目历史客户做模糊匹配，命中则复用同一实体</td></tr>
+          <tr><td class="b">record.qty</td><td>number</td><td>支持中文数字与小数（三个 / 3 / 3.5）；无数量则不生成该字段</td></tr>
+          <tr><td class="b">record.unit</td><td>enum + 自定义</td><td>点数 / 户 / 米 / 平米 / 个 / 小时；未识别时留空并高亮待确认，不猜</td></tr>
+          <tr><td class="b">record.date</td><td>date</td><td>相对时间换算成具体日期，并标注「按今天算的」；用户可改</td></tr>
+          <tr><td class="b">record.project</td><td>ref</td><td>默认沿用上一条；用户改动后作为后续默认</td></tr>
+          <tr><td class="b">record.unit_price</td><td>number ／ 空</td><td>口述中带单价（每个 80）则填入并标「来自笔记」；否则留空，在 D4 补</td></tr>
+          <tr><td class="b">record.evidence[]</td><td>media</td><td>现场照片；报价单附页可选包含</td></tr>
+          <tr><td class="b">source_entry</td><td>enum</td><td>ai_key / float_ball / headset；用于评估各入口实际使用量</td></tr>
+        </tbody>
+      </table>
+
+      <h4>文案规格</h4>
+      <table style="width:2540px">
+        <thead><tr><td style="width:420px">位置</td><td>文案</td><td style="width:520px">禁止</td></tr></thead>
+        <tbody>
+          <tr><td class="b">起始占位</td><td>说吧，边说边写</td><td>不写「请开始语音输入」</td></tr>
+          <tr><td class="b">结构预览行</td><td>直接给四段可改内容，不加解释文字</td><td>不写「已为您识别到」</td></tr>
+          <tr><td class="b">项目下拉</td><td>记到 城南小区改造</td><td>不写「选择归属项目」</td></tr>
+          <tr><td class="b">单位待确认</td><td>这个单位没听清，点一下选</td><td>不写「识别失败」</td></tr>
+          <tr><td class="b">同名候选</td><td>两个李工，是哪一个？</td><td>不自动挑一个</td></tr>
+        </tbody>
+      </table>
+
+      <h4>四态与异常</h4>
+      <table style="width:2540px">
+        <thead><tr><td style="width:360px">情况</td><td>处理</td></tr></thead>
+        <tbody>
+          <tr><td class="b">加载</td><td>浮层首帧 ≤ 300ms；模型未就绪先录音后转写，不让用户等</td></tr>
+          <tr><td class="b">空态</td><td>说完没识别到内容：保留录音，「这段没听清，录音已经留着了」，仍可存入</td></tr>
+          <tr><td class="b">结构未出</td><td>500ms 内未出结构预览则不出该区块，按普通笔记存，不阻塞</td></tr>
+          <tr><td class="b">识别错</td><td>结构预览行直接改；改动记为该用户偏好样本，同名客户后续优先匹配；同时进负样本集</td></tr>
+          <tr><td class="b">中途来电</td><td>录音暂停并存草稿，通话结束回到 D1 提示「刚才那段还在，接着说」</td></tr>
+          <tr><td class="b">断网</td><td>录音与存入全部可用；抽字段联网后补做，界面用一条细提示说明</td></tr>
+        </tbody>
+      </table>
+
+      <h4>埋点</h4>
+      <table style="width:2540px">
+        <thead><tr><td style="width:520px">事件</td><td>参数</td><td style="width:600px">用途</td></tr></thead>
+        <tbody>
+          <tr><td class="b">d1_invoke</td><td>source_entry</td><td>各入口实际使用量，决定下版哪些入口继续投</td></tr>
+          <tr><td class="b">d1_struct_shown</td><td>latency_ms, fields_filled</td><td>结构预览出现率与时延</td></tr>
+          <tr><td class="b">d1_struct_edited</td><td>field, from, to</td><td>哪个字段错得最多，回流评测集</td></tr>
+          <tr><td class="b">d1_saved</td><td>has_qty, has_price, has_photo</td><td>可进报价单的记录占比</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2><span class="no">06</span>D2 表格插入与编辑 · 详细规格</h2>
+  <div class="cal">这是易用性欠账里优先级最高的一条（手机 P00）。用户现在靠空格对齐，本版要给到真正的表格：能增删行列、能拖列宽、数字列能自动合计。</div>
+  <div class="scr">
+    <div class="ph">
+      <b>D2 · 含合计态</b>
+      <div class="row" style="font-family:Menlo;font-size:22px">客户　│数量│单价│小计　⇢<br>李工　│ 3 │ 80 │ 240<br>王姐　│ 2 │ 80 │ 160<br>张师傅│ 4 │ 75 │ 300<br>—————————————<br><b style="display:inline">合计　│ 9 │ 　 │ 700</b></div>
+      <div class="row" style="background:#FFF8E6"><div class="t">非法值</div>「数量」列第 4 行输入了文字：该格标黄，合计跳过并注明「有 1 格没算进去」</div>
+      <div class="row"><div class="t">键盘上方工具行</div>⊞行　⊟行　⊞列　⊟列　≡对齐　Σ合计</div>
+    </div>
+    <div class="ann">
+      <h4>控件与规则</h4>
+      <table style="width:2540px">
+        <thead><tr><td style="width:400px">项</td><td>规格</td></tr></thead>
+        <tbody>
+          <tr><td class="b">插入</td><td>默认 3×3；插入后光标落第一格；空表列头给浅色占位「客户 / 数量 / 单价」，点一下即替换</td></tr>
+          <tr><td class="b">列类型</td><td>文本 / 数字 / 日期，按首两行内容自动判定，用户可在列头改；数字列右对齐</td></tr>
+          <tr><td class="b">增删</td><td>工具行增行、增列、删行、删列；删除有撤销（5 秒内）</td></tr>
+          <tr><td class="b">列宽</td><td>可拖动；最小 64dp；拖动时显示当前列宽；记忆到该表格</td></tr>
+          <tr><td class="b">横向溢出</td><td>右侧渐隐提示 + 可滑动，不让用户以为只有这几列；表头固定不随横滑消失</td></tr>
+          <tr><td class="b">合计</td><td>选中数字列点「Σ合计」，在列底生成合计行；单元格变化时自动重算；合计行样式加粗、不可直接编辑</td></tr>
+          <tr><td class="b">小计列</td><td>可设为公式列（数量 × 单价）；任一因子变化即重算；用户可覆盖为手填并标「已手改」</td></tr>
+          <tr><td class="b">数值精度</td><td>金额保留 2 位小数，四舍五入；数量保留 2 位；合计按各行小计求和，不按未舍入原值累加</td></tr>
+          <tr><td class="b">非法值</td><td>数字列输入文字：该格标黄，合计跳过并在合计行注明「有 N 格没算进去」，不静默算错</td></tr>
+          <tr><td class="b">语音填表</td><td>口述「李工 3 个点数每个 80」按当前列结构填入一行；列对不上时填最近似列并高亮待确认</td></tr>
+          <tr><td class="b">性能</td><td>30 行 × 8 列横滑与纵滑 60fps；100 行以内不卡顿；低端机降级为分页渲染</td></tr>
+        </tbody>
+      </table>
+      <h4>异常</h4>
+      <table style="width:2540px">
+        <thead><tr><td style="width:400px">情况</td><td>处理</td></tr></thead>
+        <tbody>
+          <tr><td class="b">粘贴超宽内容</td><td>按列截断并提示「粘进来的内容比表格宽，多出的放到了最后一列」</td></tr>
+          <tr><td class="b">删除含合计的列</td><td>二次确认，说明合计行会一起去掉</td></tr>
+          <tr><td class="b">协同冲突</td><td>跨端同时编辑同一格：后到的改动覆盖并留一条历史，可回退</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2><span class="no">07</span>D4 报价单生成设置 · 参数与校验</h2>
+  <table>
+    <thead><tr><td style="width:460px">参数</td><td style="width:560px">默认值</td><td>规则与校验</td></tr></thead>
+    <tbody>
+      <tr><td class="b">时间范围</td><td>该项目全部跨度</td><td>可改起止；改动后立即重算「会用到多少条」</td></tr>
+      <tr><td class="b">单价</td><td>按客户 / 按工序分别填；笔记里记过的自动带出并标「来自笔记」</td><td>缺失时该行标黄且不给小计；不允许用其他客户单价推测填充</td></tr>
+      <tr><td class="b">包含项</td><td>人工点数 ✔　材料 ✔　现场照片附页 ✕</td><td>三者独立开关；材料行无数量时按金额直接入账</td></tr>
+      <tr><td class="b">抬头</td><td>项目名、客户名、我的名号与联系方式（首次填写后记住）</td><td>客户名必填才允许导出；联系方式可选</td></tr>
+      <tr><td class="b">范围说明行</td><td>会用到 63 条里的 41 条，其余没有数量、不计入</td><td>必须显示被排除条数与原因，生成前让用户知道差在哪</td></tr>
+      <tr><td class="b">性能</td><td>生成 ≤ 5s</td><td>超时转后台并通知；长任务跑在独立服务进程，界面退出不中断</td></tr>
+      <tr><td class="b">失败</td><td>—</td><td>保留全部设置，提示可重试，不产出半成品文件</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="no">08</span>D5 预览与合计校对 · 计算与校验</h2>
+  <div class="sub">这一屏的唯一目标：让用户敢把这份直接发出去。每一行能对到原始记录，合计是算出来的不是抄来的。</div>
+  <table>
+    <thead><tr><td style="width:460px">区块</td><td>结构</td><td style="width:900px">规则</td></tr></thead>
+    <tbody>
+      <tr><td class="b">顶部提示条</td><td>黄条：有 N 行还没填单价，可点开逐条处理；红条：明细和总计对不上，先核对一下</td><td>红条出现时禁用导出按钮</td></tr>
+      <tr><td class="b">抬头</td><td>项目名 · 报价单 / 客户 / 日期区间 / 我的联系方式</td><td>客户名缺失时不允许进入导出</td></tr>
+      <tr><td class="b">明细表</td><td>日期 / 客户或工序 / 数量 / 单价 / 小计 / 跳转图标</td><td>每行携带 <code>source_note_id</code>，点图标回到源笔记；行序按日期升序，同日按记录时间</td></tr>
+      <tr><td class="b">合计区</td><td>分项小计（人工 / 材料）+ 总计 + 一行「由 41 条记录合计得出」</td><td>总计 = Σ 各行小计；计算完成前显示「计算中」而不是 0</td></tr>
+      <tr><td class="b">修改联动</td><td>改数量或单价 → 小计与总计立即重算，该行标「已修改」</td><td>重算 ≤ 200ms；修改只写生成层，不改用户原始笔记</td></tr>
+      <tr><td class="b">源记录变更</td><td>从源笔记返回时比对版本号</td><td>有变化则提示「源记录有变化，重新算一次？」，用户确认后重算</td></tr>
+      <tr><td class="b">一致性校验</td><td>行数、各行小计、分项小计、总计四项</td><td>任一不通过则禁止导出并出红条（对应不变量：明细与总计必须一致）</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="no">09</span>D6 导出 · 格式与一致性校验</h2>
+  <table>
+    <thead><tr><td style="width:460px">项</td><td>规格</td><td style="width:820px">失败处理</td></tr></thead>
+    <tbody>
+      <tr><td class="b">格式</td><td>PDF（默认）/ 长图 / Excel <span class="p1">P1</span></td><td>—</td></tr>
+      <tr><td class="b">纸张</td><td>A4 纵向默认；列宽超出时提示「列比较多，横向排更清楚」并一键切换</td><td>建议仅在溢出时出现，不常驻</td></tr>
+      <tr><td class="b">内容检查</td><td>现场照片是否附页、联系方式是否显示、有无敏感项</td><td>命中敏感项默认打码，需逐项放开</td></tr>
+      <tr><td class="b">一致性校验</td><td>渲染完成后比对：明细行数、每行列数、分项小计、总计四项与预览一致</td><td>不一致则不产出文件并提示重试（这是「导出分享图错位」这条欠账的收口点）</td></tr>
+      <tr><td class="b">字体</td><td>缺字回退系统字体</td><td>不出现方框</td></tr>
+      <tr><td class="b">权限</td><td>存储权限被拒</td><td>改为直接分享文件流，不落盘，不阻断</td></tr>
+      <tr><td class="b">留存</td><td>导出文件挂到生成物列表</td><td>下次可直接取用，不必重新生成</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="no">10</span>数据模型（本节涉及部分）</h2>
+  <table>
+    <thead><tr><td style="width:340px">层</td><td style="width:620px">实体</td><td>字段</td></tr></thead>
+    <tbody>
+      <tr><td class="b">内容层</td><td>note</td><td><code>note_id</code>、<code>rich_text</code>（含表格）、<code>media[]</code>（现场照片）、<code>audio_ref</code>、<code>source_entry</code>、<code>version</code></td></tr>
+      <tr><td class="b">结构层</td><td>record</td><td><code>note_id</code>、<code>client</code>、<code>qty</code>、<code>unit</code>、<code>unit_price</code>、<code>price_source</code>、<code>date</code>、<code>project</code>、<code>confidence</code>、<code>corrected_by_user</code></td></tr>
+      <tr><td class="b">结构层</td><td>table</td><td><code>rows[][]</code>、<code>col_meta[].type</code>、<code>total_row</code>、<code>formula_cols[]</code>、<code>col_widths[]</code></td></tr>
+      <tr><td class="b">生成层</td><td>invoice</td><td><code>gen_id</code>、<code>config</code>（D4 全部参数）、<code>lines[]</code>（每行含 <code>source_note_id</code>、<code>modified</code>）、<code>subtotal[]</code>、<code>total</code>、<code>excluded_note_ids[]</code> + 排除原因、<code>created_at</code>、<code>regenerated_at</code></td></tr>
+    </tbody>
+  </table>
+  <div class="warn"><b>写入约束</b>：生成与修改只写生成层，不改写用户原始笔记；重生成复用 <code>config</code>；被排除的记录与原因必须可查，界面上如实说明。</div>
+
+  <h2><span class="no">11</span>规则汇总</h2>
+  <table>
+    <thead><tr><td style="width:520px">规则</td><td>口径</td></tr></thead>
+    <tbody>
+      <tr><td class="b">抽取置信度</td><td>≥ 0.85 直接填入结构预览；0.60–0.85 填入并高亮待确认；&lt; 0.60 不填该字段，不猜</td></tr>
+      <tr><td class="b">同名客户</td><td>不自动消歧，给候选让用户点选；用户选过一次后同项目内沿用</td></tr>
+      <tr><td class="b">单位不一致</td><td>同一项目出现「点数」与「个」：不自动换算，分组合计并提示「这两组单位不一样」</td></tr>
+      <tr><td class="b">四舍五入</td><td>金额 2 位小数；先算行小计再求和，不用未舍入原值累加</td></tr>
+      <tr><td class="b">缺失单价</td><td>不推测、不套用其他客户单价；该行不参与总计，并在顶部汇总提示</td></tr>
+      <tr><td class="b">不编造</td><td>明细行必须能定位到源记录；定位不到的行不输出（对应评测门禁项）</td></tr>
+      <tr><td class="b">修改优先</td><td>用户手改过的字段与行，后续重算与重生成不覆盖</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="no">12</span>异常与降级总表</h2>
+  <table>
+    <thead><tr><td style="width:460px">类别</td><td>原则</td><td style="width:1100px">本节落点</td></tr></thead>
+    <tbody>
+      <tr><td class="b">识别不准</td><td>在出错的那一处直接改，改完即生效并记负样本；不弹「识别失败」</td><td>D1 结构预览行、D2 单元格、D5 明细行</td></tr>
+      <tr><td class="b">内容不足</td><td>不生成半成品，如实说明差什么</td><td>项目无带数量记录时不出生成入口；缺单价行不给小计</td></tr>
+      <tr><td class="b">生成失败</td><td>保留设置与输入，可重试；已有旧版本不被覆盖</td><td>D4 / D5</td></tr>
+      <tr><td class="b">导出错位</td><td>渲染后一致性校验，不一致不产出文件</td><td>D6（四类共用同一套导出通道）</td></tr>
+      <tr><td class="b">权限被拒</td><td>降级不阻断，给替代路径</td><td>存储权限 → 直接分享文件流</td></tr>
+      <tr><td class="b">网络不可达</td><td>记录、存入、查看本地内容全可用</td><td>抽字段与生成联网后补做</td></tr>
+      <tr><td class="b">长任务中断</td><td>后台进程承接，界面退出不中断</td><td>63 条记录生成报价单</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="no">13</span>验收标准</h2>
+  <table>
+    <thead><tr><td style="width:120px">#</td><td>可测条目</td><td style="width:520px">方法</td></tr></thead>
+    <tbody>
+      <tr><td class="b">1</td><td>100 条真实口述样本，客户 + 数量 + 单位三项全对 ≥ 85%；错的可在结构预览行一次改完</td><td>样本回放 + 人工校对</td></tr>
+      <tr><td class="b">2</td><td>表格：插入、增删行列、拖列宽、数字列合计全部可用；30 行以上横滑 60fps；非数字格不参与合计并有明确标记</td><td>真机走查 + 帧率抓取</td></tr>
+      <tr><td class="b">3</td><td>明细行数与参与计算的记录数一致；总计 = Σ 各行小计；改任一格 200ms 内重算</td><td>构造 20 组数据断言</td></tr>
+      <tr><td class="b">4</td><td>每行可跳回源笔记；源笔记删除后该行标注来源已删除，不静默丢</td><td>抽查 50 行</td></tr>
+      <tr><td class="b">5</td><td>PDF 与长图的行数、列数、分项小计、总计与预览完全一致；校验不通过时不产出文件</td><td>抽查 50 份导出</td></tr>
+      <tr><td class="b">6</td><td>63 条记录、跨 3 个月的项目，生成 ≤ 5s；超时转后台并通知，界面退出不中断</td><td>真机计时</td></tr>
+      <tr><td class="b">7</td><td>生成与修改不改写原始笔记（比对 note 版本号与内容哈希）</td><td>自动化断言</td></tr>
+      <tr><td class="b">8</td><td>断网下 D1 全流程可用；联网后字段补齐</td><td>飞行模式走查</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="no">14</span>依赖与待确认</h2>
+  <table>
+    <thead><tr><td style="width:520px">项</td><td>内容</td><td style="width:620px">需要谁</td></tr></thead>
+    <tbody>
+      <tr><td class="b">算法</td><td>客户 / 数量 / 单位 / 金额抽取；跨篇按客户与项目归拢；同名消歧候选</td><td>AI 技术部</td></tr>
+      <tr><td class="b">编辑器</td><td>表格插入与编辑、列宽、合计与公式列、低端机渲染降级</td><td>编辑器方向（已知技术卡点，已对齐优先解决）</td></tr>
+      <tr><td class="b">导出渲染</td><td>PDF / 长图排版与一致性校验能力</td><td>客户端</td></tr>
+      <tr><td class="b">系统</td><td>拨号、通讯录、日历、分享面板；后台长任务</td><td>系统侧</td></tr>
+      <tr><td class="b">待确认 1</td><td>Excel 导出是否进本版（现按 P1 排）</td><td>产品定</td></tr>
+      <tr><td class="b">待确认 2</td><td>公式列做到什么程度：仅「数量 × 单价」，还是支持自定义公式</td><td>产品 + 编辑器</td></tr>
+      <tr><td class="b">待确认 3</td><td>报价单是否需要盖章 / 签名位（部分用户会打印后手签）</td><td>需用研补一轮</td></tr>
+      <tr><td class="b">待确认 4</td><td>跨端：PAD 上表格编辑与导出是否同版交付</td><td>PAD 线</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">＊本页界面均为占位线框，标注了每屏必须有的区块、控件、文案与规则；高保真视觉稿另出。其余四类场景（想法随记 / 生活管理 / 学习备考 / 待办日程）按同一模板逐节展开。</div>
+
+</section>
+</body>
+</html>
