@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>「用」产品方案</title>
+<style>
+  :root{--blue:#5780FF;--orange:#FF8514;--ink:#000;--ink6:rgba(0,0,0,.6);--ink85:rgba(0,0,0,.85);
+        --line:rgba(0,0,0,.12);--green:#35D499;--purple:#A68CFA;--yellow:#FFBB0F;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#fff;font-family:"MiSans","PingFang SC",-apple-system,sans-serif;color:var(--ink);}
+  .page{width:4000px;padding:290px 290px 400px;}
+  .sec{margin-bottom:300px;}
+  h1{font-size:107px;font-weight:700;letter-spacing:-1px;}
+  .div{height:9px;background:rgba(87,140,255,.6);margin:48px 0 37px;}
+  .lead{font-size:45px;color:var(--ink6);line-height:1.35;}
+
+  table{width:3340px;border-collapse:collapse;background:#F8F8F8;border:1px solid var(--line);
+        border-radius:24px;overflow:hidden;margin-top:112px;}
+  thead td{background:#EEEEEE;color:var(--orange);font-size:36px;font-weight:700;padding:36px 40px;}
+  tbody td{border-top:1px solid rgba(0,0,0,.1);padding:44px 40px;font-size:39px;line-height:1.45;
+           color:var(--ink85);vertical-align:middle;}
+  td.mock{width:480px;}
+  .ph{width:200px;height:340px;background:#fff;border:1px solid #D0D4D9;border-radius:12px;
+      padding:14px;font-size:15px;color:#3B4249;line-height:1.5;}
+  .ph .bar{height:44px;margin:-14px -14px 12px;border-radius:11px 11px 0 0;
+           display:flex;align-items:center;padding:0 10px;color:#fff;font-size:15px;font-weight:600;}
+  .ph .k{font-size:13px;font-weight:700;color:#1F2328;margin-bottom:8px;}
+  .ph .blk{background:#EEF2FF;border-radius:6px;height:56px;margin-bottom:8px;}
+  .ph .li{font-size:11px;color:#3B4249;line-height:1.7;}
+  td.scene{width:620px;}
+  .sn{font-size:42px;font-weight:700;line-height:1.3;margin-bottom:20px;}
+  .sd{font-size:32px;color:rgba(0,0,0,.55);line-height:1.5;}
+  td.want{width:700px;}
+  td.stuck{width:700px;}
+  td.chance{width:840px;}
+  .chance p{margin-bottom:24px;}
+  .chance p:last-child{margin-bottom:0;}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:130px;}
+  .card{border-radius:24px;border:2px solid;padding:40px;min-height:720px;position:relative;}
+  .card .id{font-size:56px;font-weight:700;opacity:.75;}
+  .card .t{font-size:56px;font-weight:700;margin-top:12px;line-height:1.3;}
+  .card .d{font-size:39px;color:rgba(0,0,0,.8);line-height:1.35;margin-top:60px;}
+  .card .kk{font-size:39px;font-weight:700;color:rgba(0,0,0,.5);margin-top:80px;}
+  .card .vv{font-size:39px;color:rgba(0,0,0,.75);margin-top:20px;line-height:1.4;}
+  .ca{background:rgba(87,128,255,.06);border-color:rgba(87,128,255,.35);}
+  .ca .id,.ca .t{color:#7E9EFF;}
+  .cb{background:rgba(204,90,0,.06);border-color:rgba(204,90,0,.35);}
+  .cb .id,.cb .t{color:#CC5A00;}
+  .cc{background:rgba(127,96,212,.06);border-color:rgba(127,96,212,.35);}
+  .cc .id,.cc .t{color:#7F60D4;}
+
+  h2{font-size:72px;font-weight:700;margin-bottom:0;}
+  .sub{font-size:45px;color:rgba(0,0,0,.8);margin-top:37px;}
+  .band{background:rgba(53,212,153,.06);border:2px solid rgba(53,212,153,.18);border-radius:36px;
+        padding:44px 64px;margin-top:60px;}
+  .band .bt{font-size:42px;font-weight:700;}
+  .band .bd{font-size:36px;color:var(--ink6);margin-top:24px;line-height:1.4;}
+  .steps{display:flex;gap:100px;margin-top:80px;}
+  .step{width:392px;}
+  .chip{height:71px;background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.1);border-radius:24px;
+        display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:500;}
+  .scr{width:392px;height:851px;border:1px solid rgba(0,0,0,.19);border-radius:58px;margin-top:32px;
+       background:#F3F3F3;padding:56px 24px;font-size:26px;color:rgba(0,0,0,.45);line-height:1.6;}
+  .scr b{display:block;font-size:30px;color:rgba(0,0,0,.8);margin-bottom:16px;}
+  .note{font-size:32px;color:rgba(0,0,0,.4);margin-top:24px;}
+  .src{font-size:39px;color:rgba(0,0,0,.4);margin-top:52px;}
+</style>
+</head>
+<body>
+<section class="page">
+
+  <div class="sec">
+    <h1>「用」——需求分析</h1>
+    <div class="div"></div>
+    <div class="lead">5 类场景对应四大品类加贯穿的待办日程 —— 用户的共性需求：要的是一份能直接用的结果，不是那篇笔记</div>
+
+    <table>
+      <thead>
+        <tr><td>示例画面</td><td>场景</td><td>要用时想干什么</td><td>现在卡在哪</td><td>用的机会点</td></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mock"><div class="ph"><div class="bar" style="background:#5780FF">⏰ 待办中心</div><div class="k">今天有 3 件事</div><div class="li">☐ 9-12 打第二针<br>☐ 交付日期确认<br>☐ 复习 摩擦力方向</div><div class="blk" style="margin-top:12px"></div><div class="li">来自：团子第一次叫妈妈</div></div></td>
+          <td class="scene"><div class="sn" style="color:#5780FF">⏰ 待办 · 日程</div><div class="sd">贯穿四类，四类内容里都会记到要做的事</div></td>
+          <td class="want">记到的事到点被提醒，不用自己再单独录一遍</td>
+          <td class="stuck">随口记的点子沉底，待办转头就忘；时间地点电话都只是文字</td>
+          <td class="chance"><p>识别出来直接进待办中心和日历</p><p>手机、车上、耳机记的待办跨端同步提醒</p><p>时间、联系人、地点、链接变成可点卡片</p></td>
+        </tr>
+        <tr>
+          <td class="mock"><div class="ph"><div class="bar" style="background:#5780FF">💡 孩子的成长</div><div class="k">28 条 · 2024.03 – 2026.07</div><div class="blk"></div><div class="li">▸ 第一次叫妈妈 ［图］<br>▸ 半夜咳嗽 ▶ 00:41<br>▸ 打第二针 9-12</div></div></td>
+          <td class="scene"><div class="sn" style="color:#5780FF">💡 想法随记</div><div class="sd">育儿点滴、工作思考，长期零散地记</div></td>
+          <td class="want">回头看看这段时间攒了什么，能凑成一份给人看的东西</td>
+          <td class="stuck">28 条散在几十条无标题记录里，标题是「1」「0912」，只能一条条翻</td>
+          <td class="chance"><p>按主题汇成合集（网页版），能存能分享</p><p>零散思考聚成主题复盘，指出卡在同一处什么</p><p>每段可回溯到原文与原声</p></td>
+        </tr>
+        <tr>
+          <td class="mock"><div class="ph"><div class="bar" style="background:#35D499">🏡 体检记录</div><div class="k">血压 逐年</div><div class="li">150 ┤　　　　●<br>140 ┤　　●<br>130 ┤●<br>　　└ 23　24　25　26</div><div class="li" style="margin-top:10px">2023 年起高于参考上限</div></div></td>
+          <td class="scene"><div class="sn" style="color:#35D499">🏡 生活管理</div><div class="sd">卡证单据、健康档案、收支账目</div></td>
+          <td class="want">要用时能取到、能对上账</td>
+          <td class="stuck">报告是图片，看不见里面的数字；账目全是手写连加，没人用表格</td>
+          <td class="chance"><p>同类指标跨年汇总成趋势，可回源报告</p><p>账目自动算好合计，可导出</p><p>证件经授权后别处直接填上，不用手打</p></td>
+        </tr>
+        <tr>
+          <td class="mock"><div class="ph"><div class="bar" style="background:#FFBB0F">📚 物理 · 第三章</div><div class="k">按考点自测</div><div class="li">受力分析三步是什么？<br>来自 2 条笔记</div><div class="blk" style="background:#FFF6E0"></div><div class="li">你讲清了：确定研究对象<br>没提到：摩擦力方向</div></div></td>
+          <td class="scene"><div class="sn" style="color:#E0A00F">📚 学习备考</div><div class="sd">课堂笔记、讲义投影、错题</div></td>
+          <td class="want">知道自己哪里其实没懂，考前有的可复习</td>
+          <td class="stuck">拍的投影和录音正文 0 字，几十条无标题记录，不知道从哪条开始</td>
+          <td class="chance"><p>0 字笔记读图听音补出正文，段落标来源</p><p>按考点出题、用自己的话讲、判断掌握度</p><p>没掌握的按间隔重复推送复习</p></td>
+        </tr>
+        <tr>
+          <td class="mock"><div class="ph"><div class="bar" style="background:#A68CFA">💼 城南小区改造</div><div class="k">报价单 · 41 条合计</div><div class="li">07-21 李工 3 × 80 = 240<br>07-20 王姐 2 × 80 = 160<br>07-18 张师傅 4 × 75 = 300</div><div class="li" style="margin-top:10px"><b>总计 1,220</b></div></div></td>
+          <td class="scene"><div class="sn" style="color:#7F60D4">💼 工作经营</div><div class="sd">客户单、报价、装维点数，跨年持续记</div></td>
+          <td class="want">一个项目做完，出一份能直接发客户的单子</td>
+          <td class="stuck">账目是手写连加算式，流水靠空格对齐，导出成图列会错位</td>
+          <td class="chance"><p>零散记录汇成合计算好的报价单，导出 PDF</p><p>每行可跳回源笔记核对</p><p>写新单时同话题历史自动带出、引用带出处</p></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="src">数据来源：Q2 全部带图反馈 1943 条、801 张截图逐张看完，368 张露出真实笔记内容；品类占比取 69 位用户问卷</div>
+  </div>
+
+  <div class="sec">
+    <h1>OS5「用」做什么</h1>
+    <div class="div"></div>
+    <div class="lead">从 5 场景机会点抽出 3 件要做的事：</div>
+
+    <div class="cards">
+      <div class="card ca">
+        <div class="id">A</div>
+        <div class="t">一句话取回，带出处</div>
+        <div class="d">跨多篇取回相关内容，答案能定位到原文；找不到就说没有，不用无关内容拼凑</div>
+        <div class="kk">覆盖场景</div>
+        <div class="vv">翻回同主题、查历史客户、找证件与账目</div>
+      </div>
+      <div class="card cb">
+        <div class="id">B</div>
+        <div class="t">一键出产出物，格式规整能直接发出去</div>
+        <div class="d">按品类给一个默认产出，不让用户选模型选模板；合计算好、版式规整、导出不错位</div>
+        <div class="kk">五类产出物</div>
+        <div class="vv">成长记录合集、指标趋势、掌握度报告、报价汇总单、主题复盘</div>
+      </div>
+      <div class="card cc">
+        <div class="id">C</div>
+        <div class="t">结果自动分发，不用打开笔记</div>
+        <div class="d">识别出的事进待办中心与日历，可点卡片连到系统能力；经授权内容可被系统与三方读取</div>
+        <div class="kk">分发去向</div>
+        <div class="vv">待办中心、日历、拨号与通讯录、导航、经授权对外调用</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>B 一键出产出物 · 五类产出物规格</h2>
+    <div class="sub">每类产出物都要写清：输入是什么、产出长什么样、能不能回溯、结果去哪</div>
+
+    <table>
+      <thead>
+        <tr><td>产出物</td><td>输入</td><td>产出规格</td><td>回溯</td><td>结果去向</td></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="scene"><div class="sn" style="font-size:39px">成长记录合集</div></td>
+          <td>某主题下全部记录（文字 / 照片 / 录音）</td>
+          <td>网页版，按月分段，每段一句概述 + 当月记录，带原图与原声</td>
+          <td>每段「来自 3 条记录」可展开跳回</td>
+          <td>分享链接（可设有效期）/ 长图 / PDF</td>
+        </tr>
+        <tr>
+          <td class="scene"><div class="sn" style="font-size:39px">指标趋势</div></td>
+          <td>历年体检报告图片中抽出的指标</td>
+          <td>折线图 + 数值表，带参考区间；图下只写事实，不给健康建议</td>
+          <td>每个数据点对应一张源报告</td>
+          <td>导出图片（敏感项默认打码）</td>
+        </tr>
+        <tr>
+          <td class="scene"><div class="sn" style="font-size:39px">掌握度报告</div></td>
+          <td>一门课的笔记抽出的考点 + 口述作答</td>
+          <td>讲清了什么 / 没提到什么逐条列出，不给分数</td>
+          <td>每个考点可回到源笔记原句</td>
+          <td>复习安排进待办与日历，到点直接打开该题</td>
+        </tr>
+        <tr>
+          <td class="scene"><div class="sn" style="font-size:39px">报价汇总单</div></td>
+          <td>一个项目下带数量的记录 + 单价</td>
+          <td>逐行明细 + 小计 + 总计，抬头含客户与联系方式；没填单价的行标出来</td>
+          <td>每行可跳回源笔记；总计由明细算出</td>
+          <td>导出 PDF / 分享图，导出前做一致性校验</td>
+        </tr>
+        <tr>
+          <td class="scene"><div class="sn" style="font-size:39px">主题复盘</div></td>
+          <td>同主题的零散想法（跨月）</td>
+          <td>想通了什么、还卡在哪，指出反复出现的同一处</td>
+          <td>每条结论可展开到原始那几条想法</td>
+          <td>存为笔记，可分享</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec">
+    <h2>用的方式 1：在笔记里直接出产出物</h2>
+    <div class="sub">主题页给一个入口 → 选范围 → 生成 → 预览校对 → 导出，全程不用挑模板</div>
+    <div class="band">
+      <div class="bt">场景一：一个项目的零散记录，汇成能发客户的报价单</div>
+      <div class="bd">生成前告诉用户会用到多少条、哪些没计入；明细与总计对不上时禁止导出，不给一份算错的单子</div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="chip">点「汇成报价单」</div><div class="scr"><b>G3 主题页</b>城南小区改造<br>2026.05.02 – 07.21，63 条记录，41 条带数量<br><br>［生成入口］汇成报价单<br><br>［列表］07-21 李工 3 点数…</div></div>
+      <div class="step"><div class="chip">选范围与单价</div><div class="scr"><b>D4 生成设置</b>时间范围：默认全部<br>单价：按客户填，已记过的自动带出并标「来自笔记」<br>包含项：人工点数 ✔ 材料 ✔ 现场照片 ✕<br><br>⚠ 会用到 63 条里的 41 条，其余没有数量、不计入</div></div>
+      <div class="step"><div class="chip">预览与合计校对</div><div class="scr"><b>D5 预览</b>⚠ 有 2 行还没填单价<br><br>明细逐行 ↗ 可跳回源笔记<br>人工小计 700　材料 520<br><b style="margin-top:12px">总计 1,220</b>由 41 条记录合计得出</div></div>
+      <div class="step"><div class="chip">导出发客户</div><div class="scr"><b>D6 导出</b>PDF（默认）/ 长图 / Excel<br>A4 纵向；列多时提示横向更清楚<br><br>渲染后与预览做一致性校验：行数、列数、总计一致才产出文件</div></div>
+    </div>
+    <div class="note">＊界面为占位，标注了每屏要有的区块与规则；高保真另出</div>
+  </div>
+
+  <div class="sec">
+    <h2>用的方式 2：不打开笔记，结果自己找上来</h2>
+    <div class="sub">识别出的待办与日程进系统，笔记里的实体变成可点卡片</div>
+    <div class="band">
+      <div class="bt">场景二：笔记里提到「9 月 12 日第二针」，到点被提醒</div>
+      <div class="bd">置信度高直接建好并在笔记内提示；中等置信让用户点一下确认；低于阈值不创建，也不出条</div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="chip">笔记内识别到</div><div class="scr"><b>T1 待办条</b>紧跟被识别的那句话<br><br>9 月 12 日 第二针 · 已经记着了<br><br>长按「不是待办」→ 移除并记为负样本</div></div>
+      <div class="step"><div class="chip">进待办中心</div><div class="scr"><b>G6 待办中心</b>今天 / 本周 / 以后 / 已完成<br>每条带来源，可点回原文并高亮那句<br>拖动排优先级；右滑延迟提醒、工作日重复</div></div>
+      <div class="step"><div class="chip">进系统日历</div><div class="scr"><b>G7 日历</b>同一事项在待办与日历各只有一条<br>改时间两处同步更新，不新增<br><br>日历写入失败时待办仍保留，可重试</div></div>
+      <div class="step"><div class="chip">多端提醒</div><div class="scr"><b>提醒</b>手机、PAD、车机、手表到点提醒<br>桌面小部件直接能看到<br><br>不用打开笔记</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>用的方式 3：别的场景要用，经授权取字段</h2>
+    <div class="sub">授权到字段级，不是「读取你的笔记」；可撤回、每次调用留痕</div>
+    <div class="band">
+      <div class="bt">场景三：订票要填证件号，从笔记里取</div>
+      <div class="bd">笔记里没有该字段时直接返回「没有这项内容」，不弹授权屏；请求超出已登记范围直接拒绝并记异常</div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="chip">证件卡片（打码态）</div><div class="scr"><b>B5 证件卡片</b>身份证 · 本人<br>1101********1234　查看 ｜ 复制<br><br>查看需验证是你；明文态禁止截屏；复制 60s 后清空剪贴板</div></div>
+      <div class="step"><div class="chip">外部发起请求</div><div class="scr"><b>B6 授权请求</b>订票要用到你笔记里的<br><b>身份证号 · 本人</b><br>用来做什么：填写乘机人信息<br><br>不允许 / 这一次允许 / 一直允许</div></div>
+      <div class="step"><div class="chip">一次性提供</div><div class="scr"><b>调用</b>只给被请求的那个字段<br>不提供未被请求的内容<br><br>记录写入失败则本次不提供</div></div>
+      <div class="step"><div class="chip">留痕与撤回</div><div class="scr"><b>G8 授权管理</b>已授权列表：按应用分组，可单条撤回<br>调用记录：谁、什么时候、取了哪个字段<br><br>撤回后下次重新问；被拒后 24h 内不再问</div></div>
+    </div>
+  </div>
+
+</section>
+</body>
+</html>
