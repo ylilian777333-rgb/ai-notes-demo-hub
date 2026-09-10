@@ -231,6 +231,14 @@
   .pchain .ph:has(.amb),.pchain .ph:has(.cf),.pchain .ph:has(.nt),.pchain .ph:has(.tb),.pchain .ph:has(.wt),.pchain .ph:has(.vp){height:404px;padding-bottom:0}
   .xline{margin-top:16px;background:#FFFBF0;border:1px solid #F5E6C6;border-radius:14px;padding:12px 16px;font-size:13px;color:#6C5426;line-height:1.65}
   .xline b{color:#8A5B00;font-weight:700}
+  .brk{border:1px solid var(--line);border-radius:20px;padding:20px 22px;margin-bottom:34px;background:#fff}
+  .brkh{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--bl);margin-bottom:14px}
+  .brkg{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .brkc b{display:block;font-size:14.5px;margin-bottom:8px}
+  .brkc ul{margin:0;padding-left:16px}
+  .brkc li{font-size:13.5px;color:var(--ink2);line-height:1.62;margin-bottom:4px}
+  .quote{margin-top:16px;padding:13px 17px;background:#FFFBF0;border:1px solid #F5E6C6;border-radius:12px;font-size:13px;color:#6C5426;line-height:1.72}
+  .quote b{color:#8A5B00;font-weight:700;margin-right:6px}
   .why{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
   .whyc{background:var(--soft);border:1px solid var(--line);border-radius:20px;padding:21px 23px}
   .whyc .wl{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;color:#8A5B00;background:#FFF4D8;border:1px solid #F3DFAF;border-radius:6px;padding:3px 8px;margin-bottom:11px}
@@ -252,34 +260,37 @@
 <body>
 
 <aside class="nav">
-  <div class="navtop"><b>OS5 笔记</b><span>痛点 · 方案 · 交互链路</span></div>
+  <div class="navtop"><b>OS5 笔记</b><span>按 9/10 两次沟通的原话拆解</span></div>
 
   <a class="navs" href="#s01">01　待办日程</a>
-  <a class="navi" href="#P1"><i>P1</i>正文里的待办没被当成待办</a>
-  <a class="navi" href="#P2"><i>P2</i>散在三处，没有统一的今天</a>
-  <a class="navi" href="#P3"><i>P3</i>没做完的会沉底</a>
-  <a class="navi" href="#P4"><i>P4</i>想不起当初为什么记</a>
+  <a class="navi" href="#brk01"><i>拆</i>需求拆解：有什么 / 消费什么 / 给什么</a>
+  <a class="navi" href="#P1"><i>1</i>写下的那句话不会提醒我</a>
+  <a class="navi" href="#P2"><i>2</i>今天要做什么得在三处拼</a>
+  <a class="navi" href="#P3"><i>3</i>没做完的得自己再抄一遍</a>
+  <a class="navi" href="#P4"><i>4</i>想不起当初为什么记</a>
 
   <a class="navs" href="#s02">02　想法随记</a>
-  <a class="navi" href="#P5"><i>P5</i>工作生活混在同一条流</a>
-  <a class="navi" href="#P6"><i>P6</i>同一件事记很多次，彼此无关</a>
-  <a class="navi" href="#P7"><i>P7</i>聚起来后不知道能干什么</a>
-  <a class="navi" href="#P8"><i>P8</i>理出的结论拿不出去</a>
+  <a class="navi" href="#brk02"><i>拆</i>需求拆解：第一需求是对谈</a>
+  <a class="navi" href="#P5"><i>5</i>工作生活混在一条流里</a>
+  <a class="navi" href="#P6"><i>6</i>同一件事的记录彼此不认识</a>
+  <a class="navi" href="#P7"><i>7</i>进去只给一个问小爱按钮</a>
+  <a class="navi" href="#P8"><i>8</i>结论还是 Markdown，拿不出去</a>
 
   <a class="navs" href="#s03">03　学习备考</a>
-  <a class="navi" href="#P9"><i>P9</i>一门课材料散在四五个应用</a>
-  <a class="navi" href="#P10"><i>P10</i>忘了开录音，忘了就永久没了</a>
-  <a class="navi" href="#P11"><i>P11</i>材料越全，考前越无法下手</a>
-  <a class="navi" href="#P12"><i>P12</i>作业和课是断开的</a>
+  <a class="navi" href="#brk03"><i>拆</i>需求拆解：一门课要聚齐四样</a>
+  <a class="navi" href="#P9"><i>9</i>一门课的东西散在四五个地方</a>
+  <a class="navi" href="#P10"><i>10</i>根本不记得开录音</a>
+  <a class="navi" href="#P11"><i>11</i>齐了也不知道从哪下手</a>
+  <a class="navi" href="#P12"><i>12</i>作业和这门课断开</a>
 
   <a class="navs" href="#s04">04　其余存进来的内容</a>
 
   <a class="navs" href="#s05">05　架构与框架</a>
   <a class="navi" href="#arch-what"><i>·</i>洞察里放的是什么</a>
-  <a class="navi" href="#arch-map"><i>·</i>痛点→需求→方案→框架 总图</a>
+  <a class="navi" href="#arch-map"><i>·</i>需求拆解总图</a>
   <a class="navi" href="#arch-lv"><i>·</i>框架三层 L1／L2／L3</a>
 
-  <div class="navft">2026-09-10<br>屏幅按方案设计稿的真机结构画</div>
+  <div class="navft">依据 2026-09-10 两次沟通<br>文字记录原话对齐</div>
 </aside>
 
 <div class="main">
@@ -297,13 +308,19 @@
   </div>
 
 
+
+  <div class="brk" id="brk01">
+    <div class="brkh">需求拆解</div>
+    <div class="brkg"><div class="brkc"><b>这一栏里有什么</b><ul><li>今天 / 本周——固定的时间窗，不是用户建的分类</li><li>里面的事从别处流进来：笔记正文、语音转写、图片里认出的待办</li><li>原有的待办中心与日历仍是主数据，这里只做汇总</li></ul></div><div class="brkc"><b>点进去消费什么</b><ul><li>现在该做什么，别错过</li><li>没做完的自己排在最前面，不用我再抄一遍</li><li>每一条都知道它是从哪句话来的</li></ul></div><div class="brkc"><b>提供什么功能</b><ul><li>从记录里认出待办和时间，用户点一下确认</li><li>未完成自动结转到今天，标出压了几天，连续顺延给出口</li><li>写回待办中心 / 日历前先让用户确认</li><li>点来源回到被记下的那一句、那个录音时间点</li></ul></div></div>
+    <p class="quote"><b>李楠原话</b>待办最难的是啥？是我总是要重新抄写一份我当前没完成的待办。我把今天要做的十件事写在这一页上，第二天会把昨天没做完的先抄到前面，再增加今天新做的。这不烦吗？</p>
+  </div>
   <div class="lad">
     <div class="pid">P1</div>
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>记在笔记正文里的待办，从来没被当成待办</h3>
-        <p>开会时顺手写下“下周五之前把方案发给老王”，它就是正文里的一行字。到了周五没有任何提醒。用户要么自己再去待办应用录一遍，要么就漏了。语音转写出来的那一大段里，这类句子更是彻底埋着。</p>
+        <h3>会上写下的那句话，到时候不会提醒我</h3>
+        <p>开会时顺手写下「下周五之前把方案发给老王」，它在笔记里就是一行字。周五到了没有任何动静。用户要么自己再打开待办应用录一遍，要么就漏了。记和待办是两套动作，用户得做两次。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -327,8 +344,8 @@
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>待办散在笔记正文、待办中心、日历三处，没有统一的今天</h3>
-        <p>笔记里勾选框一份，系统待办一份，日历里还有一份带时间的。用户要在三个地方来回切，才拼得出今天到底要做什么。哪件事在哪儿，他自己也记不清。</p>
+        <h3>今天到底要做什么，得在三个地方拼</h3>
+        <p>笔记里勾选框一份，系统待办一份，日历里还有一份带时间的。用户要在三个地方来回切，才拼得出今天要做什么。哪件事在哪儿，他自己也记不清。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -352,8 +369,8 @@
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>没做完的会沉底，第二天不会自己出现</h3>
-        <p>待办跟着它所在的那篇笔记按时间排。昨天那篇今天已经沉到列表下面，用户打开首页看不到它。要靠自己想起“我好像还有件事”，再往回翻。越久以前的越翻不到。</p>
+        <h3>没做完的，第二天得我自己再抄一遍</h3>
+        <p>这是李楠说的那个本子：今天要做的十件事写在这一页，第二天先把昨天没做完的抄到前面，再往下加今天新的。今天在手机上是同一件事换了个样子——待办跟着它所在的那篇笔记按时间沉底，昨天那篇今天已经翻不到，用户得先想起「我好像还有件事」，再往回找。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -377,8 +394,8 @@
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>看到那条待办，想不起当初为什么记它</h3>
-        <p>“确认报价口径”——这是哪个客户、当时在哪次会上说的？一条干巴巴的待办脱离了当时的上下文，用户看着它得先花时间回忆，甚至干脆放着不动。</p>
+        <h3>看到一条待办，想不起当初为什么记它</h3>
+        <p>「确认报价口径」——哪个客户、哪次会上说的？一条脱离上下文的短句，用户看着它得先花时间回忆，甚至干脆放着不动。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -410,13 +427,19 @@
     </div>
   </div>
 
+
+  <div class="brk" id="brk02">
+    <div class="brkh">需求拆解</div>
+    <div class="brkg"><div class="brkc"><b>这一栏里有什么</b><ul><li>要往下拆一层，不能停在「想法随记」</li><li>工作想法 / 生活随记 / 兴趣（钓鱼、游戏这类）</li><li>为同一件事的多次记录：一轮访谈、一次装修</li></ul></div><div class="brkc"><b>点进去消费什么</b><ul><li><b style="display:inline">对谈</b>。李楠说这是第一需求</li><li>不是「问小爱」按钮，是直接进对谈接着聊</li><li>小爱侧要显性显示已挂载哪些记录，是一个持续的 session</li></ul></div><div class="brkc"><b>提供什么功能</b><ul><li>按语境自动归栏，用户不维护分类</li><li>同一件事的多次记录自动聚起来、自动起名、成形推送</li><li>进去直接是对谈并显性标出挂载了什么</li><li>正文默认以 Markdown 为主，需要时显性转 PPT / PDF / Excel，不预生成</li></ul></div></div>
+    <p class="quote"><b>李楠原话</b>我到了这个 insight 里面，最重要的是对谈，是交流，我认为这是第一需求。所以我一进来这个地方之后，他不是问小爱，应该是直接进入一个显性的叫对谈，我继续聊。</p>
+  </div>
   <div class="lad">
     <div class="pid">P5</div>
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>工作和生活混在同一条时间流里</h3>
-        <p>随口记的东西按天往下排。周一的排期思考、周末看到的一家店、晚上的一句感想挨在一起。两周后往回翻，得一条条看才知道哪条是哪件事。工作场合翻到私人内容也不合适。</p>
+        <h3>工作和生活混在一条流里，没法用</h3>
+        <p>李楠把它说成一米高的笔记本：一本一本按时间摞上去，去年某次会上记的东西再也找不到。今天笔记里那条时间流是等价的——工作的思考、生活的琐事、兴趣爱好交替出现，越久以前的越翻不到，无法回溯，也没法消费。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -440,8 +463,8 @@
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>同一件事记了很多次，这些记录之间没有任何关系</h3>
-        <p>一个月里为同一个问题记过五六次，每次都是一条独立笔记。出差三天做了七场访谈，就是七段互不相干的录音。系统不知道它们是一件事，用户自己也不会去把它们串起来。</p>
+        <h3>同一件事记了好几次，这些记录彼此不认识</h3>
+        <p>一轮访谈分了七场，语音、照片、文字各记了几条，在用户脑子里是一件事，在笔记里是七条互不相干的记录。他要么自己去建一个文件夹，要么这件事就散着。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -465,8 +488,8 @@
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>东西聚起来了，用户不知道在这儿能干什么</h3>
-        <p>就算把二十几条相关记录摆在一起，用户面对的还是一堆自己写过的字。想接着往下想，得自己先看一遍、再把要点复制出来喂给 AI。多数人到这一步就停了。</p>
+        <h3>聚好了，进去却只给一个「问小爱」按钮</h3>
+        <p>李楠说得很直接：进到 insight 里，最重要的是对谈、是交流，这是第一需求。所以不该是「问小爱」这个按钮，而应该直接进入一个显性的对谈，接着聊。而且小爱这一侧要显性显示它已经挂载了这部分记忆，是一个持续的 session，不是每次从零开始。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -490,8 +513,8 @@
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>聊出来的结论拿不出去</h3>
-        <p>对谈里理清楚了，但要发给同事、要在会上讲，还是得自己重新排成一份文档或几页 PPT。笔记里的东西最后停在纯文本上。</p>
+        <h3>聊出来的东西还是一篇 Markdown，拿不出去</h3>
+        <p>以前的笔记再怎么整理也就等价于 Markdown。要给别人看的时候，用户得自己重新排一遍。李楠的要求是：进去默认还是以正文为主，但要能显性地转成别的形态——不是上来就给他生成，那个成本扛不住。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -522,13 +545,19 @@
     </div>
   </div>
 
+
+  <div class="brk" id="brk03">
+    <div class="brkh">需求拆解</div>
+    <div class="brkg"><div class="brkc"><b>这一栏里有什么</b><ul><li>一门课；一门课下面是一堂堂课</li><li>这门课要聚齐四样东西：课堂录音、课堂课件、电子教材、往年真题</li><li>课程表决定有几门课，不需要用户建</li></ul></div><div class="brkc"><b>点进去消费什么</b><ul><li>要么重新给我讲一遍这门课：精讲 / 快讲</li><li>要么直接出一套卷子让我自测</li><li>不是给我一堆原始材料自己去翻</li></ul></div><div class="brkc"><b>提供什么功能</b><ul><li>相册里认出课程表 → 写进日历循环日程</li><li>循环日程到点自动录音；忘了开由端侧先录的那几分钟接上</li><li>老师发的课件与作业保存即归到这门课，不弹文件夹</li><li>作业进度与自测结果回链到日程</li></ul></div></div>
+    <p class="quote"><b>李楠原话</b>你现在要写数学作业，会拿出几样东西来？课本、习题册、草稿纸，还有你这门课的课堂笔记。书包里十几本书、一堆本子、一摞卷子……每天都要来一遍。所以老师不管留了一个作业，还是发了一本教材，它都被聚合到一门课中。我一进去应该是啥？要么给我重新讲一下这门课，给我做一个精讲、做一个快讲，再给我出一套卷子，让我来测试一下。</p>
+  </div>
   <div class="lad">
     <div class="pid">P9</div>
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>一门课的材料散在四五个应用里</h3>
-        <p>课上录音在笔记，老师的课件在群里，电子教材是下载的文件，往年真题是另一个文件。存的时候还要想存到哪个文件夹。复习时在几个应用之间来回找，找的时间比看的时间长。</p>
+        <h3>一门课的东西散在四五个地方，写作业得来回翻</h3>
+        <p>李楠让我们还原的是书包：下午写数学作业，得拿出课本、习题册、草稿纸，还有这门课的课堂笔记。书包里十几本书、一堆本子、一摞卷子，翻完写完再塞回去，每天来一遍。今天在手机上是同一回事——课件在微信、真题在文件里、录音在笔记里、教材在网盘里。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -552,8 +581,8 @@
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>十次有三次忘了开录音，而且忘了就永久没了</h3>
-        <p>一堂课两小时，学生经常忘记点录音，或者上到一半才想起来。跟其他遗漏不一样：这个是不可逆的，那段课的内容再也补不回来，后面所有整理都建立在一段缺口上。</p>
+        <h3>上课根本不记得开录音，过了就没了</h3>
+        <p>李楠原话：最难的点是根本不记得要开录音。而这件事和别的遗漏不一样——录音一旦过了就没了，那段课再也补不回来，后面所有的整理都建立在这段录音上。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -577,8 +606,8 @@
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>材料越全，考前越无法下手</h3>
-        <p>十几堂课的录音、几十页课件、三份真题都在，考前只剩两天。东西越齐，用户越不知道从哪开始。他要的不是录音也不是逐字转写，是这门课考什么、我到底会不会。</p>
+        <h3>材料都齐了，考前还是不知道从哪下手</h3>
+        <p>录音、课件、教材、真题都聚到这门课下面了，考前打开却是一堆原始材料。用户没空去听几十堂课的录音，也没时间自己整理出考点。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -603,8 +632,8 @@
     <div>
       <div class="step1">
         <div class="lb">现象</div>
-        <h3>作业和这门课是断开的</h3>
-        <p>老师留的作业要结合这几堂课的内容做，用户得先找到对应几堂课的笔记再一边翻一边写。写完了，下次看日程也不知道这门课的作业到底交了没有。</p>
+        <h3>老师发的作业，和这门课是断开的</h3>
+        <p>老师在群里发一份作业，用户存下来了，但它和这门课没有关系。李楠要的是：我保存完，点开笔记它就在我那门课里；我跟小爱说一声，它能结合上课讲的内容帮我写；写完的作业要有链接出现在我的日程里。</p>
       </div>
       <div class="step2">
         <div class="lb">真实需求</div>
@@ -631,7 +660,7 @@
     <div class="snum">04</div>
     <div>
       <h2>其余存进来的内容</h2>
-      <p class="st-note">旅行攻略、一次临时会议、随手收藏的资料。它们不需要另起一套形态——它们是这些内容长出来的土壤：今天还不成形，攒够了就是下一条。</p>
+      <p class="st-note">李楠明确讲过：通用场景什么都先不要想，把上面三个场景做完，自然就知道其余的怎么处理。所以这一节不铺开设计，只说清它们放在哪、不挡路。</p>
     </div>
   </div>
 
@@ -706,8 +735,8 @@
     <p>所以洞察页不需要用户建文件夹、不需要他选分类。他只管记，它自己出现，出现了推送告诉他。</p>
   </div>
 
-  <h3 class="subh" id="arch-map">从痛点到框架，层级是怎么落下来的</h3>
-  <p class="st-note" style="margin:-4px 0 16px">四列从左往右读：12 个痛点 → 归出来的真实需求 → 对应的方案 → 由方案倒推的框架三层。线是真实的对应关系，不是装饰；一个需求可能被两个痛点指向，一层框架往往是好几个方案共同要求的。</p>
+  <h3 class="subh" id="arch-map">需求拆解总图：从现象到框架</h3>
+  <p class="st-note" style="margin:-4px 0 16px">四列从左往右读：用户身上发生的现象 → 他真正要的是什么 → 我们做什么 → 由这些方案倒推的框架三层。中间两列是逐条从上面每条需求的原文里取的，没有二次加工。线是真实的对应关系，不是装饰；一个需求可能被两个痛点指向，一层框架往往是好几个方案共同要求的。</p>
   <div class="mapwrap">
     <div class="map" id="map">
       <div class="mcol"><div class="mch"><b>痛点</b><span>用户身上发生的现象</span></div>
