@@ -17,7 +17,32 @@
     font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
     background:#fff;color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;font-size:15.5px;
   }
-  .wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+  .wrap{max-width:none;margin:0;padding:0 46px}
+  .nav{position:fixed;left:0;top:0;bottom:0;width:252px;overflow-y:auto;background:#fff;border-right:1px solid var(--line);padding:24px 18px 30px;z-index:50}
+  .navtop b{display:block;font-size:16px;line-height:1.35}
+  .navtop span{display:block;font-size:12px;color:var(--ink3);margin:5px 0 4px}
+  .navs{display:block;font-size:13.5px;font-weight:700;color:var(--ink);text-decoration:none;margin:18px 0 7px}
+  .navi{display:flex;gap:7px;font-size:12px;color:var(--ink3);text-decoration:none;padding:3.5px 0;line-height:1.45}
+  .navi i{font-style:normal;font-weight:700;color:var(--bl);flex-shrink:0;width:23px}
+  .navi:hover{color:var(--ink)}
+  .navft{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink4);line-height:1.7}
+  .main{margin-left:252px;padding-top:34px}
+  .sec,.lad{scroll-margin-top:18px}
+  .mapwrap{overflow-x:auto;padding-bottom:10px;margin-bottom:36px}
+  .map{position:relative;display:flex;gap:82px;min-width:1300px;padding:2px 0}
+  .mcol{width:252px;display:flex;flex-direction:column;gap:9px;flex-shrink:0}
+  .mcol.spread{justify-content:space-around}
+  .mch{margin-bottom:8px}
+  .mch b{display:block;font-size:15px}
+  .mch span{font-size:12px;color:var(--ink3)}
+  .mgl{font-size:10.5px;color:var(--ink4);font-weight:700;letter-spacing:.1em;margin-top:8px}
+  .mn{position:relative;z-index:2;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:12.5px;line-height:1.5}
+  .mn em{font-style:normal;font-weight:700;color:var(--ink4);margin-right:6px;font-size:11.5px}
+  .mn.pain{border-left:3px solid var(--rd)}
+  .mn.need{border-left:3px solid var(--ink3);background:var(--soft)}
+  .mn.sol{border-left:3px solid var(--gn);background:var(--gn-bg)}
+  .mn.lay{border-left:3px solid var(--bl);background:var(--bl-bg);font-weight:600}
+  .map svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
 
   /* ── hero ── */
   .hero{background:#fff;color:var(--ink);padding:56px 0 42px;margin-bottom:46px;border-bottom:1px solid var(--line)}
@@ -34,7 +59,8 @@
 
   /* ── section ── */
   .sec{padding-bottom:8px;margin-bottom:60px}
-  .sec.top{padding-top:60px;border-top:2px solid var(--ink);margin-top:56px}
+  .sec.top{padding-top:56px;border-top:1px solid var(--line);margin-top:52px}
+  .main .wrap > .sec:first-child{border-top:none;padding-top:0;margin-top:0}
   .sec-top{display:flex;align-items:flex-start;gap:22px;margin-bottom:40px}
   .snum{font-size:56px;font-weight:700;line-height:.9;color:var(--bl-line);letter-spacing:-2px;flex-shrink:0}
   .sec-top h2{font-size:34px;font-weight:700;letter-spacing:-.6px;line-height:1.25}
@@ -84,7 +110,7 @@
   .flowbox .fnote{font-size:14.5px;color:var(--ink3);margin-bottom:22px}
   .flow{display:flex;gap:12px;align-items:flex-start}
   .flow+.flow{margin-top:26px}
-  .col{width:216px;flex-shrink:0}
+  .col{width:252px;flex-shrink:0}
   .arw{align-self:flex-start;margin-top:190px;color:var(--ink4);font-size:17px;flex-shrink:0;width:14px;text-align:center}
   .tg{display:flex;align-items:center;gap:5px;margin-bottom:8px;min-height:36px;flex-wrap:wrap}
   .tg .n{font-size:11px;font-weight:700;color:var(--bl);background:#fff;border:1px solid var(--bl-line);border-radius:5px;padding:1px 5px}
@@ -199,7 +225,7 @@
   .pchain .fnote{font-size:13.5px;margin-bottom:18px}
   .pchain .flow{overflow-x:auto;padding-bottom:6px;align-items:stretch}
   .pchain .arw{align-self:center;margin-top:0;color:#EFA91C;font-size:20px;font-weight:700}
-  .pchain .ph{border-radius:32px;border-color:#DEE3EC}
+  .pchain .ph{border-radius:32px;border-color:#DEE3EC;zoom:1.165}
   .pchain .ph{height:auto;min-height:318px;padding-bottom:11px}
   .pchain .ph:has(.amb),.pchain .ph:has(.cf),.pchain .ph:has(.nt),.pchain .ph:has(.tb),.pchain .ph:has(.wt),.pchain .ph:has(.vp){height:404px;padding-bottom:0}
   .xline{margin-top:16px;background:#FFFBF0;border:1px solid #F5E6C6;border-radius:14px;padding:12px 16px;font-size:13px;color:#6C5426;line-height:1.65}
@@ -219,72 +245,46 @@
   .lvline{height:1px;background:var(--line);margin-left:64px}
   .subh{font-size:19px;font-weight:700;margin:0 0 14px}
   footer{margin-top:70px;border-top:1px solid var(--line);padding:24px 0 90px;font-size:13px;color:var(--ink4)}
-  @media (max-width:1180px){.flow{overflow-x:auto;padding-bottom:8px}.idx{grid-template-columns:1fr}}
+  @media (max-width:1100px){.nav{display:none}.main{margin-left:0}.wrap{padding:0 22px}}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="wrap">
-    <div class="kick">OS5 · 笔记</div>
-    <h1>12 个用户痛点与洞察设计</h1>
-    <p class="lead">从痛点往下拆，不从交互框架往下讲。每个痛点走三层：现象 → 他真正要的是什么 → 我们做什么，<b>并且每个痛点单独配一条完整交互链路</b>——12 条链路、48 屏，每条都走到跨应用的那个落地动作（进待办中心、写进日历、存进这门课、导出给别人）。笔记本身还是笔记；洞察里的格子是用户进到笔记里必须能拿到的东西。交互框架放最后，由这 12 个方案倒推出来。</p>
+<aside class="nav">
+  <div class="navtop"><b>OS5 笔记 · 洞察设计</b><span>12 个痛点 · 12 条完整交互链路 · 48 屏</span></div>
 
-    <div class="idx">
-      <div class="idxc">
-        <b>待办日程</b>
-        <span><em>P1</em> 正文里的待办没被当成待办<br><em>P2</em> 散在三处，没有统一的今天<br><em>P3</em> 没做完的会沉底<br><em>P4</em> 想不起当初为什么记</span>
-      </div>
-      <div class="idxc">
-        <b>想法随记</b>
-        <span><em>P5</em> 工作生活混在同一条流<br><em>P6</em> 同一件事记很多次，彼此无关<br><em>P7</em> 聚起来后不知道能干什么<br><em>P8</em> 理出的结论拿不出去</span>
-      </div>
-      <div class="idxc">
-        <b>学习备考</b>
-        <span><em>P9</em> 一门课材料散在四五个应用<br><em>P10</em> 忘了开录音，忘了就永久没了<br><em>P11</em> 材料越全，考前越无法下手<br><em>P12</em> 作业和课是断开的</span>
-      </div>
-    </div>
+  <a class="navs" href="#s01">01　待办日程</a>
+  <a class="navi" href="#P1"><i>P1</i>正文里的待办没被当成待办</a>
+  <a class="navi" href="#P2"><i>P2</i>散在三处，没有统一的今天</a>
+  <a class="navi" href="#P3"><i>P3</i>没做完的会沉底</a>
+  <a class="navi" href="#P4"><i>P4</i>想不起当初为什么记</a>
 
-    <div class="stamp"><span>2026-09-10</span><span>内容助手</span><span>对齐用</span></div>
-  </div>
-</div>
+  <a class="navs" href="#s02">02　想法随记</a>
+  <a class="navi" href="#P5"><i>P5</i>工作生活混在同一条流</a>
+  <a class="navi" href="#P6"><i>P6</i>同一件事记很多次，彼此无关</a>
+  <a class="navi" href="#P7"><i>P7</i>聚起来后不知道能干什么</a>
+  <a class="navi" href="#P8"><i>P8</i>理出的结论拿不出去</a>
 
+  <a class="navs" href="#s03">03　学习备考</a>
+  <a class="navi" href="#P9"><i>P9</i>一门课材料散在四五个应用</a>
+  <a class="navi" href="#P10"><i>P10</i>忘了开录音，忘了就永久没了</a>
+  <a class="navi" href="#P11"><i>P11</i>材料越全，考前越无法下手</a>
+  <a class="navi" href="#P12"><i>P12</i>作业和课是断开的</a>
+
+  <a class="navs" href="#s04">04　其余存进来的内容</a>
+
+  <a class="navs" href="#s05">05　架构与框架</a>
+  <a class="navi" href="#arch-what"><i>·</i>洞察里放的是什么</a>
+  <a class="navi" href="#arch-map"><i>·</i>痛点→需求→方案→框架 总图</a>
+  <a class="navi" href="#arch-lv"><i>·</i>框架三层 L1／L2／L3</a>
+  <a class="navi" href="#arch-tb"><i>·</i>旧→新逐条对照</a>
+
+  <div class="navft">2026-09-10<br>屏幅按方案设计稿的真机结构画</div>
+</aside>
+
+<div class="main">
 <div class="wrap">
 
-<!-- ═══════ 00 洞察是什么 ═══════ -->
-<div class="sec">
-  <div class="sec-top">
-    <div class="snum">00</div>
-    <div>
-      <h2>先说清「洞察」里放的是什么</h2>
-      <p class="st-note">洞察不是一个新的笔记列表。它放的是长出来的可消费单元——一个格子。一个格子进去，是一件事的完整结果，不是那几条原始记录。</p>
-    </div>
-  </div>
-
-  <table>
-    <tr><th style="width:150px">场景</th><th style="width:200px">一个格子是什么</th><th>格子怎么来的</th></tr>
-    <tr>
-      <td class="rq">待办日程</td>
-      <td>今天 / 本周</td>
-      <td>格子是<b>固定的时间窗</b>，内容从别处流进来（笔记正文、语音、图片里认出的待办）。分栏不会变，里面的内容每天变。</td>
-    </tr>
-    <tr>
-      <td class="rq">想法随记</td>
-      <td>工作想法 / 生活随记 / 一轮访谈 / 钓鱼</td>
-      <td>格子<b>完全由用户记的内容长出来</b>。他记什么，长出什么；没记过的主题不会有格子。</td>
-    </tr>
-    <tr>
-      <td class="rq">学习备考</td>
-      <td>一门课</td>
-      <td>格子由<b>外部结构确定</b>：课程表里有几门课，就有几个格子。哪堂课的材料进哪个格子是确定的。</td>
-    </tr>
-  </table>
-
-  <div class="keyline">
-    <p>一级分栏是定的，格子是长出来的。</p>
-    <p>所以洞察页不需要用户建文件夹、不需要他选分类。他只管记，格子自己出现，出现了推送告诉他。</p>
-  </div>
-</div>
 
 <!-- ═══════ 01 待办日程 ═══════ -->
 <div class="sec top">
@@ -296,9 +296,6 @@
     </div>
   </div>
 
-  <div class="aside">
-    <b>先纠一处：</b>“没做完的必须自己再誊一遍”是纸笔时代的痛点，属于类比，不是今天手机上的问题。今天真实的问题拆成下面 P1–P4：认不出来、散在多处、会沉底、想不起为什么记。
-  </div>
 
   <div class="lad">
     <div class="pid">P1</div>
@@ -665,7 +662,7 @@
   <div class="sec-top">
     <div class="snum">05</div>
     <div>
-      <h2>交互框架为什么必须变</h2>
+      <h2>架构：框架为什么必须变，变成什么层级</h2>
       <p class="st-note">框架不是先画好再往里塞需求。前面 12 个方案要落地，现在这套框架有三处承载不了，所以它必须动——而且动的顺序是从上到下有层级的。</p>
     </div>
   </div>
@@ -683,6 +680,87 @@
     </div>
   </div>
 
+
+  <h3 class="subh" id="arch-what">先说清「洞察」里放的是什么</h3>
+  <p class="st-note" style="margin:-4px 0 16px">洞察不是一个新的笔记列表。它放的是长出来的可消费单元——一个格子。一个格子进去，是一件事的完整结果，不是那几条原始记录。</p>
+<table>
+    <tr><th style="width:150px">场景</th><th style="width:200px">一个格子是什么</th><th>格子怎么来的</th></tr>
+    <tr>
+      <td class="rq">待办日程</td>
+      <td>今天 / 本周</td>
+      <td>格子是<b>固定的时间窗</b>，内容从别处流进来（笔记正文、语音、图片里认出的待办）。分栏不会变，里面的内容每天变。</td>
+    </tr>
+    <tr>
+      <td class="rq">想法随记</td>
+      <td>工作想法 / 生活随记 / 一轮访谈 / 钓鱼</td>
+      <td>格子<b>完全由用户记的内容长出来</b>。他记什么，长出什么；没记过的主题不会有格子。</td>
+    </tr>
+    <tr>
+      <td class="rq">学习备考</td>
+      <td>一门课</td>
+      <td>格子由<b>外部结构确定</b>：课程表里有几门课，就有几个格子。哪堂课的材料进哪个格子是确定的。</td>
+    </tr>
+  </table>
+<div class="keyline">
+    <p>一级分栏是定的，格子是长出来的。</p>
+    <p>所以洞察页不需要用户建文件夹、不需要他选分类。他只管记，格子自己出现，出现了推送告诉他。</p>
+  </div>
+
+  <h3 class="subh" id="arch-map">从痛点到框架，层级是怎么落下来的</h3>
+  <p class="st-note" style="margin:-4px 0 16px">四层从左往右读：12 个痛点 → 归出来的真实需求 → 对应的方案 → 由方案倒推的框架三层。线是真实的对应关系，不是装饰；一个需求可能被两个痛点指向，一层框架往往是好几个方案共同要求的。</p>
+  <div class="mapwrap">
+    <div class="map" id="map">
+      <div class="mcol">
+        <div class="mch"><b>痛点</b><span>用户身上发生的现象</span></div>
+        <div class="mgl">待办日程</div>
+        <div class="mn pain" data-id="P1"><em>P1</em>正文里的待办没被当成待办</div>
+        <div class="mn pain" data-id="P2"><em>P2</em>散在三处，没有统一的今天</div>
+        <div class="mn pain" data-id="P3"><em>P3</em>没做完的会沉底</div>
+        <div class="mn pain" data-id="P4"><em>P4</em>想不起当初为什么记</div>
+        <div class="mgl">想法随记</div>
+        <div class="mn pain" data-id="P5"><em>P5</em>工作生活混在同一条流</div>
+        <div class="mn pain" data-id="P6"><em>P6</em>同一件事记很多次，彼此无关</div>
+        <div class="mn pain" data-id="P7"><em>P7</em>聚起来后不知道能干什么</div>
+        <div class="mn pain" data-id="P8"><em>P8</em>理出的结论拿不出去</div>
+        <div class="mgl">学习备考</div>
+        <div class="mn pain" data-id="P9"><em>P9</em>材料散在四五个应用</div>
+        <div class="mn pain" data-id="P10"><em>P10</em>忘了开录音就永久没了</div>
+        <div class="mn pain" data-id="P11"><em>P11</em>材料越全越无法下手</div>
+        <div class="mn pain" data-id="P12"><em>P12</em>作业和课是断开的</div>
+      </div>
+      <div class="mcol spread">
+        <div class="mch"><b>真实需求</b><span>他真正要的是什么</span></div>
+        <div class="mn need" data-id="N1">写下来的时候就当我在安排一件事</div>
+        <div class="mn need" data-id="N2">给我一个地方，打开就是今天全部要做的</div>
+        <div class="mn need" data-id="N3">让我一眼知道这件事的来处</div>
+        <div class="mn need" data-id="N4">按语境替我分开，别让我维护分类</div>
+        <div class="mn need" data-id="N5">同一件事的多次记录自己聚起来</div>
+        <div class="mn need" data-id="N6">进去就能用，别让我先做准备工作</div>
+        <div class="mn need" data-id="N7">理出来的结论要能原样拿出去</div>
+        <div class="mn need" data-id="N8">材料自己归位，而且别丢</div>
+      </div>
+      <div class="mcol spread">
+        <div class="mch"><b>方案</b><span>我们做什么</span></div>
+        <div class="mn sol" data-id="S1">正文与转写自动抽待办，确认后成立、可回原句</div>
+        <div class="mn sol" data-id="S2">今天格子只做汇总，写回外部前先确认</div>
+        <div class="mn sol" data-id="S3">未完成自动结转排最前，连续顺延给出口</div>
+        <div class="mn sol" data-id="S4">一级分栏系统固定，存入即归栏不弹文件夹</div>
+        <div class="mn sol" data-id="S5">自动聚成格子并起名，成形就推送</div>
+        <div class="mn sol" data-id="S6">进格子第一屏是对谈／精讲／今天该做的事</div>
+        <div class="mn sol" data-id="S7">默认正文，按需显性转形态，导出前校对</div>
+        <div class="mn sol" data-id="S8">保存即归位、到点自动录音、产物回链日程</div>
+      </div>
+      <div class="mcol spread">
+        <div class="mch"><b>框架三层</b><span>由上面的方案倒推</span></div>
+        <div class="mn lay" data-id="L1">L1　底 tab 两个：洞察 ／ 笔记</div>
+        <div class="mn lay" data-id="L2">L2　洞察页＝固定一级分栏 ＋ 栏内横滑格子</div>
+        <div class="mn lay" data-id="L3">L3　进格子第一屏是能直接用的东西</div>
+      </div>
+      <svg id="mapsvg"></svg>
+    </div>
+  </div>
+
+  <h3 class="subh" id="arch-lv">框架三层，每层被哪些方案逼出来</h3>
   <div class="lv">
     <div class="lvrow">
       <div class="lvtag">L1</div>
@@ -712,7 +790,7 @@
     </div>
   </div>
 
-  <h3 class="subh">旧框架 → 新框架，逐条对照与理由</h3>
+  <h3 class="subh" id="arch-tb">旧框架 → 新框架，逐条对照与理由</h3>
   <table>
     <tr><th style="width:118px">这一层</th><th style="width:250px">现在是什么样</th><th>改成什么</th><th style="width:210px">为什么必须改</th></tr>
     <tr>
@@ -769,6 +847,7 @@
 <footer>OS5 笔记 · 12 个用户痛点 · 12 条完整交互链路 · 2026-09-10</footer>
 
 
+</div>
 </div>
 
 <style>
@@ -867,7 +946,7 @@ CH.P2 = {
   sub: '洞察页待办日程分栏 → 今天格子按来源汇总 → 改动带时间的事项时先确认再写回日历 → 日历侧同步，主数据仍在原处',
   s: [
     { n: '01', t: '洞察 · 待办日程', p: ['P2'], w: '笔记', us: true, b: [['st'], ['h', '洞察', '形态 ›'], ['grp', '待办日程', '待办中心 ›'], ['tiles', [['今天 4 件', '2 件带时间', 1], ['本周 11 件', '3 件逾期'], ['已完成', '本周 9']]], ['grp', '想法随记', '全部 3 ›'], ['tiles', [['排期与人力', '24 条'], ['西安访谈', '7 场'], ['钓鱼', '14 条']]], ['grp', '学习备考', '全部 4 ›'], ['tiles', [['大学物理', '6 堂'], ['概率论', '5 堂'], ['英语', '12 条']]], ['tb', '洞察']], d: '固定时间窗就是这里的格子：今天 / 本周 / 已完成。分栏不变，里面的内容每天变。' },
-    { n: '02', t: '今天 · 一处看全', p: ['P2'], w: '笔记', us: true, b: [['st'], ['bk', '洞察'], ['h', '今天', '9 月 12 日 ›'], ['plr', ['全部 4', '笔记 2', '待办中心 1', '日历 1'], 0], ['ls', [['回复供应商报价', '顺延 3 天', 'ck'], ['给老王发方案', '18:00 前', 'ck'], ['部门评审', '14:00 日历', 'ck'], ['提交周报', '已完成', 'dn']]], ['src', '汇总', '三处来源只读汇总，不在笔记再存一份'], ['fd', '按来源可筛 · 顺延的排最前']], d: '这一屏解决的就是「打开就是今天全部要做的事」。来源标出来，冲突一眼看到。' },
+    { n: '02', t: '今天 · 一处看全', p: ['P2'], w: '笔记', us: true, b: [['st'], ['bk', '洞察'], ['h', '今天', '9 月 12 日 ›'], ['plr', ['全部 4', '笔记 2', '待办中心 1', '日历 1'], 0], ['ls', [['回复供应商报价', '顺延 3 天', 'ck'], ['给老王发方案', '18:00 前', 'ck'], ['部门评审', '14:00 日历', 'ck'], ['提交周报', '已完成', 'dn']]], ['src', '汇总', '三处来源只读汇总，不在笔记再存一份'], ['fd', '按来源可筛 · 顺延的排最前']], d: '这一屏解决的就是"打开就是今天全部要做的事"。来源标出来，冲突一眼看到。' },
     { n: '03', t: '要写回外部先确认', p: ['P2'], w: '日历', b: [['st'], ['bk', '今天'], ['h', '给老王发方案'], ['kv', '当前', '周五 18:00 前 · 来自笔记'], ['kv', '改为', '周五 15:00 · 加提醒'], ['cf', '这条要写进日历吗？', '会在你的日历创建一个 15:00 的提醒事项，笔记侧同步显示', ['写入日历', '只在笔记里改']]], d: '不静默写外部。用户明确同意才动系统日历，避免笔记单方面改别人的数据。' },
     { n: '04', t: '两侧一致', p: ['P2'], w: '日历', b: [['st'], ['h', '9 月 12 日 周五'], ['cg', ['一', '二', '三', '四', '五', '六', '日'], 4], ['ce', '14:00 部门评审', '会议室 3 · 提醒 15 分钟前'], ['ce', '15:00 给老王发方案', '来自笔记 · 9/8 项目周会'], ['ls', [['笔记侧状态', '已同步'], ['勾完这条', '两处同时变']]], ['fd', '主数据在日历，笔记只做汇总视图']], d: '一份数据两处看到。避免三处不一致这个老问题在新框架里复现。' }
   ],
@@ -890,7 +969,7 @@ CH.P4 = {
   name: '一眼看到来处，一步回到当时那句话',
   sub: '待办上带来源 → 点来源回到被记下的那一句（不是笔记开头）→ 录音来源跳到对应时间点 → 图片来源回到原图并框出识别区域',
   s: [
-    { n: '01', t: '待办带来源标识', p: ['P4'], w: '待办中心', b: [['st'], ['h', '今天', '9 月 12 日 ›'], ['ls', [['确认报价口径', '9/8 项目周会', 'ck'], ['给老王发方案', '9/8 项目周会', 'ck'], ['寄送样品', '9/9 车机语音', 'ck'], ['交体检表', '9/7 照片识别', 'ck']]], ['src', '来源', '每条都标：哪篇笔记 / 哪次录音 / 哪张图 · 哪天'], ['fd', '不再是一条干巴巴的短句']], d: '「确认报价口径」到底是哪个客户、哪次会上说的，右边直接给出来。' },
+    { n: '01', t: '待办带来源标识', p: ['P4'], w: '待办中心', b: [['st'], ['h', '今天', '9 月 12 日 ›'], ['ls', [['确认报价口径', '9/8 项目周会', 'ck'], ['给老王发方案', '9/8 项目周会', 'ck'], ['寄送样品', '9/9 车机语音', 'ck'], ['交体检表', '9/7 照片识别', 'ck']]], ['src', '来源', '每条都标：哪篇笔记 / 哪次录音 / 哪张图 · 哪天'], ['fd', '不再是一条干巴巴的短句']], d: '"确认报价口径"到底是哪个客户、哪次会上说的，右边直接给出来。' },
     { n: '02', t: '回到被记下的那一句', p: ['P4'], w: '笔记', us: true, b: [['st'], ['bk', '待办'], ['h', '9/8 项目周会'], ['cap', '已定位到第 3 段 · 不是笔记开头'], ['doc', ['· 韩总说预算要压 8%', ['· 报价口径要跟老王确认一下，按 A 版还是 B 版'], '· 物料下周一到，先给三个门店']], ['bbw', '上下文', '这一段在讲九月报价，前一句是预算压缩 8%'], ['bs', ['回到待办', '看整篇']]], d: '关键是定位到那一句并给出上下文。用户不需要重读整篇会议记录。' },
     { n: '03', t: '录音来源跳时间点', p: ['P4'], w: '笔记', us: true, b: [['st'], ['bk', '待办'], ['h', '9/8 项目周会 · 录音'], ['cap', '总长 47:12 · 已跳到 12:43'], ['wv'], ['tmr', [['12:38', '韩总：预算这边要压 8%'], ['12:43', '这个报价口径你跟老王确认一下'], ['12:51', '好，我周内给结果']]], ['bs', ['从这里播', '看转写全文']], ['fd', '句级时间戳 · 点转写句即定位音频']], d: '来自录音的待办，回去听的是那 10 秒，不是从头找。' },
     { n: '04', t: '图片来源回原图', p: ['P4'], w: '笔记', us: true, b: [['st'], ['bk', '待办'], ['h', '9/7 体检通知'], ['cap', '来自照片识别 · 已框出识别区域'], ['pho', '9 月 20 日前完成体检并交表'], ['kv', '识别出', '交体检表 · 9/20 前'], ['ls', [['原图', '打开 ›'], ['识别文字', '全文 ›']]]], d: '照片来的待办也能回到原图，并且框出是哪一行字被认出来的。' }
@@ -939,7 +1018,7 @@ CH.P8 = {
   sub: '格子里默认只有正文 → 需要时显性转成 PPT / PDF / Excel → 生成前给设置（敏感字段可隐去）→ 导出前校对数字，不一致就禁止导出',
   s: [
     { n: '01', t: '默认只有正文', p: ['P8'], w: '笔记', us: true, b: [['st'], ['bk', '洞察'], ['h', '访谈结论', '形态 ›'], ['cap', '默认正文 · 未预生成其它形态'], ['doc', ['一、排期变动无人通知（5/7 场）', '二、临时调班靠微信口头（4/7 场）', '三、库存数字与系统不一致（3/7 场）']], ['plr', ['转 PPT', '转 PDF', '转 Excel'], -1], ['fd', '不预生成 · 省成本也避免给用户一堆没用的东西']], d: '形态是按需的。用户不点，系统不生成。' },
-    { n: '02', t: '显性选形态', p: ['P8'], w: '笔记', us: true, b: [['st'], ['bk', '访谈结论'], ['h', '转成 PPT'], ['plr', ['PPT', 'PDF', 'Excel'], 0], ['ls', [['页数', '按三个结论 3 页 ›'], ['附出处引用', '开 ›'], ['隐去店长姓名', '开 ›'], ['配图', '用排班表照片 ›']]], ['bbw', '预计', '3 页 · 约 20 秒'], ['ab', '开始生成']], d: '用户例子里的「拿出去」是有要求的：给谁看、能不能带姓名、要不要出处。' },
+    { n: '02', t: '显性选形态', p: ['P8'], w: '笔记', us: true, b: [['st'], ['bk', '访谈结论'], ['h', '转成 PPT'], ['plr', ['PPT', 'PDF', 'Excel'], 0], ['ls', [['页数', '按三个结论 3 页 ›'], ['附出处引用', '开 ›'], ['隐去店长姓名', '开 ›'], ['配图', '用排班表照片 ›']]], ['bbw', '预计', '3 页 · 约 20 秒'], ['ab', '开始生成']], d: '用户例子里的"拿出去"是有要求的：给谁看、能不能带姓名、要不要出处。' },
     { n: '03', t: '生成后先校对', p: ['P8'], w: '笔记', us: true, b: [['st'], ['bk', '转成 PPT'], ['h', '生成完成 · 请校对'], ['cap', '3 页 · 数字与正文逐项比对'], ['ls', [['5 / 7 场提到排期', '与正文一致'], ['4 / 7 场提到调班', '与正文一致'], ['3 / 7 场提到库存', '与正文一致']]], ['rb', '第 2 页图表里的 4 场与正文 4 场一致；若不一致将禁止导出，先回正文改'], ['bs', ['导出', '回去改']]], d: '对不上就不许导出。拿出去的东西错了，比没有更糟。' },
     { n: '04', t: '拿出去', p: ['P8'], w: '笔记', us: true, b: [['st'], ['bk', '访谈结论'], ['h', '西安访谈结论.pptx'], ['cap', '3 页 · 已隐去店长姓名'], ['ag', 0], ['ls', [['发给', '微信 / 邮件 ›'], ['存到', '文件 / 云盘 ›'], ['留在格子里', '已作为形态之一']]], ['fd', '生成物也回到这个格子，下次不用重做']], d: '产物同时留在格子里。下次要用直接拿，不必重新生成。' }
   ],
@@ -987,7 +1066,7 @@ CH.P12 = {
   sub: '作业拍照保存即归入这门课 → 课的进度一屏看全 → 对谈已挂载全课材料，问作业题给带出处的解法 → 完成情况回链日程',
   s: [
     { n: '01', t: '作业保存即归入这门课', p: ['P12'], w: '笔记', us: true, b: [['st'], ['h', '新记录 · 照片'], ['cap', '2 张 · 习题册 P42–45'], ['pho', '习题册 P42 第 3 题'], ['cf', '已归到 大学物理', '第 7 堂 · 第三次作业 · 下周三交', ['就放这里', '改归属']]], d: '用户例子里说的就是这个：拍完直接落到该去的地方，不再问他放哪。' },
-    { n: '02', t: '这门课的进度', p: ['P12'], w: '笔记', us: true, b: [['st'], ['bk', '洞察'], ['h', '大学物理 · 进度'], ['prg', 38, '已上 6 堂 / 共 16 堂'], ['ls', [['第三次作业', '进行中 · 周三交'], ['上次自测', '17 / 20'], ['没懂的考点', '2 个 ›'], ['这门课的笔记', '打开 ›']]], ['bbw', '下堂课前建议', '第四章 振动与波（错题 2）'], ['tb', '洞察']], d: '课、作业、自测、没懂的点在一屏里。这就是「记住进度」的具体样子。' },
+    { n: '02', t: '这门课的进度', p: ['P12'], w: '笔记', us: true, b: [['st'], ['bk', '洞察'], ['h', '大学物理 · 进度'], ['prg', 38, '已上 6 堂 / 共 16 堂'], ['ls', [['第三次作业', '进行中 · 周三交'], ['上次自测', '17 / 20'], ['没懂的考点', '2 个 ›'], ['这门课的笔记', '打开 ›']]], ['bbw', '下堂课前建议', '第四章 振动与波（错题 2）'], ['tb', '洞察']], d: '课、作业、自测、没懂的点在一屏里。这就是"记住进度"的具体样子。' },
     { n: '03', t: '问作业题给出处', p: ['P12'], w: '笔记', us: true, b: [['st'], ['bk', '大学物理'], ['h', '对谈'], ['src', '已挂载', '录音 6 / 课件 6 / 教材 1 / 真题 3'], ['me', 'P42 第 3 题不会，怎么下手'], ['bbw', '先用转动定律', '这题考的是 M = Iα，第 6 堂讲过；先算转动惯量，再代合外力矩'], ['ls', [['出自', '第 6 堂 14:12 ›'], ['同类例题', '课件 P18 ›']]]], d: '解法必须来自这门课讲过的内容，并且能点回去看老师当时怎么说。' },
     { n: '04', t: '完成情况回链日程', p: ['P12'], w: '日历', b: [['st'], ['h', '大学物理 · 第 7 堂'], ['cap', '周四 14:00–16:00 · 三教 301'], ['ls', [['已上 6 堂 / 共 16 堂', ''], ['第三次作业', '已完成 ›'], ['上次自测', '17 / 20'], ['这门课的笔记', '打开 ›']]], ['bbw', '下堂课前建议复习', '第四章 振动与波（错题 2）'], ['fd', '写回日程前先确认 · 不静默改日历']], d: '作业做完、自测结果、下次该复习什么，回到日程上形成闭环。' }
   ],
@@ -998,10 +1077,51 @@ document.querySelectorAll('.lad').forEach(function (l) {
   const pidEl = l.querySelector('.pid');
   if (!pidEl) return;
   const pid = pidEl.textContent.trim();
+  l.id = pid;
   if (!CH[pid]) return;
   const host = l.children[1] || l;
   host.insertAdjacentHTML('beforeend', chainHTML(pid, CH[pid]));
 });
+
+document.querySelectorAll('.sec').forEach(function (s) {
+  const n = s.querySelector('.snum');
+  if (n) s.id = 's' + n.textContent.trim();
+});
+const LINKS = [
+  ['P1','N1','p'],['P4','N3','p'],['P2','N2','p'],['P3','N2','p'],
+  ['P5','N4','p'],['P6','N5','p'],['P7','N6','p'],['P11','N6','p'],['P8','N7','p'],
+  ['P9','N8','p'],['P10','N8','p'],['P12','N8','p'],
+  ['N1','S1','n'],['N3','S1','n'],['N2','S2','n'],['N2','S3','n'],['N4','S4','n'],
+  ['N5','S5','n'],['N6','S6','n'],['N7','S7','n'],['N8','S8','n'],
+  ['S2','L1','s'],['S5','L1','s'],['S4','L2','s'],['S5','L2','s'],['S8','L2','s'],
+  ['S1','L3','s'],['S3','L3','s'],['S6','L3','s'],['S7','L3','s']
+];
+function drawMap() {
+  const map = document.getElementById('map');
+  const svg = document.getElementById('mapsvg');
+  if (!map || !svg) return;
+  const R = map.getBoundingClientRect();
+  const pos = function (id) {
+    const e = map.querySelector('[data-id="' + id + '"]');
+    if (!e) return null;
+    const b = e.getBoundingClientRect();
+    return { l: b.left - R.left, r: b.right - R.left, y: b.top - R.top + b.height / 2 };
+  };
+  const col = { p: '#DDB2AB', n: '#BFC6D4', s: '#A5CCBA' };
+  let out = '';
+  LINKS.forEach(function (k) {
+    const a = pos(k[0]), b = pos(k[1]);
+    if (!a || !b) return;
+    const dx = (b.l - a.r) / 2;
+    out += '<path d="M' + a.r + ',' + a.y + ' C' + (a.r + dx) + ',' + a.y + ' ' + (b.l - dx) + ',' + b.y + ' ' + b.l + ',' + b.y + '" fill="none" stroke="' + col[k[2]] + '" stroke-width="1.5"/>';
+    out += '<circle cx="' + b.l + '" cy="' + b.y + '" r="2.4" fill="' + col[k[2]] + '"/>';
+  });
+  svg.setAttribute('viewBox', '0 0 ' + map.offsetWidth + ' ' + map.offsetHeight);
+  svg.innerHTML = out;
+}
+drawMap();
+window.addEventListener('resize', drawMap);
+window.addEventListener('load', drawMap);
 </script>
 
 </body>
