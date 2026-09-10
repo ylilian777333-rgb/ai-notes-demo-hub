@@ -3,791 +3,929 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OS5 笔记 · 用户需求与交互链路（对齐版）</title>
+<title>OS5 笔记 · 用户痛点、方案与交互链路</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
-    --blue:#3B6BF5; --blue-soft:#EDF2FE; --blue-line:#D6E0FB;
-    --green:#148F66; --green-soft:#E9F6F0; --green-line:#CDEADD;
-    --purple:#6B4BD6; --purple-soft:#F0ECFB; --purple-line:#DED4F5;
-    --orange:#E8590C;
-    --ink:#1B2033; --ink2:#3A4560; --ink3:#6B7280; --ink4:#9AA3B8;
-    --line:#DCE0E9; --bg:#F4F5F8; --head:#F2F4F8;
+    --bl:#3B6BF5; --bl-bg:#F4F7FF; --bl-line:#DAE4FD; --bl-deep:#2450D8;
+    --ink:#141824; --ink2:#3D4759; --ink3:#6E7891; --ink4:#A7AEC0;
+    --line:#E6E9F0; --soft:#FAFBFD; --or:#D9480F;
   }
+  html{scroll-behavior:smooth}
   body{
     font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
-    background:var(--bg); color:var(--ink); line-height:1.7; -webkit-font-smoothing:antialiased;
+    background:#fff;color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;
+    font-size:15.5px;
   }
-  .wrap{max-width:1240px;margin:0 auto;padding:0 30px 110px}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 32px 120px}
 
-  header{padding:62px 0 38px;border-bottom:3px solid var(--ink);margin-bottom:56px}
-  .kicker{font-size:13px;color:var(--blue);font-weight:600;letter-spacing:.16em;margin-bottom:16px}
-  h1{font-size:42px;line-height:1.25;font-weight:700;letter-spacing:-.5px}
-  .sub{margin-top:15px;font-size:17px;color:var(--ink2);max-width:860px}
-  .meta{margin-top:20px;font-size:13px;color:var(--ink3)}
+  /* ---------- header ---------- */
+  header{padding:76px 0 34px;margin-bottom:8px}
+  .kick{font-size:12.5px;color:var(--bl);font-weight:700;letter-spacing:.2em;margin-bottom:20px}
+  h1{font-size:48px;line-height:1.2;font-weight:700;letter-spacing:-1px}
+  .lead{margin-top:20px;font-size:18px;color:var(--ink2);max-width:800px;line-height:1.75}
+  .stamp{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--ink4);display:flex;gap:22px}
 
-  section{margin-bottom:78px}
-  .sec-head{display:flex;align-items:baseline;gap:13px;margin-bottom:8px}
-  .sec-no{font-size:13px;font-weight:700;color:var(--blue);letter-spacing:.1em}
-  h2{font-size:29px;font-weight:700;letter-spacing:-.3px}
-  .sec-desc{font-size:16px;color:var(--ink2);margin-bottom:30px;max-width:920px}
+  /* ---------- scene ---------- */
+  .scene{padding-top:64px;margin-top:56px;border-top:2px solid var(--ink)}
+  .scene:first-of-type{border-top:none;margin-top:0;padding-top:40px}
+  .scene-top{display:flex;align-items:flex-start;gap:22px;margin-bottom:44px}
+  .snum{font-size:56px;font-weight:700;line-height:.9;color:var(--bl-line);letter-spacing:-2px;flex-shrink:0}
+  .scene-top h2{font-size:34px;font-weight:700;letter-spacing:-.6px;line-height:1.25}
+  .scene-top p{margin-top:9px;font-size:17px;color:var(--ink2);max-width:760px}
 
-  /* scene header band */
-  .scene-band{display:flex;align-items:center;gap:14px;margin-bottom:8px}
-  .badge{font-size:12px;font-weight:700;color:#fff;background:var(--ink);border-radius:6px;padding:3px 10px;letter-spacing:.06em}
-  .badge.b1{background:var(--purple)} .badge.b2{background:var(--green)} .badge.b3{background:var(--blue)}
+  /* ---------- pain → plan ---------- */
+  .pp{display:grid;grid-template-columns:44px 1fr;gap:0 20px;padding-bottom:34px;margin-bottom:34px;border-bottom:1px solid var(--line)}
+  .pp:last-of-type{border-bottom:none;padding-bottom:14px;margin-bottom:10px}
+  .pnum{font-size:15px;font-weight:700;color:var(--bl);padding-top:3px;letter-spacing:.04em}
+  .pain h3{font-size:21px;font-weight:700;letter-spacing:-.3px;line-height:1.4}
+  .pain .desc{margin-top:9px;font-size:15.5px;color:var(--ink2);max-width:800px}
+  .plan{margin-top:20px;background:var(--bl-bg);border-left:3px solid var(--bl);border-radius:0 12px 12px 0;padding:18px 22px}
+  .plan .tag{font-size:11.5px;font-weight:700;color:var(--bl);letter-spacing:.14em;margin-bottom:9px}
+  .plan h4{font-size:17px;font-weight:600;margin-bottom:9px}
+  .plan ul{padding-left:17px;margin:0}
+  .plan li{font-size:15px;color:var(--ink2);margin-bottom:4px}
+  .plan li:last-child{margin-bottom:0}
+  .dep{margin-top:13px;padding-top:11px;border-top:1px dashed var(--bl-line);font-size:13.5px;color:var(--ink3)}
+  .dep b{color:var(--ink2);font-weight:600}
 
-  /* insight block */
-  .insight{background:#fff;border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden;margin-bottom:22px}
-  .insight-row{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--line)}
-  .insight-row:last-child{border-bottom:none}
-  .icell{padding:20px 22px;border-right:1px solid var(--line)}
-  .icell:last-child{border-right:none}
-  .icell .lb{font-size:12px;font-weight:600;color:var(--ink4);letter-spacing:.08em;margin-bottom:7px}
-  .icell p{font-size:15px;color:var(--ink2)}
-  .icell.now{background:#FFFBF5}
-  .icell.want{background:var(--blue-soft)}
-  .icell.want p{color:var(--ink)}
-  .quoteline{font-size:15px;color:var(--ink);font-weight:500;font-style:normal}
+  /* ---------- flow ---------- */
+  .flowbox{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:28px 26px 24px;margin-top:38px}
+  .flowbox h3{font-size:19px;font-weight:700;margin-bottom:5px}
+  .flowbox .fnote{font-size:14.5px;color:var(--ink3);margin-bottom:22px}
+  .flow{display:flex;gap:12px;align-items:flex-start}
+  .flow+.flow{margin-top:26px}
+  .col{width:216px;flex-shrink:0}
+  .arw{align-self:flex-start;margin-top:186px;color:var(--ink4);font-size:17px;flex-shrink:0;width:14px;text-align:center}
+  .tg{display:flex;align-items:center;gap:6px;margin-bottom:8px;min-height:34px}
+  .tg .n{font-size:11px;font-weight:700;color:var(--bl);background:#fff;border:1px solid var(--bl-line);border-radius:5px;padding:1px 5px}
+  .tg b{font-size:12.5px;font-weight:600;line-height:1.35}
+  .who{font-size:10px;border-radius:4px;padding:1px 5px;background:#EDEFF4;color:var(--ink3);white-space:nowrap}
+  .who.us{background:var(--bl);color:#fff}
+  .cdesc{font-size:11.5px;color:var(--ink3);line-height:1.6;margin-top:9px}
+  .legend{display:flex;gap:20px;font-size:13px;color:var(--ink2);margin-bottom:18px}
+  .dt{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:middle}
 
-  /* requirement table */
-  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:26px}
-  th,td{padding:14px 17px;text-align:left;vertical-align:top;font-size:14.5px;border-bottom:1px solid var(--line)}
-  th{background:var(--head);font-weight:600;font-size:13.5px;color:var(--ink2)}
-  tr:last-child td{border-bottom:none}
-  td ul{margin:0;padding-left:16px}
-  td li{margin-bottom:3px;color:var(--ink2)}
-  .rq{font-weight:600;white-space:nowrap}
-  .own{display:inline-block;font-size:11px;border-radius:5px;padding:1px 7px;background:var(--head);color:var(--ink3);white-space:nowrap}
-  .own.us{background:var(--blue);color:#fff}
-
-  /* flow */
-  .flow-title{font-size:15px;font-weight:600;margin:30px 0 4px}
-  .flow-note{font-size:14px;color:var(--ink3);margin-bottom:18px}
-  .flow{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
-  .stepcol{width:216px;flex-shrink:0}
-  .arrow{align-self:center;margin-top:120px;color:var(--ink4);font-size:20px;flex-shrink:0}
-  .steptag{font-size:11.5px;font-weight:600;background:var(--head);border:1px solid var(--line);border-radius:6px;padding:4px 8px;text-align:center;margin-bottom:7px;color:var(--ink2)}
-  .steptag .n{color:var(--orange);margin-right:3px}
-  .stepdesc{font-size:11.5px;color:var(--ink3);line-height:1.55;margin-top:8px}
-
-  /* phone */
-  .ph{width:216px;height:404px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:9px 8px 0;position:relative;overflow:hidden;box-shadow:0 3px 14px rgba(27,32,51,.06)}
-  .ph .st{display:flex;justify-content:space-between;font-size:8px;color:var(--ink4);padding:0 5px 7px}
-  .ph h4{font-size:14px;font-weight:700;padding:0 5px 2px}
-  .ph .h4row{display:flex;justify-content:space-between;align-items:center;padding:0 5px 2px}
-  .ph .h4row h4{padding:0}
-  .ph .cap{font-size:8.5px;color:var(--ink3);padding:0 5px 8px}
-  .ph .navback{font-size:9px;color:var(--ink3);padding:0 5px 4px}
-  .grp{padding:0 5px 3px;display:flex;justify-content:space-between;align-items:baseline}
+  /* ---------- phone ---------- */
+  .ph{width:216px;height:404px;background:#fff;border:1px solid #DFE3EC;border-radius:26px;padding:9px 8px 0;position:relative;overflow:hidden;
+      box-shadow:0 2px 10px rgba(20,24,36,.05)}
+  .st{display:flex;justify-content:space-between;font-size:8px;color:var(--ink4);padding:0 6px 7px}
+  .ph h5{font-size:14px;font-weight:700;padding:0 6px 2px}
+  .hr{display:flex;justify-content:space-between;align-items:center;padding:0 6px 2px}
+  .hr h5{padding:0}
+  .hr i{font-style:normal;font-size:8px;color:var(--ink4)}
+  .cap{font-size:8.5px;color:var(--ink3);padding:0 6px 8px;line-height:1.45}
+  .bk{font-size:9px;color:var(--ink3);padding:0 6px 5px}
+  .grp{padding:0 6px 3px;display:flex;justify-content:space-between;align-items:baseline}
   .grp b{font-size:10.5px;font-weight:600}
-  .grp span{font-size:8px;color:var(--ink4)}
-  .hs{display:flex;gap:6px;padding:0 5px 9px;overflow:hidden;
-     -webkit-mask-image:linear-gradient(90deg,#000 0,#000 80%,transparent 100%);
-     mask-image:linear-gradient(90deg,#000 0,#000 80%,transparent 100%)}
-  .tl{min-width:82px;height:60px;border-radius:8px;padding:6px;display:flex;flex-direction:column;justify-content:space-between;
-      background:var(--blue-soft);border:1px solid var(--blue-line)}
-  .tl.g{background:var(--green-soft);border-color:var(--green-line)}
-  .tl.p{background:var(--purple-soft);border-color:var(--purple-line)}
+  .grp i{font-style:normal;font-size:8px;color:var(--ink4)}
+  .hs{display:flex;gap:6px;padding:0 6px 9px;overflow:hidden;
+      -webkit-mask-image:linear-gradient(90deg,#000 0,#000 80%,transparent 100%);
+      mask-image:linear-gradient(90deg,#000 0,#000 80%,transparent 100%)}
+  .tl{min-width:82px;height:60px;border-radius:9px;padding:6px;display:flex;flex-direction:column;justify-content:space-between;
+      background:var(--bl-bg);border:1px solid var(--bl-line)}
   .tl b{font-size:9px;font-weight:600;line-height:1.3}
   .tl em{font-size:7.5px;color:var(--ink3);font-style:normal}
-  .bubble{margin:0 5px 7px;background:var(--head);border-radius:9px;padding:7px 8px;font-size:9px;color:var(--ink2)}
-  .bubble.me{background:var(--blue);color:#fff;margin-left:38px}
-  .bubble.card{background:#fff;border:1px solid var(--line)}
-  .kv{margin:0 5px 6px;border:1px solid var(--line);border-radius:8px;padding:7px 8px}
+  .bb{margin:0 6px 7px;background:#F1F3F7;border-radius:9px;padding:7px 8px;font-size:9px;color:var(--ink2);line-height:1.5}
+  .bb.me{background:var(--bl);color:#fff;margin-left:40px}
+  .bb.w{background:#fff;border:1px solid var(--line)}
+  .bb b{font-size:9px;display:block;margin-bottom:2px}
+  .bb span{font-size:8.5px;color:var(--ink3)}
+  .kv{margin:0 6px 6px;border:1px solid var(--line);border-radius:9px;padding:7px 8px}
   .kv .k{font-size:8px;color:var(--ink4)}
-  .kv .v{font-size:9.5px;font-weight:600}
-  .chipz{display:flex;gap:4px;flex-wrap:wrap;padding:0 5px 8px}
-  .chipz i{font-style:normal;font-size:7.5px;background:var(--head);border:1px solid var(--line);border-radius:14px;padding:2px 6px;color:var(--ink2)}
-  .btns{display:flex;gap:5px;padding:0 5px 8px}
-  .bt{flex:1;background:var(--blue);color:#fff;font-size:9.5px;font-weight:600;text-align:center;padding:8px 2px;border-radius:7px}
-  .bt.o{background:#fff;color:var(--blue);border:1.2px solid var(--blue)}
-  .bt.dark{background:var(--ink)}
-  .segz{display:flex;margin:0 5px 8px;border:1px solid var(--line);border-radius:7px;overflow:hidden}
-  .segz div{flex:1;text-align:center;font-size:8px;padding:5px 0;color:var(--ink3)}
-  .segz div.on{background:var(--ink);color:#fff;font-weight:600}
-  .lst{padding:0 5px}
-  .li{font-size:9px;color:var(--ink2);padding:6px 0;border-bottom:1px solid #EEF0F4;display:flex;justify-content:space-between;gap:6px}
+  .kv .v{font-size:9.5px;font-weight:600;line-height:1.4}
+  .cz{display:flex;gap:4px;flex-wrap:wrap;padding:0 6px 8px}
+  .cz i{font-style:normal;font-size:7.5px;background:#F1F3F7;border-radius:12px;padding:2px 7px;color:var(--ink2)}
+  .bs{display:flex;gap:5px;padding:0 6px 8px}
+  .bt{flex:1;background:var(--bl);color:#fff;font-size:9.5px;font-weight:600;text-align:center;padding:8px 2px;border-radius:8px}
+  .bt.o{background:#fff;color:var(--bl);border:1.2px solid var(--bl-line)}
+  .bt.d{background:var(--ink)}
+  .sg{display:flex;margin:0 6px 8px;background:#F1F3F7;border-radius:8px;padding:2px}
+  .sg div{flex:1;text-align:center;font-size:8px;padding:4px 0;color:var(--ink3);border-radius:6px}
+  .sg div.on{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(20,24,36,.08)}
+  .ls{padding:0 6px}
+  .li{font-size:9px;color:var(--ink2);padding:6px 0;border-bottom:1px solid #F0F2F6;display:flex;justify-content:space-between;gap:6px;line-height:1.4}
   .li i{font-style:normal;color:var(--ink4);font-size:8px;white-space:nowrap}
-  .li.chk::before{content:"○";margin-right:5px;color:var(--ink4)}
-  .li.chk.done::before{content:"●";color:var(--green)}
-  .talk{margin:0 5px 7px;border:1.3px solid var(--blue);border-radius:10px;padding:9px;background:linear-gradient(180deg,#F7F9FF,#fff)}
-  .talk .at{display:inline-block;font-size:7.5px;background:var(--blue);color:#fff;border-radius:4px;padding:1px 6px;margin-bottom:6px}
-  .talk p{font-size:9px;color:var(--ink3)}
-  .fd{margin:0 5px;font-size:8.5px;color:var(--ink4);padding:7px 0;border-top:1px solid #EEF0F4}
-  .tab{position:absolute;bottom:0;left:0;right:0;height:38px;border-top:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:space-around;padding:0 18px}
-  .tab s{text-decoration:none;font-size:9px;color:var(--ink4)}
-  .tab s.on{color:var(--blue);font-weight:700}
-  .tab u{text-decoration:none;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center}
-  .tab v{width:22px;height:22px;border-radius:50%;border:1.2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:8px}
-  .notif{position:absolute;top:26px;left:8px;right:8px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 9px;box-shadow:0 4px 12px rgba(27,32,51,.12)}
-  .notif b{font-size:9px;display:block}
-  .notif span{font-size:8px;color:var(--ink3)}
-  .homebg{position:absolute;inset:0;background:linear-gradient(160deg,#CBD9F2,#E7ECF6 55%,#F2E9E4);border-radius:23px}
-  .watchface{width:112px;height:112px;border-radius:26px;background:#111;margin:52px auto 0;padding:12px;color:#fff}
-  .watchface b{font-size:14px;display:block}
-  .watchface span{font-size:8px;color:#F5C36B;display:block;margin-top:2px}
-  .watchbtn{margin-top:9px;background:#2A2A2A;border-radius:7px;text-align:center;font-size:8px;padding:4px 0}
-  .incar{position:absolute;left:8px;right:8px;top:120px;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:10px;padding:8px}
-  .incar b{font-size:9px;display:block}
-  .incar span{font-size:8px;color:var(--ink3)}
-  .voicepill{position:absolute;left:14px;right:14px;bottom:52px;background:var(--ink);color:#fff;border-radius:16px;padding:8px 11px;font-size:9px;line-height:1.45}
-  .albumgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0 5px 8px}
-  .albumgrid div{height:52px;border-radius:7px;background:var(--head);border:1px solid var(--line)}
-  .albumgrid div.sel{background:var(--blue-soft);border-color:var(--blue);position:relative}
-  .albumbtn{margin:0 5px 8px;background:var(--blue);color:#fff;text-align:center;font-size:9.5px;font-weight:600;padding:8px 0;border-radius:7px}
-  .calhead{display:flex;justify-content:space-between;padding:0 5px 6px;font-size:9px;color:var(--ink3)}
-  .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:0 5px 8px}
-  .calgrid i{font-style:normal;font-size:7px;text-align:center;color:var(--ink3);padding:3px 0;border-radius:4px}
-  .calgrid i.cls{background:var(--blue);color:#fff;font-weight:600}
-  .calev{margin:0 5px 5px;border-left:2.5px solid var(--blue);background:var(--blue-soft);border-radius:0 7px 7px 0;padding:6px 8px}
-  .calev b{font-size:9px;display:block}
-  .calev span{font-size:8px;color:var(--ink3)}
-  .recbar{margin:0 5px 8px;background:#FFF3F0;border:1px solid #F6C9BC;border-radius:8px;padding:7px 8px;font-size:8.5px;color:#9A3412}
-  .wave{display:flex;gap:1.5px;align-items:flex-end;height:22px;margin:0 5px 8px;padding:0 3px}
-  .wave b{flex:1;background:var(--blue-line);border-radius:1px}
+  .li.ck::before{content:"○";margin-right:5px;color:var(--ink4)}
+  .li.ck.dn::before{content:"●";color:var(--bl)}
+  .li.ck.dn span{color:var(--ink4);text-decoration:line-through}
+  .talk{margin:0 6px 7px;border:1.3px solid var(--bl);border-radius:11px;padding:9px;background:linear-gradient(180deg,#F7F9FF,#fff)}
+  .talk .at{display:inline-block;font-size:7.5px;background:var(--bl);color:#fff;border-radius:4px;padding:1px 6px;margin-bottom:6px}
+  .talk p{font-size:9px;color:var(--ink3);line-height:1.5}
+  .fd{margin:0 6px;font-size:8.5px;color:var(--ink4);padding:7px 0;border-top:1px solid #F0F2F6}
+  .tb{position:absolute;bottom:0;left:0;right:0;height:38px;border-top:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:space-around;padding:0 18px}
+  .tb s{text-decoration:none;font-size:9px;color:var(--ink4)}
+  .tb s.on{color:var(--bl);font-weight:700}
+  .tb u{text-decoration:none;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center}
+  .tb v{width:22px;height:22px;border-radius:50%;border:1.2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:8px}
+  .nt{position:absolute;top:26px;left:8px;right:8px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:7px 9px;box-shadow:0 4px 14px rgba(20,24,36,.1)}
+  .nt b{font-size:9px;display:block}
+  .nt span{font-size:8px;color:var(--ink3);line-height:1.4}
+  .amb{position:absolute;inset:0;background:linear-gradient(165deg,#C8D6EF,#E6EBF5 52%,#F1E9E4)}
+  /* car */
+  .carnav{position:absolute;top:34px;left:8px;right:8px;background:rgba(255,255,255,.92);border-radius:11px;padding:8px 9px}
+  .carnav b{font-size:11px;display:block}
+  .carnav span{font-size:8px;color:var(--ink3)}
+  .carmus{position:absolute;top:96px;left:8px;right:8px;background:rgba(20,24,36,.82);border-radius:11px;padding:8px 9px;color:#fff}
+  .carmus b{font-size:9px;display:block}
+  .carmus span{font-size:7.5px;opacity:.7}
+  .caraudio{display:flex;gap:1.5px;align-items:flex-end;height:12px;margin-top:5px}
+  .caraudio b{flex:1;background:rgba(255,255,255,.5);border-radius:1px;display:block}
+  .xiao{position:absolute;left:8px;right:8px;top:154px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:8px 9px;box-shadow:0 3px 10px rgba(20,24,36,.09)}
+  .xiao b{font-size:9px;display:block;color:var(--bl)}
+  .xiao span{font-size:8.5px;color:var(--ink2);line-height:1.45}
+  .vp{position:absolute;left:14px;right:14px;bottom:48px;background:var(--ink);color:#fff;border-radius:16px;padding:9px 12px;font-size:9px;line-height:1.5}
+  .vpwave{display:flex;gap:1.5px;align-items:center;height:9px;margin-top:6px}
+  .vpwave b{flex:1;background:rgba(255,255,255,.55);border-radius:1px;display:block}
+  /* lock + watch */
+  .lockt{position:absolute;top:44px;left:0;right:0;text-align:center;color:#fff}
+  .lockt b{font-size:30px;font-weight:600;display:block;line-height:1.1;text-shadow:0 1px 6px rgba(0,0,0,.18)}
+  .lockt span{font-size:9px;opacity:.9;text-shadow:0 1px 4px rgba(0,0,0,.18)}
+  .locknt{position:absolute;top:112px;left:10px;right:10px;background:rgba(255,255,255,.96);border-radius:12px;padding:8px 10px;box-shadow:0 4px 14px rgba(20,24,36,.14)}
+  .locknt b{font-size:9px;display:block}
+  .locknt span{font-size:8.5px;color:var(--ink3)}
+  .wt{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:118px;background:#0C0D11;border-radius:26px;padding:12px 11px;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.22)}
+  .wt .tm{font-size:15px;font-weight:600;display:block;line-height:1.1}
+  .wt .ev{font-size:8px;color:#F3C471;display:block;margin-top:3px;line-height:1.35}
+  .wtb{margin-top:8px;display:flex;gap:4px}
+  .wtb i{flex:1;font-style:normal;background:#23242B;border-radius:6px;text-align:center;font-size:7.5px;padding:4px 0}
+  .wtb i.p{background:var(--bl)}
+  /* album */
+  .ag{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0 6px 8px}
+  .ag div{height:50px;border-radius:8px;background:#EDEFF4}
+  .ag div.sel{background:var(--bl-bg);border:1.5px solid var(--bl)}
+  .ab{margin:0 6px 8px;background:var(--bl);color:#fff;text-align:center;font-size:9.5px;font-weight:600;padding:8px 0;border-radius:8px}
+  /* calendar */
+  .ch{display:flex;justify-content:space-between;padding:0 6px 6px;font-size:8px;color:var(--ink3)}
+  .cg{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:0 6px 8px}
+  .cg i{font-style:normal;font-size:7px;text-align:center;color:var(--ink3);padding:3px 0;border-radius:4px}
+  .cg i.on{background:var(--bl);color:#fff;font-weight:600}
+  .ce{margin:0 6px 6px;border-left:2.5px solid var(--bl);background:var(--bl-bg);border-radius:0 8px 8px 0;padding:6px 8px}
+  .ce b{font-size:9px;display:block}
+  .ce span{font-size:8px;color:var(--ink3)}
+  .rb{margin:0 6px 8px;background:#FFF4EF;border:1px solid #F7CDBD;border-radius:9px;padding:7px 8px;font-size:8.5px;color:#9A3412;line-height:1.45}
+  .wv{display:flex;gap:1.5px;align-items:flex-end;height:20px;margin:0 6px 8px;padding:0 3px}
+  .wv b{flex:1;background:var(--bl-line);border-radius:1px;display:block}
 
-  /* legend */
-  .legend{display:flex;gap:20px;font-size:13px;color:var(--ink2);margin-bottom:14px}
-  .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+  /* ---------- framework ---------- */
+  .fw{padding-top:64px;margin-top:56px;border-top:2px solid var(--ink)}
+  .fwlead{background:var(--bl-bg);border-radius:14px;padding:26px 30px;margin:26px 0 30px}
+  .fwlead p{font-size:18.5px;font-weight:600;line-height:1.6}
+  .fwlead p+p{margin-top:10px;font-size:16px;font-weight:400;color:var(--ink2)}
+  table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  th,td{padding:15px 18px;text-align:left;vertical-align:top;font-size:15px;border-bottom:1px solid var(--line)}
+  th{background:var(--soft);font-weight:600;font-size:13.5px;color:var(--ink3);letter-spacing:.03em}
+  tr:last-child td{border-bottom:none}
+  td b{font-weight:600}
+  .rq{font-weight:600;white-space:nowrap}
 
-  /* framework */
-  .fw-lead{background:#fff;border-left:5px solid var(--blue);border-radius:0 12px 12px 0;padding:24px 28px;margin-bottom:28px}
-  .fw-lead p{font-size:18px;font-weight:600;line-height:1.6}
-  .fw-lead p+p{margin-top:9px;font-size:15.5px;font-weight:400;color:var(--ink2)}
+  .q{border:1px solid var(--line);border-left:3px solid var(--or);border-radius:0 12px 12px 0;padding:18px 22px;margin-bottom:11px}
+  .q b{font-size:16px;display:block;margin-bottom:4px}
+  .q span{font-size:14.5px;color:var(--ink2)}
 
-  .q{background:#fff;border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:0 12px 12px 0;padding:18px 22px;margin-bottom:11px}
-  .q b{font-size:15.5px;display:block;margin-bottom:4px}
-  .q span{font-size:14px;color:var(--ink2)}
-
-  footer{border-top:1px solid var(--line);padding-top:24px;font-size:13px;color:var(--ink3)}
-  @media (max-width:1000px){.insight-row{grid-template-columns:1fr}.icell{border-right:none;border-bottom:1px solid var(--line)}}
+  footer{margin-top:70px;border-top:1px solid var(--line);padding-top:24px;font-size:13px;color:var(--ink4)}
+  @media (max-width:1180px){.flow{overflow-x:auto;padding-bottom:8px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header>
-  <div class="kicker">OS5 · 笔记</div>
-  <h1>用户需求与交互链路</h1>
-  <p class="sub">从用户记完之后真正要什么出发：三个场景各自的洞察、要做的需求、完整交互链路；最后由这些需求推出笔记的交互框架该怎么变。</p>
-  <p class="meta">2026-09-10 · 内容助手 · 对齐用</p>
+  <div class="kick">OS5 · 笔记</div>
+  <h1>用户痛点、方案与交互链路</h1>
+  <p class="lead">三个场景：待办日程、想法随记、学习备考。每个场景先把用户在手机上真实卡住的地方一条条拆开，每条痛点配一个方案，再走一遍完整交互链路。最后由这些需求推出笔记的交互框架要怎么变。</p>
+  <div class="stamp"><span>2026-09-10</span><span>内容助手</span><span>对齐用</span></div>
 </header>
 
-<!-- ========== 01 用户需求的变化 ========== -->
-<section>
-  <div class="sec-head"><span class="sec-no">01</span><h2>用户需求变了什么</h2></div>
-  <p class="sec-desc">同一件事在三个场景里反复出现：记的时候是零散的一条条，用的时候要的是整理好的一整份。现在中间那段整理，全靠用户自己做。</p>
+<!-- ═══════════ 场景一 待办日程 ═══════════ -->
+<div class="scene">
+  <div class="scene-top">
+    <div class="snum">01</div>
+    <div>
+      <h2>待办日程</h2>
+      <p>用户不想在笔记里读待办。他只要知道现在该做什么、别错过时间。</p>
+    </div>
+  </div>
 
-  <div class="insight">
-    <div class="insight-row">
-      <div class="icell">
-        <div class="lb">用户在做什么</div>
-        <p class="quoteline">"这门课我录了十几次，课件在群里，往年真题老师发过，考前得复习"</p>
-      </div>
-      <div class="icell now">
-        <div class="lb">现在卡在哪</div>
-        <p>课上录音、课件、作业、真题落在不同地方。考前要自己一篇篇翻，翻完还得自己串成能复习的东西。</p>
-      </div>
-      <div class="icell want">
-        <div class="lb">所以要变成</div>
-        <p>同一门课的东西自动在一起，进去就能重新讲一遍、出一套卷子自测。</p>
-      </div>
-    </div>
-    <div class="insight-row">
-      <div class="icell">
-        <div class="lb">用户在做什么</div>
-        <p class="quoteline">"想到什么随口记一条，过一个月想接着往下想"</p>
-      </div>
-      <div class="icell now">
-        <div class="lb">现在卡在哪</div>
-        <p>工作的生活的混在一条时间流里往下排。一个月后想接着想，找不到当时那几条，也不记得自己反复在想什么。</p>
-      </div>
-      <div class="icell want">
-        <div class="lb">所以要变成</div>
-        <p>同一个主题的自动聚到一起，进去能接着聊，聊出来的东西能落成一份。</p>
-      </div>
-    </div>
-    <div class="insight-row">
-      <div class="icell">
-        <div class="lb">用户在做什么</div>
-        <p class="quoteline">"会上记的、路上说的，都是我要做的事"</p>
-      </div>
-      <div class="icell now">
-        <div class="lb">现在卡在哪</div>
-        <p>没做完的要自己抄到今天这一页。笔记里的待办、系统待办、日历是三套，得人来搬。</p>
-      </div>
-      <div class="icell want">
-        <div class="lb">所以要变成</div>
-        <p>没做完的自己滚到今天，带时间的自己进日历，各端到点提醒。</p>
+  <div class="pp">
+    <div class="pnum">痛点 1</div>
+    <div class="pain">
+      <h3>记下来的那句话，不会变成一件会提醒你的事</h3>
+      <p class="desc">开会时顺手记下"下周五之前把方案发给老王"。这句话留在会议记录的正文里，到了周五没有任何提醒——除非用户自己再打开待办应用，把这件事重录一遍。记录和待办是两套动作，用户要做两次。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>从记录里认出待办和时间，用户确认后落位</h4>
+        <ul>
+          <li>录音、语音、图片、手写里的待办与时间自动认出来，用户点一下确认</li>
+          <li>原话留在笔记里，认出的待办单独成条，两边关联：点待办能回到当时那句话</li>
+          <li>顺带认出的地点、联系人、链接分发成可点卡片，跳系统应用</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　置信度低于阈值不自动建，交用户确认；目标应用被禁用时的降级需与系统侧约定</p>
       </div>
     </div>
   </div>
 
-  <div class="fw-lead">
-    <p>三件事的共同点：用户要用的不是当时记下的那几条，而是整理加工之后的那一份。</p>
-    <p>下面按三个场景把需求和交互链路写清楚。不属于这三类的内容，走同一套聚合与生成，最后一节说。</p>
-  </div>
-</section>
-
-<!-- ========== 02 场景一 待办日程 ========== -->
-<section>
-  <div class="scene-band"><span class="badge b3">场景一</span><h2>待办日程</h2></div>
-  <p class="sec-desc">用户不想在笔记里读待办，只想知道现在该做什么、别错过时间。</p>
-
-  <div class="insight">
-    <div class="insight-row">
-      <div class="icell">
-        <div class="lb">真实场景</div>
-        <p>开车路上想起周五要给客户发方案，对着车机说一句。会上边听边记，记的话里夹着三件要做的事。</p>
-      </div>
-      <div class="icell now">
-        <div class="lb">卡在哪</div>
-        <p>说完记下了，但到点没人提醒。会议记录里那三件事还埋在正文里。上周没做完的，要翻回去自己抄。</p>
-      </div>
-      <div class="icell want">
-        <div class="lb">要什么</div>
-        <p>记的那一刻就被认出来是待办，自动落到待办和日历，到点在手上的设备提醒；没做完的自己往后滚。</p>
+  <div class="pp">
+    <div class="pnum">痛点 2</div>
+    <div class="pain">
+      <h3>昨天没做完的，今天打开就看不见了</h3>
+      <p class="desc">笔记里的待办跟着它所在的那篇笔记按时间排。昨天那篇今天已经沉到列表下面，首页看不到它。用户得自己记得"我好像还有件事没做"，再往回翻，才知道漏了什么。越久以前的越翻不到。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>未完成的自动出现在今天，不跟着原笔记沉底</h4>
+        <ul>
+          <li>没做完的待办每天自动出现在今天的列表里，并标出它是从哪天顺延过来的</li>
+          <li>逾期的单独标记，一眼看出压了几天</li>
+          <li>完成后从今天的列表消失，在原记录里留痕，随时可回溯</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　需要一份跨笔记的待办索引；与系统待办中心的数据边界待定</p>
       </div>
     </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 3</div>
+    <div class="pain">
+      <h3>要做的事散在四五个地方，没有一处能看全今天</h3>
+      <p class="desc">笔记里的勾选框一份、系统待办一份、日历一份，还有别人在聊天里交办的。用户要在几个入口之间来回切，才能拼出今天到底要做什么。带时间的那些如果没进日历，等于没设提醒。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>汇到一处按今天／本周看，并与日历双向联动</h4>
+        <ul>
+          <li>各来源待办汇到一处，按今天、本周看，不按来源分</li>
+          <li>带时间的与系统日历双向联动，一边改另一边跟着改</li>
+          <li>完成状态跨端同步：手表上点完成，手机同时更新</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　与系统日历、待办中心的双向接口</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 4</div>
+    <div class="pain">
+      <h3>在车上、耳机上说的，回到手机上找不到</h3>
+      <p class="desc">开车时想起一件事，对着车机说了一句。到手机上翻不到，用户也不确定到底记下了没有，回头还得再记一遍。耳机、手表上说的同样如此。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>多端说的都进同一处，到点在手上那台设备提醒</h4>
+        <ul>
+          <li>手机、车机、耳机说一句都落到同一处，多端同步</li>
+          <li>到点在用户手上那台设备提醒（手机或手表），不是只响一台</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　车机、耳机侧唤起小爱后的写入通道；跨端同步时延待实测</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flowbox">
+    <h3>交互链路</h3>
+    <p class="fnote">车上说一句 → 笔记里认出是待办 → 今天要做什么一处看全 → 到点在手上的设备提醒</p>
+
+    <div class="flow">
+      <div class="col">
+        <div class="tg"><span class="n">01</span><b>车上说一句</b></div>
+        <div class="ph">
+          <div class="amb"></div>
+          <div class="carnav"><b>沿主路直行 1.2 公里</b><span>预计 18:40 到达 · 中关村</span></div>
+          <div class="carmus">
+            <b>正在播放 · 电台</b><span>晚间新闻</span>
+            <div class="caraudio"><b style="height:40%"></b><b style="height:70%"></b><b style="height:50%"></b><b style="height:90%"></b><b style="height:60%"></b><b style="height:35%"></b><b style="height:75%"></b><b style="height:55%"></b><b style="height:85%"></b><b style="height:45%"></b></div>
+          </div>
+          <div class="xiao"><b>小爱</b><span>好，已记下。周五 18:00 前提醒你。</span></div>
+          <div class="vp">
+            "帮我记一下，周五下班前给老王发方案"
+            <div class="vpwave"><b style="height:30%"></b><b style="height:70%"></b><b style="height:45%"></b><b style="height:95%"></b><b style="height:55%"></b><b style="height:80%"></b><b style="height:35%"></b><b style="height:65%"></b><b style="height:90%"></b><b style="height:50%"></b><b style="height:75%"></b><b style="height:40%"></b></div>
+          </div>
+        </div>
+        <p class="cdesc">车机、耳机、手机都能说。用户不用先想这算笔记还是待办。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">02</span><b>笔记里认出待办</b></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="bk">‹ 笔记</div>
+          <div class="hr"><h5>周五给老王发方案</h5></div>
+          <div class="cap">车机语音 · 今天 09:12</div>
+          <div class="bb">原话：帮我记一下，周五下班前给老王发方案</div>
+          <div class="kv"><div class="k">认出 1 件待办</div><div class="v">给老王发方案</div></div>
+          <div class="kv"><div class="k">时间</div><div class="v">周五 18:00 前</div></div>
+          <div class="kv"><div class="k">相关联系人</div><div class="v">老王 · 可拨号</div></div>
+          <div class="bs"><div class="bt">确认进待办</div><div class="bt o">改时间</div></div>
+        </div>
+        <p class="cdesc">原话留着，认出的待办单独成条，由用户确认。会议记录里夹着的待办同一套认法。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">03</span><b>今天要做什么一处看全</b></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="hr"><h5>洞察</h5><i>形态 ›</i></div>
+          <div class="grp"><b>待办日程</b><i>待办中心 ›</i></div>
+          <div class="hs">
+            <div class="tl"><b>今天 4 件</b><em>2 件带时间</em></div>
+            <div class="tl"><b>本周 11 件</b><em>3 件逾期</em></div>
+            <div class="tl"><b>已完成</b><em>本周 9</em></div>
+          </div>
+          <div class="ls">
+            <div class="li ck"><span>给老王发方案</span><i>周五 18:00</i></div>
+            <div class="li ck"><span>约体检</span><i>顺延自 9/8</i></div>
+            <div class="li ck"><span>回复供应商报价</span><i>逾期 2 天</i></div>
+            <div class="li ck dn"><span>提交周报</span><i>已完成</i></div>
+          </div>
+          <div class="fd">来自 3 篇记录 · 2 件已进日历 ›</div>
+          <div class="tb"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
+        </div>
+        <p class="cdesc">没做完的自己出现在今天，标出顺延来源和逾期天数，不用回去翻。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">04</span><b>到点各端提醒</b></div>
+        <div class="ph">
+          <div class="amb"></div>
+          <div class="lockt"><b>18:00</b><span>周五 9 月 12 日</span></div>
+          <div class="locknt"><b>待办提醒</b><span>给老王发方案 · 今天 18:00 前</span></div>
+          <div class="wt">
+            <span class="tm">18:00</span>
+            <span class="ev">给老王发方案</span>
+            <div class="wtb"><i class="p">完成</i><i>稍后</i></div>
+          </div>
+        </div>
+        <p class="cdesc">手机、手表都提醒。手表上点完成，手机侧同时更新。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 场景二 想法随记 ═══════════ -->
+<div class="scene">
+  <div class="scene-top">
+    <div class="snum">02</div>
+    <div>
+      <h2>想法随记</h2>
+      <p>用户自己记下的东西延伸出来的都在这里：工作上的思考、生活随记、兴趣，也包括一段时间里为同一件事做的多次记录，比如一轮访谈、一次调研。</p>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 1</div>
+    <div class="pain">
+      <h3>工作和生活混在一条时间流里，越记越翻不动</h3>
+      <p class="desc">随口记的想法按天往下排。两周后往回翻，工作上的思考、周末的随记、看到觉得有意思的东西混在一起，得一条条看才知道哪条是哪件事。记得越多，这条流越没法用。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>同主题的自动聚成一处并起好标题，工作与生活分开</h4>
+        <ul>
+          <li>同一主题的记录攒够就聚成一处，标题自动起好（工作想法、生活随记、钓鱼、西安访谈）</li>
+          <li>工作与生活不混在同一处；子分类跟着用户实际记的内容长出来</li>
+          <li>判不准的先保持原样，攒够了再归，不硬归类</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　预置几个还是全部按内容长出来（见最后一节）</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 2</div>
+    <div class="pain">
+      <h3>想接着往下想，先得把当时那几条找回来</h3>
+      <p class="desc">一个月前记过几条关于同一件事的想法，现在想接着想。搜关键词搜不出来——当时用的词跟现在想的词不一样。就算找到了，还得把几条复制出来喂给 AI，才能接着聊。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>点进去就是对谈，这一处的内容已经挂上了</h4>
+        <ul>
+          <li>进去第一件事是接着聊，界面上显性标出已挂载了这一处的多少条内容</li>
+          <li>是可持续的会话：上次聊到哪里留着，下次能接上，不是一次性问答</li>
+          <li>开场先说清这段时间反复出现的是什么，用户不用自己回想</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　需小爱侧支持把这一处内容作为上下文挂载并保持会话</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 3</div>
+    <div class="pain">
+      <h3>自己反复在想什么，自己看不出来</h3>
+      <p class="desc">同一个问题两周里提了五次，每次都是一条独立的记录。用户不会去数，也就意识不到这已经是个反复出现、一直没解决的事。零散记录里最有价值的那部分，就这么留在流里。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>把反复出现的点指出来，每条能回到原话</h4>
+        <ul>
+          <li>一处内容里反复出现的主题、一直卡住的地方主动指出来，标出出现了几次</li>
+          <li>每条结论能点回当时那句原话，不是凭空给的判断</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　跨月聚合与归因效果待跑数</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 4</div>
+    <div class="pain">
+      <h3>一轮访谈是七段录音，没人会一段段听回去</h3>
+      <p class="desc">出差三天做了七场访谈，每场一段录音。回来要出一份总结，只能自己一段段听、一段段摘，再想办法拼到一起。等真拼完，时间已经过去很久。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>多次记录聚成一处，点一下落成一份，做完推送</h4>
+        <ul>
+          <li>一段时间里为同一件事做的多次记录聚成一处，标题自动起好，聚好了主动推送</li>
+          <li>点一下落成阶段总结、成长记录或下一步计划；默认是整理好的正文，可显性换成 PPT / PDF / Excel</li>
+          <li>里面写出来的下一步能直接进待办</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　形态转换走沙箱能力，本版做哪几类需圈定</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flowbox">
+    <h3>交互链路</h3>
+    <p class="fnote">随手记一条 → 聚好了推送给你 → 进去直接接着聊 → 落成一份并换形态</p>
+
+    <div class="flow">
+      <div class="col">
+        <div class="tg"><span class="n">01</span><b>随手记一条</b></div>
+        <div class="ph">
+          <div class="st"><span>21:04</span><span>▪▪▪</span></div>
+          <div class="bk">‹ 笔记</div>
+          <div class="hr"><h5>又被临时需求打断</h5></div>
+          <div class="cap">语音速记 · 今天 21:04</div>
+          <div class="wv"><b style="height:40%"></b><b style="height:70%"></b><b style="height:100%"></b><b style="height:55%"></b><b style="height:80%"></b><b style="height:35%"></b><b style="height:65%"></b><b style="height:90%"></b><b style="height:45%"></b><b style="height:75%"></b><b style="height:30%"></b><b style="height:60%"></b><b style="height:85%"></b><b style="height:50%"></b></div>
+          <div class="bb">这周排期又被临时需求打断两次，得想想怎么把插入需求的口子收一下。</div>
+          <div class="kv"><div class="k">自动归到</div><div class="v">工作想法</div></div>
+          <div class="ls"><div class="li"><span>这一处已有</span><i>23 条</i></div><div class="li"><span>归得不对？</span><i>改一下 ›</i></div></div>
+        </div>
+        <p class="cdesc">记的时候不用选分类，存下就归位。归错了用户随时能改。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">02</span><b>聚好了推送给你</b></div>
+        <div class="ph">
+          <div class="amb"></div>
+          <div class="lockt"><b>9:41</b><span>周三 9 月 10 日</span></div>
+          <div class="locknt" style="top:108px"><b>笔记</b><span>这三天的 7 场访谈整理好了：西安访谈</span></div>
+          <div class="locknt" style="top:172px"><b>笔记</b><span>工作想法：两周里排期被打断出现 5 次</span></div>
+          <div style="position:absolute;bottom:22px;left:14px;right:14px" class="bb w">
+            <b>洞察 · 想法随记</b>
+            <span>新增一处：西安访谈（7 场 · 已提炼共性）</span>
+          </div>
+        </div>
+        <p class="cdesc">做完主动推送，不靠用户回来发现。一轮访谈这种也在随记下面。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">03</span><b>进去直接接着聊</b></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="hr"><h5>工作想法</h5><i>形态 ›</i></div>
+          <div class="cap">近两周 24 条 · 反复出现：排期被打断、人力缺口</div>
+          <div class="talk">
+            <span class="at">＋ 已挂载「工作想法」24 条</span>
+            <p>这两周你反复在说排期被临时需求打断。要不要一起把插入需求的口子怎么收，理成下一步？</p>
+          </div>
+          <div class="sg"><div class="on">对谈</div><div>整理后的正文</div><div>原始 24 条</div></div>
+          <div class="ls">
+            <div class="li"><span>排期被临时需求打断</span><i>5 次</i></div>
+            <div class="li"><span>人力缺口</span><i>4 次</i></div>
+            <div class="li"><span>上次聊到：先砍两个二级需求</span><i>9/6</i></div>
+          </div>
+          <div class="tb"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
+        </div>
+        <p class="cdesc">一进来是对谈，不是一个"问小爱"按钮。上次聊到哪里留着，能接上。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">04</span><b>落成一份 · 换形态</b></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="bk">‹ 工作想法</div>
+          <div class="hr"><h5>近两周阶段总结</h5></div>
+          <div class="cap">来自 24 条 · 每条结论可点回原话</div>
+          <div class="sg"><div class="on">正文</div><div>PPT</div><div>PDF</div><div>Excel</div></div>
+          <div class="ls">
+            <div class="li"><span>一 · 排期被打断的两处口子</span><i>回原话 ›</i></div>
+            <div class="li"><span>二 · 人力缺口出现在哪一环</span><i>回原话 ›</i></div>
+            <div class="li"><span>三 · 下一步：收口 + 砍二级需求</span><i>3 条待办</i></div>
+          </div>
+          <div class="bs" style="margin-top:7px"><div class="bt">3 条进待办</div><div class="bt o">分享</div></div>
+          <div class="tb"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
+        </div>
+        <p class="cdesc">默认整理好的正文，能显性换成 PPT / PDF / Excel。里面的下一步直接进待办。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 场景三 学习备考 ═══════════ -->
+<div class="scene">
+  <div class="scene-top">
+    <div class="snum">03</div>
+    <div>
+      <h2>学习备考</h2>
+      <p>这个场景的链路从笔记之外就开始了：课程表在相册里被认出来、课在日历里、上课时录音。到笔记这边，要做的是把一堂堂课变成一门课。</p>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 1</div>
+    <div class="pain">
+      <h3>最难的一步是想起来开录音</h3>
+      <p class="desc">一堂课两个小时，学生经常忘了点录音，或者上到一半才想起来——前面那段就没了。这一堂课的内容从此是不完整的，后面无论怎么整理都补不回来。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>按课表自动录音，加端侧持续预录兜住忘记的那几分钟</h4>
+        <ul>
+          <li>日历里的课程日程标为自动录音，到点自己开始，不依赖用户动手</li>
+          <li>端侧低功耗持续预录，中途才点开也能接上前面那段，一堂课不缺口</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　日历提供课程日程与循环规则；预录时长、功耗与存储边界待技术侧评估</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 2</div>
+    <div class="pain">
+      <h3>一门课的东西散在四个地方</h3>
+      <p class="desc">课上录音在笔记里，老师的课件在群里，电子教材是个下载的文件，往年真题是另一个文件。写作业或者复习时，用户要在几个应用之间来回找，还得自己记得存到哪了。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>一门课自动聚齐四类来源，存进来就归位</h4>
+        <ul>
+          <li>课堂录音、课件、电子教材、往年真题聚到同一门课下</li>
+          <li>群里发的课件、作业存下来就落到对应课程，用户不用管存到哪了</li>
+          <li>两三堂课之后这门课成形，聚好了推送</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　文档类内容的课程归属判定准确率待跑数</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 3</div>
+    <div class="pain">
+      <h3>录了十几段音，考前不会一段段听回去</h3>
+      <p class="desc">一学期十几堂课的录音都在，考前只剩两天。用户要的不是录音，也不是逐字转写，是这门课要考什么、我到底会不会。现在这一步全靠自己做。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>进这门课先给复习要用的东西</h4>
+        <ul>
+          <li>进去是精讲、快讲、出一套卷子，不是一串课堂录音列表</li>
+          <li>考点大纲、按章节、按堂次三种看法，每个考点能回到原文那一段</li>
+          <li>答错的按间隔重复再考；出题只用这门课存进来的内容</li>
+          <li>原始资料（录音、课件、教材、真题）退到次级入口</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　能拆出判定步骤的考点占比待跑数，过低则本版先只出考点清单</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 4</div>
+    <div class="pain">
+      <h3>写作业时还是得自己把课上内容翻出来</h3>
+      <p class="desc">老师留的作业要结合这几堂课的内容做。用户得先找到对应那几堂课的笔记，再一边翻一边写。写完了，下次看日程也不知道这门课的作业到底交了没有。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>作业挂在这门课下，写的时候直接用上课上的内容</h4>
+        <ul>
+          <li>存进来的作业自动识别并挂在这门课下，标出未完成</li>
+          <li>写的时候能直接用上这门课的录音、课件内容</li>
+          <li>完成进度回到日程里，下次看课程日程时能看到</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　日历侧承接作业进度与笔记入口</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flowbox">
+    <h3>交互链路</h3>
+    <p class="fnote">这条链从相册和日历开始，中间最关键的一段在笔记这边</p>
+    <div class="legend">
+      <span><span class="dt" style="background:var(--bl)"></span>笔记（我们）</span>
+      <span><span class="dt" style="background:#DDE0E8"></span>相册 / 日历 / 小爱建议</span>
+    </div>
+
+    <div class="flow">
+      <div class="col">
+        <div class="tg"><span class="n">01</span><b>相册认出课程表</b><span class="who">相册</span></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="hr"><h5>照片</h5></div>
+          <div class="cap">今天 · 截屏</div>
+          <div class="ag"><div class="sel"></div><div></div><div></div><div></div></div>
+          <div class="ab">识别课程表</div>
+          <div class="ls">
+            <div class="li"><span>认出 6 门课 · 每周循环</span><i>大物、概率论…</i></div>
+            <div class="li"><span>去向</span><i>日历 ›</i></div>
+          </div>
+        </div>
+        <p class="cdesc">拍一张或截屏课程表，相册里直接给出这个按钮。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">02</span><b>课进日历</b><span class="who">日历</span></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="hr"><h5>9 月</h5><i>今天</i></div>
+          <div class="ch"><span>一　二　三　四　五　六　日</span></div>
+          <div class="cg">
+            <i>1</i><i class="on">2</i><i>3</i><i class="on">4</i><i>5</i><i>6</i><i>7</i>
+            <i>8</i><i class="on">9</i><i>10</i><i class="on">11</i><i>12</i><i>13</i><i>14</i>
+          </div>
+          <div class="ce"><b>大学物理 · 第 6 堂</b><span>14:00–16:00 · 三教 301</span></div>
+          <div class="ls">
+            <div class="li"><span>这门课已上 5 堂 / 共 16 堂</span><i></i></div>
+            <div class="li"><span>作业：习题册 P42–45</span><i>未完成</i></div>
+            <div class="li"><span>这门课的笔记</span><i>打开 ›</i></div>
+          </div>
+        </div>
+        <p class="cdesc">课程日程有专属样式。点进去不是编辑界面：先是这一堂，下面是这门课的进度、作业和笔记入口。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">03</span><b>到点自动录音</b><span class="who us">笔记</span></div>
+        <div class="ph">
+          <div class="st"><span>13:59</span><span>▪▪▪</span></div>
+          <div class="nt"><b>小爱建议</b><span>14:00 大学物理 · 三教 301，该去上课了</span></div>
+          <div style="height:70px"></div>
+          <div class="rb">● 正在录音 00:12:37　大学物理 第 6 堂（按课表自动开始）</div>
+          <div class="wv"><b style="height:50%"></b><b style="height:85%"></b><b style="height:40%"></b><b style="height:95%"></b><b style="height:60%"></b><b style="height:75%"></b><b style="height:35%"></b><b style="height:80%"></b><b style="height:55%"></b><b style="height:90%"></b><b style="height:45%"></b><b style="height:70%"></b><b style="height:60%"></b><b style="height:38%"></b></div>
+          <div class="bb w"><b>忘了点也不丢</b><span>端侧一直在预录，中途才点开也能接上前面那段</span></div>
+          <div class="fd">转写与整理在后台进行 ›</div>
+        </div>
+        <p class="cdesc">用户最容易忘的就是开录音。这一步是这条链上我们最关键的一环。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">04</span><b>课件作业自动归位</b><span class="who us">笔记</span></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="bk">‹ 洞察</div>
+          <div class="hr"><h5>存进来了</h5></div>
+          <div class="cap">来自聊天中的文件 · 2 个</div>
+          <div class="bb w"><b>第六讲 刚体转动.ppt</b><span>已归到 · 大学物理</span></div>
+          <div class="bb w"><b>第三次作业.docx</b><span>已归到 · 大学物理 · 标为作业</span></div>
+          <div class="kv"><div class="k">这门课现有</div><div class="v">录音 6 · 课件 6 · 教材 1 · 真题 3</div></div>
+          <div class="bs"><div class="bt o">改归属</div><div class="bt">打开这门课</div></div>
+        </div>
+        <p class="cdesc">老师发的课件、群里发的作业，存下来就在这门课里。</p>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="col">
+        <div class="tg"><span class="n">05</span><b>洞察里长出这门课</b><span class="who us">笔记</span></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="hr"><h5>洞察</h5><i>形态 ›</i></div>
+          <div class="grp"><b>待办日程</b><i>待办中心 ›</i></div>
+          <div class="hs">
+            <div class="tl"><b>今天 4 件</b><em>2 件带时间</em></div>
+            <div class="tl"><b>本周 11 件</b><em>3 件逾期</em></div>
+          </div>
+          <div class="grp"><b>想法随记</b><i>全部 3 ›</i></div>
+          <div class="hs">
+            <div class="tl"><b>工作想法</b><em>24 条</em></div>
+            <div class="tl"><b>西安访谈</b><em>7 场</em></div>
+            <div class="tl"><b>钓鱼</b><em>14 条</em></div>
+          </div>
+          <div class="grp"><b>学习备考</b><i>全部 4 ›</i></div>
+          <div class="hs">
+            <div class="tl"><b>大学物理</b><em>6 堂 · 四类已齐</em></div>
+            <div class="tl"><b>概率论</b><em>5 堂</em></div>
+          </div>
+          <div class="tb"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
+        </div>
+        <p class="cdesc">两三堂课之后这门课成形，聚好了推送。每个格子标题自动起好。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">06</span><b>进去先给复习要用的</b><span class="who us">笔记</span></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="hr"><h5>大学物理</h5><i>形态 ›</i></div>
+          <div class="cap">6 堂 · 最近更新 今天</div>
+          <div class="cz"><i>课堂录音 6</i><i>课件 6</i><i>教材 1</i><i>真题 3</i></div>
+          <div class="bs"><div class="bt">精讲</div><div class="bt o">快讲</div><div class="bt d">出卷子</div></div>
+          <div class="sg"><div class="on">考点大纲</div><div>按章节</div><div>按堂次</div></div>
+          <div class="ls">
+            <div class="li"><span>第三章 刚体转动</span><i>考点 6</i></div>
+            <div class="li"><span>第四章 振动与波</span><i>考点 9</i></div>
+            <div class="li"><span>第五章 热力学第一</span><i>考点 7</i></div>
+          </div>
+          <div class="fd">原始资料（录音 / 课件 / 教材 / 真题）›</div>
+          <div class="tb"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
+        </div>
+        <p class="cdesc">不是一串课堂录音。原始资料退到次级入口。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">07</span><b>出卷自测</b><span class="who us">笔记</span></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="bk">‹ 大学物理</div>
+          <div class="hr"><h5>自测卷 · 第 3–5 章</h5></div>
+          <div class="cap">20 题 · 只考这门课存进来的内容</div>
+          <div class="bb w"><b>第 4 题</b><span>刚体绕定轴转动时，角加速度与合外力矩的关系是？</span></div>
+          <div class="bb me">M = Iα</div>
+          <div class="kv"><div class="k">判定</div><div class="v">对 · 出自第三章 第 2 节</div></div>
+          <div class="ls">
+            <div class="li"><span>本卷正确 17 / 20</span><i>回原文 ›</i></div>
+            <div class="li"><span>错的 3 题 · 三天后再考</span><i>已安排</i></div>
+          </div>
+        </div>
+        <p class="cdesc">每题能回到原文那一段。答错的按间隔重复再来。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">08</span><b>作业进度回到日程</b><span class="who">日历</span></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="hr"><h5>大学物理 · 第 7 堂</h5></div>
+          <div class="cap">周四 14:00–16:00 · 三教 301</div>
+          <div class="ls">
+            <div class="li"><span>已上 6 堂 / 共 16 堂</span><i></i></div>
+            <div class="li"><span>第三次作业</span><i>已完成 ›</i></div>
+            <div class="li"><span>上次自测</span><i>17 / 20</i></div>
+            <div class="li"><span>这门课的笔记</span><i>打开 ›</i></div>
+          </div>
+          <div class="bb w"><span>下堂课前建议复习：第四章 振动与波（错题 2）</span></div>
+        </div>
+        <p class="cdesc">下次看日程时，这门课的进度、作业、笔记入口都在。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 其余内容 ═══════════ -->
+<div class="scene">
+  <div class="scene-top">
+    <div class="snum">04</div>
+    <div>
+      <h2>不在这三类里的内容</h2>
+      <p>旅行攻略、一次临时会议、随手收藏的资料，用户也会往笔记里存。这些不单独设计一套形态——走的是上面三个场景已经在用的同一套聚合与生成。</p>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 1</div>
+    <div class="pain">
+      <h3>零散存下来的东西，隔几天就想不起来存过</h3>
+      <p class="desc">刷到一篇成都攻略存了，隔天又存了一家店、一份交通信息。真要出发时，这几条散在时间流里，用户记不清自己都存过什么，只能一条条翻。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>同主题攒够了就聚成一处，判不准的先原样放着</h4>
+        <ul>
+          <li>没落到三个场景里的内容，按主题聚到一起并自动起标题（一趟旅行、一次装修、一个项目）</li>
+          <li>判不准的保持原样，不硬归；攒够了再归</li>
+          <li>用的是三个场景同一套聚合规则，不另做一套</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　存量内容补理的范围待定</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 2</div>
+    <div class="pain">
+      <h3>存了一堆材料，拼成能用的东西还得自己来</h3>
+      <p class="desc">攻略、店、交通都存了，但要变成一份能照着走的行程，还是得用户自己排。工作上同理：几篇记录里的数字要凑成一张报价单，只能手动抄。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>聚好的点一下就落成一份能用的东西</h4>
+        <ul>
+          <li>点一下整理成行程、报价单、对账表或可分享的网页</li>
+          <li>默认整理好的正文，可显性换形态；每项能点回原文</li>
+          <li>带时间的项目可以直接进日历</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　与场景二共用同一套生成与形态转换</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pnum">痛点 3</div>
+    <div class="pain">
+      <h3>原来建的文件夹和习惯不能被打乱</h3>
+      <p class="desc">用户手里已经有自己建的文件夹、几百篇笔记。新的这一层如果把原来的东西挪走或者藏起来，老用户第一天就不会用了。</p>
+      <div class="plan">
+        <div class="tag">方案</div>
+        <h4>原始内容与文件夹原样保留在「笔记」这一侧</h4>
+        <ul>
+          <li>用户原来建的文件夹、单篇笔记继续在，编辑与查找方式不变</li>
+          <li>加工后的那一层是新增的一侧，不影响原有使用习惯</li>
+        </ul>
+        <p class="dep"><b>依赖 / 待定</b>　升级后首次进入的引导方式待定</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flowbox">
+    <h3>交互链路</h3>
+    <p class="fnote">零散存进来 → 同主题攒够聚成一处 → 点一下落成一份</p>
+
+    <div class="flow">
+      <div class="col">
+        <div class="tg"><span class="n">01</span><b>零散存进来</b></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="hr"><h5>笔记</h5><i>搜索</i></div>
+          <div class="cap">最近存入</div>
+          <div class="ls">
+            <div class="li"><span>成都三日游攻略</span><i>今天</i></div>
+            <div class="li"><span>宽窄巷子附近这家店</span><i>今天</i></div>
+            <div class="li"><span>川菜必吃清单</span><i>昨天</i></div>
+            <div class="li"><span>青城山交通</span><i>昨天</i></div>
+            <div class="li"><span>装修水电报价</span><i>9/6</i></div>
+          </div>
+          <div class="fd">我的文件夹（原样保留）›</div>
+          <div class="tb"><s>洞察</s><u>+</u><v>◉</v><s class="on">笔记</s></div>
+        </div>
+        <p class="cdesc">判不准就先原样放着，不硬归类。原有文件夹继续在这一侧。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">02</span><b>攒够聚成一处</b></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="hr"><h5>洞察</h5><i>形态 ›</i></div>
+          <div class="grp"><b>其他</b><i>全部 2 ›</i></div>
+          <div class="hs">
+            <div class="tl"><b>成都这趟</b><em>4 条 · 攻略与店</em></div>
+            <div class="tl"><b>家里装修</b><em>9 条</em></div>
+          </div>
+          <div class="bb w"><b>成都这趟</b><span>含攻略、两家店、交通，够拼一份行程了</span></div>
+          <div class="bs"><div class="bt">拼一份行程</div><div class="bt o">先看看</div></div>
+          <div class="ls"><div class="li"><span>来自 4 条记录</span><i>展开 ›</i></div></div>
+          <div class="tb"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
+        </div>
+        <p class="cdesc">同一套聚合，标题一样自动起好。</p>
+      </div>
+      <div class="arw">→</div>
+
+      <div class="col">
+        <div class="tg"><span class="n">03</span><b>落成一份</b></div>
+        <div class="ph">
+          <div class="st"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="bk">‹ 成都这趟</div>
+          <div class="hr"><h5>成都三日行程</h5></div>
+          <div class="cap">来自 4 条 · 每项可点回原文</div>
+          <div class="sg"><div class="on">正文</div><div>网页</div><div>PDF</div></div>
+          <div class="ls">
+            <div class="li"><span>D1 宽窄巷子 · 这家店</span><i>回原文 ›</i></div>
+            <div class="li"><span>D2 青城山 · 交通已排</span><i>回原文 ›</i></div>
+            <div class="li"><span>D3 川菜清单里挑两家</span><i>回原文 ›</i></div>
+          </div>
+          <div class="bs" style="margin-top:7px"><div class="bt o">分享</div><div class="bt">2 项进日历</div></div>
+          <div class="tb"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
+        </div>
+        <p class="cdesc">和场景二用的是同一套生成与形态转换。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 框架 ═══════════ -->
+<div class="fw">
+  <div class="scene-top">
+    <div class="snum">05</div>
+    <div>
+      <h2>由这些需求推出：交互框架要怎么变</h2>
+      <p>上面四节里，用户真正打开去用的都是整理加工之后的那一份：今天要做的事、一处想法、一门课、一趟行程。原始那几条退到后面。</p>
+    </div>
+  </div>
+
+  <div class="fwlead">
+    <p>原来的框架只有"一篇篇笔记按时间排"这一种形态，承载不了加工后的这一层。</p>
+    <p>所以内容分两层，各自要有自己的位置。加工后那一层需要能按品类铺开、能横着看、每个格子有标题看得出里面是什么——这件事原始笔记流做不到，两者也不该挤在同一个 tab 里。</p>
   </div>
 
   <table>
-    <tr><th style="width:150px">需求</th><th>要做什么</th><th style="width:200px">依赖 / 待定</th></tr>
-    <tr>
-      <td class="rq">随口记待办</td>
-      <td>手机、车机、耳机说一句就记下，多端同步。原话保留在笔记里，识别出的待办单独成条。</td>
-      <td>车机、耳机侧唤起小爱后的写入通道；跨端同步时延待实测</td>
-    </tr>
-    <tr>
-      <td class="rq">从记录里认出待办</td>
-      <td>录音、语音、图片、手写里的待办与日程自动认出来，用户确认后落位。识别出的地点、联系人、链接分发成可点卡片。</td>
-      <td>置信度低于阈值不自动建；目标应用被禁用时的降级需与系统侧约定</td>
-    </tr>
-    <tr>
-      <td class="rq">一处管全 + 自己往后滚</td>
-      <td>各来源待办汇到一处；未完成的自动出现在今天，不用重抄；带时间的与系统日历双向联动，各端到点提醒，完成状态跨端同步。</td>
-      <td>与系统日历、待办中心的双向接口</td>
-    </tr>
-  </table>
-
-  <div class="flow-title">交互链路</div>
-  <p class="flow-note">车上说一句 → 认出是待办 → 洞察里看到今天要做什么 → 到点在手表提醒 → 没做完的明天自己还在</p>
-
-  <div class="flow">
-    <div class="stepcol">
-      <div class="steptag"><span class="n">01</span>车上说一句</div>
-      <div class="ph">
-        <div class="homebg"></div>
-        <div class="incar">
-          <b>小爱</b>
-          <span>好，已经记下了。周五 18:00 前提醒你。</span>
-        </div>
-        <div class="voicepill">"帮我记一下，周五下班前给老王发方案"</div>
-      </div>
-      <p class="stepdesc">车机、耳机、手机都能说。用户不用想这算笔记还是待办。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">02</span>笔记里认出待办</div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="navback">‹ 返回</div>
-        <div class="h4row"><h4>周五给老王发方案</h4></div>
-        <div class="cap">车机语音 · 今天 09:12</div>
-        <div class="bubble">原话：帮我记一下，周五下班前给老王发方案</div>
-        <div class="kv">
-          <div class="k">认出 1 件待办</div>
-          <div class="v">给老王发方案</div>
-        </div>
-        <div class="kv">
-          <div class="k">时间</div>
-          <div class="v">周五 18:00 前</div>
-        </div>
-        <div class="btns"><div class="bt">确认进待办</div><div class="bt o">改时间</div></div>
-        <p class="stepdesc" style="padding:0 5px">原话留在笔记里，认出来的待办单独成条，由用户确认。</p>
-      </div>
-      <p class="stepdesc">会议记录里夹着的待办，同一套认法。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">03</span>洞察里的待办日程</div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="h4row"><h4>洞察</h4><span style="font-size:8px;color:var(--ink4)">形态 ›</span></div>
-        <div class="grp"><b>待办日程</b><span>待办中心 ›</span></div>
-        <div class="hs">
-          <div class="tl p"><b>今天 4 件</b><em>2 件带时间</em></div>
-          <div class="tl p"><b>本周 11 件</b><em>3 件逾期</em></div>
-          <div class="tl p"><b>已完成</b><em>本周 9</em></div>
-        </div>
-        <div class="lst">
-          <div class="li chk"><span>给老王发方案</span><i>周五 18:00</i></div>
-          <div class="li chk"><span>约体检</span><i>顺延自 9/8</i></div>
-          <div class="li chk done"><span>提交周报</span><i>已完成</i></div>
-        </div>
-        <div class="fd">来自 3 篇记录 ›</div>
-        <div class="tab"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
-      </div>
-      <p class="stepdesc">洞察里给一个入口格子。逾期的标出顺延来源，不用回去翻。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">04</span>到点各端提醒</div>
-      <div class="ph">
-        <div class="homebg"></div>
-        <div class="watchface">
-          <b>18:00</b>
-          <span>给老王发方案</span>
-          <div class="watchbtn">已完成</div>
-          <div class="watchbtn">稍后</div>
-        </div>
-        <p class="stepdesc" style="position:absolute;bottom:14px;left:13px;right:13px;text-align:center">手表上点完成，手机侧同时更新</p>
-      </div>
-      <p class="stepdesc">手机、手表都提醒，完成状态跨端同步。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ========== 03 场景二 想法随记 ========== -->
-<section>
-  <div class="scene-band"><span class="badge b1">场景二</span><h2>想法随记</h2></div>
-  <p class="sec-desc">用户自己记下的内容延伸出来的东西都在这里：工作上的思考、生活随记、兴趣，也包括一段时间里为一件事做的多次记录（比如一轮访谈、一次调研）。</p>
-
-  <div class="insight">
-    <div class="insight-row">
-      <div class="icell">
-        <div class="lb">真实场景</div>
-        <p>两周里陆陆续续记了九条工作上的想法。出差三天做了七场访谈，每场一段录音。</p>
-      </div>
-      <div class="icell now">
-        <div class="lb">卡在哪</div>
-        <p>都在时间流里按天往下排，工作生活混着。想接着往下想，得先把当时那几条找出来；七场访谈是七篇录音，没人会一篇篇听回去。</p>
-      </div>
-      <div class="icell want">
-        <div class="lb">要什么</div>
-        <p>同主题的自动聚成一处并起好标题；进去能直接接着聊，聊完能落成一份阶段总结或计划。</p>
-      </div>
-    </div>
-  </div>
-
-  <table>
-    <tr><th style="width:150px">需求</th><th>要做什么</th><th style="width:200px">依赖 / 待定</th></tr>
-    <tr>
-      <td class="rq">按主题自动聚，工作生活分开</td>
-      <td>同主题的记录攒够就聚成一处并自动起标题（工作想法 / 生活随记 / 兴趣 / 一轮访谈）。工作与生活不混在同一处。子分类跟着用户实际记的内容长出来。</td>
-      <td>预置几个还是全部按内容长出来，待定（见最后一节）</td>
-    </tr>
-    <tr>
-      <td class="rq">进去就是对谈</td>
-      <td>点进去第一件事是接着聊，界面上显性标出已挂载了这一处的多少条内容，是可持续的会话，不是一次问答。开场先说清这段时间反复出现的是什么。</td>
-      <td>需小爱侧支持把这一处内容作为上下文挂载并保持会话</td>
-    </tr>
-    <tr>
-      <td class="rq">聊完能落成一份</td>
-      <td>聊出来的结论能直接落成阶段总结、成长记录、下一步计划；默认是整理好的正文，可以显性换成 PPT / PDF / Excel。每条结论能点回原话那一段。</td>
-      <td>跨月聚合与归因效果待跑数；形态转换走沙箱能力</td>
-    </tr>
-  </table>
-
-  <div class="flow-title">交互链路</div>
-  <p class="flow-note">随手记 → 自动聚成一处并起好标题、做完推送 → 进去直接接着聊 → 落成一份并换形态</p>
-
-  <div class="flow">
-    <div class="stepcol">
-      <div class="steptag"><span class="n">01</span>随手记一条</div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="navback">‹ 笔记</div>
-        <div class="h4row"><h4>又被临时需求打断</h4></div>
-        <div class="cap">语音速记 · 今天 21:04</div>
-        <div class="wave"><b style="height:40%"></b><b style="height:70%"></b><b style="height:100%"></b><b style="height:55%"></b><b style="height:80%"></b><b style="height:35%"></b><b style="height:65%"></b><b style="height:90%"></b><b style="height:45%"></b><b style="height:75%"></b><b style="height:30%"></b><b style="height:60%"></b></div>
-        <div class="bubble">这周排期又被临时需求打断了两次，得想想怎么把插入需求的口子收一下。</div>
-        <div class="kv"><div class="k">自动归到</div><div class="v">工作想法</div></div>
-        <div class="fd">这一处已有 23 条 ›</div>
-      </div>
-      <p class="stepdesc">记的时候不用选分类，存下就归位。用户随时能改。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">02</span>聚好了推送给你</div>
-      <div class="ph">
-        <div class="homebg"></div>
-        <div class="notif">
-          <b>笔记</b>
-          <span>这三天的 7 场访谈整理好了：西安访谈</span>
-        </div>
-        <div style="position:absolute;left:8px;right:8px;top:96px" class="bubble card">
-          <b style="font-size:9px">洞察 · 想法随记</b><br>
-          <span style="font-size:8.5px;color:var(--ink3)">新增一处：西安访谈（7 场 · 已提炼共性）</span>
-        </div>
-        <p class="stepdesc" style="position:absolute;bottom:16px;left:13px;right:13px;text-align:center">做完主动推送，不靠用户回来发现</p>
-      </div>
-      <p class="stepdesc">一轮访谈这种也在随记下面：多次记录聚成一处，标题自动起好。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">03</span>进去直接接着聊</div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="h4row"><h4>工作想法</h4><span style="font-size:8px;color:var(--ink4)">形态 ›</span></div>
-        <div class="cap">近两周 24 条 · 反复出现：排期被打断、人力缺口</div>
-        <div class="talk">
-          <span class="at">＋ 已挂载「工作想法」24 条</span>
-          <p>这两周你反复在说排期被临时需求打断。要不要一起把插入需求的口子怎么收，理成下一步？</p>
-        </div>
-        <div class="segz"><div class="on">对谈</div><div>整理后的正文</div><div>原始 24 条</div></div>
-        <div class="lst">
-          <div class="li"><span>排期被临时需求打断</span><i>5 次</i></div>
-          <div class="li"><span>人力缺口</span><i>4 次</i></div>
-          <div class="li"><span>上次聊到：先砍两个二级需求</span><i>9/6</i></div>
-        </div>
-        <div class="tab"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
-      </div>
-      <p class="stepdesc">一进来是对谈而不是"问小爱"按钮。上次聊到哪里也留着，能接上。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">04</span>落成一份 · 换形态</div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="navback">‹ 工作想法</div>
-        <div class="h4row"><h4>近两周阶段总结</h4></div>
-        <div class="cap">来自 24 条 · 每条结论可点回原话</div>
-        <div class="segz"><div class="on">正文</div><div>PPT</div><div>PDF</div><div>Excel</div></div>
-        <div class="lst">
-          <div class="li"><span>一 · 排期被打断的两处口子</span><i>回原话 ›</i></div>
-          <div class="li"><span>二 · 人力缺口出现在哪一环</span><i>回原话 ›</i></div>
-          <div class="li"><span>三 · 下一步：收口 + 砍二级需求</span><i>3 条待办</i></div>
-        </div>
-        <div class="btns" style="margin-top:6px"><div class="bt">3 条进待办</div><div class="bt o">分享</div></div>
-        <div class="tab"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
-      </div>
-      <p class="stepdesc">默认正文，能显性换成 PPT / PDF / Excel。里面的下一步可以直接进待办。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ========== 04 场景三 学习备考 ========== -->
-<section>
-  <div class="scene-band"><span class="badge b2">场景三</span><h2>学习备考</h2></div>
-  <p class="sec-desc">这个场景的链路从笔记之外就开始了：课程表在相册里被认出来、课在日历里、上课时录音。到笔记这边，是把一堂堂课变成一门课。</p>
-
-  <div class="insight">
-    <div class="insight-row">
-      <div class="icell">
-        <div class="lb">真实场景</div>
-        <p>写数学作业时，桌上要同时摊开课本、卷子、草稿纸和这门课的课堂笔记；写完塞回书包，第二天再来一遍。</p>
-      </div>
-      <div class="icell now">
-        <div class="lb">卡在哪</div>
-        <p>一门课的东西散在各处：录音在笔记、课件在群里、真题是老师发的文件。最难的是上课经常忘记开录音，录了也是一堂一堂的散音频。</p>
-      </div>
-      <div class="icell want">
-        <div class="lb">要什么</div>
-        <p>一门课自动聚齐四类来源；进去能重新讲一遍、出一套卷子；作业能结合课上内容写。</p>
-      </div>
-    </div>
-  </div>
-
-  <table>
-    <tr><th style="width:150px">需求</th><th>要做什么</th><th style="width:200px">依赖 / 待定</th></tr>
-    <tr>
-      <td class="rq">按课表自动录音</td>
-      <td>日历里的课程日程标为自动录音，到点自己开始；配合端侧低功耗持续预录，用户忘了点、中途才点，前面那段也能接上，一堂课不缺口。</td>
-      <td><span class="own">日历</span> 提供课程日程与循环规则；端侧预录的功耗与存储边界待评估</td>
-    </tr>
-    <tr>
-      <td class="rq">一门课自动聚齐四类来源</td>
-      <td>课堂录音、课件、电子教材、往年真题聚到同一门课下。老师发的课件、群里发的作业，用户存下来就落到对应课程，不用他管存到哪。两三堂课后这门课成形，做完推送。</td>
-      <td>文档类内容的课程归属判定准确率待跑数</td>
-    </tr>
-    <tr>
-      <td class="rq">进去能复习：精讲 / 快讲 / 出卷</td>
-      <td>不是一串课堂录音列表。进去先给重新讲一遍（精讲 / 快讲）和出一套卷子自测；考点大纲 / 按章节 / 按堂次三种看法，每个考点能回到原文那一段。作业可以结合课上内容一起写。</td>
-      <td>能拆出判定步骤的考点占比待跑数，过低则本版先只出考点清单</td>
-    </tr>
-  </table>
-
-  <div class="flow-title">交互链路（跨应用那段也在这条链上）</div>
-  <div class="legend">
-    <span><span class="dot" style="background:var(--blue)"></span>笔记（我们）</span>
-    <span><span class="dot" style="background:#D5D9E2"></span>相册 / 日历 / 小爱建议</span>
-  </div>
-
-  <div class="flow">
-    <div class="stepcol">
-      <div class="steptag"><span class="n">01</span>相册认出课程表 <span class="own">相册</span></div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="h4row"><h4>照片</h4></div>
-        <div class="cap">今天 · 截屏</div>
-        <div class="albumgrid">
-          <div class="sel"></div><div></div><div></div><div></div>
-        </div>
-        <div class="albumbtn">识别课程表</div>
-        <div class="lst">
-          <div class="li"><span>认出 6 门课 · 每周循环</span><i>大物、概率论…</i></div>
-          <div class="li"><span>去向</span><i>日历 ›</i></div>
-        </div>
-      </div>
-      <p class="stepdesc">拍一张或截屏课程表，相册里直接给出这个按钮。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">02</span>课进日历 <span class="own">日历</span></div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="h4row"><h4>9 月</h4></div>
-        <div class="calhead"><span>一 二 三 四 五 六 日</span><span>今天</span></div>
-        <div class="calgrid">
-          <i>1</i><i class="cls">2</i><i>3</i><i class="cls">4</i><i>5</i><i>6</i><i>7</i>
-          <i>8</i><i class="cls">9</i><i>10</i><i class="cls">11</i><i>12</i><i>13</i><i>14</i>
-        </div>
-        <div class="calev"><b>大学物理 · 第 6 堂</b><span>14:00–16:00 · 三教 301</span></div>
-        <div class="lst">
-          <div class="li"><span>这门课已上 5 堂 / 共 16 堂</span><i></i></div>
-          <div class="li"><span>作业：习题册 P42–45</span><i>未完成</i></div>
-          <div class="li"><span>这门课的笔记</span><i>打开 ›</i></div>
-        </div>
-      </div>
-      <p class="stepdesc">课程日程有专属样式，点进去不是编辑界面：先是这一堂，下面是这门课的进度、作业和笔记入口。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">03</span>到点自动录音 <span class="own us">笔记</span></div>
-      <div class="ph">
-        <div class="st"><span>13:59</span><span>▪▪▪</span></div>
-        <div class="notif"><b>小爱建议</b><span>14:00 大学物理 · 三教 301，该去上课了</span></div>
-        <div style="margin-top:74px"></div>
-        <div class="recbar">● 正在录音 00:12:37 · 大学物理 第 6 堂（按课表自动开始）</div>
-        <div class="wave"><b style="height:50%"></b><b style="height:85%"></b><b style="height:40%"></b><b style="height:95%"></b><b style="height:60%"></b><b style="height:75%"></b><b style="height:35%"></b><b style="height:80%"></b><b style="height:55%"></b><b style="height:90%"></b><b style="height:45%"></b><b style="height:70%"></b></div>
-        <div class="bubble card"><b style="font-size:9px">忘了点也不丢</b><br><span style="font-size:8.5px;color:var(--ink3)">端侧一直在预录，中途才点开也能接上前面那段</span></div>
-        <div class="fd">转写与整理在后台进行 ›</div>
-      </div>
-      <p class="stepdesc">用户最容易忘的就是开录音。这一步是这条链上我们最关键的一环。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">04</span>课件作业自动归位 <span class="own us">笔记</span></div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="navback">‹ 洞察</div>
-        <div class="h4row"><h4>存进来了</h4></div>
-        <div class="cap">来自聊天中的文件 · 2 个</div>
-        <div class="bubble card"><b style="font-size:9px">第六讲 刚体转动.ppt</b><br><span style="font-size:8.5px;color:var(--ink3)">已归到 · 大学物理</span></div>
-        <div class="bubble card"><b style="font-size:9px">第三次作业.docx</b><br><span style="font-size:8.5px;color:var(--ink3)">已归到 · 大学物理 · 标为作业</span></div>
-        <div class="kv"><div class="k">这门课现有</div><div class="v">录音 6 · 课件 6 · 教材 1 · 真题 3</div></div>
-        <div class="btns"><div class="bt o">改归属</div><div class="bt">打开这门课</div></div>
-      </div>
-      <p class="stepdesc">老师发的课件、群里发的作业，存下来就在这门课里，用户不用管存到哪。</p>
-    </div>
-  </div>
-
-  <div class="flow">
-    <div class="stepcol">
-      <div class="steptag"><span class="n">05</span>洞察里长出这门课 <span class="own us">笔记</span></div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="h4row"><h4>洞察</h4><span style="font-size:8px;color:var(--ink4)">形态 ›</span></div>
-        <div class="grp"><b>学习备考</b><span>全部 4 ›</span></div>
-        <div class="hs">
-          <div class="tl"><b>大学物理</b><em>6 堂 · 四类已齐</em></div>
-          <div class="tl"><b>概率论</b><em>5 堂</em></div>
-          <div class="tl"><b>英语精读</b><em>3 堂</em></div>
-        </div>
-        <div class="grp"><b>想法随记</b><span>全部 3 ›</span></div>
-        <div class="hs">
-          <div class="tl g"><b>工作想法</b><em>24 条</em></div>
-          <div class="tl g"><b>西安访谈</b><em>7 场</em></div>
-          <div class="tl g"><b>钓鱼</b><em>14 条</em></div>
-        </div>
-        <div class="grp"><b>待办日程</b><span>待办中心 ›</span></div>
-        <div class="hs">
-          <div class="tl p"><b>今天 4 件</b><em>2 件带时间</em></div>
-          <div class="tl p"><b>本周 11 件</b><em>3 件逾期</em></div>
-        </div>
-        <div class="tab"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
-      </div>
-      <p class="stepdesc">两三堂课之后这门课成形，做完推送。每个格子标题自动起好。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">06</span>进去先给复习要用的 <span class="own us">笔记</span></div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="h4row"><h4>大学物理</h4><span style="font-size:8px;color:var(--ink4)">形态 ›</span></div>
-        <div class="cap">6 堂 · 最近更新 今天</div>
-        <div class="chipz"><i>课堂录音 6</i><i>课件 6</i><i>教材 1</i><i>真题 3</i></div>
-        <div class="btns"><div class="bt">精讲</div><div class="bt o">快讲</div><div class="bt dark">出一套卷子</div></div>
-        <div class="segz"><div class="on">考点大纲</div><div>按章节</div><div>按堂次</div></div>
-        <div class="lst">
-          <div class="li"><span>第三章 刚体转动</span><i>考点 6</i></div>
-          <div class="li"><span>第四章 振动与波</span><i>考点 9</i></div>
-          <div class="li"><span>第五章 热力学第一</span><i>考点 7</i></div>
-        </div>
-        <div class="fd">原始资料（录音 / 课件 / 教材 / 真题）›</div>
-        <div class="tab"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
-      </div>
-      <p class="stepdesc">不是一串课堂录音。原始资料退到次级入口。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">07</span>出卷自测 <span class="own us">笔记</span></div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="navback">‹ 大学物理</div>
-        <div class="h4row"><h4>自测卷 · 第 3–5 章</h4></div>
-        <div class="cap">20 题 · 只考这门课存进来的内容</div>
-        <div class="bubble card"><b style="font-size:9px">第 4 题</b><br><span style="font-size:8.5px;color:var(--ink3)">刚体绕定轴转动时，角加速度与合外力矩的关系是？</span></div>
-        <div class="bubble me">M = Iα</div>
-        <div class="kv"><div class="k">判定</div><div class="v">对 · 出自第三章 第 2 节</div></div>
-        <div class="lst">
-          <div class="li"><span>本卷正确 17 / 20</span><i>回原文 ›</i></div>
-          <div class="li"><span>错的 3 题 · 三天后再考</span><i>已安排</i></div>
-        </div>
-      </div>
-      <p class="stepdesc">每题能回到原文那一段。答错的按间隔重复再来。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">08</span>作业进度回到日程 <span class="own">日历</span></div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="h4row"><h4>大学物理 · 第 7 堂</h4></div>
-        <div class="cap">周四 14:00–16:00 · 三教 301</div>
-        <div class="lst">
-          <div class="li"><span>已上 6 堂 / 共 16 堂</span><i></i></div>
-          <div class="li"><span>第三次作业</span><i>已完成 ›</i></div>
-          <div class="li"><span>上次自测</span><i>17 / 20</i></div>
-          <div class="li"><span>这门课的笔记</span><i>打开 ›</i></div>
-        </div>
-        <div class="bubble card"><span style="font-size:8.5px;color:var(--ink3)">下堂课前建议复习：第四章 振动与波（错题 2）</span></div>
-      </div>
-      <p class="stepdesc">下次看日程时，这门课的进度、作业、笔记入口都在。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ========== 05 其余内容 ========== -->
-<section>
-  <div class="sec-head"><span class="sec-no">05</span><h2>不在这三类里的内容</h2></div>
-  <p class="sec-desc">旅行攻略、一次临时会议、随手收藏的资料，用户也会往笔记里存。这些不单独设计一套形态——它们走的是上面三个场景已经在用的同一套聚合与生成，攒够了一样能聚成一处、一样能落成一份。</p>
-
-  <table>
-    <tr><th style="width:150px">需求</th><th>要做什么</th><th style="width:200px">依赖 / 待定</th></tr>
-    <tr>
-      <td class="rq">同主题攒够就聚成一处</td>
-      <td>没落到三个场景里的内容，按主题聚到一起并自动起标题（比如一次装修、一趟旅行、一个项目）。判不准的保持原样，不硬归，攒够了再归。</td>
-      <td>与三个场景共用同一套聚合规则，不另做一套</td>
-    </tr>
-    <tr>
-      <td class="rq">聚好的也能落成一份</td>
-      <td>点一下就能整理成一份能用的东西：行程、报价单、对账表、可分享的网页。默认正文，可显性换形态。</td>
-      <td>与场景二共用同一套生成与形态转换</td>
-    </tr>
-    <tr>
-      <td class="rq">原始内容与文件夹保留在「笔记」</td>
-      <td>用户原来建的文件夹、单篇笔记继续在，编辑与查找不变。洞察那一侧不影响原有使用习惯。</td>
-      <td>存量内容补理范围待定</td>
-    </tr>
-  </table>
-
-  <div class="flow-title">交互链路</div>
-  <p class="flow-note">零散存进来 → 同主题攒够聚成一处 → 点一下落成一份</p>
-
-  <div class="flow">
-    <div class="stepcol">
-      <div class="steptag"><span class="n">01</span>零散存进来</div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="h4row"><h4>笔记</h4></div>
-        <div class="cap">最近存入 · 今天</div>
-        <div class="lst">
-          <div class="li"><span>成都三日游攻略（小红书）</span><i>今天</i></div>
-          <div class="li"><span>宽窄巷子附近这家店</span><i>今天</i></div>
-          <div class="li"><span>川菜必吃清单</span><i>昨天</i></div>
-          <div class="li"><span>青城山交通</span><i>昨天</i></div>
-        </div>
-        <div class="fd">这些暂时不属于三个场景 · 保持原样 ›</div>
-        <div class="tab"><s>洞察</s><u>+</u><v>◉</v><s class="on">笔记</s></div>
-      </div>
-      <p class="stepdesc">判不准就先原样放着，不硬归类。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">02</span>攒够聚成一处</div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="h4row"><h4>洞察</h4><span style="font-size:8px;color:var(--ink4)">形态 ›</span></div>
-        <div class="grp"><b>其他</b><span>全部 2 ›</span></div>
-        <div class="hs">
-          <div class="tl"><b>成都这趟</b><em>4 条 · 攻略与店</em></div>
-          <div class="tl"><b>家里装修</b><em>9 条</em></div>
-        </div>
-        <div class="bubble card"><b style="font-size:9px">成都这趟</b><br><span style="font-size:8.5px;color:var(--ink3)">含攻略、两家店、交通，够拼一份行程了</span></div>
-        <div class="btns"><div class="bt">拼一份行程</div><div class="bt o">先看看</div></div>
-        <div class="tab"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
-      </div>
-      <p class="stepdesc">用的是同一套聚合，标题一样自动起好。</p>
-    </div>
-    <div class="arrow">→</div>
-
-    <div class="stepcol">
-      <div class="steptag"><span class="n">03</span>落成一份</div>
-      <div class="ph">
-        <div class="st"><span>9:41</span><span>▪▪▪</span></div>
-        <div class="navback">‹ 成都这趟</div>
-        <div class="h4row"><h4>成都三日行程</h4></div>
-        <div class="cap">来自 4 条 · 每项可点回原文</div>
-        <div class="segz"><div class="on">正文</div><div>网页</div><div>PDF</div></div>
-        <div class="lst">
-          <div class="li"><span>D1 宽窄巷子 · 这家店</span><i>回原文 ›</i></div>
-          <div class="li"><span>D2 青城山 · 交通已排</span><i>回原文 ›</i></div>
-          <div class="li"><span>D3 川菜清单里挑两家</span><i>回原文 ›</i></div>
-        </div>
-        <div class="btns"><div class="bt o">分享</div><div class="bt">2 项进日历</div></div>
-        <div class="tab"><s class="on">洞察</s><u>+</u><v>◉</v><s>笔记</s></div>
-      </div>
-      <p class="stepdesc">和场景二用的是同一套生成与形态转换。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ========== 06 框架 ========== -->
-<section>
-  <div class="sec-head"><span class="sec-no">06</span><h2>由这些需求推出：笔记的交互框架要怎么变</h2></div>
-  <p class="sec-desc">上面四节里，用户真正打开去用的都是整理加工之后的那一份：一门课、一处想法、今天要做的事、一趟行程。原始那几条退到后面。原来的框架承载不了这一层——它只有"一篇篇笔记按时间排"这一种形态。</p>
-
-  <div class="fw-lead">
-    <p>所以内容分两层，各自要有自己的位置：整理加工后可以直接消费的那一层，和用户记下的原始内容那一层。</p>
-    <p>加工后的那一层需要能按品类铺开、能横着看、每个格子有标题看得出里面是什么——原始笔记流做不到这件事，两者也不该挤在同一个 tab 里。</p>
-  </div>
-
-  <table>
-    <tr><th style="width:160px">这一层</th><th>怎么定</th><th style="width:230px">为什么（对应上面哪一节）</th></tr>
+    <tr><th style="width:150px">这一层</th><th>怎么定</th><th style="width:250px">对应上面哪个需求</th></tr>
     <tr>
       <td class="rq">底 tab 两个</td>
-      <td><b>洞察</b>（一门课、一处想法、今天的待办、一趟行程都在这里）／<b>笔记</b>（原始记录与原有文件夹）。两者不混在同一个 tab。</td>
-      <td>三个场景要用的都是加工后那一份；原始内容仍要能编辑能翻</td>
+      <td><b>洞察</b>（今天的待办、一处想法、一门课、一趟行程都在这里）／<b>笔记</b>（原始记录与原有文件夹）。两者不混在同一个 tab。</td>
+      <td>三个场景用的都是加工后那一份；其余内容那节要求原始文件夹原样保留</td>
     </tr>
     <tr>
       <td class="rq">洞察页的组织</td>
       <td>按品类分栏 → 栏内横向滑动 → <b>每个格子是一个能直接消费的单元</b>，标题自动起好。参照相册的组织与呈现方式。</td>
-      <td>学习备考按一门课一个格子；想法随记按一处主题一个格子；待办按今天／本周</td>
+      <td>待办按今天／本周；想法按一处主题；学习按一门课；其余按一趟一件事</td>
     </tr>
     <tr>
       <td class="rq">格子里默认给什么</td>
@@ -810,29 +948,30 @@
       <td>七场访谈聚好、一门课成形、行程拼好，用户都不会主动回来看</td>
     </tr>
   </table>
-</section>
+</div>
 
-<!-- ========== 07 待对齐 ========== -->
-<section>
-  <div class="sec-head"><span class="sec-no">07</span><h2>这几处想跟你对一下</h2></div>
+<!-- ═══════════ 待对齐 ═══════════ -->
+<div class="fw">
+  <div class="scene-top">
+    <div class="snum">06</div>
+    <div><h2>这几处想跟你对一下</h2></div>
+  </div>
 
   <div class="q">
     <b>想法随记的子分类，预置还是长出来</b>
-    <span>工作想法、生活随记是预置好的固定分栏，还是全部跟着用户实际记的内容长出来（钓鱼、西安访谈这种）？预置好理解但可能空着；长出来更贴合，但新用户进来洞察页是空的。我倾向工作与生活预置两个，其余按内容长出来。</span>
+    <span>工作想法、生活随记是预置好的固定分栏，还是全部跟着用户实际记的内容长出来（钓鱼、西安访谈这种）？预置好理解但可能空着；长出来更贴合，但新用户进来是空的。我倾向工作与生活预置两个，其余按内容长出来。</span>
   </div>
   <div class="q">
     <b>洞察页还没有内容时长什么样</b>
-    <span>新用户、或者存量用户刚升级上来，洞察页还没有格子。是给引导（记两条就能看到）、还是先用存量内容补理出几个格子？这一屏必须画出来，不然上手第一眼是空的。</span>
+    <span>新用户、或者存量用户刚升级上来，洞察页还没有格子。是给引导（记两条就能看到），还是先用存量内容补理出几个格子？这一屏必须画出来，不然上手第一眼是空的。</span>
   </div>
   <div class="q">
     <b>端侧持续预录的边界</b>
-    <span>学习备考那条链上最关键的一步。预录多长、只在课程日程时段还是常开、功耗与存储怎么控，需要和技术侧先对一个可行范围，再定交互怎么呈现。</span>
+    <span>学习备考那条链上最关键的一步。预录多长、只在课程日程时段还是常开、功耗与存储怎么控，需要先和技术侧对一个可行范围，再定交互怎么呈现。</span>
   </div>
-</section>
 
-<footer>
-  OS5 笔记 · 用户需求与交互链路（对齐版）· 2026-09-10 ｜ 依据 9/10 两次沟通结论整理
-</footer>
+  <footer>OS5 笔记 · 用户痛点、方案与交互链路 · 2026-09-10 ｜ 依据 9/10 两次沟通结论整理</footer>
+</div>
 
 </div>
 </body>
