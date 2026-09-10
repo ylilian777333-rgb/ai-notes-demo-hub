@@ -12,7 +12,6 @@
     --gn:#12805C; --gn-bg:#F1FAF6; --gn-line:#CFE9DF;
     --ink:#141824; --ink2:#3D4759; --ink3:#6E7891; --ink4:#A7AEC0;
     --line:#E6E9F0; --soft:#FAFBFD;
-    --dark:#111520;
   }
   body{
     font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
@@ -21,17 +20,17 @@
   .wrap{max-width:1240px;margin:0 auto;padding:0 32px}
 
   /* ── hero ── */
-  .hero{background:var(--dark);color:#fff;padding:74px 0 60px;margin-bottom:64px}
+  .hero{background:#fff;color:var(--ink);padding:56px 0 42px;margin-bottom:46px;border-bottom:1px solid var(--line)}
   .hero .wrap{padding-bottom:0}
-  .kick{font-size:12.5px;color:#7E9CF9;font-weight:700;letter-spacing:.2em;margin-bottom:20px}
-  .hero h1{font-size:48px;line-height:1.2;font-weight:700;letter-spacing:-1px;color:#fff}
-  .hero .lead{margin-top:20px;font-size:18px;color:#AAB3C6;max-width:840px;line-height:1.75}
+  .kick{font-size:12.5px;color:var(--bl);font-weight:700;letter-spacing:.2em;margin-bottom:16px}
+  .hero h1{font-size:46px;line-height:1.2;font-weight:700;letter-spacing:-1px;color:var(--ink)}
+  .hero .lead{margin-top:18px;font-size:17.5px;color:var(--ink2);max-width:900px;line-height:1.75}
   .idx{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
-  .idxc{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px 18px}
-  .idxc b{font-size:15.5px;color:#fff;display:block;margin-bottom:7px}
-  .idxc span{font-size:13px;color:#8F99AE;display:block;line-height:1.6}
-  .idxc em{font-style:normal;color:#7E9CF9;font-weight:600}
-  .stamp{margin-top:34px;font-size:13px;color:#6D7688;display:flex;gap:22px}
+  .idxc{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:17px 19px}
+  .idxc b{font-size:15.5px;color:var(--ink);display:block;margin-bottom:7px}
+  .idxc span{font-size:13px;color:var(--ink3);display:block;line-height:1.6}
+  .idxc em{font-style:normal;color:var(--bl);font-weight:600}
+  .stamp{margin-top:30px;font-size:13px;color:var(--ink4);display:flex;gap:22px}
 
   /* ── section ── */
   .sec{padding-bottom:8px;margin-bottom:60px}
@@ -144,7 +143,7 @@
   .tb{position:absolute;bottom:0;left:0;right:0;height:38px;border-top:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:space-around;padding:0 18px}
   .tb s{text-decoration:none;font-size:9px;color:var(--ink4)}
   .tb s.on{color:var(--bl);font-weight:700}
-  .tb u{text-decoration:none;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center}
+  .tb u{text-decoration:none;width:22px;height:22px;border-radius:50%;background:var(--bl);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center}
   .tb v{width:22px;height:22px;border-radius:50%;border:1.2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:8px}
   .nt{position:absolute;top:26px;left:8px;right:8px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:7px 9px;box-shadow:0 4px 14px rgba(20,24,36,.1)}
   .nt b{font-size:9px;display:block}
@@ -153,7 +152,9 @@
   .carnav{position:absolute;top:34px;left:8px;right:8px;background:rgba(255,255,255,.92);border-radius:11px;padding:8px 9px}
   .carnav b{font-size:11px;display:block}
   .carnav span{font-size:8px;color:var(--ink3)}
-  .carmus{position:absolute;top:96px;left:8px;right:8px;background:rgba(20,24,36,.82);border-radius:11px;padding:8px 9px;color:#fff}
+  .carmus{position:absolute;top:96px;left:8px;right:8px;background:rgba(255,255,255,.94);border:1px solid rgba(20,24,36,.08);border-radius:11px;padding:8px 9px;color:var(--ink)}
+  .carmus span{color:var(--ink3)}
+  .caraudio b{background:var(--bl-line)!important}
   .carmus b{font-size:9px;display:block}
   .carmus span{font-size:7.5px;opacity:.7}
   .caraudio{display:flex;gap:1.5px;align-items:flex-end;height:12px;margin-top:5px}
@@ -161,7 +162,7 @@
   .xiao{position:absolute;left:8px;right:8px;top:154px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:8px 9px;box-shadow:0 3px 10px rgba(20,24,36,.09)}
   .xiao b{font-size:9px;display:block;color:var(--bl)}
   .xiao span{font-size:8.5px;color:var(--ink2);line-height:1.45}
-  .vp{position:absolute;left:14px;right:14px;bottom:48px;background:var(--ink);color:#fff;border-radius:16px;padding:9px 12px;font-size:9px;line-height:1.5}
+  .vp{position:absolute;left:14px;right:14px;bottom:48px;background:var(--bl);color:#fff;border-radius:16px;padding:9px 12px;font-size:9px;line-height:1.5}
   .vpwave{display:flex;gap:1.5px;align-items:center;height:9px;margin-top:6px}
   .vpwave b{flex:1;background:rgba(255,255,255,.55);border-radius:1px;display:block}
   .lockt{position:absolute;top:44px;left:0;right:0;text-align:center;color:#fff}
@@ -170,11 +171,11 @@
   .locknt{position:absolute;top:112px;left:10px;right:10px;background:rgba(255,255,255,.96);border-radius:12px;padding:8px 10px;box-shadow:0 4px 14px rgba(20,24,36,.14)}
   .locknt b{font-size:9px;display:block}
   .locknt span{font-size:8.5px;color:var(--ink3)}
-  .wt{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:118px;background:#0C0D11;border-radius:26px;padding:12px 11px;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.22)}
+  .wt{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:118px;background:#fff;border:1px solid var(--line);border-radius:26px;padding:12px 11px;color:var(--ink);box-shadow:0 6px 18px rgba(20,24,36,.14)}
   .wt .tm{font-size:15px;font-weight:600;display:block;line-height:1.1}
-  .wt .ev{font-size:8px;color:#F3C471;display:block;margin-top:3px;line-height:1.35}
+  .wt .ev{font-size:8px;color:#A9741C;display:block;margin-top:3px;line-height:1.35}
   .wtb{margin-top:8px;display:flex;gap:4px}
-  .wtb i{flex:1;font-style:normal;background:#23242B;border-radius:6px;text-align:center;font-size:7.5px;padding:4px 0}
+  .wtb i{flex:1;font-style:normal;background:#F1F3F7;color:var(--ink2);border-radius:6px;text-align:center;font-size:7.5px;padding:4px 0}
   .wtb i.p{background:var(--bl)}
   .ag{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0 6px 8px}
   .ag div{height:50px;border-radius:8px;background:#EDEFF4}
@@ -191,17 +192,32 @@
   .wv{display:flex;gap:1.5px;align-items:flex-end;height:20px;margin:0 6px 8px;padding:0 3px}
   .wv b{flex:1;background:var(--bl-line);border-radius:1px;display:block}
 
-  .hero .lead b{color:#fff;font-weight:600}
-  .flowbox.pchain{margin-top:24px;background:#fff;border:1px solid var(--line);padding:22px 20px 18px}
+  .hero .lead b{color:var(--ink);font-weight:600}
+  .flowbox.pchain{margin-top:24px;background:#F6F7F9;border:1px solid #EBEEF3;border-radius:26px;padding:24px 22px 20px}
   .pchain h3{font-size:16px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-  .pchain h3 em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--bl);background:var(--bl-bg);border:1px solid var(--bl-line);border-radius:5px;padding:2px 7px}
+  .pchain h3 em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.1em;color:#8A5B00;background:#FFF4D8;border:1px solid #F3DFAF;border-radius:6px;padding:3px 8px}
   .pchain .fnote{font-size:13.5px;margin-bottom:18px}
   .pchain .flow{overflow-x:auto;padding-bottom:6px;align-items:stretch}
-  .pchain .arw{align-self:center;margin-top:0}
+  .pchain .arw{align-self:center;margin-top:0;color:#EFA91C;font-size:20px;font-weight:700}
+  .pchain .ph{border-radius:32px;border-color:#DEE3EC}
   .pchain .ph{height:auto;min-height:318px;padding-bottom:11px}
   .pchain .ph:has(.amb),.pchain .ph:has(.cf),.pchain .ph:has(.nt),.pchain .ph:has(.tb),.pchain .ph:has(.wt),.pchain .ph:has(.vp){height:404px;padding-bottom:0}
-  .xline{margin-top:15px;padding-top:12px;border-top:1px dashed var(--line);font-size:13px;color:var(--ink3);line-height:1.65}
-  .xline b{color:var(--ink2);font-weight:600}
+  .xline{margin-top:16px;background:#FFFBF0;border:1px solid #F5E6C6;border-radius:14px;padding:12px 16px;font-size:13px;color:#6C5426;line-height:1.65}
+  .xline b{color:#8A5B00;font-weight:700}
+  .why{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+  .whyc{background:var(--soft);border:1px solid var(--line);border-radius:20px;padding:21px 23px}
+  .whyc .wl{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;color:#8A5B00;background:#FFF4D8;border:1px solid #F3DFAF;border-radius:6px;padding:3px 8px;margin-bottom:11px}
+  .whyc b{display:block;font-size:18px;margin-bottom:7px;line-height:1.45}
+  .whyc p{font-size:14.5px;color:var(--ink2)}
+  .lv{border:1px solid var(--line);border-radius:22px;padding:6px 24px;margin-bottom:32px;background:#fff}
+  .lvrow{display:flex;gap:18px;padding:21px 0}
+  .lvtag{width:46px;height:46px;border-radius:14px;background:var(--bl-bg);border:1px solid var(--bl-line);color:var(--bl);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .lvbody b{font-size:18px;display:block;margin-bottom:6px}
+  .lvbody p{font-size:15px;color:var(--ink2);max-width:920px}
+  .lvfrom{margin-top:10px;font-size:13px;color:var(--ink3)}
+  .lvfrom em{font-style:normal;font-weight:600;color:var(--gn);margin-right:8px}
+  .lvline{height:1px;background:var(--line);margin-left:64px}
+  .subh{font-size:19px;font-weight:700;margin:0 0 14px}
   footer{margin-top:70px;border-top:1px solid var(--line);padding:24px 0 90px;font-size:13px;color:var(--ink4)}
   @media (max-width:1180px){.flow{overflow-x:auto;padding-bottom:8px}.idx{grid-template-columns:1fr}}
 </style>
@@ -649,94 +665,109 @@
   <div class="sec-top">
     <div class="snum">05</div>
     <div>
-      <h2>交互框架：每一条都对着上面的方案</h2>
-      <p class="st-note">框架不是先定好再往里塞需求。上面 12 个方案要落地，就必然要求下面这几件事。</p>
+      <h2>交互框架为什么必须变</h2>
+      <p class="st-note">框架不是先画好再往里塞需求。前面 12 个方案要落地，现在这套框架有三处承载不了，所以它必须动——而且动的顺序是从上到下有层级的。</p>
     </div>
   </div>
 
+  <div class="why">
+    <div class="whyc">
+      <span class="wl">根因</span>
+      <b>笔记里多了第二类东西：一件事的完整结果</b>
+      <p>过去笔记里只有一种东西——用户自己写下的原始记录，一条一条按时间排。现在多了由多条记录长出来的格子：今天该做的事、一轮访谈、一门课。它不是「某一条笔记」，也不属于某个文件夹，原来的列表放不进去。</p>
+    </div>
+    <div class="whyc">
+      <span class="wl">所以框架只动三件事</span>
+      <b>放在哪 · 怎么分 · 进去先看到什么</b>
+      <p>原始记录留在原来的位置一动不动，这是底线。要新加的是：给格子一个自己的位置（L1）、一套系统固定的分法（L2）、以及进去第一屏就能直接用的东西（L3）。三层是依赖关系，上一层不定，下一层无从谈起。</p>
+    </div>
+  </div>
+
+  <div class="lv">
+    <div class="lvrow">
+      <div class="lvtag">L1</div>
+      <div class="lvbody">
+        <b>底 tab 分两个：洞察 ／ 笔记</b>
+        <p>洞察放格子，笔记放原始记录与原有文件夹。两类东西不混在同一个列表里——这是整个框架的第一刀，先有这一刀，下面两层才有地方落。</p>
+        <div class="lvfrom"><em>由谁逼出来</em>P2 今天要一处看全 · P6 聚成的格子要能被看见 · 04 原有文件夹要原样保留</div>
+      </div>
+    </div>
+    <div class="lvline"></div>
+    <div class="lvrow">
+      <div class="lvtag">L2</div>
+      <div class="lvbody">
+        <b>洞察页 = 系统固定的一级分栏 ＋ 栏内横滑的格子</b>
+        <p>一级分栏固定为待办日程／工作／生活，用户不维护、也不需要建文件夹；栏内横向滑动，每个格子是一件事的完整结果，名字自动起好。参照相册的组织与呈现：分栏是定的，格子是长出来的。</p>
+        <div class="lvfrom"><em>由谁逼出来</em>P5 分栏要按语境固定 · P6 格子自动聚成并起名 · P9 学习类格子由课程表这种外部结构确定</div>
+      </div>
+    </div>
+    <div class="lvline"></div>
+    <div class="lvrow">
+      <div class="lvtag">L3</div>
+      <div class="lvbody">
+        <b>进格子第一屏是能直接用的东西，不是材料列表</b>
+        <p>随记类进去是对谈且已挂载全部记录；学习类进去是精讲／快讲／出卷；待办类进去是今天该做的事。原始内容退到次级入口。形态上默认只给正文，PPT／PDF／Excel 按需显性转、导出前校对。</p>
+        <div class="lvfrom"><em>由谁逼出来</em>P7 别让用户先做准备工作 · P11 材料齐了要先给该看什么 · P8 结论要拿得出去同时控住生成成本</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="subh">旧框架 → 新框架，逐条对照与理由</h3>
   <table>
-    <tr><th style="width:150px">这一层</th><th>怎么定</th><th style="width:230px">因为哪个方案要求</th></tr>
+    <tr><th style="width:118px">这一层</th><th style="width:250px">现在是什么样</th><th>改成什么</th><th style="width:210px">为什么必须改</th></tr>
     <tr>
-      <td class="rq">底 tab 两个</td>
-      <td><b>洞察</b>（格子在这里）／<b>笔记</b>（原始记录与原有文件夹）。两者不混在同一个 tab。</td>
-      <td>P2 今天要一处看全 · P6 格子要能被看见 · 04 原有文件夹原样保留</td>
+      <td class="rq">L1 底 tab</td>
+      <td>以列表为主，装的全是原始记录，没有地方放「一件事的完整结果」。</td>
+      <td><b>两个 tab：洞察 ／ 笔记</b>。格子进洞察，原始记录与原有文件夹留在笔记。</td>
+      <td>P2 P6：格子需要一个自己的位置，混进时间流里就等于没有</td>
     </tr>
     <tr>
-      <td class="rq">洞察页 = 一级分栏 + 横滑格子</td>
-      <td>三个一级分栏固定；栏内横向滑动，<b>每个格子是一件事的完整结果</b>，名字自动起好。参照相册的组织与呈现。</td>
-      <td>P5 分栏按语境固定 · P6 格子自动聚成并起名 · 00 分栏是定的、格子是长出来的</td>
+      <td class="rq">L2 分类</td>
+      <td>顶栏分类 ＋ 侧边栏分类 ＋ 底 tab 三层同时存在，用户还要自己建文件夹。</td>
+      <td><b>顶栏与侧边栏都收掉</b>，分类只留洞察页的一级分栏；原有文件夹进「笔记」。</td>
+      <td>P9 存的时候不该弹文件夹 · P5 分栏该由系统固定而不是用户维护</td>
     </tr>
     <tr>
-      <td class="rq">进格子第一屏是对谈或行动</td>
-      <td>随记类进去是对谈并显性挂载；学习类进去是精讲 / 出卷；待办类进去是今天该做的事。原始内容退到次级入口。</td>
-      <td>P7 别让用户先做准备工作 · P11 材料齐了要先给该看什么</td>
+      <td class="rq">L2 列表组织</td>
+      <td>全部按时间倒序一条流，工作生活混着，同一件事的多次记录彼此无关。</td>
+      <td>洞察按分栏 ＋ 格子横滑；笔记 tab 里仍按时间，不改。</td>
+      <td>P5 工作生活要分开 · P6 同一件事要聚成一个格子</td>
     </tr>
     <tr>
-      <td class="rq">默认正文，形态按需转</td>
-      <td>格子里默认给整理好的正文，不预生成；<b>需要时显性转 PPT / PDF / Excel</b>。</td>
-      <td>P8 结论要拿得出去，同时控住生成成本</td>
+      <td class="rq">L3 进入后第一屏</td>
+      <td>点进去就是编辑界面，用户得自己判断先看什么、先选哪些材料。</td>
+      <td>格子里第一屏是对谈／精讲／今天该做的事；原始内容退到次级入口。</td>
+      <td>P7 聚起来后不知道能干什么 · P11 材料越全越无法下手</td>
     </tr>
     <tr>
-      <td class="rq">创建入口两个</td>
-      <td>一个加号建文字笔记，另一个进录音。第三个按钮去掉。</td>
+      <td class="rq">L3 形态</td>
+      <td>要么没有，要么一次性生成一堆用不上的东西。</td>
+      <td>默认只给正文，<b>按需显性转 PPT／PDF／Excel</b>，导出前做数字一致性校对。</td>
+      <td>P8 结论要原样拿出去，同时控住生成成本</td>
+    </tr>
+    <tr>
+      <td class="rq">创建入口</td>
+      <td>三个按钮，用户不知道该按哪个。</td>
+      <td>两个：一个加号建文字笔记，一个进录音。第三个去掉。</td>
       <td>P1 随手记就要能被认出来 · P10 录音是学习场景的主入口</td>
     </tr>
     <tr>
-      <td class="rq">分类只留一层</td>
-      <td>顶栏分类 + 侧边栏分类 + 底 tab 三层过于复杂。<b>顶栏与侧边栏都收掉</b>，分类只留洞察页的一级分栏；原有文件夹进「笔记」。</td>
-      <td>P9 存的时候不该弹文件夹 · P5 分栏由系统固定而非用户维护</td>
+      <td class="rq">通知</td>
+      <td>基本不主动出现，格子长出来了用户也不知道。</td>
+      <td>成形就推送：格子聚好、一门课成形、结论生成完成。</td>
+      <td>P6 聚好了要告诉我 · P10 录完自动归位 · P12 进度要被记住</td>
     </tr>
     <tr>
-      <td class="rq">成形就推送</td>
-      <td>格子聚好、一门课成形、结论生成完成，主动推送。</td>
-      <td>P6 聚好了要告诉我 · P10 录完自动归位 · P12 进度要被记住</td>
+      <td class="rq">与系统的关系</td>
+      <td>笔记自己存一份，和待办中心、日历三处不一致。</td>
+      <td>待办中心／日历是主数据，笔记只做汇总视图，写回外部前先让用户确认。</td>
+      <td>P1 P2 P12：三处不一致是老问题，新框架不能把它带进来</td>
     </tr>
   </table>
 </div>
 
-<!-- ═══════ 06 待对齐 ═══════ -->
-<div class="sec top">
-  <div class="sec-top">
-    <div class="snum">06</div>
-    <div><h2>已定与待判</h2></div>
-  </div>
+<footer>OS5 笔记 · 12 个用户痛点 · 12 条完整交互链路 · 2026-09-10</footer>
 
-  <div class="q done">
-    <b>已定 · 待办日程进洞察</b>
-    <span>作为一级分栏，格子是固定时间窗（今天 / 本周），只做汇总不另存一份数据。</span>
-  </div>
-  <div class="q done">
-    <b>已定 · 访谈属于想法随记</b>
-    <span>不单独立一个品类。它就是「为同一件事的多次记录聚成一个格子」这条通用能力的一个例子。</span>
-  </div>
-
-  <div class="q">
-    <b>待判 · 洞察页还没有格子的时候长什么样</b>
-    <span>格子是长出来的，新用户和记得少的用户第一次打开就是空的。待办日程这一栏不依赖积累（有一条待办就有内容），可以先撑住第一屏；想法随记和学习备考要等内容攒够。要定的是空的时候给什么、多久能长出第一个格子。需要用研拿一个数：存量用户里有多少人现在就能出至少一个格子。</span>
-  </div>
-  <div class="q">
-    <b>待判 · 兴趣栏是否需要独立一级分栏</b>
-    <span>钓鱼、游戏这类现在作为格子长在「生活」下面。如果某类内容量很大，是否按需升为一级分栏？我倾向不升，一级分栏保持固定两三个。</span>
-  </div>
-  <div class="q">
-    <b>待判 · 格子成立的门槛</b>
-    <span>几条内容、多长时间内算「为同一件事记的」？门槛低了会长出一堆空洞的格子，高了用户等不到。需要拿存量内容跑一遍再定。</span>
-  </div>
-  <div class="q">
-    <b>待判 · 端侧常录的隐私边界</b>
-    <span>常录最近几分钟是 P10 的关键。录多长、只在课程日程时段还是常开、数据只在端上留多久，需要先和技术侧与合规对一个可行范围，再定交互怎么呈现。</span>
-  </div>
-  <div class="q">
-    <b>待判 · 顶栏和侧边栏收哪个</b>
-    <span>我的建议是两个都收，分类只留洞察页的一级分栏。需要你确认。</span>
-  </div>
-  <div class="q">
-    <b>待判 · 第一个 tab 叫什么</b>
-    <span>洞察 / Inside / 合集。这一版材料里统一用「洞察」，最终名字你定。</span>
-  </div>
-
-  <footer>OS5 笔记 · 12 个用户痛点与洞察设计 · 2026-09-10 ｜ 依据 9/10 两次沟通结论整理</footer>
-</div>
 
 </div>
 
@@ -897,7 +928,7 @@ CH.P7 = {
   s: [
     { n: '01', t: '进去就是对谈', p: ['P7'], w: '笔记', us: true, b: [['st'], ['bk', '洞察'], ['h', '西安访谈', '形态 ›'], ['src', '已挂载', '7 场记录 · 语音 4 / 照片 2 / 文字 1'], ['talk', '可以直接问', '这 7 场里反复出现的问题、每个店长的差异、还没问到的点'], ['plr', ['反复出现', '各店差异', '还缺什么'], 0], ['bb', '原始记录 7 条 ›'], ['fd', '不需要先点问小爱，也不需要先选材料']], d: '这一屏是关键判断：进格子看到的是能直接用的对谈，原始记录退到次级入口。' },
     { n: '02', t: '回答带引用', p: ['P7'], w: '笔记', us: true, b: [['st'], ['bk', '西安访谈'], ['h', '对谈'], ['me', '三次以上提到的问题有哪些'], ['bbw', '三处反复出现', '① 排期变动无人通知（5 场提到）② 临时调班靠微信口头（4 场）③ 库存数字与系统不一致（3 场）'], ['ls', [['① 出自', '西安 12:10 / 成都 08:33 ›'], ['② 出自', '西安 26:40 / 昆明 14:02 ›'], ['③ 出自', '排班表照片 ›']]], ['fd', '每条结论可回到原话那一句']], d: '结论必须能回到出处。不能回原文的回答，用户不敢拿去汇报。' },
-    { n: '03', t: '先给反复出现的几处', p: ['P7'], w: '笔记', us: true, b: [['st'], ['bk', '西安访谈'], ['h', '这轮访谈的共性', '9/12 更新'], ['prg', 71, '5 / 7 场提到排期变动'], ['prg', 57, '4 / 7 场提到临时调班'], ['prg', 43, '3 / 7 场提到库存不一致'], ['bbw', '还没问到', '3 场没问排班权限归谁 · 建议补问'], ['bs', ['生成访谈结论', '继续问']]], d: '用户要的不是摘要，是"哪几件事反复出现"。这是他做判断的依据。' },
+    { n: '03', t: '先给反复出现的几处', p: ['P7'], w: '笔记', us: true, b: [['st'], ['bk', '西安访谈'], ['h', '这轮访谈的共性', '9/12 更新'], ['prg', 71, '5 / 7 场提到排期变动'], ['prg', 57, '4 / 7 场提到临时调班'], ['prg', 43, '3 / 7 场提到库存不一致'], ['bbw', '还没问到', '3 场没问排班权限归谁 · 建议补问'], ['bs', ['生成访谈结论', '继续问']]], d: '用户要的不是摘要，是「哪几件事反复出现」。这是他做判断的依据。' },
     { n: '04', t: '结论留在格子里', p: ['P7'], w: '笔记', us: true, b: [['st'], ['bk', '西安访谈'], ['h', '访谈结论', '9/12'], ['cap', '由对谈整理 · 默认存为正文'], ['doc', ['一、排期变动无人通知（5/7 场）', '二、临时调班靠微信口头（4/7 场）', '三、库存数字与系统不一致（3/7 场）', '每条附出处，可回原话']], ['ls', [['留在这个格子里', '已保存'], ['转成别的形态', '按需 ›']]], ['fd', '不预生成 PPT / PDF，等他要']], d: '对谈的产物回到格子里成为正文，下次进来直接接着用。' }
   ],
   x: '挂载材料超过一定量时的召回与成本控制待评估；对谈结论与用户手改内容冲突时以用户为准，不覆盖。'
