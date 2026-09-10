@@ -451,6 +451,26 @@ footer{border-top:1px solid var(--line);background:var(--surface);}
 .flowline b{color:var(--cat);font-weight:600;}
 .u-head .tagx{font-size:11px;font-weight:500;color:var(--cat);background:var(--cat-f);
   border:1px solid var(--cat-b);border-radius:6px;padding:3px 9px;white-space:nowrap;}
+/* 相册式合集首页（原型内） */
+.strip{margin-bottom:8px;}
+.strip .sh2{display:flex;align-items:baseline;justify-content:space-between;margin:0 1px 5px;}
+.strip .sh2 b{font-size:10px;font-weight:600;letter-spacing:-.1px;}
+.strip .sh2 i{font-style:normal;font-family:var(--num);font-size:7px;color:var(--ink-4);letter-spacing:.03em;}
+.covs{display:flex;gap:6px;overflow:hidden;}
+.cov{flex:none;width:86px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--sh-1);}
+.cov .cv-t{padding:7px 8px 6px;min-height:34px;display:flex;flex-direction:column;gap:3px;}
+.cov .cv-t b{font-size:9.5px;font-weight:600;line-height:1.32;letter-spacing:-.1px;}
+.cov .cv-t span{font-family:var(--num);font-size:6.5px;color:var(--ink-4);letter-spacing:.05em;}
+.cov .cv-b{padding:5px 8px 7px;border-top:1px solid var(--line-2);}
+.cov .cv-b em{font-style:normal;font-size:7.5px;line-height:1.5;color:var(--ink-2);display:block;}
+.cov.t1 .cv-t{background:rgba(42,111,240,.06);}
+.cov.t2 .cv-t{background:rgba(14,147,132,.06);}
+.cov.t3 .cv-t{background:rgba(122,90,240,.06);}
+.cov.hi{box-shadow:0 0 0 1.5px var(--cat),var(--sh-1);}
+.cov.nx{width:24px;display:flex;align-items:center;justify-content:center;color:var(--ink-4);
+  background:rgba(255,255,255,.5);box-shadow:none;border:1px dashed var(--line);font-size:11px;}
+.frm .fn u{margin-left:auto;flex:none;text-decoration:none;font-family:var(--num);font-size:9px;
+  color:var(--ink-4);letter-spacing:.04em;}
 </style>
 </head><body>
 
@@ -489,6 +509,7 @@ footer{border-top:1px solid var(--line);background:var(--surface);}
         </li>
         <li class="n1"><a href="#c3"><i>03</i>学习备考</a>
           <ul>
+            <li><a href="#s3c"><em>链路</em>跨功能怎么串</a></li>
             <li><a href="#g3a"><em>L1</em>一门课的材料自动齐</a></li>
             <li><a href="#g3b"><em>L2</em>考前知道先看哪里</a></li>
             <li><a href="#g3c"><em>L3</em>作业和这门课连着</a></li>
@@ -507,7 +528,8 @@ footer{border-top:1px solid var(--line);background:var(--surface);}
             <li><a href="#s51"><em>5.1</em>现状与改后</a></li>
             <li><a href="#s52"><em>5.2</em>为什么要动</a></li>
             <li><a href="#s53"><em>5.3</em>四层结构</a></li>
-            <li><a href="#s54"><em>5.4</em>每层怎么定</a></li>
+            <li><a href="#s54"><em>5.4</em>首页形态</a></li>
+            <li><a href="#s55"><em>5.5</em>每层怎么定</a></li>
           </ul>
         </li>
       </ul>
@@ -1459,83 +1481,67 @@ footer{border-top:1px solid var(--line);background:var(--surface);}
       <div class="pain3">
         <div class="p4">
           <span class="lbl">现象</span>
-          <p>就算把二十几条相关记录摆在一起，用户面对的还是一堆自己写过的字。想接着往下想，得自己先看一遍、再把要点复制出来喂给 AI。多数人到这一步就停了。</p>
+          <p>就算把二十几条相关记录摆在一起，用户面对的还是一堆自己写过的字。想接着往下想，得自己先看一遍、再把要点复制出来喂给 AI。反过来，只给一个空的问答框也没用——用户不知道该问什么，也懒得把背景再说一遍。多数人到这一步就停了。</p>
         </div>
         <div class="p4">
           <span class="lbl">用户真实需求</span>
-          <p><b>我想接着聊，让思路更清楚，别让我先做准备工作。</b></p>
+          <p><b>先让我看到这些记录汇出来的结论，再让我从这个结论接着聊下去。</b></p>
         </div>
         <div class="p4 cost">
           <span class="lbl">我们做什么</span>
-          <p>进去先给结论和下一步，不是一个「问小爱」按钮。</p>
+          <p>第一屏给聚出来的结论，结论下面就是对谈入口，进去是接着这些结论往下聊。</p>
         </div>
       </div>
       <div class="u-sol">
-        <div class="sol-h"><span class="tg">交互链路</span><h4>进去先给结论和下一步，不是一个「问小爱」按钮</h4></div>
-        <p class="flowline">进合集先给结论与行动 → 行动直接进待办 → <b>接着聊内容已挂上</b> → 答案带出处</p>
+        <div class="sol-h"><span class="tg">交互链路</span><h4>先给聚合好的结论，再从结论接着聊：对谈入口在第一屏，进去内容已挂上、不用重新交代背景</h4></div>
+        <p class="flowline">进合集先看到结论 → <b>点结论下面的「接着聊」</b> → 对谈里带着这 24 条往下推 → 结论和下一步能进待办</p>
         <div class="flow">
           <figure class="frm">
-            <div class="fn"><i>01</i><span>先给结论与行动</span></div>
+            <div class="fn"><i>01</i><span>先给聚出来的结论</span></div>
             <div class="ph">
               <div class="p-st"><i>9:41</i><i>􀛨</i></div>
-              <div class="p-nav"><span class="bk">‹ 想法</span><h5 class="sm">排期与人力</h5><em>24 条 · 更新于今天</em></div>
+              <div class="p-nav"><span class="bk">‹ 合集</span><h5 class="sm">排期与人力</h5><em>24 条 · 4 个月 · 更新于今天</em></div>
               <div class="p-bd">
                 <div class="cd">
-                  <div class="cd-h"><b>反复想的事</b><em>AI 洞见</em></div>
-                  <p>同一处问题从 3 月记到现在共 7 次，指向的都是前置对齐环节。</p>
+                  <div class="cd-h"><b>这 24 条汇出来的结论</b><em>可点回原话</em></div>
+                  <p>卡点在前置对齐，不在人力。同一处问题从 3 月记到现在共 7 次。</p>
                 </div>
+                <div class="btn">接着这 24 条聊下去</div>
                 <div class="cd">
-                  <div class="cd-h"><b>行动建议</b><em>可加待办</em></div>
+                  <div class="cd-h"><b>下一步</b><em>可加待办</em></div>
                   <div class="tr"><span>约一次前置对齐会</span><em class="b">＋待办</em></div>
                   <div class="tr"><span>梳理跨部门确认流程</span><em class="b">＋待办</em></div>
                 </div>
-                <p class="pnote">下面是相关笔记，按时间倒序。</p>
+                <p class="pnote">对谈入口就在结论下面，不是一个「问小爱」按钮。</p>
               </div>
               <div class="p-tb"><span class="dt on">合集</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
             </div>
-            <figcaption>照方案稿的结构：反复想的事、行动建议、相关笔记</figcaption>
+            <figcaption>先看到结论，用户才知道有什么可聊；对谈入口紧跟在结论下面</figcaption>
           </figure>
           <span class="arw">→</span>
           <figure class="frm">
-            <div class="fn"><i>02</i><span>行动直接进待办</span></div>
+            <div class="fn"><i>02</i><span>从结论接着聊</span></div>
             <div class="ph">
               <div class="p-st"><i>9:42</i><i>􀛨</i></div>
-              <div class="p-nav"><h5 class="sm">已加入待办</h5><em>会提醒的事</em></div>
-              <div class="p-bd">
-                <div class="cd" style="margin-top:22px;">
-                  <div class="cd-h"><b>约一次前置对齐会</b><em>新建</em></div>
-                  <div class="tr"><span>来源</span><em class="b">排期与人力 · 行动建议</em></div>
-                  <div class="tr"><span>提醒</span><em class="b">待设置</em></div>
-                </div>
-                <div class="btn">设置提醒时间</div>
-                <p class="pnote">结论不停在页面上，能变成一条会提醒的事。</p>
-              </div>
-              <div class="p-tb"><span class="dt on">合集</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
-            </div>
-            <figcaption>结论不停在页面上，能变成一条会提醒的事</figcaption>
-          </figure>
-          <span class="arw">→</span>
-          <figure class="frm">
-            <div class="fn"><i>03</i><span>接着聊 · 内容已挂上</span></div>
-            <div class="ph">
-              <div class="p-st"><i>9:43</i><i>􀛨</i></div>
-              <div class="p-nav"><span class="bk">‹ 排期与人力</span><h5 class="sm">对谈</h5></div>
+              <div class="p-nav"><span class="bk">‹ 排期与人力</span><h5 class="sm">对谈</h5><em>接着上面那个结论</em></div>
               <div class="p-bd">
                 <span class="mnt">已挂载 排期与人力 · 24 条</span>
-                <div class="bub">这 24 条我都读了，你想从哪儿接着说？</div>
-                <div class="bub">· 帮我理一条推进路径<br>· 这几次判断变化在哪<br>· 我该先做哪一件</div>
-                <p class="pnote">不是一个空的问答框，进来就带着这 24 条。</p>
+                <div class="bub">这一个月你反复说排期被临时需求打断。要不要一起把插需求的口子怎么收，理成下一步？</div>
+                <div class="bub q">这些打断都来自哪里</div>
+                <div class="bub q">上次说的两个二级需求砍了吗</div>
+                <div class="bub q">帮我理一份收口方案</div>
+                <p class="pnote">开场不是「你想问什么」，是基于这 24 条先抛一个判断。</p>
               </div>
               <div class="p-tb"><span class="dt on">合集</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
             </div>
-            <figcaption>进来就带着这 24 条，并给几句可点的开场</figcaption>
+            <figcaption>进来就已经站在结论上，用户只要接着往下说，不用先交代背景</figcaption>
           </figure>
           <span class="arw">→</span>
           <figure class="frm">
-            <div class="fn"><i>04</i><span>答案带出处</span></div>
+            <div class="fn"><i>03</i><span>答案带出处</span></div>
             <div class="ph">
               <div class="p-st"><i>9:44</i><i>􀛨</i></div>
-              <div class="p-nav"><h5 class="sm">对谈</h5><em>持续会话</em></div>
+              <div class="p-nav"><h5 class="sm">对谈</h5><em>会话留着，下次接着</em></div>
               <div class="p-bd">
                 <span class="mnt">已挂载 排期与人力 · 24 条</span>
                 <div class="bub me">我该先做哪一件？</div>
@@ -1544,18 +1550,41 @@ footer{border-top:1px solid var(--line);background:var(--surface);}
                   <div class="tr"><span>出处</span><em class="b">9 / 6 那条 ›</em></div>
                   <div class="tr"><span>出处</span><em class="b">8 / 28 那条 ›</em></div>
                 </div>
+                <p class="pnote">这次聊到哪里留着，下次进来接着这里说。</p>
               </div>
               <div class="p-tb"><span class="dt on">合集</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
             </div>
-            <figcaption>每条结论后面能点回原话，不用担心它是从哪儿来的</figcaption>
+            <figcaption>每句结论都能点回原话，用户不用担心它是编出来的</figcaption>
+          </figure>
+          <span class="arw">→</span>
+          <figure class="frm">
+            <div class="fn"><i>04</i><span>聊出来的能落地</span></div>
+            <div class="ph">
+              <div class="p-st"><i>9:45</i><i>􀛨</i></div>
+              <div class="p-nav"><h5 class="sm">已加入待办</h5><em>会提醒的事</em></div>
+              <div class="p-bd">
+                <div class="cd" style="margin-top:20px;">
+                  <div class="cd-h"><b>梳理跨部门确认流程</b><em>新建</em></div>
+                  <div class="tr"><span>来源</span><em class="b">排期与人力 · 对谈</em></div>
+                  <div class="tr"><span>提醒</span><em class="b">待设置</em></div>
+                </div>
+                <div class="btn">设置提醒时间</div>
+                <p class="pnote">对谈里定下来的事不停在会话里，能变成一条会提醒的待办。</p>
+              </div>
+              <div class="p-tb"><span class="dt on">合集</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+            </div>
+            <figcaption>结论和对谈里定下来的事，都能变成一条会提醒的待办</figcaption>
           </figure>
         </div>
         <div class="spec">
           <span class="bl">方案要点</span>
           <ul>
-            <li>合集第一屏就给反复出现的几处和可执行的下一步，每条能直接加进待办。</li>
-            <li>要接着聊时内容已经挂上，界面上显性标出挂了多少条。</li>
-            <li>是可持续的会话，上次聊到哪里留着，下次接着聊。</li>
+            <li>顺序是先结论、后对谈：第一屏是这些记录汇出来的结论和下一步，用户先知道这儿有什么。</li>
+            <li>对谈入口在结论正下方，是一个显性的入口，不是散在页面里的「问小爱」按钮。</li>
+            <li>进对谈时内容已挂上并显性标出挂了多少条，用户不用重新交代背景。</li>
+            <li>开场由 AI 基于聚合结论先抛一个判断和几个可点的追问，不给空的问答框。</li>
+            <li>会话是持续的：这次聊到哪里留着，下次进来接着说。</li>
+            <li>结论和对谈里定下来的事都能加进待办，并带上来源。</li>
           </ul>
         </div>
       </div>
@@ -1690,6 +1719,132 @@ footer{border-top:1px solid var(--line);background:var(--surface);}
         </div>
       </div>
     </div>
+
+    <div class="grp" id="s3c">
+      <span class="gl">链路</span>
+      <b>跨功能怎么串</b>
+      <p>这条链从笔记之外开始，笔记只负责最后两段</p>
+      <span class="gn">5 段 · 4 个功能</span>
+    </div>
+
+    <article class="unit">
+      <div class="u-head">
+        <span class="u-no">链路</span>
+        <h3>从拍一张课程表，到合集里长出这门课</h3>
+      </div>
+      <div class="u-sol">
+        <div class="sol-h"><span class="tg">整条链</span><h4>站在用户视角是一条链：相册认出课程表 → 日历有课程日程 → 小爱到点提醒 → 笔记自动录音 → 合集里长出这门课</h4></div>
+        <p class="flowline">相册 → 日历 → 小爱 → <b>笔记（自动录音）</b> → 笔记（合集成形并推送）</p>
+        <div class="flow">
+          <figure class="frm">
+            <div class="fn"><i>01</i><span>认出课程表</span><u>相册</u></div>
+            <div class="ph">
+              <div class="p-st"><i>8:30</i><i>􀛨</i></div>
+              <div class="p-nav"><h5 class="sm">照片</h5><em>开学时拍的那张</em></div>
+              <div class="p-bd">
+                <div class="cd">
+                  <div class="cd-h"><b>识别到一张课程表</b><em>已解析</em></div>
+                  <div class="tr"><span>6 门课 · 每周循环</span><em class="g">已解析</em></div>
+                  <div class="tr"><span>上课时间与教室</span><em class="g">已解析</em></div>
+                </div>
+                <div class="btn">一键加进日历</div>
+                <p class="pnote">用户只是拍了张课程表，入口出现在相册里，不用先想到笔记。</p>
+              </div>
+            </div>
+            <figcaption>整条链的起点不在笔记，用户的动作只是拍照</figcaption>
+          </figure>
+          <span class="arw">→</span>
+          <figure class="frm">
+            <div class="fn"><i>02</i><span>课程日程有专属样式</span><u>日历</u></div>
+            <div class="ph dk">
+              <div class="p-st"><i>9:10</i><i>􀛨</i></div>
+              <div class="p-nav"><span class="bk">‹ 9 月</span><h5 class="sm">大学物理 · 第 6 堂</h5><em>14:00–16:00 · 三教 301</em></div>
+              <div class="p-bd">
+                <div class="cd">
+                  <div class="cd-h"><b>这门课</b><em>不只是这一堂</em></div>
+                  <div class="tr"><span>已上</span><em class="b">5 / 共 16 堂</em></div>
+                  <div class="tr"><span>作业</span><em class="o">习题 P42 未完成</em></div>
+                  <div class="tr"><span>这门课的笔记</span><em class="b">打开 ›</em></div>
+                </div>
+                <p class="pnote">点进去是这堂课和这门课，不是一个日程编辑界面。</p>
+              </div>
+            </div>
+            <figcaption>日历要认清一堂课和一门课的差别，这是链路能串起来的前提</figcaption>
+          </figure>
+          <span class="arw">→</span>
+          <figure class="frm">
+            <div class="fn"><i>03</i><span>上课前提醒</span><u>小爱</u></div>
+            <div class="ph dk">
+              <div class="p-st"><i>13:45</i><i>􀛨</i></div>
+              <div class="p-bd">
+                <p class="bigt" style="margin-top:26px;">13:45</p>
+                <p class="bigs">周三 9 月 10 日</p>
+                <div class="lk" style="margin-top:22px;">
+                  <b>14:00 大学物理 · 三教 301</b>
+                  <p>该去上课了，到点会自动开始录音。</p>
+                  <div class="acts"><span>知道了</span><span class="p">打开这门课</span></div>
+                </div>
+              </div>
+            </div>
+            <figcaption>提醒里预告了会自动录音，用户到教室不用再做动作</figcaption>
+          </figure>
+          <span class="arw">→</span>
+          <figure class="frm">
+            <div class="fn"><i>04</i><span>到点自动录音</span><u>笔记</u></div>
+            <div class="ph">
+              <div class="p-st"><i>14:00</i><i>􀛨</i></div>
+              <div class="p-nav"><span class="bk">‹ 大学物理</span><h5 class="sm">第六讲</h5><em>按课表自动开始</em></div>
+              <div class="p-bd">
+                <span class="mnt">正在录音 00:12:37</span>
+                <div class="cd">
+                  <div class="cd-h"><b>忘了点也不丢</b><em>端侧常录</em></div>
+                  <p>中途才想起来开，前面那段也接得上。</p>
+                  <div class="tr"><span>已接上前</span><em class="b">4 分 12 秒</em></div>
+                  <div class="tr"><span>常录片段存放</span><em>只在这台手机上</em></div>
+                </div>
+                <p class="pnote">这条链最关键的一环在笔记这一侧。</p>
+              </div>
+              <div class="p-tb"><span class="dt">合集</span><span class="dt on">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+            </div>
+            <figcaption>前三段把用户送到这里，笔记要做的是不让他再点一次开始</figcaption>
+          </figure>
+          <span class="arw">→</span>
+          <figure class="frm">
+            <div class="fn"><i>05</i><span>合集里长出这门课</span><u>笔记</u></div>
+            <div class="ph">
+              <div class="p-st"><i>18:20</i><i>􀛨</i></div>
+              <div class="p-nav"><h5 class="sm">合集</h5><em>做完主动推一条</em></div>
+              <div class="p-bd">
+                <div class="strip">
+                  <div class="sh2"><b>学习备考</b><i>刚更新</i></div>
+                  <div class="covs">
+                    <div class="cov t2 hi"><div class="cv-t"><b>大学物理</b><span>精讲</span></div><div class="cv-b"><em>第三章 刚体转动 · 考点 6 条</em></div></div>
+                    <div class="cov t2"><div class="cv-t"><b>高等数学</b><span>自测</span></div><div class="cv-b"><em>上次 17 / 20，错在极限</em></div></div>
+                    <div class="cov nx">›</div>
+                  </div>
+                </div>
+                <div class="cd">
+                  <div class="cd-h"><b>笔记</b><em>刚刚</em></div>
+                  <p>「大学物理」已成形 —— 6 堂课的四类来源已齐，考点已整理好。</p>
+                </div>
+                <p class="pnote">进去先给精讲、快讲、一套卷，不是一串录音。</p>
+              </div>
+              <div class="p-tb"><span class="dt on">合集</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+            </div>
+            <figcaption>两三堂之后这门课自己成形，做完推一条，用户不用回来找</figcaption>
+          </figure>
+        </div>
+        <div class="spec">
+          <span class="bl">这条链的口径</span>
+          <ul>
+            <li>前三段不在笔记这一侧：相册负责认出课程表，日历负责课程日程的专属样式，小爱负责到点提醒。</li>
+            <li>笔记负责第 04、05 段：按课表自动录音、端侧常录接住忘记的那段，两三堂之后在合集里成形并推送。</li>
+            <li>任一段缺失都不阻断：课程表没被认出来，用户手动建一门课也能进第 04 段；只是链路变长。</li>
+            <li>这条链上笔记不重复建日程，课程日程只有日历一份，笔记读的是同一份。</li>
+          </ul>
+        </div>
+      </div>
+    </article>
 
     <div class="grp" id="g3a">
       <span class="gl">子需求 L1</span>
@@ -2549,6 +2704,134 @@ footer{border-top:1px solid var(--line);background:var(--surface);}
 
     <div class="grp" id="s54">
       <span class="gl">5.4</span>
+      <b>首页形态</b>
+      <p>第一层具体长什么样：按品类分栏，栏内横向滑动，一个单元就是一件成品</p>
+      <span class="gn">相册式</span>
+    </div>
+
+    <article class="unit">
+      <div class="u-head">
+        <span class="u-no">5.4</span>
+        <h3>合集首页像相册的回忆那样翻，不是把信息堆在一屏</h3>
+      </div>
+      <div class="u-sol">
+        <div class="sol-h"><span class="tg">交互形态</span><h4>一栏一个品类，横滑挑一个单元，封面上写的是这一页成品的第一句</h4></div>
+        <p class="flowline">打开合集 → 按品类分栏 → <b>横滑挑一个单元</b> → 进去第一屏就是能直接用的成品</p>
+        <div class="flow">
+          <figure class="frm">
+            <div class="fn"><i>01</i><span>按品类分栏</span></div>
+            <div class="ph">
+              <div class="p-st"><i>9:41</i><i>􀛨</i></div>
+              <div class="p-nav"><h5>合集</h5><em>命中的品类才出现</em></div>
+              <div class="p-bd">
+                <div class="strip">
+                  <div class="sh2"><b>待办日程</b><i>今天 4 · 顺延 2</i></div>
+                  <div class="covs">
+                    <div class="cov t1"><div class="cv-t"><b>今天要做的</b><span>日程</span></div><div class="cv-b"><em>14:00 前给老王发报价单</em></div></div>
+                    <div class="cov t1"><div class="cv-t"><b>这一周</b><span>日程</span></div><div class="cv-b"><em>11 件，3 件已排到人</em></div></div>
+                    <div class="cov nx">›</div>
+                  </div>
+                </div>
+                <div class="strip">
+                  <div class="sh2"><b>学习备考</b><i>6 门课</i></div>
+                  <div class="covs">
+                    <div class="cov t2"><div class="cv-t"><b>大学物理</b><span>精讲</span></div><div class="cv-b"><em>第三章 刚体转动 · 考点 6 条</em></div></div>
+                    <div class="cov t2"><div class="cv-t"><b>高等数学</b><span>自测</span></div><div class="cv-b"><em>上次 17 / 20，错在极限</em></div></div>
+                    <div class="cov nx">›</div>
+                  </div>
+                </div>
+                <div class="strip">
+                  <div class="sh2"><b>想法随记</b><i>工作 / 生活</i></div>
+                  <div class="covs">
+                    <div class="cov t3"><div class="cv-t"><b>排期与人力</b><span>结论</span></div><div class="cv-b"><em>卡点在前置对齐，不在人力</em></div></div>
+                    <div class="cov t3"><div class="cv-t"><b>西安访谈</b><span>纪要</span></div><div class="cv-b"><em>3 人提到价格不透明</em></div></div>
+                    <div class="cov nx">›</div>
+                  </div>
+                </div>
+              </div>
+              <div class="p-tb"><span class="dt on">合集</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+            </div>
+            <figcaption>封面上写的不是攒了几条，是这一页成品的第一句</figcaption>
+          </figure>
+          <span class="arw">→</span>
+          <figure class="frm">
+            <div class="fn"><i>02</i><span>横滑挑一个</span></div>
+            <div class="ph">
+              <div class="p-st"><i>9:41</i><i>􀛨</i></div>
+              <div class="p-nav"><span class="bk">‹ 合集</span><h5 class="sm">学习备考</h5><em>6 门课 · 按考期排</em></div>
+              <div class="p-bd">
+                <div class="strip">
+                  <div class="sh2"><b>快到考期的</b><i>横着滑</i></div>
+                  <div class="covs">
+                    <div class="cov t2 hi"><div class="cv-t"><b>大学物理</b><span>考前 2 天</span></div><div class="cv-b"><em>第三章 刚体转动 · 考点 6 条</em></div></div>
+                    <div class="cov t2"><div class="cv-t"><b>高等数学</b><span>考前 9 天</span></div><div class="cv-b"><em>上次 17 / 20，错在极限</em></div></div>
+                    <div class="cov nx">›</div>
+                  </div>
+                </div>
+                <div class="rh"><b>其余 4 门</b><em>还没到考期</em></div>
+                <div class="row"><b>管理学理论</b><p>3 堂 · 课件与教材已齐</p></div>
+                <p class="pnote">同一类里横着滑就能挑，不用先进二级页面再返回。</p>
+              </div>
+              <div class="p-tb"><span class="dt on">合集</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+            </div>
+            <figcaption>同一个品类里横向滑动，翻的动作和相册一样</figcaption>
+          </figure>
+          <span class="arw">→</span>
+          <figure class="frm">
+            <div class="fn"><i>03</i><span>进去就是成品</span></div>
+            <div class="ph">
+              <div class="p-st"><i>9:42</i><i>􀛨</i></div>
+              <div class="p-nav"><span class="bk">‹ 学习备考</span><h5 class="sm">大学物理</h5><em>6 堂 · 四类来源已齐 · 考前 2 天</em></div>
+              <div class="p-bd">
+                <div class="seg"><span class="on">精讲</span><span>快讲</span><span>出一套卷</span></div>
+                <div class="cd">
+                  <div class="cd-h"><b>第三章 刚体转动</b><em>考点 6</em></div>
+                  <div class="tr"><span>转动惯量的计算</span><em class="b">真题 3 次</em></div>
+                  <div class="tr"><span>合外力矩与角加速度</span><em class="b">真题 4 次</em></div>
+                  <div class="tr"><span>角动量守恒</span><em class="b">真题 2 次</em></div>
+                </div>
+                <div class="row"><b>原始资料</b><p>录音 6 · 课件 6 · 教材 1 · 真题 3</p><em>退到这里，要看随时点</em></div>
+                <p class="pnote">第一屏是整理好的成品，原始资料退到后面。</p>
+              </div>
+              <div class="p-tb"><span class="dt on">合集</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+            </div>
+            <figcaption>点进一个单元，第一屏是能直接用的东西，不是一串录音</figcaption>
+          </figure>
+          <span class="arw">→</span>
+          <figure class="frm">
+            <div class="fn"><i>04</i><span>换个品类，形态一样</span></div>
+            <div class="ph">
+              <div class="p-st"><i>9:43</i><i>􀛨</i></div>
+              <div class="p-nav"><span class="bk">‹ 想法随记</span><h5 class="sm">排期与人力</h5><em>24 条 · 4 个月</em></div>
+              <div class="p-bd">
+                <div class="cd">
+                  <div class="cd-h"><b>这 24 条汇出来的结论</b><em>可点回原话</em></div>
+                  <p>卡点在前置对齐，不在人力。同一处问题记了 7 次。</p>
+                </div>
+                <div class="btn">接着这 24 条聊下去</div>
+                <div class="row"><b>相关笔记 24 条</b><p>按时间倒序</p><em>退到这里</em></div>
+                <p class="pnote">位置和结构与一门课一致，只有成品内容按品类变。</p>
+              </div>
+              <div class="p-tb"><span class="dt on">合集</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+            </div>
+            <figcaption>不同品类形态一致、内容不同，用户学一次就会</figcaption>
+          </figure>
+        </div>
+        <div class="spec">
+          <span class="bl">方案要点</span>
+          <ul>
+            <li>首页按品类分栏，一栏一类，栏内横向滑动，命中的品类才出现。</li>
+            <li>封面不写攒了多少条，写这一页成品的第一句：考点、结论、纪要要点。</li>
+            <li>一个单元就是一件成品，点进去第一屏能直接用，原始内容退到次级入口。</li>
+            <li>各品类形态一致、内容不同，用户在一个品类里学会的操作，换品类照样用。</li>
+            <li>第一个 tab 的叫法还没定，当前先用「合集」。</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <div class="grp" id="s55">
+      <span class="gl">5.5</span>
       <b>每层怎么定</b>
       <p>这一层由什么决定、定成什么样、因为哪个痛点</p>
       <span class="gn">7 行</span>
