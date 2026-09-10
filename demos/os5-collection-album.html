@@ -41,11 +41,11 @@ h2{font-size:26px;font-weight:700;letter-spacing:-.3px}
 .lead{font-size:15.5px;color:var(--ink2);max-width:940px;margin-bottom:16px}
 .q{display:inline-block;font-size:13px;font-weight:600;color:var(--am);background:var(--amS);border:1px solid var(--amL);padding:5px 12px;border-radius:8px;margin-bottom:20px}
 .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(236px,1fr));gap:18px}
-.vv{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--sh)}
+.vv{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--sh);min-width:0}
 .vv.rec{border-color:var(--blL);box-shadow:0 0 0 2px var(--blS),var(--sh)}
-.vv .hd{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.vv .hd{display:flex;align-items:center;gap:7px;margin-bottom:10px;min-width:0}
 .vv .id{font-family:ui-monospace,Menlo,monospace;font-size:10px;font-weight:700;color:#fff;background:var(--ink3);padding:2px 6px;border-radius:5px}
-.vv .nm{font-size:14px;font-weight:700}
+.vv .nm{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .vv .cur{font-size:9.5px;font-weight:700;color:var(--ink3);background:var(--line2);padding:2px 6px;border-radius:5px;margin-left:auto}
 .vv .cur.g{color:var(--gn);background:var(--gnS)}
 .vv .cur.b{color:var(--bl);background:var(--blS)}
@@ -63,13 +63,13 @@ h2{font-size:26px;font-weight:700;letter-spacing:-.3px}
 .ni{font-size:9px;color:var(--ink4)}
 .ni .ai{display:inline-block;width:11px;height:11px;border-radius:50%;background:conic-gradient(from 90deg,#3D5BFD,#FFA1A1,#9289FF);vertical-align:-2px}
 .sr{margin:0 10px 6px;height:17px;border-radius:9px;background:#F2F4F9;display:flex;align-items:center;justify-content:space-between;padding:0 8px;font-size:6.5px;color:var(--ink4)}
-.bd{padding:0 10px;overflow:hidden;height:calc(100% - 43px)}
+.bd{padding:0 10px;overflow:hidden;height:calc(100% - 43px);min-width:0}
 .bd.tb{height:calc(100% - 63px)}
 .hh{font-size:7px;font-weight:700;color:var(--ink4);letter-spacing:.3px;margin:7px 0 5px;display:flex;justify-content:space-between}
 .hh span{color:var(--ink4);font-weight:600}
 /* 分栏横滑封面（回忆式） */
-.strip{margin-bottom:8px}
-.hs{display:flex;gap:6px;overflow:hidden}
+.strip{margin-bottom:8px;min-width:0}
+.hs{display:flex;gap:6px;overflow:hidden;min-width:0}
 .cova{flex:none;width:88px;border-radius:9px;overflow:hidden;border:1px solid var(--line)}
 .cova .cv{height:52px;padding:6px 7px;position:relative;color:#fff}
 .cova .cv .n{font-size:8px;font-weight:700;line-height:1.25}
