@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OS5 笔记 · 合集页（相册式）</title>
+<style>
+:root{
+  --bg:#F3F5FA;--card:#FFF;--line:#E2E7F1;--line2:#EFF2F8;
+  --ink:#16203A;--ink2:#4C5975;--ink3:#8B97AE;--ink4:#AEB8C9;
+  --bl:#3D6FF5;--blS:#EEF3FF;--blL:#C9D9FF;
+  --pu:#6D45DC;--puS:#F2EEFF;--puL:#DED2Fb;
+  --gn:#0F7A5A;--gnS:#E9F7F1;--gnL:#BEE7D6;
+  --am:#A85B08;--amS:#FDF3E5;--amL:#F3DCB0;
+  --rd:#C0392B;--rdS:#FDEDEB;
+  --sh:0 1px 2px rgba(22,32,58,.04),0 8px 24px rgba(22,32,58,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:"MiSans","PingFang SC","Helvetica Neue“,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1560px;margin:0 auto;padding:0 32px 96px}
+.topnav{position:sticky;top:0;z-index:50;background:rgba(243,245,250,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topnav .in{max-width:1560px;margin:0 auto;padding:12px 32px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.topnav a{font-size:13px;font-weight:600;color:var(--ink2);text-decoration:none;padding:6px 12px;border-radius:8px}
+.topnav a:hover{background:var(--blS);color:var(--bl)}
+.topnav .brand{font-size:13px;font-weight:700;color:var(--ink);margin-right:8px}
+.hero{padding:52px 0 34px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:600;color:var(--bl);background:var(--blS);padding:6px 14px;border-radius:100px;margin-bottom:18px}
+h1{font-size:42px;font-weight:700;letter-spacing:-.6px;line-height:1.2}
+.hero p{font-size:17px;color:var(--ink2);margin-top:14px;max-width:900px}
+.hero p strong{color:var(--ink);font-weight:700}
+.hero .src{font-size:14px;color:var(--ink3);margin-top:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;box-shadow:var(--sh)}
+.stat .v{font-size:26px;font-weight:700;letter-spacing:-.4px}
+.stat .l{font-size:12.5px;color:var(--ink3)}
+section{padding-top:60px}
+.shd{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.shd .idx{font-size:12px;font-weight:700;color:var(--ink3);letter-spacing:1.2px}
+h2{font-size:26px;font-weight:700;letter-spacing:-.3px}
+.lead{font-size:15.5px;color:var(--ink2);max-width:940px;margin-bottom:16px}
+.q{display:inline-block;font-size:13px;font-weight:600;color:var(--am);background:var(--amS);border:1px solid var(--amL);padding:5px 12px;border-radius:8px;margin-bottom:20px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(236px,1fr));gap:18px}
+.vv{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--sh)}
+.vv.rec{border-color:var(--blL);box-shadow:0 0 0 2px var(--blS),var(--sh)}
+.vv .hd{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.vv .id{font-family:ui-monospace,Menlo,monospace;font-size:10px;font-weight:700;color:#fff;background:var(--ink3);padding:2px 6px;border-radius:5px}
+.vv .nm{font-size:14px;font-weight:700}
+.vv .cur{font-size:9.5px;font-weight:700;color:var(--ink3);background:var(--line2);padding:2px 6px;border-radius:5px;margin-left:auto}
+.vv .cur.g{color:var(--gn);background:var(--gnS)}
+.vv .cur.b{color:var(--bl);background:var(--blS)}
+.vv .pc{margin-top:10px;font-size:11.5px;line-height:1.55}
+.vv .pc div{display:flex;gap:5px;margin-top:3px}
+.vv .pc b{flex:none;font-weight:700}
+.pro b{color:var(--gn)} .con b{color:var(--rd)}
+.vv .pc span{color:var(--ink2)}
+/* 真机小样 */
+.mp{width:100%;aspect-ratio:200/418;background:#fff;border:7px solid #171F33;border-radius:26px;overflow:hidden;position:relative}
+.sb{height:15px;display:flex;align-items:center;justify-content:space-between;padding:0 9px;font-size:6.5px;color:var(--ink4);font-weight:700}
+.nb{padding:3px 10px 4px;display:flex;align-items:center;justify-content:space-between}
+.nt{font-size:11.5px;font-weight:700}
+.nt.bk::before{content:”‹ ";color:var(--ink3);font-weight:400}
+.ni{font-size:9px;color:var(--ink4)}
+.ni .ai{display:inline-block;width:11px;height:11px;border-radius:50%;background:conic-gradient(from 90deg,#3D5BFD,#FFA1A1,#9289FF);vertical-align:-2px}
+.sr{margin:0 10px 6px;height:17px;border-radius:9px;background:#F2F4F9;display:flex;align-items:center;justify-content:space-between;padding:0 8px;font-size:6.5px;color:var(--ink4)}
+.bd{padding:0 10px;overflow:hidden;height:calc(100% - 43px)}
+.bd.tb{height:calc(100% - 63px)}
+.hh{font-size:7px;font-weight:700;color:var(--ink4);letter-spacing:.3px;margin:7px 0 5px;display:flex;justify-content:space-between}
+.hh span{color:var(--ink4);font-weight:600}
+/* 分栏横滑封面（回忆式） */
+.strip{margin-bottom:8px}
+.hs{display:flex;gap:6px;overflow:hidden}
+.cova{flex:none;width:88px;border-radius:9px;overflow:hidden;border:1px solid var(--line)}
+.cova .cv{height:52px;padding:6px 7px;position:relative;color:#fff}
+.cova .cv .n{font-size:8px;font-weight:700;line-height:1.25}
+.cova .cv .tag{position:absolute;left:7px;bottom:5px;font-size:5.5px;font-weight:700;background:rgba(255,255,255,.28);padding:1px 5px;border-radius:6px}
+.cova .cb{padding:4px 7px 6px;background:#fff}
+.cova .cb .l{font-size:6px;color:var(--ink2);line-height:1.4}
+.cova .cb .m{font-size:5.5px;color:var(--ink4);margin-top:2px}
+.cova.wide{width:150px}.cova.wide .cv{height:60px}
+.cv-f{background:linear-gradient(125deg,#3D6FF5,#5A86FF)}
+.cv-c{background:linear-gradient(125deg,#0F7A5A,#22A06B)}
+.cv-a{background:linear-gradient(125deg,#6D45DC,#8A63F0)}
+.cv-p{background:linear-gradient(125deg,#A85B08,#D2841E)}
+.cv-g{background:linear-gradient(125deg,#8B97AE,#AEB8C9)}
+.dash{flex:none;width:88px;height:96px;border:1.4px dashed var(--line);border-radius:9px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:6px;color:var(--ink4);padding:0 8px;line-height:1.5}
+/* 行 / 卡 / 待办 */
+.nr{border:1px solid var(--line);border-radius:7px;padding:5px 7px;margin-bottom:4px;background:#fff}
+.nr.pl{border:none;border-bottom:1px solid var(--line2);border-radius:0;padding:5px 1px}
+.nr .t{font-size:8px;font-weight:700;line-height:1.3}
+.nr .m{font-size:6.5px;color:var(--ink4);margin-top:1px}
+.gc{display:flex;gap:5px}
+.gc .cell{flex:1;border:1px solid var(--line);border-radius:8px;padding:6px}
+.gc .cell .n{font-size:7.5px;font-weight:700;display:flex;justify-content:space-between}
+.gc .cell .n em{font-style:normal;color:var(--ink4);font-size:6px}
+.gc .cell .row{display:flex;align-items:center;gap:3px;margin-top:4px}
+.gc .cell .row i{width:6px;height:6px;border:1px solid var(--ink4);border-radius:2px;flex:none}
+.gc .cell .row span{font-size:6.5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.tr{display:flex;align-items:flex-start;gap:5px;padding:4px 1px;border-bottom:1px solid var(--line2)}
+.tr i{width:8px;height:8px;border:1.2px solid var(--ink4);border-radius:2px;flex:none;margin-top:1px}
+.tr i.on{background:var(--bl);border-color:var(--bl)}
+.tr .t{flex:1;font-size:7.5px}.tr .t s{color:var(--ink4);text-decoration:none}
+.tr .t em{font-style:normal;display:block;font-size:6px;color:var(--ink4);margin-top:1px}
+.tr .mt{font-size:6px;color:var(--ink4);flex:none}.tr .mt.o{color:var(--am);font-weight:700}
+.seg{display:flex;gap:4px;margin:6px 0}
+.seg b{flex:1;text-align:center;font-size:7px;font-weight:600;padding:5px 0;border-radius:6px;background:#F2F4F9;color:var(--ink2)}
+.seg b.on{background:var(--bl);color:#fff}
+.tbs{display:flex;gap:9px;padding:0 1px 5px;border-bottom:1px solid var(--line2);margin:2px 0 6px}
+.tbs b{font-size:7.5px;color:var(--ink4);font-weight:600;padding-bottom:3px}
+.tbs b.on{color:var(--ink);border-bottom:1.5px solid var(--bl)}
+.kv{display:flex;justify-content:space-between;font-size:6.5px;padding:3px 0;border-top:1px solid var(--line2)}
+.kv:first-child{border-top:none}.kv i{font-style:normal;color:var(--ink4)}
+.card2{border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-bottom:5px}
+.card2 .t{font-size:8px;font-weight:700;margin-bottom:3px}
+.chp{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:5px}
+.chp i{font-size:6px;font-weight:700;font-style:normal;background:var(--blS);color:var(--bl);border:1px solid var(--blL);padding:2px 6px;border-radius:100px}
+/* 对谈 */
+.mnt{display:inline-block;font-size:6.5px;font-weight:700;background:var(--blS);color:var(--bl);border:1px solid var(--blL);padding:3px 8px;border-radius:100px;margin:4px 0 6px}
+.bub{max-width:88%;font-size:7px;line-height:1.55;padding:5px 7px;border-radius:8px;margin-bottom:5px;background:#F2F4F9;color:var(--ink2)}
+.bub.me{background:var(--bl);color:#fff;margin-left:auto}
+.qc{display:flex;flex-direction:column;gap:4px;margin-top:3px}
+.qc b{font-size:6.5px;font-weight:600;padding:4px 7px;border-radius:6px;background:#fff;border:1px solid var(--line);color:var(--ink2)}
+.inb{margin-top:6px;height:18px;border-radius:9px;background:#F2F4F9;display:flex;align-items:center;padding:0 8px;font-size:6px;color:var(--ink4)}
+/* 波形 / 锁屏 / 通知 */
+.wave{display:flex;align-items:flex-end;gap:1.4px;height:22px;margin:6px 0}
+.wave i{flex:1;background:var(--blL);border-radius:1px}
+.rec{display:flex;align-items:center;gap:4px;font-size:7px;color:var(--rd);font-weight:700;margin-bottom:2px}
+.rec u{width:4px;height:4px;border-radius:50%;background:var(--rd);text-decoration:none}
+.lock{position:absolute;inset:0;background:linear-gradient(165deg,#DDE4F5,#EEF1F8 60%,#F5F6FA);padding:34px 10px 0}
+.lock .tm{text-align:center;font-size:26px;font-weight:700;color:var(--ink2);letter-spacing:-1px}
+.lock .dt{text-align:center;font-size:7px;color:var(--ink4);margin-bottom:14px}
+.ntf{background:rgba(255,255,255,.92);border-radius:10px;padding:7px 8px;margin-bottom:6px;box-shadow:0 2px 8px rgba(22,32,58,.08)}
+.ntf .na{font-size:6px;color:var(--ink4);margin-bottom:2px}
+.ntf .t{font-size:7.5px;font-weight:700;margin-bottom:2px}.ntf .m{font-size:6.5px;color:var(--ink3);line-height:1.4}
+.cal{display:flex;gap:4px;margin:5px 0}
+.cal i{flex:1;font-style:normal;text-align:center;font-size:6.5px;color:var(--ink4);padding:4px 0;border-radius:5px;background:#F2F4F9}
+.cal i.on{background:var(--bl);color:#fff}
+.thumb{height:52px;border-radius:8px;background:linear-gradient(135deg,#E9EDF6,#F5F7FB);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--ink4);margin-bottom:5px}
+.mbtn{height:18px;border-radius:9px;background:var(--bl);color:#fff;font-size:7px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:5px}
+.cap{position:absolute;left:50%;transform:translateX(-50%);bottom:26px;width:56%;height:20px;border-radius:10px;background:#171F33;display:flex;align-items:center;justify-content:space-around;padding:0 6px}
+.cap span{color:#fff;font-size:6px}
+.tbbar{position:absolute;left:0;right:0;bottom:0;height:22px;background:rgba(255,255,255,.97);border-top:1px solid var(--line);display:flex}
+.tbbar i{flex:1;display:flex;align-items:center;justify-content:center;font-size:6.5px;font-weight:700;color:var(--ink4);font-style:normal}
+.tbbar i.on{color:var(--bl)}
+.tbbar u{width:16px;height:16px;border-radius:50%;background:var(--bl);color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;align-self:center;text-decoration:none}
+.own{font-size:9px;font-weight:700;padding:2px 8px;border-radius:100px;margin-left:auto}
+.own.f{background:var(--blS);color:var(--bl)}.own.c{background:var(--gnS);color:var(--gn)}.own.a{background:var(--puS);color:var(--pu)}.own.p{background:var(--amS);color:var(--am)}
+.vd{margin-top:22px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--bl);border-radius:12px;padding:16px 20px;box-shadow:var(--sh)}
+.vd b{color:var(--ink)}.vd p{font-size:14.5px;color:var(--ink2);margin-top:2px}
+.diff{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.diff th{background:var(--blS);color:var(--ink);font-weight:700;text-align:left;padding:12px 14px;font-size:13px}
+.diff td{padding:12px 14px;border-top:1px solid var(--line);color:var(--ink2);line-height:1.6;vertical-align:top}
+.diff td .now{color:var(--ink3)}.diff td .nx{color:var(--gn);font-weight:600}
+footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--ink3);line-height:1.8}
+</style>
+</head>
+<body>
+<div class="topnav"><div class="in">
+  <span class="brand">合集页 · 相册式</span>
+  <a href="#a">A 首页怎么摆</a><a href="#b">B 空的时候</a><a href="#c">C 进一门课</a>
+  <a href="#d">D 想法·对谈</a><a href="#e">E 学习备考全链</a><a href="#f">F 与现状对比</a>
+</div></div>
+<div class="wrap">
+<div class="hero">
+  <span class="eyebrow">合集 tab · 相册式方案</span>
+  <h1>合集 · 把加工好的内容，摆成一页</h1>
+  <p>李楠中午定的方向：合集页不做成状态卡的信息聚合，做成<strong>相册回忆那样</strong>——按品类分栏、栏内横向滑动，每一个封面是一件能直接消费的成品：一门课、一次访谈、一段时间的工作想法。这一页按真实手机比例把首页、空态、进一个单元、想法对谈、学习备考整条链都渲染出来，可横向比。原稿《OS5 笔记·产品方案框架》不动。</p>
+  <p class="src">依据 9/10 两次沟通（13:04 框架会 + 14:10 补充会）· 组件沿用你现有 UI 穷举那套</p>
+  <div class="stats">
+    <div class="stat"><div class="v">3</div><div class="l">本版做透的品类</div></div>
+    <div class="stat"><div class="v">13</div><div class="l">已渲染真机屏</div></div>
+    <div class="stat"><div class="v">回忆</div><div class="l">呈现参照</div></div>
+    <div class="stat"><div class="v">0</div><div class="l">已定案</div></div>
+  </div>
+</div>
+
+<section id="a">
+  <div class="shd"><span class="idx">A</span><h2>合集首页怎么摆</h2></div>
+  <p class="lead">同样是待办日程、学习备考、想法随记三个品类，从「像现状那样堆状态卡」到「像相册回忆那样铺封面」，三种摆法横着比。</p>
+  <span class="q">要回答的：首页是把信息聚到一起给你看，还是一眼就是一排能点进去消费的成品？</span>
+  <div class="gal">
+
+    <div class="vv">
+      <div class="hd"><span class="id">A1</span><span class="nm">状态卡宫格</span><span class="cur">接近现状</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div>
+        <div class="nb"><span class="nt">笔记</span><span class="ni">⋯</span></div>
+        <div class="sr"><span>🔍 搜索笔记</span><span class="ai"></span></div>
+        <div class="bd tb">
+          <div class="gc"><div class="cell"><div class="n">待办 <em>15</em></div><div class="row"><i></i><span>给植物浇水</span></div><div class="row"><i></i><span>就诊复查</span></div><div class="row"><i></i><span>给老王发方案</span></div></div>
+          <div class="cell"><div class="n">课程 <em>15科</em></div><div class="row"><span>大学物理 · 6课</span></div><div class="row"><span>高等数学 · 12课</span></div><div class="row"><span>管理学 · 3课</span></div></div></div>
+          <div class="gc" style="margin-top:5px"><div class="cell"><div class="n">卡包 <em>8</em></div><div class="row"><span>身份证 / 银行卡</span></div><div class="row"><span>护照 / 账密</span></div></div>
+          <div class="cell"><div class="n">本月支出</div><div style="font-size:12px;font-weight:700;margin-top:2px">¥2911</div></div></div>
+        </div>
+        <div class="tbbar"><i class="on">合集</i><u>＋</u><i>笔记</i></div>
+      </div>
+      <div class="pc"><div class="pro"><b>优</b><span>一屏信息全</span></div><div class="con"><b>劣</b><span>是把东西聚一起，不是成品；李楠：不够极致</span></div></div>
+    </div>
+
+    <div class="vv rec">
+      <div class="hd"><span class="id">A2</span><span class="nm">相册回忆式 · 分栏横滑</span><span class="cur b">推荐</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div>
+        <div class="nb"><span class="nt">合集</span><span class="ni">⋯</span></div>
+        <div class="sr"><span>🔍 搜索笔记</span><span class="ai"></span></div>
+        <div class="bd tb">
+          <div class="strip"><div class="hh">待办日程 <span>今天 4 · 顺延 2</span></div><div class="hs">
+            <div class="cova"><div class="cv cv-f"><div class="n">今天要做的</div><div class="tag">日程</div></div><div class="cb"><div class="l">4 件 · 2 件带时间</div><div class="m">顺延 2 件</div></div></div>
+            <div class="cova"><div class="cv cv-f"><div class="n">本周</div><div class="tag">日程</div></div><div class="cb"><div class="l">11 件</div><div class="m">3 件已到人</div></div></div></div></div>
+          <div class="strip"><div class="hh">学习备考 <span>6 门课</span></div><div class="hs">
+            <div class="cova"><div class="cv cv-c"><div class="n">大学物理</div><div class="tag">精讲</div></div><div class="cb"><div class="l">6 堂·四类齐</div><div class="m">考前 2 天</div></div></div>
+            <div class="cova"><div class="cv cv-c"><div class="n">高等数学</div><div class="tag">出卷</div></div><div class="cb"><div class="l">12 堂</div><div class="m">自测 17/20</div></div></div>
+            <div class="cova"><div class="cv cv-c"><div class="n">管理学</div><div class="tag">快讲</div></div><div class="cb"><div class="l">3 堂</div><div class="m"></div></div></div></div></div>
+          <div class="strip"><div class="hh">想法随记 <span>工作 / 生活 / 兴趣</span></div><div class="hs">
+            <div class="cova"><div class="cv cv-a"><div class="n">排期与人力</div><div class="tag">对谈</div></div><div class="cb"><div class="l">24 条·今更新</div><div class="m">反复 5 次</div></div></div>
+            <div class="cova"><div class="cv cv-a"><div class="n">西安访谈</div><div class="tag">纪要</div></div><div class="cb"><div class="l">7 场</div><div class="m">3人同点</div></div></div></div></div>
+        </div>
+        <div class="tbbar"><i class="on">合集</i><u>＋</u><i>笔记</i></div>
+      </div>
+      <div class="pc"><div class="pro"><b>优</b><span>一眼是成品封面，点进去拿什么很清楚</span></div><div class="con"><b>劣</b><span>封面要起好标题、配好图，成本高</span></div></div>
+    </div>
+
+    <div class="vv">
+      <div class="hd"><span class="id">A3</span><span class="nm">大封面瀑布</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div>
+        <div class="nb"><span class="nt">合集</span><span class="ni">⋯</span></div>
+        <div class="sr"><span>🔍 搜索笔记</span><span class="ai"></span></div>
+        <div class="bd tb">
+          <div class="hh">最近在消费</div>
+          <div class="cova wide" style="width:100%;margin-bottom:5px"><div class="cv cv-c" style="height:56px"><div class="n">大学物理</div><div class="tag">精讲 · 考前 2 天</div></div><div class="cb"><div class="l">6 堂 · 录音课件教材真题已齐</div></div></div>
+          <div class="cova wide" style="width:100%;margin-bottom:5px"><div class="cv cv-a" style="height:52px"><div class="n">排期与人力</div><div class="tag">对谈 · 反复 5 次</div></div><div class="cb"><div class="l">24 条 · 今天刚更新</div></div></div>
+          <div class="hh">待办日程</div>
+          <div class="cova wide" style="width:100%"><div class="cv cv-f" style="height:44px"><div class="n">今天要做的</div><div class="tag">4 件</div></div></div>
+        </div>
+        <div class="tbbar"><i class="on">合集</i><u>＋</u><i>笔记</i></div>
+      </div>
+      <div class="pc"><div class="pro"><b>优</b><span>单个成品冲击力最强</span></div><div class="con"><b>劣</b><span>一屏放不下几个，品类多了要滑很久</span></div></div>
+    </div>
+
+  </div>
+  <div class="vd"><p><b>倾向 A2。</b>相册回忆的关键就是横滑封面：品类是固定的分栏，封面是长出来的成品，一眼分得清是哪门课、哪件事、能拿到什么（精讲 / 对谈 / 纪要）。A1 是现状要改掉的样子，A3 留作单品类内的展开形态。</p></div>
+</section>
+
+<section id="b">
+  <div class="shd"><span class="idx">B</span><h2>空的时候长什么样</h2></div>
+  <p class="lead">合集是长出来的，新用户第一次打开就是空的。这一屏现稿没有，必须补：待办日程记一条就成立、先撑住第一屏；学习和想法用提示位说清成立条件，不摆假封面。</p>
+  <div class="gal">
+    <div class="vv"><div class="hd"><span class="id">B1</span><span class="nm">空态 · 待办撑第一屏</span><span class="cur g">补</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div>
+        <div class="nb"><span class="nt">合集</span><span class="ni">⋯</span></div>
+        <div class="sr"><span>🔍 搜索笔记</span><span class="ai"></span></div>
+        <div class="bd tb">
+          <div class="strip"><div class="hh">待办日程 <span>今天 2</span></div><div class="hs">
+            <div class="cova"><div class="cv cv-f"><div class="n">今天要做的</div><div class="tag">记一条就成立</div></div><div class="cb"><div class="l">2 件</div><div class="m">刚记的也在</div></div></div></div></div>
+          <div class="strip"><div class="hh">学习备考 <span>还没有</span></div><div class="hs">
+            <div class="dash">记满两三堂课<br>长出第一门课</div></div></div>
+          <div class="strip"><div class="hh">想法随记 <span>还没有</span></div><div class="hs">
+            <div class="dash">同一件事记够<br>自动成一个合集</div></div></div>
+          <div style="font-size:6.5px;color:var(--ink4);text-align:center;margin-top:8px;line-height:1.5">合集是长出来的<br>记得越多这页越满，空着不摆假卡</div>
+        </div>
+        <div class="tbbar"><i class="on">合集</i><u>＋</u><i>笔记</i></div>
+      </div>
+      <div class="pc"><div class="pro"><b>优</b><span>不空场，也讲清了怎么长出来</span></div><div class="con"><b>劣</b><span>存量用户能出几个封面，要用研拿数</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="c">
+  <div class="shd"><span class="idx">C</span><h2>进一个单元，消费的是成品</h2></div>
+  <p class="lead">不管哪个品类，点进一个封面，第一屏是整理好的成品，原始资料退到次级。一门课先给精讲 / 快讲 / 出卷，一次访谈先给纪要和观点清单。</p>
+  <div class="gal">
+    <div class="vv"><div class="hd"><span class="id">C1</span><span class="nm">进一门课</span><span class="cur f" style="color:var(--bl);background:var(--blS)">笔记</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div>
+        <div class="nb"><span class="nt bk">大学物理</span><span class="ni">⋯</span></div>
+        <div class="bd">
+          <div class="hh">6 堂 · 四类来源已齐 · 考前 2 天</div>
+          <div class="seg"><b class="on">精讲</b><b>快讲</b><b>出一套卷</b></div>
+          <div class="tbs"><b class="on">考点大纲</b><b>按章节</b><b>原始资料</b></div>
+          <div class="card2"><div class="t">第三章 刚体转动 · 考点 6</div>
+            <div class="kv"><i>转动惯量的计算</i><span>真题 3 次</span></div>
+            <div class="kv"><i>合外力矩与角加速度</i><span>真题 4 次</span></div>
+            <div class="kv"><i>角动量守恒</i><span>真题 2 次</span></div></div>
+          <div class="nr"><div class="t">原始资料</div><div class="m">录音 6 · 课件 6 · 教材 1 · 真题 3 · 退到这里</div></div>
+        </div>
+      </div>
+      <div class="pc"><div class="pro"><b>优</b><span>进来先给该看的，不是一串录音</span></div><div class="con"><b>劣</b><span>考点要能拆出判定步骤，待跑数</span></div></div>
+    </div>
+    <div class="vv"><div class="hd"><span class="id">C2</span><span class="nm">进一次访谈</span><span class="cur" style="color:var(--bl);background:var(--blS)">笔记</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div>
+        <div class="nb"><span class="nt bk">西安访谈</span><span class="ni">⋯</span></div>
+        <div class="bd">
+          <div class="hh">7 场 · 最近 9月6日</div>
+          <div class="seg"><b class="on">访谈纪要</b><b>观点清单</b><b>对谈</b></div>
+          <div class="card2"><div class="t">7 场访谈 · 一份纪要</div>
+            <div class="kv"><i>续费与价格</i><span>3 人提到</span></div>
+            <div class="kv"><i>上手门槛高</i><span>4 人提到</span></div>
+            <div class="kv"><i>希望多端同步</i><span>2 人提到</span></div></div>
+          <div class="nr"><div class="t">原始 7 场</div><div class="m">录音与转写 · 退到次级</div></div>
+        </div>
+      </div>
+      <div class="pc"><div class="pro"><b>优</b><span>7 场合成一份，标出几个人同点</span></div><div class="con"><b>劣</b><span>访谈与课程是否合一个品类，待定</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="d">
+  <div class="shd"><span class="idx">D</span><h2>想法随记 · 进去第一屏就是对谈</h2></div>
+  <p class="lead">现稿进一个想法先给结论卡，对谈排在后面。李楠要反过来：深入消费一个想法，第一件事就是直接进对谈，内容已挂载、显性标出挂了多少条，是能接着聊的会话——不是一个「问小爱」按钮。洞见和行动放对谈下面。</p>
+  <span class="q">依据 14:10 会：insight 场景核心是直接进入与 AI 对谈，而非简单问答。</span>
+  <div class="gal">
+    <div class="vv rec"><div class="hd"><span class="id">D1</span><span class="nm">对谈作首屏</span><span class="cur b">推荐</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div>
+        <div class="nb"><span class="nt bk">排期与人力</span><span class="ni">⋯</span></div>
+        <div class="bd">
+          <span class="mnt">＋ 已挂载这个合集 24 条</span>
+          <div class="bub">这一个月你反复说排期被临时需求打断。要不要一起把插需求的口子怎么收，理成下一步？</div>
+          <div class="qc"><b>这些打断都来自哪里</b><b>上次那两个二级需求砍了吗</b><b>帮我理一份收口方案</b></div>
+          <div class="hh" style="margin-top:8px">下面是 AI 看到的</div>
+          <div class="card2"><div class="kv"><i>插需求没有统一入口</i><span>5 次</span></div><div class="kv"><i>人力缺口集中同一环</i><span>4 次</span></div></div>
+          <div class="inb">接着聊，或换个问题…</div>
+        </div>
+      </div>
+      <div class="pc"><div class="pro"><b>优</b><span>正对李楠要的对谈优先</span></div><div class="con"><b>劣</b><span>与现稿顺序相反，需你确认</span></div></div>
+    </div>
+    <div class="vv"><div class="hd"><span class="id">D2</span><span class="nm">结论在上·对谈在下</span><span class="cur">现稿顺序</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div>
+        <div class="nb"><span class="nt bk">排期与人力</span><span class="ni">⋯</span></div>
+        <div class="bd">
+          <div class="hh">你最近在反复想的事</div>
+          <div class="card2"><div class="kv"><i>插需求没统一入口</i><span>5 次</span></div><div class="kv"><i>人力缺口同一环</i><span>4 次</span></div></div>
+          <div class="hh">行动建议</div>
+          <div class="tr"><i></i><div class="t">定一条插需求准入规则</div><div class="mt">加待办</div></div>
+          <div class="tr"><i></i><div class="t">和上级对一次人力缺口</div><div class="mt">加待办</div></div>
+          <div class="inb">💬 问一问这个合集…</div>
+        </div>
+      </div>
+      <div class="pc"><div class="pro"><b>优</b><span>先看结论，符合原稿</span></div><div class="con"><b>劣</b><span>对谈成了下方按钮，弱于李楠要求</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="e">
+  <div class="shd"><span class="idx">E</span><h2>学习备考 · 把整条链走完，标清谁交付</h2></div>
+  <p class="lead">这条链从笔记之外开始。现稿只画了笔记自己几步，缺前两段、也没标谁交付。补齐并逐段标 owner：相册识别课程表 → 日历课程日程专属样式 → 小爱到点提醒 → 笔记到点自动录音、端侧常录接住忘记那段 → 合集里长出这门课、做完推送。</p>
+  <span class="q">依据 13:04 会：跳出笔记本身，构建跨功能完整链路，站在用户视角看是一条链。</span>
+  <div class="gal">
+    <div class="vv"><div class="hd"><span class="id">E1</span><span class="nm">识别课程表</span><span class="own p">相册</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div><div class="nb"><span class="nt bk">照片</span><span class="ni">⋯</span></div>
+        <div class="bd"><div class="thumb">课程表照片</div>
+          <div class="card2"><div class="t">识别到一张课程表</div><div class="kv"><i>6 门课 · 每周循环</i><span>已解析</span></div><div class="kv"><i>上课时间与教室</i><span>已解析</span></div></div>
+          <div class="mbtn">一键进日历</div></div></div>
+      <div class="pc"><div class="pro"><b>做</b><span>相册侧交付（乔梁）</span></div></div>
+    </div>
+    <div class="vv"><div class="hd"><span class="id">E2</span><span class="nm">课程日程专属样式</span><span class="own c">日历</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div><div class="nb"><span class="nt bk">9 月</span><span class="ni">今天</span></div>
+        <div class="bd"><div class="cal"><i>一</i><i class="on">二</i><i>三</i><i>四</i><i>五</i></div>
+          <div class="card2"><div class="t">大学物理 · 第 6 堂</div><div style="font-size:6px;color:var(--ink4);margin:2px 0 4px">14:00–16:00 · 三教 301</div>
+            <div class="kv"><i>这门课</i><span>上了 5 / 共 16 堂</span></div><div class="kv"><i>作业</i><span>习题 P42 未完成</span></div><div class="kv"><i>这门课的笔记</i><span>打开 ›</span></div></div>
+          <div style="font-size:6px;color:var(--ink4)">点进去是这堂课＋这门课，不是编辑界面</div></div></div>
+      <div class="pc"><div class="pro"><b>做</b><span>日历侧交付（东澍）</span></div></div>
+    </div>
+    <div class="vv"><div class="hd"><span class="id">E3</span><span class="nm">上课前提醒</span><span class="own a">小爱</span></div>
+      <div class="mp"><div class="lock"><div class="tm">13:45</div><div class="dt">周三 9 月 10 日</div>
+        <div class="ntf"><div class="na">小爱建议</div><div class="t">14:00 大学物理 · 三教 301</div><div class="m">该去上课了，到点会自动开始录音</div></div></div></div>
+      <div class="pc"><div class="pro"><b>做</b><span>小爱建议侧</span></div></div>
+    </div>
+    <div class="vv rec"><div class="hd"><span class="id">E4</span><span class="nm">到点自动录音</span><span class="own f">笔记</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div><div class="nb"><span class="nt bk">大学物理·第六讲</span><span class="ni">⋯</span></div>
+        <div class="bd"><div class="rec"><u></u>正在录音 00:12:37 · 按课表自动开始</div>
+          <div class="wave"><i style="height:30%"></i><i style="height:55%"></i><i style="height:80%"></i><i style="height:45%"></i><i style="height:65%"></i><i style="height:90%"></i><i style="height:50%"></i><i style="height:70%"></i><i style="height:40%"></i><i style="height:85%"></i><i style="height:60%"></i><i style="height:35%"></i><i style="height:75%"></i><i style="height:50%"></i><i style="height:88%"></i><i style="height:42%"></i><i style="height:68%"></i><i style="height:55%"></i></div>
+          <div class="card2"><div class="t">忘了点也不丢</div><div style="font-size:6px;color:var(--ink4);margin:2px 0 4px">端侧常录最近几分钟，中途才开也接得上</div><div class="kv"><i>已接上前</i><span>4 分 12 秒</span></div><div class="kv"><i>存放</i><span>只在这台手机上</span></div></div></div></div>
+      <div class="pc"><div class="pro"><b>做</b><span>最关键一环在笔记</span></div></div>
+    </div>
+    <div class="vv"><div class="hd"><span class="id">E5</span><span class="nm">合集里长出这门课</span><span class="own f">笔记</span></div>
+      <div class="mp"><div class="sb"><span>9:41</span><span>▲▮</span></div><div class="nb"><span class="nt">合集</span><span class="ni">⋯</span></div>
+        <div class="bd tb"><div class="strip"><div class="hh">学习备考 <span>做完推送给你</span></div><div class="hs">
+          <div class="cova"><div class="cv cv-c"><div class="n">大学物理</div><div class="tag">精讲</div></div><div class="cb"><div class="l">两三堂后长出</div><div class="m">刚更新·已推送</div></div></div>
+          <div class="cova"><div class="cv cv-c"><div class="n">高等数学</div><div class="tag">出卷</div></div><div class="cb"><div class="l">12 堂</div><div class="m"></div></div></div></div></div>
+          <div style="font-size:6px;color:var(--ink4);margin-top:6px">进去先给精讲/快讲/出卷，不是一串录音</div></div>
+        <div class="tbbar"><i class="on">合集</i><u>＋</u><i>笔记</i></div></div>
+      <div class="pc"><div class="pro"><b>做</b><span>两三堂后成形并推送</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="f">
+  <div class="shd"><span class="idx">F</span><h2>与现状对比</h2></div>
+  <p class="lead">这份相对《OS5 笔记·产品方案框架》只动了下面这些，其余章节沿用现稿。</p>
+  <table class="diff"><thead><tr><th style="width:120px">这一处</th><th>现稿</th><th>这版</th><th style="width:210px">依据</th></tr></thead><tbody>
+    <tr><td><b>合集首页</b></td><td class="now">状态卡宫格（信息聚合）</td><td class="nx">相册回忆式：分栏＋横滑＋成品封面</td><td>李楠“不够极致/还是兜底/太关注交互框架”</td></tr>
+    <tr><td><b>空态</b></td><td class="now">没有</td><td class="nx">补：待办撑第一屏，另两栏说清成立条件</td><td>冷启动硬缺口</td></tr>
+    <tr><td><b>想法进入</b></td><td class="now">结论卡在前，对谈靠后</td><td class="nx">对谈作首屏，已挂载，洞见/行动在下</td><td>李楠 14:10“对谈优先”</td></tr>
+    <tr><td><b>学习全链</b></td><td class="now">只有笔记几步</td><td class="nx">补相册、日历两段，全链标 owner</td><td>李楠“跨功能完整链路”</td></tr>
+    <tr><td><b>三类之外</b></td><td class="now">预设类目库＋一套机制</td><td class="nx">收成一句话，本版不单独设计形态</td><td>李楠“通用场景先别想”</td></tr>
+    <tr><td><b>卡证</b></td><td class="now">降为预设类目之一</td><td class="nx">作为“够极致”视觉基准保留</td><td>李楠拿卡证当极致标杆</td></tr>
+  </tbody></table>
+  <div class="vd"><p><b>需你拍的两条：</b>① 想法进入是 D1（对谈优先）还是 D2（结论优先）；② 第一个 tab 叫「合集 / Inside / 洞察」哪个。其余按上表推进。</p></div>
+</section>
+
+<footer>OS5 笔记 · 合集页（相册式）· 2026-09-10 ｜ 组件沿用现有 UI 穷举那套 · 原稿《OS5 笔记·产品方案框架》不动</footer>
+</div>
+</body>
+</html>
