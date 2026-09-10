@@ -50,11 +50,11 @@
   /* ---------- cards ---------- */
   .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
   .grid2{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
-  .card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:24px; }
+  .card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:24px; display:flex; flex-direction:column; }
   .card h3{ font-size:17px; font-weight:600; margin-bottom:6px; }
   .card .scene{ font-size:14px; color:var(--ink3); margin-bottom:14px; }
   .card p{ font-size:15px; color:var(--ink2); }
-  .pain{ margin-top:14px; padding-top:14px; border-top:1px dashed var(--line); font-size:15px; }
+  .pain{ margin-top:auto; padding-top:14px; border-top:1px dashed var(--line); font-size:15px; }
   .pain b{ color:var(--ink); font-weight:600; }
 
   /* ---------- quote ---------- */
@@ -80,7 +80,7 @@
   .phone-cap{ font-size:14px; font-weight:600; margin-bottom:4px; }
   .phone-note{ font-size:13px; color:var(--ink3); margin-bottom:14px; min-height:38px; }
   .phone{
-    width:300px; height:600px; background:#fff; border:1px solid var(--line);
+    width:300px; height:486px; background:#fff; border:1px solid var(--line);
     border-radius:34px; padding:14px 12px 0; position:relative; overflow:hidden;
     box-shadow:0 4px 20px rgba(27,32,51,.07);
   }
@@ -92,7 +92,11 @@
   .catrow{ padding:0 8px 4px; display:flex; justify-content:space-between; align-items:baseline; }
   .catname{ font-size:13px; font-weight:600; }
   .catmore{ font-size:10px; color:var(--ink3); }
-  .hscroll{ display:flex; gap:8px; padding:0 8px 16px; overflow:hidden; }
+  .hscroll{
+    display:flex; gap:8px; padding:0 8px 16px; overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,#000 0,#000 82%,transparent 100%);
+    mask-image:linear-gradient(90deg,#000 0,#000 82%,transparent 100%);
+  }
   .tile{
     min-width:112px; height:86px; border-radius:10px; background:var(--blue-soft);
     border:1px solid #D6E0FB; padding:9px; display:flex; flex-direction:column; justify-content:space-between;
@@ -310,6 +314,7 @@
           <div class="row"><span>第四章 振动与波</span><span>考点 9</span></div>
           <div class="row"><span>第五章 热力学第一定律</span><span>考点 7</span></div>
           <div class="row"><span>作业：习题册 P42–45</span><span>未完成</span></div>
+          <div class="row"><span>上次自测</span><span>82 分 · 错 6 题</span></div>
         </div>
         <div class="fold">原始资料（录音 / 课件 / 教材 / 真题）›</div>
 
@@ -341,6 +346,8 @@
           <div class="row"><span>反复出现 · 排期被临时需求打断</span><span>5 次</span></div>
           <div class="row"><span>反复出现 · 人力缺口</span><span>4 次</span></div>
           <div class="row"><span>上次聊到：先砍掉两个二级需求</span><span>9/6</span></div>
+          <div class="row"><span>可以落成 · 阶段总结</span><span>生成 ›</span></div>
+          <div class="row"><span>可以落成 · 下一步分步计划</span><span>生成 ›</span></div>
         </div>
         <div class="fold">原始记录 24 条 ›</div>
 
@@ -470,7 +477,7 @@
   <div class="sec-head"><span class="sec-no">05</span><h2>本版不做</h2></div>
   <p class="sec-desc">范围收到三个品类，其余先不铺。</p>
 
-  <div class="grid2">
+  <div class="grid2" style="grid-template-columns:1fr 1.15fr; align-items:start">
     <div class="notdo">
       <h3 style="font-size:17px;margin-bottom:14px">不做</h3>
       <ul>
@@ -478,6 +485,9 @@
         <li><b>通用场景兜底</b>：不再单独设计"其余内容"的一套形态。三个品类做透之后，通用的怎么处理自然清楚</li>
         <li><b>卡证与账单</b>：本版不排期</li>
       </ul>
+      <p style="margin-top:16px;padding-top:16px;border-top:1px dashed var(--line);font-size:15px;color:var(--ink2)">
+        人力压在这三个品类上。原来的方案里这几块已经画了稿，先留着不排期，等三个品类跑通再看要不要接上。
+      </p>
     </div>
     <div class="notdo" style="border-left:4px solid var(--blue)">
       <h3 style="font-size:17px;margin-bottom:8px">卡证虽然不做，但它定义了什么叫"够极致"</h3>
