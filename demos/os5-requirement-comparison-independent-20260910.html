@@ -3,356 +3,422 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OS5 笔记 · 两版方案对比与需求重构（独立稿）</title>
+<title>OS5 笔记 · 洞察产品方案</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   :root{
-    --ink:#141827;--ink2:#3f485d;--ink3:#6f788c;--ink4:#a1a8b8;
-    --line:#e3e7ef;--line2:#eef1f6;--soft:#f7f8fb;--paper:#fff;
-    --blue:#3f6df6;--blue-bg:#f1f5ff;--blue-line:#cfdafe;
-    --red:#b94a3d;--red-bg:#fff5f3;--red-line:#f0d5d0;
-    --amber:#a76b09;--amber-bg:#fff9e9;--amber-line:#f0dfb9;
-    --green:#14785b;--green-bg:#f1faf6;--green-line:#c9e6da;
-    --purple:#7652d6;--purple-bg:#f6f2ff;--purple-line:#ded2fa;
+    --ink:#151a2b;--ink2:#414a60;--ink3:#727b90;--ink4:#a4acbb;
+    --line:#e2e7f0;--line2:#edf0f5;--soft:#f7f9fc;--paper:#fff;
+    --blue:#3f6df6;--blue2:#6d8df8;--blue-bg:#f1f5ff;--blue-line:#cdd9ff;
+    --purple:#7556d8;--purple-bg:#f6f2ff;--purple-line:#ded3fb;
+    --green:#187a5c;--green-bg:#f0faf5;--green-line:#c7e7da;
+    --amber:#9b690e;--amber-bg:#fff8e8;--amber-line:#efddb6;
   }
   html{scroll-behavior:smooth}
-  body{font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#fff;font-size:15px;line-height:1.72;-webkit-font-smoothing:antialiased}
-  .nav{position:fixed;inset:0 auto 0 0;width:248px;border-right:1px solid var(--line);background:rgba(255,255,255,.97);padding:24px 18px 30px;overflow-y:auto;z-index:30}
-  .nav-title{font-size:16px;font-weight:700;line-height:1.35;margin-bottom:4px}
-  .nav-sub{font-size:11.5px;color:var(--ink3);line-height:1.55;margin-bottom:18px}
-  .nav a{display:flex;gap:8px;padding:7px 8px;border-radius:8px;color:var(--ink3);text-decoration:none;font-size:12.5px;line-height:1.4;margin-bottom:2px}
+  body{font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#fff;font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  .nav{position:fixed;inset:0 auto 0 0;width:248px;border-right:1px solid var(--line);background:rgba(255,255,255,.97);padding:25px 18px 30px;overflow-y:auto;z-index:30}
+  .nav-title{font-size:17px;font-weight:750;line-height:1.35;margin-bottom:4px}
+  .nav-sub{font-size:12px;color:var(--ink3);line-height:1.55;margin-bottom:20px}
+  .nav a{display:flex;gap:8px;padding:8px;border-radius:9px;color:var(--ink3);text-decoration:none;font-size:12.5px;line-height:1.4;margin-bottom:2px}
   .nav a:hover,.nav a.on{background:var(--blue-bg);color:var(--blue)}
-  .nav a i{font-style:normal;font-weight:700;width:22px;flex:0 0 22px;color:var(--ink4)}
+  .nav a i{font-style:normal;font-weight:750;width:22px;flex:0 0 22px;color:var(--ink4)}
   .nav a.on i{color:var(--blue)}
-  .nav-foot{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:var(--ink4);line-height:1.65}
+  .nav-foot{margin-top:24px;padding-top:15px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink4);line-height:1.7}
   .main{margin-left:248px;padding:0 44px 100px;min-width:980px}
   .page{max-width:1680px;margin:0 auto}
-  .intro{padding:46px 0 36px;border-bottom:1px solid var(--line)}
-  .eyebrow{font-size:11.5px;color:var(--blue);font-weight:700;letter-spacing:.16em;margin-bottom:12px}
-  h1{font-size:40px;line-height:1.2;letter-spacing:-.8px;margin-bottom:15px}
-  .lead{font-size:17px;color:var(--ink2);max-width:1060px;line-height:1.75}
-  .meta{display:flex;gap:18px;margin-top:22px;font-size:12px;color:var(--ink4)}
-  .sec{padding:56px 0 12px;border-bottom:1px solid var(--line);scroll-margin-top:10px}
+  .hero{padding:48px 0 40px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-size:11.5px;color:var(--blue);font-weight:750;letter-spacing:.14em;margin-bottom:12px}
+  h1{font-size:42px;line-height:1.2;letter-spacing:-.8px;margin-bottom:15px}
+  .lead{font-size:17px;color:var(--ink2);max-width:1120px;line-height:1.8}
+  .hero-line{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+  .hero-line span{border:1px solid var(--blue-line);background:var(--blue-bg);color:var(--blue);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700}
+  .sec{padding:58px 0 18px;border-bottom:1px solid var(--line);scroll-margin-top:10px}
   .sec:last-child{border-bottom:none}
   .sec-head{display:flex;gap:18px;align-items:flex-start;margin-bottom:28px}
-  .num{font-size:46px;font-weight:700;line-height:1;color:#dbe3fb;letter-spacing:-2px;flex:0 0 auto}
-  h2{font-size:29px;line-height:1.25;letter-spacing:-.4px;margin-bottom:7px}
-  .desc{font-size:15.5px;color:var(--ink2);max-width:1050px}
-  h3{font-size:19px;line-height:1.4;margin:30px 0 13px}
+  .num{font-size:46px;font-weight:750;line-height:1;color:#dce5ff;letter-spacing:-2px;flex:0 0 auto}
+  h2{font-size:30px;line-height:1.25;letter-spacing:-.4px;margin-bottom:7px}
+  .desc{font-size:15.5px;color:var(--ink2);max-width:1080px}
+  h3{font-size:20px;line-height:1.4;margin-bottom:8px}
   h4{font-size:15.5px;line-height:1.45;margin-bottom:7px}
   p+p{margin-top:8px}
-  b{font-weight:650}
-  .pill{display:inline-flex;align-items:center;border-radius:999px;padding:3px 9px;font-size:11px;font-weight:700;line-height:1.4}
-  .pill.bad{background:var(--red-bg);color:var(--red);border:1px solid var(--red-line)}
-  .pill.mid{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-line)}
-  .pill.ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-line)}
-  .pill.info{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-line)}
-  .call{border-radius:16px;padding:19px 22px;margin:16px 0;border:1px solid var(--line);background:var(--soft)}
-  .call strong{display:block;font-size:17px;margin-bottom:6px}
+  b,strong{font-weight:680}
+  .tag{display:inline-flex;align-items:center;border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:700;border:1px solid var(--blue-line);background:#fff;color:var(--blue)}
+  .tag.purple{border-color:var(--purple-line);color:var(--purple)}
+  .tag.green{border-color:var(--green-line);color:var(--green)}
+  .tag.amber{border-color:var(--amber-line);color:var(--amber)}
+  .call{border-radius:17px;padding:19px 22px;border:1px solid var(--blue-line);background:var(--blue-bg);margin:18px 0}
+  .call strong{display:block;font-size:17px;margin-bottom:5px}
   .call p{color:var(--ink2)}
-  .call.blue{background:var(--blue-bg);border-color:var(--blue-line)}
-  .call.green{background:var(--green-bg);border-color:var(--green-line)}
-  .call.amber{background:var(--amber-bg);border-color:var(--amber-line)}
-  .call.red{background:var(--red-bg);border-color:var(--red-line)}
 
-  /* A/B/C comparison */
-  .abc{display:grid;grid-template-columns:repeat(3,minmax(320px,1fr));gap:14px;margin:18px 0 26px}
-  .abc-card{border:1px solid var(--line);border-radius:18px;padding:20px 21px;background:#fff;min-height:220px}
-  .abc-card.a{border-top:4px solid var(--red)}
-  .abc-card.b{border-top:4px solid #d79a2c}
-  .abc-card.c{border-top:4px solid var(--green);background:linear-gradient(180deg,var(--green-bg),#fff 35%)}
-  .abc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}
-  .abc-letter{font-size:13px;font-weight:750;color:var(--ink3)}
-  .abc-card h3{font-size:19px;margin:0 0 10px}
-  .abc-card p{font-size:14px;color:var(--ink2)}
-  .abc-card ul{padding-left:18px;margin-top:11px}
-  .abc-card li{font-size:13.5px;color:var(--ink2);margin-bottom:5px}
-  .verdict{font-size:23px;line-height:1.55;font-weight:700;padding:24px 28px;background:var(--blue-bg);border:1px solid var(--blue-line);border-radius:18px;margin:20px 0 8px}
-  .verdict em{font-style:normal;color:var(--blue)}
+  /* 00 */
+  .now-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+  .now-card{border:1px solid var(--line);border-radius:18px;padding:21px 22px;background:#fff;min-height:178px}
+  .now-card:nth-child(1){background:var(--blue-bg);border-color:var(--blue-line)}
+  .now-card:nth-child(2){background:var(--purple-bg);border-color:var(--purple-line)}
+  .now-card:nth-child(3){background:var(--green-bg);border-color:var(--green-line)}
+  .now-card .label{font-size:11px;font-weight:750;color:var(--ink3);letter-spacing:.08em;margin-bottom:10px}
+  .now-card h3{font-size:20px;margin-bottom:9px}
+  .now-card p{font-size:14px;color:var(--ink2)}
+  .one-line{font-size:24px;line-height:1.55;font-weight:750;padding:24px 28px;background:#fff;border:1px solid var(--line);border-radius:18px;margin-top:15px}
+  .one-line em{font-style:normal;color:var(--blue)}
 
-  /* evidence */
-  .evidence{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  .ev{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:#fff}
-  .ev h4{display:flex;align-items:center;gap:8px}
-  .ev ul{padding-left:17px;margin-top:8px}
-  .ev li{font-size:13.5px;color:var(--ink2);margin-bottom:5px}
-  .quote{border-left:3px solid var(--blue);padding:13px 18px;background:var(--blue-bg);border-radius:0 13px 13px 0;font-size:14px;color:var(--ink2);margin:13px 0}
-  .quote b{color:var(--ink)}
+  /* 01 shell */
+  .shell{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0}
+  .shell-panel{border:1px solid var(--line);border-radius:21px;padding:23px;background:#fff;min-height:430px}
+  .shell-panel.insight{border-color:var(--blue-line);background:linear-gradient(180deg,var(--blue-bg),#fff 44%)}
+  .panel-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+  .panel-title{display:flex;align-items:center;gap:10px}
+  .panel-title .dot{width:10px;height:10px;border-radius:50%;background:var(--blue)}
+  .shell-panel.notes .panel-title .dot{background:var(--purple)}
+  .panel-title b{font-size:20px}
+  .panel-note{font-size:12px;color:var(--ink3)}
+  .layer-list{display:grid;gap:10px}
+  .layer{border:1px solid var(--line);border-radius:14px;background:#fff;padding:15px 16px}
+  .layer b{display:block;font-size:14.5px;margin-bottom:4px}
+  .layer span{font-size:12.5px;color:var(--ink3)}
+  .shell-panel.insight .layer{border-color:#dfe7ff}
+  .bottom-shell{display:grid;grid-template-columns:1fr auto auto 1fr;gap:9px;align-items:center;margin-top:18px;padding:10px;border:1px solid var(--line);border-radius:15px;background:#fff}
+  .bottom-tab{text-align:center;border-radius:10px;padding:9px 8px;font-size:12px;color:var(--ink3)}
+  .bottom-tab.active{background:var(--blue-bg);color:var(--blue);font-weight:750}
+  .capture{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:18px;font-weight:700;background:var(--blue);color:#fff}
+  .capture.mic{background:#7691ee}
+  .structure-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
+  .structure-strip div{border-left:3px solid var(--blue);background:var(--soft);border-radius:0 13px 13px 0;padding:13px 16px}
+  .structure-strip b{display:block;font-size:13.5px;margin-bottom:3px}
+  .structure-strip span{font-size:12.5px;color:var(--ink3)}
 
-  /* tables */
-  table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:14px 0 26px}
-  th,td{text-align:left;vertical-align:top;padding:14px 16px;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.65}
-  th{background:var(--soft);font-size:12px;color:var(--ink3);font-weight:700;letter-spacing:.03em}
-  tr:last-child td{border-bottom:none}
-  td+td,th+th{border-left:1px solid var(--line2)}
-  td ul{padding-left:16px}
-  td li{margin-bottom:3px}
-  .yes{color:var(--green);font-weight:700}.no{color:var(--red);font-weight:700}.maybe{color:var(--amber);font-weight:700}
+  /* 02 home */
+  .home-frame{border:1px solid var(--line);border-radius:22px;background:var(--soft);padding:22px;margin:16px 0}
+  .home-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  .home-head h3{font-size:23px;margin:0}
+  .home-head span{font-size:12px;color:var(--ink3)}
+  .category{border:1px solid var(--line);border-radius:17px;background:#fff;padding:17px 18px;margin-bottom:12px}
+  .category:last-child{margin-bottom:0}
+  .category-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+  .category-head b{font-size:16px}
+  .category-head span{font-size:12px;color:var(--ink3)}
+  .content-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .content-card{border:1px solid var(--blue-line);background:var(--blue-bg);border-radius:14px;padding:15px;min-height:132px}
+  .content-card.idea{border-color:var(--purple-line);background:var(--purple-bg)}
+  .content-card.todo{border-color:var(--amber-line);background:var(--amber-bg)}
+  .content-card .kicker{font-size:10.5px;color:var(--ink3);font-weight:700;margin-bottom:7px}
+  .content-card b{display:block;font-size:15px;margin-bottom:6px}
+  .content-card p{font-size:12.5px;color:var(--ink2);line-height:1.55}
+  .content-card .action{display:inline-block;margin-top:9px;font-size:11.5px;color:var(--blue);font-weight:750}
+  .content-card.idea .action{color:var(--purple)}
+  .content-card.todo .action{color:var(--amber)}
 
-  /* content model */
-  .six{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin:18px 0}
-  .six-card{border:1px solid var(--blue-line);background:var(--blue-bg);border-radius:17px;padding:18px;min-height:176px}
-  .six-card.general{border-color:var(--purple-line);background:var(--purple-bg)}
-  .six-card h4{font-size:16px;margin-bottom:9px}
-  .six-card .want{font-size:13.5px;color:var(--ink2);margin-bottom:11px}
-  .six-card .out{font-size:12.5px;font-weight:700;color:var(--blue)}
-  .six-card.general .out{color:var(--purple)}
-  .forms{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-top:18px}
-  .form{border-radius:18px;padding:23px 25px;border:1px solid var(--line)}
-  .form.ded{background:var(--blue-bg);border-color:var(--blue-line)}
-  .form.gen{background:var(--purple-bg);border-color:var(--purple-line)}
-  .form h3{margin:0 0 8px}
-  .form p{font-size:14px;color:var(--ink2)}
-  .form .items{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
-  .form .items span{background:#fff;border:1px solid rgba(63,109,246,.2);border-radius:999px;padding:4px 10px;font-size:12px}
+  /* journeys */
+  .scene{border:1px solid var(--line);border-radius:22px;padding:24px;margin:17px 0 28px;background:#fff}
+  .scene-top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:18px}
+  .scene-top h3{font-size:23px;margin:0 0 6px}
+  .scene-top p{font-size:14px;color:var(--ink2);max-width:900px}
+  .result-chip{white-space:nowrap;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:750;border:1px solid var(--blue-line);background:var(--blue-bg);color:var(--blue)}
+  .result-chip.purple{border-color:var(--purple-line);background:var(--purple-bg);color:var(--purple)}
+  .result-chip.amber{border-color:var(--amber-line);background:var(--amber-bg);color:var(--amber)}
+  .journey{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:15px 0}
+  .jstep{position:relative;border:1px solid var(--line);border-radius:15px;padding:15px 16px;background:#fff;min-height:144px}
+  .jstep .jn{font-size:10.5px;color:var(--blue);font-weight:750;margin-bottom:7px}
+  .jstep b{display:block;font-size:14.5px;margin-bottom:5px}
+  .jstep p{font-size:12.5px;color:var(--ink3);line-height:1.55}
+  .jstep:not(:nth-child(4n))::after{content:"→";position:absolute;right:-10px;top:50%;transform:translate(50%,-50%);z-index:2;color:#d5a02c;font-size:18px;font-weight:750}
+  .course-result{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-top:16px}
+  .result-card{border:1px solid var(--blue-line);background:var(--blue-bg);border-radius:18px;padding:20px}
+  .result-card.purple{border-color:var(--purple-line);background:var(--purple-bg)}
+  .result-card.amber{border-color:var(--amber-line);background:var(--amber-bg)}
+  .result-card h3{margin:0 0 7px}
+  .result-card>p{font-size:13.5px;color:var(--ink2)}
+  .metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+  .metric{border:1px solid rgba(63,109,246,.18);background:#fff;border-radius:12px;padding:11px}
+  .metric b{display:block;font-size:18px;color:var(--blue)}
+  .metric span{font-size:11.5px;color:var(--ink3)}
+  .action-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .action-btn{border:1px solid var(--blue-line);background:#fff;color:var(--blue);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700}
+  .source-list{display:grid;gap:8px;margin-top:13px}
+  .source{display:flex;justify-content:space-between;gap:10px;padding:9px 11px;border:1px solid var(--line);background:#fff;border-radius:10px;font-size:12px;color:var(--ink2)}
+  .source span:last-child{color:var(--ink4)}
 
-  /* screens */
-  .screens{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
-  .screen{border:1px solid var(--line);border-radius:20px;padding:22px;background:#fff}
-  .screen-n{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.12em;margin-bottom:10px}
-  .screen h3{margin:0 0 8px;font-size:20px}
-  .screen p{font-size:14px;color:var(--ink2)}
-  .screen-box{margin-top:16px;border-radius:15px;background:var(--soft);padding:17px;border:1px solid var(--line2);min-height:150px}
-  .screen-box b{display:block;margin-bottom:8px}
-  .screen-box div{font-size:13px;color:var(--ink2);padding:6px 0;border-bottom:1px solid #e8ebf1}
-  .screen-box div:last-child{border-bottom:none}
+  /* ideas */
+  .idea-types{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:13px 0}
+  .idea-type{border:1px solid var(--purple-line);background:var(--purple-bg);border-radius:14px;padding:15px}
+  .idea-type b{display:block;font-size:15px;margin-bottom:5px}
+  .idea-type span{font-size:12.5px;color:var(--ink3)}
+  .dialog{border:1px solid var(--purple-line);border-radius:18px;background:#fff;padding:18px;margin-top:14px}
+  .dialog-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:13px;border-bottom:1px solid var(--line)}
+  .dialog-head b{font-size:16px}
+  .attached{border:1px solid var(--purple-line);background:var(--purple-bg);color:var(--purple);border-radius:999px;padding:5px 10px;font-size:11.5px;font-weight:700}
+  .bubble{max-width:78%;border-radius:14px;padding:11px 13px;margin-top:12px;font-size:13px;line-height:1.6}
+  .bubble.ai{background:var(--soft);color:var(--ink2)}
+  .bubble.me{background:var(--purple-bg);color:var(--ink2);margin-left:auto}
+  .dialog-input{margin-top:13px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--ink4);font-size:12.5px}
 
-  /* scenario chain */
-  .scene{border:1px solid var(--line);border-radius:22px;padding:24px 25px;margin:18px 0 30px;background:#fff}
-  .scene-head{display:flex;justify-content:space-between;gap:18px;margin-bottom:16px}
-  .scene-head h3{font-size:22px;margin:0 0 7px}
-  .scene-head p{font-size:14px;color:var(--ink2);max-width:900px}
-  .scene-shape{font-size:12px;font-weight:700;color:var(--green);background:var(--green-bg);border:1px solid var(--green-line);border-radius:999px;padding:5px 11px;height:max-content;white-space:nowrap}
-  .job{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:12px;margin-bottom:18px}
-  .job-card{border-radius:14px;padding:15px 17px;background:var(--soft);border:1px solid var(--line2)}
-  .job-card span{display:block;font-size:10.5px;font-weight:700;color:var(--ink4);letter-spacing:.08em;margin-bottom:5px}
-  .job-card b{font-size:14px;line-height:1.55}
-  .chain{display:flex;align-items:stretch;gap:8px;padding-bottom:8px}
-  .step{min-width:0;flex:1 1 0;border:1px solid var(--line);border-radius:15px;padding:15px 16px;background:#fff}
-  .step .sn{font-size:10px;color:var(--blue);font-weight:700;margin-bottom:6px}
-  .step b{display:block;font-size:14px;margin-bottom:5px}
-  .step p{font-size:12.5px;color:var(--ink3)}
-  .arr{flex:0 0 18px;display:flex;align-items:center;justify-content:center;color:#d5a323;font-size:20px;font-weight:700}
-  .ruleline{margin-top:13px;padding:11px 14px;border-radius:12px;background:var(--amber-bg);border:1px solid var(--amber-line);font-size:12.5px;color:#705327}
+  /* todo */
+  .todo-split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}
+  .todo-card{border:1px solid var(--amber-line);background:var(--amber-bg);border-radius:17px;padding:18px}
+  .todo-card h4{font-size:17px;margin-bottom:8px}
+  .todo-card p{font-size:13px;color:var(--ink2)}
+  .todo-items{display:grid;gap:8px;margin-top:13px}
+  .todo-item{display:flex;gap:9px;align-items:flex-start;border:1px solid rgba(155,105,14,.2);background:#fff;border-radius:11px;padding:10px 11px}
+  .check{width:17px;height:17px;border:1.5px solid #c59636;border-radius:50%;flex:0 0 17px;margin-top:2px}
+  .todo-item b{display:block;font-size:12.5px;margin-bottom:2px}
+  .todo-item span{font-size:11.5px;color:var(--ink3)}
 
-  /* disposition */
-  .disp{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0 28px}
-  .disp-card{border-radius:16px;padding:18px;border:1px solid var(--line);background:#fff}
-  .disp-card h4{display:flex;justify-content:space-between;gap:8px}
-  .disp-card ul{padding-left:17px;margin-top:9px}
-  .disp-card li{font-size:13px;color:var(--ink2);margin-bottom:5px}
+  /* consumption */
+  .consume-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:16px 0}
+  .consume{border:1px solid var(--line);border-radius:18px;padding:19px;background:#fff}
+  .consume h3{font-size:18px;margin:0 0 7px}
+  .consume p{font-size:13px;color:var(--ink2)}
+  .consume ul{padding-left:18px;margin-top:11px}
+  .consume li{font-size:12.5px;color:var(--ink2);margin-bottom:5px}
+  .anatomy{display:grid;grid-template-columns:1.25fr 1fr;gap:14px;margin-top:17px}
+  .anatomy-card{border-radius:18px;padding:20px;border:1px solid var(--blue-line);background:var(--blue-bg)}
+  .anatomy-card.secondary{border-color:var(--line);background:var(--soft)}
+  .anatomy-card h3{margin:0 0 10px}
+  .anatomy-row{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid rgba(63,109,246,.12)}
+  .anatomy-row:last-child{border-bottom:none}
+  .anatomy-row b{font-size:12.5px}
+  .anatomy-row span{font-size:12.5px;color:var(--ink2)}
 
-  /* architecture */
-  .arch{display:grid;grid-template-columns:1.2fr 1.8fr;gap:16px;margin:18px 0}
-  .arch-box{border:1px solid var(--line);border-radius:18px;padding:21px}
-  .arch-box.biz{background:var(--blue-bg);border-color:var(--blue-line)}
-  .arch-box.sys{background:var(--soft)}
-  .arch-box h3{margin:0 0 12px}
-  .arch-box ol,.arch-box ul{padding-left:20px}
-  .arch-box li{font-size:14px;color:var(--ink2);margin-bottom:8px}
-  .system-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:13px}
-  .sys{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;min-height:98px}
-  .sys b{font-size:13px;display:block;margin-bottom:5px}
-  .sys span{font-size:11.5px;color:var(--ink3)}
-  .open-list{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
-  .open{border-left:3px solid var(--amber);background:var(--amber-bg);border-radius:0 13px 13px 0;padding:14px 17px}
-  .open b{font-size:13.5px;display:block;margin-bottom:4px}
-  .open span{font-size:12.5px;color:var(--ink2)}
-  footer{padding:32px 0 80px;color:var(--ink4);font-size:12px}
-  @media(max-width:1200px){.nav{display:none}.main{margin-left:0;min-width:0;padding:0 22px 70px}.abc,.evidence,.screens{grid-template-columns:1fr}.six{grid-template-columns:repeat(2,1fr)}.forms,.arch,.job{grid-template-columns:1fr}.system-grid{grid-template-columns:repeat(2,1fr)}.disp{grid-template-columns:repeat(2,1fr)}}
+  /* loop */
+  .loop{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin:17px 0}
+  .loop-step{position:relative;border:1px solid var(--line);border-radius:15px;padding:15px;background:#fff;min-height:135px}
+  .loop-step .ln{font-size:10px;color:var(--blue);font-weight:750;margin-bottom:6px}
+  .loop-step b{display:block;font-size:14px;margin-bottom:5px}
+  .loop-step p{font-size:12px;color:var(--ink3)}
+  .loop-step:not(:last-child)::after{content:"→";position:absolute;right:-9px;top:50%;transform:translate(50%,-50%);z-index:2;color:#d4a12c;font-size:18px;font-weight:750}
+  .two-dest{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:16px}
+  .dest{border-radius:17px;padding:18px 20px;border:1px solid var(--blue-line);background:var(--blue-bg)}
+  .dest.notes{border-color:var(--purple-line);background:var(--purple-bg)}
+  .dest h3{margin:0 0 7px}
+  .dest p{font-size:13.5px;color:var(--ink2)}
+  footer{padding:34px 0 70px;color:var(--ink4);font-size:12px}
+
+  @media(max-width:1400px){
+    .loop{grid-template-columns:repeat(3,1fr)}
+    .loop-step:nth-child(3)::after{display:none}
+  }
+  @media(max-width:1200px){
+    .nav{display:none}.main{margin-left:0;min-width:0;padding:0 22px 70px}
+    .now-grid,.consume-grid{grid-template-columns:1fr}.shell,.course-result,.anatomy{grid-template-columns:1fr}
+    .journey{grid-template-columns:repeat(2,1fr)}.jstep:nth-child(2n)::after{display:none}
+    .content-row,.idea-types,.structure-strip{grid-template-columns:1fr}
+    .loop{grid-template-columns:repeat(2,1fr)}.loop-step:nth-child(2n)::after{display:none}.loop-step:nth-child(3)::after{display:block}
+  }
+  @media(max-width:700px){
+    h1{font-size:32px}.sec-head{gap:12px}.num{font-size:38px}.shell,.todo-split,.two-dest{grid-template-columns:1fr}
+    .journey,.loop{grid-template-columns:1fr}.jstep::after,.loop-step::after{display:none!important}
+    .metric-row{grid-template-columns:1fr}.scene-top{display:block}.result-chip{display:inline-flex;margin-top:10px}
+  }
 </style>
 </head>
 <body>
 <aside class="nav">
-  <div class="nav-title">OS5 需求拆解对比稿</div>
-  <div class="nav-sub">独立文件 · 不覆盖任何现有稿件</div>
-  <a href="#s00"><i>00</i>一页结论</a>
-  <a href="#s01"><i>01</i>会议原则与附图基线</a>
-  <a href="#s02"><i>02</i>两稿逐维对比</a>
-  <a href="#s03"><i>03</i>正确的内容结构</a>
-  <a href="#s04"><i>04</i>三个界面</a>
-  <a href="#s05"><i>05</i>三条重点场景主链</a>
-  <a href="#s06"><i>06</i>现有 12 条怎么处理</a>
-  <a href="#s07"><i>07</i>共用产品规则</a>
-  <a href="#s08"><i>08</i>业务架构边界</a>
-  <a href="#s09"><i>09</i>未决项</a>
-  <div class="nav-foot">依据：9/10 两次沟通文字记录、现有两稿、四张框架基线图<br>2026-09-10</div>
+  <div class="nav-title">OS5 笔记 · 洞察</div>
+  <div class="nav-sub">三个品类的完整产品方案</div>
+  <a href="#s00"><i>00</i>产品现在是什么</a>
+  <a href="#s01"><i>01</i>整体结构</a>
+  <a href="#s02"><i>02</i>洞察首页</a>
+  <a href="#s03"><i>03</i>学习备考</a>
+  <a href="#s04"><i>04</i>想法随记</a>
+  <a href="#s05"><i>05</i>待办日程</a>
+  <a href="#s06"><i>06</i>内容消费结构</a>
+  <a href="#s07"><i>07</i>完整使用闭环</a>
+  <div class="nav-foot">洞察 / 笔记<br>文字 / 录音<br>待办日程 / 想法随记 / 学习备考</div>
 </aside>
 <main class="main"><div class="page">
-  <header class="intro">
-    <div class="eyebrow">OS5 · 小米笔记 · 独立需求对比</div>
-    <h1>两版方案为什么都不成立，以及需求应该怎么重拆</h1>
-    <p class="lead">这不是在旧稿上继续改字，而是把两稿放在同一张尺子下重新判断：A 稿把后台能力当成产品，B 稿把三个场景机械拆成 12 个碎问题。正确稿要从「用户在做什么、记完真正要什么」出发，先定义专属结果，再画每个场景的一条完整主链。</p>
-    <div class="meta"><span>独立文件</span><span>不写入现有稿</span><span>不登记共享索引</span></div>
+  <header class="hero">
+    <div class="eyebrow">OS5 · 小米笔记</div>
+    <h1>洞察：把记下来的内容，直接变成能使用的东西</h1>
+    <p class="lead">文字、录音、课件和作业被记下后，原始内容留在「笔记」；围绕待办日程、想法随记、学习备考整理出的内容进入「洞察」。用户点进一门课、一段想法或今天的待办，直接开始复习、对谈或执行。</p>
+    <div class="hero-line"><span>两个底部页签</span><span>两个创建入口</span><span>三个品类</span><span>结果完成后主动通知</span></div>
   </header>
 
   <section class="sec" id="s00">
-    <div class="sec-head"><div class="num">00</div><div><h2>一页结论</h2><p class="desc">两稿不是谁更漂亮的问题，而是主语都错了。</p></div></div>
-    <div class="abc">
-      <article class="abc-card a">
-        <div class="abc-top"><span class="abc-letter">A · OS5 规划稿</span><span class="pill bad">能力正确，产品不成立</span></div>
-        <h3>主语是「知识库能力」</h3>
-        <p>从数据打通、索引、语义检索、门控、承接层往下推，解释了系统怎么处理内容，却没有回答用户打开后究竟看到什么。</p>
-        <ul><li>先定后台能力，再找场景</li><li>把系统已有能力写成笔记自建</li><li>没有可见结果，也没有场景主链</li></ul>
-      </article>
-      <article class="abc-card b">
-        <div class="abc-top"><span class="abc-letter">B · 12 痛点稿</span><span class="pill mid">场景接近，拆解单位错误</span></div>
-        <h3>主语是「12 个功能问题」</h3>
-        <p>开始说用户现象，也画了手机链路，但把待办、想法、学习各拆成四条，标准行为、全局规则、技术预研都被当成同一级痛点。</p>
-        <ul><li>先锁定统一「洞察」容器</li><li>每个碎需求都画 4 屏，重复且失焦</li><li>专属结果又被统一卡片壳吞掉</li></ul>
-      </article>
-      <article class="abc-card c">
-        <div class="abc-top"><span class="abc-letter">C · 建议稿</span><span class="pill ok">从用户任务到专属结果</span></div>
-        <h3>主语是「用户记完要得到什么」</h3>
-        <p>先区分五类专属结果与通用内容，再按场景回答：用户在做什么、真正要什么、什么算同一个、结果长什么样、怎样继续用、如何回到来源。</p>
-        <ul><li>一个场景一条主链</li><li>不同内容直接长成不同产品</li><li>系统能力只作为依赖，不抢主叙事</li></ul>
-      </article>
+    <div class="sec-head"><div class="num">00</div><div><h2>产品现在是什么</h2><p class="desc">原始记录与整理后的内容各有自己的位置；用户回来时，主要消费已经整理好的结果。</p></div></div>
+    <div class="now-grid">
+      <article class="now-card"><div class="label">内容主体</div><h3>洞察 + 笔记</h3><p>洞察承载整理后可以直接使用的课程、想法与待办状态；笔记承载原始文字、录音、图片、文件和原有文件夹。</p></article>
+      <article class="now-card"><div class="label">本轮品类</div><h3>待办日程 / 想法随记 / 学习备考</h3><p>每个品类拥有自己的内容组织方式、默认界面和第一动作，不套用同一个详情页。</p></article>
+      <article class="now-card"><div class="label">用户看到的链路</div><h3>记下 → 整理完成 → 直接使用</h3><p>整理在后台完成；结果出现时主动通知。用户进入后不先挑原文、不先建合集，也不先选择生成方式。</p></article>
     </div>
-    <div class="verdict">新版不是「再把 12 条改得更像人话」，而是把拆解单位从 <em>功能点</em> 改成 <em>用户任务 → 专属结果 → 完整主链</em>。</div>
+    <div class="one-line">一条记录同时拥有两个去处：<em>在「笔记」里保留原文，在「洞察」里成为可持续使用的内容。</em></div>
   </section>
 
   <section class="sec" id="s01">
-    <div class="sec-head"><div class="num">01</div><div><h2>会议原则与附图基线</h2><p class="desc">先分清三种东西：李楠明确说过的原则、附图中的当前方案选择、仍然没有被决定的部分。</p></div></div>
-    <div class="evidence">
-      <article class="ev"><h4><span class="pill ok">会议明确原则</span></h4><ul><li>不能用一套通用能力承接所有核心场景</li><li>账单像账单、课程像课程，点进去直接消费结果</li><li>原始记录继续保留并可回溯</li><li>聚合型内容与 演示文稿／网页等生成表达是两件事</li><li>重点 场景做专属设计，长尾才走通用能力</li><li>用户只感知「触发 → 结果 → 使用」</li></ul></article>
-      <article class="ev"><h4><span class="pill info">附图当前基线</span></h4><ul><li>六类内容：待办日程、想法随记、生活管理、工作经营、学习备考、通用内容</li><li>五类要专属成品，通用内容仍保留原文与合集能力</li><li>三个界面：打开笔记、点进一条、做出一份东西</li><li>笔记业务侧只做字段定义和结果编排</li><li>统一运行时、检索、沙箱、识屏、系统记忆均不自建</li></ul></article>
-      <article class="ev"><h4><span class="pill mid">仍未拍板</span></h4><ul><li>长期最终保留哪 3–5 个 重点 场景</li><li>「生活管理／工作经营」与卡证、个人账单的归属关系</li><li>首页采用同屏、分区还是双层导航</li><li>每个场景「什么算同一个」的具体规则</li><li>生成表达的统一入口与承载方式</li><li>系统接口、权限和真实交付边界</li></ul></article>
+    <div class="sec-head"><div class="num">01</div><div><h2>整体结构</h2><p class="desc">应用底部只有洞察与笔记两个入口；文字和录音是两个明确的创建动作。</p></div></div>
+    <div class="shell">
+      <article class="shell-panel insight">
+        <div class="panel-top"><div class="panel-title"><span class="dot"></span><b>洞察</b></div><span class="tag">直接使用</span></div>
+        <div class="layer-list">
+          <div class="layer"><b>学习备考</b><span>一门课一张内容卡，直接进入精讲、快讲与出卷。</span></div>
+          <div class="layer"><b>想法随记</b><span>工作、生活、兴趣分别出现，点进后直接继续对谈。</span></div>
+          <div class="layer"><b>待办日程</b><span>今天要做什么、什么时间发生、哪些事项仍未完成。</span></div>
+        </div>
+        <div class="bottom-shell"><div class="bottom-tab active">洞察</div><div class="capture mic">录</div><div class="capture">＋</div><div class="bottom-tab">笔记</div></div>
+      </article>
+      <article class="shell-panel notes">
+        <div class="panel-top"><div class="panel-title"><span class="dot"></span><b>笔记</b></div><span class="tag purple">原始记录</span></div>
+        <div class="layer-list">
+          <div class="layer"><b>全部记录</b><span>文字、录音、图片、课件、教材、试卷和作业。</span></div>
+          <div class="layer"><b>原有文件夹</b><span>用户已有的整理方式继续保留，用于查找和编辑原文。</span></div>
+          <div class="layer"><b>来源位置</b><span>从洞察中的结论、题目或待办可以回到对应原句、录音时间点或文件页。</span></div>
+        </div>
+        <div class="bottom-shell"><div class="bottom-tab">洞察</div><div class="capture mic">录</div><div class="capture">＋</div><div class="bottom-tab active">笔记</div></div>
+      </article>
     </div>
-    <div class="quote"><b>会议的核心不是：</b>把所有原始记录自动聚到一个新页面。<br><b>会议的核心是：</b>用户做了一次自然记录后，回到笔记看到的已经是符合内容本质、能够直接使用的结果。</div>
+    <div class="structure-strip">
+      <div><b>品类只在洞察内组织</b><span>洞察按品类分段展示，不再叠加多层分类导航。</span></div>
+      <div><b>创建入口保持明确</b><span>加号创建文字笔记，录音入口开始记录声音。</span></div>
+      <div><b>原文始终可回到</b><span>洞察负责使用，笔记负责证据、编辑与查找。</span></div>
+    </div>
   </section>
 
   <section class="sec" id="s02">
-    <div class="sec-head"><div class="num">02</div><div><h2>两稿逐维对比</h2><p class="desc">以下不是文案优劣，而是产品定义层级的差异。</p></div></div>
-    <table>
-      <tr><th style="width:13%">维度</th><th style="width:25%">A · 能力规划稿</th><th style="width:25%">B · 12 痛点稿</th><th>C · 新稿应该怎么写</th></tr>
-      <tr><td><b>开篇回答什么</b></td><td>为什么做个人知识库、怎么做到调得动</td><td>12 个痛点和统一的洞察结构</td><td><b>六类内容里，用户记完分别要得到什么结果</b></td></tr>
-      <tr><td><b>拆解单位</b></td><td>技术能力块：语义检索、索引、门控、承接</td><td>功能问题：每场景固定 4 条</td><td><b>一个真实用户任务／一个专属结果</b></td></tr>
-      <tr><td><b>用户语言</b></td><td>后台术语多，几乎看不到真实动作</td><td>有现象，但混入分类、主数据、阈值等实现语言</td><td>「我在做什么 → 我记完想得到什么」；实现规则单独放</td></tr>
-      <tr><td><b>结果形态</b></td><td>待办、摘要、复习大纲等能力输出</td><td>统一进入洞察／分栏／卡片，再决定下一步</td><td><b>待办中心、卡包、账单、课程主页、想法脉络各长各的样子</b></td></tr>
-      <tr><td><b>聚合与生成</b></td><td>放在同一条 智能 加工流水线</td><td>默认正文，再转 演示文稿／便携式文档／电子表格</td><td><b>两个维度：</b>这些内容共同是什么；我用哪种表达消费它</td></tr>
-      <tr><td><b>交互链路</b></td><td>概念流程，没有页面证据</td><td>12 条 × 4 屏，来源／确认／异常重复出现</td><td><b>每个场景一条 4–6 步主链；共用规则集中说明一次</b></td></tr>
-      <tr><td><b>应用 框架</b></td><td>仍默认 应用 主体只有笔记</td><td>提前锁定两个 页签、固定一级分栏</td><td>先承认 应用 同时承载专属结果和原始记录；导航待场景形态出来后决定</td></tr>
-      <tr><td><b>架构边界</b></td><td>笔记自建大量系统能力</td><td>假设散落在每条链路中</td><td><b>笔记只定义字段和结果编排；系统能力全是依赖</b></td></tr>
-    </table>
-    <div class="call red"><strong>两稿共同的问题</strong><p>都在结果形态确定之前，先把“系统如何处理内容”写得很完整。A 用技术能力抢主叙事，B 用统一容器和 48 个页面抢主叙事。真正缺的仍是：每一类内容最终到底是什么产品。</p></div>
+    <div class="sec-head"><div class="num">02</div><div><h2>洞察首页</h2><p class="desc">首页按品类分段，每张内容卡都是可以直接进入和继续使用的内容。</p></div></div>
+    <div class="home-frame">
+      <div class="home-head"><h3>洞察</h3><span>整理完成的内容会出现在这里</span></div>
+      <div class="category">
+        <div class="category-head"><b>学习备考</b><span>按一门课组织</span></div>
+        <div class="content-row">
+          <article class="content-card"><div class="kicker">本学期 · 6 / 16 堂</div><b>大学物理</b><p>刚整理：动量守恒与碰撞<br>作业 2 项 · 下次课周四 14:00</p><span class="action">快讲 / 精讲 / 出卷 →</span></article>
+          <article class="content-card"><div class="kicker">本学期 · 4 / 14 堂</div><b>概率论</b><p>最近重点：条件概率<br>往年试卷已关联 3 份</p><span class="action">开始复习 →</span></article>
+          <article class="content-card"><div class="kicker">刚刚更新</div><b>高等数学</b><p>新课件和课堂录音已归入<br>复习内容正在整理</p><span class="action">查看进度 →</span></article>
+        </div>
+      </div>
+      <div class="category">
+        <div class="category-head"><b>想法随记</b><span>工作、生活、兴趣分开</span></div>
+        <div class="content-row">
+          <article class="content-card idea"><div class="kicker">工作想法 · 已挂载 12 条</div><b>AI 笔记下一步</b><p>最近聚焦：让用户先看到结果<br>仍需想清：洞察如何持续更新</p><span class="action">继续对谈 →</span></article>
+          <article class="content-card idea"><div class="kicker">生活随记 · 已挂载 7 条</div><b>九月生活安排</b><p>搬家、运动和家庭计划已整理<br>今天有 2 件事可以推进</p><span class="action">继续对谈 →</span></article>
+          <article class="content-card idea"><div class="kicker">兴趣 · 已挂载 9 条</div><b>周末钓鱼</b><p>地点、装备与天气偏好已经关联<br>上次未解决：线组选择</p><span class="action">继续对谈 →</span></article>
+        </div>
+      </div>
+      <div class="category">
+        <div class="category-head"><b>待办日程</b><span>今天与接下来</span></div>
+        <div class="content-row">
+          <article class="content-card todo"><div class="kicker">今天 · 4 件</div><b>先做这两件</b><p>提交评审材料 · 15:00<br>确认课程方案 · 17:30</p><span class="action">进入待办中心 →</span></article>
+          <article class="content-card todo"><div class="kicker">从昨天延续</div><b>2 件未完成</b><p>回复设计问题<br>补充用户数据</p><span class="action">查看并改期 →</span></article>
+          <article class="content-card todo"><div class="kicker">接下来</div><b>明天 10:00 方案会</b><p>地点：会议室 A03<br>相关笔记与材料已挂载</p><span class="action">进入日历 →</span></article>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="sec" id="s03">
-    <div class="sec-head"><div class="num">03</div><div><h2>正确的内容结构</h2><p class="desc">先从用户需求分出六类内容，再决定每类内容应该以什么形态存在。</p></div></div>
-    <div class="six">
-      <article class="six-card"><h4>待办与日程</h4><p class="want">到点有人提醒我；没完成的别消失；需要时知道为什么记。</p><div class="out">专属结果：待办中心／日程</div></article>
-      <article class="six-card"><h4>想法随记</h4><p class="want">回头知道最近在想什么、想到哪了，还能接着往下想。</p><div class="out">专属结果：想法脉络／持续对谈</div></article>
-      <article class="six-card"><h4>生活管理</h4><p class="want">证件、卡片、密码等需要时马上找得到，授权后能直接取用。</p><div class="out">专属结果：卡包</div></article>
-      <article class="six-card"><h4>工作经营</h4><p class="want">这个月的账算清给我；知道花了多少、花在哪、哪笔有问题。</p><div class="out">当前示例：账单（归属待确认）</div></article>
-      <article class="six-card"><h4>学习备考</h4><p class="want">一门课的东西都在一处；考前直接复习、抓考点、确认会不会。</p><div class="out">专属结果：一门课的复习主页</div></article>
-      <article class="six-card general"><h4>通用内容</h4><p class="want">不一定长期用，先完整存住；之后找得到、能组成合集、能做成一份东西。</p><div class="out">通用结果：原文＋合集＋按需生成</div></article>
-    </div>
-    <div class="forms">
-      <article class="form ded"><h3>五类核心场景：各自的专属结果</h3><p>打开笔记先看到结果本身，而不是一篇正文中的一段。每类结果可以有不同字段、不同布局、不同第一动作。</p><div class="items"><span>待办中心</span><span>卡包</span><span>账单</span><span>课程主页</span><span>想法脉络</span></div></article>
-      <article class="form gen"><h3>通用内容：原文仍是主体</h3><p>原文保留、可以被找到和组成合集；需要时再生成网页、导图、演示或自测题。通用路径不是核心场景的默认壳。</p><div class="items"><span>原文</span><span>合集</span><span>网页</span><span>导图</span><span>演示</span></div></article>
-    </div>
-    <div class="call green"><strong>两种维度必须分开</strong><p><b>聚合</b>回答“这些内容共同是什么”；<b>生成表达</b>回答“我用什么方式消费它”。课程主页本身已经是结果，复习导图只是它的另一种表达；想法脉络本身已经是结果，汇报 演示文稿 是按需再做的一份东西。</p></div>
+    <div class="sec-head"><div class="num">03</div><div><h2>学习备考</h2><p class="desc">课程表、课堂、课件、教材、试卷和作业围绕同一门课持续组织，进入课程后直接开始复习。</p></div></div>
+    <article class="scene">
+      <div class="scene-top"><div><h3>一门课是一份持续更新的学习内容</h3><p>课程从学期课表开始建立；每一堂课、每一份材料和每一次作业都进入同一门课。</p></div><span class="result-chip">结果：课程复习页</span></div>
+      <div class="journey">
+        <div class="jstep"><div class="jn">01 · 建立课程</div><b>拍下或截屏课程表</b><p>识别课程、星期、时间和教室，一键加入日历。</p></div>
+        <div class="jstep"><div class="jn">02 · 形成课次</div><b>日历认清一门课与一堂课</b><p>每次上课都属于同一学期的同一门课程。</p></div>
+        <div class="jstep"><div class="jn">03 · 上课提醒</div><b>开课前主动提醒</b><p>提醒中带课程入口、地点和本堂课需要准备的内容。</p></div>
+        <div class="jstep"><div class="jn">04 · 完整记录</div><b>按课程设置自动录音</b><p>到点开始；点晚时可接上近几分钟，尽量不丢课堂开头。</p></div>
+        <div class="jstep"><div class="jn">05 · 材料归课</div><b>保存课件、教材、真题和作业</b><p>用户只负责保存，内容自动进入对应课程。</p></div>
+        <div class="jstep"><div class="jn">06 · 生成课程</div><b>洞察中出现这门课</b><p>多堂课持续整理为课程内容，完成后主动通知。</p></div>
+        <div class="jstep"><div class="jn">07 · 直接复习</div><b>快讲、精讲、出卷</b><p>先给复习与考试需要的内容，不先给原始材料列表。</p></div>
+        <div class="jstep"><div class="jn">08 · 回到日程</div><b>作业与进度回到下一堂课</b><p>下一次上课时可直接看到作业进度、课程入口和相关材料。</p></div>
+      </div>
+      <div class="course-result">
+        <article class="result-card">
+          <h3>大学物理 · 课程复习页</h3><p>内容围绕课程进度和复习任务组织，而不是按文件时间排列。</p>
+          <div class="metric-row"><div class="metric"><b>6 / 16</b><span>已完成课次</span></div><div class="metric"><b>4</b><span>待复习考点</span></div><div class="metric"><b>2</b><span>待完成作业</span></div></div>
+          <div class="action-row"><span class="action-btn">10 分钟快讲</span><span class="action-btn">完整精讲</span><span class="action-btn">生成一套卷子</span></div>
+        </article>
+        <article class="result-card">
+          <h3>这门课包含的内容</h3><p>来源被整理进课程，但只在需要核对时展开。</p>
+          <div class="source-list"><div class="source"><span>课堂录音</span><span>6 段</span></div><div class="source"><span>课堂课件</span><span>8 份</span></div><div class="source"><span>电子教材</span><span>1 本</span></div><div class="source"><span>往年试卷与作业</span><span>7 份</span></div></div>
+        </article>
+      </div>
+    </article>
   </section>
 
   <section class="sec" id="s04">
-    <div class="sec-head"><div class="num">04</div><div><h2>三个界面</h2><p class="desc">附图里的三个界面不是页面数量，而是三种用户意图。</p></div></div>
-    <div class="screens">
-      <article class="screen"><div class="screen-n">界面 01</div><h3>打开笔记</h3><p>最上面是已经整理好的专属结果；后面才是最近原始记录。</p><div class="screen-box"><b>先看到的</b><div>今天要做的 4 件事</div><div>大学物理 · 已上 6 堂</div><div>本月账单 · 数字默认隐藏</div><div>最近想法 · 3 个待继续问题</div></div></article>
-      <article class="screen"><div class="screen-n">界面 02</div><h3>点进一条</h3><p>直接进入那份结果，不经过统一详情页；识别出来的来源挂在旁边。</p><div class="screen-box"><b>每类结果的第一动作</b><div>待办：完成／改期／看来源</div><div>想法：看脉络／继续对谈</div><div>课程：精讲／快讲／自测</div><div>卡证：查看／复制／授权调用</div></div></article>
-      <article class="screen"><div class="screen-n">界面 03</div><h3>做出一份东西</h3><p>两类内容都能按需生成新表达，生成不是核心场景的必经步骤。</p><div class="screen-box"><b>入口</b><div>顶部问一句</div><div>结果页切换表达</div><div>合集页按需生成</div><div>生成网页、导图、演示、自测题</div></div></article>
-    </div>
+    <div class="sec-head"><div class="num">04</div><div><h2>想法随记</h2><p class="desc">工作、生活与兴趣分别整理；点击一段想法，直接进入已经挂载相关记录的持续对谈。</p></div></div>
+    <article class="scene">
+      <div class="scene-top"><div><h3>想法以“继续聊下去”为第一动作</h3><p>洞察首页直接展示每段持续想法，不再增加一层想法目录。</p></div><span class="result-chip purple">结果：持续对谈</span></div>
+      <div class="idea-types">
+        <div class="idea-type"><b>工作想法</b><span>产品判断、项目思路、会议后的继续思考。</span></div>
+        <div class="idea-type"><b>生活随记</b><span>家庭安排、个人计划、日常感受与决定。</span></div>
+        <div class="idea-type"><b>兴趣</b><span>钓鱼、游戏、旅行等长期反复记录的主题。</span></div>
+      </div>
+      <div class="journey">
+        <div class="jstep"><div class="jn">01 · 随手记下</div><b>文字、语音、图片都可以</b><p>每次记录保持原样，继续留在笔记中。</p></div>
+        <div class="jstep"><div class="jn">02 · 分开整理</div><b>工作、生活、兴趣互不混放</b><p>同一段持续想法的记录被放到一起。</p></div>
+        <div class="jstep"><div class="jn">03 · 出现在洞察</div><b>标题与最近思考直接可见</b><p>首页显示当前判断、变化和没想清的问题。</p></div>
+        <div class="jstep"><div class="jn">04 · 进入对谈</div><b>相关记录已经显性挂载</b><p>用户能看到用了哪些内容，并沿着它继续聊。</p></div>
+      </div>
+      <div class="course-result">
+        <article class="result-card purple">
+          <h3>AI 笔记下一步</h3><p>最近 12 条工作想法已经挂载；内容会随着新记录继续更新。</p>
+          <div class="dialog">
+            <div class="dialog-head"><b>继续对谈</b><span class="attached">＋ 已挂载 12 条记录</span></div>
+            <div class="bubble ai">你最近反复提到两个方向：一是打开后先看到可以直接使用的内容；二是课程、想法和待办都有明确的第一动作。现在可以继续细化的是洞察首页怎样承接这三类内容。</div>
+            <div class="bubble me">把这两个方向串成一个可以评审的产品方案。</div>
+            <div class="bubble ai">可以先从两层内容结构开始，再分别展开课程、想法和待办的第一动作。每一部分都只写用户看到什么、点了会怎样。</div>
+            <div class="dialog-input">继续输入你的想法……</div>
+          </div>
+        </article>
+        <article class="result-card purple">
+          <h3>对谈中可以继续做的事</h3><p>对谈不是一次问答，而是一段持续推进的思考。</p>
+          <div class="source-list"><div class="source"><span>梳理最近判断</span><span>继续</span></div><div class="source"><span>找出仍未想清的问题</span><span>继续</span></div><div class="source"><span>形成下一步行动</span><span>继续</span></div><div class="source"><span>切换为网页或演示文稿</span><span>可选</span></div><div class="source"><span>查看挂载的原始记录</span><span>来源</span></div></div>
+        </article>
+      </div>
+    </article>
   </section>
 
   <section class="sec" id="s05">
-    <div class="sec-head"><div class="num">05</div><div><h2>三条重点场景主链</h2><p class="desc">不再把一个场景拆成四条平级痛点。每个场景只保留一个主任务、一个专属结果、一条从触发到继续使用的完整链。</p></div></div>
-
+    <div class="sec-head"><div class="num">05</div><div><h2>待办日程</h2><p class="desc">记录里的行动真正进入执行系统；没有完成的持续出现在今天，带时间的事项进入日历并按时提醒。</p></div></div>
     <article class="scene">
-      <div class="scene-head"><div><h3>待办与日程：记下后，事情要真的被办起来</h3><p>不是“正文有没有识别出待办”的功能问题，而是用户从记下一句话到系统真的提醒、完成、回溯上下文的完整任务。</p></div><span class="scene-shape">结果：待办中心／日程</span></div>
-      <div class="job"><div class="job-card"><span>用户在做的事</span><b>开会、录音、拍图时顺手记下一件要做的事</b></div><div class="job-card"><span>记完真正要什么</span><b>到点提醒；没完成第二天还在；知道为什么记</b></div><div class="job-card"><span>产品必须给</span><b>一次确认后进入系统待办或日历，原始记录始终可回看</b></div></div>
-      <div class="chain"><div class="step"><div class="sn">01 · 自然记录</div><b>写下／说出那句话</b><p>用户不切应用，不先判断它是笔记还是待办。</p></div><div class="arr">→</div><div class="step"><div class="sn">02 · 必要确认</div><b>认出行动与时间</b><p>在原文旁确认一次；抽错可取消，原文不变。</p></div><div class="arr">→</div><div class="step"><div class="sn">03 · 专属结果</div><b>进入待办中心／日历</b><p>主数据在系统对应位置，不在笔记再造一份。</p></div><div class="arr">→</div><div class="step"><div class="sn">04 · 持续承接</div><b>提醒、结转、完成</b><p>未完成第二天仍出现；完成状态各端一致。</p></div><div class="arr">→</div><div class="step"><div class="sn">05 · 回到来源</div><b>回到当时那句话</b><p>文字定位原句，录音定位时间点，图片定位区域。</p></div></div>
-      <div class="ruleline"><b>合并原 P1–P4：</b>P1 是入口，P2/P3 是待办结果的标准行为，P4 上升为所有专属结果共用的来源规则。</div>
-    </article>
-
-    <article class="scene">
-      <div class="scene-head"><div><h3>想法随记：以后还能想得起来，并继续往下想</h3><p>真正的问题不是工作和生活有没有分栏，而是一条时间流把同一个想法拆散了；回看时不知道自己想到哪，也无法接着想。</p></div><span class="scene-shape">结果：想法脉络／持续对谈</span></div>
-      <div class="job"><div class="job-card"><span>用户在做的事</span><b>不同时间用文字、语音、图片反复记录同一个问题</b></div><div class="job-card"><span>记完真正要什么</span><b>看见最近的判断、变化、没想清的问题，继续往下想</b></div><div class="job-card"><span>产品必须给</span><b>同一想法的脉络本身；对谈是继续使用的动作，不是唯一结果</b></div></div>
-      <div class="chain"><div class="step"><div class="sn">01 · 多次记录</div><b>同一个想法散落多处</b><p>原始记录保持独立，用户不需要手动建合集。</p></div><div class="arr">→</div><div class="step"><div class="sn">02 · 识别关系</div><b>连成同一个想法</b><p>系统给出关系；判断不准时不静默合并。</p></div><div class="arr">→</div><div class="step"><div class="sn">03 · 专属结果</div><b>先呈现想法脉络</b><p>我原来怎么想、现在怎么想、哪些点仍没想清。</p></div><div class="arr">→</div><div class="step"><div class="sn">04 · 继续使用</div><b>显性挂载后接着对谈</b><p>界面显示挂载了哪些来源，让用户沿着同一组记录持续对话。</p></div><div class="arr">→</div><div class="step"><div class="sn">05 · 按需表达</div><b>需要时做成一份东西</b><p>转成汇报、网页或导图，但不改变原始内容身份。</p></div></div>
-      <div class="ruleline"><b>重写原 P5–P8：</b>P5 从“固定工作/生活分栏”改为“同一个想法的脉络”；P6 是核心；P7 的对谈是继续动作；P8 下沉为跨场景生成表达。</div>
-    </article>
-
-    <article class="scene">
-      <div class="scene-head"><div><h3>学习备考：一门课的东西都在一处，考前直接能复习</h3><p>主链不是“忘了录音怎么办”，而是课程表、课堂、课件、教材、真题、作业怎样围绕同一门课形成一个复习主页。</p></div><span class="scene-shape">结果：一门课的复习主页</span></div>
-      <div class="job"><div class="job-card"><span>用户在做的事</span><b>上课、保存课件与作业、找教材与真题、考前复习</b></div><div class="job-card"><span>记完真正要什么</span><b>该看什么、考什么、自己会不会；所有答案能回到课次</b></div><div class="job-card"><span>产品必须给</span><b>课程主页直接承载精讲、快讲、自测和资料来源</b></div></div>
-      <div class="chain"><div class="step"><div class="sn">01 · 建立课程</div><b>课程表进入日历</b><p>识别出课程与课次关系，形成学期结构。</p></div><div class="arr">→</div><div class="step"><div class="sn">02 · 自动归入</div><b>录音、课件、教材、真题</b><p>保存后归到这门课，用户不用选文件夹。</p></div><div class="arr">→</div><div class="step"><div class="sn">03 · 专属结果</div><b>打开课程复习主页</b><p>先看进度、考点和该复习什么，资料列表退后。</p></div><div class="arr">→</div><div class="step"><div class="sn">04 · 直接使用</div><b>精讲／快讲／自测</b><p>每个知识点与题目都能回到具体课次和材料。</p></div><div class="arr">→</div><div class="step"><div class="sn">05 · 回到日程</div><b>复习与作业状态回链</b><p>下一堂课里能看到进度与课程入口。</p></div></div>
-      <div class="ruleline"><b>重组原 P9–P12：</b>P9/P11 是主链核心；P12 作为课程主页后续模块；P10 自动录音／端侧回溯属于捕获可靠性探索，不能成为课程价值成立的前提。</div>
+      <div class="scene-top"><div><h3>一句话从记录变成可执行事项</h3><p>原句继续保留；行动、时间和来源在一次确认后进入待办中心或日历。</p></div><span class="result-chip amber">结果：待办中心 / 日历</span></div>
+      <div class="journey">
+        <div class="jstep"><div class="jn">01 · 记下行动</div><b>写下或说出一件要做的事</b><p>可以来自会议笔记、录音、图片或随手一句话。</p></div>
+        <div class="jstep"><div class="jn">02 · 认出时间</div><b>区分待办与日程</b><p>没有明确时间的进入待办；带时间地点的进入日历。</p></div>
+        <div class="jstep"><div class="jn">03 · 确认写入</div><b>在原文旁确认一次</b><p>用户知道写入什么、去到哪里，并可立即修改。</p></div>
+        <div class="jstep"><div class="jn">04 · 持续执行</div><b>提醒、延续、完成</b><p>没完成的自动出现在下一天；到点事项跨端提醒。</p></div>
+      </div>
+      <div class="todo-split">
+        <article class="todo-card"><h4>待办中心 · 今天</h4><p>先显示今天真正要做的事，未完成事项持续延续。</p><div class="todo-items"><div class="todo-item"><span class="check"></span><div><b>提交 OS5 评审方案</b><span>今天 15:00 · 来源：会议记录</span></div></div><div class="todo-item"><span class="check"></span><div><b>确认课程首页结构</b><span>从昨天延续 · 来源：产品想法</span></div></div><div class="todo-item"><span class="check"></span><div><b>回复设计问题</b><span>今天 · 无固定时间</span></div></div></div></article>
+        <article class="todo-card"><h4>日历 · 下一场</h4><p>带时间的事项进入日历，详情里同时带上相关记录和材料。</p><div class="todo-items"><div class="todo-item"><span class="check"></span><div><b>10:00–11:00 · 产品方案会</b><span>会议室 A03 · 30 分钟前提醒</span></div></div><div class="todo-item"><span class="check"></span><div><b>相关材料</b><span>方案正文、三条主链、讨论记录</span></div></div><div class="todo-item"><span class="check"></span><div><b>回到来源</b><span>定位记录中的原句与录音时间点</span></div></div></div></article>
+      </div>
     </article>
   </section>
 
   <section class="sec" id="s06">
-    <div class="sec-head"><div class="num">06</div><div><h2>现有 12 条怎么处理</h2><p class="desc">不是全部推翻，而是重新归位：核心任务、标准行为、共用规则、技术探索不能放在同一层。</p></div></div>
-    <div class="disp">
-      <article class="disp-card"><h4>强保留 <span class="pill ok">5 条</span></h4><ul><li>P1：记录中的行动无需再录一遍</li><li>P4：结果必须能回到来源</li><li>P6：同一件事的记录要建立关系</li><li>P9：一门课的材料自动归一处</li><li>P11：考前先给该看什么和自测</li></ul></article>
-      <article class="disp-card"><h4>并入主链 <span class="pill info">4 条</span></h4><ul><li>P2：统一的今天 → 待办结果行为</li><li>P3：未完成结转 → 待办结果行为</li><li>P7：对谈 → 想法的继续动作</li><li>P12：作业 → 课程主页后续模块</li></ul></article>
-      <article class="disp-card"><h4>重新定义 <span class="pill mid">2 条</span></h4><ul><li>P5：不再以固定工作/生活分栏为核心，改为同一个想法的脉络</li><li>P8：不再属于想法专属需求，改为所有内容的按需生成表达</li></ul></article>
-      <article class="disp-card"><h4>移到技术预研 <span class="pill bad">1 条</span></h4><ul><li>P10：到点自动录音、端侧回溯录音涉及功耗、隐私、合规和系统能力</li><li>可以探索，但不能让课程主链依赖它才成立</li></ul></article>
+    <div class="sec-head"><div class="num">06</div><div><h2>内容消费结构</h2><p class="desc">每个品类先给最适合它的默认界面；表达方式、来源和继续操作都围绕这份内容展开。</p></div></div>
+    <div class="consume-grid">
+      <article class="consume"><span class="tag">学习备考</span><h3>课程复习页</h3><p>默认直接进入课程内容。</p><ul><li>第一动作：快讲、精讲、出卷</li><li>持续更新：新课次、课件、作业</li><li>来源：课堂录音、教材、真题</li></ul></article>
+      <article class="consume"><span class="tag purple">想法随记</span><h3>持续对谈</h3><p>默认直接进入已挂载内容的对谈。</p><ul><li>第一动作：沿着当前思考继续聊</li><li>持续更新：新的随记进入同一主题</li><li>来源：显性显示已挂载记录</li></ul></article>
+      <article class="consume"><span class="tag amber">待办日程</span><h3>待办中心 / 日历</h3><p>默认直接进入执行位置。</p><ul><li>第一动作：完成、改期、查看下一项</li><li>持续更新：未完成延续、时间提醒</li><li>来源：回到原句或录音位置</li></ul></article>
     </div>
-    <table>
-      <tr><th>旧编号</th><th>旧表述的问题</th><th>新位置</th><th>建议的新表述</th></tr>
-      <tr><td>P1</td><td>把产品任务写成“正文有没有被当成待办”</td><td>待办主链入口</td><td><b>我在记录里写下要做的事，不想再去待办应用录第二遍。</b></td></tr>
-      <tr><td>P2 + P3</td><td>两个标准待办功能占了两个核心痛点</td><td>待办结果行为</td><td><b>打开就知道今天该做什么；没完成的明天仍然在。</b></td></tr>
-      <tr><td>P4</td><td>被限定在待办</td><td>全局来源规则</td><td><b>任何结论、字段、任务和题目都能回到原始证据。</b></td></tr>
-      <tr><td>P5 + P6</td><td>把分类方法当成用户需求</td><td>想法主链</td><td><b>同一个想法记过很多次，回看时我要知道自己现在想到哪了。</b></td></tr>
-      <tr><td>P7</td><td>把对谈当成唯一结果</td><td>想法继续动作</td><td><b>先让我看见想法脉络，再带着这些记录接着聊。</b></td></tr>
-      <tr><td>P8</td><td>误放在想法场景中</td><td>跨场景生成表达</td><td><b>任何原始内容或专属结果，都能按需换一种表达。</b></td></tr>
-      <tr><td>P9 + P11</td><td>本来属于同一门课的一条主链</td><td>学习主链核心</td><td><b>一门课的东西都在一处；打开就能复习、抓考点、做自测。</b></td></tr>
-      <tr><td>P10</td><td>技术方案抢占需求层</td><td>捕获可靠性预研</td><td><b>课程主链不依赖常录；可另行验证自动录音是否可行。</b></td></tr>
-      <tr><td>P12</td><td>范围扩到作业管理和辅导</td><td>课程主页第二阶段</td><td><b>作业保存后归入这门课，完成状态可回到课程日程。</b></td></tr>
-    </table>
+    <div class="anatomy">
+      <article class="anatomy-card"><h3>一份洞察的界面组成</h3><div class="anatomy-row"><b>标题与状态</b><span>内容名称、最近更新时间、当前进度。</span></div><div class="anatomy-row"><b>可直接使用的正文</b><span>课程内容、当前想法或今日待办，不先展示原始文件列表。</span></div><div class="anatomy-row"><b>品类第一动作</b><span>复习、对谈、执行，进入后马上可以做。</span></div><div class="anatomy-row"><b>表达方式</b><span>正文为默认，可显性切换为网页、演示文稿、便携式文档或电子表格。</span></div><div class="anatomy-row"><b>来源入口</b><span>需要核对时展开原始笔记、录音、图片和文件。</span></div></article>
+      <article class="anatomy-card secondary"><h3>内容完成后的动作</h3><div class="anatomy-row"><b>主动通知</b><span>课程、想法或其他内容整理完成后通知用户，不靠用户自己发现。</span></div><div class="anatomy-row"><b>持续更新</b><span>新记录继续进入同一门课或同一段想法，内容状态同步变化。</span></div><div class="anatomy-row"><b>原文保留</b><span>整理、对谈和表达切换都不覆盖原始记录。</span></div><div class="anatomy-row"><b>双向抵达</b><span>洞察能回到来源，原始笔记也能进入对应洞察。</span></div></article>
+    </div>
   </section>
 
   <section class="sec" id="s07">
-    <div class="sec-head"><div class="num">07</div><div><h2>共用产品规则</h2><p class="desc">这些规则不应在每条链路中重复画 12 遍，而应作为所有专属结果共同遵守的底线。</p></div></div>
-    <table>
-      <tr><th style="width:20%">规则</th><th>统一要求</th><th style="width:28%">用户看到什么</th></tr>
-      <tr><td><b>原始内容保留</b></td><td>原始文字、录音、图片、文件不因聚合或生成被改写、删除或合成一篇。</td><td>随时回原文；结果与来源同时存在。</td></tr>
-      <tr><td><b>来源可回溯</b></td><td>字段、结论、任务、考点、题目都保存来源关系。</td><td>文字到原句、录音到时间点、图片到区域、文件到页码。</td></tr>
-      <tr><td><b>外部动作先确认</b></td><td>写入待办、日历、通讯录等系统位置前让用户明确确认。</td><td>知道将写到哪里、写入什么；可取消。</td></tr>
-      <tr><td><b>敏感内容先授权</b></td><td>卡证、密码、金额、身份信息默认遮蔽；调用范围由用户授权。</td><td>默认不裸露；按次或持续授权后取用。</td></tr>
-      <tr><td><b>错误不污染结果</b></td><td>低置信度不自动成立；用户纠错不改变原始记录。</td><td>不确定项单独提示；可纠正、可撤销。</td></tr>
-      <tr><td><b>系统能力不可用时降级</b></td><td>识别、聚合、生成失败不阻塞记录。</td><td>原始内容仍完整存下；稍后重试或手动指定。</td></tr>
-    </table>
-  </section>
-
-  <section class="sec" id="s08">
-    <div class="sec-head"><div class="num">08</div><div><h2>业务架构边界</h2><p class="desc">附图已经把笔记业务侧的职责收得很清楚：只做两件事，往下调系统已有能力。</p></div></div>
-    <div class="arch">
-      <article class="arch-box biz"><h3>笔记业务侧只做两件事</h3><ol><li><b>定义抽哪些字段</b><br>先抽通用字段，再判断品类并补抽专属字段；同时定义什么算同一个、哪些字段可跨篇关联。</li><li><b>定义内容怎样编排成结果</b><br>提炼素材 → 组织结构 → 结果形态 → 适用样式；封装成业务工具供笔记和其他子智能体调用。</li></ol></article>
-      <article class="arch-box sys"><h3>以下都是系统依赖，笔记不自建</h3><div class="system-grid"><div class="sys"><b>统一智能体运行时</b><span>以子智能体身份接入</span></div><div class="sys"><b>语义检索与索引</b><span>只交字段与检索规则</span></div><div class="sys"><b>内容生成渲染</b><span>只交素材包与编排指令</span></div><div class="sys"><b>屏幕内容获取</b><span>定义抓什么、存成什么</span></div><div class="sys"><b>记忆与个人数据</b><span>只交属于笔记的那部分数据</span></div></div></article>
+    <div class="sec-head"><div class="num">07</div><div><h2>完整使用闭环</h2><p class="desc">一次自然记录从保存到使用，最终同时沉淀为可查的原文和可持续消费的洞察。</p></div></div>
+    <div class="loop">
+      <div class="loop-step"><div class="ln">01</div><b>自然记录</b><p>写一句、说一段、拍一张、保存一个文件。</p></div>
+      <div class="loop-step"><div class="ln">02</div><b>原文落入笔记</b><p>原始内容完整保存，可以继续编辑和查找。</p></div>
+      <div class="loop-step"><div class="ln">03</div><b>进入对应品类</b><p>课程、想法、待办日程分别按自己的规则组织。</p></div>
+      <div class="loop-step"><div class="ln">04</div><b>洞察持续形成</b><p>多次记录进入同一门课、同一段想法或同一执行链。</p></div>
+      <div class="loop-step"><div class="ln">05</div><b>完成后通知</b><p>用户知道新内容已经可以使用。</p></div>
+      <div class="loop-step"><div class="ln">06</div><b>直接消费</b><p>复习、对谈、执行，也可以回到任何一条来源。</p></div>
     </div>
-    <div class="call blue"><strong>不做的</strong><p>不自建智能体框架、不自建记忆库、不自建检索引擎；不把多人协作、专业排版与文档编辑器当成本轮核心产品定义。</p></div>
-  </section>
-
-  <section class="sec" id="s09">
-    <div class="sec-head"><div class="num">09</div><div><h2>未决项</h2><p class="desc">没有被会议或附图确认的内容，不在稿子里替团队做决定。</p></div></div>
-    <div class="open-list">
-      <div class="open"><b>待决策 01 · 下一轮先对齐哪 1–2 个场景</b><span>建议用“想法随记 + 学习备考”或“待办 + 学习备考”验证两种不同结果形态，但这只是建议。</span></div>
-      <div class="open"><b>待决策 02 · 长期 重点 场景最终范围</b><span>附图当前有五类专属结果；会议只要求先选少数做透，没有逐项拍板最终五类。</span></div>
-      <div class="open"><b>待定义 03 · 每类什么算同一个</b><span>同一课程、同一想法、同一账期、同一卡证的边界必须逐类定义。</span></div>
-      <div class="open"><b>待设计 04 · 首页怎么同时承载两类内容</b><span>专属结果与原始记录是同屏、上下分区还是双层导航，等 1–2 个场景形态出来后再定。</span></div>
-      <div class="open"><b>待确认 05 · 账单归属</b><span>附图把生活管理、工作经营分开，但个人月账单更像生活管理；工作经营是否应为经营台账，需要确认。</span></div>
-      <div class="open"><b>待对齐 06 · 系统真实交付边界</b><span>待办／日历写入、课程识别、生成渲染、记忆读取、权限授权分别由谁承接。</span></div>
-      <div class="open"><b>待预研 07 · 自动录音与端侧回溯</b><span>功耗、隐私、合规和系统接口先验证；不把它写成课程主链成立的前提。</span></div>
-      <div class="open"><b>待设计 08 · 生成表达的统一入口</b><span>顶部问一句、结果页切换还是合集页触发；可以多入口，但用户心智要一致。</span></div>
+    <div class="two-dest">
+      <article class="dest"><h3>洞察</h3><p>用户回来继续使用的内容：课程复习页、持续对谈、待办中心与日历。</p></article>
+      <article class="dest notes"><h3>笔记</h3><p>用户保存和核对的原始内容：文字、录音、图片、课件、教材、试卷与作业。</p></article>
     </div>
+    <div class="call"><strong>最终体验</strong><p>用户只负责自然地记下内容；应用负责把它放到正确的位置、持续整理，并在可以使用时把结果送到用户面前。</p></div>
   </section>
 
-  <footer>OS5 笔记 · 两版方案对比与需求重构 · 独立稿 · 2026-09-10</footer>
+  <footer>OS5 笔记 · 洞察产品方案</footer>
 </div></main>
 <script>
   const links=[...document.querySelectorAll('.nav a')];
-  const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
-  const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id));});},{rootMargin:'-35% 0px -58% 0px'});
-  secs.forEach(s=>io.observe(s));
+  const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+entry.target.id));});},{rootMargin:'-35% 0px -58% 0px'});
+  sections.forEach(section=>observer.observe(section));
 </script>
 </body>
 </html>
