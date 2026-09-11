@@ -91,37 +91,50 @@
     }
     .source-chip strong { color: var(--ink); }
 
+    .page-shell {
+      display: grid;
+      grid-template-columns: 176px minmax(0, 1500px);
+      align-items: start;
+      gap: 22px;
+      max-width: 1720px;
+      margin: 0 auto;
+      padding: 20px clamp(14px, 2.2vw, 34px) 64px;
+    }
     .jumpbar {
       position: sticky;
-      top: 0;
+      top: 20px;
       z-index: 30;
-      padding: 10px 16px;
-      border-bottom: 1px solid rgba(215,222,234,.9);
-      background: rgba(255,255,255,.92);
+      padding: 14px 10px;
+      border: 1px solid rgba(215,222,234,.95);
+      border-radius: 18px;
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 12px 34px rgba(64,78,112,.08);
       backdrop-filter: blur(18px);
     }
+    .jump-title { margin-bottom: 8px; padding: 4px 8px 12px; border-bottom: 1px solid #e6eaf1; }
+    .jump-title small { display: block; color: var(--blue); font-size: 10px; font-weight: 800; letter-spacing: .08em; }
+    .jump-title b { display: block; margin-top: 3px; color: #2d3a55; font-size: 16px; }
     .jump-inner {
       display: flex;
-      max-width: 1320px;
-      margin: 0 auto;
-      gap: 7px;
-      overflow-x: auto;
-      scrollbar-width: none;
+      flex-direction: column;
+      gap: 4px;
+      overflow: visible;
     }
-    .jump-inner::-webkit-scrollbar { display: none; }
     .jump-inner a {
-      flex: 0 0 auto;
-      padding: 8px 12px;
+      position: relative;
+      width: 100%;
+      padding: 9px 11px;
       border-radius: 10px;
       color: #68748c;
       font-size: 13px;
       font-weight: 700;
     }
     .jump-inner a:hover, .jump-inner a.on { color: #3155ce; background: var(--blue-soft); }
+    .jump-inner a.on::before { content: ""; position: absolute; top: 9px; bottom: 9px; left: 0; width: 3px; border-radius: 99px; background: var(--blue); }
 
-    main { max-width: 1500px; margin: 0 auto; padding: 20px clamp(14px, 3vw, 42px) 64px; }
+    main { min-width: 0; margin: 0; padding: 0; }
     .flow {
-      scroll-margin-top: 76px;
+      scroll-margin-top: 24px;
       margin: 22px 0;
       padding: clamp(20px, 2.8vw, 38px);
       border: 1px solid var(--line);
@@ -242,6 +255,23 @@
     .jobs-feature-list li + li { margin-top:4px; }
     .jobs-feature-list b { color:#34435f; }
     .jobs-note { margin-top:14px; padding:13px 16px; border-radius:14px; color:#4e5b73; background:#f5f7fb; font-size:13px; text-align:center; }
+    .jobs-cross {
+      margin-top:14px;
+      padding:18px;
+      border:1px solid #cbd7fa;
+      border-radius:18px;
+      background:linear-gradient(145deg,#f3f6ff,#fbfcff);
+    }
+    .jobs-cross-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .jobs-cross-head b { font-size:16px; }
+    .jobs-cross-head span { flex:0 0 auto; padding:5px 9px; border-radius:999px; color:#4262bd; background:#e6edff; font-size:10px; font-weight:800; }
+    .jobs-cross > p { margin:7px 0 0; color:#59667f; font-size:13px; }
+    .jobs-cross-flow { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin-top:13px; }
+    .jobs-cross-step { min-width:0; padding:13px; border:1px solid #dce4f6; border-radius:13px; background:#fff; }
+    .jobs-cross-step small { display:block; color:#5571c2; font-size:9px; font-weight:800; }
+    .jobs-cross-step b { display:block; margin:5px 0 4px; color:#30405f; font-size:12px; }
+    .jobs-cross-step span { display:block; color:#6a768d; font-size:10px; line-height:1.5; }
+    .jobs-cross-note { padding-top:10px; border-top:1px dashed #cad5ed; }
 
     .tree-wrap { padding: 26px; border: 1px solid #dce3f1; border-radius: 24px; background: linear-gradient(180deg,#fbfcff,#f5f8fd); }
     .tree-root { max-width: 620px; margin: 0 auto; padding: 18px 22px; border: 1px solid #cbd7fa; border-radius: 18px; background: #fff; text-align: center; box-shadow: var(--shadow); }
@@ -264,6 +294,14 @@
     .tree-card.learn { --tone:var(--green); --soft:var(--green-soft); }
     .tree-card.card { --tone:var(--amber); --soft:var(--amber-soft); }
     .scope-note { margin-top:18px; padding:14px 16px; border:1px solid #f0d69f; border-radius:14px; color:#735520; background:var(--amber-soft); font-size:13px; text-align:center; }
+    .tree-cross { margin-top:16px; padding:16px; border:1px solid #cbd7fa; border-radius:17px; background:#fff; }
+    .tree-cross-head { display:flex; align-items:start; justify-content:space-between; gap:18px; }
+    .tree-cross-head b { color:#30405f; font-size:15px; }
+    .tree-cross-head span { max-width:720px; color:#68748a; font-size:12px; text-align:right; }
+    .tree-cross-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:12px; }
+    .tree-cross-item { padding:11px 12px; border-radius:12px; background:#f4f7fd; }
+    .tree-cross-item b { display:block; color:#4663b3; font-size:11px; }
+    .tree-cross-item span { display:block; margin-top:3px; color:#667289; font-size:10px; line-height:1.45; }
 
     .phone-grid { display:grid; grid-template-columns:repeat(auto-fit,360px); justify-content:center; align-items:start; gap:28px 22px; }
     .screen-card { width:360px; }
@@ -427,7 +465,7 @@
     .message { max-width:88%; margin-top:9px; padding:10px 11px; border-radius:14px; color:#48546c; background:#fff; font-size:10px; line-height:1.55; }
     .message.user { margin-left:auto; color:#fff; background:var(--purple); }
     .quick-prompts { display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
-    .quick-prompts span { padding:5px 7px; border:1px solid #ddd6f0; border-radius:999px; color:#6f5e9d; background:#fff; font-size:8px; }
+    .quick-prompts span, .quick-prompts a { padding:5px 7px; border:1px solid #ddd6f0; border-radius:999px; color:#6f5e9d; background:#fff; font-size:8px; }
     .chat-input { display:flex; align-items:center; gap:7px; margin-top:10px; padding:8px 9px; border:1px solid #ded8ec; border-radius:13px; color:#8d859d; background:#fff; font-size:9px; }
     .chat-input i { margin-left:auto; color:#fff; background:var(--purple); display:grid; width:24px; height:24px; place-items:center; border-radius:8px; font-style:normal; }
     .source-list { border:1px solid #e3e7ef; border-radius:15px; overflow:hidden; background:#fff; }
@@ -635,8 +673,23 @@
 
     .page-foot { max-width:1320px; margin:0 auto; padding:0 28px 72px; color:#7b869a; font-size:12px; text-align:center; }
 
+    @media (max-width: 1180px) {
+      .page-shell { display:block; max-width:none; padding:0 0 64px; }
+      .jumpbar { top:0; padding:10px 16px; border-width:0 0 1px; border-radius:0; box-shadow:none; }
+      .jump-title { display:none; }
+      .jump-inner { flex-direction:row; max-width:1320px; margin:0 auto; gap:7px; overflow-x:auto; scrollbar-width:none; }
+      .jump-inner::-webkit-scrollbar { display:none; }
+      .jump-inner a { flex:0 0 auto; width:auto; padding:8px 12px; }
+      .jump-inner a.on::before { display:none; }
+      main { max-width:1500px; margin:0 auto; padding:20px clamp(14px,3vw,42px) 0; }
+      .flow { scroll-margin-top:76px; }
+    }
     @media (max-width: 1040px) {
       .evidence-layout { grid-template-columns:1fr; }
+      .jobs-cross-flow { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .tree-cross-grid { grid-template-columns:1fr; }
+      .tree-cross-head { display:block; }
+      .tree-cross-head span { display:block; max-width:none; margin-top:5px; text-align:left; }
       .tree-branches { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .tree-branches::before, .tree-card::before { display:none; }
       .tr1-baseline { grid-template-columns:repeat(2,minmax(0,1fr)); }
@@ -654,7 +707,7 @@
       main { padding:10px 10px 50px; }
       .flow { margin:16px 0; padding:20px 14px; border-radius:20px; }
       .flow-head { margin-bottom:20px; }
-      .research-branches, .tree-branches, .tr1-baseline { grid-template-columns:1fr; }
+      .research-branches, .tree-branches, .tr1-baseline, .jobs-cross-flow { grid-template-columns:1fr; }
       .tree-process { flex-wrap:wrap; }
       .tree-process i { display:none; }
       .phone-grid { grid-template-columns:minmax(0,360px); }
@@ -677,13 +730,15 @@
       <div class="source-strip">
         <a class="source-chip" href="https://mi.feishu.cn/wiki/InmUwB2Iaih11IkXIHEcWzVqnTe" target="_blank" rel="noreferrer"><strong>战略依据</strong> · OS5 TR1 - 笔记 V4.0</a>
         <span class="source-chip"><strong>研究依据</strong> · 2026-08-14 用户与内容品类全量分析</span>
-        <span class="source-chip"><strong>页面结果</strong> · 3 张需求图 + 31 张可点击手机页</span>
+        <span class="source-chip"><strong>页面结果</strong> · 3 张需求图 + 33 张可点击手机页</span>
       </div>
     </div>
   </header>
 
-  <nav class="jumpbar" aria-label="页面目录">
-    <div class="jump-inner">
+  <div class="page-shell">
+    <nav class="jumpbar" aria-label="页面目录">
+      <div class="jump-title"><small>OS5 笔记</small><b>页面目录</b></div>
+      <div class="jump-inner">
       <a href="#evidence">真实记录</a>
       <a href="#jobs">用户任务</a>
       <a href="#product-tree">四类品类树</a>
@@ -750,7 +805,7 @@
     <section class="flow" id="jobs">
       <div class="flow-head">
         <div><div class="section-no">02 · 用户任务层</div><h2>从记录事实到具体功能，形成四层闭环</h2></div>
-        <p>每一行都从真实记录出发，穿过用户目标与产品结果，最后落到可直接使用的功能；同一条记录仍可同时产生多个结果。</p>
+        <p>每一行都从真实记录出发，穿过用户目标与产品结果，最后落到可直接使用的功能；适合对外表达的单篇或聚合结果，再叠加跨品类的表达与流转能力。</p>
       </div>
       <div class="jobs-matrix" role="table" aria-label="用户记录到具体功能的四层闭环">
         <div class="jobs-header" role="row">
@@ -791,6 +846,17 @@
           <div class="jobs-cell" data-label="最终提供的具体功能" role="cell"><ul class="jobs-feature-list"><li>字段识别与敏感信息遮罩</li><li>卡证夹搜索、字段复制</li><li>字段级授权与调用记录</li></ul></div>
         </article>
       </div>
+      <aside class="jobs-cross" aria-label="四类产品之上的表达与流转横向能力">
+        <div class="jobs-cross-head"><b>横向能力 · 表达与流转</b><span>不是第五类产品</span></div>
+        <p>四类产品回答“内容进入哪里、默认怎么用”；当单篇原文或整理后的结果还要拿去讲、发给别人或继续编辑时，再按需切换另一种表达。</p>
+        <div class="jobs-cross-flow">
+          <div class="jobs-cross-step"><small>01 · 原生结果</small><b>先在最合适的专属页里使用</b><span>想法、生活回顾、兴趣板、项目档案、课程等内容身份保持不变。</span></div>
+          <div class="jobs-cross-step"><small>02 · 换一种表达</small><b>用户需要时才生成</b><span>脑图、网页用于换一种方式看；演示文稿、文字文档、表格用于形成交付成品。</span></div>
+          <div class="jobs-cross-step"><small>03 · 预览与继续修改</small><b>拿出去之前先校对</b><span>检查事实、数字与敏感信息，可继续修改，并保留与原文和聚合结果的来源关系。</span></div>
+          <div class="jobs-cross-step"><small>04 · 分享与导出</small><b>让结果真正流转出去</b><span>可分享链接或文件，也可下载为 PDF 或可编辑文件；具体渠道与封装格式按成品决定。</span></div>
+        </div>
+        <p class="jobs-cross-note"><strong>范围边界：</strong>不预生成一堆格式，不把生成物另存成普通笔记；首发开放哪些表达、文件格式和分享渠道仍需团队圈定。待办继续走执行链，卡证继续走字段复制与授权链，不强行套用多格式导出。</p>
+      </aside>
       <div class="jobs-note">判断顺序固定为：<strong>用户在记什么 → 记完真正要完成什么 → 产品进入哪个结果 → 最终提供什么具体功能</strong>。待办高置信结果直接写入，不增加写入前确认步骤。</div>
     </section>
 
@@ -809,14 +875,22 @@
           <article class="tree-card learn"><div class="tree-order">03 · 学习</div><h3>真正学会</h3><p>把课表、课次、录音、讲义、作业归入课程，直接复习、快讲和自测。</p><span class="result">结果：课程复习页</span></article>
           <article class="tree-card card"><div class="tree-order">04 · 卡证</div><h3>精确取用</h3><p>拍入后识别关键字段，进入卡证夹；需要时复制或在明确授权下调用。</p><span class="result">结果：可调用卡证页</span></article>
         </div>
+        <div class="tree-cross">
+          <div class="tree-cross-head"><b>横向能力 · 表达与流转（不是第五个入口）</b><span>原始内容和适合表达的专属结果，都可在不改变内容身份的前提下按需“翻面”。</span></div>
+          <div class="tree-cross-grid">
+            <div class="tree-cross-item"><b>消费表达</b><span>原生专属页 ↔ 脑图 / 网页，用另一种方式理解同一内容。</span></div>
+            <div class="tree-cross-item"><b>交付成品</b><span>演示文稿 / 文字文档 / 电子表格，形成可讲、可协作、可继续编辑的结果。</span></div>
+            <div class="tree-cross-item"><b>流转动作</b><span>预览 / 修改 / 分享 / 下载 / 来源回溯；PDF 属于下载封装，不与网页、脑图混成一层。</span></div>
+          </div>
+        </div>
         <div class="scope-note"><strong>范围说明：</strong>这是当前产品选择，不是用户研究频次排名，也不是把 TR1 四大场景原样搬到首页。研究事实、用户任务与产品入口分别属于三层。</div>
       </div>
     </section>
 
     <section class="flow" id="shell">
       <div class="flow-head">
-        <div><div class="section-no">04 · 共用手机框架</div><h2>首页按四类直接进入结果，原始记录仍留在笔记</h2></div>
-        <p>底部保留洞察、录音、文字创建、笔记四个操作。洞察消费整理后的结果，笔记保留原始记录和来源。</p>
+        <div><div class="section-no">04 · 共用手机框架</div><h2>首页承接四类结果，需要时再换一种表达</h2></div>
+        <p>洞察消费整理后的结果，笔记保留原始记录和来源；适合表达的单篇或聚合结果，共用“选择形态 → 生成预览 → 分享下载”链路。</p>
       </div>
       <div class="phone-grid">
         <article class="screen-card">
@@ -867,7 +941,7 @@
             <div class="phone-body white">
               <input class="editor-title" value="阳台改造想法" aria-label="笔记标题" />
               <div class="editor-body">可以先从绿植角开始，不用一次改完。<br><br>周末去花市看看耐阴植物，记得量一下靠窗位置的宽度。<br><br><span class="editor-placeholder">继续输入…</span></div>
-              <div class="editor-tools"><span class="tool-chip">☑ 清单</span><span class="tool-chip">▧ 图片</span><span class="tool-chip">Aa 格式</span><span class="tool-chip">✦ 整理</span></div>
+              <div class="editor-tools"><span class="tool-chip">☑ 清单</span><span class="tool-chip">▧ 图片</span><span class="tool-chip">Aa 格式</span><span class="tool-chip">✦ 整理</span><a class="tool-chip" href="#phone-expression-picker">↗ 换表达</a></div>
               <div class="truth-note" style="margin-top:18px">保存后系统在后台理解：想法进入随记；明确行动会自动添加到待办。用户不需要先归类。</div>
             </div>
           </div>
@@ -887,6 +961,51 @@
             </div>
           </div>
           <p class="screen-next">点停止或“完成”保存原音频；课程内容随后出现在学习页。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>共用 05 · 换一种表达</b><span>单篇或聚合结果按需生成，不改变内容身份，也不覆盖原文。</span></div>
+          <div class="phone" id="phone-expression-picker">
+            <div class="statusbar"><span>16:42</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-insight">‹</a><div class="appbar-title"><b>换一种表达</b><span>当前示例 · 项目档案</span></div><a class="icon-btn" href="#phone-expression-output">···</a></div>
+            <div class="phone-body tint">
+              <div class="project-hero"><small>OS5 TR1 方案 · 原生结果保留</small><h3>这次要怎么使用？</h3><p>用户不选择就不生成；生成的是同一项目内容的另一种表达，不会另存为普通笔记。</p></div>
+              <div class="section-title"><b>选择表达或成品</b><span>演示文稿已选</span></div>
+              <div class="jot-kind-grid">
+                <a class="jot-kind-card work" style="box-shadow:0 0 0 2px #476ff2 inset" href="#phone-expression-output"><span class="kind-icon">演</span><b>演示文稿</b><span>拿去汇报和讲解</span></a>
+                <a class="jot-kind-card idea" href="#phone-expression-output"><span class="kind-icon">图</span><b>脑图</b><span>换一种结构理解</span></a>
+                <a class="jot-kind-card interest" href="#phone-expression-output"><span class="kind-icon">网</span><b>网页</b><span>浏览和链接分享</span></a>
+                <a class="jot-kind-card life" href="#phone-expression-output"><span class="kind-icon">表</span><b>电子表格</b><span>继续计算和编辑</span></a>
+              </div>
+              <div class="form-field" style="margin-top:9px"><label>生成范围</label><div class="field-row"><b>当前项目全部材料</b><span>›</span></div></div>
+              <div class="permission-box" style="margin-top:7px"><div class="permission-row"><span>附原始来源引用</span><span class="toggle"></span></div><div class="permission-row"><span>生成前检查敏感信息</span><span class="toggle"></span></div></div>
+              <a class="primary-btn" style="margin-top:9px" href="#phone-expression-output">开始生成演示文稿</a>
+              <div class="privacy-note">首发开放哪些表达、文件格式与分享渠道，仍需团队圈定。</div>
+            </div>
+          </div>
+          <p class="screen-next">选一种形态并设置范围后开始生成；没有用户动作就保持原生结果。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>共用 06 · 成品预览与流转</b><span>生成后先查看和修改，再分享或下载，并始终保留来源关系。</span></div>
+          <div class="phone" id="phone-expression-output">
+            <div class="statusbar"><span>16:43</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-expression-picker">‹</a><div class="appbar-title"><b>方案评审演示文稿</b><span>已生成 · 3 页</span></div><span class="icon-btn">···</span></div>
+            <div class="phone-body tint">
+              <div class="success-panel"><div class="success-mark">✓</div><h3>演示文稿已生成</h3><p>事实、数字与敏感信息检查已完成；分享前仍可继续修改。</p></div>
+              <div class="section-title"><b>成品预览</b><span>3 页 · 可编辑</span></div>
+              <div class="source-list">
+                <a class="source-item" href="#phone-expression-output"><span class="thumb">01</span><span><b>为什么不能只做普通笔记</b><span>用户任务与产品断点</span></span><em>›</em></a>
+                <a class="source-item" href="#phone-expression-output"><span class="thumb">02</span><span><b>四类原生产品结果</b><span>待办、随记、学习、卡证</span></span><em>›</em></a>
+                <a class="source-item" href="#phone-expression-output"><span class="thumb">03</span><span><b>表达与流转横向能力</b><span>生成、修改、分享、下载</span></span><em>›</em></a>
+              </div>
+              <div class="button-row"><a class="primary-btn" href="#phone-expression-output">打开成品</a><a class="secondary-btn" href="#phone-expression-picker">继续修改</a></div>
+              <div class="button-row"><a class="secondary-btn" href="#phone-expression-output">分享链接或文件</a><a class="secondary-btn" href="#phone-expression-output">下载成文件</a></div>
+              <a class="source-card" href="#phone-work-log"><span class="source-icon">源</span><span><b>来自 · OS5 TR1 方案</b><span>项目档案 · 18 条原始来源</span></span><em>回项目 ›</em></a>
+              <div class="truth-note" style="margin-top:9px">生成物是同一内容的另一种表达，不是另一篇普通笔记；修改和分享后仍能回到原始来源。</div>
+            </div>
+          </div>
+          <p class="screen-next">先预览或继续修改，再分享、下载；底部始终可回项目档案与原始来源。</p>
         </article>
       </div>
     </section>
@@ -1023,7 +1142,7 @@
               <div class="section-title"><b>持续对谈</b><span>仅想法 / 创作使用</span></div>
               <div class="message">第 2 版已经从功能清单转向用户任务，但还缺少“最终具体功能”这一层。</div>
               <div class="message user">把四层闭环补齐，并保留每次方案变化。</div>
-              <div class="quick-prompts"><span>生成阶段整理</span><span>展开下一版</span><span>定位原始来源</span></div>
+              <div class="quick-prompts"><span>生成阶段整理</span><span>展开下一版</span><a href="#phone-expression-picker">换一种表达</a></div>
               <div class="section-title"><b>版本演进</b><span>阶段整理已保存</span></div>
               <div class="version-list"><div class="version-item"><b>V3 · 四层闭环</b><span>当前</span></div><div class="version-item"><b>V2 · 用户任务开场</b><span>昨天</span></div></div>
               <div class="chat-input">继续发展这个想法…<i>↑</i></div>
@@ -1061,10 +1180,10 @@
               <div class="review-stats"><div class="review-stat"><b>8</b><span>生活片段</span></div><div class="review-stat"><b>4</b><span>重要人物</span></div><div class="review-stat"><b>6</b><span>到访地点</span></div></div>
               <div class="memory-card"><small>回忆卡 · 9 月 10 日</small><b>阳台的第一盆绿植</b><p>和妈妈从花市带回龟背竹。照片、地点和当时写下的尺寸记录已一起收好。</p></div>
               <div class="memory-card"><small>本周生活线索</small><b>更愿意把周末留给家和朋友</b><p>3 个家庭片段、2 次朋友见面，较上周增加 4 条生活记录。</p></div>
-              <div class="button-row"><a class="secondary-btn" href="#phone-life-timeline">回时间线</a><a class="secondary-btn" href="#phone-jot-sources">看原始来源</a></div>
+              <div class="button-row"><a class="secondary-btn" href="#phone-life-timeline">回时间线</a><a class="secondary-btn" href="#phone-expression-picker">换一种表达</a></div>
             </div>
           </div>
-          <p class="screen-next">切换日/周/月尺度查看生活变化；回忆卡始终能定位原始记录。</p>
+          <p class="screen-next">切换日/周/月尺度查看生活变化；需要分享时可按需换一种表达，原始记录仍从右上角回溯。</p>
         </article>
 
         <article class="screen-card">
@@ -1082,10 +1201,10 @@
               </div>
               <div class="quote-card">重点摘录：旧书店适合安排在午后，沿河路线更适合日落前 40 分钟开始。</div>
               <div class="compare-row"><span>路线 A · 3.2km<br>店铺更多</span><span>路线 B · 2.6km<br>更安静</span></div>
-              <a class="secondary-btn" style="margin-top:8px" href="#phone-jot-sources">查看收藏来源</a>
+              <div class="button-row" style="margin-top:8px"><a class="secondary-btn" href="#phone-jot-sources">查看收藏来源</a><a class="secondary-btn" href="#phone-expression-picker">生成路线网页</a></div>
             </div>
           </div>
-          <p class="screen-next">主题内直接查看收藏、摘录、灵感和对比结果；底部可回到每条来源。</p>
+          <p class="screen-next">主题内直接查看收藏、摘录和对比；可回来源，也可按需生成便于分享的路线网页。</p>
         </article>
 
         <article class="screen-card">
@@ -1103,10 +1222,10 @@
                 <div class="work-step"><time>9 月 5</time><span><b>完成用户材料复核</b><span>1943 条反馈与 801 张图片</span></span></div>
               </div>
               <div class="work-assets"><div class="work-asset"><small>关键决策</small><b>随记一入口、四套页面</b></div><div class="work-asset"><small>项目材料</small><b>需求稿 4 · 评审纪要 3</b></div></div>
-              <a class="secondary-btn" style="margin-top:8px" href="#phone-jot-sources">查看项目原始材料</a>
+              <div class="button-row" style="margin-top:8px"><a class="secondary-btn" href="#phone-jot-sources">查看项目材料</a><a class="primary-btn" href="#phone-expression-picker">生成汇报成品</a></div>
             </div>
           </div>
-          <p class="screen-next">进展、决策、材料集中在项目档案；绿色状态直接进入已自动写入的待办。</p>
+          <p class="screen-next">进展、决策和材料集中在项目档案；明确行动进待办，需要交付时按需生成汇报成品。</p>
         </article>
 
         <article class="screen-card">
@@ -1208,10 +1327,10 @@
               <div class="section-title"><b>最近课次</b><a href="#phone-calendar">课程日历 ›</a></div>
               <a class="lesson-row" href="#phone-class-detail"><span class="lesson-no">06</span><span><b>条件概率与贝叶斯公式</b><span>录音 42 分钟 · 讲义 2 页</span></span><em>›</em></a>
               <a class="lesson-row" href="#phone-class-detail"><span class="lesson-no">05</span><span><b>随机变量与分布函数</b><span>已复习 · 自测 7/8</span></span><em>›</em></a>
-              <a class="secondary-btn" style="margin-top:10px" href="#phone-schedule-photo">导入或更新课程表</a>
+              <div class="button-row"><a class="secondary-btn" href="#phone-schedule-photo">更新课程表</a><a class="secondary-btn" href="#phone-expression-picker">生成复习导图</a></div>
             </div>
           </div>
-          <p class="screen-next">点快讲、自测或作业直接消费；资料与原文藏在右上角来源入口。</p>
+          <p class="screen-next">点快讲、自测或作业直接消费；需要时生成复习导图，资料与原文仍从右上角回溯。</p>
         </article>
 
         <article class="screen-card">
@@ -1388,8 +1507,9 @@
       </div>
     </section>
   </main>
+  </div>
 
-  <footer class="page-foot">OS5 笔记 · TR1 材料驱动版 · 研究事实、用户任务、当前产品范围三层分开 · 31 张可点击手机页</footer>
+  <footer class="page-foot">OS5 笔记 · TR1 材料驱动版 · 研究事实、用户任务、当前产品范围三层分开 · 33 张可点击手机页</footer>
 
   <script>
     (() => {

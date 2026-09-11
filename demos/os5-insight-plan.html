@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>笔记 · 洞察页产品方案</title>
+<title>笔记 · 集合方案</title>
 <style>
 :root{
   --bg:#EEF0F4; --card:#FFFFFF; --ink:#191E2B; --sub:#5B6472; --faint:#98A0AE;
@@ -15,60 +15,52 @@
 body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;}
 .wrap{max-width:1800px;margin:0 auto;padding:0 48px;}
 /* HERO */
-.hero{position:relative;padding:96px 0 56px;overflow:hidden;}
-.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(1200px 400px at 20% -10%,#FFF3E2 0%,rgba(255,243,226,0) 60%),radial-gradient(900px 380px at 90% 0%,#E9EEFB 0%,rgba(233,238,251,0) 55%);z-index:-1;}
+.hero{position:relative;padding:92px 0 52px;overflow:hidden;}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(1200px 400px at 18% -10%,#FFF3E2 0%,rgba(255,243,226,0) 60%),radial-gradient(1000px 380px at 88% 0%,#E9EEFB 0%,rgba(233,238,251,0) 55%);z-index:-1;}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--gold);background:var(--gsoft);border-radius:999px;padding:7px 16px;letter-spacing:.3px;}
 .hero h1{font-size:52px;font-weight:800;letter-spacing:-1px;margin:22px 0 0;line-height:1.12;}
-.hero .lead{font-size:18.5px;color:var(--sub);margin-top:18px;max-width:1240px;}
+.hero .lead{font-size:18.5px;color:var(--sub);margin-top:18px;max-width:1280px;}
 .pcards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px;}
-.pcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--sh2);}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--sh2);border-top:4px solid var(--c,var(--gold));}
 .pcard .ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px;}
 .pcard b{font-size:16px;}
 .pcard p{font-size:13px;color:var(--sub);margin-top:5px;}
 /* SECTION */
-section{padding:56px 0;border-top:1px solid var(--line);}
+section{padding:54px 0;border-top:1px solid var(--line);}
 .sec-head{display:flex;align-items:center;gap:16px;}
 .sec-no{width:46px;height:46px;border-radius:14px;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;flex:0 0 auto;}
 .sec-head h2{font-size:30px;font-weight:800;letter-spacing:-.4px;}
-.sec-sub{color:var(--sub);font-size:16.5px;margin:14px 0 30px 62px;max-width:1600px;}
-/* TABLE */
-.tbl{width:100%;background:#fff;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--sh);border-collapse:separate;border-spacing:0;}
-.tbl th,.tbl td{padding:22px 18px;text-align:center;vertical-align:middle;border-bottom:1px solid var(--line);}
-.tbl th{background:#F6F8FB;font-size:15px;font-weight:700;letter-spacing:.2px;}
-.tbl tr:last-child td{border-bottom:none;}
-.tbl .cat{font-size:19px;font-weight:800;}
-.tbl .cat small{display:block;font-size:11.5px;color:var(--faint);font-weight:600;margin-top:6px;letter-spacing:.2px;}
-.tbl .sub{font-weight:700;font-size:14.5px;line-height:1.7;}
-.tbl td{font-size:14px;color:#424A59;line-height:1.72;}
-.tbl .diff b{color:var(--ink);}
-.note{margin-top:16px;color:var(--faint);font-size:13px;line-height:1.7;}
-/* COMPARE */
+.sec-sub{color:var(--sub);font-size:16.5px;margin:14px 0 26px 62px;max-width:1560px;}
+.need{display:inline-flex;align-items:baseline;gap:9px;background:var(--gsoft);border-radius:12px;padding:11px 18px;margin:0 0 24px 62px;font-size:16px;color:#8a5a12;font-weight:700;max-width:1560px;}
+.need b{color:var(--gold);flex:0 0 auto;}
+.need span{color:#7a5412;font-weight:600;}
+/* two changes */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
-.cmp{border-radius:22px;padding:30px;border:1px solid var(--line);}
-.cmp.now{background:#F6F7FA;}
-.cmp.next{background:linear-gradient(180deg,#FFF6EA,#FFFDFA);border-color:#F2E3C9;}
-.cmp .pill{display:inline-block;border-radius:999px;padding:5px 15px;font-size:12.5px;font-weight:700;color:#fff;margin-bottom:16px;}
-.cmp.now .pill{background:#A6ADBA;}
-.cmp.next .pill{background:var(--gold);}
-.cmp h3{font-size:21px;margin-bottom:6px;}
-.cmp .l{color:var(--sub);font-size:14.5px;margin-bottom:18px;}
-.cmp .r{display:flex;gap:11px;padding:9px 0;font-size:14.5px;color:#424A59;}
-.cmp .r .k{flex:0 0 auto;font-weight:700;color:var(--gold);}
-.cmp.now .r .k{color:#A6ADBA;}
-/* HIERARCHY */
-.layers{display:flex;flex-direction:column;gap:12px;}
-.layer{display:flex;align-items:center;gap:18px;background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:16px;padding:18px 22px;box-shadow:var(--sh2);}
-.layer .no{flex:0 0 auto;width:50px;height:50px;border-radius:13px;background:var(--gsoft);color:var(--gold);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px;}
-.layer .tx b{font-size:16.5px;}
-.layer .tx span{color:var(--sub);font-size:13.5px;}
-.layer .pn{margin-left:auto;background:var(--gsoft);color:var(--gold);font-weight:700;font-size:12.5px;border-radius:999px;padding:6px 13px;white-space:nowrap;}
-.side{margin-top:16px;background:#F6F7FA;border:1px dashed #D4D9E2;border-radius:16px;padding:18px 22px;color:var(--sub);font-size:14px;}
-.side b{color:var(--ink);}
+.chg{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px 30px;box-shadow:var(--sh2);}
+.chg .tag{display:inline-block;font-size:12.5px;font-weight:700;color:var(--gold);background:var(--gsoft);border-radius:999px;padding:5px 14px;}
+.chg h3{font-size:21px;margin:14px 0 8px;}
+.chg p{color:var(--sub);font-size:15px;line-height:1.7;}
+.chg .eg{margin-top:14px;background:#F7F8FB;border-radius:13px;padding:13px 15px;font-size:13.5px;color:#424A59;line-height:1.6;}
+.chg .eg b{color:var(--ink);}
+/* essence rows */
+.ess{display:flex;align-items:center;gap:20px;background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:16px;padding:20px 24px;box-shadow:var(--sh2);margin-top:12px;}
+.ess .k{flex:0 0 240px;font-size:17px;font-weight:800;}
+.ess .k small{display:block;color:var(--faint);font-size:12.5px;font-weight:600;margin-top:3px;}
+.ess .arrowline{flex:1;display:flex;align-items:center;gap:14px;font-size:15.5px;color:#424A59;flex-wrap:wrap;}
+.ess .from{color:var(--faint);}
+.ess .to{font-weight:700;color:var(--ink);}
+.ess .ar{color:var(--gold);font-weight:800;}
+/* framework */
+.fw{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:4px;}
+.fwc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px 26px;box-shadow:var(--sh2);}
+.fwc .t{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;}
+.fwc .pin{font-size:12px;font-weight:700;border-radius:999px;padding:4px 12px;}
+.fwc p{color:var(--sub);font-size:14.5px;margin-top:9px;line-height:1.65;}
 /* FLOW + PHONE */
-.flow{display:flex;gap:24px;align-items:flex-start;overflow-x:auto;padding:6px 2px 20px;scrollbar-width:thin;}
-.step{flex:0 0 auto;width:294px;}
+.flow{display:flex;gap:26px;align-items:flex-start;overflow-x:auto;padding:6px 2px 18px;scrollbar-width:thin;}
+.step{flex:0 0 auto;width:300px;}
 .arrow{flex:0 0 auto;align-self:center;color:#C6CBD6;font-size:30px;margin-top:320px;}
-.phone{width:294px;height:636px;border-radius:44px;background:#fff;border:1px solid #E3E6EE;box-shadow:0 22px 50px rgba(22,28,45,.12);overflow:hidden;position:relative;}
+.phone{width:300px;height:642px;border-radius:44px;background:#fff;border:1px solid #E3E6EE;box-shadow:0 22px 50px rgba(22,28,45,.12);overflow:hidden;position:relative;}
 .phone .scr{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;}
 .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:86px;height:22px;border-radius:12px;background:#E4E7EE;z-index:5;}
 .sb{height:46px;display:flex;justify-content:space-between;align-items:center;padding:0 22px 0 24px;font-size:12.5px;font-weight:700;flex:0 0 auto;}
@@ -81,8 +73,7 @@ section{padding:56px 0;border-top:1px solid var(--line);}
 .aiDot{width:26px;height:26px;border-radius:50%;background:conic-gradient(from 120deg,#3D6BF5,#7A5CF0,#E0872A,#3D6BF5);position:absolute;right:16px;top:6px;}
 .cap{margin-top:15px;font-size:14.5px;font-weight:700;text-align:center;}
 .cap small{display:block;font-weight:500;color:var(--faint);margin-top:3px;font-size:12.5px;line-height:1.5;}
-.deliver{display:inline-block;margin-top:8px;background:var(--gsoft);color:var(--gold);font-weight:700;font-size:11.5px;border-radius:999px;padding:4px 12px;}
-.secttl{font-size:13.5px;font-weight:800;margin:16px 2px 9px;display:flex;justify-content:space-between;align-items:baseline;}
+.secttl{font-size:13.5px;font-weight:800;margin:15px 2px 8px;display:flex;justify-content:space-between;align-items:baseline;}
 .secttl span{color:var(--faint);font-size:11.5px;font-weight:600;}
 .card{background:#fff;border-radius:16px;padding:14px;box-shadow:var(--sh2);}
 .chk{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:13.5px;}
@@ -90,19 +81,43 @@ section{padding:56px 0;border-top:1px solid var(--line);}
 .chk .t{color:var(--faint);margin-left:auto;font-size:11.5px;}
 .hint{background:var(--gsoft);border-radius:13px;padding:11px 13px;font-size:12.5px;font-weight:700;margin-top:11px;color:#8a5a12;}
 .hint small{display:block;font-weight:500;color:var(--gold);opacity:.9;margin-top:2px;}
-/* horizontal album cards */
-.hcards{display:flex;gap:11px;}
-.hc{flex:0 0 auto;width:130px;border-radius:15px;background:#fff;overflow:hidden;box-shadow:var(--sh2);}
-.hc .cov{height:56px;position:relative;}
-.hc .cov .em{position:absolute;left:11px;bottom:8px;font-size:19px;}
-.hc .bd{padding:10px 12px;}
-.hc .bd b{font-size:13.5px;}
-.hc .bd .m{color:var(--faint);font-size:11px;margin-top:3px;}
-.hc .bd .go{font-size:11.5px;font-weight:700;margin-top:8px;}
-.course{width:152px;}
-.course .cov{height:60px;}
-.prog{height:6px;background:var(--track);border-radius:3px;margin:8px 0 5px;overflow:hidden;}
+/* album grid (集合首页) */
+.albgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:8px;}
+.albc{border-radius:16px;overflow:hidden;background:#fff;box-shadow:var(--sh2);}
+.albc .cv{height:70px;display:flex;align-items:flex-end;padding:10px;}
+.albc .cv .em{font-size:23px;}
+.albc .bd{padding:9px 12px 11px;}
+.albc .bd b{font-size:13.5px;}
+.albc .bd .m{font-size:10.5px;color:var(--faint);margin-top:3px;}
+/* list rows */
+.lrow{display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:13px;margin-top:10px;box-shadow:var(--sh2);}
+.lrow .em{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto;}
+.lrow b{font-size:14px;}
+.lrow .m{color:var(--faint);font-size:11.5px;margin-top:2px;}
+.lrow .go{margin-left:auto;font-weight:700;font-size:15px;}
+/* opinion / insight rows */
+.opv{background:#fff;border-radius:14px;padding:13px 14px;margin-top:10px;box-shadow:var(--sh2);border-left:4px solid var(--violet);}
+.opv .h{font-size:13.5px;font-weight:700;line-height:1.5;}
+.opv .src{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:11.5px;color:var(--violet);font-weight:700;}
+/* function grid (上课详情) */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.fcell{background:#fff;border-radius:13px;padding:12px 13px;box-shadow:var(--sh2);}
+.fcell .em{font-size:19px;}
+.fcell b{display:block;font-size:13px;margin-top:6px;}
+.fcell small{color:var(--faint);font-size:10px;font-weight:500;}
+/* tabs */
+.tabs{display:flex;gap:8px;}
+.tab{background:#fff;border-radius:999px;padding:7px 15px;font-size:12.5px;font-weight:600;color:var(--sub);box-shadow:var(--sh2);}
+.tab.on{color:#fff;}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;}
+.chip{background:#fff;border-radius:999px;padding:6px 12px;font-size:12px;box-shadow:var(--sh2);color:var(--sub);}
+.prog{height:6px;background:var(--track);border-radius:3px;overflow:hidden;}
 .prog i{display:block;height:100%;border-radius:3px;background:var(--gold);}
+.btn{display:block;text-align:center;background:var(--gold);color:#fff;font-weight:700;font-size:14.5px;border-radius:24px;padding:12px;margin-top:12px;box-shadow:0 8px 18px rgba(224,135,42,.26);}
+/* input bar */
+.inputbar{display:flex;align-items:center;gap:10px;padding:12px 2px 14px;margin-top:auto;}
+.inputbar .f{flex:1;background:#fff;border-radius:22px;height:42px;display:flex;align-items:center;padding:0 16px;color:var(--faint);font-size:12.5px;box-shadow:var(--sh2);}
+.inputbar .m{width:14px;height:19px;border-radius:6px;background:var(--gold);flex:0 0 auto;}
 /* tabbar + fab */
 .tabbar{height:62px;background:#fff;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;flex:0 0 auto;}
 .tb{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--faint);font-weight:600;}
@@ -126,249 +141,107 @@ section{padding:56px 0;border-top:1px solid var(--line);}
 .ntf .badge{background:var(--gsoft);color:var(--gold);font-weight:700;font-size:11.5px;border-radius:999px;padding:4px 12px;}
 .ntf b{display:block;font-size:16px;margin-top:12px;}
 .ntf p{color:var(--sub);font-size:12.5px;margin-top:6px;}
-.wave{display:flex;align-items:flex-end;gap:3px;height:30px;margin-top:12px;}
-.wave i{flex:1;background:var(--gold);border-radius:2px;opacity:.85;}
-.rec{width:11px;height:11px;border-radius:50%;background:#E0503C;}
 .pillc{display:inline-block;background:var(--gsoft);color:var(--gold);font-weight:700;font-size:12px;border-radius:999px;padding:6px 14px;}
-/* bubbles */
-.bub{max-width:80%;padding:11px 14px;border-radius:16px;font-size:13px;margin-top:9px;line-height:1.5;}
-.bub.ai{background:#fff;box-shadow:var(--sh2);border-bottom-left-radius:5px;}
-.bub.me{background:var(--gold);color:#fff;margin-left:auto;border-bottom-right-radius:5px;}
-.resultcard{background:#fff;border-radius:15px;padding:13px;box-shadow:var(--sh2);margin-top:11px;border-left:4px solid var(--violet);}
-.resultcard .rt{font-size:12px;color:var(--violet);font-weight:700;}
-.resultcard b{font-size:14.5px;display:block;margin:4px 0 8px;}
-.inputbar{display:flex;align-items:center;gap:10px;padding:10px 2px 14px;}
-.inputbar .f{flex:1;background:#fff;border-radius:22px;height:42px;display:flex;align-items:center;padding:0 16px;color:var(--faint);font-size:12.5px;box-shadow:var(--sh2);}
-.inputbar .m{width:13px;height:18px;border-radius:6px;background:var(--gold);}
-/* timeline (生活随记) */
-.memcover{border-radius:18px;padding:18px;color:#fff;background:linear-gradient(135deg,#6E8BF0,#9E7BEE);box-shadow:0 10px 26px rgba(110,90,240,.28);position:relative;overflow:hidden;margin-top:6px;}
-.memcover::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.14);}
-.memcover .t1{font-size:20px;font-weight:800;}
-.memcover .t2{font-size:12.5px;opacity:.9;margin-top:4px;}
-.memcover .go{display:inline-block;margin-top:14px;background:rgba(255,255,255,.24);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:700;}
-.tl{margin-top:16px;padding-left:8px;}
-.tli{display:flex;gap:14px;position:relative;padding-bottom:16px;}
-.tli::before{content:"";position:absolute;left:5px;top:16px;bottom:-2px;width:2px;background:var(--line);}
-.tli:last-child::before{display:none;}
-.tli .dot{width:12px;height:12px;border-radius:50%;background:var(--violet);flex:0 0 auto;margin-top:4px;z-index:1;box-shadow:0 0 0 4px #fff;}
-.tli .d{font-size:11.5px;color:var(--faint);}
-.tli b{font-size:14px;display:block;margin:1px 0 3px;}
-.tli p{font-size:12.5px;color:var(--sub);}
-.tli .ph{margin-top:8px;height:64px;border-radius:12px;}
-/* growth record (生活随记 = 成长记录) */
-.growcover{border-radius:18px;padding:16px;margin-top:6px;background:linear-gradient(135deg,#FFE9D4,#FCE0E7);}
-.growtop{display:flex;align-items:center;gap:12px;}
-.growcover .ga{width:46px;height:46px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;flex:0 0 auto;box-shadow:var(--sh2);}
-.growcover .t1{font-size:17px;font-weight:800;color:#8A4B2A;}
-.growcover .t2{font-size:11.5px;color:#A76C4B;margin-top:3px;line-height:1.45;}
-.growcover .ggo{display:inline-block;margin-top:13px;background:rgba(255,255,255,.82);color:#B5641F;border-radius:999px;padding:6px 13px;font-size:11.5px;font-weight:700;}
-.mstone{display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:12px;margin-top:10px;box-shadow:var(--sh2);}
-.mstone .mi{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex:0 0 auto;}
-.mstone b{font-size:14px;}
-.mstone .d{font-size:11.5px;color:var(--faint);margin-top:3px;}
-.growstat{display:flex;align-items:center;background:var(--gsoft);border-radius:14px;padding:12px 14px;margin-top:12px;font-size:13px;font-weight:700;color:#8a5a12;}
-.growstat .s{margin-left:auto;color:var(--gold);font-size:12px;}
-/* clean timetable thumbnail */
-.sched{background:#fff;border-radius:14px;padding:12px;box-shadow:var(--sh2);border:1px solid var(--line);}
-.schhd{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:6px;}
-.schhd span{text-align:center;font-size:11px;font-weight:700;color:var(--faint);}
-.schbody{display:grid;grid-template-columns:repeat(5,1fr);grid-auto-rows:32px;gap:6px;}
-.schbody .cell{background:#F1F4F8;border-radius:7px;}
-.cls{border-radius:7px;font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff;}
-.cls.c1{background:#8AA6F0;} .cls.c2{background:#6FCBA6;} .cls.c3{background:#E7A860;} .cls.c4{background:#B39BE8;}
-/* collection (兴趣) */
-.tabs{display:flex;gap:8px;margin-top:12px;}
-.tab{background:#fff;border-radius:999px;padding:7px 15px;font-size:12.5px;font-weight:600;color:var(--sub);box-shadow:var(--sh2);}
-.tab.on{background:var(--blue);color:#fff;}
-.mapthumb{margin-top:12px;height:130px;border-radius:16px;background:linear-gradient(160deg,#EDF5EF,#DBEAE1);position:relative;overflow:hidden;border:1px solid #D8E7DE;}
-.mapthumb .rd{position:absolute;background:#BEDECB;opacity:.9;}
-.mapthumb .road{position:absolute;background:#fff;opacity:.85;border-radius:3px;}
-.mapthumb .mk{position:absolute;width:15px;height:15px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--green);box-shadow:0 3px 7px rgba(31,169,122,.45);border:2px solid #fff;}
-.mapthumb .cnt{position:absolute;left:12px;bottom:10px;background:#fff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--green);box-shadow:var(--sh2);}
-.gitems{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px;}
-.git{background:#fff;border-radius:13px;padding:11px;box-shadow:var(--sh2);display:flex;align-items:center;gap:9px;}
-.git .em{width:32px;height:32px;border-radius:9px;background:var(--grsoft);display:flex;align-items:center;justify-content:center;font-size:16px;}
-.git b{font-size:13px;}
-.git .m{font-size:11px;color:var(--faint);}
-/* study bits */
-.big{display:flex;align-items:center;gap:12px;border-radius:15px;padding:14px;margin-top:9px;}
-.big.on{background:var(--gold);color:#fff;box-shadow:0 8px 20px rgba(224,135,42,.28);}
-.big.off{background:#fff;box-shadow:var(--sh2);}
-.big b{font-size:15px;}
-.big .m{font-size:11.5px;opacity:.86;margin-top:2px;}
-.big .ar{margin-left:auto;font-size:19px;}
-.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;}
-.chip{background:#fff;border-radius:999px;padding:6px 12px;font-size:12px;box-shadow:var(--sh2);}
-.chip.on{background:var(--gold);color:#fff;}
-.slot{background:var(--gsoft);border-radius:14px;padding:14px;position:relative;border-left:5px solid var(--gold);}
-.slot .rc{position:absolute;right:12px;top:13px;background:var(--gold);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:5px 11px;}
-.lrow{display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:13px;margin-top:9px;box-shadow:var(--sh2);}
-.lrow .em{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto;}
-.lrow b{font-size:14px;}
-.lrow .m{color:var(--faint);font-size:11.5px;margin-top:2px;}
-.lrow .go{margin-left:auto;font-weight:700;font-size:12px;}
 .miniweek{display:flex;justify-content:space-between;margin-top:14px;}
-.miniweek span{width:29px;height:29px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--faint);}
+.miniweek span{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--faint);}
 .miniweek span.on{background:var(--gold);color:#fff;font-weight:700;}
-.ptile{height:174px;border-radius:16px;background:linear-gradient(135deg,#D6DDEA,#EAEEF4);position:relative;overflow:hidden;margin-top:4px;}
-.ptile .grid{position:absolute;inset:14px;background-image:linear-gradient(#fff 1.5px,transparent 1.5px),linear-gradient(90deg,#fff 1.5px,transparent 1.5px);background-size:33% 25%;opacity:.75;}
-.ptile .blk{position:absolute;background:var(--gold);border-radius:4px;opacity:.9;}
-.recog{background:#fff;border-radius:16px;padding:15px;margin-top:12px;box-shadow:var(--sh2);}
-.recog b{font-size:15.5px;}
-.recog p{color:var(--sub);font-size:12.5px;margin-top:4px;}
-.btn{display:block;text-align:center;background:var(--gold);color:#fff;font-weight:700;font-size:14.5px;border-radius:24px;padding:12px;margin-top:13px;box-shadow:0 8px 18px rgba(224,135,42,.26);}
-/* identity cards */
-.idc{border-radius:16px;padding:16px 18px;margin-top:12px;position:relative;overflow:hidden;box-shadow:var(--sh2);}
-.idc .lbl{font-weight:700;font-size:15px;}
-.idc .no{font-size:16px;font-weight:700;letter-spacing:1px;margin-top:14px;}
-.idc .mm{color:var(--sub);font-size:12px;margin-top:9px;}
-.idc .photo{position:absolute;right:16px;top:16px;width:42px;height:54px;border-radius:8px;background:rgba(255,255,255,.72);}
-.idc .cx{position:absolute;right:16px;top:16px;width:38px;height:28px;border-radius:6px;background:rgba(224,135,42,.45);}
 .sidebox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--sh2);}
-.sidebox2{width:352px;}
-.qrow{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);}
+.sidebox2{width:360px;}
+.qrow{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);}
 .qrow:last-child{border-bottom:none;}
 .qrow .n{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--gsoft);color:var(--gold);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
 .qrow b{font-size:14.5px;}
 .qrow span{color:var(--sub);font-size:13px;}
 .foot{text-align:center;color:var(--faint);font-size:13px;padding:40px 0;border-top:1px solid var(--line);}
-@media(max-width:560px){.wrap{padding:0 18px;}.grid2,.pcards{grid-template-columns:1fr;}.hero h1{font-size:34px;}}
+@media(max-width:560px){.wrap{padding:0 18px;}.grid2,.pcards,.fw{grid-template-columns:1fr;}.hero h1{font-size:34px;}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <div class="hero">
-  <span class="eyebrow">OS5 · 依据 TR1 用户调研</span>
-  <h1>笔记 · 洞察页产品方案</h1>
-  <p class="lead">打开笔记先看到整理好的成品，不再是一条条按时间排的原始记录。洞察＝一本相册；底 tab 两个（洞察｜笔记），创建两个入口（录音＋加号）。<br>本版聚焦三类，卡证作为「够极致」的设计基准。</p>
+  <span class="eyebrow">OS5 · Agentic OS 笔记 APP</span>
+  <h1>笔记 · 集合方案</h1>
+  <p class="lead">笔记正在发生两个变化：从手写到不用写（语音、AI 键、AI 助手都能写入），内容爆发式增长后，又从读笔记到消费内容。于是笔记的组织从单篇变成成组，消费从读文本变成消费整理好的成品。底部两个 tab——笔记（按时间的原始记录）、集合（按场景成组），集合先做四个场景。</p>
   <div class="pcards">
-    <div class="pcard"><div class="ic" style="background:var(--gsoft)">✅</div><b>待办日程</b><p>不重抄、到点各端提醒</p></div>
-    <div class="pcard"><div class="ic" style="background:var(--vsoft)">💡</div><b>想法随记</b><p>工作对谈 / 生活成长 / 兴趣图鉴</p></div>
-    <div class="pcard"><div class="ic" style="background:var(--bsoft)">📚</div><b>学习备考</b><p>一门课聚齐，直接复习</p></div>
-    <div class="pcard"><div class="ic" style="background:var(--grsoft)">💳</div><b>卡证 · 基准</b><p>漂亮聚合，一眼分清</p></div>
+    <div class="pcard" style="--c:var(--gold)"><div class="ic" style="background:var(--gsoft)">🗓️</div><b>日程与待办</b><p>不重抄、到点各端提醒</p></div>
+    <div class="pcard" style="--c:var(--violet)"><div class="ic" style="background:var(--vsoft)">💭</div><b>想法 & 随记</b><p>聚成主题，抽出主要观点</p></div>
+    <div class="pcard" style="--c:var(--blue)"><div class="ic" style="background:var(--bsoft)">📚</div><b>上课</b><p>一门课聚齐，进去直接复习</p></div>
+    <div class="pcard" style="--c:var(--green)"><div class="ic" style="background:var(--grsoft)">🎙️</div><b>访谈</b><p>先看主题和最重要的洞察</p></div>
   </div>
 </div>
 
-<!-- 1 需求拆解总表 -->
+<!-- 1 为什么变 -->
 <section>
-  <div class="sec-head"><div class="sec-no">1</div><h2>需求拆解总表</h2></div>
-  <div class="sec-sub">大品类 → 子品类（往下拆一层）→ 点进去消费什么 → 所以长什么样 → 提供什么功能。关键：同一个大品类下，不同子品类要的能力可以完全不同。</div>
-  <table class="tbl">
-    <tr><th style="width:12%">大品类</th><th style="width:20%">子品类</th><th style="width:20%">点进去消费什么</th><th style="width:23%">所以长什么样</th><th style="width:25%">提供什么功能</th></tr>
-    <tr>
-      <td><div class="cat" style="color:var(--gold)">待办日程</div></td>
-      <td class="sub">待办 / 带时间的日程<br>（值日、考试、补课）</td>
-      <td>不重抄、到点不错过</td>
-      <td>待办中心自动滚到今天<br>带时间的自动进日历</td>
-      <td>打勾完成；到点手机、手表都提醒</td>
-    </tr>
-    <tr>
-      <td><div class="cat" style="color:var(--violet)">想法随记</div></td>
-      <td class="sub">工作想法<br>生活随记<br>兴趣（钓鱼、游戏）</td>
-      <td class="diff"><b>工作</b>：理成体系、推进<br><b>生活</b>：回看、留住成长<br><b>兴趣</b>：归拢、随时查用</td>
-      <td class="diff"><b>工作</b>＝对谈整理<br><b>生活</b>＝成长记录<br><b>兴趣</b>＝清单 / 图鉴</td>
-      <td class="diff"><b>工作</b>：追问、聚主线、提行动项<br><b>生活</b>：串成里程碑、生成成长相册<br><b>兴趣</b>：自动去重、聚成清单图鉴</td>
-    </tr>
-    <tr>
-      <td><div class="cat" style="color:var(--blue)">学习备考</div></td>
-      <td class="sub">一门一门课<br>（高数 / 管理学 / 马原…）</td>
-      <td>复习备考，快速过一门课<br>没空听几十堂课</td>
-      <td>录音、课件、教材、真题<br>自动聚成一门课，进去先复习</td>
-      <td>精讲 / 快讲 / 出一套卷<br>作业结合上课内容帮写</td>
-    </tr>
-    <tr>
-      <td><div class="cat" style="color:var(--green)">卡证<small>不排期 · 基准</small></div></td>
-      <td class="sub">证件 / 银行卡 / 账号密码<br>车牌 / 收货信息</td>
-      <td>随时看、一眼分清<br>问小爱能取用、要填能填</td>
-      <td>设计过的证件样式<br>漂亮聚在一处，像卡包</td>
-      <td>随时查看、要填一键填<br>敏感信息默认打码</td>
-    </tr>
-  </table>
-  <div class="note">注：TR1 完整盘子还含 生活管理、工作经营 两类；本版按李楠聚焦 待办 / 想法 / 学习，卡证作「够极致」标杆，其余后续。</div>
-</section>
-
-<!-- 2 框架为什么变 -->
-<section>
-  <div class="sec-head"><div class="sec-no">2</div><h2>首页框架为什么变</h2></div>
-  <div class="sec-sub">用户消费的是整理好的成品，不是一条条原始笔记。所以成品层放前面，洞察＝一本相册。</div>
+  <div class="sec-head"><div class="sec-no">1</div><h2>笔记为什么要变</h2></div>
+  <div class="sec-sub">从用户怎么记、怎么用出发，笔记有两个变化。这决定了后面所有场景怎么做。</div>
   <div class="grid2">
-    <div class="cmp now">
-      <span class="pill">现状</span><h3>首页只有原始层</h3>
-      <div class="l">一条条笔记按时间堆，越记越多、越翻越乱</div>
-      <div class="r"><span class="k">痛点1</span><span>找不回过去——一堆笔记里翻不到去年那场会</span></div>
-      <div class="r"><span class="k">痛点2</span><span>同一件事散在各处——写次作业翻半个书包</span></div>
-      <div class="r"><span class="k">痛点3</span><span>没做完的待办天天重抄，到点也没人提醒</span></div>
+    <div class="chg">
+      <span class="tag">变化一</span>
+      <h3>从手写到不用写</h3>
+      <p>语音录入、按 AI 键快速记事、让 AI 助手（含三方助手，等于一份 MCP 能力）直接写入，都不一定要手写。手写还留着，但已经不是唯一入口。</p>
+      <div class="eg"><b>结果：</b>写入门槛降到最低，笔记内容开始爆发式增长。</div>
     </div>
-    <div class="cmp next">
-      <span class="pill">改后</span><h3>成品层在前</h3>
-      <div class="l">打开先看到各品类的成品状态，要处理的点进去</div>
-      <div class="r"><span class="k">对策1</span><span>按品类、按合集组织，找得回、聚得拢</span></div>
-      <div class="r"><span class="k">对策2</span><span>待办自己滚到今天，带时间的到点各端提醒</span></div>
-      <div class="r"><span class="k">对策3</span><span>同一件事攒成一份能直接用的成品，做完推送</span></div>
+    <div class="chg">
+      <span class="tag">变化二</span>
+      <h3>从读笔记到消费内容</h3>
+      <p>笔记太多，逐篇读不现实。一个学生一学期录了 50 个课堂录音，复习时从笔记流里根本找不到，搜索也不是好体验。用户要的不再是某一篇。</p>
+      <div class="eg"><b>结果：</b>不再消费单篇笔记，而是消费整理好的成品。</div>
     </div>
   </div>
-  <div class="sec-sub" style="margin:34px 0 18px 0">四层层级：点一层进一层</div>
-  <div class="layers">
-    <div class="layer"><div class="no">第1层</div><div class="tx"><b>首页 · 品类状态总览</b><br><span>一眼看到各品类关键状态，要处理的点进去</span></div><div class="pn">痛点 1 · 3</div></div>
-    <div class="layer" style="margin-left:42px"><div class="no">第2层</div><div class="tx"><b>品类聚合页</b><br><span>同一件事的多次记录，攒成一组</span></div><div class="pn">痛点 2</div></div>
-    <div class="layer" style="margin-left:84px"><div class="no">第3层</div><div class="tx"><b>成品页</b><br><span>直接消费整理好的成品，可换 PPT / 表格来看</span></div><div class="pn">痛点 1 · 2</div></div>
-    <div class="layer" style="margin-left:126px"><div class="no">第4层</div><div class="tx"><b>对谈与换形态</b><br><span>接着追问、让它换个形态看</span></div><div class="pn">痛点 2</div></div>
+  <div class="sec-sub" style="margin:34px 0 14px 0;font-weight:700;color:var(--ink)">于是带来两个本质变化</div>
+  <div class="ess">
+    <div class="k">组织形式<small>单篇 → 成组</small></div>
+    <div class="arrowline"><span class="from">一节课、一个想法、一个待办</span><span class="ar">→</span><span class="to">一门课、一段思考、一份日程安排</span></div>
   </div>
-  <div class="side">旁挂（不进主层级）：<b>全部笔记与原有文件夹</b>——原始记录都在，按老习惯还能翻；<b>创建入口：录音 ＋ 加号</b>——浮在首页，随手记。</div>
+  <div class="ess">
+    <div class="k">消费形式<small>读文本 → 消费成品</small></div>
+    <div class="arrowline"><span class="from">回头重读原文</span><span class="ar">→</span><span class="to">录了会消费纪要和待办；上了课消费知识、播客、脑图</span></div>
+  </div>
 </section>
 
-<!-- 3 洞察相册首页 -->
+<!-- 2 框架 -->
 <section>
-  <div class="sec-head"><div class="sec-no">3</div><h2>洞察首页 ＝ 一本相册</h2></div>
-  <div class="sec-sub">品类分栏 → 栏内横滑 → 每张卡是一个能直接消费的成品（参照苹果「回忆」）。底 tab 两个，创建两个入口。</div>
+  <div class="sec-head"><div class="sec-no">2</div><h2>框架 ＝ 两个底 tab，参照相册</h2></div>
+  <div class="sec-sub">交互先拍一个，参照主流手机相册：底部两个 tab。集合按主流场景成组，优先做四个，每个场景往下拆到用户的终极目标。</div>
   <div class="flow">
     <div class="step">
       <div class="phone"><div class="island"></div><div class="scr">
         <div class="sb"><span>9:41</span><span class="rr"><svg width="17" height="11"><rect x="0" y="7" width="3" height="4" rx="1" fill="#191E2B"/><rect x="4.5" y="5" width="3" height="6" rx="1" fill="#191E2B"/><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="#191E2B"/><rect x="13.5" y="0" width="3" height="11" rx="1" fill="#191E2B"/></svg><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div>
         <div class="body">
-          <div class="htitle">洞察</div><div class="aiDot"></div>
-          <div class="secttl">待办日程 <span>去待办中心</span></div>
-          <div class="card"><div style="font-size:11.5px;color:var(--faint);font-weight:700;margin-bottom:2px">今天 · 3 项</div>
-            <div class="chk"><div class="cb"></div>给植物浇水<span class="t">今天</span></div>
-            <div class="chk"><div class="cb"></div>就诊复查<span class="t">9:00</span></div>
-            <div class="chk"><div class="cb"></div>大扫除<span class="t">今天</span></div></div>
-          <div class="secttl">想法随记 <span>查看全部</span></div>
-          <div class="hcards">
-            <div class="hc"><div class="cov" style="background:linear-gradient(135deg,#E4DEFB,#F1EDFF)"><span class="em">💡</span></div><div class="bd"><b>工作想法</b><div class="m">5 条</div><div class="go" style="color:var(--violet)">继续对谈 →</div></div></div>
-            <div class="hc"><div class="cov" style="background:linear-gradient(135deg,#FFD9B8,#FCC6D2)"><span class="em">🌱</span></div><div class="bd"><b>生活随记</b><div class="m">12 个里程碑</div><div class="go" style="color:var(--violet)">看成长 →</div></div></div>
-            <div class="hc"><div class="cov" style="background:linear-gradient(135deg,#CFE9D8,#E6F4EC)"><span class="em">🎣</span></div><div class="bd"><b>钓鱼兴趣</b><div class="m">6 条收藏</div><div class="go" style="color:var(--green)">看图鉴 →</div></div></div>
+          <div class="htitle">集合</div><div class="aiDot"></div>
+          <div style="color:var(--faint);font-size:12px;margin:0 2px 6px">按场景成组，像相册的相簿</div>
+          <div class="albgrid">
+            <div class="albc"><div class="cv" style="background:linear-gradient(135deg,#FFE1BE,#FFF2DE)"><span class="em">🗓️</span></div><div class="bd"><b>日程与待办</b><div class="m">今天 3 项 · 本周 6 项</div></div></div>
+            <div class="albc"><div class="cv" style="background:linear-gradient(135deg,#E5DEFB,#F3EFFF)"><span class="em">💭</span></div><div class="bd"><b>想法 & 随记</b><div class="m">3 个思考主题</div></div></div>
+            <div class="albc"><div class="cv" style="background:linear-gradient(135deg,#D6E3FB,#EEF3FE)"><span class="em">📚</span></div><div class="bd"><b>上课</b><div class="m">本学期 6 门课</div></div></div>
+            <div class="albc"><div class="cv" style="background:linear-gradient(135deg,#D2EDDE,#E9F6EF)"><span class="em">🎙️</span></div><div class="bd"><b>访谈</b><div class="m">4 个访谈</div></div></div>
           </div>
-          <div class="secttl">学习备考 <span>15 科</span></div>
-          <div class="hcards">
-            <div class="hc course"><div class="cov" style="background:linear-gradient(135deg,#D3E0FA,#EAF0FE)"><span class="em">📐</span></div><div class="bd"><b>高等数学</b><div class="prog"><i style="width:50%"></i></div><div class="m">录音·课件·真题 已聚齐</div></div></div>
-            <div class="hc course"><div class="cov" style="background:linear-gradient(135deg,#CFE9D8,#E6F4EC)"><span class="em">📊</span></div><div class="bd"><b>管理学理论</b><div class="prog"><i style="width:40%"></i></div><div class="m">第 5 讲 / 共 12 讲</div></div></div>
-          </div>
+          <div style="color:var(--faint);font-size:11px;text-align:center;margin-top:14px">往下还能长出更多场景</div>
         </div>
         <div class="fab"><div class="mic"></div><div class="pl"></div></div>
-        <div class="tabbar"><div class="tb on"><div class="ic"></div>洞察</div><div class="tb"><div class="ic"></div>笔记</div></div>
+        <div class="tabbar"><div class="tb"><div class="ic"></div>笔记</div><div class="tb on"><div class="ic"></div>集合</div></div>
       </div></div>
-      <div class="cap">品类分栏 · 栏内横滑<small>每张卡一个成品；想法三类去向不同</small></div>
+      <div class="cap">集合首页 · 四个场景<small>底 tab：笔记｜集合；录音、加号浮在底部</small></div>
     </div>
     <div class="step sidebox2">
       <div class="sidebox">
-        <div style="font-weight:800;font-size:16px;margin-bottom:8px">怎么读这一屏</div>
-        <div class="qrow"><span class="n">①</span><div><b>品类状态总览在前</b><br><span>待办、想法、课程各一栏，横滑看更多，每张卡都能直接用</span></div></div>
-        <div class="qrow"><span class="n">②</span><div><b>想法三类，去向不一样</b><br><span>工作→对谈、生活→成长记录、兴趣→图鉴，卡上就写清楚</span></div></div>
-        <div class="qrow"><span class="n">③</span><div><b>往下是全部笔记</b><br><span>原始记录都在「笔记」tab，按老习惯照样翻</span></div></div>
-        <div class="qrow"><span class="n">④</span><div><b>底 tab 两个 ＋ 两个创建入口</b><br><span>洞察｜笔记；录音、加号浮在底部</span></div></div>
+        <div style="font-weight:800;font-size:16px;margin-bottom:8px">这套框架三句话</div>
+        <div class="qrow"><span class="n">①</span><div><b>两个底 tab</b><br><span>笔记＝过去按时间排的原始记录，老习惯保留；集合＝按场景成组</span></div></div>
+        <div class="qrow"><span class="n">②</span><div><b>集合先做四个场景</b><br><span>日程与待办、想法&随记、上课、访谈，各有专属形态，不用一套 Markdown 套所有</span></div></div>
+        <div class="qrow"><span class="n">③</span><div><b>每个场景拆到终极目标</b><br><span>上课是为了复习、访谈是为了洞察；进去先给成品，原始记录退到次级</span></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 4 待办 -->
+<!-- 3 日程与待办 -->
 <section>
-  <div class="sec-head"><div class="sec-no">4</div><h2>待办日程 · 完整链路</h2></div>
-  <div class="sec-sub">对着痛点 3：没做完的天天重抄、到点也没人提醒。</div>
+  <div class="sec-head"><div class="sec-no">3</div><h2>日程与待办</h2></div>
+  <div class="need"><b>用户需求</b><span>没做完的别让我天天重抄；带时间的自动进日历，到点各端提醒我。</span></div>
   <div class="flow">
     <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
-      <div class="nav"><span class="bk">‹</span><b>待办</b></div>
+      <div class="nav"><span class="bk">‹</span><b>日程与待办</b></div>
       <div style="font-size:12.5px;font-weight:800;color:var(--gold);margin:14px 2px 6px">今天</div>
       <div class="card"><div class="chk"><div class="cb"></div>给植物浇水</div><div class="chk"><div class="cb"></div>就诊复查<span class="t">9:00</span></div><div class="chk"><div class="cb"></div>大扫除</div></div>
       <div style="font-size:12.5px;font-weight:800;color:var(--gold);margin:13px 2px 6px">明天</div>
@@ -378,145 +251,100 @@ section{padding:56px 0;border-top:1px solid var(--line);}
       <div class="hint">逾期未完成，自动滚到今天<small>不用天天重抄</small></div>
     </div></div></div><div class="cap">① 待办中心<small>今天/明天/本周，逾期自动滚到今天</small></div></div>
     <div class="arrow">→</div>
-    <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
-      <div class="nav"><span class="bk">‹</span><b>就诊复查</b></div>
-      <div class="card" style="margin-top:12px"><div style="color:var(--faint);font-size:11.5px">时间</div><div style="font-size:19px;font-weight:800;margin-top:2px">本周五 9:00</div><span class="pillc" style="margin-top:12px">已加入日历</span>
-        <div style="display:flex;align-items:center;margin-top:15px;padding-top:14px;border-top:1px solid var(--line)"><b style="font-size:14.5px">到点各端提醒</b><div style="margin-left:auto;width:44px;height:26px;border-radius:13px;background:var(--gold);position:relative"><div style="position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff"></div></div></div></div>
-      <div class="miniweek"><span>一</span><span>二</span><span>三</span><span>四</span><span class="on">五</span><span>六</span><span>日</span></div>
-      <div style="color:var(--sub);font-size:13px;margin-top:16px;text-align:center">带时间的事自动进日历，并到点提醒</div>
-    </div></div></div><div class="cap">② 带时间的进日历<small>到点各端提醒</small></div></div>
-    <div class="arrow">→</div>
     <div class="step"><div class="phone lock"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
       <div class="clock"><div class="h">9:00</div><div class="d">周五 · 6月20日</div></div>
       <div class="ntf"><div class="top"><span class="badge">笔记 · 待办</span><span style="color:var(--faint);font-size:11.5px">现在</span></div><b>就诊复查</b><p>记得带上医保卡</p></div>
       <div style="text-align:center;margin-top:22px"><span class="pillc">手机 · 手表 同时提醒</span></div>
-    </div></div></div><div class="cap">③ 到点各端提醒<small>手机、手表同时收到，不靠自己记</small></div></div>
+      <div class="miniweek" style="margin-top:26px"><span>一</span><span>二</span><span>三</span><span>四</span><span class="on">五</span><span>六</span><span>日</span></div>
+    </div></div></div><div class="cap">② 带时间的进日历、到点提醒<small>手机手表同时收到，不靠自己记</small></div></div>
   </div>
 </section>
 
-<!-- 5 想法随记（三种不同形态）-->
+<!-- 4 想法&随记 -->
 <section>
-  <div class="sec-head"><div class="sec-no">5</div><h2>想法随记 · 三类，三种能力</h2></div>
-  <div class="sec-sub">同是「随记」，用户要的完全不同：<b style="color:var(--ink)">工作想法</b>要理成体系（对谈）、<b style="color:var(--ink)">生活随记</b>要留住成长（成长记录）、<b style="color:var(--ink)">兴趣</b>要归拢查用（图鉴）。所以三张界面长得就不一样。</div>
+  <div class="sec-head"><div class="sec-no">4</div><h2>想法 & 随记</h2></div>
+  <div class="need"><b>用户需求</b><span>我最近在想什么？把零碎随记聚成主题，帮我抽出主要观点，还能顺着接着聊。</span></div>
   <div class="flow">
+    <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
+      <div class="nav"><span class="bk">‹</span><b>想法 & 随记</b></div>
+      <div style="color:var(--faint);font-size:12px;margin:9px 2px 2px">最近在想的几个主题</div>
+      <div class="lrow" style="border-left:5px solid var(--violet)"><div><b>AI 笔记的产品方向</b><div class="m">最近 2 周 · 12 条随记</div></div><div class="go" style="color:var(--violet)">›</div></div>
+      <div class="lrow" style="border-left:5px solid var(--violet)"><div><b>团队怎么带</b><div class="m">最近 1 月 · 7 条</div></div><div class="go" style="color:var(--violet)">›</div></div>
+      <div class="lrow" style="border-left:5px solid var(--violet)"><div><b>读书 · 关于认知</b><div class="m">5 条</div></div><div class="go" style="color:var(--violet)">›</div></div>
+      <div class="hint" style="background:var(--vsoft);color:#5a3fb0">零碎随记先聚成主题<small style="color:var(--violet)">告诉我这一阵在想什么</small></div>
+    </div></div></div><div class="cap">① 列表 · 我最近在想什么<small>随记按主题成组</small></div></div>
+    <div class="arrow">→</div>
     <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body" style="display:flex;flex-direction:column">
-      <div class="nav"><span class="bk">‹</span><b>工作想法</b></div>
-      <div style="margin-top:8px"><span class="pillc" style="background:var(--vsoft);color:var(--violet)">已带 8 条</span> <span style="color:var(--sub);font-size:12.5px">进来先接着聊</span></div>
-      <div style="flex:1;overflow:hidden;margin-top:4px">
-        <div class="bub ai">这 8 条你反复提到「把洞察页做成相册」。要不要理成一条主线？</div>
-        <div class="bub me">对，帮我把相关的串起来</div>
-        <div class="resultcard"><div class="rt">已理成一条主线</div><b>洞察页做成相册</b>
-          <div class="chk" style="font-size:12.5px;padding:4px 0"><div class="cb"></div>定品类卡</div>
-          <div class="chk" style="font-size:12.5px;padding:4px 0"><div class="cb"></div>横滑消费</div>
-          <div class="chk" style="font-size:12.5px;padding:4px 0"><div class="cb"></div>成品页收口</div></div>
-      </div>
-      <div class="inputbar"><div class="f">接着说…</div><div class="m"></div></div>
-    </div></div></div><div class="cap">工作想法 ＝ 对谈整理<small>追问、聚成主线、提炼出行动项</small></div></div>
-    <div class="arrow" style="margin-top:300px">·</div>
-    <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
-      <div class="nav"><span class="bk">‹</span><b>成长记录</b></div>
-      <div class="growcover"><div class="growtop"><div class="ga">🌱</div><div><div class="t1">朵朵的成长</div><div class="t2">1 岁 2 个月 · 已记录 86 天</div></div></div><span class="ggo">生成这一年的成长相册 →</span></div>
-      <div style="font-size:13.5px;font-weight:800;margin:15px 2px 2px">最近的里程碑</div>
-      <div class="mstone"><div class="mi" style="background:#FFE7D4">🎉</div><div><b>第一次自己走路</b><div class="d">6月12日 · 1 岁 2 个月</div></div></div>
-      <div class="mstone"><div class="mi" style="background:#E7ECFF">🗣️</div><div><b>会喊「妈妈」了</b><div class="d">5月28日</div></div></div>
-      <div class="mstone"><div class="mi" style="background:#E2F4EC">🦷</div><div><b>长出第一颗牙</b><div class="d">5月10日</div></div></div>
-      <div class="growstat">身高 78cm · 体重 10.2kg<span class="s">成长曲线 →</span></div>
-    </div></div></div><div class="cap">生活随记 ＝ 成长记录<small>散着记的串成里程碑，长出成长时光轴，不是问答</small></div></div>
-    <div class="arrow" style="margin-top:300px">·</div>
-    <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
-      <div class="nav"><span class="bk">‹</span><b>钓鱼</b></div>
-      <div class="tabs"><span class="tab on">钓点</span><span class="tab">装备</span><span class="tab">攻略</span></div>
-      <div class="mapthumb"><div class="rd" style="left:8%;top:15%;width:46%;height:42%;border-radius:46% 54% 52% 48%"></div><div class="rd" style="right:6%;bottom:10%;width:40%;height:36%;border-radius:52% 48% 46% 54%"></div><div class="road" style="left:-4%;top:60%;width:108%;height:3px;transform:rotate(-7deg)"></div><div class="mk" style="left:26%;top:30%"></div><div class="mk" style="left:60%;top:22%"></div><div class="mk" style="right:20%;bottom:28%"></div><div class="cnt">5 个钓点</div></div>
-      <div class="gitems">
-        <div class="git"><div class="em">🎣</div><div><b>路亚竿</b><div class="m">2 支</div></div></div>
-        <div class="git"><div class="em">🪱</div><div><b>常用饵</b><div class="m">4 种</div></div></div>
-        <div class="git"><div class="em">🧰</div><div><b>钓箱配件</b><div class="m">6 件</div></div></div>
-        <div class="git"><div class="em">📋</div><div><b>作钓记录</b><div class="m">11 次</div></div></div>
-      </div>
-      <div class="hint" style="background:var(--grsoft);color:#1a7a58">散着记的自动去重、归好类<small style="color:var(--green)">钓点成地图、装备成清单</small></div>
-    </div></div></div><div class="cap">兴趣 ＝ 清单 / 图鉴<small>收集自动聚成地图、清单，随时查用</small></div></div>
+      <div class="nav"><span class="bk">‹</span><b>AI 笔记的产品方向</b></div>
+      <div class="card" style="border-left:4px solid var(--violet);margin-top:10px"><div style="font-size:11.5px;color:var(--violet);font-weight:700">最近在谈什么</div><div style="font-size:12.5px;color:#424A59;margin-top:6px;line-height:1.6">这两周你反复在想：笔记太多没法逐篇读，该按场景成组、直接消费整理好的成品。</div></div>
+      <div style="font-size:13px;font-weight:800;margin:14px 2px 2px">三个主要观点</div>
+      <div class="opv"><div class="h">1 · 记录多了，怎么重新用起来</div><div class="src">来源笔记 3 篇 · 可跳回补充 ›</div></div>
+      <div class="opv"><div class="h">2 · 不消费单篇，消费最终成品</div><div class="src">来源笔记 5 篇 ›</div></div>
+      <div class="opv"><div class="h">3 · 集合参照相册来组织</div><div class="src">来源笔记 2 篇 ›</div></div>
+      <div class="lrow" style="margin-top:12px"><div class="em" style="background:var(--vsoft)">📄</div><div><b>整体总结</b><div class="m">已汇成一篇长笔记，每句可溯源</div></div><div class="go" style="color:var(--violet)">›</div></div>
+      <div class="chips"><span class="chip">历史思考</span><span class="chip">原始记录 12</span></div>
+      <div class="inputbar"><div class="f">就某个观点、或整个课题接着聊…</div><div class="m" style="background:var(--violet)"></div></div>
+    </div></div></div><div class="cap">② 详情 · 主题 + 观点 + 来源 + 接着聊<small>观点挂来源笔记、可跳转补充；接着聊即请小爱</small></div></div>
   </div>
 </section>
 
-<!-- 6 学习 -->
+<!-- 5 上课 -->
 <section>
-  <div class="sec-head"><div class="sec-no">6</div><h2>学习备考 · 全场景链路</h2></div>
-  <div class="sec-sub">站在用户视角是一条链：拍课表 → 进日历 → 到点录音 → 洞察长出这门课 → 进去复习。笔记是最关键的中间几段。</div>
+  <div class="sec-head"><div class="sec-no">5</div><h2>上课</h2></div>
+  <div class="need"><b>用户需求</b><span>核心是复习，不是回听录音——没人会把两小时的大课再听一遍。进去先落在学习上。</span></div>
   <div class="flow">
     <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
-      <div class="nav"><span class="bk">‹</span><b>相册</b></div>
-      <div class="sched">
-        <div class="schhd"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span></div>
-        <div class="schbody">
-          <span class="cls c1">高数</span><span class="cell"></span><span class="cls c2">英语</span><span class="cell"></span><span class="cell"></span>
-          <span class="cell"></span><span class="cls c3">管理</span><span class="cell"></span><span class="cell"></span><span class="cls c1">高数</span>
-          <span class="cls c2">英语</span><span class="cell"></span><span class="cls c4">马原</span><span class="cell"></span><span class="cell"></span>
-        </div>
-      </div>
-      <div style="color:var(--faint);font-size:11.5px;margin-top:8px">来自相册 · 课程表</div>
-      <div class="recog"><b>识别到课程表</b><p>共 6 门课 · 每周循环</p><div class="btn">一键加入日历</div></div>
-    </div></div></div><div class="cap">① 相册识别课程表 → 进日历</div><div style="text-align:center"><span class="deliver">交付：相册（乔梁）</span></div></div>
-    <div class="arrow">→</div>
-    <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
-      <div class="nav"><span class="bk">‹</span><b>日历</b></div>
-      <div style="font-size:12.5px;font-weight:800;color:var(--sub);margin:12px 2px 6px">今天 · 周二</div>
-      <div class="slot"><div class="rc">自动录音</div><div style="color:var(--sub);font-size:11.5px">8:00–9:40</div><div style="font-size:18px;font-weight:800;margin-top:2px">高等数学</div></div>
-      <div class="card" style="margin-top:11px"><b style="color:var(--blue);font-size:13.5px">这门课</b><div style="font-size:13.5px;margin-top:7px">已上 8 讲 · 共 16 讲</div><div class="prog" style="margin:8px 0;background:var(--track)"><i style="width:50%;background:var(--blue)"></i></div><div style="font-size:13px;color:#424A59">作业 2 份待交　·　笔记 8 篇</div></div>
-      <div class="card" style="margin-top:11px"><b style="color:var(--blue);font-size:13.5px">这堂课</b><div style="font-size:15px;font-weight:800;margin-top:6px">第 9 讲 · 极限与连续</div><div style="color:var(--sub);font-size:12.5px;margin-top:4px">A301 教室 · 今天 8:00</div></div>
-      <div style="color:var(--sub);font-size:12.5px;text-align:center;margin-top:11px">点进去不是编辑页，是这门课 + 这堂课</div>
-    </div></div></div><div class="cap">② 日历 · 认清一门课与一堂课</div><div style="text-align:center"><span class="deliver">交付：日历（东澍）</span></div></div>
-    <div class="arrow">→</div>
-    <div class="step"><div class="phone lock"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
-      <div class="clock"><div class="h">8:00</div><div class="d">周二 · 6月17日</div></div>
-      <div class="ntf"><div class="top"><span class="badge">笔记 · 自动录音</span><span class="rec"></span></div><b>高等数学 正在录音</b><div class="wave"><i style="height:40%"></i><i style="height:75%"></i><i style="height:55%"></i><i style="height:95%"></i><i style="height:50%"></i><i style="height:80%"></i><i style="height:60%"></i><i style="height:35%"></i><i style="height:78%"></i><i style="height:52%"></i><i style="height:68%"></i><i style="height:44%"></i></div><p>端侧已预录前 2 分钟，忘点也接得上</p></div>
-    </div></div></div><div class="cap">③ 到点自动录音 · 端侧预录</div><div style="text-align:center"><span class="deliver">交付：小爱 + 笔记（最关键）</span></div></div>
+      <div class="nav"><span class="bk">‹</span><b>上课</b></div>
+      <div style="font-size:12.5px;font-weight:800;color:var(--sub);margin:11px 2px 4px">2026 春季学期</div>
+      <div class="lrow" style="border-left:6px solid var(--blue)"><div class="em" style="background:#E6EDFE;color:var(--blue);font-weight:800">∫</div><div><b>高等数学</b><div class="m">已上 8 讲 · 共 16 讲</div></div></div>
+      <div class="lrow" style="border-left:6px solid var(--gold)"><div class="em" style="background:var(--gsoft);color:var(--gold)">📊</div><div><b>管理学理论</b><div class="m">5 / 12 讲</div></div></div>
+      <div class="lrow" style="border-left:6px solid var(--violet)"><div class="em" style="background:var(--vsoft);color:var(--violet)">☰</div><div><b>马克思主义原理</b><div class="m">3 / 10 讲</div></div></div>
+      <div class="lrow" style="border-left:6px solid var(--green)"><div class="em" style="background:var(--grsoft);color:var(--green)">🧪</div><div><b>大学物理</b><div class="m">6 / 14 讲</div></div></div>
+      <div class="hint">课与课靠颜色和样式一眼分清<small>高数还能做专属封面，辨识度拉满</small></div>
+    </div></div></div><div class="cap">① 列表 · 学期 + 课程<small>做出辨识度，一眼认出是哪门课</small></div></div>
     <div class="arrow">→</div>
     <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
       <div class="nav"><span class="bk">‹</span><b>高等数学</b></div>
-      <div style="color:var(--sub);font-size:12.5px;margin:8px 2px 0">这门课的合集</div>
-      <div class="hint" style="margin-top:11px">两三堂课后自动长出，已推送给你</div>
-      <div style="font-size:13.5px;font-weight:800;margin:15px 2px 4px">进去先选怎么复习</div>
-      <div class="big on"><div><b>精讲</b><div class="m">逐章节讲透，含例题</div></div><div class="ar">›</div></div>
-      <div class="big off"><div><b>快讲</b><div class="m">5 分钟过一遍重点</div></div><div class="ar" style="color:var(--faint)">›</div></div>
-      <div class="big off"><div><b>出一套卷</b><div class="m">按考点出题自测</div></div><div class="ar" style="color:var(--faint)">›</div></div>
-      <div style="font-size:12px;color:var(--sub);margin:14px 2px 6px">已聚齐的四类来源</div>
-      <div class="chips"><span class="chip">课堂录音 6</span><span class="chip">课件 4</span><span class="chip">教材 1</span><span class="chip">真题 3</span></div>
-    </div></div></div><div class="cap">④ 洞察长出这门课<small>进去先是怎么复习，来源退次级</small></div><div style="text-align:center"><span class="deliver">交付：笔记</span></div></div>
-    <div class="arrow">→</div>
-    <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
-      <div class="nav"><span class="bk">‹</span><b>高等数学 · 复习</b></div>
-      <div class="chips" style="margin-top:12px"><span class="chip on">精讲</span><span class="chip">快讲</span><span class="chip">出一套卷</span></div>
-      <div class="lrow" style="border-left:5px solid var(--blue);border-radius:14px"><div><div style="font-size:11.5px;color:var(--faint)">第 1 章</div><b>极限与连续</b></div><div class="m" style="margin-left:auto">高频 · 已讲</div></div>
-      <div class="lrow" style="border-left:5px solid var(--blue);border-radius:14px"><div><div style="font-size:11.5px;color:var(--faint)">第 2 章</div><b>导数与微分</b></div><div class="m" style="margin-left:auto">3 道例题</div></div>
-      <div class="hint" style="margin-top:13px">作业 · 第 3 章习题<small>老师发的作业已自动归到这门课</small></div>
-      <a class="btn" style="margin-top:11px">结合上课内容帮我写</a>
-      <div style="color:var(--sub);font-size:12px;text-align:center;margin-top:8px">写完自动把链接放回日程</div>
-    </div></div></div><div class="cap">⑤ 成品页 · 精讲/快讲/出卷<small>作业结合上课内容帮写、链接回日程</small></div><div style="text-align:center"><span class="deliver">交付：笔记</span></div></div>
+      <div class="card" style="margin-top:11px"><div style="display:flex;align-items:center"><b style="font-size:13.5px;color:var(--blue)">正在学习 · 学习进度</b><span style="margin-left:auto;font-size:12px;color:var(--faint)">8 / 16 讲</span></div><div class="prog" style="margin-top:10px"><i style="width:50%;background:var(--blue)"></i></div></div>
+      <a class="btn" style="background:var(--blue);box-shadow:0 8px 18px rgba(61,107,245,.26);margin-top:11px">继续复习</a>
+      <div style="font-size:12.5px;font-weight:800;margin:15px 2px 8px">进来先给成品</div>
+      <div class="fgrid">
+        <div class="fcell"><span class="em">🃏</span><b>知识卡片</b><small>上来就给</small></div>
+        <div class="fcell"><span class="em">🧠</span><b>知识脑图</b><small>点开即知识卡</small></div>
+        <div class="fcell"><span class="em">🎧</span><b>播客</b><small>点了再生成</small></div>
+        <div class="fcell"><span class="em">📑</span><b>课件预览</b><small>刷刷快速看</small></div>
+      </div>
+      <div class="inputbar"><div class="f">问一问这门课…</div><div class="m" style="background:var(--blue)"></div></div>
+      <div style="font-size:11px;color:var(--faint);text-align:center">课堂记录 8 堂，在下面 · 翻到才看</div>
+    </div></div></div><div class="cap">② 详情第一屏 · 落在复习上<small>知识卡/脑图/播客/课件/问一问；课堂记录退次级</small></div></div>
   </div>
 </section>
 
-<!-- 7 卡证 -->
+<!-- 6 访谈 -->
 <section>
-  <div class="sec-head"><div class="sec-no">7</div><h2>卡证 · 「够极致」标杆（不排期）</h2></div>
-  <div class="sec-sub">本版不做，但它定义了什么叫「够极致」：拍的、存的、别人发的，都漂亮聚在一处，一眼分清。</div>
+  <div class="sec-head"><div class="sec-no">6</div><h2>访谈</h2></div>
+  <div class="need"><b>用户需求</b><span>访谈久了会忘了聊过啥；我要的是核心洞察，能看谁说的、拨到原声，也能按人看观点。</span></div>
   <div class="flow">
     <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body">
-      <div class="htitle" style="font-size:21px">卡包</div><div style="color:var(--sub);font-size:12px;margin:0 2px">拍的、存的、别人发的，都在这</div>
-      <div class="idc" style="background:linear-gradient(135deg,#D7E1F5,#EEF3FC)"><div class="photo"></div><div class="lbl">居民身份证</div><div style="font-size:12.5px;color:var(--sub);margin-top:12px">姓名　杨**</div><div class="no">3301 2419 **** 1234</div></div>
-      <div class="idc" style="background:linear-gradient(135deg,#F6EBD2,#FFF8EC)"><div class="cx"></div><div class="lbl">储蓄卡</div><div class="no" style="margin-top:18px">6225 **** **** 8888</div><div class="mm">招商银行 · 一卡通</div></div>
-      <div class="hint" style="margin-top:13px">这就是「够极致」的基准<small>随时看 · 一眼分清 · 问小爱能取用 · 要填能填</small></div>
-    </div></div></div><div class="cap">设计过的证件样式，漂亮聚合<small>本版不做，作为设计基准</small></div></div>
-    <div class="step sidebox2"><div class="sidebox">
-      <div style="font-weight:800;font-size:16px;margin-bottom:8px">卡证锚定的四个需求</div>
-      <div class="qrow"><span class="n">1</span><div><b>拍的、存的、别人发的都聚好</b><br><span>相册归类原始照片，笔记做漂亮的成品呈现</span></div></div>
-      <div class="qrow"><span class="n">2</span><div><b>随时来看、一眼分清</b><br><span>一看就知道哪张是身份证、哪张是银行卡</span></div></div>
-      <div class="qrow"><span class="n">3</span><div><b>问小爱时取得出、用得上</b><br><span>授权后能被系统取用</span></div></div>
-      <div class="qrow"><span class="n">4</span><div><b>要填号码时能直接填</b><br><span>订票、填表一键带入</span></div></div>
-    </div></div>
+      <div class="nav"><span class="bk">‹</span><b>访谈</b></div>
+      <div style="color:var(--faint);font-size:12px;margin:9px 2px 2px">每个访谈先给主题和最重要的洞察</div>
+      <div class="card" style="border-left:5px solid var(--green);margin-top:11px"><b style="font-size:14px">用户访谈 · 笔记产品</b><div style="font-size:11.5px;color:var(--green);font-weight:700;margin-top:8px">核心洞察</div><div style="font-size:12.5px;color:#424A59;margin-top:3px;line-height:1.55">用户不消费单篇笔记，只认整理好的成品</div><div style="font-size:11px;color:var(--faint);margin-top:8px">6 位受访者 · 3 条洞察</div></div>
+      <div class="card" style="border-left:5px solid var(--green);margin-top:11px"><b style="font-size:14px">竞品调研 · 笔记赛道</b><div style="font-size:11.5px;color:var(--green);font-weight:700;margin-top:8px">核心洞察</div><div style="font-size:12.5px;color:#424A59;margin-top:3px;line-height:1.55">赢在聚合与消费，不在编辑器功能多</div><div style="font-size:11px;color:var(--faint);margin-top:8px">4 家产品 · 2 条洞察</div></div>
+    </div></div></div><div class="cap">① 列表 · 主题 + 最重要的洞察<small>久了也记得这个访谈干了啥</small></div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="phone"><div class="island"></div><div class="scr"><div class="sb"><span>9:41</span><span class="rr"><svg width="24" height="12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#191E2B" opacity=".5"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#191E2B"/></svg></span></div><div class="body" style="display:flex;flex-direction:column">
+      <div class="nav"><span class="bk">‹</span><b>用户访谈 · 笔记产品</b></div>
+      <div class="tabs" style="margin-top:11px"><span class="tab on" style="background:var(--green)">按洞察</span><span class="tab">按受访者</span></div>
+      <div class="opv" style="border-left-color:var(--green)"><div class="h">洞察 1 · 用户不消费单篇笔记</div><div class="src" style="color:var(--green)">3 人提到 · ▷ 拨到原声 08:12</div></div>
+      <div class="opv" style="border-left-color:var(--green)"><div class="h">洞察 2 · 复习只看知识，不回听</div><div class="src" style="color:var(--green)">▷ 拨到原声 12:40</div></div>
+      <div class="opv" style="border-left-color:var(--green)"><div class="h">洞察 3 · 辨识度决定会不会用</div><div class="src" style="color:var(--green)">▷ 拨到原声 21:05</div></div>
+      <div class="lrow" style="margin-top:12px"><div class="em" style="background:var(--grsoft)">📄</div><div><b>整体总结</b><div class="m">三条洞察汇成一篇</div></div><div class="go" style="color:var(--green)">›</div></div>
+      <div class="inputbar"><div class="f">就这些洞察接着问…</div><div class="m" style="background:var(--green)"></div></div>
+    </div></div></div><div class="cap">② 详情 · 洞察 / 受访者两个维度<small>点洞察看谁说的、拨原声；按人看某受访者的观点原话</small></div></div>
   </div>
 </section>
 
-<div class="foot">笔记 · 洞察页产品方案　|　依据 TR1 用户调研　|　本版聚焦 待办 / 想法 / 学习，卡证作设计基准</div>
+<div class="foot">笔记 · 集合方案　|　OS5 · Agentic OS 笔记 APP　|　集合先做四个场景：日程与待办 / 想法&随记 / 上课 / 访谈</div>
 
 </div>
 </body>
