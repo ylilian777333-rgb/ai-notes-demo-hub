@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OS5 笔记 · 集合方案</title>
+<style>
+:root{
+  --canvas:#EEF0F5;--surface:#FFFFFF;--surface-2:#F5F7FA;
+  --line:rgba(20,24,34,.09);--line-2:rgba(20,24,34,.055);
+  --ink:#141822;--ink-2:#454B57;--ink-3:#767D8A;--ink-4:#A6ADB9;
+  --blue:#2A6FF0;--purple:#7A5AF0;--teal:#0E9384;
+  --pain:#D9640B;--pain-f:rgba(232,120,16,.06);--pain-b:rgba(232,120,16,.22);
+  --ok:#0E9A6B;--ok-f:rgba(14,154,107,.075);--ok-b:rgba(14,154,107,.22);
+  --cat:var(--blue);--cat-f:rgba(42,111,240,.055);--cat-f2:rgba(42,111,240,.13);--cat-b:rgba(42,111,240,.22);
+  --r-xl:24px;--r-lg:18px;--r:13px;
+  --sh-1:0 1px 2px rgba(20,24,34,.05);
+  --sh-2:0 2px 10px rgba(20,24,34,.05),0 1px 2px rgba(20,24,34,.035);
+  --sh-3:0 16px 40px rgba(20,24,34,.10),0 2px 6px rgba(20,24,34,.045);
+  --sans:"MiSans",-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  --num:"SF Mono","JetBrains Mono",ui-monospace,Menlo,monospace;
+  --gut:clamp(18px,2.4vw,56px);
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;font-family:var(--sans);background:var(--canvas);color:var(--ink);
+  font-size:15px;line-height:1.72;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4,h5{margin:0;font-weight:600;}
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+ul{margin:0;padding-left:17px;}
+li{margin-bottom:5px;}
+
+/* toolbar */
+.top{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.85);
+  backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);
+  border-bottom:1px solid var(--line);}
+.top-in{display:flex;align-items:center;gap:14px;padding:12px var(--gut);}
+.brand{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:600;letter-spacing:-.3px;}
+.brand i{width:21px;height:21px;border-radius:6px;background:var(--blue);color:#fff;font-style:normal;
+  font-size:11px;display:flex;align-items:center;justify-content:center;flex:none;font-weight:600;}
+.brand span{color:var(--ink-3);font-weight:500;}
+#prog{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--blue);transition:width .1s linear;}
+
+/* cover */
+.cover{background:var(--surface);border-bottom:1px solid var(--line);}
+.cover-in{padding:clamp(42px,4.2vw,68px) var(--gut) clamp(36px,3.4vw,54px);text-align:center;}
+.cover h1{font-size:clamp(26px,2.8vw,42px);line-height:1.33;letter-spacing:-1.5px;margin:0 auto;max-width:28em;text-wrap:balance;}
+.cover h1 em{font-style:normal;color:var(--blue);}
+.cover .sub{margin:16px auto 0;max-width:74ch;font-size:14.5px;color:var(--ink-3);line-height:1.85;}
+
+/* shell */
+.shell{padding:clamp(18px,2.2vw,32px) var(--gut) 90px;display:grid;
+  grid-template-columns:214px minmax(0,1fr);gap:clamp(16px,1.8vw,32px);align-items:start;}
+@media (max-width:1100px){.shell{grid-template-columns:1fr;gap:0;}
+  .rail{position:static;margin-bottom:16px;}.rail h2{display:none;}}
+.rail{position:sticky;top:70px;}
+.rail-in{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:15px 11px;box-shadow:var(--sh-2);}
+.rail h2{font-family:var(--num);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink-4);margin:0 0 11px;padding:0 9px;font-weight:500;}
+.rail .nv{list-style:none;margin:0;padding:0;}
+.rail .nv>li{margin-bottom:3px;}
+.rail .nv>li>a{display:flex;align-items:baseline;gap:9px;padding:7px 10px;border-radius:9px;
+  font-size:13px;font-weight:500;color:var(--ink-2);letter-spacing:-.2px;line-height:1.45;}
+.rail .nv>li>a:hover{background:var(--surface-2);}
+.rail .nv>li>a.on{background:var(--cat-f);color:var(--blue);font-weight:600;}
+.rail .nv>li>a i{font-family:var(--num);font-size:10px;color:var(--ink-4);font-style:normal;flex:none;}
+.rail .nv>li>a.on i{color:var(--blue);opacity:.6;}
+.rail .nv ul{list-style:none;margin:1px 0 8px 13px;padding-left:9px;border-left:1px solid var(--line);}
+.rail .nv ul li{margin:0;}
+.rail .nv ul a{display:flex;align-items:baseline;gap:7px;padding:5px 8px;border-radius:7px;
+  font-size:12px;font-weight:500;color:var(--ink-3);letter-spacing:-.15px;line-height:1.45;}
+.rail .nv ul a:hover{background:var(--surface-2);color:var(--ink-2);}
+.rail .nv ul a.on{background:var(--surface-2);color:var(--ink);font-weight:600;}
+.rail .nv ul a em{font-family:var(--num);font-size:9px;font-style:normal;color:var(--ink-4);flex:none;}
+.rail .nv ul a.on em{color:var(--cat);}
+@media (max-width:1100px){.rail .nv ul{display:none;}
+  .rail .nv{display:flex;flex-wrap:wrap;gap:6px;}
+  .rail .nv>li{margin:0;}
+  .rail .nv>li>a{border-radius:100px;padding:6px 13px;}}
+
+/* section */
+section{margin-bottom:clamp(26px,2.8vw,44px);scroll-margin-top:64px;}
+.grp,.cut,.flow,.card,.note,.stack,.grow{scroll-margin-top:74px;}
+.opener{background:linear-gradient(108deg,var(--cat-f2) 0%,var(--cat-f) 34%,var(--surface) 70%);
+  border:1px solid var(--cat-b);border-radius:var(--r-xl);
+  padding:clamp(19px,1.7vw,25px) clamp(22px,2.2vw,32px);box-shadow:var(--sh-2);margin-bottom:13px;}
+.op-top{display:flex;align-items:center;gap:16px;margin-bottom:9px;}
+.op-no{font-family:var(--num);font-size:clamp(26px,2.3vw,35px);font-weight:600;line-height:.84;
+  color:var(--cat);opacity:.3;letter-spacing:-2px;flex:none;}
+.opener h2{font-size:clamp(20px,1.8vw,26px);letter-spacing:-1px;}
+.op-role{margin-left:auto;flex:none;font-family:var(--num);font-size:10.5px;color:var(--cat);
+  letter-spacing:.03em;white-space:nowrap;opacity:.85;}
+@media (max-width:640px){.op-top{flex-wrap:wrap;gap:10px;}.op-role{margin-left:0;}}
+.opener>p{font-size:14.5px;color:var(--ink-2);max-width:100ch;line-height:1.82;}
+.opener>p+p{margin-top:9px;}
+
+/* 分组带 */
+.grp{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap;
+  border-left:2px solid var(--cat);padding:2px 0 2px 15px;margin:24px 0 11px;}
+.grp .gl{font-family:var(--num);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--cat);font-weight:600;flex:none;}
+.grp b{font-size:16px;font-weight:600;letter-spacing:-.45px;flex:none;}
+.grp p{font-size:13.5px;color:var(--ink-3);}
+.grp .gn{margin-left:auto;flex:none;font-family:var(--num);font-size:9.5px;color:var(--ink-4);letter-spacing:.05em;}
+@media (max-width:900px){.grp .gn{margin-left:0;}}
+
+/* 成组一行 */
+.grow{display:flex;align-items:center;gap:11px;flex-wrap:wrap;background:var(--surface);
+  border:1px solid var(--line);border-left:2px solid var(--cat);border-radius:var(--r);
+  padding:13px 19px;margin-bottom:13px;box-shadow:var(--sh-2);}
+.grow>span{font-family:var(--num);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--cat);font-weight:600;flex:none;}
+.grow b{font-size:15px;letter-spacing:-.4px;}
+.grow i{font-style:normal;color:var(--ink-4);font-size:13px;}
+.grow u{text-decoration:none;font-size:13.5px;color:var(--ink-3);margin-left:auto;}
+@media (max-width:820px){.grow u{margin-left:0;flex-basis:100%;}}
+
+/* 认知两条 */
+.two2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:13px;}
+.tw2{background:var(--surface);border:1px solid var(--line);border-left:2px solid var(--cat);
+  border-radius:var(--r-lg);box-shadow:var(--sh-2);padding:19px 22px 21px;}
+.tw2 em{font-family:var(--num);font-size:10px;letter-spacing:.11em;text-transform:uppercase;font-style:normal;
+  display:block;margin-bottom:8px;font-weight:600;color:var(--cat);}
+.tw2 b{display:block;font-size:16.5px;letter-spacing:-.5px;margin-bottom:7px;}
+.tw2 p{font-size:13.5px;color:var(--ink-2);line-height:1.78;}
+.tw2 p+p{margin-top:8px;}
+.tw2 .ch{display:flex;flex-wrap:wrap;gap:5px;margin-top:11px;}
+.tw2 .ch i{font-style:normal;font-size:11.5px;color:var(--cat);background:var(--cat-f);
+  border:1px solid var(--cat-b);border-radius:6px;padding:2px 8px;}
+
+/* 取舍 */
+.cut{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:12px;margin-bottom:13px;}
+.cut>div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--sh-2);padding:18px 21px 20px;}
+.cut .yes{border-left:2px solid var(--ok);}
+.cut .no{border-left:2px solid var(--line);}
+.cut em{font-family:var(--num);font-size:10px;letter-spacing:.11em;text-transform:uppercase;font-style:normal;
+  display:block;margin-bottom:10px;font-weight:600;}
+.cut .yes em{color:var(--ok);}
+.cut .no em{color:var(--ink-4);}
+.cut ul{padding-left:16px;}
+.cut li{font-size:13.5px;color:var(--ink-2);line-height:1.75;}
+.cut li b{color:var(--ink);}
+.cut .no li{color:var(--ink-3);}
+
+/* 结构堆叠 */
+.stack{display:grid;gap:7px;margin-bottom:13px;}
+.st1{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:baseline;
+  background:var(--surface);border:1px solid var(--line);border-left:2px solid var(--cat);
+  border-radius:var(--r);padding:13px 19px;}
+@media (max-width:760px){.st1{grid-template-columns:1fr;gap:4px;}}
+.st1 span{font-family:var(--num);font-size:9.5px;letter-spacing:.08em;color:var(--cat);font-weight:600;}
+.st1 b{font-size:14.5px;letter-spacing:-.35px;}
+.st1 p{font-size:13px;color:var(--ink-2);margin-top:3px;}
+.st1.sec2{border-left-color:var(--line);}
+.st1.sec2 span{color:var(--ink-4);}
+
+/* 卡片 */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--sh-2);padding:21px 26px 23px;margin-bottom:13px;}
+.card h3{font-size:17.5px;letter-spacing:-.6px;margin-bottom:11px;}
+.card h4{font-size:15px;letter-spacing:-.4px;margin:20px 0 8px;}
+.card h4:first-child{margin-top:0;}
+.card p,.card li{font-size:14px;color:var(--ink-2);}
+.card>p,.card>ul{max-width:106ch;}
+.card>p+p{margin-top:10px;}
+.card li strong,.card p strong{color:var(--ink);}
+.note{background:var(--surface);border:1px solid var(--line);border-left:2px solid var(--ink-4);
+  border-radius:var(--r);padding:15px 20px;margin-bottom:13px;}
+.note .bl{font-family:var(--num);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-4);font-weight:600;display:block;margin-bottom:9px;}
+.note p,.note li{font-size:13.5px;color:var(--ink-2);line-height:1.78;}
+.note li b{color:var(--ink);}
+.note ul{padding-left:16px;}
+
+/* 手机帧 */
+.flow{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;padding:2px 0 4px;}
+.frm{margin:0;flex:none;width:208px;}
+.frm .fn{display:flex;align-items:center;gap:7px;margin-bottom:9px;}
+.frm .fn i{font-family:var(--num);font-size:9.5px;font-style:normal;color:var(--cat);background:var(--cat-f);
+  border:1px solid var(--cat-b);border-radius:5px;padding:1px 6px;flex:none;font-weight:600;}
+.frm .fn span{font-size:12.5px;font-weight:600;color:var(--ink-2);letter-spacing:-.25px;}
+.frm figcaption{font-size:11.5px;color:var(--ink-3);line-height:1.65;margin-top:10px;}
+.arw{flex:none;align-self:center;color:var(--ink-4);font-size:14px;padding-top:24px;}
+.ph{border-radius:22px;background:#F1F3F7;overflow:hidden;height:428px;display:flex;flex-direction:column;
+  box-shadow:var(--sh-3);border:1px solid var(--line);}
+.ph.dk{background:linear-gradient(168deg,#DCE5F7 0%,#EEF1F7 46%,#F4F6FA 100%);border-color:var(--cat-b);}
+.p-st{height:17px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 11px;}
+.p-st i{font-family:var(--num);font-size:6.5px;color:var(--ink-3);font-style:normal;}
+.p-nav{padding:2px 11px 8px;flex:none;}
+.p-nav .bk{font-size:9px;color:var(--ink-3);display:block;margin-bottom:2px;}
+.p-nav h5{font-size:15px;letter-spacing:-.5px;}
+.p-nav h5.sm{font-size:12.5px;letter-spacing:-.3px;}
+.p-nav em{font-size:8px;color:var(--ink-4);font-style:normal;display:block;margin-top:2px;}
+.p-bd{flex:1;overflow:hidden;padding:0 11px;}
+.p-tb{flex:none;border-top:1px solid var(--line-2);background:rgba(255,255,255,.78);
+  display:flex;align-items:center;gap:6px;padding:6px 11px 10px;}
+.dt{flex:1;text-align:center;font-size:9.5px;color:var(--ink-4);font-weight:600;padding:3px 0;}
+.dt.on{color:var(--cat);}
+.dt.on::after{content:"";display:block;width:14px;height:2px;background:var(--cat);border-radius:2px;margin:3px auto 0;}
+.fb{flex:none;display:flex;gap:5px;}
+.fb i{width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:var(--sh-1);display:flex;
+  align-items:center;justify-content:center;font-size:9px;font-style:normal;color:var(--ink-2);}
+.fb i.f{background:var(--cat);color:#fff;box-shadow:none;}
+.cd{background:#fff;border-radius:14px;padding:10px 11px;margin-bottom:7px;box-shadow:var(--sh-1);}
+.cd-h{display:flex;align-items:baseline;justify-content:space-between;gap:6px;margin-bottom:6px;}
+.cd-h b{font-size:10.5px;letter-spacing:-.15px;}
+.cd-h em{font-family:var(--num);font-size:7.5px;color:var(--ink-4);font-style:normal;flex:none;}
+.cd p{font-size:9px;line-height:1.65;color:var(--ink-2);}
+.tr{display:flex;gap:7px;align-items:flex-start;font-size:9.5px;line-height:1.5;padding:3px 0;color:var(--ink-2);}
+.tr i{width:10px;height:10px;border:1px solid var(--ink-4);border-radius:3px;flex:none;margin-top:2px;}
+.tr i.dn{background:var(--ok);border-color:var(--ok);}
+.tr s{color:var(--ink-4);}
+.tr em{font-family:var(--num);font-size:7px;font-style:normal;flex:none;margin-left:auto;border-radius:4px;padding:1px 5px;}
+.tr em.b{color:var(--cat);background:var(--cat-f);border:1px solid var(--cat-b);}
+.tr em.g{color:var(--ok);background:var(--ok-f);border:1px solid var(--ok-b);}
+.tr em.o{color:var(--pain);background:var(--pain-f);border:1px solid var(--pain-b);}
+.rh{display:flex;align-items:baseline;justify-content:space-between;padding:2px 2px 6px;}
+.rh b{font-size:10px;letter-spacing:-.15px;}
+.rh em{font-family:var(--num);font-size:7.5px;color:var(--ink-4);font-style:normal;}
+.row{background:#fff;border-radius:13px;padding:9px 11px;margin-bottom:6px;box-shadow:var(--sh-1);}
+.row b{display:block;font-size:10px;margin-bottom:2px;letter-spacing:-.15px;}
+.row p{font-size:8.5px;color:var(--ink-3);line-height:1.55;}
+.row em{font-family:var(--num);font-size:7px;color:var(--ink-4);font-style:normal;display:block;margin-top:4px;}
+.seg{display:flex;gap:2px;background:rgba(20,24,34,.05);border-radius:10px;padding:2px;margin-bottom:8px;}
+.seg span{flex:1;text-align:center;font-size:8.5px;padding:4px 0;border-radius:8px;color:var(--ink-3);}
+.seg span.on{background:#fff;color:var(--ink);font-weight:600;box-shadow:var(--sh-1);}
+.btn{background:var(--cat);color:#fff;border-radius:11px;padding:8px;text-align:center;font-size:10px;
+  font-weight:600;margin-bottom:6px;letter-spacing:-.15px;}
+.btn.nt{background:#fff;color:var(--ink-2);box-shadow:var(--sh-1);}
+.pnote{font-size:7.5px;color:var(--ink-4);line-height:1.55;}
+.mnt{display:inline-flex;align-items:center;gap:5px;font-size:7.5px;color:var(--cat);background:var(--cat-f);
+  border:1px solid var(--cat-b);border-radius:7px;padding:3px 8px;margin-bottom:7px;}
+.bub{background:#fff;border-radius:13px;padding:9px 11px;margin-bottom:6px;font-size:9px;line-height:1.65;
+  color:var(--ink-2);box-shadow:var(--sh-1);}
+.bub.q{background:rgba(255,255,255,.64);color:var(--ink);box-shadow:none;border:1px solid var(--cat-b);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;}
+/* 课程卡（辨识度） */
+.crs{border-radius:13px;padding:10px 11px 10px 14px;margin-bottom:6px;box-shadow:var(--sh-1);position:relative;overflow:hidden;}
+.crs::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;}
+.crs.k1{background:linear-gradient(112deg,#E7EEFC,#F7F9FE 78%);}.crs.k1::before{background:#2A6FF0;}
+.crs.k2{background:linear-gradient(112deg,#E4F2EC,#F6FAF8 78%);}.crs.k2::before{background:#0E9384;}
+.crs.k3{background:linear-gradient(112deg,#F0EAFB,#F9F6FD 78%);}.crs.k3::before{background:#7A5AF0;}
+.crs.k4{background:linear-gradient(112deg,#FBEEE2,#FDF8F3 78%);}.crs.k4::before{background:#D9640B;}
+.crs b{display:block;font-size:11.5px;font-weight:600;letter-spacing:-.25px;margin-bottom:4px;}
+.crs .m{display:flex;gap:9px;font-family:var(--num);font-size:7px;color:var(--ink-4);}
+.crs .m u{text-decoration:none;color:var(--ink-3);}
+/* 洞察项 */
+.ins{background:#fff;border-radius:12px;padding:9px 11px;margin-bottom:6px;box-shadow:var(--sh-1);}
+.ins em{font-family:var(--num);font-size:6.5px;font-style:normal;color:var(--cat);display:block;
+  margin-bottom:4px;letter-spacing:.07em;font-weight:600;}
+.ins b{display:block;font-size:10px;font-weight:600;line-height:1.45;margin-bottom:4px;letter-spacing:-.15px;}
+.ins p{font-size:8.5px;color:var(--ink-3);line-height:1.55;}
+.ins .src{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.ins .src span{font-size:7px;color:var(--cat);background:var(--cat-f);border:1px solid var(--cat-b);
+  border-radius:5px;padding:1px 6px;}
+/* 四宫入口 */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:7px;}
+.fg{background:#fff;border-radius:12px;padding:9px 8px;box-shadow:var(--sh-1);text-align:center;}
+.fg u{display:block;width:19px;height:19px;margin:0 auto 5px;border-radius:6px;
+  background:var(--cat-f);border:1px solid var(--cat-b);color:var(--cat);
+  font-size:9.5px;font-weight:600;line-height:18px;text-decoration:none;}
+.fg b{display:block;font-size:9px;font-weight:600;letter-spacing:-.15px;margin-bottom:2px;}
+.fg span{font-size:6.5px;color:var(--ink-4);font-family:var(--num);}
+/* 进度 */
+.prog2{background:#fff;border-radius:13px;padding:11px;margin-bottom:7px;box-shadow:var(--sh-1);}
+.prog2 .t{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;}
+.prog2 .t b{font-size:10.5px;letter-spacing:-.15px;}
+.prog2 .t em{font-family:var(--num);font-size:15px;font-style:normal;color:var(--cat);font-weight:600;}
+.bar{height:5px;border-radius:5px;background:rgba(20,24,34,.07);overflow:hidden;}
+.bar i{display:block;height:100%;background:var(--cat);border-radius:5px;}
+.prog2 .sub{display:flex;justify-content:space-between;margin-top:7px;font-family:var(--num);
+  font-size:7px;color:var(--ink-4);}
+/* 表格 */
+.tw{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--sh-2);margin-bottom:13px;overflow:hidden;}
+.tw-h{padding:19px 26px 14px;border-bottom:1px solid var(--line-2);}
+.tw-h h3{font-size:17.5px;letter-spacing:-.6px;margin-bottom:6px;}
+.tw-h p{font-size:13.5px;color:var(--ink-3);max-width:104ch;}
+.tscroll{overflow-x:auto;padding:4px 26px 22px;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+thead th{text-align:left;font-family:var(--num);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-4);font-weight:600;padding:13px 20px 10px 0;border-bottom:1px solid var(--line);white-space:nowrap;}
+tbody td{padding:13px 20px 13px 0;border-bottom:1px solid var(--line-2);vertical-align:top;
+  color:var(--ink-2);line-height:1.72;}
+tbody tr:last-child td{border-bottom:none;}
+tbody td:first-child{color:var(--ink);font-weight:600;white-space:nowrap;}
+tbody td b{color:var(--ink);}
+tbody td.gy{color:var(--ink-3);}
+.k1st{color:var(--ink);font-weight:500;}
+/* 集合封面（相册式分栏横滑） */
+.strip{margin-bottom:9px;}
+.strip .sh2{display:flex;align-items:baseline;justify-content:space-between;margin:0 1px 5px;}
+.strip .sh2 b{font-size:10px;letter-spacing:-.15px;}
+.strip .sh2 i{font-style:normal;font-family:var(--num);font-size:7px;color:var(--ink-4);}
+.covs{display:flex;gap:6px;overflow:hidden;}
+.cov{flex:none;width:92px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--sh-1);}
+.cov .t{padding:8px 8px 7px;min-height:36px;}
+.cov .t b{display:block;font-size:9.5px;font-weight:600;line-height:1.34;letter-spacing:-.1px;}
+.cov .t span{display:block;font-family:var(--num);font-size:6.5px;color:var(--ink-4);margin-top:3px;letter-spacing:.05em;}
+.cov .b2{padding:6px 8px 8px;border-top:1px solid var(--line-2);}
+.cov .b2 em{font-style:normal;font-size:7.5px;line-height:1.5;color:var(--ink-2);display:block;}
+.cov.a .t{background:rgba(42,111,240,.07);}
+.cov.b .t{background:rgba(14,147,132,.07);}
+.cov.c .t{background:rgba(122,90,240,.07);}
+.cov.d .t{background:rgba(232,120,16,.07);}
+.cov.hi{box-shadow:0 0 0 1.5px var(--cat),var(--sh-1);}
+.cov.nx{width:22px;display:flex;align-items:center;justify-content:center;color:var(--ink-4);
+  background:rgba(255,255,255,.5);box-shadow:none;border:1px dashed var(--line);font-size:11px;}
+@media print{.top,.rail{display:none;}.shell{grid-template-columns:1fr;}
+  body{background:#fff;font-size:10.5pt;}
+  .card,.cut,section,.opener,.tw2{page-break-inside:avoid;box-shadow:none;}}
+</style>
+</head><body>
+
+<div class="top">
+  <div class="top-in">
+    <span class="brand"><i>笔</i>OS5 笔记 <span>· 集合方案</span></span>
+  </div>
+  <div id="prog" role="presentation"></div>
+</div>
+
+<div class="cover">
+  <div class="cover-in">
+    <h1>从读笔记，<em>到消费内容</em></h1>
+    <p class="sub">笔记的两个变化推出两个结果：组织形式从单篇变成成组，消费形式从重读文本变成消费最终内容。集合这个 tab 就是这两个结果的落点，对着 TR1 的五个大场景各先做一个子场景：日程与待办、想法&amp;随记、上课、访谈、卡证。</p>
+  </div>
+</div>
+
+<div class="shell">
+  <nav class="rail" aria-label="目录">
+    <div class="rail-in">
+      <h2>Contents</h2>
+      <ul class="nv">
+        <li><a href="#c1" class="on"><i>01</i>主体认知</a>
+          <ul>
+            <li><a href="#s11"><em>1.1</em>两个变化</a></li>
+            <li><a href="#s12"><em>1.2</em>两个结果</a></li>
+          </ul>
+        </li>
+        <li><a href="#c2"><i>02</i>场景分类</a>
+          <ul>
+            <li><a href="#s21"><em>2.1</em>大场景对应</a></li>
+            <li><a href="#s22"><em>2.2</em>做与不做</a></li>
+          </ul>
+        </li>
+        <li><a href="#c3"><i>03</i>两个底 tab</a>
+          <ul>
+            <li><a href="#s31"><em>3.1</em>封面放什么</a></li>
+            <li><a href="#s32"><em>3.2</em>两个 tab 长什么样</a></li>
+          </ul>
+        </li>
+        <li><a href="#c4"><i>04</i>日程与待办</a>
+          <ul>
+            <li><a href="#s41"><em>4.1</em>成组</a></li>
+            <li><a href="#s42"><em>4.2</em>两屏</a></li>
+            <li><a href="#s43"><em>4.3</em>取舍</a></li>
+          </ul>
+        </li>
+        <li><a href="#c5"><i>05</i>想法&amp;随记</a>
+          <ul>
+            <li><a href="#s51"><em>5.1</em>成组</a></li>
+            <li><a href="#s52"><em>5.2</em>两屏</a></li>
+            <li><a href="#s53"><em>5.3</em>取舍</a></li>
+          </ul>
+        </li>
+        <li><a href="#c6"><i>06</i>上课</a>
+          <ul>
+            <li><a href="#s61"><em>6.1</em>成组</a></li>
+            <li><a href="#s62"><em>6.2</em>两屏</a></li>
+            <li><a href="#s63"><em>6.3</em>取舍</a></li>
+          </ul>
+        </li>
+        <li><a href="#c7"><i>07</i>访谈</a>
+          <ul>
+            <li><a href="#s71"><em>7.1</em>成组</a></li>
+            <li><a href="#s72"><em>7.2</em>两屏</a></li>
+            <li><a href="#s73"><em>7.3</em>取舍</a></li>
+          </ul>
+        </li>
+        <li><a href="#c8"><i>08</i>卡证</a>
+          <ul>
+            <li><a href="#s81"><em>8.1</em>成组</a></li>
+            <li><a href="#s82"><em>8.2</em>两屏</a></li>
+            <li><a href="#s83"><em>8.3</em>取舍</a></li>
+          </ul>
+        </li>
+        <li><a href="#c9"><i>09</i>共同口径</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+  <!-- ═══ 01 主体认知 ═══ -->
+  <section id="c1">
+    <div class="opener">
+      <div class="op-top">
+        <span class="op-no">01</span>
+        <h2>主体认知</h2>
+        <span class="op-role">两个变化 · 两个结果</span>
+      </div>
+      <p>底座是 Agentic OS：Agent、多 Agent、记忆、工具、LLM 这套结构按行业标准来，不在这里展开。笔记这一侧的变化只有两条，下面所有的设计都从这两条推出来，不偏离。</p>
+    </div>
+
+    <div class="grp" id="s11">
+      <span class="gl">1.1</span>
+      <b>两个变化</b>
+      <p>一个导致另一个</p>
+      <span class="gn">2 条</span>
+    </div>
+    <div class="two2">
+      <div class="tw2">
+        <em>变化一</em>
+        <b>从手写到不用写</b>
+        <p>语音录入、按 AI 键快速记事、让 AI 助手写入（含三方助手，走 MCP），都不一定还需要用户手写。手写当然还能写，但它不再是唯一入口。</p>
+        <p>这件事我们只做了一半——只做了语音笔记。人、车、家的数据都该能被聚合进来。</p>
+        <div class="ch"><i>语音录入</i><i>AI 键</i><i>AI 助手写入 · MCP</i><i>手写</i></div>
+      </div>
+      <div class="tw2">
+        <em>变化二</em>
+        <b>从读笔记到消费内容</b>
+        <p>不用写，内容就爆发式增长。内容一多，消费单篇笔记这件事就不成立了。</p>
+        <p>一个学生一个学期录 50 个课堂录音，复习的时候根本没法从笔记流里找到那一节，搜索也不是好体验。</p>
+        <div class="ch"><i>50 个录音</i><i>流里找不到</i><i>搜也不好用</i></div>
+      </div>
+    </div>
+
+    <div class="grp" id="s12">
+      <span class="gl">1.2</span>
+      <b>两个结果</b>
+      <p>这两条推出来的，不是我们另外加的</p>
+      <span class="gn">2 条</span>
+    </div>
+    <div class="two2">
+      <div class="tw2">
+        <em>结果一</em>
+        <b>组织形式：从单篇变成成组</b>
+        <p>一节课聚合成一门课，一个想法聚合成一段思考，一个待办变成日程的记录与安排。</p>
+        <p>用户打开的单位不再是「一篇」，而是「一组」。</p>
+      </div>
+      <div class="tw2">
+        <em>结果二</em>
+        <b>消费形式：不再重读文本，而是消费最终内容</b>
+        <p>录了一个会，最终消费的是纪要和待办。录音加拍照上了一门课，要消费的是知识——可能是播客、PPT、脑图。</p>
+        <p>Markdown 只是底层怎么存，不是用户看到的东西。</p>
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="bl">这条线要卯死</span>
+      <p>下面每一个场景都按同一个顺序回答三件事：<b>成组之后一组是什么</b> → <b>封面上放什么、点进去第一屏放什么</b> → <b>这一类只做哪几个功能</b>。功能一律做取舍，不求面面俱到。</p>
+    </div>
+  </section>
+
+  <!-- ═══ 02 场景分类 ═══ -->
+  <section id="c2">
+    <div class="opener">
+      <div class="op-top">
+        <span class="op-no">02</span>
+        <h2>场景分类</h2>
+        <span class="op-role">TR1 五个大场景 → 本期五个子场景</span>
+      </div>
+      <p>TR1 已经定了五个大场景。集合这一期不铺开做，<b>每个大场景下先落一个子场景做深</b>，把成组和消费这条路走通，剩下的子场景等这五个立住了再按同一套往下铺。</p>
+    </div>
+
+    <div class="tw" id="s21">
+      <div class="tw-h">
+        <h3>大场景与子场景的对应</h3>
+        <p>左边是 TR1 的五个大场景，中间是这个大场景下的内容，右边是本期集合里先做的那一个。加粗的是本期做的子场景。</p>
+      </div>
+      <div class="tscroll">
+        <table>
+          <thead>
+            <tr><th>TR1 大场景</th><th>这个大场景下有什么</th><th>本期集合先做</th><th>为什么先做这个</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>待办 · 日程</td>
+              <td>贯穿其余四类：从任何内容里识别出来的待办与日程</td>
+              <td class="k1st"><b>日程与待办</b></td>
+              <td>频次最高，而且归宿在笔记之外，先把识别和分发这条链走通</td>
+            </tr>
+            <tr>
+              <td>想法随记</td>
+              <td>育儿感想、工作思考、随手想法</td>
+              <td class="k1st"><b>想法 &amp; 随记</b></td>
+              <td>零碎记录最多，成组之后价值差别最明显</td>
+            </tr>
+            <tr>
+              <td>学习备考</td>
+              <td>课堂与网课笔记、讲义投影、错题</td>
+              <td class="k1st"><b>上课</b></td>
+              <td>一个学期 50 个录音，是「读单篇笔记不可行」最典型的一个</td>
+            </tr>
+            <tr>
+              <td>工作经营</td>
+              <td>客户单、报价、装维点数、会议记录、访谈</td>
+              <td class="k1st"><b>访谈</b></td>
+              <td>消费产物最清楚——就是洞察，先把这个形态立住</td>
+            </tr>
+            <tr>
+              <td>生活管理</td>
+              <td>卡证单据、健康档案、收支账目</td>
+              <td class="k1st"><b>卡证</b></td>
+              <td>字段固定、诉求单一，做得像不像一眼看得出，是视觉的标尺</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grp" id="s22">
+      <span class="gl">2.2</span>
+      <b>本期做的与本期不做的</b>
+      <p>同一个大场景下，其他子场景按同一套往后铺</p>
+      <span class="gn">5 做</span>
+    </div>
+    <div class="cut">
+      <div class="yes">
+        <em>本期集合里做</em>
+        <ul>
+          <li><b>日程与待办</b> —— 一个待办 → 日程的记录与安排</li>
+          <li><b>想法 &amp; 随记</b> —— 一个想法 → 一段思考</li>
+          <li><b>上课</b> —— 一节课 → 一门课</li>
+          <li><b>访谈</b> —— 多场访谈 → 一个课题</li>
+          <li><b>卡证</b> —— 一张证件照 → 一个卡包</li>
+        </ul>
+      </div>
+      <div class="no">
+        <em>本期不进集合</em>
+        <ul>
+          <li>工作经营下的客户单、报价、装维点数、会议记录</li>
+          <li>生活管理下的健康档案、收支账目</li>
+          <li>想法随记下按对象成线的记录，如育儿成长</li>
+          <li>这些内容照旧存进笔记 tab，判不准的原样留着，不硬归类、不弹窗问用户</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="bl">为什么一个大场景只先做一个</span>
+      <p>五个子场景已经把两种成组方式和四种消费产物覆盖到了：<b>按对象成组</b>（一门课、一个卡包）和<b>按主题成组</b>（一段思考、一个课题、一天的安排）；产物覆盖了<b>清单、观点、知识、洞察、字段</b>五种。这五个跑通，其余子场景是套用而不是重新设计。</p>
+    </div>
+  </section>
+
+  <!-- ═══ 03 两个底 tab ═══ -->
+  <section id="c3">
+    <div class="opener">
+      <div class="op-top">
+        <span class="op-no">03</span>
+        <h2>两个底 tab</h2>
+        <span class="op-role">参照主流手机相册</span>
+      </div>
+      <p>交互形式先拍死：参照主流手机相册 APP，底部两个 tab。笔记是过去那种按时间顺序呈现的笔记，集合是按主流场景做的聚合。集合里这一期做五个场景，对应 TR1 的五个大场景。</p>
+    </div>
+
+    <div class="stack">
+      <div class="st1">
+        <span>TAB 1</span>
+        <div><b>笔记</b><p>按时间顺序呈现，和过去一样，一条不少。溯源、搜索、看原文走这里。</p></div>
+      </div>
+      <div class="st1">
+        <span>TAB 2</span>
+        <div><b>集合</b><p>按主流场景聚合。这一期五个：日程与待办、想法&amp;随记、上课、访谈、卡证。每个场景有自己的样子，不共用一套 Markdown 页面。</p></div>
+      </div>
+    </div>
+
+    <div class="grp" id="s31">
+      <span class="gl">3.1</span>
+      <b>每个集合的封面放什么</b>
+      <p>一个封面上只突出一件事，那件事按场景不一样</p>
+      <span class="gn">5 个场景</span>
+    </div>
+
+    <div class="tw">
+      <div class="tw-h">
+        <h3>封面对照表</h3>
+        <p>封面是用户在集合页扫一眼就要认出来的东西。第一行是这个场景最重要的那一件，第二行是补一个当前状态，剩下的都不放。标题一律由系统自动起好，不让用户命名。</p>
+      </div>
+      <div class="tscroll">
+        <table>
+          <thead>
+            <tr><th>集合</th><th>封面第一位（最重要）</th><th>封面第二位</th><th>靠什么一眼认出</th><th>封面不放</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>上课</td>
+              <td class="k1st"><b>哪个学期 + 什么课</b></td>
+              <td>上了几堂课</td>
+              <td>颜色块 + 标题；每门课可以做专属样子</td>
+              <td class="gy">录音列表、课堂记录、进度百分比</td>
+            </tr>
+            <tr>
+              <td>访谈</td>
+              <td class="k1st"><b>标题（这个课题是什么）+ 最重要的那一条洞察</b></td>
+              <td>几场 · 几位受访者</td>
+              <td>标题；洞察那一句直接印在封面上</td>
+              <td class="gy">场次列表、受访者列表、逐字稿</td>
+            </tr>
+            <tr>
+              <td>想法 &amp; 随记</td>
+              <td class="k1st"><b>这是一段什么思考（主题）</b></td>
+              <td>我最近在想什么</td>
+              <td>主题标题</td>
+              <td class="gy">条数、时间跨度、观点全文</td>
+            </tr>
+            <tr>
+              <td>日程与待办</td>
+              <td class="k1st"><b>今天该做的第一件（带时间的那条）</b></td>
+              <td>顺延过来几件</td>
+              <td>时间；顺延的标出顺延了几天</td>
+              <td class="gy">待办正文、总条数、完成率</td>
+            </tr>
+            <tr>
+              <td>卡证</td>
+              <td class="k1st"><b>是什么卡包 + 有几类几张</b></td>
+              <td>最近要到期的那一张</td>
+              <td>卡包类型名 + 加锁标记</td>
+              <td class="gy">任何号码、证件照、字段内容</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="bl">这张表的依据</span>
+      <ul>
+        <li><b>上课：</b>「上课首先你一定要把哪个学期告诉我吧，什么课告诉我吧，然后课跟课之间最重要的是什么？<b>辨识度</b>」「有颜色块就可以了，它主要靠标题」「甚至我做再细一点，我都可以给你高等数学专门做一个样子」「几条课堂笔记你得告诉我吧，上了几堂课吧，<b>基本上我认为可能就这样就够了</b>」</li>
+        <li><b>访谈：</b>「访谈最重要的是啥？<b>是标题吧，和最重要的那个洞察吧</b>」「你这么一堆，你进来之后第一件事，你还记得这个访谈是什么吗？聊了啥呀？不记得了」「做访谈最重要干嘛？洞察嘛，那你就把洞察给我嘛」</li>
+        <li><b>想法 &amp; 随记：</b>「你看最重要的是什么？<b>这是一个什么思考</b>」「用户的需求首先要先被聚合到一起，并且<b>告诉我这个主题是什么，和我最近的想法是什么</b>，你就给我呈现出来」</li>
+        <li><b>日程与待办：</b>这一条他这次没有逐句拆，按前一次的口径推的——痛点是「我总是要重新抄写一份我当前没完成的待办」，所以封面第一位给今天该做的、第二位给顺延过来的。<b>这一行需要你确认。</b></li>
+        <li><b>卡证：</b>这一个不在他 prompt 点的四个里，是我们对着 TR1「生活管理」补的第五个。封面口径按这一类的性质定：<b>内容一律不上封面</b>，所以第一位只能是卡包类型和张数，第二位放到期提醒——到期是这一类唯一值得主动推的事。</li>
+        <li><b>标题：</b>「并且<b>那个标题已经起好了，叫做西安访谈</b>」——封面上的名字由系统起，不出现「合集 1」这类命名。</li>
+      </ul>
+    </div>
+
+    <div class="grp" id="s32">
+      <span class="gl">3.2</span>
+      <b>两个 tab 长什么样</b>
+      <p>集合按场景分栏横滑，笔记还是那条时间流</p>
+      <span class="gn">3 屏</span>
+    </div>
+    <div class="flow">
+      <figure class="frm">
+        <div class="fn"><i>01</i><span>集合 · 分栏横滑</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:41</i><i>▪▪▪</i></div>
+          <div class="p-nav"><h5>集合</h5><em>照相册的样子</em></div>
+          <div class="p-bd">
+            <div class="strip">
+              <div class="sh2"><b>上课</b><i>2026 秋 · 6 门</i></div>
+              <div class="covs">
+                <div class="cov b hi"><div class="t"><b>大学物理</b><span>2026 秋</span></div><div class="b2"><em>已上 6 堂</em></div></div>
+                <div class="cov b"><div class="t"><b>高等数学</b><span>2026 秋</span></div><div class="b2"><em>已上 12 堂</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <div class="strip">
+              <div class="sh2"><b>访谈</b><i>2 个课题</i></div>
+              <div class="covs">
+                <div class="cov c"><div class="t"><b>续费犹豫</b><span>7 场</span></div><div class="b2"><em>价格不透明是主因</em></div></div>
+                <div class="cov c"><div class="t"><b>西安门店走访</b><span>5 场</span></div><div class="b2"><em>店长最在意补货节奏</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <div class="strip">
+              <div class="sh2"><b>想法 &amp; 随记</b><i>3 段思考</i></div>
+              <div class="covs">
+                <div class="cov a"><div class="t"><b>记录多了，如何重新使用</b></div><div class="b2"><em>最近在想：光存不用等于没存</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <div class="strip">
+              <div class="sh2"><b>卡证</b><i>3 个卡包 · 已加锁</i></div>
+              <div class="covs">
+                <div class="cov d"><div class="t"><b>常用证件</b><span>3 类 5 张 · 锁</span></div><div class="b2"><em>护照 60 天后到期</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <p class="pnote">往下滑是日程与待办；每一栏一个场景，栏内横滑挑一个。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>一栏一个场景，一个封面就是一组：一门课、一个课题、一段思考</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>02</i><span>笔记 · 按时间</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:41</i><i>▪▪▪</i></div>
+          <div class="p-nav"><h5>笔记</h5><em>和过去一样</em></div>
+          <div class="p-bd">
+            <div class="rh"><b>今天</b><em>3 条</em></div>
+            <div class="row"><b>大学物理 第六讲</b><p>录音 96 分钟 · 投影 8 张</p></div>
+            <div class="row"><b>项目周会</b><p>录音 42 分钟 · 已转写</p></div>
+            <div class="rh"><b>昨天</b><em>5 条</em></div>
+            <div class="row"><b>王女士访谈</b><p>录音 32 分钟</p></div>
+            <p class="pnote">原始内容一条不少；集合是长在它上面的一层，不替代它。</p>
+          </div>
+          <div class="p-tb"><span class="dt">集合</span><span class="dt on">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>写入方式变多了，落点还是这一条流；消费不在这里发生</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>03</i><span>写入 · 不用手写</span></div>
+        <div class="ph dk">
+          <div class="p-st"><i>9:38</i><i>▪▪▪</i></div>
+          <div class="p-nav"><h5 class="sm">写进笔记</h5><em>四个入口</em></div>
+          <div class="p-bd">
+            <div class="cd">
+              <div class="cd-h"><b>语音录入</b><em>说完就有</em></div>
+              <p>录音、通话、课堂，转写与要点在后台完成。</p>
+            </div>
+            <div class="cd">
+              <div class="cd-h"><b>AI 键</b><em>实体键</em></div>
+              <p>不打开应用，按一下就记一条。</p>
+            </div>
+            <div class="cd">
+              <div class="cd-h"><b>AI 助手写入</b><em>含三方 · MCP</em></div>
+              <p>助手生成的网页、文档、结论可以直接写进来。</p>
+            </div>
+            <div class="cd">
+              <div class="cd-h"><b>手写</b><em>仍然支持</em></div>
+              <p>不再是唯一入口。</p>
+            </div>
+          </div>
+          <div class="p-tb"><span class="dt">集合</span><span class="dt on">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>入口越多，内容越多，越必须靠集合来消费</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══ 04 日程与待办 ═══ -->
+  <section id="c4">
+    <div class="opener">
+      <div class="op-top">
+        <span class="op-no">04</span>
+        <h2>日程与待办</h2>
+        <span class="op-role">一个待办 → 日程的记录与安排</span>
+      </div>
+      <p>用户在这里不读，只看和勾。他要的是「现在该做什么」和「这一周长什么样」，不是一条条待办的正文。</p>
+    </div>
+
+    <div class="grow" id="s41">
+      <span>成组</span>
+      <b>一个待办</b><i>→</i><b>日程的记录与安排</b>
+      <u>散着抽出来的待办，聚成一天和一周的安排</u>
+    </div>
+
+    <div class="grp" id="s42">
+      <span class="gl">4.2</span>
+      <b>封面 + 详情页第一屏</b>
+      <p>集合页那一栏横滑就是列表，点封面直接进详情</p>
+      <span class="gn">3 屏</span>
+    </div>
+    <div class="flow">
+      <figure class="frm">
+        <div class="fn"><i>集合页</i><span>这一栏横滑</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:41</i><i>▪▪▪</i></div>
+          <div class="p-nav"><h5>集合</h5><em>没有二级列表页</em></div>
+          <div class="p-bd">
+            <div class="strip">
+              <div class="sh2"><b>日程与待办</b><i>今天 4 件 · 顺延 2</i></div>
+              <div class="covs">
+                <div class="cov a hi"><div class="t"><b>今天要做的</b><span>9 月 11 日</span></div><div class="b2"><em>14:00 报价单发给老王</em></div></div>
+                <div class="cov a"><div class="t"><b>这一周</b><span>9/8 – 9/14</span></div><div class="b2"><em>11 件 · 4 件还没排</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <div class="strip">
+              <div class="sh2"><b>上课</b><i>2026 秋 · 6 门</i></div>
+              <div class="covs">
+                <div class="cov b"><div class="t"><b>大学物理</b><span>2026 秋</span></div><div class="b2"><em>已上 6 堂</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <p class="pnote">封面第一位是今天该做的第一件，第二位是顺延过来几件。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>横滑挑一个封面，点进去就是详情，中间没有列表页</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>详情页</i><span>今天</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:42</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 集合</span><h5 class="sm">今天要做的</h5><em>4 件 · 顺延 2</em></div>
+          <div class="p-bd">
+            <div class="cd">
+              <div class="cd-h"><b>带时间的</b><em>会到点提醒</em></div>
+              <div class="tr"><span>14:00 报价单发给老王</span><em class="o">顺延 2 天</em></div>
+              <div class="tr"><span>15:00 大学物理 · 三教 301</span><em class="b">日历</em></div>
+            </div>
+            <div class="cd">
+              <div class="cd-h"><b>只是要做的</b><em>不占时间</em></div>
+              <div class="tr"><i></i><span>约周四的评审</span><em class="b">今天</em></div>
+              <div class="tr"><i class="dn"></i><span><s>交周报</s></span><em class="g">已完成</em></div>
+            </div>
+            <p class="pnote">带时间的和只是要做的分开，顺延过来的标出顺延了几天。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>一屏看完今天，没做完的自己排到前面，不用用户再誊一遍</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>详情页</i><span>这一周</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:43</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 集合</span><h5 class="sm">这一周</h5><em>11 件 · 3 件已排到人</em></div>
+          <div class="p-bd">
+            <div class="rh"><b>周三 · 今天</b><em>4 件</em></div>
+            <div class="tr"><span>约周四的评审</span><em class="b">今天</em></div>
+            <div class="rh"><b>周五</b><em>3 件</em></div>
+            <div class="tr"><span>交季度复盘</span><em class="b">15:00</em></div>
+            <div class="rh"><b>还没排的</b><em>4 件</em></div>
+            <div class="tr"><span>核对供应商报价</span><em>拖到某天</em></div>
+            <div class="cd">
+              <div class="cd-h"><b>这条从哪来</b><em>可点回</em></div>
+              <p>9 月 6 日项目周会 12:37「报价口径下周四之前确认一下」</p>
+            </div>
+            <p class="pnote">每条都能点回被记下的那一句，来源保留到句级。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>这一周关心的是全貌，所以按天铺开，没排的单独一组</figcaption>
+      </figure>
+    </div>
+
+    <div class="grp" id="s43">
+      <span class="gl">4.3</span>
+      <b>取舍</b>
+      <p>只做这四个</p>
+      <span class="gn">4 做 · 3 不做</span>
+    </div>
+    <div class="cut">
+      <div class="yes">
+        <em>做</em>
+        <ul>
+          <li><b>就地勾掉</b>，不进详情页</li>
+          <li><b>顺延自动结转</b>，排最前面并标出顺延几天</li>
+          <li><b>点回原话</b>，落到录音那一秒</li>
+          <li><b>跨设备提醒</b>，哪台在手边在哪台响，勾一次全部收起</li>
+        </ul>
+      </div>
+      <div class="no">
+        <em>不做</em>
+        <ul>
+          <li>不做优先级、标签、分组这些管理功能</li>
+          <li>不做形态转换，它不是要交出去的东西</li>
+          <li>不在笔记里再造一份日程，日程只有日历一份</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 05 想法&随记 ═══ -->
+  <section id="c5">
+    <div class="opener">
+      <div class="op-top">
+        <span class="op-no">05</span>
+        <h2>想法 &amp; 随记</h2>
+        <span class="op-role">一个想法 → 一段思考</span>
+      </div>
+      <p>聊得多了一定是零零碎碎的。用户要的是：这是一段什么思考、我最近在想什么、我有哪几个主要观点、这些观点是从哪几条笔记来的。</p>
+    </div>
+
+    <div class="grow" id="s51">
+      <span>成组</span>
+      <b>一个想法</b><i>→</i><b>一段思考</b>
+      <u>零碎的随记聚成一个课题，主题和主要观点被总结出来</u>
+    </div>
+
+    <div class="grp" id="s52">
+      <span class="gl">5.2</span>
+      <b>封面 + 详情页第一屏</b>
+      <p>封面告诉我这是什么思考，点进去告诉我最近在想什么</p>
+      <span class="gn">3 屏</span>
+    </div>
+    <div class="flow">
+      <figure class="frm">
+        <div class="fn"><i>集合页</i><span>这一栏横滑</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:41</i><i>▪▪▪</i></div>
+          <div class="p-nav"><h5>集合</h5><em>没有二级列表页</em></div>
+          <div class="p-bd">
+            <div class="strip">
+              <div class="sh2"><b>想法 &amp; 随记</b><i>3 段思考</i></div>
+              <div class="covs">
+                <div class="cov a hi"><div class="t"><b>记录多了，如何重新使用</b></div><div class="b2"><em>最近在想：光存不用等于没存</em></div></div>
+                <div class="cov a"><div class="t"><b>排期为什么总被打断</b></div><div class="b2"><em>最近在想：卡点在前置对齐</em></div></div>
+                <div class="cov a"><div class="t"><b>钓鱼这件事</b></div><div class="b2"><em>最近在想：缺的是选点</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <div class="strip">
+              <div class="sh2"><b>访谈</b><i>2 个课题</i></div>
+              <div class="covs">
+                <div class="cov c"><div class="t"><b>续费犹豫</b><span>7 场</span></div><div class="b2"><em>价格不透明是主因</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <p class="pnote">封面第一位是主题，第二位是最近在想什么；不写条数和跨度。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>一段思考就是一个封面，横滑挑一个点进去，没有中间层</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>详情页</i><span>最近在想什么</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:42</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 集合</span><h5 class="sm">记录多了，如何重新使用</h5><em>12 条来源 · 今天更新</em></div>
+          <div class="p-bd">
+            <div class="cd">
+              <div class="cd-h"><b>最近在想什么</b><em>第一屏</em></div>
+              <p>这一个月反复回到同一件事：内容越存越多，但重新用起来的路径没有。倾向先解决成组，再谈消费形态。</p>
+            </div>
+            <div class="rh"><b>三个主要观点</b><em>各自可展开</em></div>
+            <div class="ins">
+              <em>观点 01</em>
+              <b>光存不用等于没存</b>
+              <div class="src"><span>来源 4 条</span><span>接着聊</span><span>补充</span></div>
+            </div>
+            <div class="ins">
+              <em>观点 02</em>
+              <b>成组比搜索更重要</b>
+              <div class="src"><span>来源 5 条</span><span>接着聊</span><span>补充</span></div>
+            </div>
+            <p class="pnote">下面依次是整体总结、思考的记录、所有原始记录。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>第一屏是最近在想什么加几个主要观点，每个观点带来源</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>展开</i><span>观点 → 来源 → 接着聊</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:44</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 记录多了如何重新使用</span><h5 class="sm">光存不用等于没存</h5><em>观点 01 · 来源 4 条</em></div>
+          <div class="p-bd">
+            <div class="cd">
+              <div class="cd-h"><b>我的思考</b><em>可补充</em></div>
+              <p>存的动作已经足够轻，问题在于存完之后没有任何一条路把它带回到我面前。</p>
+            </div>
+            <div class="cd">
+              <div class="cd-h"><b>来源笔记</b><em>可跳回</em></div>
+              <div class="tr"><span>9/2 语音 · 存了就忘</span><em class="b">打开 ›</em></div>
+              <div class="tr"><span>8/19 随记 · 翻不到</span><em class="b">打开 ›</em></div>
+            </div>
+            <div class="g2"><div class="btn">接着聊这个观点</div><div class="btn nt">补充一条</div></div>
+            <p class="pnote">整体总结、原始记录都在这条线上，观点与来源之间可来回跳。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>每个观点都有依据；补充进来的内容回到这段思考里</figcaption>
+      </figure>
+    </div>
+
+    <div class="grp" id="s53">
+      <span class="gl">5.3</span>
+      <b>取舍</b>
+      <p>第一屏之外的按顺序往下排</p>
+      <span class="gn">5 做 · 2 不做</span>
+    </div>
+    <div class="cut">
+      <div class="yes">
+        <em>做</em>
+        <ul>
+          <li><b>最近在想什么</b>，详情页第一屏</li>
+          <li><b>几个主要观点</b>，每个带来源笔记，可跳回、可补充</li>
+          <li><b>整体总结</b>，很长所以单独成一篇笔记，每句都能回到依据</li>
+          <li><b>思考的记录</b>，过去这段思考怎么走过来的</li>
+          <li><b>接着聊</b>：针对某一个观点，或者针对整个课题；本质是把小爱请进来，上文就是这一段思考</li>
+        </ul>
+      </div>
+      <div class="no">
+        <em>不做</em>
+        <ul>
+          <li>第一屏不放原始记录列表，它排在最后</li>
+          <li>不做手动建主题、手动挪笔记，成组由系统做</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 06 上课 ═══ -->
+  <section id="c6">
+    <div class="opener">
+      <div class="op-top">
+        <span class="op-no">06</span>
+        <h2>上课</h2>
+        <span class="op-role">一节课 → 一门课</span>
+      </div>
+      <p>上课一定是为了复习，不是回听上课的过程。没有学生会把两小时的大课再听一遍。所以这一类的落点是<b>学习</b>，第一屏是学习进度，不是课堂记录。</p>
+    </div>
+
+    <div class="grow" id="s61">
+      <span>成组</span>
+      <b>一节课</b><i>→</i><b>一门课</b>
+      <u>一个学期 50 个录音，聚成 6 门课；课堂记录退到最后</u>
+    </div>
+
+    <div class="grp" id="s62">
+      <span class="gl">6.2</span>
+      <b>封面 + 详情页第一屏</b>
+      <p>封面靠辨识度，点进去靠学习进度</p>
+      <span class="gn">3 屏</span>
+    </div>
+    <div class="flow">
+      <figure class="frm">
+        <div class="fn"><i>集合页</i><span>这一栏横滑</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:41</i><i>▪▪▪</i></div>
+          <div class="p-nav"><h5>集合</h5><em>没有二级列表页</em></div>
+          <div class="p-bd">
+            <div class="strip">
+              <div class="sh2"><b>上课 · 2026 秋</b><i>6 门课</i></div>
+              <div class="covs">
+                <div class="cov b hi"><div class="t"><b>大学物理</b><span>2026 秋 · 考前 2 天</span></div><div class="b2"><em>已上 6 堂</em></div></div>
+                <div class="cov a"><div class="t"><b>高等数学</b><span>2026 秋 · 考前 9 天</span></div><div class="b2"><em>已上 12 堂</em></div></div>
+                <div class="cov c"><div class="t"><b>管理学理论</b><span>2026 秋</span></div><div class="b2"><em>已上 3 堂</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <div class="strip">
+              <div class="sh2"><b>上课 · 2026 春</b><i>5 门课</i></div>
+              <div class="covs">
+                <div class="cov d"><div class="t"><b>线性代数</b><span>2026 春 · 已结课</span></div><div class="b2"><em>已上 16 堂</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <p class="pnote">学期是栏标题，每门课一个封面，颜色块加标题做辨识度。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>一个学期一栏，一门课一个封面，可以给某门课做专属样子</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>详情页</i><span>我目前正在学习</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:42</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 集合</span><h5 class="sm">大学物理</h5><em>2026 秋 · 考前 2 天</em></div>
+          <div class="p-bd">
+            <div class="prog2">
+              <div class="t"><b>我目前正在学习</b><em>62%</em></div>
+              <div class="bar"><i style="width:62%"></i></div>
+              <div class="sub"><span>第三章 刚体转动</span><span>已复习 5 / 8 章</span></div>
+            </div>
+            <div class="btn">接着复习 · 第三章</div>
+            <div class="fgrid">
+              <div class="fg"><u>卡</u><b>知识卡片</b><span>26 张</span></div>
+              <div class="fg"><u>听</u><b>播客</b><span>点了再生成</span></div>
+              <div class="fg"><u>图</u><b>知识脑图</b><span>8 章 · 42 点</span></div>
+              <div class="fg"><u>页</u><b>课件预览</b><span>刷一遍</span></div>
+            </div>
+            <div class="btn nt">问一问</div>
+            <p class="pnote">课堂记录不在第一屏，排在下面，要翻随时翻。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>第一屏落在学习上：进度、接着复习、四个入口、问一问</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>展开</i><span>脑图里的知识点＝知识卡</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:46</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 大学物理</span><h5 class="sm">知识脑图</h5><em>第三章 · 6 个知识点</em></div>
+          <div class="p-bd">
+            <div class="cd">
+              <div class="cd-h"><b>第三章 刚体转动</b><em>点知识点即翻卡</em></div>
+              <div class="tr"><span>转动惯量的计算</span><em class="b">卡片 ›</em></div>
+              <div class="tr"><span>平行轴定理</span><em class="o">没掌握</em></div>
+              <div class="tr"><span>角动量守恒</span><em class="g">已掌握</em></div>
+            </div>
+            <div class="cd">
+              <div class="cd-h"><b>平行轴定理</b><em>知识卡</em></div>
+              <p>把转动惯量从质心轴平移到任意平行轴，加上质量乘距离平方。</p>
+              <div class="tr"><span>来自</span><em class="b">第六讲 18:20 ›</em></div>
+            </div>
+            <div class="g2"><div class="btn">听这一段播客</div><div class="btn nt">问一问</div></div>
+            <p class="pnote">脑图里的知识点和知识卡是同一个东西，点开就是卡。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>看完要学会，所以知识点直接接到卡片和这一段的播客</figcaption>
+      </figure>
+    </div>
+
+    <div class="grp" id="s63">
+      <span class="gl">6.3</span>
+      <b>取舍</b>
+      <p>复习、知识卡片、播客、知识脑图、课件预览、问一问，没了</p>
+      <span class="gn">6 做 · 3 不做</span>
+    </div>
+    <div class="cut">
+      <div class="yes">
+        <em>做</em>
+        <ul>
+          <li><b>学习进度 + 接着复习</b>，第一屏就这个</li>
+          <li><b>知识卡片</b>，上来就给，不用用户先要</li>
+          <li><b>播客</b>，点了再生成来得及，生成完再消费</li>
+          <li><b>知识脑图</b>，里面的知识点就是知识卡</li>
+          <li><b>课件预览</b>，不想细看时刷一遍</li>
+          <li><b>问一问</b>，复习完还能追问</li>
+        </ul>
+      </div>
+      <div class="no">
+        <em>不做</em>
+        <ul>
+          <li>第一屏不放课堂记录，也不放录音列表</li>
+          <li>不做逐字稿消费，没人回听两小时的课</li>
+          <li>不做课程管理类功能，学期和课程靠课程表识别自动来</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 07 访谈 ═══ -->
+  <section id="c7">
+    <div class="opener">
+      <div class="op-top">
+        <span class="op-no">07</span>
+        <h2>访谈</h2>
+        <span class="op-role">多场访谈 → 一个课题</span>
+      </div>
+      <p>访谈久了，进来第一件事是「这个访谈聊了啥」——已经不记得了。做访谈最重要的是发现洞察，所以这一类直接把洞察给他，不是把录音摆给他。</p>
+    </div>
+
+    <div class="grow" id="s71">
+      <span>成组</span>
+      <b>多场访谈</b><i>→</i><b>一个课题</b>
+      <u>七场访谈聚成一个课题，最重要的洞察浮到最上面</u>
+    </div>
+
+    <div class="grp" id="s72">
+      <span class="gl">7.2</span>
+      <b>封面 + 详情页第一屏</b>
+      <p>封面给标题和最重要的洞察，点进去给三条洞察</p>
+      <span class="gn">4 屏 · 2 个维度</span>
+    </div>
+    <div class="flow">
+      <figure class="frm">
+        <div class="fn"><i>集合页</i><span>这一栏横滑</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:41</i><i>▪▪▪</i></div>
+          <div class="p-nav"><h5>集合</h5><em>没有二级列表页</em></div>
+          <div class="p-bd">
+            <div class="strip">
+              <div class="sh2"><b>访谈</b><i>2 个课题 · 12 场</i></div>
+              <div class="covs">
+                <div class="cov c hi"><div class="t"><b>续费犹豫</b><span>7 场 · 5 人</span></div><div class="b2"><em>价格不透明是主因，不是功能不够</em></div></div>
+                <div class="cov c"><div class="t"><b>西安门店走访</b><span>5 场 · 4 人</span></div><div class="b2"><em>店长最在意补货节奏，不是陈列</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <div class="strip">
+              <div class="sh2"><b>想法 &amp; 随记</b><i>3 段思考</i></div>
+              <div class="covs">
+                <div class="cov a"><div class="t"><b>记录多了，如何重新使用</b></div><div class="b2"><em>最近在想：光存不用等于没存</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <p class="pnote">封面上就印着最重要的那条洞察，不用点进去才知道聊了啥。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>一个课题一个封面，标题加最重要的洞察都在封面上</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>详情页</i><span>三条洞察</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:42</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 集合</span><h5 class="sm">续费犹豫</h5><em>7 场 · 5 位受访者</em></div>
+          <div class="p-bd">
+            <div class="seg"><span class="on">按洞察</span><span>按受访者</span></div>
+            <div class="ins">
+              <em>洞察 01 · 3 人提到</em>
+              <b>价格不透明是主因，不是功能不够</b>
+              <div class="src"><span>看原话</span><span>听原声</span></div>
+            </div>
+            <div class="ins">
+              <em>洞察 02 · 4 人提到</em>
+              <b>不清楚续费之后有什么变化</b>
+              <div class="src"><span>看原话</span><span>听原声</span></div>
+            </div>
+            <div class="ins">
+              <em>洞察 03 · 2 人提到</em>
+              <b>希望能先试再买</b>
+              <div class="src"><span>看原话</span><span>听原声</span></div>
+            </div>
+            <p class="pnote">下面是整体总结和接着问，原始录音排在最后。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>第一屏就是洞察；每条标出几个人提到，可看原话可听原声</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>展开</i><span>洞察 → 原话 → 原声</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:44</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 续费犹豫</span><h5 class="sm">价格不透明是主因</h5><em>洞察 01 · 3 人</em></div>
+          <div class="p-bd">
+            <div class="cd">
+              <div class="cd-h"><b>王女士</b><em>10/3 · 32 分钟</em></div>
+              <p>「我不知道这个价格是怎么算出来的，所以不敢续。」</p>
+              <div class="tr"><span>听原声</span><em class="b">08:12 ›</em></div>
+            </div>
+            <div class="cd">
+              <div class="cd-h"><b>陈先生</b><em>9/28 · 27 分钟</em></div>
+              <p>「同样的东西，去年是这个价，今年又不是了。」</p>
+              <div class="tr"><span>听原声</span><em class="b">15:40 ›</em></div>
+            </div>
+            <div class="btn nt">针对这条洞察接着问</div>
+            <p class="pnote">点原声直接拨到那一段，不是跳到录音开头。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>一条洞察下面是每个人的原话，点一下就听到他当时的原声</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>维度二</i><span>按受访者</span></div>
+        <div class="ph">
+          <div class="p-st"><i>9:46</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 续费犹豫</span><h5 class="sm">王女士</h5><em>1 场 · 32 分钟</em></div>
+          <div class="p-bd">
+            <div class="seg"><span>按洞察</span><span class="on">按受访者</span></div>
+            <div class="cd">
+              <div class="cd-h"><b>她的观点</b><em>3 条</em></div>
+              <div class="tr"><span>价格算法不透明</span><em class="b">原话 ›</em></div>
+              <div class="tr"><span>希望先试再买</span><em class="b">原话 ›</em></div>
+              <div class="tr"><span>对功能本身满意</span><em class="b">原话 ›</em></div>
+            </div>
+            <div class="cd">
+              <div class="cd-h"><b>她和别人不一样的地方</b><em>对照</em></div>
+              <p>只有她明确提到「先试再买」，其余四位都没说。</p>
+            </div>
+            <p class="pnote">两个维度同一份数据：以观点组织，或者以受访者组织。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>单看某一位说了什么，从他的观点再点回原话</figcaption>
+      </figure>
+    </div>
+
+    <div class="grp" id="s73">
+      <span class="gl">7.3</span>
+      <b>取舍</b>
+      <p>洞察和受访者两个维度，其余都往下排</p>
+      <span class="gn">5 做 · 3 不做</span>
+    </div>
+    <div class="cut">
+      <div class="yes">
+        <em>做</em>
+        <ul>
+          <li><b>最重要的洞察</b>，封面上就给</li>
+          <li><b>三条洞察</b>，详情页第一屏，各标几个人提到</li>
+          <li><b>原话与原声</b>，点一下拨到那一段，不是录音开头</li>
+          <li><b>两个组织维度</b>：以观点组织，以受访者组织</li>
+          <li><b>整体总结 + 接着问</b>，待追问的问题跟主要发现放一起</li>
+        </ul>
+      </div>
+      <div class="no">
+        <em>不做</em>
+        <ul>
+          <li>第一屏不放录音列表，也不放逐字稿</li>
+          <li>不做访谈提纲、问卷这类前置工具</li>
+          <li>不做受访者档案管理，受访者只是洞察的一个维度</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 08 卡证 ═══ -->
+  <section id="c8">
+    <div class="opener">
+      <div class="op-top">
+        <span class="op-no">08</span>
+        <h2>卡证</h2>
+        <span class="op-role">一张证件照 → 一个卡包</span>
+      </div>
+      <p>这一类平时根本不看，急用的那一刻要一眼认出、能拨能复制。内容就那几个字段，所以做得像不像就是全部——它同时是其他场景的视觉标尺。</p>
+    </div>
+
+    <div class="grow" id="s81">
+      <span>成组</span>
+      <b>一张证件照</b><i>→</i><b>一个卡包</b>
+      <u>散着拍的证件、卡、密码，聚成按类型分好的卡包</u>
+    </div>
+
+    <div class="grp" id="s82">
+      <span class="gl">8.2</span>
+      <b>封面 + 详情页第一屏</b>
+      <p>封面只说有什么、不说内容，点进去才是卡</p>
+      <span class="gn">3 屏</span>
+    </div>
+    <div class="flow">
+      <figure class="frm">
+        <div class="fn"><i>集合页</i><span>这一栏横滑</span></div>
+        <div class="ph">
+          <div class="p-st"><i>10:01</i><i>▪▪▪</i></div>
+          <div class="p-nav"><h5>集合</h5><em>没有二级列表页</em></div>
+          <div class="p-bd">
+            <div class="strip">
+              <div class="sh2"><b>卡证</b><i>3 个卡包 · 已加锁</i></div>
+              <div class="covs">
+                <div class="cov d hi"><div class="t"><b>常用证件</b><span>3 类 5 张 · 锁</span></div><div class="b2"><em>护照 60 天后到期</em></div></div>
+                <div class="cov d"><div class="t"><b>银行卡</b><span>2 张 · 锁</span></div><div class="b2"><em>无到期提醒</em></div></div>
+                <div class="cov d"><div class="t"><b>会员与门禁</b><span>6 张</span></div><div class="b2"><em>健身卡本月到期</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <div class="strip">
+              <div class="sh2"><b>上课 · 2026 秋</b><i>6 门课</i></div>
+              <div class="covs">
+                <div class="cov b"><div class="t"><b>大学物理</b><span>2026 秋</span></div><div class="b2"><em>已上 6 堂</em></div></div>
+                <div class="cov nx">›</div>
+              </div>
+            </div>
+            <p class="pnote">封面只写类型、张数、有没有快到期的，不出现任何号码。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>封面上不露内容，进入需要验证；到期是唯一会主动提醒的事</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>详情页</i><span>一个漂亮的卡包</span></div>
+        <div class="ph">
+          <div class="p-st"><i>10:02</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 集合</span><h5 class="sm">常用证件</h5><em>已验证 · 3 类 5 张</em></div>
+          <div class="p-bd">
+            <div class="idc a">
+              <b>身份证</b>
+              <span class="no hid">1101 •••• •••• 0037</span>
+              <em>长按复制 · 点击显示</em>
+            </div>
+            <div class="idc b">
+              <b>银行卡 · 招商</b>
+              <span class="no hid">6225 •••• •••• 4418</span>
+              <em>长按复制卡号</em>
+            </div>
+            <div class="idc c">
+              <b>护照</b>
+              <span class="no">E•••••••2</span>
+              <em>有效期至 2029-04 · 60 天后到期</em>
+            </div>
+            <p class="pnote">字段位置和真证件一致，一眼认得出哪张是哪张。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>做成实物样式排在一起，打开就是「我的卡包」，不是一张列表</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>展开</i><span>复制 · 拨号 · 授权</span></div>
+        <div class="ph">
+          <div class="p-st"><i>10:03</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 常用证件</span><h5 class="sm">银行卡 · 招商</h5><em>已验证</em></div>
+          <div class="p-bd">
+            <div class="idc b">
+              <b>招商银行 · 储蓄卡</b>
+              <span class="no">6225 8801 4402 4418</span>
+              <em>点一下复制卡号</em>
+            </div>
+            <div class="cd">
+              <div class="cd-h"><b>客服</b><em>可直接拨</em></div>
+              <div class="tr"><span>95555</span><em class="b">拨号 ›</em></div>
+              <div class="tr"><span>挂失专线</span><em class="b">拨号 ›</em></div>
+            </div>
+            <div class="cd">
+              <div class="cd-h"><b>填表时取用</b><em>按字段授权</em></div>
+              <div class="tr"><span>某订票应用</span><em class="b">撤销 ›</em></div>
+            </div>
+            <div class="tr"><span>原始照片</span><em class="b">在笔记里 ›</em></div>
+            <p class="pnote">急用的动作只有两个：把号复制走，或者把电话打出去。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>验证之后才显示完整号码，动作直接摆在号码旁边</figcaption>
+      </figure>
+    </div>
+
+    <div class="grp" id="s83">
+      <span class="gl">8.3</span>
+      <b>取舍</b>
+      <p>只做四个，其中三个是取用动作</p>
+      <span class="gn">4 做 · 3 不做</span>
+    </div>
+    <div class="cut">
+      <div class="yes">
+        <em>做</em>
+        <ul>
+          <li><b>做成实物样式</b>，字段位置和真证件一致，一眼认出哪张是哪张</li>
+          <li><b>复制</b>，长按直接进剪贴板，敏感字段默认遮住</li>
+          <li><b>拨号</b>，客服和挂失摆在号码旁边</li>
+          <li><b>按字段授权取用</b>，填表时只给需要的那几项，给过的可撕回</li>
+          <li><b>有效期到期前提醒</b>，通知里不出现号码</li>
+        </ul>
+      </div>
+      <div class="no">
+        <em>不做</em>
+        <ul>
+          <li>不做对谈，用户在那一刻只想把号拿走</li>
+          <li>不做形态转换，这一类没有要交出去的产物</li>
+          <li>封面和通知上一律不露内容，进入需要验证</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 09 共同口径 ═══ -->
+  <section id="c9">
+    <div class="opener">
+      <div class="op-top">
+        <span class="op-no">09</span>
+        <h2>共同口径</h2>
+        <span class="op-role">五个场景共用</span>
+      </div>
+      <p>五个场景的形态各不相同，但下面这几条是一样的，写在这里避免每一节重复。</p>
+    </div>
+
+    <div class="stack">
+      <div class="st1">
+        <span>成组</span>
+        <div><b>由系统做，不要求用户建</b><p>用户不建主题、不挪笔记、存的时候不选分类。成组不成立就先不成立，攒够了自己成一组。</p></div>
+      </div>
+      <div class="st1">
+        <span>消费</span>
+        <div><b>第一屏是最终内容，原始记录排到最后</b><p>五个场景的第一屏分别是：今天的安排、最近在想什么、学习进度、三条洞察、一个卡包。原始录音和逐字稿都不在第一屏。</p></div>
+      </div>
+      <div class="st1">
+        <span>溯源</span>
+        <div><b>每一条结论都能点回原处</b><p>观点点回来源笔记，洞察点回受访者原声的那一段，待办点回被记下的那一句。带时间戳，不是跳到开头。</p></div>
+      </div>
+      <div class="st1">
+        <span>接着聊</span>
+        <div><b>本质是把小爱请进来，上文就是这一组</b><p>不是一个「问小爱」按钮。进来已挂载这一组的全部内容，可以针对某一个观点聊，也可以针对整个课题聊。</p></div>
+      </div>
+      <div class="st1">
+        <span>形态</span>
+        <div><b>Markdown 只是底层怎么存</b><p>用户看到的是纪要、知识卡片、播客、脑图、课件这些最终内容。需要交出去时才显性转成别的形态。</p></div>
+      </div>
+      <div class="st1 sec2">
+        <span>本期不做</span>
+        <div><b>集合里先只做这五个场景</b><p>每个大场景下的其他子场景本期不进集合：客户单、报价、装维点数、会议记录、健康档案、收支账目。判不准的内容原样留在笔记 tab，不硬归类、不弹窗问用户。</p></div>
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="bl">五个场景的第一屏一句话对照</span>
+      <ul>
+        <li><b>日程与待办</b>：现在该做什么，别错过</li>
+        <li><b>想法 &amp; 随记</b>：我最近在想什么，有哪几个主要观点</li>
+        <li><b>上课</b>：我学到哪了，接着复习什么</li>
+        <li><b>访谈</b>：这个课题最重要的三条洞察是什么</li>
+        <li><b>卡证</b>：急用的这一张在哪、号是多少、能不能直接拨</li>
+      </ul>
+    </div>
+  </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var prog = document.getElementById('prog');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    if (prog) prog.style.width = p.toFixed(2) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  function spy(sel, margin){
+    var links = Array.prototype.slice.call(document.querySelectorAll(sel));
+    var map = {}, targets = [];
+    links.forEach(function(a){
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if (el){ map[el.id] = a; targets.push(el); }
+    });
+    if (!('IntersectionObserver' in window) || !targets.length) return;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          links.forEach(function(a){ a.classList.remove('on'); });
+          var a = map[e.target.id];
+          if (a) a.classList.add('on');
+        }
+      });
+    }, {rootMargin:margin, threshold:0});
+    targets.forEach(function(t){ io.observe(t); });
+  }
+  spy('.rail .nv>li>a', '-10% 0px -80% 0px');
+  spy('.rail .nv ul a', '-12% 0px -78% 0px');
+})();
+</script>
+
+</body>
+</html>
