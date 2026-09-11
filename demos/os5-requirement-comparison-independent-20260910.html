@@ -1,354 +1,1212 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OS5 笔记 · 手机端页面方案</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --ink:#121827;--ink2:#3f485c;--ink3:#768094;--ink4:#a5adba;
-  --paper:#fff;--bg:#f4f6fa;--line:#e4e8f0;--soft:#f7f9fc;
-  --blue:#416ff5;--blue2:#6d8efa;--blue-bg:#eef3ff;--blue-line:#cedaff;
-  --purple:#7657d8;--purple-bg:#f5f1ff;--purple-line:#dfd4ff;
-  --amber:#a06b0a;--amber-bg:#fff7e7;--amber-line:#eed9ae;
-  --green:#19795b;--green-bg:#eff9f4;--green-line:#c8e7da;
-}
-html{scroll-behavior:smooth}
-body{font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-.page-head{background:#fff;border-bottom:1px solid var(--line)}
-.head-inner{max-width:1720px;margin:0 auto;padding:42px 32px 34px}
-.eyebrow{font-size:12px;color:var(--blue);font-weight:750;letter-spacing:.12em;margin-bottom:10px}
-h1{font-size:42px;line-height:1.18;letter-spacing:-.8px;margin-bottom:12px}
-.head-desc{font-size:17px;color:var(--ink2);max-width:980px}
-.head-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
-.head-meta span{font-size:12px;font-weight:700;border:1px solid var(--blue-line);background:var(--blue-bg);color:var(--blue);padding:6px 11px;border-radius:999px}
-.jumpbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
-.jump-inner{max-width:1720px;margin:0 auto;padding:10px 32px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}
-.jump-inner::-webkit-scrollbar{display:none}
-.jump-inner a{white-space:nowrap;padding:8px 13px;border-radius:10px;font-size:13px;color:var(--ink3);font-weight:650}
-.jump-inner a:hover,.jump-inner a.on{background:var(--blue-bg);color:var(--blue)}
-.flow{max-width:1720px;margin:0 auto;padding:66px 32px 34px;scroll-margin-top:58px}
-.flow+.flow{border-top:1px solid var(--line)}
-.flow-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:30px}
-.flow-kicker{font-size:12px;color:var(--blue);font-weight:750;letter-spacing:.1em;margin-bottom:6px}
-h2{font-size:30px;line-height:1.25;margin-bottom:5px}
-.flow-head p{color:var(--ink2);font-size:15px;max-width:920px}
-.flow-count{font-size:12px;color:var(--ink3);border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 11px;white-space:nowrap}
-.phone-grid{display:grid;grid-template-columns:repeat(auto-fit,360px);gap:46px 30px;align-items:start}
-.screen-card{width:360px}
-.screen-label{display:flex;align-items:flex-start;gap:10px;margin:0 2px 10px;min-height:46px}
-.screen-no{width:32px;height:32px;display:grid;place-items:center;border-radius:10px;background:var(--blue-bg);color:var(--blue);font-size:11px;font-weight:780;flex:0 0 32px}
-.screen-label b{display:block;font-size:15px;line-height:1.3;margin-bottom:3px}
-.screen-label small{display:block;color:var(--ink3);font-size:11.5px;line-height:1.35}
-.phone{position:relative;width:360px;height:779px;background:#fff;border:1px solid #d8dde7;border-radius:42px;overflow:hidden;box-shadow:0 18px 44px rgba(45,58,89,.11)}
-.phone::after{content:"";position:absolute;inset:7px;border:1px solid rgba(18,24,39,.035);border-radius:35px;pointer-events:none;z-index:40}
-.statusbar{height:27px;padding:7px 18px 0;display:flex;justify-content:space-between;align-items:flex-start;font-size:10.5px;font-weight:750;position:relative;z-index:8;background:inherit}
-.status-icons{letter-spacing:.5px;color:var(--ink2);font-size:9.5px}
-.appbar{height:57px;padding:7px 17px 7px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:inherit;position:relative;z-index:8}
-.appbar h3{font-size:25px;line-height:1.1;letter-spacing:-.3px}
-.appbar.compact h3{font-size:18px}
-.appbar .sub{font-size:11px;color:var(--ink3);margin-top:2px}
-.appbar-actions{display:flex;gap:8px;align-items:center}
-.icon-btn{width:34px;height:34px;border:1px solid var(--line);background:#fff;border-radius:12px;display:grid;place-items:center;font-size:16px;color:var(--ink2)}
-.back{font-size:25px;line-height:1;color:var(--ink2);width:27px}
-.text-btn{font-size:13px;color:var(--blue);font-weight:720;padding:7px 2px}
-.phone-scroll{position:absolute;left:0;right:0;top:84px;bottom:0;padding:0 16px 18px;overflow:hidden;background:#fff}
-.phone-scroll.with-tabs{bottom:70px}
-.mobile-tabs{position:absolute;left:10px;right:10px;bottom:9px;height:57px;border:1px solid var(--line);background:rgba(255,255,255,.97);border-radius:18px;display:grid;grid-template-columns:1fr 47px 47px 1fr;align-items:center;gap:6px;padding:5px;z-index:30;box-shadow:0 6px 18px rgba(43,58,89,.07)}
-.tab-item{height:45px;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:10px;color:var(--ink3)}
-.tab-item .ti{font-size:15px;line-height:1}
-.tab-item.active{background:var(--blue-bg);color:var(--blue);font-weight:750}
-.create-tab{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--blue2);color:#fff;font-weight:800;font-size:16px;justify-self:center;box-shadow:0 5px 12px rgba(65,111,245,.2)}
-.create-tab.plus{background:var(--blue);font-size:22px}
-.section-title{display:flex;align-items:center;justify-content:space-between;margin:13px 1px 8px}
-.section-title b{font-size:15px}
-.section-title span{font-size:10.5px;color:var(--ink3)}
-.hrow{display:flex;gap:9px;overflow:hidden;margin-right:-16px;padding-right:16px}
-.tap-card{display:block;border:1px solid var(--line);background:#fff;border-radius:15px;padding:11px;transition:.18s ease}
-.tap-card:hover{transform:translateY(-2px);border-color:var(--blue-line);box-shadow:0 8px 18px rgba(65,111,245,.1)}
-.mini-card{width:148px;min-width:148px;height:91px}
-.mini-card.course{width:164px;min-width:164px;height:112px;background:linear-gradient(145deg,#edf3ff,#fafcff);border-color:var(--blue-line)}
-.mini-card.idea{height:104px;background:linear-gradient(145deg,#f5f0ff,#fbf9ff);border-color:var(--purple-line)}
-.mini-card.todo{background:linear-gradient(145deg,#fff7e5,#fffdf7);border-color:var(--amber-line)}
-.card-kicker{font-size:9.5px;color:var(--ink3);font-weight:680;margin-bottom:4px}
-.tap-card b{display:block;font-size:13px;line-height:1.35;margin-bottom:4px}
-.tap-card p{font-size:10.5px;line-height:1.45;color:var(--ink2)}
-.tap-card .go{display:block;margin-top:6px;font-size:10px;color:var(--blue);font-weight:750}
-.tap-card.idea .go{color:var(--purple)}
-.tap-card.todo .go{color:var(--amber)}
-.ready-banner{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--blue-line);background:var(--blue-bg);border-radius:14px;padding:9px 11px;margin-bottom:4px}
-.ready-banner b{display:block;font-size:11.5px}
-.ready-banner span{font-size:9.5px;color:var(--ink3)}
-.ready-banner i{font-style:normal;color:var(--blue);font-size:11px;font-weight:750}
-.search{height:38px;border-radius:12px;background:var(--soft);color:var(--ink3);display:flex;align-items:center;padding:0 12px;font-size:11.5px;margin-bottom:10px}
-.chips{display:flex;gap:7px;margin-bottom:11px}
-.chip{font-size:10.5px;padding:5px 10px;border-radius:999px;background:var(--soft);color:var(--ink3);border:1px solid var(--line)}
-.chip.active{background:var(--blue-bg);border-color:var(--blue-line);color:var(--blue);font-weight:700}
-.note-list{display:grid;gap:8px}
-.note-row{display:flex;gap:11px;padding:11px;border:1px solid var(--line);border-radius:14px;background:#fff;min-height:75px}
-.note-icon{width:42px;height:42px;border-radius:12px;background:var(--blue-bg);color:var(--blue);display:grid;place-items:center;font-size:15px;flex:0 0 42px}
-.note-icon.purple{background:var(--purple-bg);color:var(--purple)}
-.note-icon.amber{background:var(--amber-bg);color:var(--amber)}
-.note-row b{font-size:12.5px;display:block;margin-bottom:3px}
-.note-row p{font-size:10px;color:var(--ink3);line-height:1.4}
-.editor{padding:8px 19px 0}
-.editor-title{font-size:24px;font-weight:730;border:none;outline:none;width:100%;margin:8px 0 13px;color:var(--ink)}
-.editor-body{font-size:14px;color:var(--ink2);line-height:1.9;min-height:290px}
-.editor-body .cursor{display:inline-block;width:2px;height:17px;background:var(--blue);vertical-align:-3px}
-.formatbar{height:43px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:19px;padding:0 18px;color:var(--ink2);font-size:14px}
-.keyboard{position:absolute;left:0;right:0;bottom:0;height:255px;background:#e9edf3;padding:9px 5px 13px;z-index:15}
-.key-row{display:flex;justify-content:center;gap:4px;margin-bottom:6px}
-.key{height:37px;min-width:29px;background:#fff;border-radius:5px;box-shadow:0 1px 1px rgba(0,0,0,.12);display:grid;place-items:center;font-size:12px;color:var(--ink2)}
-.key.wide{min-width:58px}.key.space{width:164px}
-.record-bg{background:linear-gradient(180deg,#f8faff 0%,#fff 62%)}
-.record-content{padding:2px 20px 18px;text-align:center}
-.bound-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--blue-line);background:var(--blue-bg);color:var(--blue);padding:6px 10px;border-radius:999px;font-size:10.5px;font-weight:700;margin-top:9px}
-.timer{font-size:48px;font-weight:620;letter-spacing:1px;margin:30px 0 4px}
-.timer-sub{font-size:11px;color:var(--green);font-weight:700}
-.wave{height:92px;display:flex;align-items:center;justify-content:center;gap:4px;margin:17px 0 18px}
-.wave i{display:block;width:4px;border-radius:4px;background:linear-gradient(180deg,var(--blue2),var(--blue));height:var(--h)}
-.transcript{background:var(--soft);border:1px solid var(--line);border-radius:16px;text-align:left;padding:13px 14px;margin-top:7px}
-.transcript .time{font-size:9.5px;color:var(--blue);font-weight:700;margin-bottom:4px}
-.transcript p{font-size:11.5px;color:var(--ink2);line-height:1.6}
-.record-controls{position:absolute;left:0;right:0;bottom:34px;display:flex;justify-content:center;align-items:center;gap:34px}
-.control-small{width:42px;height:42px;border-radius:50%;background:var(--soft);border:1px solid var(--line);display:grid;place-items:center;color:var(--ink2)}
-.control-stop{width:68px;height:68px;border-radius:50%;background:var(--blue);display:grid;place-items:center;box-shadow:0 10px 22px rgba(65,111,245,.25)}
-.control-stop i{width:22px;height:22px;background:#fff;border-radius:6px}
-.screen-next{font-size:11.5px;color:var(--ink3);margin:10px 4px 0;line-height:1.45}
-.screen-next b{color:var(--blue)}
-/* learning */
-.gallery-bg{background:#f7f8fb}
-.gallery-photo{margin:2px 14px 0;height:490px;border-radius:24px;overflow:hidden;background:linear-gradient(150deg,#e9edf5,#f8f9fc);padding:22px 16px;box-shadow:inset 0 0 0 1px rgba(18,24,39,.04)}
-.schedule-paper{height:100%;background:#fff;border-radius:5px;transform:rotate(-1.2deg);padding:17px 11px;box-shadow:0 10px 24px rgba(26,36,58,.13)}
-.paper-title{text-align:center;font-size:15px;font-weight:750;margin-bottom:12px}
-.schedule-grid{display:grid;grid-template-columns:36px repeat(5,1fr);grid-template-rows:24px repeat(5,58px);gap:3px}
-.sg{border-radius:4px;background:#f4f6fa;font-size:7.5px;color:var(--ink3);display:grid;place-items:center;text-align:center;padding:2px}
-.sg.head{background:#eef1f6;font-weight:700}.sg.blue{background:#dce7ff;color:#315ccc}.sg.purple{background:#eadfff;color:#6947c9}.sg.green{background:#dff3e9;color:#147455}.sg.amber{background:#fff0ca;color:#91610b}
-.gallery-sheet{position:absolute;left:12px;right:12px;bottom:12px;border-radius:22px;background:#fff;padding:15px 16px 16px;box-shadow:0 14px 36px rgba(30,40,64,.17);z-index:12}
-.sheet-handle{width:34px;height:4px;border-radius:4px;background:#d5d9e1;margin:0 auto 12px}
-.gallery-sheet b{display:block;font-size:15px;margin-bottom:4px}.gallery-sheet p{font-size:10.5px;color:var(--ink3);margin-bottom:11px}
-.primary{height:40px;border-radius:12px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:750}
-.secondary{height:39px;border-radius:12px;background:var(--blue-bg);border:1px solid var(--blue-line);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:730}
-.calendar-week{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;padding:2px 13px 12px;border-bottom:1px solid var(--line)}
-.day{text-align:center;font-size:9.5px;color:var(--ink3);padding:5px 0;border-radius:9px}.day b{display:block;font-size:13px;color:var(--ink2);margin-top:2px}.day.active{background:var(--blue);color:#fff}.day.active b{color:#fff}
-.calendar-body{padding:12px 15px;position:relative;height:578px}
-.cal-hour{height:63px;border-top:1px solid var(--line);position:relative;margin-left:34px}.cal-hour span{position:absolute;left:-34px;top:-7px;font-size:8.5px;color:var(--ink4)}
-.cal-event{position:absolute;left:62px;right:21px;border-radius:12px;padding:9px 11px;font-size:10px;line-height:1.4;border-left:4px solid var(--blue);background:var(--blue-bg);color:#3158c1}
-.cal-event b{font-size:11.5px;display:block}.cal-event.physics{top:143px;height:112px}.cal-event.math{top:320px;height:83px;border-color:var(--purple);background:var(--purple-bg);color:#6648be}
-.success-toast{position:absolute;left:58px;right:24px;bottom:21px;border:1px solid var(--green-line);background:var(--green-bg);color:var(--green);border-radius:13px;padding:10px;text-align:center;font-size:10.5px;font-weight:700}
-.detail-scroll{padding:1px 16px 18px}
-.hero-event{border-radius:20px;background:linear-gradient(145deg,#edf3ff,#f9fbff);border:1px solid var(--blue-line);padding:17px;margin-bottom:11px}
-.hero-event .time-big{font-size:27px;font-weight:750;margin:3px 0}.hero-event p{font-size:11px;color:var(--ink2)}
-.info-row{display:flex;align-items:center;gap:10px;padding:10px 1px;border-bottom:1px solid var(--line);font-size:11.5px;color:var(--ink2)}
-.info-icon{width:27px;height:27px;border-radius:9px;background:var(--soft);display:grid;place-items:center;flex:0 0 27px}
-.course-summary{border:1px solid var(--line);border-radius:16px;padding:13px;margin-top:11px}
-.summary-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.summary-head b{font-size:13px}.summary-head a{font-size:10px;color:var(--blue);font-weight:700}
-.summary-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.summary-metrics div{background:var(--soft);border-radius:9px;padding:7px;text-align:center}.summary-metrics b{display:block;font-size:15px;color:var(--blue)}.summary-metrics span{font-size:8.5px;color:var(--ink3)}
-.toggle-row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:10px;border-radius:12px;background:var(--blue-bg);font-size:11px;color:var(--ink2)}
-.toggle{width:37px;height:21px;border-radius:999px;background:var(--blue);padding:2px}.toggle::after{content:"";display:block;width:17px;height:17px;border-radius:50%;background:#fff;margin-left:auto}
-.lock-bg{background:linear-gradient(160deg,#dfe9ff 0%,#f6f2ff 50%,#f7fafc 100%)}
-.lock-time{text-align:center;margin:27px 0 26px}.lock-time b{display:block;font-size:62px;line-height:1;font-weight:590}.lock-time span{font-size:13px;color:var(--ink2)}
-.notification{margin:0 13px 10px;padding:13px 14px;border:1px solid rgba(255,255,255,.8);border-radius:18px;background:rgba(255,255,255,.85);box-shadow:0 8px 26px rgba(50,63,93,.09);backdrop-filter:blur(12px)}
-.notif-head{display:flex;justify-content:space-between;font-size:9.5px;color:var(--ink3);margin-bottom:7px}.notif-head b{color:var(--ink2);font-size:10.5px}.notification h4{font-size:14px;margin-bottom:4px}.notification p{font-size:10.5px;color:var(--ink2);line-height:1.5}.notif-actions{display:flex;gap:7px;margin-top:10px}.notif-actions a{flex:1;text-align:center;border-radius:10px;background:var(--blue-bg);color:var(--blue);padding:7px;font-size:9.5px;font-weight:700}
-.course-hero{border-radius:21px;padding:17px;background:linear-gradient(150deg,#eaf1ff,#f8faff);border:1px solid var(--blue-line);margin-bottom:11px}
-.course-hero-top{display:flex;justify-content:space-between}.course-hero .semester{font-size:9.5px;color:var(--blue);font-weight:750}.course-hero .percent{font-size:12px;color:var(--ink3)}.course-hero h4{font-size:22px;margin:5px 0 4px}.course-hero p{font-size:10.5px;color:var(--ink2)}
-.progress{height:6px;border-radius:6px;background:#dbe4fb;margin-top:11px;overflow:hidden}.progress i{display:block;width:44%;height:100%;background:var(--blue);border-radius:6px}
-.course-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}.course-action{border:1px solid var(--blue-line);background:#fff;border-radius:13px;padding:10px 5px;text-align:center;color:var(--blue)}.course-action i{font-style:normal;display:block;font-size:19px;margin-bottom:4px}.course-action b{font-size:10.5px}
-.ui-section{border:1px solid var(--line);border-radius:15px;padding:12px;margin-bottom:9px}.ui-section-head{display:flex;justify-content:space-between;margin-bottom:8px}.ui-section-head b{font-size:12px}.ui-section-head a{font-size:9.5px;color:var(--blue)}
-.topic{display:flex;gap:9px;align-items:center;padding:7px 0;border-top:1px solid var(--line)}.topic:first-of-type{border-top:0}.topic-no{width:25px;height:25px;border-radius:8px;background:var(--blue-bg);color:var(--blue);display:grid;place-items:center;font-size:9px;font-weight:750}.topic b{display:block;font-size:10.5px}.topic span{font-size:9px;color:var(--ink3)}
-.player{border:1px solid var(--blue-line);background:var(--blue-bg);border-radius:18px;padding:14px;margin-bottom:13px}.player-head{display:flex;align-items:center;gap:10px}.play{width:39px;height:39px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff}.player b{font-size:12px}.player p{font-size:9.5px;color:var(--ink3)}.player-line{height:4px;background:#d8e2fb;border-radius:4px;margin:11px 0 5px}.player-line i{display:block;height:100%;width:32%;background:var(--blue);border-radius:4px}.player-time{display:flex;justify-content:space-between;font-size:8.5px;color:var(--ink3)}
-.reader-block{margin-bottom:15px}.reader-block h4{font-size:15px;margin-bottom:7px}.reader-block p{font-size:11.5px;line-height:1.7;color:var(--ink2)}.formula{background:var(--soft);border:1px solid var(--line);border-radius:13px;padding:12px;text-align:center;font-size:15px;font-weight:650;margin-top:8px}
-.quiz-top{display:flex;justify-content:space-between;align-items:center;margin:3px 0 13px}.quiz-top b{font-size:12px}.quiz-top span{font-size:10px;color:var(--ink3)}
-.question{font-size:17px;line-height:1.55;margin:12px 0 18px}.options{display:grid;gap:9px}.option{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:14px;padding:12px;font-size:11.5px;color:var(--ink2)}.option i{font-style:normal;width:23px;height:23px;border-radius:50%;border:1px solid #cfd5e0;display:grid;place-items:center;font-size:9px}.option.selected{border-color:var(--blue);background:var(--blue-bg);color:var(--ink)}.option.selected i{background:var(--blue);color:#fff;border-color:var(--blue)}
-.quiz-submit{position:absolute;left:16px;right:16px;bottom:19px}
-.source-tabs{display:flex;gap:7px;overflow:hidden;margin-bottom:11px}.source-tabs span{white-space:nowrap;padding:6px 9px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-size:9.5px;color:var(--ink3)}.source-tabs span.active{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
-.source-item{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:8px}.file-icon{width:38px;height:38px;border-radius:11px;background:var(--blue-bg);color:var(--blue);display:grid;place-items:center;font-size:11px;flex:0 0 38px}.source-item b{display:block;font-size:11px;margin-bottom:2px}.source-item p{font-size:9px;color:var(--ink3)}.source-item em{font-style:normal;margin-left:auto;color:var(--ink4);font-size:15px}
-/* idea */
-.context-card{border:1px solid var(--purple-line);background:var(--purple-bg);border-radius:15px;padding:11px 12px;margin-bottom:10px}.context-card span{font-size:9.5px;color:var(--purple);font-weight:750}.context-card b{font-size:13px;display:block;margin-top:2px}.context-card p{font-size:9.5px;color:var(--ink3);margin-top:3px}
-.mounted{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid var(--purple-line);color:var(--purple);border-radius:999px;padding:5px 8px;font-size:9.5px;font-weight:720}
-.chat-area{position:absolute;top:84px;bottom:66px;left:0;right:0;padding:2px 15px;overflow:hidden}
-.message{max-width:84%;border-radius:15px;padding:10px 11px;margin-bottom:9px;font-size:11px;line-height:1.6}.message.assistant{background:var(--soft);color:var(--ink2)}.message.user{background:var(--purple-bg);color:var(--ink2);margin-left:auto}.message .msg-label{display:block;font-size:8.5px;color:var(--purple);font-weight:700;margin-bottom:3px}
-.quick-prompts{display:flex;gap:6px;overflow:hidden;margin:6px 0 8px}.quick-prompts span{white-space:nowrap;border:1px solid var(--purple-line);background:#fff;color:var(--purple);border-radius:999px;padding:5px 8px;font-size:8.5px}
-.chat-input{position:absolute;left:11px;right:11px;bottom:10px;height:48px;border:1px solid var(--line);background:#fff;border-radius:16px;display:flex;align-items:center;padding:0 11px;color:var(--ink4);font-size:10.5px;box-shadow:0 5px 16px rgba(45,58,89,.07)}.chat-input i{margin-left:auto;width:29px;height:29px;border-radius:10px;background:var(--purple);color:#fff;display:grid;place-items:center;font-style:normal}
-.more-group{margin:4px 0 16px}.more-group h4{font-size:14px;margin-bottom:8px}.format-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.format-item{border:1px solid var(--line);border-radius:13px;padding:11px;font-size:11px}.format-item.active{border-color:var(--purple-line);background:var(--purple-bg);color:var(--purple);font-weight:700}
-.record-source{display:flex;gap:9px;padding:10px 0;border-bottom:1px solid var(--line)}.record-source:last-child{border-bottom:0}.record-source i{font-style:normal;width:30px;height:30px;border-radius:9px;background:var(--purple-bg);color:var(--purple);display:grid;place-items:center;font-size:10px}.record-source b{display:block;font-size:10.5px}.record-source p{font-size:9px;color:var(--ink3)}
-/* todo */
-.note-body{padding:5px 18px;font-size:13px;line-height:1.9;color:var(--ink2)}.note-body h4{font-size:22px;color:var(--ink);margin-bottom:3px}.note-date{font-size:10px;color:var(--ink3);margin-bottom:15px}.highlight{background:#fff1c7;border-radius:4px;padding:1px 3px;color:var(--ink)}
-.action-detected{position:absolute;left:12px;right:12px;bottom:13px;background:#fff;border:1px solid var(--amber-line);border-radius:18px;padding:13px 14px;box-shadow:0 12px 32px rgba(72,54,20,.13)}.action-detected b{font-size:13px;display:block;margin-bottom:3px}.action-detected p{font-size:9.5px;color:var(--ink3);margin-bottom:10px}.amber-btn{height:38px;border-radius:11px;background:#c88a18;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:750}
-.confirm-list{display:grid;gap:9px;margin-top:5px}.confirm-item{border:1px solid var(--line);border-radius:15px;padding:11px}.confirm-top{display:flex;justify-content:space-between;gap:8px}.confirm-top b{font-size:11.5px}.route-tag{font-size:8.5px;padding:3px 6px;border-radius:999px;background:var(--amber-bg);color:var(--amber);white-space:nowrap}.confirm-fields{display:flex;gap:5px;margin-top:9px}.field{flex:1;background:var(--soft);border-radius:8px;padding:6px 7px;font-size:8.5px;color:var(--ink3)}
-.confirm-submit{position:absolute;left:16px;right:16px;bottom:18px}
-.todo-summary{border:1px solid var(--amber-line);background:var(--amber-bg);border-radius:18px;padding:14px;margin-bottom:11px}.todo-summary span{font-size:9px;color:var(--amber);font-weight:750}.todo-summary b{font-size:27px;display:block;margin:2px 0}.todo-summary p{font-size:9.5px;color:var(--ink3)}
-.todo-section{margin-bottom:13px}.todo-section h4{font-size:13px;margin-bottom:7px}.task{display:flex;gap:10px;align-items:flex-start;padding:10px 2px;border-bottom:1px solid var(--line)}.checkbox{width:19px;height:19px;border:1.5px solid #c68d22;border-radius:50%;flex:0 0 19px;margin-top:1px}.task b{display:block;font-size:11px}.task p{font-size:9px;color:var(--ink3)}
-.event-material{display:flex;align-items:center;gap:9px;padding:9px;border:1px solid var(--line);border-radius:12px;margin-bottom:7px}.event-material i{font-style:normal;width:31px;height:31px;border-radius:9px;background:var(--blue-bg);display:grid;place-items:center;color:var(--blue);font-size:10px}.event-material b{display:block;font-size:10.5px}.event-material p{font-size:8.5px;color:var(--ink3)}
-footer{max-width:1720px;margin:0 auto;padding:36px 32px 70px;color:var(--ink4);font-size:12px}
-@media(max-width:780px){
-  .head-inner{padding:30px 15px 26px}h1{font-size:31px}.head-desc{font-size:15px}.jump-inner{padding:8px 15px}.flow{padding:48px 15px 25px}.flow-head{display:block}.flow-count{display:inline-flex;margin-top:10px}.phone-grid{grid-template-columns:360px;justify-content:center;gap:40px}.screen-card,.phone{width:360px}
-}
-@media(max-width:380px){
-  .head-inner,.flow{padding-left:10px;padding-right:10px}.phone-grid{justify-content:start}.screen-card,.phone{width:358px}
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>OS5 笔记 · TR1 材料驱动手机端方案</title>
+  <style>
+    :root {
+      --ink: #1d2942;
+      --muted: #64708a;
+      --line: #dfe5ef;
+      --paper: #ffffff;
+      --canvas: #f4f7fb;
+      --blue: #476ff2;
+      --blue-soft: #edf2ff;
+      --purple: #795fd1;
+      --purple-soft: #f3efff;
+      --green: #2c976b;
+      --green-soft: #eaf8f1;
+      --amber: #c88319;
+      --amber-soft: #fff6e5;
+      --rose: #c85f76;
+      --rose-soft: #fff0f3;
+      --shadow: 0 18px 54px rgba(64, 78, 112, .12);
+      --phone-shadow: 0 24px 60px rgba(47, 59, 89, .18);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.55;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .page-head {
+      padding: 72px clamp(24px, 5vw, 84px) 54px;
+      background:
+        radial-gradient(circle at 12% 4%, rgba(71,111,242,.12), transparent 29%),
+        radial-gradient(circle at 88% 15%, rgba(121,95,209,.12), transparent 30%),
+        #fff;
+      border-bottom: 1px solid var(--line);
+    }
+    .head-inner { max-width: 1320px; margin: 0 auto; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 7px 12px;
+      border: 1px solid #cfd9fb;
+      border-radius: 999px;
+      color: #3f61ce;
+      background: #f4f7ff;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    h1 {
+      max-width: 980px;
+      margin: 0;
+      font-size: clamp(38px, 5.4vw, 72px);
+      line-height: 1.08;
+      letter-spacing: -.045em;
+    }
+    .head-lead {
+      max-width: 930px;
+      margin: 24px 0 0;
+      color: #4d5a75;
+      font-size: clamp(17px, 2vw, 23px);
+      line-height: 1.65;
+    }
+    .source-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .source-chip {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: #526079;
+      background: rgba(255,255,255,.82);
+      font-size: 13px;
+    }
+    .source-chip strong { color: var(--ink); }
+
+    .jumpbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(215,222,234,.9);
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(18px);
+    }
+    .jump-inner {
+      display: flex;
+      max-width: 1320px;
+      margin: 0 auto;
+      gap: 7px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .jump-inner::-webkit-scrollbar { display: none; }
+    .jump-inner a {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      border-radius: 10px;
+      color: #68748c;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .jump-inner a:hover, .jump-inner a.on { color: #3155ce; background: var(--blue-soft); }
+
+    main { max-width: 1500px; margin: 0 auto; padding: 28px clamp(14px, 3vw, 42px) 80px; }
+    .flow {
+      scroll-margin-top: 76px;
+      margin: 32px 0;
+      padding: clamp(24px, 4vw, 54px);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: var(--paper);
+      box-shadow: 0 14px 44px rgba(64,78,112,.07);
+    }
+    .flow-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+    .section-no { color: var(--blue); font-size: 13px; font-weight: 800; letter-spacing: .08em; }
+    .flow h2 { margin: 6px 0 0; font-size: clamp(28px, 4vw, 48px); line-height: 1.2; letter-spacing: -.03em; text-wrap: balance; }
+    .flow-head p { max-width: 520px; margin: 0; color: var(--muted); font-size: 15px; }
+    .truth-note {
+      margin: 20px 0 0;
+      padding: 14px 17px;
+      border-left: 4px solid var(--blue);
+      border-radius: 0 13px 13px 0;
+      color: #43516e;
+      background: #f5f7ff;
+      font-size: 14px;
+    }
+
+    .evidence-layout { display: grid; grid-template-columns: 310px minmax(0, 1fr); gap: 22px; }
+    .sample-panel {
+      padding: 24px;
+      border: 1px solid #d8e1fc;
+      border-radius: 22px;
+      background: linear-gradient(145deg, #f4f7ff, #edf3ff);
+    }
+    .sample-panel h3 { margin: 0 0 4px; font-size: 18px; }
+    .sample-panel > p { margin: 0 0 18px; color: var(--muted); font-size: 13px; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .stat {
+      padding: 14px 12px;
+      border: 1px solid rgba(181,196,239,.75);
+      border-radius: 14px;
+      background: rgba(255,255,255,.8);
+    }
+    .stat strong { display: block; color: #3458c8; font-size: 25px; line-height: 1.1; }
+    .stat span { color: #68748c; font-size: 12px; }
+    .research-branches { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+    .branch-card { padding: 21px; border: 1px solid var(--line); border-radius: 20px; background: #fff; }
+    .branch-card.primary { border-color: #ccd8fb; background: var(--blue-soft); }
+    .branch-card.learning { border-color: #d8d0f3; background: var(--purple-soft); }
+    .branch-card.other { border-color: #cfe9de; background: var(--green-soft); }
+    .branch-tag { color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .08em; }
+    .branch-card h3 { margin: 7px 0 8px; font-size: 21px; }
+    .branch-card p { margin: 0; color: #536079; font-size: 14px; }
+    .taxonomy-band {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px dashed #cbd4e5;
+      border-radius: 18px;
+      background: #fafbfd;
+    }
+    .taxonomy-band b { flex: 0 0 100%; font-size: 13px; }
+    .taxonomy-band span { padding: 5px 9px; border-radius: 999px; color: #59647b; background: #eef1f6; font-size: 12px; }
+    .tr1-baseline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .baseline-item { padding: 15px; border: 1px solid var(--line); border-radius: 15px; background: #fbfcfe; }
+    .baseline-item b { display: block; margin-bottom: 5px; font-size: 14px; }
+    .baseline-item span { color: var(--muted); font-size: 12px; }
+    .cross-band {
+      margin-top: 10px;
+      padding: 12px 16px;
+      border: 1px solid #f0d69f;
+      border-radius: 14px;
+      color: #7d5a21;
+      background: var(--amber-soft);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .job-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; }
+    .job-card {
+      position: relative;
+      min-height: 274px;
+      padding: 20px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #fff;
+    }
+    .job-card::before { content:""; position:absolute; inset:0 0 auto; height:5px; background:var(--tone); }
+    .job-card[data-tone="blue"] { --tone: var(--blue); --soft: var(--blue-soft); }
+    .job-card[data-tone="purple"] { --tone: var(--purple); --soft: var(--purple-soft); }
+    .job-card[data-tone="green"] { --tone: var(--green); --soft: var(--green-soft); }
+    .job-card[data-tone="amber"] { --tone: var(--amber); --soft: var(--amber-soft); }
+    .job-index { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:11px; color:var(--tone); background:var(--soft); font-weight:800; }
+    .job-card h3 { margin: 14px 0 7px; font-size: 21px; }
+    .job-input { min-height: 58px; color: #5b667e; font-size: 13px; }
+    .job-arrow { margin: 12px 0; color: var(--tone); font-weight: 900; }
+    .job-output { padding: 13px; border-radius: 14px; background: var(--soft); }
+    .job-output b { display:block; margin-bottom:4px; color:var(--tone); font-size:14px; }
+    .job-output span { color:#4f5b73; font-size:12px; }
+    .job-rule { margin-top:18px; padding:16px 18px; border-radius:16px; background:#f5f7fb; color:#4e5b73; font-size:14px; text-align:center; }
+
+    .tree-wrap { padding: 26px; border: 1px solid #dce3f1; border-radius: 24px; background: linear-gradient(180deg,#fbfcff,#f5f8fd); }
+    .tree-root { max-width: 620px; margin: 0 auto; padding: 18px 22px; border: 1px solid #cbd7fa; border-radius: 18px; background: #fff; text-align: center; box-shadow: var(--shadow); }
+    .tree-root strong { display:block; font-size:20px; }
+    .tree-root span { color:var(--muted); font-size:13px; }
+    .tree-process { display:flex; justify-content:center; align-items:center; gap:8px; margin:18px auto 0; color:#5b6881; font-size:12px; font-weight:700; }
+    .tree-process span { padding:7px 10px; border:1px solid var(--line); border-radius:999px; background:#fff; }
+    .tree-process i { color:#99a4b8; font-style:normal; }
+    .tree-line { width:2px; height:28px; margin:0 auto; background:#bfcbe7; }
+    .tree-branches { position:relative; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; padding-top:24px; }
+    .tree-branches::before { content:""; position:absolute; top:0; left:12.5%; right:12.5%; height:2px; background:#bfcbe7; }
+    .tree-card { position:relative; min-height:184px; padding:19px; border:1px solid var(--line); border-radius:19px; background:#fff; }
+    .tree-card::before { content:""; position:absolute; left:50%; top:-25px; width:2px; height:25px; background:#bfcbe7; }
+    .tree-order { color:var(--tone); font-size:11px; font-weight:800; }
+    .tree-card h3 { margin:7px 0 8px; font-size:22px; }
+    .tree-card p { margin:0; color:#5a667e; font-size:13px; }
+    .tree-card .result { display:block; margin-top:12px; padding:9px 10px; border-radius:11px; color:var(--tone); background:var(--soft); font-size:12px; font-weight:800; }
+    .tree-card.todo { --tone:var(--blue); --soft:var(--blue-soft); }
+    .tree-card.jot { --tone:var(--purple); --soft:var(--purple-soft); }
+    .tree-card.learn { --tone:var(--green); --soft:var(--green-soft); }
+    .tree-card.card { --tone:var(--amber); --soft:var(--amber-soft); }
+    .scope-note { margin-top:18px; padding:14px 16px; border:1px solid #f0d69f; border-radius:14px; color:#735520; background:var(--amber-soft); font-size:13px; text-align:center; }
+
+    .phone-grid { display:grid; grid-template-columns:repeat(auto-fit,360px); justify-content:center; align-items:start; gap:28px 22px; }
+    .screen-card { width:360px; }
+    .screen-label { min-height:72px; margin-bottom:10px; }
+    .screen-label b { display:block; color:#283651; font-size:15px; }
+    .screen-label span { color:var(--muted); font-size:12px; }
+    .screen-next { margin:11px 5px 0; color:#6b768d; font-size:12px; line-height:1.55; }
+    .phone {
+      scroll-margin-top: 86px;
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      width:360px;
+      height:779px;
+      overflow:hidden;
+      border:8px solid #e2e7ef;
+      border-radius:40px;
+      background:#f7f8fb;
+      box-shadow:var(--phone-shadow);
+    }
+    .phone::after { content:""; position:absolute; top:8px; left:50%; width:58px; height:5px; transform:translateX(-50%); border-radius:999px; background:#cbd2de; z-index:4; }
+    .statusbar { display:flex; flex:0 0 28px; align-items:end; justify-content:space-between; padding:0 17px 3px; color:#25324a; background:#fff; font-size:10px; font-weight:800; }
+    .status-icons { letter-spacing:1px; }
+    .appbar { display:flex; flex:0 0 54px; align-items:center; justify-content:space-between; gap:10px; padding:0 14px; border-bottom:1px solid #edf0f5; background:#fff; }
+    .appbar-title { min-width:0; }
+    .appbar-title b { display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:17px; }
+    .appbar-title span { display:block; color:#7a8498; font-size:10px; }
+    .back, .icon-btn { display:grid; flex:0 0 32px; width:32px; height:32px; place-items:center; border:1px solid #e4e8ef; border-radius:11px; background:#fff; color:#4f5c74; font-size:16px; }
+    .app-action { flex:0 0 auto; color:var(--blue); font-size:12px; font-weight:800; }
+    .phone-body { flex:1 1 auto; min-height:0; overflow:hidden; padding:12px; }
+    .phone-body.white { background:#fff; }
+    .phone-body.tint { background:#f3f6fb; }
+    .phone-body.camera { padding:0; background:#34435d; }
+    .mobile-tabs { display:grid; flex:0 0 62px; grid-template-columns:repeat(4,1fr); border-top:1px solid #e7ebf1; background:#fff; }
+    .mobile-tabs a { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; color:#8791a4; font-size:9px; }
+    .mobile-tabs a strong { font-size:17px; line-height:1; }
+    .mobile-tabs a.active { color:var(--blue); font-weight:800; }
+    .mobile-tabs a.create strong { display:grid; width:31px; height:31px; place-items:center; border-radius:50%; color:#fff; background:var(--blue); }
+
+    .mobile-hero { padding:14px; border-radius:17px; background:linear-gradient(135deg,#edf2ff,#f5f1ff); }
+    .mobile-hero small { color:#6476aa; font-size:10px; font-weight:800; }
+    .mobile-hero h3 { margin:5px 0 4px; font-size:20px; line-height:1.25; }
+    .mobile-hero p { margin:0; color:#5e6980; font-size:11px; }
+    .auto-banner { display:block; margin-top:10px; padding:11px 12px; border:1px solid #bfe5d3; border-radius:14px; background:var(--green-soft); }
+    .auto-banner b { display:block; color:#247b58; font-size:12px; }
+    .auto-banner span { color:#557364; font-size:10px; }
+    .mobile-category-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+    .mobile-category { min-height:96px; padding:12px; border:1px solid var(--line); border-radius:15px; background:#fff; }
+    .mobile-category .cat-icon { display:grid; width:30px; height:30px; place-items:center; border-radius:10px; background:var(--soft); }
+    .mobile-category b { display:block; margin-top:8px; font-size:13px; }
+    .mobile-category span { display:block; margin-top:2px; color:#758096; font-size:9px; line-height:1.35; }
+    .mobile-category.todo { --soft:var(--blue-soft); }
+    .mobile-category.jot { --soft:var(--purple-soft); }
+    .mobile-category.learn { --soft:var(--green-soft); }
+    .mobile-category.card { --soft:var(--amber-soft); }
+    .section-title { display:flex; align-items:center; justify-content:space-between; margin:12px 1px 7px; }
+    .section-title b { font-size:12px; }
+    .section-title span, .section-title a { color:#7b869a; font-size:9px; }
+    .mini-result { display:flex; align-items:center; gap:10px; padding:10px; border:1px solid #e6eaf1; border-radius:14px; background:#fff; }
+    .mini-result + .mini-result { margin-top:7px; }
+    .mini-thumb { display:grid; flex:0 0 36px; width:36px; height:36px; place-items:center; border-radius:11px; background:#eef2fa; }
+    .mini-result b { display:block; font-size:11px; }
+    .mini-result span { display:block; color:#7a8498; font-size:9px; }
+    .mini-result .chev { margin-left:auto; color:#a2abba; }
+
+    .search-box { display:flex; align-items:center; gap:7px; margin-bottom:10px; padding:9px 11px; border-radius:12px; color:#8791a4; background:#eef1f6; font-size:10px; }
+    .note-row { display:flex; gap:10px; padding:11px 5px; border-bottom:1px solid #edf0f4; }
+    .note-time { flex:0 0 40px; color:#8b95a7; font-size:9px; }
+    .note-content { min-width:0; }
+    .note-content b { display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:12px; }
+    .note-content p { margin:3px 0 0; overflow:hidden; color:#737e92; font-size:9px; white-space:nowrap; text-overflow:ellipsis; }
+    .note-badge { display:inline-block; margin-top:5px; padding:3px 6px; border-radius:7px; color:#4863ac; background:#edf2ff; font-size:8px; font-weight:700; }
+    .note-badge.green { color:#287756; background:var(--green-soft); }
+    .note-badge.purple { color:#6a50ba; background:var(--purple-soft); }
+    .note-badge.amber { color:#87611e; background:var(--amber-soft); }
+
+    .editor-title { width:100%; padding:10px 0; border:0; outline:0; color:#25324a; background:transparent; font-size:22px; font-weight:750; }
+    .editor-body { color:#46536c; font-size:13px; line-height:1.75; }
+    .editor-placeholder { color:#9aa3b3; }
+    .editor-tools { display:flex; gap:7px; margin-top:18px; padding-top:12px; border-top:1px solid #edf0f4; }
+    .tool-chip { padding:6px 8px; border:1px solid #e2e7ef; border-radius:9px; color:#66738a; background:#fff; font-size:9px; }
+    .record-orb { display:grid; width:116px; height:116px; margin:48px auto 18px; place-items:center; border:14px solid #e6edff; border-radius:50%; color:#fff; background:var(--blue); box-shadow:0 0 0 13px #f0f4ff; font-size:32px; }
+    .record-time { text-align:center; font-size:29px; font-variant-numeric:tabular-nums; }
+    .record-caption { margin:8px 18px; color:#69758c; font-size:11px; text-align:center; }
+    .wave { display:flex; height:38px; margin:18px auto; align-items:center; justify-content:center; gap:3px; }
+    .wave i { width:3px; border-radius:4px; background:#7e98e7; }
+    .wave i:nth-child(1),.wave i:nth-child(9){height:10px}.wave i:nth-child(2),.wave i:nth-child(8){height:20px}.wave i:nth-child(3),.wave i:nth-child(7){height:29px}.wave i:nth-child(4),.wave i:nth-child(6){height:17px}.wave i:nth-child(5){height:36px}
+    .record-actions { display:flex; justify-content:center; gap:24px; margin-top:34px; }
+    .round-action { display:grid; width:50px; height:50px; place-items:center; border-radius:50%; color:#546077; background:#fff; box-shadow:0 8px 24px rgba(63,77,111,.12); }
+    .round-action.primary { color:#fff; background:var(--blue); }
+
+    .success-panel { padding:18px; border:1px solid #bde3d1; border-radius:19px; background:linear-gradient(145deg,#eaf8f1,#f6fcf9); }
+    .success-mark { display:grid; width:42px; height:42px; place-items:center; border-radius:50%; color:#fff; background:var(--green); font-size:21px; }
+    .success-panel h3 { margin:10px 0 4px; font-size:18px; }
+    .success-panel p { margin:0; color:#557064; font-size:10px; }
+    .detected-list { margin-top:10px; border:1px solid #e2e7ee; border-radius:16px; overflow:hidden; background:#fff; }
+    .detected-item { display:grid; grid-template-columns:22px minmax(0,1fr) auto; gap:8px; align-items:start; padding:11px; border-bottom:1px solid #edf0f4; }
+    .detected-item:last-child { border-bottom:0; }
+    .check-dot { display:grid; width:20px; height:20px; place-items:center; border-radius:7px; color:#fff; background:var(--blue); font-size:10px; }
+    .detected-copy b { display:block; font-size:11px; }
+    .detected-copy span { display:block; margin-top:2px; color:#7a8598; font-size:9px; }
+    .target-tag { padding:3px 6px; border-radius:7px; color:#3e5fbd; background:var(--blue-soft); font-size:8px; font-weight:700; }
+    .target-tag.calendar { color:#8b641f; background:var(--amber-soft); }
+    .button-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+    .primary-btn, .secondary-btn, .danger-btn { display:flex; min-height:39px; align-items:center; justify-content:center; border-radius:12px; font-size:10px; font-weight:800; }
+    .primary-btn { color:#fff; background:var(--blue); }
+    .secondary-btn { border:1px solid #dfe5ee; color:#536079; background:#fff; }
+    .danger-btn { border:1px solid #f0cbd3; color:#b75469; background:var(--rose-soft); }
+    .text-actions { display:flex; justify-content:center; gap:18px; margin-top:11px; }
+    .text-actions a { color:#63718a; font-size:9px; text-decoration:underline; text-underline-offset:3px; }
+    .source-card { display:flex; align-items:center; gap:9px; margin-top:10px; padding:10px; border:1px solid #e4e8ef; border-radius:13px; background:#fff; }
+    .source-card .source-icon { display:grid; width:30px; height:30px; place-items:center; border-radius:9px; background:#eef2f8; }
+    .source-card b { display:block; font-size:10px; }
+    .source-card span { display:block; color:#7f899b; font-size:8px; }
+    .source-card em { margin-left:auto; color:#8b95a7; font-size:9px; font-style:normal; }
+
+    .date-strip { display:flex; gap:7px; margin-bottom:10px; }
+    .date-pill { flex:1; padding:7px 3px; border-radius:10px; color:#778298; background:#eef1f6; font-size:8px; text-align:center; }
+    .date-pill b { display:block; color:#4d5a72; font-size:11px; }
+    .date-pill.active { color:#fff; background:var(--blue); }
+    .date-pill.active b { color:#fff; }
+    .todo-group-title { margin:10px 2px 5px; color:#758097; font-size:9px; font-weight:800; }
+    .todo-item { display:flex; gap:9px; padding:11px; border:1px solid #e4e8ef; border-radius:13px; background:#fff; }
+    .todo-item + .todo-item { margin-top:7px; }
+    .todo-ring { flex:0 0 19px; width:19px; height:19px; border:2px solid #a9b4c8; border-radius:50%; }
+    .todo-copy { min-width:0; }
+    .todo-copy b { display:block; font-size:11px; }
+    .todo-copy span { display:block; margin-top:3px; color:#7b8699; font-size:8px; }
+    .todo-origin { display:inline-block; margin-top:5px; color:#4d6ccc; font-size:8px; }
+    .tiny-link { margin-left:auto; color:#667ba9; font-size:8px; }
+    .form-field { margin-bottom:9px; padding:10px 11px; border:1px solid #e0e5ed; border-radius:12px; background:#fff; }
+    .form-field label { display:block; margin-bottom:3px; color:#818b9d; font-size:8px; }
+    .form-field b { display:block; font-size:11px; }
+    .form-field .field-row { display:flex; justify-content:space-between; color:#536079; font-size:10px; }
+    .undo-hero { padding:28px 18px; border:1px solid #e2e7ef; border-radius:20px; background:#fff; text-align:center; }
+    .undo-icon { display:grid; width:56px; height:56px; margin:0 auto 12px; place-items:center; border-radius:50%; color:#627087; background:#eef1f6; font-size:24px; }
+    .undo-hero h3 { margin:0 0 5px; font-size:18px; }
+    .undo-hero p { margin:0; color:#788296; font-size:10px; }
+    .event-hero { padding:17px; border-radius:18px; background:linear-gradient(145deg,#fff5e2,#fffaf0); }
+    .event-hero small { color:#9a6d25; font-size:9px; font-weight:800; }
+    .event-hero h3 { margin:6px 0 4px; font-size:19px; }
+    .event-hero p { margin:0; color:#735e3c; font-size:10px; }
+    .info-list { margin-top:10px; border:1px solid #e3e7ee; border-radius:15px; overflow:hidden; background:#fff; }
+    .info-row { display:flex; justify-content:space-between; gap:12px; padding:10px 11px; border-bottom:1px solid #edf0f4; font-size:10px; }
+    .info-row:last-child { border-bottom:0; }
+    .info-row span { color:#7b8698; }
+    .info-row b { text-align:right; }
+
+    .jot-summary { padding:16px; border-radius:18px; background:linear-gradient(145deg,#f2edff,#faf8ff); }
+    .jot-summary small { color:#765bc9; font-size:9px; font-weight:800; }
+    .jot-summary h3 { margin:5px 0; font-size:19px; }
+    .jot-summary p { margin:0; color:#665c7f; font-size:10px; }
+    .context-chips { display:flex; gap:6px; margin:9px 0; }
+    .context-chips span { padding:4px 7px; border-radius:999px; color:#6d5ca0; background:#f0ebff; font-size:8px; }
+    .thread-card { display:block; padding:12px; border:1px solid #e4e0f3; border-radius:15px; background:#fff; }
+    .thread-card + .thread-card { margin-top:7px; }
+    .thread-card b { display:block; font-size:11px; }
+    .thread-card p { margin:4px 0 6px; color:#727b90; font-size:9px; }
+    .thread-meta { display:flex; justify-content:space-between; color:#978da9; font-size:8px; }
+    .mounted { display:flex; align-items:center; gap:7px; padding:8px 10px; border:1px solid #dfd8f3; border-radius:11px; color:#65558f; background:#f6f2ff; font-size:9px; }
+    .message { max-width:88%; margin-top:9px; padding:10px 11px; border-radius:14px; color:#48546c; background:#fff; font-size:10px; line-height:1.55; }
+    .message.user { margin-left:auto; color:#fff; background:var(--purple); }
+    .quick-prompts { display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
+    .quick-prompts span { padding:5px 7px; border:1px solid #ddd6f0; border-radius:999px; color:#6f5e9d; background:#fff; font-size:8px; }
+    .chat-input { display:flex; align-items:center; gap:7px; margin-top:10px; padding:8px 9px; border:1px solid #ded8ec; border-radius:13px; color:#8d859d; background:#fff; font-size:9px; }
+    .chat-input i { margin-left:auto; color:#fff; background:var(--purple); display:grid; width:24px; height:24px; place-items:center; border-radius:8px; font-style:normal; }
+    .source-list { border:1px solid #e3e7ef; border-radius:15px; overflow:hidden; background:#fff; }
+    .source-item { display:flex; align-items:center; gap:9px; padding:11px; border-bottom:1px solid #edf0f4; }
+    .source-item:last-child { border-bottom:0; }
+    .source-item .thumb { display:grid; flex:0 0 34px; width:34px; height:34px; place-items:center; border-radius:10px; background:#eef1f7; }
+    .source-item b { display:block; font-size:10px; }
+    .source-item span { display:block; color:#7f899b; font-size:8px; }
+    .source-item em { margin-left:auto; color:#8b95a7; font-size:9px; font-style:normal; }
+
+    .photo-stage { position:relative; height:100%; overflow:hidden; background:linear-gradient(160deg,#657590,#2f405b); }
+    .photo-sheet { position:absolute; inset:72px 34px 122px; padding:18px; transform:rotate(-2deg); border-radius:13px; color:#455069; background:#fff; box-shadow:0 18px 35px rgba(17,28,48,.28); }
+    .photo-sheet h4 { margin:0 0 14px; text-align:center; }
+    .photo-lines { display:grid; grid-template-columns:repeat(5,1fr); gap:4px; }
+    .photo-lines span { height:45px; border:1px solid #dfe4ec; border-radius:5px; background:#f8fafc; }
+    .scan-box { position:absolute; inset:116px 52px 170px; border:2px solid #dbe5ff; border-radius:16px; box-shadow:0 0 0 999px rgba(23,34,54,.18); }
+    .camera-copy { position:absolute; left:0; right:0; bottom:74px; color:#fff; font-size:10px; text-align:center; }
+    .camera-shutter { position:absolute; left:50%; bottom:19px; width:48px; height:48px; transform:translateX(-50%); border:5px solid #fff; border-radius:50%; background:#dfe7fa; }
+    .capture-actions { position:absolute; left:14px; right:14px; bottom:12px; display:grid; grid-template-columns:1fr 1.8fr; gap:8px; }
+    .capture-actions a { min-height:40px; display:flex; align-items:center; justify-content:center; border-radius:12px; color:#fff; background:rgba(255,255,255,.18); font-size:10px; font-weight:800; }
+    .capture-actions a.primary-capture { color:#3655b7; background:#fff; }
+    .recognize-sheet { padding:14px; border:1px solid #d9e2f7; border-radius:17px; background:#fff; }
+    .recognize-sheet h3 { margin:0 0 3px; font-size:16px; }
+    .recognize-sheet > p { margin:0 0 10px; color:#778297; font-size:9px; }
+    .field-row-card { display:flex; justify-content:space-between; gap:10px; padding:9px 0; border-bottom:1px solid #edf0f4; }
+    .field-row-card:last-child { border-bottom:0; }
+    .field-row-card span { color:#7c879a; font-size:9px; }
+    .field-row-card b { font-size:10px; text-align:right; }
+    .confidence { display:inline-block; margin-left:5px; padding:2px 5px; border-radius:6px; color:#267956; background:var(--green-soft); font-size:7px; }
+    .privacy-note { margin-top:9px; padding:9px 10px; border-radius:11px; color:#6d5d39; background:var(--amber-soft); font-size:8px; }
+
+    .calendar-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:9px; }
+    .calendar-head b { font-size:15px; }
+    .calendar-week { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-bottom:10px; }
+    .calendar-day { padding:7px 2px; border-radius:10px; color:#7c8799; background:#eef1f6; font-size:8px; text-align:center; }
+    .calendar-day b { display:block; color:#536078; font-size:10px; }
+    .calendar-day.active { color:#fff; background:var(--green); }
+    .calendar-day.active b { color:#fff; }
+    .class-card { display:block; margin-top:8px; padding:12px; border-left:4px solid var(--green); border-radius:13px; background:#fff; box-shadow:0 6px 18px rgba(53,84,74,.08); }
+    .class-card small { color:#3b8a69; font-size:8px; font-weight:800; }
+    .class-card b { display:block; margin:4px 0 2px; font-size:11px; }
+    .class-card span { color:#7b8698; font-size:8px; }
+    .class-hero { padding:16px; border-radius:18px; background:linear-gradient(145deg,#eaf8f1,#f6fbf8); }
+    .class-hero small { color:#2d8060; font-size:9px; font-weight:800; }
+    .class-hero h3 { margin:6px 0 4px; font-size:19px; }
+    .class-hero p { margin:0; color:#587267; font-size:10px; }
+    .material-row { display:flex; align-items:center; gap:9px; margin-top:8px; padding:10px; border:1px solid #e1e8e5; border-radius:13px; background:#fff; }
+    .material-row .mat-icon { display:grid; width:32px; height:32px; place-items:center; border-radius:10px; background:#edf6f1; }
+    .material-row b { display:block; font-size:10px; }
+    .material-row span { display:block; color:#7f8999; font-size:8px; }
+    .material-row em { margin-left:auto; color:#8893a5; font-size:9px; font-style:normal; }
+    .notification-card { margin:56px 4px 0; padding:14px; border:1px solid #dfe5ef; border-radius:20px; background:rgba(255,255,255,.96); box-shadow:0 18px 48px rgba(57,70,101,.18); }
+    .notification-top { display:flex; align-items:center; gap:8px; color:#7e899b; font-size:8px; }
+    .notification-app { display:grid; width:27px; height:27px; place-items:center; border-radius:8px; background:var(--green-soft); }
+    .notification-card h3 { margin:12px 0 4px; font-size:16px; }
+    .notification-card p { margin:0; color:#6e798d; font-size:10px; }
+    .notification-actions { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:12px; }
+    .course-hero { padding:16px; border-radius:18px; color:#315e4c; background:linear-gradient(145deg,#dff4e9,#effaf5); }
+    .course-hero small { font-size:8px; font-weight:800; }
+    .course-hero h3 { margin:5px 0; color:#1e3e32; font-size:20px; }
+    .course-hero p { margin:0; font-size:9px; }
+    .progress { height:6px; margin-top:10px; overflow:hidden; border-radius:99px; background:rgba(255,255,255,.8); }
+    .progress span { display:block; width:62%; height:100%; background:var(--green); }
+    .course-actions { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-top:10px; }
+    .course-action { padding:12px 5px; border:1px solid #dce8e2; border-radius:13px; background:#fff; text-align:center; }
+    .course-action strong { display:block; font-size:18px; }
+    .course-action b { display:block; margin-top:4px; font-size:9px; }
+    .course-action span { color:#7f8999; font-size:7px; }
+    .lesson-row { display:flex; align-items:center; gap:9px; padding:9px 2px; border-bottom:1px solid #e7ebe9; }
+    .lesson-no { display:grid; width:30px; height:30px; place-items:center; border-radius:9px; color:#2f7f61; background:var(--green-soft); font-size:9px; font-weight:800; }
+    .lesson-row b { display:block; font-size:10px; }
+    .lesson-row span { display:block; color:#7f899b; font-size:8px; }
+    .lesson-row em { margin-left:auto; color:#8c96a6; font-size:9px; font-style:normal; }
+    .quick-card { padding:16px; border:1px solid #d8e7df; border-radius:18px; background:#fff; }
+    .quick-card small { color:#2f8060; font-size:8px; font-weight:800; }
+    .quick-card h3 { margin:6px 0 7px; font-size:17px; }
+    .quick-card p { margin:0; color:#616d80; font-size:10px; line-height:1.6; }
+    .key-points { margin-top:10px; padding-left:0; list-style:none; }
+    .key-points li { position:relative; margin-top:7px; padding-left:18px; color:#526077; font-size:9px; }
+    .key-points li::before { content:"✓"; position:absolute; left:0; color:var(--green); font-weight:900; }
+    .quiz-card { padding:14px; border:1px solid #dfe5ed; border-radius:17px; background:#fff; }
+    .quiz-card small { color:#6d788c; font-size:8px; }
+    .quiz-card h3 { margin:6px 0 10px; font-size:15px; }
+    .answer { display:block; margin-top:7px; padding:10px; border:1px solid #e2e7ee; border-radius:11px; color:#59657a; font-size:9px; }
+    .answer.selected { border-color:#9bcbb6; color:#256f53; background:var(--green-soft); }
+
+    .wallet-summary { padding:15px; border-radius:18px; background:linear-gradient(145deg,#fff4df,#fffaf1); }
+    .wallet-summary small { color:#94691e; font-size:8px; font-weight:800; }
+    .wallet-summary h3 { margin:5px 0 3px; font-size:19px; }
+    .wallet-summary p { margin:0; color:#79684a; font-size:9px; }
+    .card-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+    .id-card { display:block; min-height:112px; padding:12px; border:1px solid #eadcbf; border-radius:15px; background:#fff; }
+    .id-card .id-icon { display:grid; width:31px; height:31px; place-items:center; border-radius:10px; background:var(--amber-soft); }
+    .id-card b { display:block; margin-top:13px; font-size:11px; }
+    .id-card span { display:block; margin-top:3px; color:#8a8390; font-size:8px; }
+    .add-card { display:flex; min-height:112px; flex-direction:column; align-items:center; justify-content:center; border:1px dashed #d6c49d; border-radius:15px; color:#8a6727; background:#fffcf6; font-size:9px; }
+    .add-card strong { font-size:24px; }
+    .id-visual { padding:15px; border-radius:17px; color:#5f4b27; background:linear-gradient(135deg,#fff1d1,#f8dfaa); box-shadow:0 10px 28px rgba(142,104,35,.12); }
+    .id-visual-top { display:flex; align-items:center; justify-content:space-between; font-size:8px; }
+    .id-person { display:flex; align-items:center; gap:11px; margin-top:13px; }
+    .avatar { display:grid; width:54px; height:64px; place-items:center; border-radius:10px; background:rgba(255,255,255,.65); font-size:25px; }
+    .id-person b { display:block; font-size:14px; }
+    .id-person span { display:block; margin-top:4px; font-size:9px; }
+    .sensitive-field { display:flex; align-items:center; justify-content:space-between; gap:9px; padding:10px 2px; border-bottom:1px solid #e8ebf0; }
+    .sensitive-field span { color:#7d8799; font-size:9px; }
+    .sensitive-field b { font-size:10px; letter-spacing:.04em; }
+    .field-actions { display:flex; gap:5px; }
+    .field-actions a { padding:4px 6px; border-radius:7px; color:#6e5525; background:var(--amber-soft); font-size:7px; font-weight:800; }
+    .auth-app { display:flex; align-items:center; gap:10px; padding:12px; border:1px solid #e1e6ee; border-radius:15px; background:#fff; }
+    .auth-app-icon { display:grid; width:38px; height:38px; place-items:center; border-radius:12px; color:#fff; background:var(--blue); }
+    .auth-app b { display:block; font-size:11px; }
+    .auth-app span { display:block; color:#7f899a; font-size:8px; }
+    .permission-box { margin-top:10px; border:1px solid #e1e6ee; border-radius:15px; overflow:hidden; background:#fff; }
+    .permission-row { display:flex; align-items:center; justify-content:space-between; padding:10px 11px; border-bottom:1px solid #edf0f4; font-size:9px; }
+    .permission-row:last-child { border-bottom:0; }
+    .permission-row span { color:#758095; }
+    .toggle { width:31px; height:18px; padding:2px; border-radius:999px; background:var(--blue); }
+    .toggle::after { content:""; display:block; width:14px; height:14px; margin-left:13px; border-radius:50%; background:#fff; }
+    .success-state { padding-top:66px; text-align:center; }
+    .success-state .big-mark { display:grid; width:70px; height:70px; margin:0 auto 17px; place-items:center; border-radius:50%; color:#fff; background:var(--green); box-shadow:0 0 0 14px var(--green-soft); font-size:31px; }
+    .success-state h3 { margin:0 0 6px; font-size:20px; }
+    .success-state p { max-width:230px; margin:0 auto 20px; color:#748095; font-size:10px; }
+
+    .page-foot { max-width:1320px; margin:0 auto; padding:0 28px 72px; color:#7b869a; font-size:12px; text-align:center; }
+
+    @media (max-width: 1040px) {
+      .evidence-layout { grid-template-columns:1fr; }
+      .job-grid, .tree-branches { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .tree-branches::before, .tree-card::before { display:none; }
+      .tr1-baseline { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width: 780px) {
+      .page-head { padding:48px 22px 38px; }
+      main { padding:12px 10px 60px; }
+      .flow { padding:23px 14px; border-radius:22px; }
+      .flow-head { grid-template-columns:1fr; align-items:start; gap:10px; }
+      .research-branches, .job-grid, .tree-branches, .tr1-baseline { grid-template-columns:1fr; }
+      .job-card { min-height:0; }
+      .tree-process { flex-wrap:wrap; }
+      .tree-process i { display:none; }
+      .phone-grid { grid-template-columns:minmax(0,360px); }
+    }
+    @media (max-width: 399px) {
+      .phone-grid { grid-template-columns:minmax(0,1fr); }
+      .screen-card, .phone { width:100%; }
+      .phone { height:779px; border-width:6px; border-radius:34px; }
+      .mobile-category-grid { grid-template-columns:1fr 1fr; }
+      .tree-wrap { padding:18px 12px; }
+    }
+  </style>
 </head>
 <body>
-<header class="page-head">
-  <div class="head-inner">
-    <div class="eyebrow">OS5 · 小米笔记</div>
-    <h1>手机端页面：点进去就是能用的内容</h1>
-    <p class="head-desc">从洞察首页出发，20 张手机页完整串起两个底部页签、两个创建入口，以及学习备考、想法随记、待办日程三条真实使用链。页面中的蓝色内容和按钮可以直接点击跳转。</p>
-    <div class="head-meta"><span>20 张手机页面</span><span>洞察 / 笔记</span><span>文字 / 录音</span><span>三个品类</span></div>
-  </div>
-</header>
-<nav class="jumpbar"><div class="jump-inner">
-  <a href="#shell">手机主框架</a><a href="#learning">学习备考</a><a href="#ideas">想法随记</a><a href="#todo">待办日程</a>
-</div></nav>
-<main>
-<section class="flow" id="shell">
-  <div class="flow-head"><div><div class="flow-kicker">手机主框架</div><h2>两个页签，两个创建入口</h2><p>洞察里直接消费整理后的内容；笔记里保留原始记录。录音与加号从任何一级首页都能直接开始记录。</p></div><span class="flow-count">4 张手机页</span></div>
-  <div class="phone-grid">
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">01</span><div><b>洞察首页</b><small>打开应用，直接看到可继续使用的内容</small></div></div>
-      <div class="phone" id="phone-insight">
-        <div class="statusbar"><span>9:41</span><span class="status-icons">▮▮▮ ◉ 88%</span></div>
-        <div class="appbar"><div><h3>洞察</h3><div class="sub">已经替你整理好的内容</div></div><div class="appbar-actions"><span class="icon-btn">⌕</span><span class="icon-btn">●</span></div></div>
-        <div class="phone-scroll with-tabs">
-          <a class="ready-banner" href="#phone-course"><div><b>大学物理刚刚更新</b><span>第 7 堂录音与新课件已经归入</span></div><i>打开 ›</i></a>
-          <div class="section-title"><b>待办日程</b><span>今天与接下来</span></div>
-          <div class="hrow"><a class="tap-card mini-card todo" href="#phone-todo"><div class="card-kicker">今天 · 4 件</div><b>先做这两件</b><p>提交材料 · 15:00<br>确认课程方案</p><span class="go">进入待办 ›</span></a><a class="tap-card mini-card todo" href="#phone-event"><div class="card-kicker">下一场</div><b>明天 10:00</b><p>产品方案会<br>会议室 A03</p><span class="go">进入日历 ›</span></a></div>
-          <div class="section-title"><b>想法随记</b><span>工作、生活、兴趣</span></div>
-          <div class="hrow"><a class="tap-card mini-card idea" href="#phone-work-chat"><div class="card-kicker">工作想法 · 12 条</div><b>笔记下一步</b><p>最近在想：怎样让内容打开就能用</p><span class="go">继续对谈 ›</span></a><a class="tap-card mini-card idea" href="#phone-life-chat"><div class="card-kicker">生活随记 · 7 条</div><b>九月安排</b><p>搬家、运动和家庭计划</p><span class="go">继续对谈 ›</span></a><a class="tap-card mini-card idea" href="#phone-interest-chat"><div class="card-kicker">兴趣 · 9 条</div><b>周末钓鱼</b><p>地点、装备与天气偏好</p></a></div>
-          <div class="section-title"><b>学习备考</b><span>按一门课组织</span></div>
-          <div class="hrow"><a class="tap-card mini-card course" href="#phone-course"><div class="card-kicker">本学期 · 7 / 16 堂</div><b>大学物理</b><p>刚整理：动量守恒<br>作业 2 项</p><span class="go">快讲 / 精讲 / 出卷 ›</span></a><a class="tap-card mini-card course" href="#phone-quick"><div class="card-kicker">本学期 · 4 / 14 堂</div><b>概率论</b><p>最近重点：条件概率</p><span class="go">开始复习 ›</span></a></div>
-        </div>
-        <nav class="mobile-tabs"><a class="tab-item active" href="#phone-insight"><span class="ti">✦</span>洞察</a><a class="create-tab" href="#phone-record">录</a><a class="create-tab plus" href="#phone-create">＋</a><a class="tab-item" href="#phone-notes"><span class="ti">▤</span>笔记</a></nav>
-      </div><p class="screen-next">点课程、想法或待办卡片，<b>直接进入对应使用页面</b>。</p>
-    </article>
+  <header class="page-head">
+    <div class="head-inner">
+      <div class="eyebrow">OS5 笔记 · TR1 材料驱动版</div>
+      <h1>先看用户为什么记，<br />再决定产品应该长什么样</h1>
+      <p class="head-lead">这版不把研究品类直接画成首页入口。先把 TR1 与 1943 条反馈还原成“真实记录事实”，再看用户记完要完成什么任务，最后收敛为当前四类产品结果：<strong>待办、随记、学习、卡证</strong>。</p>
+      <div class="source-strip">
+        <a class="source-chip" href="https://mi.feishu.cn/wiki/InmUwB2Iaih11IkXIHEcWzVqnTe" target="_blank" rel="noreferrer"><strong>战略依据</strong> · OS5 TR1 - 笔记 V4.0</a>
+        <span class="source-chip"><strong>研究依据</strong> · 2026-08-14 用户与内容品类全量分析</span>
+        <span class="source-chip"><strong>页面结果</strong> · 3 张需求图 + 27 张可点击手机页</span>
+      </div>
+    </div>
+  </header>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">02</span><div><b>笔记页</b><small>原始文字、录音与文件独立保留</small></div></div>
-      <div class="phone" id="phone-notes">
-        <div class="statusbar"><span>9:41</span><span class="status-icons">▮▮▮ ◉ 88%</span></div>
-        <div class="appbar"><div><h3>笔记</h3><div class="sub">原始记录</div></div><div class="appbar-actions"><span class="icon-btn">⌕</span><span class="icon-btn">⋯</span></div></div>
-        <div class="phone-scroll with-tabs">
-          <div class="search">⌕&nbsp;&nbsp;搜索文字、录音和文件</div>
-          <div class="chips"><span class="chip active">全部</span><span class="chip">工作</span><span class="chip">学习</span><span class="chip">生活</span></div>
-          <div class="note-list">
-            <div class="note-row"><span class="note-icon">录</span><div><b>大学物理 · 第 7 堂课堂录音</b><p>今天 16:06 · 56 分 24 秒<br>已进入「大学物理」课程</p></div></div>
-            <div class="note-row"><span class="note-icon purple">文</span><div><b>关于笔记首页的几个想法</b><p>今天 11:32 · 486 字<br>已进入「工作想法」</p></div></div>
-            <div class="note-row"><span class="note-icon">件</span><div><b>大学物理第七章课件</b><p>昨天 20:17 · 28 页<br>已进入「大学物理」课程</p></div></div>
-            <div class="note-row"><span class="note-icon amber">文</span><div><b>下周产品方案会</b><p>昨天 16:40 · 识别到 3 项行动<br>待确认写入</p></div></div>
-            <div class="note-row"><span class="note-icon purple">图</span><div><b>九月家庭安排</b><p>9 月 8 日 · 3 张图片与一段文字</p></div></div>
+  <nav class="jumpbar" aria-label="页面目录">
+    <div class="jump-inner">
+      <a href="#evidence">真实记录</a>
+      <a href="#jobs">用户任务</a>
+      <a href="#product-tree">四类品类树</a>
+      <a href="#shell">手机首页</a>
+      <a href="#todo">待办</a>
+      <a href="#jottings">随记</a>
+      <a href="#learning">学习</a>
+      <a href="#cards">卡证</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="flow" id="evidence">
+      <div class="flow-head">
+        <div><div class="section-no">01 · 事实层</div><h2>用户真实在记什么</h2></div>
+        <p>先保留研究事实，不把相对频次换算成虚假的精确占比，也不把研究分类直接当作首页入口。</p>
+      </div>
+      <div class="evidence-layout">
+        <div class="sample-panel">
+          <h3>研究样本足够具体</h3>
+          <p>反馈、附件和真实内容图片逐层核看。</p>
+          <div class="stat-grid">
+            <div class="stat"><strong>1943</strong><span>条用户反馈</span></div>
+            <div class="stat"><strong>905</strong><span>条带附件</span></div>
+            <div class="stat"><strong>801</strong><span>张图片逐张查看</span></div>
+            <div class="stat"><strong>368</strong><span>张露出真实内容</span></div>
           </div>
         </div>
-        <nav class="mobile-tabs"><a class="tab-item" href="#phone-insight"><span class="ti">✦</span>洞察</a><a class="create-tab" href="#phone-record">录</a><a class="create-tab plus" href="#phone-create">＋</a><a class="tab-item active" href="#phone-notes"><span class="ti">▤</span>笔记</a></nav>
-      </div><p class="screen-next">这里负责保存、编辑与查找，<b>不与洞察混在一个页面</b>。</p>
-    </article>
+        <div>
+          <div class="research-branches">
+            <article class="branch-card primary">
+              <div class="branch-tag">研究主支一</div>
+              <h3>干活管事</h3>
+              <p>工作资料、流水记录、账单。用户不是只想“存住”，还要推进事情、查进展、对得上。</p>
+            </article>
+            <article class="branch-card learning">
+              <div class="branch-tag">研究主支二</div>
+              <h3>学和考</h3>
+              <p>知识、课堂与网课、讲义投影、错题考点。记完还要复习、理解和检查会不会。</p>
+            </article>
+            <article class="branch-card other">
+              <div class="branch-tag">持续出现的高价值内容</div>
+              <h3>个人内容</h3>
+              <p>想法、兴趣收集、长文剪藏、创作写作、卡证单据、行程，使用目的并不相同。</p>
+            </article>
+          </div>
+          <div class="taxonomy-band">
+            <b>调研识别到的 12 类内容线索（不是 12 个首页入口）</b>
+            <span>知识</span><span>待办</span><span>账单</span><span>想法</span><span>卡证单据</span><span>行程</span>
+            <span>工作资料</span><span>流水记录</span><span>兴趣收集</span><span>长文剪藏</span><span>创作写作</span><span>对外产出</span>
+          </div>
+        </div>
+      </div>
+      <div class="truth-note"><strong>TR1 战略基线：</strong>笔记从“记录工具”升级为“个人内容在系统里的沉淀容器”，核心链路是零成本捕获 → 后台自动理解 → 智能组织 → 直接使用。</div>
+      <div class="tr1-baseline">
+        <div class="baseline-item"><b>想法随记</b><span>随手想法、日记感悟、摘录金句、文稿草稿</span></div>
+        <div class="baseline-item"><b>生活管理</b><span>收支账目、育儿健康、旅行、证件密码</span></div>
+        <div class="baseline-item"><b>学习备考</b><span>课堂网课、讲义投影、手写演算、错题考点</span></div>
+        <div class="baseline-item"><b>工作经营</b><span>工作进展、思路、客户资料、流水、会议记录</span></div>
+      </div>
+      <div class="cross-band">待办 · 日程在 TR1 中“贯穿四类”——它不是一种原始内容，而是任何记录里都可能被识别出来的执行结果。</div>
+    </section>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">03</span><div><b>新建文字笔记</b><small>点加号后直接进入原来的文字编辑</small></div></div>
-      <div class="phone" id="phone-create">
-        <div class="statusbar"><span>9:41</span><span class="status-icons">▮▮▮ ◉ 88%</span></div>
-        <div class="appbar compact"><a class="back" href="#phone-insight">‹</a><h3>新建笔记</h3><a class="text-btn" href="#phone-notes">完成</a></div>
-        <div class="editor"><div class="editor-title">今天想到的事</div><div class="editor-body">洞察首页应该先让我看到已经可以使用的内容。<br><br>课程点进去就能复习，想法点进去就能继续聊，待办点进去就能执行。<span class="cursor"></span></div></div>
-        <div class="formatbar"><b>B</b><span>标题</span><span>☷</span><span>□</span><span>＋</span><span>⌁</span></div>
-        <div class="keyboard"><div class="key-row"><span class="key">Q</span><span class="key">W</span><span class="key">E</span><span class="key">R</span><span class="key">T</span><span class="key">Y</span><span class="key">U</span><span class="key">I</span><span class="key">O</span><span class="key">P</span></div><div class="key-row"><span class="key">A</span><span class="key">S</span><span class="key">D</span><span class="key">F</span><span class="key">G</span><span class="key">H</span><span class="key">J</span><span class="key">K</span><span class="key">L</span></div><div class="key-row"><span class="key wide">⇧</span><span class="key">Z</span><span class="key">X</span><span class="key">C</span><span class="key">V</span><span class="key">B</span><span class="key">N</span><span class="key">M</span><span class="key wide">⌫</span></div><div class="key-row"><span class="key wide">123</span><span class="key">☺</span><span class="key space"></span><span class="key">。</span><span class="key wide">换行</span></div></div>
-      </div><p class="screen-next">文字创建仍然是一篇原始笔记，完成后回到<b>笔记页</b>。</p>
-    </article>
+    <section class="flow" id="jobs">
+      <div class="flow-head">
+        <div><div class="section-no">02 · 用户任务层</div><h2>关键不是“记了哪一类”，而是记完要干什么</h2></div>
+        <p>同一条记录可以同时进入不同结果。例如会议笔记既保留在随记里，也会把明确行动自动送进待办。</p>
+      </div>
+      <div class="job-grid">
+        <article class="job-card" data-tone="blue">
+          <div class="job-index">1</div><h3>把事情办掉</h3>
+          <div class="job-input">记录里出现明确行动、时间、地点或提醒。</div>
+          <div class="job-arrow">↓ 自动理解与分发</div>
+          <div class="job-output"><b>待办</b><span>高置信内容自动添加到待办中心或日历，保留来源，并可撤销、修正。</span></div>
+        </article>
+        <article class="job-card" data-tone="purple">
+          <div class="job-index">2</div><h3>把想法接着想</h3>
+          <div class="job-input">灵感、感悟、工作思路、兴趣收藏不断出现。</div>
+          <div class="job-arrow">↓ 聚到同一个思路</div>
+          <div class="job-output"><b>随记</b><span>进入持续对谈和阶段整理，工作、生活、兴趣只是内容标签，不再拆成三个入口。</span></div>
+        </article>
+        <article class="job-card" data-tone="green">
+          <div class="job-index">3</div><h3>把这门课学会</h3>
+          <div class="job-input">课表、课堂录音、讲义、笔记、作业持续增加。</div>
+          <div class="job-arrow">↓ 归入同一门课程</div>
+          <div class="job-output"><b>学习</b><span>直接进入课程复习页，先给快讲、自测和作业，再回看原始材料。</span></div>
+        </article>
+        <article class="job-card" data-tone="amber">
+          <div class="job-index">4</div><h3>需要时马上取用</h3>
+          <div class="job-input">证件、银行卡、会员卡、密码与票据需要精确字段。</div>
+          <div class="job-arrow">↓ 识别并安全保存</div>
+          <div class="job-output"><b>卡证</b><span>进入卡证夹；字段默认遮罩，可复制，也可按字段、用途和时限授权调用。</span></div>
+        </article>
+      </div>
+      <div class="job-rule">从事实到产品的判断顺序：<strong>什么时候记 → 记完真正要完成什么 → 产品直接给什么结果</strong>。不是先造分类，再强迫用户归档。</div>
+    </section>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">04</span><div><b>课堂录音</b><small>点录音，或按课程日程自动开始</small></div></div>
-      <div class="phone record-bg" id="phone-record">
-        <div class="statusbar"><span>14:18</span><span class="status-icons">▮▮▮ ◉ 82%</span></div>
-        <div class="appbar compact"><a class="back" href="#phone-insight">×</a><h3>课堂录音</h3><a class="text-btn" href="#phone-notes">完成</a></div>
-        <div class="record-content"><div class="bound-pill">✓ 已关联 · 大学物理第 7 堂</div><div class="timer">00:18:42</div><div class="timer-sub">已接回开始前 03:21 · 课堂开头没有丢失</div><div class="wave"><i style="--h:28px"></i><i style="--h:48px"></i><i style="--h:67px"></i><i style="--h:41px"></i><i style="--h:77px"></i><i style="--h:55px"></i><i style="--h:32px"></i><i style="--h:65px"></i><i style="--h:84px"></i><i style="--h:46px"></i><i style="--h:71px"></i><i style="--h:38px"></i><i style="--h:60px"></i><i style="--h:82px"></i><i style="--h:52px"></i><i style="--h:31px"></i><i style="--h:69px"></i><i style="--h:44px"></i><i style="--h:76px"></i><i style="--h:36px"></i></div><div class="transcript"><div class="time">14:36:09</div><p>当两个物体组成的系统不受外力，或合外力为零时，系统总动量保持不变……</p></div><div class="transcript"><div class="time">14:36:31</div><p>这也是今天作业第三题会用到的条件，注意区分弹性碰撞与非弹性碰撞。</p></div></div>
-        <div class="record-controls"><span class="control-small">标记</span><span class="control-stop"><i></i></span><span class="control-small">暂停</span></div>
-      </div><p class="screen-next">录音完成后保留在笔记，并持续进入<b>同一门课程</b>。</p>
-    </article>
-  </div>
-</section>
+    <section class="flow" id="product-tree">
+      <div class="flow-head">
+        <div><div class="section-no">03 · 当前产品层</div><h2>四类产品树：<br>待办、随记、学习、卡证</h2></div>
+        <p>顺序固定。待办在界面中排第一，但机制上仍贯穿全部内容，不把它误写成独立的原始内容抽屉。</p>
+      </div>
+      <div class="tree-wrap">
+        <div class="tree-root"><strong>笔记 · 个人内容沉淀容器</strong><span>文字、录音、图片与系统内容先保留原始来源</span></div>
+        <div class="tree-process"><span>零成本捕获</span><i>→</i><span>自动理解（用户不可见）</span><i>→</i><span>按任务进入可直接使用的结果</span></div>
+        <div class="tree-line"></div>
+        <div class="tree-branches">
+          <article class="tree-card todo"><div class="tree-order">01 · 待办</div><h3>把事办掉</h3><p>从任意记录自动识别行动、时间、地点与提醒，自动添加到待办中心或日历。</p><span class="result">结果：待办 / 日历</span></article>
+          <article class="tree-card jot"><div class="tree-order">02 · 随记</div><h3>继续往下想</h3><p>把工作、生活、兴趣里的想法归到同一条思路，持续对谈和阶段整理。</p><span class="result">结果：想法脉络</span></article>
+          <article class="tree-card learn"><div class="tree-order">03 · 学习</div><h3>真正学会</h3><p>把课表、课次、录音、讲义、作业归入课程，直接复习、快讲和自测。</p><span class="result">结果：课程复习页</span></article>
+          <article class="tree-card card"><div class="tree-order">04 · 卡证</div><h3>精确取用</h3><p>拍入后识别关键字段，进入卡证夹；需要时复制或在明确授权下调用。</p><span class="result">结果：可调用卡证页</span></article>
+        </div>
+        <div class="scope-note"><strong>范围说明：</strong>这是当前产品选择，不是用户研究频次排名，也不是把 TR1 四大场景原样搬到首页。研究事实、用户任务与产品入口分别属于三层。</div>
+      </div>
+    </section>
 
-<section class="flow" id="learning">
-  <div class="flow-head"><div><div class="flow-kicker">学习备考</div><h2>从一张课表，到一门可以直接复习的课</h2><p>用户跨相册、日历与笔记完成同一件事；每一屏都围绕下一次上课、写作业和考试复习，而不是围绕文件怎么存。</p></div><span class="flow-count">8 张手机页</span></div>
-  <div class="phone-grid">
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">05</span><div><b>相册 · 识别课程表</b><small>拍照或截屏后，直接识别并加入日历</small></div></div>
-      <div class="phone gallery-bg" id="phone-schedule-photo"><div class="statusbar"><span>10:08</span><span class="status-icons">▮▮▮ ◉ 91%</span></div><div class="appbar compact"><a class="back" href="#phone-insight">‹</a><h3>课程表</h3><span class="icon-btn">⋯</span></div><div class="gallery-photo"><div class="schedule-paper"><div class="paper-title">2026 秋季课程表</div><div class="schedule-grid"><span class="sg head"></span><span class="sg head">周一</span><span class="sg head">周二</span><span class="sg head">周三</span><span class="sg head">周四</span><span class="sg head">周五</span><span class="sg head">1-2</span><span class="sg blue">高等数学<br>A201</span><span class="sg"></span><span class="sg purple">概率论<br>B305</span><span class="sg"></span><span class="sg green">大学英语<br>C101</span><span class="sg head">3-4</span><span class="sg"></span><span class="sg blue">大学物理<br>A103</span><span class="sg"></span><span class="sg blue">大学物理<br>A103</span><span class="sg"></span><span class="sg head">5-6</span><span class="sg green">大学英语<br>C101</span><span class="sg"></span><span class="sg amber">体育<br>操场</span><span class="sg"></span><span class="sg purple">概率论<br>B305</span><span class="sg head">7-8</span><span class="sg"></span><span class="sg amber">选修课<br>D202</span><span class="sg"></span><span class="sg"></span><span class="sg"></span><span class="sg head">9-10</span><span class="sg purple">实验课<br>实验楼</span><span class="sg"></span><span class="sg"></span><span class="sg"></span><span class="sg"></span></div></div></div><div class="gallery-sheet"><div class="sheet-handle"></div><b>检测到一张课程表</b><p>已识别 6 门课程、16 周课次和对应教室。</p><a class="primary" href="#phone-calendar">识别课程表并加入日历</a></div></div><p class="screen-next">唯一主动作：<b>识别课程表</b>。</p>
-    </article>
+    <section class="flow" id="shell">
+      <div class="flow-head">
+        <div><div class="section-no">04 · 共用手机框架</div><h2>首页按四类直接进入结果，原始记录仍留在笔记</h2></div>
+        <p>底部保留洞察、录音、文字创建、笔记四个操作。洞察消费整理后的结果，笔记保留原始记录和来源。</p>
+      </div>
+      <div class="phone-grid">
+        <article class="screen-card">
+          <div class="screen-label"><b>共用 01 · 洞察首页</b><span>四类固定顺序；自动添加结果优先露出。</span></div>
+          <div class="phone" id="phone-insight">
+            <div class="statusbar"><span>9:41</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><div class="appbar-title"><b>洞察</b><span>已经替你理好的内容</span></div><a class="icon-btn" href="#phone-notes">⌕</a></div>
+            <div class="phone-body tint">
+              <div class="mobile-hero"><small>今天 · 新结果</small><h3>记下之后，直接在这里用</h3><p>系统在后台理解；原始内容不删除、不改写。</p></div>
+              <a class="auto-banner" href="#phone-todo-auto-added"><b>✓ 已自动添加到待办中心</b><span>从“项目周会”识别 2 项待办、1 个日程 · 查看结果 ›</span></a>
+              <div class="mobile-category-grid">
+                <a class="mobile-category todo" href="#phone-todo-center"><span class="cat-icon">✓</span><b>待办</b><span>今天 4 项 · 1 个日程</span></a>
+                <a class="mobile-category jot" href="#phone-jot-home"><span class="cat-icon">✦</span><b>随记</b><span>3 条思路继续生长</span></a>
+                <a class="mobile-category learn" href="#phone-course"><span class="cat-icon">学</span><b>学习</b><span>概率论 · 下次课周四</span></a>
+                <a class="mobile-category card" href="#phone-card-wallet"><span class="cat-icon">卡</span><b>卡证</b><span>8 张 · 敏感信息已保护</span></a>
+              </div>
+              <div class="section-title"><b>继续使用</b><span>最近结果</span></div>
+              <a class="mini-result" href="#phone-jot-thread"><span class="mini-thumb">✦</span><span><b>阳台改造：从绿植角开始</b><span>今天新增 2 条来源</span></span><span class="chev">›</span></a>
+            </div>
+            <div class="mobile-tabs"><a class="active" href="#phone-insight"><strong>◇</strong><span>洞察</span></a><a href="#phone-record"><strong>◉</strong><span>录音</span></a><a class="create" href="#phone-create"><strong>＋</strong><span>文字</span></a><a href="#phone-notes"><strong>▤</strong><span>笔记</span></a></div>
+          </div>
+          <p class="screen-next">点顶部绿色结果查看自动添加；四张卡依次进入待办、随记、学习、卡证。</p>
+        </article>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">06</span><div><b>日历 · 课程已创建</b><small>一门课与每一堂课已经建立关系</small></div></div>
-      <div class="phone" id="phone-calendar"><div class="statusbar"><span>10:09</span><span class="status-icons">▮▮▮ ◉ 91%</span></div><div class="appbar"><div><h3>日历</h3><div class="sub">9 月 14 日—20 日</div></div><div class="appbar-actions"><span class="icon-btn">今</span><span class="icon-btn">＋</span></div></div><div class="calendar-week"><div class="day">一<b>14</b></div><div class="day active">二<b>15</b></div><div class="day">三<b>16</b></div><div class="day">四<b>17</b></div><div class="day">五<b>18</b></div><div class="day">六<b>19</b></div><div class="day">日<b>20</b></div></div><div class="calendar-body"><div class="cal-hour"><span>10:00</span></div><div class="cal-hour"><span>11:00</span></div><div class="cal-hour"><span>12:00</span></div><div class="cal-hour"><span>13:00</span></div><div class="cal-hour"><span>14:00</span></div><div class="cal-hour"><span>15:00</span></div><div class="cal-hour"><span>16:00</span></div><div class="cal-hour"><span>17:00</span></div><a class="cal-event physics" href="#phone-class-detail"><b>大学物理 · 第 7 堂</b>14:00–16:00<br>A103</a><div class="cal-event math"><b>概率论 · 第 5 堂</b>17:00–18:30 · B305</div><div class="success-toast">✓ 6 门课程已加入日历</div></div></div><p class="screen-next">点“大学物理”，进入<b>课次详情</b>。</p>
-    </article>
+        <article class="screen-card">
+          <div class="screen-label"><b>共用 02 · 笔记页</b><span>原始记录时间线，每条都能回到对应结果。</span></div>
+          <div class="phone" id="phone-notes">
+            <div class="statusbar"><span>9:41</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><div class="appbar-title"><b>笔记</b><span>原始内容与来源</span></div><a class="icon-btn" href="#phone-create">＋</a></div>
+            <div class="phone-body white">
+              <div class="search-box">⌕ 搜索笔记、课程、待办或卡证</div>
+              <a class="note-row" href="#phone-todo-auto-added"><span class="note-time">今天<br>10:24</span><span class="note-content"><b>项目周会</b><p>周五前提交方案，明早十点同步设计...</p><span class="note-badge green">已自动添加 3 个执行项</span></span></a>
+              <a class="note-row" href="#phone-jot-thread"><span class="note-time">今天<br>08:16</span><span class="note-content"><b>关于阳台的几个想法</b><p>可以先从绿植角开始，不用一次改完...</p><span class="note-badge purple">已进入随记</span></span></a>
+              <a class="note-row" href="#phone-course"><span class="note-time">昨天<br>14:05</span><span class="note-content"><b>概率论第 6 课录音</b><p>条件概率、贝叶斯公式、三道例题...</p><span class="note-badge green">已归入课程</span></span></a>
+              <a class="note-row" href="#phone-card-recognize"><span class="note-time">周一<br>19:42</span><span class="note-content"><b>身份证照片</b><p>来自相册 · 原图仅本机可见</p><span class="note-badge amber">已识别卡证字段</span></span></a>
+              <a class="note-row" href="#phone-schedule-photo"><span class="note-time">8月28<br>11:30</span><span class="note-content"><b>新学期课程表</b><p>来自相册 · 共识别 8 门课</p><span class="note-badge green">查看课程日历</span></span></a>
+            </div>
+            <div class="mobile-tabs"><a href="#phone-insight"><strong>◇</strong><span>洞察</span></a><a href="#phone-record"><strong>◉</strong><span>录音</span></a><a class="create" href="#phone-create"><strong>＋</strong><span>文字</span></a><a class="active" href="#phone-notes"><strong>▤</strong><span>笔记</span></a></div>
+          </div>
+          <p class="screen-next">点任一原始记录，进入它已经形成的结果；原文始终保留。</p>
+        </article>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">07</span><div><b>日历 · 一堂课详情</b><small>先看这堂课，再看整门课与作业进度</small></div></div>
-      <div class="phone" id="phone-class-detail"><div class="statusbar"><span>13:32</span><span class="status-icons">▮▮▮ ◉ 76%</span></div><div class="appbar compact"><a class="back" href="#phone-calendar">‹</a><h3>大学物理</h3><span class="icon-btn">⋯</span></div><div class="phone-scroll"><div class="detail-scroll"><div class="hero-event"><div class="card-kicker">今天 · 第 7 堂</div><div class="time-big">14:00–16:00</div><p>A103 · 距离上课还有 28 分钟</p></div><div class="info-row"><span class="info-icon">⌖</span><span>理科楼 A103</span></div><div class="info-row"><span class="info-icon">师</span><span>王老师 · 动量与碰撞</span></div><div class="toggle-row"><span><b>按课程自动录音</b><br><small>到点开始，忘记点击也不丢开头</small></span><a class="toggle" href="#phone-record"></a></div><div class="course-summary"><div class="summary-head"><b>这门课</b><a href="#phone-course">打开课程 ›</a></div><div class="summary-metrics"><div><b>7 / 16</b><span>已上课次</span></div><div><b>2</b><span>待完成作业</span></div><div><b>4</b><span>待复习考点</span></div></div></div><div class="ui-section"><div class="ui-section-head"><b>本堂课要带的内容</b><a href="#phone-course-sources">查看全部</a></div><div class="topic"><span class="topic-no">作</span><div><b>第三章课后题</b><span>已完成 6 / 10 题</span></div></div><div class="topic"><span class="topic-no">件</span><div><b>第七章课件</b><span>老师昨天发送</span></div></div></div><a class="secondary" href="#phone-course">进入大学物理课程</a></div></div></div><p class="screen-next">日程不是编辑工具页，而是<b>一堂课通往整门课的入口</b>。</p>
-    </article>
+        <article class="screen-card">
+          <div class="screen-label"><b>共用 03 · 新建文字笔记</b><span>只管记，不要求先选分类或结果类型。</span></div>
+          <div class="phone" id="phone-create">
+            <div class="statusbar"><span>9:41</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-insight">‹</a><div class="appbar-title"><b>新建笔记</b><span>自动保存</span></div><a class="app-action" href="#phone-notes">完成</a></div>
+            <div class="phone-body white">
+              <input class="editor-title" value="阳台改造想法" aria-label="笔记标题" />
+              <div class="editor-body">可以先从绿植角开始，不用一次改完。<br><br>周末去花市看看耐阴植物，记得量一下靠窗位置的宽度。<br><br><span class="editor-placeholder">继续输入…</span></div>
+              <div class="editor-tools"><span class="tool-chip">☑ 清单</span><span class="tool-chip">▧ 图片</span><span class="tool-chip">Aa 格式</span><span class="tool-chip">✦ 整理</span></div>
+              <div class="truth-note" style="margin-top:18px">保存后系统在后台理解：想法进入随记；明确行动会自动添加到待办。用户不需要先归类。</div>
+            </div>
+          </div>
+          <p class="screen-next">点“完成”回笔记页；后台理解不会打断记录。</p>
+        </article>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">08</span><div><b>完成通知</b><small>课程内容整理好后主动送到用户面前</small></div></div>
-      <div class="phone lock-bg" id="phone-ready-notification"><div class="statusbar"><span>16:17</span><span class="status-icons">▮▮▮ ◉ 69%</span></div><div class="lock-time"><b>16:17</b><span>9 月 15 日 · 周二</span></div><div class="notification"><div class="notif-head"><b>小米笔记</b><span>现在</span></div><h4>大学物理已整理好</h4><p>第 7 堂录音、新课件和今天的作业已经归入课程。现在可以直接复习“动量守恒与碰撞”。</p><div class="notif-actions"><a href="#phone-quick">10 分钟快讲</a><a href="#phone-course">打开课程</a></div></div><div class="notification"><div class="notif-head"><b>日历</b><span>2 分钟前</span></div><h4>明天 14:00 · 大学物理</h4><p>第三章作业已完成 6 / 10 题，继续完成后会同步到下一堂课。</p></div></div><p class="screen-next">通知点入的不是文件列表，而是<b>课程或快讲本身</b>。</p>
-    </article>
+        <article class="screen-card">
+          <div class="screen-label"><b>共用 04 · 录音</b><span>课堂、会议、灵感共用一个录音入口。</span></div>
+          <div class="phone" id="phone-record">
+            <div class="statusbar"><span>9:41</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-insight">×</a><div class="appbar-title"><b>正在录音</b><span>同步转写并保存原音频</span></div><a class="app-action" href="#phone-notes">完成</a></div>
+            <div class="phone-body tint">
+              <div class="record-orb">◉</div><div class="record-time">18:42</div><div class="record-caption">“贝叶斯公式说明的是，在有了新证据之后……”</div>
+              <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="record-caption">检测到：概率论第 6 课<br>录音结束后自动归入课程，不影响继续录制</div>
+              <div class="record-actions"><span class="round-action">Ⅱ</span><a class="round-action primary" href="#phone-notes">■</a><span class="round-action">旗</span></div>
+            </div>
+          </div>
+          <p class="screen-next">点停止或“完成”保存原音频；课程内容随后出现在学习页。</p>
+        </article>
+      </div>
+    </section>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">09</span><div><b>大学物理 · 课程首页</b><small>第一屏就是复习、考试与作业</small></div></div>
-      <div class="phone" id="phone-course"><div class="statusbar"><span>16:18</span><span class="status-icons">▮▮▮ ◉ 68%</span></div><div class="appbar compact"><a class="back" href="#phone-insight">‹</a><h3>大学物理</h3><span class="icon-btn">⋯</span></div><div class="phone-scroll"><div class="course-hero"><div class="course-hero-top"><span class="semester">2026 秋季</span><span class="percent">7 / 16 堂</span></div><h4>现在怎么复习</h4><p>最近一堂：动量守恒与碰撞<br>距离期中考试还有 24 天</p><div class="progress"><i></i></div></div><div class="course-actions"><a class="course-action" href="#phone-quick"><i>▶</i><b>10 分钟快讲</b></a><a class="course-action" href="#phone-quick"><i>讲</i><b>完整精讲</b></a><a class="course-action" href="#phone-quiz"><i>卷</i><b>生成测试卷</b></a></div><div class="ui-section"><div class="ui-section-head"><b>这周先掌握</b><a href="#phone-quick">开始复习</a></div><div class="topic"><span class="topic-no">1</span><div><b>动量守恒的成立条件</b><span>课堂第 7 堂 · 必考</span></div></div><div class="topic"><span class="topic-no">2</span><div><b>弹性与非弹性碰撞</b><span>课件第 32–38 页</span></div></div><div class="topic"><span class="topic-no">3</span><div><b>质心系中的碰撞</b><span>往年真题出现 3 次</span></div></div></div><div class="ui-section"><div class="ui-section-head"><b>作业进度</b><a href="#phone-class-detail">回到下一堂课</a></div><div class="topic"><span class="topic-no">作</span><div><b>第三章课后题 · 6 / 10</b><span>明天 14:00 前完成</span></div></div></div><a class="secondary" href="#phone-course-sources">查看课程资料与原始来源</a></div></div><p class="screen-next">打开课程先回答：<b>怎么复习、怎么考试、作业做到哪</b>。</p>
-    </article>
+    <section class="flow" id="todo">
+      <div class="flow-head">
+        <div><div class="section-no">05 · 待办</div><h2>识别后自动添加，用户只在结果上修正或撤销</h2></div>
+        <p>不再经过手动中间页。系统从原文识别明确行动、时间和去向，直接写入待办中心或日历，同时保留来源。</p>
+      </div>
+      <div class="phone-grid">
+        <article class="screen-card">
+          <div class="screen-label"><b>待办 01 · 已自动添加</b><span>原文旁直接展示写入结果，不要求再点一次。</span></div>
+          <div class="phone" id="phone-todo-auto-added">
+            <div class="statusbar"><span>10:26</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-notes">‹</a><div class="appbar-title"><b>项目周会</b><span>刚刚更新</span></div><span class="icon-btn">···</span></div>
+            <div class="phone-body tint">
+              <div class="success-panel"><div class="success-mark">✓</div><h3>已自动添加到待办中心</h3><p>识别到 2 项待办、1 个日程。原始会议笔记没有改动。</p></div>
+              <div class="detected-list">
+                <div class="detected-item"><span class="check-dot">✓</span><span class="detected-copy"><b>周五前提交最终方案</b><span>周五 18:00 提醒</span></span><span class="target-tag">待办</span></div>
+                <div class="detected-item"><span class="check-dot">✓</span><span class="detected-copy"><b>补齐卡证隐私说明</b><span>明天 12:00 前</span></span><span class="target-tag">待办</span></div>
+                <div class="detected-item"><span class="check-dot">✓</span><span class="detected-copy"><b>与设计同步页面方案</b><span>明天 10:00 · A03</span></span><span class="target-tag calendar">日历</span></div>
+              </div>
+              <div class="button-row"><a class="primary-btn" href="#phone-todo-center">查看待办中心</a><a class="secondary-btn" href="#phone-todo-event">查看日历</a></div>
+              <div class="text-actions"><a href="#phone-todo-correct">修正识别</a><a href="#phone-todo-undone">撤销这次添加</a></div>
+              <div class="source-card"><span class="source-icon">文</span><span><b>来源 · 项目周会</b><span>第 3–5 行 · 10:24</span></span><em>定位原文 ›</em></div>
+            </div>
+          </div>
+          <p class="screen-next">结果已经生效；点“查看”消费，或在下方修正、撤销。</p>
+        </article>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">10</span><div><b>10 分钟快讲</b><small>直接重新消费这门课，不回听几十段录音</small></div></div>
-      <div class="phone" id="phone-quick"><div class="statusbar"><span>16:20</span><span class="status-icons">▮▮▮ ◉ 66%</span></div><div class="appbar compact"><a class="back" href="#phone-course">‹</a><div><h3>10 分钟快讲</h3><div class="sub">动量守恒与碰撞</div></div><span class="icon-btn">⋯</span></div><div class="phone-scroll"><div class="player"><div class="player-head"><span class="play">▶</span><div><b>动量守恒 · 快讲</b><p>根据课堂、课件与教材重新讲解</p></div></div><div class="player-line"><i></i></div><div class="player-time"><span>03:12</span><span>10:00</span></div></div><div class="reader-block"><h4>先记住这一句话</h4><p>当一个系统不受外力，或者外力的矢量和为零时，系统总动量保持不变。</p><div class="formula">m₁v₁ + m₂v₂ = m₁v₁′ + m₂v₂′</div></div><div class="reader-block"><h4>考试最容易错在哪里</h4><p>不是“发生碰撞就一定动量守恒”。先确定研究对象，再判断该系统受到的合外力是否可以忽略。</p></div><div class="reader-block"><h4>用一道题检查</h4><p>光滑水平面上两物体发生碰撞，应该先选择哪个系统来列动量守恒？</p><a class="secondary" href="#phone-quiz">开始 10 题自测</a></div></div></div><p class="screen-next">内容依据多种来源生成，但用户先看到的是<b>讲解本身</b>。</p>
-    </article>
+        <article class="screen-card">
+          <div class="screen-label"><b>待办 02 · 待办中心</b><span>自动写入的事项保留来源和修改入口。</span></div>
+          <div class="phone" id="phone-todo-center">
+            <div class="statusbar"><span>10:27</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-insight">‹</a><div class="appbar-title"><b>待办</b><span>今天 4 项</span></div><span class="icon-btn">＋</span></div>
+            <div class="phone-body tint">
+              <div class="date-strip"><span class="date-pill"><b>9</b>一</span><span class="date-pill active"><b>10</b>二</span><span class="date-pill"><b>11</b>三</span><span class="date-pill"><b>12</b>四</span><span class="date-pill"><b>13</b>五</span></div>
+              <div class="todo-group-title">今天</div>
+              <div class="todo-item"><span class="todo-ring"></span><span class="todo-copy"><b>与设计同步页面方案</b><span>10:00 · A03 · 已过期 27 分钟</span><a class="todo-origin" href="#phone-todo-auto-added">来自“项目周会” ›</a></span><a class="tiny-link" href="#phone-todo-correct">修正</a></div>
+              <div class="todo-item"><span class="todo-ring"></span><span class="todo-copy"><b>补齐卡证隐私说明</b><span>12:00 前 · 提前 30 分钟提醒</span><a class="todo-origin" href="#phone-todo-auto-added">来自“项目周会” ›</a></span><a class="tiny-link" href="#phone-todo-correct">修正</a></div>
+              <div class="todo-group-title">本周</div>
+              <div class="todo-item"><span class="todo-ring"></span><span class="todo-copy"><b>提交最终方案</b><span>周五 18:00 · 重要</span><a class="todo-origin" href="#phone-todo-auto-added">来自“项目周会” ›</a></span><a class="tiny-link" href="#phone-todo-event">日历</a></div>
+              <div class="truth-note" style="margin-top:11px">自动添加不等于失去控制：每一项都能回原文、修正时间或撤销。</div>
+            </div>
+            <div class="mobile-tabs"><a class="active" href="#phone-todo-center"><strong>✓</strong><span>待办</span></a><a href="#phone-todo-event"><strong>▦</strong><span>日历</span></a><a href="#phone-insight"><strong>◇</strong><span>洞察</span></a><a href="#phone-notes"><strong>▤</strong><span>来源</span></a></div>
+          </div>
+          <p class="screen-next">点“来自项目周会”回原文结果；点“修正”编辑标题、时间和去向。</p>
+        </article>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">11</span><div><b>课程自测</b><small>用一套卷子检查是否真的掌握</small></div></div>
-      <div class="phone" id="phone-quiz"><div class="statusbar"><span>16:31</span><span class="status-icons">▮▮▮ ◉ 64%</span></div><div class="appbar compact"><a class="back" href="#phone-course">‹</a><h3>大学物理自测</h3><span class="text-btn">退出</span></div><div class="phone-scroll"><div class="quiz-top"><b>第 1 题 / 10 题</b><span>预计 12 分钟</span></div><div class="progress"><i style="width:10%"></i></div><div class="question">下列哪种情况下，可以直接认为研究系统的总动量守恒？</div><div class="options"><div class="option"><i>A</i><span>系统中发生了弹性碰撞</span></div><div class="option selected"><i>B</i><span>系统受到的合外力为零</span></div><div class="option"><i>C</i><span>系统中所有物体速度相同</span></div><div class="option"><i>D</i><span>碰撞前后机械能不变</span></div></div><div class="ui-section" style="margin-top:18px"><div class="ui-section-head"><b>本套测试覆盖</b></div><div class="topic"><span class="topic-no">4</span><div><b>动量守恒</b><span>基础与条件判断</span></div></div><div class="topic"><span class="topic-no">3</span><div><b>碰撞类型</b><span>弹性与非弹性</span></div></div><div class="topic"><span class="topic-no">3</span><div><b>综合应用</b><span>质心系与能量</span></div></div></div><a class="primary quiz-submit" href="#phone-course">提交答案</a></div></div><p class="screen-next">测试结果回到课程，更新<b>待复习考点</b>。</p>
-    </article>
+        <article class="screen-card">
+          <div class="screen-label"><b>待办 03 · 修正自动识别</b><span>这是结果纠错，不是写入前的手动步骤。</span></div>
+          <div class="phone" id="phone-todo-correct">
+            <div class="statusbar"><span>10:28</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-todo-center">‹</a><div class="appbar-title"><b>修正执行项</b><span>修改后同步更新</span></div><a class="app-action" href="#phone-todo-auto-added">保存</a></div>
+            <div class="phone-body tint">
+              <div class="form-field"><label>事项</label><b>与设计同步页面方案</b></div>
+              <div class="form-field"><label>日期与时间</label><div class="field-row"><b>明天 10:30</b><span>›</span></div></div>
+              <div class="form-field"><label>地点</label><div class="field-row"><b>A03 会议室</b><span>›</span></div></div>
+              <div class="form-field"><label>写入位置</label><div class="field-row"><b>日历 + 待办中心</b><span>›</span></div></div>
+              <div class="form-field"><label>提醒</label><div class="field-row"><b>提前 15 分钟</b><span>›</span></div></div>
+              <div class="source-card"><span class="source-icon">“</span><span><b>原文片段</b><span>“明早十点和设计再过一遍页面”</span></span><em>查看 ›</em></div>
+              <a class="primary-btn" style="margin-top:12px" href="#phone-todo-auto-added">保存并同步更新</a>
+            </div>
+          </div>
+          <p class="screen-next">保存后直接更新已创建的待办和日历事件，并回到自动添加结果。</p>
+        </article>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">12</span><div><b>课程资料与来源</b><small>原始内容退到第二层，需要核对时再打开</small></div></div>
-      <div class="phone" id="phone-course-sources"><div class="statusbar"><span>16:33</span><span class="status-icons">▮▮▮ ◉ 63%</span></div><div class="appbar compact"><a class="back" href="#phone-course">‹</a><h3>课程资料</h3><span class="icon-btn">⌕</span></div><div class="phone-scroll"><div class="source-tabs"><span class="active">全部 22</span><span>课堂录音 7</span><span>课件 8</span><span>教材 1</span><span>试卷与作业 6</span></div><div class="source-item"><span class="file-icon">录</span><div><b>第 7 堂 · 动量与碰撞</b><p>今天 14:00 · 56 分 24 秒</p></div><em>›</em></div><div class="source-item"><span class="file-icon">件</span><div><b>第七章课堂课件</b><p>老师昨天发送 · 28 页</p></div><em>›</em></div><div class="source-item"><span class="file-icon">书</span><div><b>大学物理电子教材</b><p>第 134–168 页已关联</p></div><em>›</em></div><div class="source-item"><span class="file-icon">卷</span><div><b>2025 年期中考试卷</b><p>动量相关题目 4 道</p></div><em>›</em></div><div class="source-item"><span class="file-icon">作</span><div><b>第三章课后作业</b><p>已完成 6 / 10 题</p></div><em>›</em></div><div class="source-item"><span class="file-icon">录</span><div><b>第 6 堂 · 冲量</b><p>9 月 10 日 · 51 分 08 秒</p></div><em>›</em></div><div class="ready-banner" style="margin-top:10px"><div><b>这些内容仍保留在笔记</b><span>点击可回到录音时间点、文件页或原文位置</span></div></div></div></div><p class="screen-next">来源可查，但不会抢占课程首页的<b>主要消费位置</b>。</p>
-    </article>
-  </div>
-</section>
+        <article class="screen-card">
+          <div class="screen-label"><b>待办 04 · 已撤销</b><span>撤销只移除执行项，不删除原始笔记。</span></div>
+          <div class="phone" id="phone-todo-undone">
+            <div class="statusbar"><span>10:29</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-todo-auto-added">‹</a><div class="appbar-title"><b>撤销结果</b><span>可恢复</span></div><span class="icon-btn">···</span></div>
+            <div class="phone-body tint">
+              <div class="undo-hero"><div class="undo-icon">↶</div><h3>已撤销这次自动添加</h3><p>2 项待办和 1 个日历事件已移除；“项目周会”原始笔记仍完整保留。</p></div>
+              <div class="source-card"><span class="source-icon">文</span><span><b>项目周会</b><span>原始内容未改动</span></span><em>查看来源 ›</em></div>
+              <a class="primary-btn" style="margin-top:12px" href="#phone-todo-auto-added">恢复自动添加</a>
+              <a class="secondary-btn" style="margin-top:8px" href="#phone-notes">回到笔记</a>
+              <div class="truth-note">恢复时使用当前识别结果；如果原文已经修改，会先按新内容重新理解。</div>
+            </div>
+          </div>
+          <p class="screen-next">点“恢复自动添加”回结果页；点“回到笔记”查看不受影响的原文。</p>
+        </article>
 
-<section class="flow" id="ideas">
-  <div class="flow-head"><div><div class="flow-kicker">想法随记</div><h2>首页点进工作、生活或兴趣，立即开始继续聊</h2><p>不先进入“想法目录”，也不把散点做成一张无法使用的图；每个入口都直接打开一段已经挂载相关记录的持续对谈。</p></div><span class="flow-count">4 张手机页</span></div>
-  <div class="phone-grid">
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">13</span><div><b>工作想法 · 持续对谈</b><small>从洞察首页的“工作想法”直接进入</small></div></div>
-      <div class="phone" id="phone-work-chat"><div class="statusbar"><span>20:16</span><span class="status-icons">▮▮▮ ◉ 58%</span></div><div class="appbar compact"><a class="back" href="#phone-insight">‹</a><div><h3>工作想法</h3><div class="sub">笔记下一步</div></div><a class="icon-btn" href="#phone-idea-more">⋯</a></div><div class="chat-area"><div class="context-card"><span>正在继续的想法</span><b>怎样让内容打开就能用</b><p>最近更新于今天 11:32</p></div><div class="mounted">＋ 已挂载 12 条工作想法</div><div class="message assistant"><span class="msg-label">小爱</span>你最近持续在想三件事：洞察与原始笔记分开；课程打开后先复习；想法打开后直接继续聊。现在最适合继续推进的是洞察首页的三类内容如何同时出现。</div><div class="quick-prompts"><span>把首页结构串出来</span><span>找出还没想清的点</span><span>形成下一步</span></div><div class="message user">先把首页上每一块点进去之后是什么说清楚。</div><div class="message assistant">可以。课程进入复习页，工作想法进入这段对谈，生活与兴趣分别保留自己的上下文；待办和日程直接进入执行位置。</div></div><div class="chat-input">继续输入你的想法……<i>↑</i></div></div><p class="screen-next">第一屏已经是<b>显性挂载内容的持续对谈</b>。</p>
-    </article>
+        <article class="screen-card">
+          <div class="screen-label"><b>待办 05 · 日历事件</b><span>时间型行动自动进入日历，并与待办、来源相连。</span></div>
+          <div class="phone" id="phone-todo-event">
+            <div class="statusbar"><span>10:30</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-todo-center">‹</a><div class="appbar-title"><b>日历事件</b><span>来自笔记自动创建</span></div><a class="app-action" href="#phone-todo-correct">修正</a></div>
+            <div class="phone-body tint">
+              <div class="event-hero"><small>明天 · 周三</small><h3>与设计同步页面方案</h3><p>10:30–11:00 · A03 会议室</p></div>
+              <div class="info-list"><div class="info-row"><span>提醒</span><b>提前 15 分钟</b></div><div class="info-row"><span>关联待办</span><b>同步为未完成</b></div><div class="info-row"><span>创建方式</span><b>从项目周会自动识别</b></div></div>
+              <a class="source-card" href="#phone-todo-auto-added"><span class="source-icon">文</span><span><b>来源 · 项目周会</b><span>“明早十点和设计再过一遍页面”</span></span><em>定位 ›</em></a>
+              <div class="button-row"><a class="secondary-btn" href="#phone-todo-correct">修正时间</a><a class="danger-btn" href="#phone-todo-undone">撤销事件</a></div>
+            </div>
+          </div>
+          <p class="screen-next">点来源回原文，点修正改时间，点撤销只移除执行结果。</p>
+        </article>
+      </div>
+    </section>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">14</span><div><b>生活随记 · 持续对谈</b><small>生活内容与工作上下文完全分开</small></div></div>
-      <div class="phone" id="phone-life-chat"><div class="statusbar"><span>21:08</span><span class="status-icons">▮▮▮ ◉ 54%</span></div><div class="appbar compact"><a class="back" href="#phone-insight">‹</a><div><h3>生活随记</h3><div class="sub">九月生活安排</div></div><a class="icon-btn" href="#phone-idea-more">⋯</a></div><div class="chat-area"><div class="context-card"><span>正在继续的生活计划</span><b>搬家、运动与家庭安排</b><p>最近更新于今天 19:42</p></div><div class="mounted">＋ 已挂载 7 条生活随记</div><div class="message assistant"><span class="msg-label">小爱</span>你已经确定 9 月底前搬家，每周至少运动两次，并希望周末留一天陪家人。三个计划里，搬家需要最先确定时间。</div><div class="quick-prompts"><span>排出这个月时间</span><span>变成待办</span><span>继续聊搬家</span></div><div class="message user">帮我看看下三个周末哪个最适合搬家。</div><div class="message assistant">结合你已有日程，9 月 26 日全天最完整；前一晚没有安排，第二天也留有恢复时间。要把它加入日历吗？</div></div><div class="chat-input">继续聊生活安排……<i>↑</i></div></div><p class="screen-next">生活随记只使用生活记录，不混入<b>工作想法</b>。</p>
-    </article>
+    <section class="flow" id="jottings">
+      <div class="flow-head">
+        <div><div class="section-no">06 · 随记</div><h2>工作、生活、兴趣<br>合为一个“随记”入口</h2></div>
+        <p>它们可以继续作为内容标签，但不再拆成三套产品入口。用户进入的是同一套想法脉络与持续对谈。</p>
+      </div>
+      <div class="phone-grid">
+        <article class="screen-card">
+          <div class="screen-label"><b>随记 01 · 随记首页</b><span>按“正在继续的想法”组织，而不是按场景建三个入口。</span></div>
+          <div class="phone" id="phone-jot-home">
+            <div class="statusbar"><span>10:34</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-insight">‹</a><div class="appbar-title"><b>随记</b><span>3 条思路继续生长</span></div><span class="icon-btn">⌕</span></div>
+            <div class="phone-body tint">
+              <div class="jot-summary"><small>今天的新内容</small><h3>先记住，再一起往下想</h3><p>工作、生活、兴趣只是来源语境；真正组织的是同一条想法。</p></div>
+              <div class="context-chips"><span>全部</span><span>工作</span><span>生活</span><span>兴趣</span></div>
+              <a class="thread-card" href="#phone-jot-thread"><b>阳台改造：从绿植角开始</b><p>今天想到先量尺寸，再挑三种耐阴植物…</p><span class="thread-meta"><span>5 条记录 · 2 次对谈</span><span>刚刚 ›</span></span></a>
+              <a class="thread-card" href="#phone-jot-thread"><b>新版本开场应该先讲用户任务</b><p>不要从能力清单开始，先讲为什么记…</p><span class="thread-meta"><span>8 条记录 · 工作标签</span><span>昨天 ›</span></span></a>
+              <a class="thread-card" href="#phone-jot-thread"><b>想读的城市散步路线</b><p>梧桐区、旧书店、河边黄昏三个方向…</p><span class="thread-meta"><span>4 条收藏 · 兴趣标签</span><span>周一 ›</span></span></a>
+            </div>
+          </div>
+          <p class="screen-next">标签只用于筛选；点任一条想法进入持续对谈。</p>
+        </article>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">15</span><div><b>兴趣 · 持续对谈</b><small>长期兴趣拥有自己的内容与下一步</small></div></div>
-      <div class="phone" id="phone-interest-chat"><div class="statusbar"><span>08:26</span><span class="status-icons">▮▮▮ ◉ 93%</span></div><div class="appbar compact"><a class="back" href="#phone-insight">‹</a><div><h3>兴趣</h3><div class="sub">周末钓鱼</div></div><a class="icon-btn" href="#phone-idea-more">⋯</a></div><div class="chat-area"><div class="context-card"><span>正在继续的兴趣</span><b>周末钓鱼</b><p>地点、装备、天气与上次记录</p></div><div class="mounted">＋ 已挂载 9 条钓鱼随记</div><div class="message assistant"><span class="msg-label">小爱</span>你最近两次都去了北湖，上午鱼口明显好于下午。上次没解决的是 1.2 子线容易切线，下一次可以先换 1.5 子线。</div><div class="quick-prompts"><span>整理下次装备</span><span>看周末天气</span><span>复盘上一次</span></div><div class="message user">这个周六早上适合去吗？</div><div class="message assistant">周六 7–11 点多云，气温 21–26℃，风力较小。结合你以前的记录，适合去北湖东岸。</div></div><div class="chat-input">继续聊钓鱼……<i>↑</i></div></div><p class="screen-next">兴趣不是散点合集，而是<b>可以继续推进的一段上下文</b>。</p>
-    </article>
+        <article class="screen-card">
+          <div class="screen-label"><b>随记 02 · 持续对谈</b><span>对谈始终挂载来源，不把整理结果伪装成原文。</span></div>
+          <div class="phone" id="phone-jot-thread">
+            <div class="statusbar"><span>10:35</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-jot-home">‹</a><div class="appbar-title"><b>阳台改造</b><span>持续对谈 · 5 条来源</span></div><a class="icon-btn" href="#phone-jot-sources">⌘</a></div>
+            <div class="phone-body tint">
+              <a class="mounted" href="#phone-jot-sources">⌘ 已挂载 5 条原始记录 · 查看来源</a>
+              <div class="message">你已经反复提到“不要一次改完”。如果先做最小一步，可以是：量靠窗宽度，再选 3 种耐阴植物。</div>
+              <div class="message user">帮我把周末能完成的步骤列出来。</div>
+              <div class="message">可以分三步：<br>1. 周五晚上量尺寸；<br>2. 周六上午去花市；<br>3. 周日下午只布置一个绿植角。<br><br>其中“量尺寸”和“去花市”已经自动进入待办。</div>
+              <div class="quick-prompts"><span>整理阶段结论</span><span>继续展开</span><span>看原始记录</span></div>
+              <div class="chat-input">继续说说你的想法…<i>↑</i></div>
+            </div>
+          </div>
+          <p class="screen-next">点顶部来源查看挂载记录；对谈里的明确行动会自动进入待办。</p>
+        </article>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">16</span><div><b>对谈的内容与来源</b><small>显性切换表达，也能看清挂载了什么</small></div></div>
-      <div class="phone" id="phone-idea-more"><div class="statusbar"><span>20:18</span><span class="status-icons">▮▮▮ ◉ 57%</span></div><div class="appbar compact"><a class="back" href="#phone-work-chat">‹</a><h3>对谈设置</h3><span class="text-btn">完成</span></div><div class="phone-scroll"><div class="more-group"><h4>这段内容怎么呈现</h4><div class="format-grid"><div class="format-item active">持续对谈<br><small>当前</small></div><div class="format-item">整理正文</div><div class="format-item">生成网页</div><div class="format-item">生成演示文稿</div></div></div><div class="more-group"><h4>已挂载的 12 条记录</h4><div class="record-source"><i>文</i><div><b>洞察首页应该先看到什么</b><p>今天 11:32 · 文字笔记</p></div></div><div class="record-source"><i>录</i><div><b>上午产品讨论</b><p>今天 10:06 · 录音 18 分钟</p></div></div><div class="record-source"><i>文</i><div><b>课程点进去之后应该是什么</b><p>昨天 22:14 · 文字笔记</p></div></div><div class="record-source"><i>图</i><div><b>相册内容组织参考</b><p>昨天 19:45 · 3 张截图</p></div></div><div class="record-source"><i>文</i><div><b>两个底部页签</b><p>9 月 9 日 · 文字笔记</p></div></div></div><div class="ready-banner"><div><b>来源始终保留</b><span>点击任一条可回到原文或录音时间点</span></div></div></div></div><p class="screen-next">对谈是默认消费；网页等只是<b>显性的表达切换</b>。</p>
-    </article>
-  </div>
-</section>
+        <article class="screen-card">
+          <div class="screen-label"><b>随记 03 · 来源与表达</b><span>可回看每条原文，也能切换阶段整理的表达方式。</span></div>
+          <div class="phone" id="phone-jot-sources">
+            <div class="statusbar"><span>10:36</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-jot-thread">‹</a><div class="appbar-title"><b>来源与整理</b><span>阳台改造 · 5 条</span></div><span class="icon-btn">···</span></div>
+            <div class="phone-body tint">
+              <div class="section-title"><b>原始来源</b><span>按时间</span></div>
+              <div class="source-list">
+                <a class="source-item" href="#phone-notes"><span class="thumb">文</span><span><b>阳台改造想法</b><span>今天 08:16 · 文字笔记</span></span><em>›</em></a>
+                <a class="source-item" href="#phone-notes"><span class="thumb">录</span><span><b>散步时的语音</b><span>昨天 21:44 · 01:28</span></span><em>›</em></a>
+                <a class="source-item" href="#phone-notes"><span class="thumb">图</span><span><b>花市参考图 × 3</b><span>周一 16:20 · 来自相册</span></span><em>›</em></a>
+              </div>
+              <div class="section-title"><b>阶段整理</b><span>不改变原文</span></div>
+              <div class="course-actions"><span class="course-action"><strong>▤</strong><b>正文</b><span>默认阅读</span></span><span class="course-action"><strong>⌘</strong><b>脉络</b><span>看想法变化</span></span><span class="course-action"><strong>▦</strong><b>清单</b><span>看下一步</span></span></div>
+              <a class="primary-btn" style="margin-top:12px;background:var(--purple)" href="#phone-jot-thread">回到持续对谈</a>
+            </div>
+          </div>
+          <p class="screen-next">点来源回原始笔记；点底部回到同一条持续对谈。</p>
+        </article>
+      </div>
+    </section>
 
-<section class="flow" id="todo">
-  <div class="flow-head"><div><div class="flow-kicker">待办日程</div><h2>记录里的行动，真正进入执行位置</h2><p>原文旁只确认一次；没有固定时间的进入待办中心，带时间地点的进入日历。昨天未完成的事项自动延续到今天。</p></div><span class="flow-count">4 张手机页</span></div>
-  <div class="phone-grid">
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">17</span><div><b>原始笔记 · 识别行动</b><small>行动从原文中出现，但不会擅自写入</small></div></div>
-      <div class="phone" id="phone-action-source"><div class="statusbar"><span>16:42</span><span class="status-icons">▮▮▮ ◉ 62%</span></div><div class="appbar compact"><a class="back" href="#phone-notes">‹</a><h3>笔记详情</h3><span class="icon-btn">⋯</span></div><div class="note-body"><h4>下周产品方案会</h4><div class="note-date">今天 16:40 · 会议记录</div><p>今天把手机端主框架过了一遍。</p><p>需要<span class="highlight">今天 18:00 前把手机页面发给大家</span>，明天再一起确认课程首页。</p><p><span class="highlight">明天 10:00 在 A03 开产品方案会</span>，需要带上课程链路和想法对谈页面。</p><p>设计侧还有几个问题，<span class="highlight">记得回复首页卡片的反馈</span>。</p><p>学习链里，课件与作业保存后直接回到一门课；下一次上课时要能看到作业进度。</p></div><div class="action-detected"><b>识别到 3 项行动</b><p>2 项待办 · 1 个带时间地点的日程</p><a class="amber-btn" href="#phone-action-confirm">确认写入</a></div></div><p class="screen-next">识别结果紧贴原文，主动作只有<b>确认写入</b>。</p>
-    </article>
+    <section class="flow" id="learning">
+      <div class="flow-head">
+        <div><div class="section-no">07 · 学习</div><h2>围绕“一门课”组织<br>打开先复习、自测、做作业</h2></div>
+        <p>课表、日历、课次、录音、材料和作业串成一个持续课程对象；原始资料留在来源层。</p>
+      </div>
+      <div class="phone-grid">
+        <article class="screen-card">
+          <div class="screen-label"><b>学习 01 · 相册识别课表</b><span>拍入或选择课程表，识别后直接生成课程日历。</span></div>
+          <div class="phone" id="phone-schedule-photo">
+            <div class="statusbar"><span>11:02</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-notes">‹</a><div class="appbar-title"><b>识别课程表</b><span>来自相册</span></div><span class="app-action">重拍</span></div>
+            <div class="phone-body camera">
+              <div class="photo-stage"><div class="photo-sheet"><h4>2026 秋季课程表</h4><div class="photo-lines"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div><div class="scan-box"></div><div class="camera-copy">已识别 8 门课 · 时间与教室自动校正</div><div class="capture-actions"><a href="#phone-notes">保留原图</a><a class="primary-capture" href="#phone-calendar">生成课程日历</a></div></div>
+            </div>
+          </div>
+          <p class="screen-next">点“生成课程日历”进入按周组织的课表；原图仍保留在笔记。</p>
+        </article>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">18</span><div><b>确认行动</b><small>用户知道写入什么、写到哪里</small></div></div>
-      <div class="phone" id="phone-action-confirm"><div class="statusbar"><span>16:43</span><span class="status-icons">▮▮▮ ◉ 61%</span></div><div class="appbar compact"><a class="back" href="#phone-action-source">‹</a><h3>确认行动</h3><span class="text-btn">全选</span></div><div class="phone-scroll"><div class="confirm-list"><div class="confirm-item"><div class="confirm-top"><b>发送手机页面</b><span class="route-tag">进入待办</span></div><div class="confirm-fields"><span class="field">今天 18:00</span><span class="field">提醒：提前 30 分钟</span></div></div><div class="confirm-item"><div class="confirm-top"><b>产品方案会</b><span class="route-tag">进入日历</span></div><div class="confirm-fields"><span class="field">明天 10:00–11:00</span><span class="field">A03</span></div></div><div class="confirm-item"><div class="confirm-top"><b>回复首页卡片反馈</b><span class="route-tag">进入待办</span></div><div class="confirm-fields"><span class="field">无固定时间</span><span class="field">今天</span></div></div></div><div class="ui-section" style="margin-top:14px"><div class="ui-section-head"><b>写入后仍保留来源</b></div><div class="topic"><span class="topic-no">文</span><div><b>下周产品方案会</b><span>每项行动都能回到对应原句</span></div></div></div><a class="primary confirm-submit" href="#phone-todo">写入 2 项待办和 1 个日程</a></div></div><p class="screen-next">一次确认后，系统按行动性质<b>自动分流</b>。</p>
-    </article>
+        <article class="screen-card">
+          <div class="screen-label"><b>学习 02 · 课程日历</b><span>日历告诉用户下一次课和已归入的课次。</span></div>
+          <div class="phone" id="phone-calendar">
+            <div class="statusbar"><span>11:03</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-course">‹</a><div class="appbar-title"><b>课程日历</b><span>2026 秋季学期</span></div><a class="icon-btn" href="#phone-schedule-photo">＋</a></div>
+            <div class="phone-body tint">
+              <div class="calendar-head"><b>9 月</b><span class="app-action">本周</span></div>
+              <div class="calendar-week"><span class="calendar-day"><b>8</b>一</span><span class="calendar-day active"><b>9</b>二</span><span class="calendar-day"><b>10</b>三</span><span class="calendar-day"><b>11</b>四</span><span class="calendar-day"><b>12</b>五</span><span class="calendar-day"><b>13</b>六</span><span class="calendar-day"><b>14</b>日</span></div>
+              <div class="todo-group-title">今天</div>
+              <a class="class-card" href="#phone-class-detail"><small>14:00–15:40 · B201</small><b>概率论 · 第 6 课</b><span>上课前 10 分钟提醒 · 可自动开始录音</span></a>
+              <div class="todo-group-title">周四</div>
+              <a class="class-card" href="#phone-class-detail" style="border-left-color:#795fd1"><small style="color:#795fd1">09:50–11:30 · A107</small><b>数据结构 · 第 5 课</b><span>作业 2 截止时间：周五 23:00</span></a>
+              <div class="truth-note" style="margin-top:12px">课程时间来自课表原图；改动会回写课程日历，但不会覆盖原图。</div>
+            </div>
+          </div>
+          <p class="screen-next">点概率论课次查看材料和录音；点右上角可重新导入课表。</p>
+        </article>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">19</span><div><b>待办中心 · 今天</b><small>未完成事项自动从昨天延续</small></div></div>
-      <div class="phone" id="phone-todo"><div class="statusbar"><span>16:44</span><span class="status-icons">▮▮▮ ◉ 60%</span></div><div class="appbar"><div><h3>待办</h3><div class="sub">9 月 15 日 · 周二</div></div><div class="appbar-actions"><span class="icon-btn">⌕</span><span class="icon-btn">＋</span></div></div><div class="phone-scroll"><div class="todo-summary"><span>今天</span><b>3 / 7</b><p>已完成 3 项，还有 4 项需要处理</p><div class="progress"><i style="width:43%;background:#c88a18"></i></div></div><div class="todo-section"><h4>从昨天延续 · 2 项</h4><div class="task"><span class="checkbox"></span><div><b>确认课程首页结构</b><p>从昨天延续 · 来源：工作想法</p></div></div><div class="task"><span class="checkbox"></span><div><b>回复设计问题</b><p>从昨天延续 · 无固定时间</p></div></div></div><div class="todo-section"><h4>今天 · 2 项</h4><div class="task"><span class="checkbox"></span><div><b>发送手机页面</b><p>18:00 · 17:30 提醒 · 来源：会议记录</p></div></div><div class="task"><span class="checkbox"></span><div><b>准备明天方案会材料</b><p>课程链路、想法对谈与待办页面</p></div></div></div><div class="ready-banner"><div><b>明天 10:00 · 产品方案会</b><span>已经进入日历 · 会议室 A03</span></div><a href="#phone-event"><i>查看 ›</i></a></div></div></div><p class="screen-next">用户不再每天重抄，没完成的事<b>自动来到今天</b>。</p>
-    </article>
+        <article class="screen-card">
+          <div class="screen-label"><b>学习 03 · 课次详情</b><span>上课前进入课次，录音与材料自动归入这门课。</span></div>
+          <div class="phone" id="phone-class-detail">
+            <div class="statusbar"><span>13:52</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-calendar">‹</a><div class="appbar-title"><b>概率论 · 第 6 课</b><span>今天 14:00 · B201</span></div><span class="icon-btn">···</span></div>
+            <div class="phone-body tint">
+              <div class="class-hero"><small>8 分钟后开始</small><h3>条件概率与贝叶斯公式</h3><p>已关联课程表、讲义 2 页和上节课作业。</p></div>
+              <a class="primary-btn" style="margin-top:10px;background:var(--green)" href="#phone-record">开始课堂录音</a>
+              <div class="section-title"><b>本次材料</b><a href="#phone-course-sources">全部来源 ›</a></div>
+              <div class="material-row"><span class="mat-icon">图</span><span><b>讲义第 42–43 页</b><span>今天 13:48 · 相册导入</span></span><em>›</em></div>
+              <div class="material-row"><span class="mat-icon">作</span><span><b>作业 2 · 3 道题</b><span>周五 23:00 截止</span></span><em>›</em></div>
+              <div class="button-row"><a class="secondary-btn" href="#phone-ready-notification">看完成通知</a><a class="secondary-btn" href="#phone-course">进入课程首页</a></div>
+            </div>
+          </div>
+          <p class="screen-next">点“开始课堂录音”；课后处理完成会发通知，也可直接进课程首页。</p>
+        </article>
 
-    <article class="screen-card"><div class="screen-label"><span class="screen-no">20</span><div><b>日历 · 产品方案会</b><small>带时间的行动在日历中继续消费</small></div></div>
-      <div class="phone" id="phone-event"><div class="statusbar"><span>16:45</span><span class="status-icons">▮▮▮ ◉ 59%</span></div><div class="appbar compact"><a class="back" href="#phone-todo">‹</a><h3>产品方案会</h3><span class="icon-btn">⋯</span></div><div class="phone-scroll"><div class="detail-scroll"><div class="hero-event" style="background:linear-gradient(145deg,#fff5df,#fffdf8);border-color:var(--amber-line)"><div class="card-kicker">明天 · 9 月 16 日</div><div class="time-big">10:00–11:00</div><p>会议室 A03 · 提前 30 分钟提醒</p></div><div class="info-row"><span class="info-icon">人</span><span>产品、设计与笔记团队</span></div><div class="info-row"><span class="info-icon">源</span><span>来自笔记「下周产品方案会」</span></div><div class="ui-section" style="margin-top:12px"><div class="ui-section-head"><b>会议材料</b></div><div class="event-material"><i>页</i><div><b>手机端主框架</b><p>洞察、笔记与两个创建入口</p></div></div><div class="event-material"><i>课</i><div><b>学习备考完整链路</b><p>课表、日历、录音与课程复习</p></div></div><div class="event-material"><i>聊</i><div><b>想法持续对谈</b><p>工作、生活、兴趣三种入口</p></div></div></div><div class="ui-section"><div class="ui-section-head"><b>会前要完成</b></div><div class="task"><span class="checkbox"></span><div><b>确认手机页面顺序</b><p>今天 18:00 前</p></div></div><div class="task"><span class="checkbox"></span><div><b>准备课程页演示</b><p>快讲、精讲与出卷</p></div></div></div><a class="secondary" href="#phone-action-source">回到原始会议笔记</a></div></div></div><p class="screen-next">日程详情带着相关内容和来源，形成<b>可执行的下一场</b>。</p>
-    </article>
-  </div>
-</section>
-</main>
-<footer>OS5 笔记 · 手机端页面方案 · 20 张可点击手机页</footer>
-<script>
-const links=[...document.querySelectorAll('.jump-inner a')];
-const sections=links.map(link=>document.querySelector(link.getAttribute('href'))).filter(Boolean);
-const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;links.forEach(link=>link.classList.toggle('on',link.getAttribute('href')==='#'+entry.target.id));});},{rootMargin:'-25% 0px -68% 0px'});
-sections.forEach(section=>observer.observe(section));
-</script>
+        <article class="screen-card">
+          <div class="screen-label"><b>学习 04 · 完成通知</b><span>后台整理完成后主动通知，点入就是最终课程结果。</span></div>
+          <div class="phone" id="phone-ready-notification">
+            <div class="statusbar"><span>16:18</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><div class="appbar-title"><b>通知中心</b><span>今天</span></div><span class="icon-btn">⚙</span></div>
+            <div class="phone-body tint">
+              <div class="notification-card"><div class="notification-top"><span class="notification-app">学</span><span>笔记 · 刚刚</span></div><h3>概率论第 6 课已整理好</h3><p>录音、讲义和课堂笔记已归入课程。10 分钟快讲与 8 道自测题可以直接使用。</p><div class="notification-actions"><a class="primary-btn" style="background:var(--green)" href="#phone-course">打开课程</a><a class="secondary-btn" href="#phone-quick">先听快讲</a></div></div>
+              <div class="notification-card" style="margin-top:12px"><div class="notification-top"><span class="notification-app" style="background:var(--blue-soft)">✓</span><span>待办 · 12 分钟前</span></div><h3 style="font-size:14px">作业 2 已进入本周待办</h3><p>截止：周五 23:00 · 来源：概率论第 6 课</p></div>
+            </div>
+          </div>
+          <p class="screen-next">点“打开课程”看完整复习页，或直接进入 10 分钟快讲。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>学习 05 · 课程首页</b><span>默认先给复习、自测、作业，不先给文件列表。</span></div>
+          <div class="phone" id="phone-course">
+            <div class="statusbar"><span>16:19</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-insight">‹</a><div class="appbar-title"><b>概率论</b><span>2026 秋季 · 已完成 6 课</span></div><a class="icon-btn" href="#phone-course-sources">⌘</a></div>
+            <div class="phone-body tint">
+              <div class="course-hero"><small>本周学习进度</small><h3>下一步：复习第 6 课</h3><p>你对贝叶斯公式的自测正确率是 62%。</p><div class="progress"><span></span></div></div>
+              <div class="course-actions"><a class="course-action" href="#phone-quick"><strong>▶</strong><b>10 分钟快讲</b><span>先抓重点</span></a><a class="course-action" href="#phone-quiz"><strong>?</strong><b>课程自测</b><span>8 道题</span></a><a class="course-action" href="#phone-class-detail"><strong>✓</strong><b>作业</b><span>周五截止</span></a></div>
+              <div class="section-title"><b>最近课次</b><a href="#phone-calendar">课程日历 ›</a></div>
+              <a class="lesson-row" href="#phone-class-detail"><span class="lesson-no">06</span><span><b>条件概率与贝叶斯公式</b><span>录音 42 分钟 · 讲义 2 页</span></span><em>›</em></a>
+              <a class="lesson-row" href="#phone-class-detail"><span class="lesson-no">05</span><span><b>随机变量与分布函数</b><span>已复习 · 自测 7/8</span></span><em>›</em></a>
+              <a class="secondary-btn" style="margin-top:10px" href="#phone-schedule-photo">导入或更新课程表</a>
+            </div>
+          </div>
+          <p class="screen-next">点快讲、自测或作业直接消费；资料与原文藏在右上角来源入口。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>学习 06 · 10 分钟快讲</b><span>围绕本课难点讲清楚，并能继续自测。</span></div>
+          <div class="phone" id="phone-quick">
+            <div class="statusbar"><span>16:20</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-course">‹</a><div class="appbar-title"><b>10 分钟快讲</b><span>概率论 · 第 6 课</span></div><span class="icon-btn">Ⅱ</span></div>
+            <div class="phone-body tint">
+              <div class="quick-card"><small>03:42 / 10:18</small><h3>为什么新证据会改变概率？</h3><p>贝叶斯公式不是重新计算一个世界，而是在已有判断上加入新证据。先看“证据出现的可能性”，再修正原来的概率。</p><div class="progress"><span style="width:36%"></span></div><ul class="key-points"><li>先验概率：看到证据前的判断</li><li>似然：在某种情况下出现证据的可能性</li><li>后验概率：加入证据后的新判断</li></ul></div>
+              <div class="section-title"><b>来源定位</b><span>可回到原材料</span></div>
+              <a class="source-card" href="#phone-course-sources"><span class="source-icon">录</span><span><b>课堂录音 18:32–24:10</b><span>老师讲贝叶斯例题</span></span><em>›</em></a>
+              <a class="primary-btn" style="margin-top:10px;background:var(--green)" href="#phone-quiz">听完马上自测</a>
+            </div>
+          </div>
+          <p class="screen-next">点来源回原始录音；点“听完马上自测”进入本课题目。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>学习 07 · 课程自测</b><span>先检查会不会，再决定回哪一段复习。</span></div>
+          <div class="phone" id="phone-quiz">
+            <div class="statusbar"><span>16:31</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-course">‹</a><div class="appbar-title"><b>课程自测</b><span>第 3 / 8 题</span></div><span class="app-action">退出</span></div>
+            <div class="phone-body tint">
+              <div class="progress" style="margin:3px 0 12px"><span style="width:37.5%"></span></div>
+              <div class="quiz-card"><small>单选题 · 贝叶斯公式</small><h3>当检测结果为阳性时，后验概率还需要考虑哪一项？</h3><span class="answer">A. 样本总数</span><span class="answer selected">B. 疾病的先验概率</span><span class="answer">C. 数据记录顺序</span><span class="answer">D. 计算工具类型</span></div>
+              <div class="truth-note" style="border-left-color:var(--green);background:var(--green-soft)"><strong>回答正确。</strong>如果先验概率很低，即使检测较准，阳性也不一定代表患病。</div>
+              <div class="button-row"><a class="secondary-btn" href="#phone-quick">回看 03:42</a><a class="primary-btn" style="background:var(--green)" href="#phone-course">完成并回课程</a></div>
+            </div>
+          </div>
+          <p class="screen-next">错题可跳到对应快讲片段；完成后回课程首页更新掌握度。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>学习 08 · 课程资料与来源</b><span>课程消费页之后，仍能完整回溯原始材料。</span></div>
+          <div class="phone" id="phone-course-sources">
+            <div class="statusbar"><span>16:34</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-course">‹</a><div class="appbar-title"><b>资料与来源</b><span>概率论 · 26 项</span></div><span class="icon-btn">⌕</span></div>
+            <div class="phone-body tint">
+              <div class="context-chips"><span style="background:var(--green-soft);color:#2e765b">全部</span><span style="background:#eef1f6;color:#657087">录音</span><span style="background:#eef1f6;color:#657087">讲义</span><span style="background:#eef1f6;color:#657087">笔记</span></div>
+              <div class="source-list">
+                <a class="source-item" href="#phone-record"><span class="thumb">录</span><span><b>第 6 课课堂录音</b><span>42:18 · 今天 14:02</span></span><em>›</em></a>
+                <a class="source-item" href="#phone-notes"><span class="thumb">图</span><span><b>讲义第 42–43 页</b><span>2 张 · 今天 13:48</span></span><em>›</em></a>
+                <a class="source-item" href="#phone-notes"><span class="thumb">文</span><span><b>贝叶斯公式随堂笔记</b><span>523 字 · 今天 14:26</span></span><em>›</em></a>
+                <a class="source-item" href="#phone-notes"><span class="thumb">作</span><span><b>作业 2</b><span>3 道题 · 周五截止</span></span><em>›</em></a>
+                <a class="source-item" href="#phone-schedule-photo"><span class="thumb">表</span><span><b>秋季课程表原图</b><span>来自相册 · 8 月 28 日</span></span><em>›</em></a>
+              </div>
+              <div class="truth-note">删除或修正来源后，课程会重新整理；不会静默伪造缺失内容。</div>
+            </div>
+          </div>
+          <p class="screen-next">点任一资料回原始记录；点返回继续消费课程结果。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="flow" id="cards">
+      <div class="flow-head">
+        <div><div class="section-no">08 · 卡证</div><h2>拍入即识别<br>需要时精确复制或按范围授权调用</h2></div>
+        <p>卡证不是泛化的“生活管理”卡片。用户要的是马上找到正确字段、可拨可复制，并且敏感信息默认受保护。</p>
+      </div>
+      <div class="phone-grid">
+        <article class="screen-card">
+          <div class="screen-label"><b>卡证 01 · 拍入卡证</b><span>从卡证夹发起拍摄，也可选择相册原图。</span></div>
+          <div class="phone" id="phone-card-capture">
+            <div class="statusbar" style="background:#34435d;color:#fff"><span>17:05</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar" style="background:#34435d;border-color:rgba(255,255,255,.12)"><a class="back" style="background:rgba(255,255,255,.12);border:0;color:#fff" href="#phone-card-wallet">×</a><div class="appbar-title" style="color:#fff"><b>拍入卡证</b><span style="color:#d7deea">原图仅用于识别与回溯</span></div><span class="app-action" style="color:#fff">相册</span></div>
+            <div class="phone-body camera">
+              <div class="photo-stage" style="background:linear-gradient(160deg,#8b7f69,#3b4557)"><div class="id-visual" style="position:absolute;left:28px;right:28px;top:120px;transform:rotate(-2deg)"><div class="id-visual-top"><span>中华人民共和国</span><span>居民身份证</span></div><div class="id-person"><span class="avatar">人</span><span><b>李晓米</b><span>公民身份号码<br>3101 ···· ···· 482X</span></span></div></div><div class="scan-box" style="inset:96px 20px 210px;border-color:#ffd889"></div><div class="camera-copy">请将卡证完整放入框内 · 避免反光</div><div class="capture-actions"><a href="#phone-card-wallet">从相册选择</a><a class="primary-capture" href="#phone-card-recognize">使用这张照片</a></div></div>
+            </div>
+          </div>
+          <p class="screen-next">点“使用这张照片”进入字段识别；点左下从相册选择已有原图。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>卡证 02 · 自动识别字段</b><span>识别完成后展示字段与置信度，允许必要修正。</span></div>
+          <div class="phone" id="phone-card-recognize">
+            <div class="statusbar"><span>17:06</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-card-capture">‹</a><div class="appbar-title"><b>识别结果</b><span>居民身份证</span></div><span class="app-action">修正</span></div>
+            <div class="phone-body tint">
+              <div class="recognize-sheet"><h3>已识别 6 个字段</h3><p>请检查低置信字段；敏感内容默认遮罩。</p><div class="field-row-card"><span>姓名</span><b>李晓米 <i class="confidence">高</i></b></div><div class="field-row-card"><span>身份证号</span><b>3101 ···· ···· 482X <i class="confidence">高</i></b></div><div class="field-row-card"><span>住址</span><b>上海市浦东新区… <i class="confidence">高</i></b></div><div class="field-row-card"><span>有效期限</span><b>2024.08–2044.08 <i class="confidence">高</i></b></div><div class="field-row-card"><span>签发机关</span><b>浦东分局 <i class="confidence">高</i></b></div></div>
+              <div class="privacy-note">🔒 原图与完整字段默认仅本人可见；第三方调用必须按字段、用途和有效期授权。</div>
+              <a class="primary-btn" style="margin-top:10px;background:var(--amber)" href="#phone-card-wallet">存入卡证夹</a>
+              <a class="secondary-btn" style="margin-top:7px" href="#phone-notes">查看原始图片笔记</a>
+            </div>
+          </div>
+          <p class="screen-next">检查后直接存入卡证夹；原始图片仍能从下方回溯。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>卡证 03 · 卡证夹</b><span>按需要取用的对象组织，不混入普通图片列表。</span></div>
+          <div class="phone" id="phone-card-wallet">
+            <div class="statusbar"><span>17:07</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-insight">‹</a><div class="appbar-title"><b>卡证夹</b><span>8 张 · 本机加密</span></div><span class="icon-btn">⌕</span></div>
+            <div class="phone-body tint">
+              <div class="wallet-summary"><small>需要时马上取用</small><h3>敏感字段默认隐藏</h3><p>查看完整内容需验证本人；授权调用只开放选中的字段。</p></div>
+              <div class="card-grid">
+                <a class="id-card" href="#phone-card-detail"><span class="id-icon">证</span><b>居民身份证</b><span>有效至 2044.08</span></a>
+                <a class="id-card" href="#phone-card-detail"><span class="id-icon">银</span><b>小米银行储蓄卡</b><span>尾号 2068</span></a>
+                <a class="id-card" href="#phone-card-detail"><span class="id-icon">门</span><b>园区门禁</b><span>A 座 · 18 层</span></a>
+                <a class="add-card" href="#phone-card-capture"><strong>＋</strong><span>拍入新卡证</span></a>
+              </div>
+              <div class="section-title"><b>最近使用</b><span>仅本人可见</span></div>
+              <a class="mini-result" href="#phone-card-authorized"><span class="mini-thumb">↗</span><span><b>身份证姓名与证件号</b><span>用于酒店入住 · 5 分钟前</span></span><span class="chev">›</span></a>
+            </div>
+          </div>
+          <p class="screen-next">点身份证进入详情；点“拍入新卡证”继续增加卡证。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>卡证 04 · 卡证详情</b><span>精确字段可复制，完整原图与来源随时可回溯。</span></div>
+          <div class="phone" id="phone-card-detail">
+            <div class="statusbar"><span>17:08</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-card-wallet">‹</a><div class="appbar-title"><b>居民身份证</b><span>完整内容已保护</span></div><span class="icon-btn">···</span></div>
+            <div class="phone-body tint">
+              <div class="id-visual"><div class="id-visual-top"><span>中华人民共和国</span><span>居民身份证</span></div><div class="id-person"><span class="avatar">人</span><span><b>李晓米</b><span>有效至 2044.08</span></span></div></div>
+              <div style="margin-top:10px;background:#fff;border:1px solid #e2e7ee;border-radius:15px;padding:0 11px">
+                <div class="sensitive-field"><span>姓名</span><b>李晓米</b><span class="field-actions"><a href="#phone-card-copied">复制</a></span></div>
+                <div class="sensitive-field"><span>身份证号</span><b>3101 ···· ···· 482X</b><span class="field-actions"><a href="#phone-card-copied">复制</a></span></div>
+                <div class="sensitive-field"><span>住址</span><b>上海市浦东新区…</b><span class="field-actions"><a href="#phone-card-copied">复制</a></span></div>
+                <div class="sensitive-field"><span>有效期限</span><b>2024.08–2044.08</b></div>
+              </div>
+              <div class="button-row"><a class="primary-btn" style="background:var(--amber)" href="#phone-card-authorize">授权调用字段</a><a class="secondary-btn" href="#phone-notes">查看原图来源</a></div>
+              <div class="privacy-note">查看完整号码或原图时验证本人；页面不会默认暴露全部敏感信息。</div>
+            </div>
+          </div>
+          <p class="screen-next">点任一“复制”看结果；点“授权调用字段”进入字段级授权。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>卡证 05 · 字段级授权</b><span>明确调用方、字段、用途和有效期，不做整张卡无边界开放。</span></div>
+          <div class="phone" id="phone-card-authorize">
+            <div class="statusbar"><span>17:09</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-card-detail">‹</a><div class="appbar-title"><b>授权调用</b><span>居民身份证</span></div><span class="icon-btn">?</span></div>
+            <div class="phone-body tint">
+              <div class="auth-app"><span class="auth-app-icon">小</span><span><b>超级小爱请求使用卡证字段</b><span>用途：帮你填写酒店入住信息</span></span></div>
+              <div class="section-title"><b>本次开放字段</b><span>可逐项关闭</span></div>
+              <div class="permission-box"><div class="permission-row"><span>姓名</span><span class="toggle"></span></div><div class="permission-row"><span>身份证号</span><span class="toggle"></span></div><div class="permission-row"><span>有效期限</span><span class="toggle"></span></div><div class="permission-row"><span>住址</span><b style="color:#9aa3b2">不开放</b></div></div>
+              <div class="info-list"><div class="info-row"><span>使用范围</span><b>仅本次酒店入住</b></div><div class="info-row"><span>授权有效期</span><b>10 分钟</b></div><div class="info-row"><span>调用记录</span><b>保留，可随时查看</b></div></div>
+              <a class="primary-btn" style="margin-top:11px;background:var(--amber)" href="#phone-card-authorized">允许本次调用</a>
+              <a class="secondary-btn" style="margin-top:7px" href="#phone-card-detail">不允许</a>
+            </div>
+          </div>
+          <p class="screen-next">检查字段与用途后点“允许本次调用”；也可直接返回，不开放任何字段。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>卡证 06 · 授权完成</b><span>明确显示谁用了什么、何时失效，并可立刻撤回。</span></div>
+          <div class="phone" id="phone-card-authorized">
+            <div class="statusbar"><span>17:10</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-card-detail">‹</a><div class="appbar-title"><b>调用结果</b><span>仅本次有效</span></div><span class="icon-btn">···</span></div>
+            <div class="phone-body tint">
+              <div class="success-state"><div class="big-mark">✓</div><h3>已完成本次授权</h3><p>超级小爱可在 10 分钟内使用姓名、身份证号和有效期限，用于填写酒店入住信息。</p></div>
+              <div class="info-list"><div class="info-row"><span>调用方</span><b>超级小爱</b></div><div class="info-row"><span>开放字段</span><b>3 项</b></div><div class="info-row"><span>自动失效</span><b>17:20</b></div></div>
+              <a class="danger-btn" style="margin-top:10px" href="#phone-card-detail">立即撤回授权</a>
+              <a class="secondary-btn" style="margin-top:7px" href="#phone-card-wallet">回到卡证夹</a>
+            </div>
+          </div>
+          <p class="screen-next">点“立即撤回”回详情；点“回到卡证夹”继续取用其他卡证。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>卡证 07 · 复制成功</b><span>复制的是用户点选的字段，不默认复制整张卡。</span></div>
+          <div class="phone" id="phone-card-copied">
+            <div class="statusbar"><span>17:11</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-card-detail">‹</a><div class="appbar-title"><b>复制结果</b><span>居民身份证</span></div><span class="icon-btn">···</span></div>
+            <div class="phone-body tint">
+              <div class="success-state"><div class="big-mark">✓</div><h3>身份证号已复制</h3><p>仅复制本次点选字段。剪贴板将在 2 分钟后自动清除，避免敏感信息长期停留。</p></div>
+              <div class="privacy-note" style="text-align:center">已复制：3101 ···· ···· 482X<br>完整内容不会出现在通知预览中</div>
+              <a class="primary-btn" style="margin-top:12px;background:var(--amber)" href="#phone-card-detail">回到卡证详情</a>
+              <a class="secondary-btn" style="margin-top:7px" href="#phone-card-wallet">回到卡证夹</a>
+            </div>
+          </div>
+          <p class="screen-next">点“回到卡证详情”继续取用其他字段，或返回卡证夹。</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-foot">OS5 笔记 · TR1 材料驱动版 · 研究事实、用户任务、当前产品范围三层分开 · 27 张可点击手机页</footer>
+
+  <script>
+    (() => {
+      const links = [...document.querySelectorAll('.jump-inner a')];
+      const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+      if (!('IntersectionObserver' in window)) return;
+      const observer = new IntersectionObserver(entries => {
+        const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        links.forEach(link => link.classList.toggle('on', link.getAttribute('href') === `#${visible.target.id}`));
+      }, { rootMargin: '-18% 0px -68% 0px', threshold: [0, .08, .2, .45] });
+      sections.forEach(section => observer.observe(section));
+    })();
+  </script>
 </body>
 </html>
