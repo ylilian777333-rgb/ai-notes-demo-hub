@@ -39,7 +39,7 @@
     button, input { font: inherit; }
 
     .page-head {
-      padding: 72px clamp(24px, 5vw, 84px) 54px;
+      padding: 48px clamp(24px, 5vw, 84px) 38px;
       background:
         radial-gradient(circle at 12% 4%, rgba(71,111,242,.12), transparent 29%),
         radial-gradient(circle at 88% 15%, rgba(121,95,209,.12), transparent 30%),
@@ -51,7 +51,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       padding: 7px 12px;
       border: 1px solid #cfd9fb;
       border-radius: 999px;
@@ -62,18 +62,18 @@
       letter-spacing: .04em;
     }
     h1 {
-      max-width: 980px;
+      max-width: 1240px;
       margin: 0;
-      font-size: clamp(38px, 5.4vw, 72px);
-      line-height: 1.08;
-      letter-spacing: -.045em;
+      font-size: clamp(34px, 3.8vw, 50px);
+      line-height: 1.15;
+      letter-spacing: -.035em;
     }
     .head-lead {
-      max-width: 930px;
-      margin: 24px 0 0;
+      max-width: 960px;
+      margin: 18px 0 0;
       color: #4d5a75;
-      font-size: clamp(17px, 2vw, 23px);
-      line-height: 1.65;
+      font-size: clamp(16px, 1.45vw, 20px);
+      line-height: 1.62;
     }
     .source-strip {
       display: flex;
@@ -119,26 +119,23 @@
     }
     .jump-inner a:hover, .jump-inner a.on { color: #3155ce; background: var(--blue-soft); }
 
-    main { max-width: 1500px; margin: 0 auto; padding: 28px clamp(14px, 3vw, 42px) 80px; }
+    main { max-width: 1500px; margin: 0 auto; padding: 20px clamp(14px, 3vw, 42px) 64px; }
     .flow {
       scroll-margin-top: 76px;
-      margin: 32px 0;
-      padding: clamp(24px, 4vw, 54px);
+      margin: 22px 0;
+      padding: clamp(20px, 2.8vw, 38px);
       border: 1px solid var(--line);
-      border-radius: 30px;
+      border-radius: 24px;
       background: var(--paper);
-      box-shadow: 0 14px 44px rgba(64,78,112,.07);
+      box-shadow: 0 12px 36px rgba(64,78,112,.065);
     }
     .flow-head {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: end;
-      gap: 24px;
-      margin-bottom: 30px;
+      display: block;
+      margin-bottom: 24px;
     }
     .section-no { color: var(--blue); font-size: 13px; font-weight: 800; letter-spacing: .08em; }
-    .flow h2 { margin: 6px 0 0; font-size: clamp(28px, 4vw, 48px); line-height: 1.2; letter-spacing: -.03em; text-wrap: balance; }
-    .flow-head p { max-width: 520px; margin: 0; color: var(--muted); font-size: 15px; }
+    .flow h2 { margin: 5px 0 0; font-size: clamp(24px, 2.2vw, 34px); line-height: 1.25; letter-spacing: -.025em; }
+    .flow-head p { max-width: 940px; margin: 8px 0 0; color: var(--muted); font-size: 15px; }
     .truth-note {
       margin: 20px 0 0;
       padding: 14px 17px;
@@ -208,29 +205,43 @@
       text-align: center;
     }
 
-    .job-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; }
-    .job-card {
-      position: relative;
-      min-height: 274px;
-      padding: 20px;
+    .jobs-matrix {
       overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 22px;
+      border: 1px solid #dce3ef;
+      border-radius: 20px;
       background: #fff;
     }
-    .job-card::before { content:""; position:absolute; inset:0 0 auto; height:5px; background:var(--tone); }
-    .job-card[data-tone="blue"] { --tone: var(--blue); --soft: var(--blue-soft); }
-    .job-card[data-tone="purple"] { --tone: var(--purple); --soft: var(--purple-soft); }
-    .job-card[data-tone="green"] { --tone: var(--green); --soft: var(--green-soft); }
-    .job-card[data-tone="amber"] { --tone: var(--amber); --soft: var(--amber-soft); }
-    .job-index { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:11px; color:var(--tone); background:var(--soft); font-weight:800; }
-    .job-card h3 { margin: 14px 0 7px; font-size: 21px; }
-    .job-input { min-height: 58px; color: #5b667e; font-size: 13px; }
-    .job-arrow { margin: 12px 0; color: var(--tone); font-weight: 900; }
-    .job-output { padding: 13px; border-radius: 14px; background: var(--soft); }
-    .job-output b { display:block; margin-bottom:4px; color:var(--tone); font-size:14px; }
-    .job-output span { color:#4f5b73; font-size:12px; }
-    .job-rule { margin-top:18px; padding:16px 18px; border-radius:16px; background:#f5f7fb; color:#4e5b73; font-size:14px; text-align:center; }
+    .jobs-header,
+    .jobs-row {
+      display: grid;
+      grid-template-columns: 1.05fr 1.05fr .82fr 1.68fr;
+    }
+    .jobs-header {
+      color: #52617d;
+      background: #f1f5fc;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+    .jobs-header > div,
+    .jobs-cell { min-width: 0; padding: 14px 16px; }
+    .jobs-header > div + div,
+    .jobs-cell + .jobs-cell { border-left: 1px solid #e2e7f0; }
+    .jobs-row { position: relative; border-top: 1px solid #dfe5ef; }
+    .jobs-row::before { content:""; position:absolute; inset:0 auto 0 0; width:4px; background:var(--tone); }
+    .jobs-row[data-tone="blue"] { --tone:var(--blue); --soft:var(--blue-soft); }
+    .jobs-row[data-tone="purple"] { --tone:var(--purple); --soft:var(--purple-soft); }
+    .jobs-row[data-tone="green"] { --tone:var(--green); --soft:var(--green-soft); }
+    .jobs-row[data-tone="amber"] { --tone:var(--amber); --soft:var(--amber-soft); }
+    .jobs-cell { color:#536079; background:#fff; font-size:13px; line-height:1.58; }
+    .jobs-cell::before { display:none; content:attr(data-label); }
+    .jobs-kind { display:inline-flex; align-items:center; margin-bottom:7px; padding:4px 8px; border-radius:8px; color:var(--tone); background:var(--soft); font-size:11px; font-weight:800; }
+    .jobs-cell strong { display:block; color:#2d3b57; font-size:14px; line-height:1.5; }
+    .jobs-result { display:inline-flex; padding:7px 10px; border-radius:10px; color:var(--tone); background:var(--soft); font-size:12px; font-weight:800; }
+    .jobs-feature-list { margin:0; padding-left:17px; }
+    .jobs-feature-list li + li { margin-top:4px; }
+    .jobs-feature-list b { color:#34435f; }
+    .jobs-note { margin-top:14px; padding:13px 16px; border-radius:14px; color:#4e5b73; background:#f5f7fb; font-size:13px; text-align:center; }
 
     .tree-wrap { padding: 26px; border: 1px solid #dce3f1; border-radius: 24px; background: linear-gradient(180deg,#fbfcff,#f5f8fd); }
     .tree-root { max-width: 620px; margin: 0 auto; padding: 18px 22px; border: 1px solid #cbd7fa; border-radius: 18px; background: #fff; text-align: center; box-shadow: var(--shadow); }
@@ -427,6 +438,88 @@
     .source-item span { display:block; color:#7f899b; font-size:8px; }
     .source-item em { margin-left:auto; color:#8b95a7; font-size:9px; font-style:normal; }
 
+    .jot-overview { padding:14px; border-radius:18px; background:linear-gradient(145deg,#f2edff,#fbf9ff); }
+    .jot-overview small { color:#765bc9; font-size:9px; font-weight:800; }
+    .jot-overview h3 { margin:5px 0 4px; font-size:18px; }
+    .jot-overview p { margin:0; color:#685f7d; font-size:9px; }
+    .jot-kind-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:9px; }
+    .jot-kind-card { min-height:102px; padding:11px; border:1px solid var(--jot-line); border-radius:14px; background:#fff; }
+    .jot-kind-card .kind-icon { display:grid; width:28px; height:28px; place-items:center; border-radius:9px; color:var(--jot-tone); background:var(--jot-soft); font-size:12px; font-weight:800; }
+    .jot-kind-card b { display:block; margin-top:7px; font-size:11px; }
+    .jot-kind-card span { display:block; margin-top:2px; color:#7a8497; font-size:8px; line-height:1.35; }
+    .jot-kind-card.idea { --jot-tone:#7258c4; --jot-soft:#f0ebff; --jot-line:#ded6f5; }
+    .jot-kind-card.life { --jot-tone:#c2647c; --jot-soft:#fff0f3; --jot-line:#f0d6dc; }
+    .jot-kind-card.interest { --jot-tone:#2d8666; --jot-soft:#eaf8f1; --jot-line:#cfe8dc; }
+    .jot-kind-card.work { --jot-tone:#4267d6; --jot-soft:#edf2ff; --jot-line:#d3defb; }
+    .idea-map { padding:12px; border:1px solid #ded6f3; border-radius:15px; background:#f7f4ff; }
+    .idea-map small { color:#755fc0; font-size:8px; font-weight:800; }
+    .idea-map h3 { margin:4px 0 8px; font-size:15px; }
+    .idea-node-row { display:flex; align-items:center; gap:4px; }
+    .idea-node { flex:1; padding:7px 4px; border-radius:9px; color:#625482; background:#fff; font-size:7px; text-align:center; }
+    .idea-node-row i { color:#aa9fc2; font-size:8px; font-style:normal; }
+    .version-list { border:1px solid #e2dcef; border-radius:13px; overflow:hidden; background:#fff; }
+    .version-item { display:flex; align-items:center; gap:8px; padding:8px 10px; border-bottom:1px solid #eeeaf5; }
+    .version-item:last-child { border-bottom:0; }
+    .version-item b { font-size:9px; }
+    .version-item span { margin-left:auto; color:#8b819d; font-size:7px; }
+    .timeline-hero { padding:13px; border-radius:17px; background:linear-gradient(145deg,#fff0f3,#fff8fa); }
+    .timeline-hero small { color:#b65670; font-size:8px; font-weight:800; }
+    .timeline-hero h3 { margin:5px 0 3px; font-size:17px; }
+    .timeline-hero p { margin:0; color:#7b6370; font-size:9px; }
+    .timeline-day { margin:10px 2px 5px; color:#8a7680; font-size:8px; font-weight:800; }
+    .life-entry { display:grid; grid-template-columns:30px minmax(0,1fr) auto; gap:8px; align-items:start; padding:10px; border:1px solid #eadfe3; border-radius:13px; background:#fff; }
+    .life-entry + .life-entry { margin-top:6px; }
+    .life-entry .life-icon { display:grid; width:28px; height:28px; place-items:center; border-radius:9px; color:#b4566f; background:#fff0f3; font-size:11px; }
+    .life-entry b { display:block; font-size:10px; }
+    .life-entry p { margin:3px 0 0; color:#7d8392; font-size:8px; line-height:1.4; }
+    .life-entry em { color:#9b8790; font-size:7px; font-style:normal; }
+    .review-tabs { display:flex; gap:5px; margin-bottom:9px; }
+    .review-tabs span { flex:1; padding:6px; border-radius:9px; color:#8a7b83; background:#eef1f6; font-size:8px; text-align:center; }
+    .review-tabs span.active { color:#fff; background:#c85f76; }
+    .review-hero { padding:15px; border-radius:17px; color:#745461; background:linear-gradient(145deg,#ffeef2,#fff8fa); }
+    .review-hero small { color:#b4566f; font-size:8px; font-weight:800; }
+    .review-hero h3 { margin:5px 0 4px; font-size:18px; }
+    .review-hero p { margin:0; font-size:9px; line-height:1.55; }
+    .review-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:8px; }
+    .review-stat { padding:9px 4px; border:1px solid #eadfe3; border-radius:11px; background:#fff; text-align:center; }
+    .review-stat b { display:block; color:#ae536b; font-size:15px; }
+    .review-stat span { color:#8a8390; font-size:7px; }
+    .memory-card { margin-top:9px; padding:12px; border:1px solid #eadde2; border-radius:14px; background:#fff; }
+    .memory-card small { color:#ad5a70; font-size:8px; font-weight:800; }
+    .memory-card b { display:block; margin:5px 0 4px; font-size:11px; }
+    .memory-card p { margin:0; color:#747f92; font-size:8px; line-height:1.5; }
+    .interest-hero { padding:14px; border-radius:17px; background:linear-gradient(145deg,#eaf8f1,#f7fcf9); }
+    .interest-hero small { color:#2d8060; font-size:8px; font-weight:800; }
+    .interest-hero h3 { margin:5px 0 3px; font-size:18px; }
+    .interest-hero p { margin:0; color:#5c756b; font-size:9px; }
+    .interest-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:8px; }
+    .interest-card { min-height:82px; padding:10px; border:1px solid #d7e8df; border-radius:13px; background:#fff; }
+    .interest-card small { color:#378268; font-size:7px; font-weight:800; }
+    .interest-card b { display:block; margin:5px 0 3px; font-size:10px; }
+    .interest-card span { display:block; color:#7b8795; font-size:7px; line-height:1.4; }
+    .quote-card { margin-top:8px; padding:10px; border-left:3px solid var(--green); border-radius:0 12px 12px 0; color:#536b61; background:#f0f8f4; font-size:8px; }
+    .compare-row { display:flex; gap:6px; margin-top:8px; }
+    .compare-row span { flex:1; padding:8px; border:1px solid #dce9e3; border-radius:10px; color:#587064; background:#fff; font-size:8px; text-align:center; }
+    .project-hero { padding:14px; border-radius:17px; background:linear-gradient(145deg,#edf2ff,#f7f9ff); }
+    .project-hero small { color:#4668ca; font-size:8px; font-weight:800; }
+    .project-hero h3 { margin:5px 0 3px; font-size:18px; }
+    .project-hero p { margin:0; color:#60708e; font-size:9px; }
+    .project-status { display:flex; align-items:center; gap:8px; margin-top:8px; padding:9px 10px; border:1px solid #cfe3d9; border-radius:12px; color:#337159; background:#edf8f2; font-size:8px; font-weight:800; }
+    .project-status em { margin-left:auto; color:#4d806c; font-style:normal; }
+    .work-timeline { margin-top:8px; border:1px solid #dfe5f0; border-radius:14px; overflow:hidden; background:#fff; }
+    .work-step { display:grid; grid-template-columns:34px minmax(0,1fr); gap:8px; padding:9px 10px; border-bottom:1px solid #edf0f5; }
+    .work-step:last-child { border-bottom:0; }
+    .work-step time { color:#71809c; font-size:7px; }
+    .work-step b { display:block; font-size:9px; }
+    .work-step span { display:block; margin-top:2px; color:#7d8799; font-size:7px; }
+    .work-assets { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:8px; }
+    .work-asset { padding:10px; border:1px solid #dde4f1; border-radius:12px; background:#fff; }
+    .work-asset small { color:#5872bb; font-size:7px; font-weight:800; }
+    .work-asset b { display:block; margin-top:4px; font-size:9px; }
+    .source-scope { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:9px; }
+    .source-scope span { padding:7px; border-radius:10px; color:#67738a; background:#eef1f6; font-size:8px; text-align:center; }
+    .source-scope span.active { color:#6751ae; background:#f0ebff; font-weight:800; }
+
     .photo-stage { position:relative; height:100%; overflow:hidden; background:linear-gradient(160deg,#657590,#2f405b); }
     .photo-sheet { position:absolute; inset:72px 34px 122px; padding:18px; transform:rotate(-2deg); border-radius:13px; color:#455069; background:#fff; box-shadow:0 18px 35px rgba(17,28,48,.28); }
     .photo-sheet h4 { margin:0 0 14px; text-align:center; }
@@ -544,17 +637,24 @@
 
     @media (max-width: 1040px) {
       .evidence-layout { grid-template-columns:1fr; }
-      .job-grid, .tree-branches { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .tree-branches { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .tree-branches::before, .tree-card::before { display:none; }
       .tr1-baseline { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .jobs-matrix { overflow:visible; border:0; border-radius:0; background:transparent; }
+      .jobs-header { display:none; }
+      .jobs-row { display:block; overflow:hidden; border:1px solid #dfe5ef; border-radius:16px; }
+      .jobs-row + .jobs-row { margin-top:10px; }
+      .jobs-row::before { width:4px; }
+      .jobs-cell { padding:12px 14px 12px 17px; }
+      .jobs-cell + .jobs-cell { border-top:1px solid #e5e9f1; border-left:0; }
+      .jobs-cell::before { display:block; margin-bottom:5px; color:#7b879c; font-size:10px; font-weight:800; letter-spacing:.03em; }
     }
     @media (max-width: 780px) {
-      .page-head { padding:48px 22px 38px; }
-      main { padding:12px 10px 60px; }
-      .flow { padding:23px 14px; border-radius:22px; }
-      .flow-head { grid-template-columns:1fr; align-items:start; gap:10px; }
-      .research-branches, .job-grid, .tree-branches, .tr1-baseline { grid-template-columns:1fr; }
-      .job-card { min-height:0; }
+      .page-head { padding:40px 22px 30px; }
+      main { padding:10px 10px 50px; }
+      .flow { margin:16px 0; padding:20px 14px; border-radius:20px; }
+      .flow-head { margin-bottom:20px; }
+      .research-branches, .tree-branches, .tr1-baseline { grid-template-columns:1fr; }
       .tree-process { flex-wrap:wrap; }
       .tree-process i { display:none; }
       .phone-grid { grid-template-columns:minmax(0,360px); }
@@ -572,12 +672,12 @@
   <header class="page-head">
     <div class="head-inner">
       <div class="eyebrow">OS5 笔记 · TR1 材料驱动版</div>
-      <h1>先看用户为什么记，<br />再决定产品应该长什么样</h1>
+      <h1>先看用户为什么记，再决定产品应该长什么样</h1>
       <p class="head-lead">这版不把研究品类直接画成首页入口。先把 TR1 与 1943 条反馈还原成“真实记录事实”，再看用户记完要完成什么任务，最后收敛为当前四类产品结果：<strong>待办、随记、学习、卡证</strong>。</p>
       <div class="source-strip">
         <a class="source-chip" href="https://mi.feishu.cn/wiki/InmUwB2Iaih11IkXIHEcWzVqnTe" target="_blank" rel="noreferrer"><strong>战略依据</strong> · OS5 TR1 - 笔记 V4.0</a>
         <span class="source-chip"><strong>研究依据</strong> · 2026-08-14 用户与内容品类全量分析</span>
-        <span class="source-chip"><strong>页面结果</strong> · 3 张需求图 + 27 张可点击手机页</span>
+        <span class="source-chip"><strong>页面结果</strong> · 3 张需求图 + 31 张可点击手机页</span>
       </div>
     </div>
   </header>
@@ -649,50 +749,63 @@
 
     <section class="flow" id="jobs">
       <div class="flow-head">
-        <div><div class="section-no">02 · 用户任务层</div><h2>关键不是“记了哪一类”，而是记完要干什么</h2></div>
-        <p>同一条记录可以同时进入不同结果。例如会议笔记既保留在随记里，也会把明确行动自动送进待办。</p>
+        <div><div class="section-no">02 · 用户任务层</div><h2>从记录事实到具体功能，形成四层闭环</h2></div>
+        <p>每一行都从真实记录出发，穿过用户目标与产品结果，最后落到可直接使用的功能；同一条记录仍可同时产生多个结果。</p>
       </div>
-      <div class="job-grid">
-        <article class="job-card" data-tone="blue">
-          <div class="job-index">1</div><h3>把事情办掉</h3>
-          <div class="job-input">记录里出现明确行动、时间、地点或提醒。</div>
-          <div class="job-arrow">↓ 自动理解与分发</div>
-          <div class="job-output"><b>待办</b><span>高置信内容自动添加到待办中心或日历，保留来源，并可撤销、修正。</span></div>
+      <div class="jobs-matrix" role="table" aria-label="用户记录到具体功能的四层闭环">
+        <div class="jobs-header" role="row">
+          <div role="columnheader">用户在记什么</div>
+          <div role="columnheader">记完真正要完成什么</div>
+          <div role="columnheader">产品进入哪个结果</div>
+          <div role="columnheader">最终提供的具体功能</div>
+        </div>
+        <article class="jobs-row" data-tone="blue" role="row">
+          <div class="jobs-cell" data-label="用户在记什么" role="cell"><span class="jobs-kind">01 · 待办</span><strong>会议、语音和随手笔记里的明确行动、时间、地点与提醒</strong></div>
+          <div class="jobs-cell" data-label="记完真正要完成什么" role="cell">不再重新抄一遍任务，而是让该做的事按时出现、可追踪、能回到原文。</div>
+          <div class="jobs-cell" data-label="产品进入哪个结果" role="cell"><span class="jobs-result">待办中心 / 日历</span></div>
+          <div class="jobs-cell" data-label="最终提供的具体功能" role="cell"><ul class="jobs-feature-list"><li>识别行动、时间、地点</li><li>自动写入待办中心或日历并设置提醒</li><li>保留来源定位，支持修正与撤销</li></ul></div>
         </article>
-        <article class="job-card" data-tone="purple">
-          <div class="job-index">2</div><h3>把想法接着想</h3>
-          <div class="job-input">灵感、感悟、工作思路、兴趣收藏不断出现。</div>
-          <div class="job-arrow">↓ 聚到同一个思路</div>
-          <div class="job-output"><b>随记</b><span>进入持续对谈和阶段整理，工作、生活、兴趣只是内容标签，不再拆成三个入口。</span></div>
+        <article class="jobs-row" data-tone="purple" role="row">
+          <div class="jobs-cell" data-label="用户在记什么" role="cell"><span class="jobs-kind">02 · 随记</span><strong>想法/创作、生活记录、兴趣收藏、工作记录</strong></div>
+          <div class="jobs-cell" data-label="记完真正要完成什么" role="cell">按不同记录目的继续创作、回看生活、整理兴趣或推进项目，而不是进入同一套通用页面。</div>
+          <div class="jobs-cell" data-label="产品进入哪个结果" role="cell"><span class="jobs-result">随记 → 四种专属页</span></div>
+          <div class="jobs-cell" data-label="最终提供的具体功能" role="cell">
+            <ul class="jobs-feature-list">
+              <li><b>想法/创作：</b>想法脉络、持续对谈、阶段整理、版本演进</li>
+              <li><b>生活记录：</b>按时间/人物/地点形成生活时间线、日周月回顾、回忆卡</li>
+              <li><b>兴趣收藏：</b>主题收藏板、重点摘录、灵感清单、对比整理</li>
+              <li><b>工作记录：</b>项目档案、进展时间线、决策/材料整理；明确行动自动进入待办</li>
+            </ul>
+          </div>
         </article>
-        <article class="job-card" data-tone="green">
-          <div class="job-index">3</div><h3>把这门课学会</h3>
-          <div class="job-input">课表、课堂录音、讲义、笔记、作业持续增加。</div>
-          <div class="job-arrow">↓ 归入同一门课程</div>
-          <div class="job-output"><b>学习</b><span>直接进入课程复习页，先给快讲、自测和作业，再回看原始材料。</span></div>
+        <article class="jobs-row" data-tone="green" role="row">
+          <div class="jobs-cell" data-label="用户在记什么" role="cell"><span class="jobs-kind">03 · 学习</span><strong>课表、课次、课堂录音、讲义、笔记与作业</strong></div>
+          <div class="jobs-cell" data-label="记完真正要完成什么" role="cell">把分散材料归入同一门课，直接复习、理解、检查掌握度并完成作业。</div>
+          <div class="jobs-cell" data-label="产品进入哪个结果" role="cell"><span class="jobs-result">课程复习页</span></div>
+          <div class="jobs-cell" data-label="最终提供的具体功能" role="cell"><ul class="jobs-feature-list"><li>课程归集、课表日历与课堂录音</li><li>10 分钟快讲、课程自测与作业</li><li>按课次回溯全部原始来源</li></ul></div>
         </article>
-        <article class="job-card" data-tone="amber">
-          <div class="job-index">4</div><h3>需要时马上取用</h3>
-          <div class="job-input">证件、银行卡、会员卡、密码与票据需要精确字段。</div>
-          <div class="job-arrow">↓ 识别并安全保存</div>
-          <div class="job-output"><b>卡证</b><span>进入卡证夹；字段默认遮罩，可复制，也可按字段、用途和时限授权调用。</span></div>
+        <article class="jobs-row" data-tone="amber" role="row">
+          <div class="jobs-cell" data-label="用户在记什么" role="cell"><span class="jobs-kind">04 · 卡证</span><strong>证件、银行卡、会员卡、门禁卡与票据</strong></div>
+          <div class="jobs-cell" data-label="记完真正要完成什么" role="cell">需要时迅速找到正确字段，安全地搜索、复制或授权给明确调用方。</div>
+          <div class="jobs-cell" data-label="产品进入哪个结果" role="cell"><span class="jobs-result">安全卡证夹</span></div>
+          <div class="jobs-cell" data-label="最终提供的具体功能" role="cell"><ul class="jobs-feature-list"><li>字段识别与敏感信息遮罩</li><li>卡证夹搜索、字段复制</li><li>字段级授权与调用记录</li></ul></div>
         </article>
       </div>
-      <div class="job-rule">从事实到产品的判断顺序：<strong>什么时候记 → 记完真正要完成什么 → 产品直接给什么结果</strong>。不是先造分类，再强迫用户归档。</div>
+      <div class="jobs-note">判断顺序固定为：<strong>用户在记什么 → 记完真正要完成什么 → 产品进入哪个结果 → 最终提供什么具体功能</strong>。待办高置信结果直接写入，不增加写入前确认步骤。</div>
     </section>
 
     <section class="flow" id="product-tree">
       <div class="flow-head">
-        <div><div class="section-no">03 · 当前产品层</div><h2>四类产品树：<br>待办、随记、学习、卡证</h2></div>
+        <div><div class="section-no">03 · 当前产品层</div><h2>四类产品树：待办、随记、学习、卡证</h2></div>
         <p>顺序固定。待办在界面中排第一，但机制上仍贯穿全部内容，不把它误写成独立的原始内容抽屉。</p>
       </div>
       <div class="tree-wrap">
         <div class="tree-root"><strong>笔记 · 个人内容沉淀容器</strong><span>文字、录音、图片与系统内容先保留原始来源</span></div>
-        <div class="tree-process"><span>零成本捕获</span><i>→</i><span>自动理解（用户不可见）</span><i>→</i><span>按任务进入可直接使用的结果</span></div>
+        <div class="tree-process"><span>零成本捕获</span><i>→</i><span>自动理解（用户不可见）</span><i>→</i><span>按任务与记录目的进入可直接使用的结果</span></div>
         <div class="tree-line"></div>
         <div class="tree-branches">
           <article class="tree-card todo"><div class="tree-order">01 · 待办</div><h3>把事办掉</h3><p>从任意记录自动识别行动、时间、地点与提醒，自动添加到待办中心或日历。</p><span class="result">结果：待办 / 日历</span></article>
-          <article class="tree-card jot"><div class="tree-order">02 · 随记</div><h3>继续往下想</h3><p>把工作、生活、兴趣里的想法归到同一条思路，持续对谈和阶段整理。</p><span class="result">结果：想法脉络</span></article>
+          <article class="tree-card jot"><div class="tree-order">02 · 随记</div><h3>按目的继续使用</h3><p>一个顶层入口，按记录目的进入想法/创作、生活记录、兴趣收藏、工作记录四种专属界面。</p><span class="result">结果：四种随记专属页</span></article>
           <article class="tree-card learn"><div class="tree-order">03 · 学习</div><h3>真正学会</h3><p>把课表、课次、录音、讲义、作业归入课程，直接复习、快讲和自测。</p><span class="result">结果：课程复习页</span></article>
           <article class="tree-card card"><div class="tree-order">04 · 卡证</div><h3>精确取用</h3><p>拍入后识别关键字段，进入卡证夹；需要时复制或在明确授权下调用。</p><span class="result">结果：可调用卡证页</span></article>
         </div>
@@ -721,7 +834,7 @@
                 <a class="mobile-category card" href="#phone-card-wallet"><span class="cat-icon">卡</span><b>卡证</b><span>8 张 · 敏感信息已保护</span></a>
               </div>
               <div class="section-title"><b>继续使用</b><span>最近结果</span></div>
-              <a class="mini-result" href="#phone-jot-thread"><span class="mini-thumb">✦</span><span><b>阳台改造：从绿植角开始</b><span>今天新增 2 条来源</span></span><span class="chev">›</span></a>
+              <a class="mini-result" href="#phone-idea-thread"><span class="mini-thumb">✦</span><span><b>新版本开场：先讲用户任务</b><span>想法/创作 · 今天形成第 3 版</span></span><span class="chev">›</span></a>
             </div>
             <div class="mobile-tabs"><a class="active" href="#phone-insight"><strong>◇</strong><span>洞察</span></a><a href="#phone-record"><strong>◉</strong><span>录音</span></a><a class="create" href="#phone-create"><strong>＋</strong><span>文字</span></a><a href="#phone-notes"><strong>▤</strong><span>笔记</span></a></div>
           </div>
@@ -736,7 +849,7 @@
             <div class="phone-body white">
               <div class="search-box">⌕ 搜索笔记、课程、待办或卡证</div>
               <a class="note-row" href="#phone-todo-auto-added"><span class="note-time">今天<br>10:24</span><span class="note-content"><b>项目周会</b><p>周五前提交方案，明早十点同步设计...</p><span class="note-badge green">已自动添加 3 个执行项</span></span></a>
-              <a class="note-row" href="#phone-jot-thread"><span class="note-time">今天<br>08:16</span><span class="note-content"><b>关于阳台的几个想法</b><p>可以先从绿植角开始，不用一次改完...</p><span class="note-badge purple">已进入随记</span></span></a>
+              <a class="note-row" href="#phone-life-timeline"><span class="note-time">今天<br>08:16</span><span class="note-content"><b>周末阳台生活片段</b><p>和妈妈逛花市，回家后一起整理了靠窗位置...</p><span class="note-badge purple">已进入生活时间线</span></span></a>
               <a class="note-row" href="#phone-course"><span class="note-time">昨天<br>14:05</span><span class="note-content"><b>概率论第 6 课录音</b><p>条件概率、贝叶斯公式、三道例题...</p><span class="note-badge green">已归入课程</span></span></a>
               <a class="note-row" href="#phone-card-recognize"><span class="note-time">周一<br>19:42</span><span class="note-content"><b>身份证照片</b><p>来自相册 · 原图仅本机可见</p><span class="note-badge amber">已识别卡证字段</span></span></a>
               <a class="note-row" href="#phone-schedule-photo"><span class="note-time">8月28<br>11:30</span><span class="note-content"><b>新学期课程表</b><p>来自相册 · 共识别 8 门课</p><span class="note-badge green">查看课程日历</span></span></a>
@@ -876,61 +989,144 @@
 
     <section class="flow" id="jottings">
       <div class="flow-head">
-        <div><div class="section-no">06 · 随记</div><h2>工作、生活、兴趣<br>合为一个“随记”入口</h2></div>
-        <p>它们可以继续作为内容标签，但不再拆成三套产品入口。用户进入的是同一套想法脉络与持续对谈。</p>
+        <div><div class="section-no">06 · 随记</div><h2>一个随记入口，四种内容进入四套专属能力</h2></div>
+        <p>想法/创作、生活记录、兴趣收藏、工作记录先在随记总览分流；只有想法/创作保留持续对谈，其余三类使用各自的非聊天界面。</p>
       </div>
       <div class="phone-grid">
         <article class="screen-card">
-          <div class="screen-label"><b>随记 01 · 随记首页</b><span>按“正在继续的想法”组织，而不是按场景建三个入口。</span></div>
+          <div class="screen-label"><b>随记 01 · 随记总览</b><span>一个入口负责分流，四种记录目的对应四套专属页面。</span></div>
           <div class="phone" id="phone-jot-home">
             <div class="statusbar"><span>10:34</span><span class="status-icons">● ◒ ▰</span></div>
-            <div class="appbar"><a class="back" href="#phone-insight">‹</a><div class="appbar-title"><b>随记</b><span>3 条思路继续生长</span></div><span class="icon-btn">⌕</span></div>
+            <div class="appbar"><a class="back" href="#phone-insight">‹</a><div class="appbar-title"><b>随记</b><span>四种内容 · 四套专属能力</span></div><a class="icon-btn" href="#phone-jot-sources">⌘</a></div>
             <div class="phone-body tint">
-              <div class="jot-summary"><small>今天的新内容</small><h3>先记住，再一起往下想</h3><p>工作、生活、兴趣只是来源语境；真正组织的是同一条想法。</p></div>
-              <div class="context-chips"><span>全部</span><span>工作</span><span>生活</span><span>兴趣</span></div>
-              <a class="thread-card" href="#phone-jot-thread"><b>阳台改造：从绿植角开始</b><p>今天想到先量尺寸，再挑三种耐阴植物…</p><span class="thread-meta"><span>5 条记录 · 2 次对谈</span><span>刚刚 ›</span></span></a>
-              <a class="thread-card" href="#phone-jot-thread"><b>新版本开场应该先讲用户任务</b><p>不要从能力清单开始，先讲为什么记…</p><span class="thread-meta"><span>8 条记录 · 工作标签</span><span>昨天 ›</span></span></a>
-              <a class="thread-card" href="#phone-jot-thread"><b>想读的城市散步路线</b><p>梧桐区、旧书店、河边黄昏三个方向…</p><span class="thread-meta"><span>4 条收藏 · 兴趣标签</span><span>周一 ›</span></span></a>
-            </div>
-          </div>
-          <p class="screen-next">标签只用于筛选；点任一条想法进入持续对谈。</p>
-        </article>
-
-        <article class="screen-card">
-          <div class="screen-label"><b>随记 02 · 持续对谈</b><span>对谈始终挂载来源，不把整理结果伪装成原文。</span></div>
-          <div class="phone" id="phone-jot-thread">
-            <div class="statusbar"><span>10:35</span><span class="status-icons">● ◒ ▰</span></div>
-            <div class="appbar"><a class="back" href="#phone-jot-home">‹</a><div class="appbar-title"><b>阳台改造</b><span>持续对谈 · 5 条来源</span></div><a class="icon-btn" href="#phone-jot-sources">⌘</a></div>
-            <div class="phone-body tint">
-              <a class="mounted" href="#phone-jot-sources">⌘ 已挂载 5 条原始记录 · 查看来源</a>
-              <div class="message">你已经反复提到“不要一次改完”。如果先做最小一步，可以是：量靠窗宽度，再选 3 种耐阴植物。</div>
-              <div class="message user">帮我把周末能完成的步骤列出来。</div>
-              <div class="message">可以分三步：<br>1. 周五晚上量尺寸；<br>2. 周六上午去花市；<br>3. 周日下午只布置一个绿植角。<br><br>其中“量尺寸”和“去花市”已经自动进入待办。</div>
-              <div class="quick-prompts"><span>整理阶段结论</span><span>继续展开</span><span>看原始记录</span></div>
-              <div class="chat-input">继续说说你的想法…<i>↑</i></div>
-            </div>
-          </div>
-          <p class="screen-next">点顶部来源查看挂载记录；对谈里的明确行动会自动进入待办。</p>
-        </article>
-
-        <article class="screen-card">
-          <div class="screen-label"><b>随记 03 · 来源与表达</b><span>可回看每条原文，也能切换阶段整理的表达方式。</span></div>
-          <div class="phone" id="phone-jot-sources">
-            <div class="statusbar"><span>10:36</span><span class="status-icons">● ◒ ▰</span></div>
-            <div class="appbar"><a class="back" href="#phone-jot-thread">‹</a><div class="appbar-title"><b>来源与整理</b><span>阳台改造 · 5 条</span></div><span class="icon-btn">···</span></div>
-            <div class="phone-body tint">
-              <div class="section-title"><b>原始来源</b><span>按时间</span></div>
-              <div class="source-list">
-                <a class="source-item" href="#phone-notes"><span class="thumb">文</span><span><b>阳台改造想法</b><span>今天 08:16 · 文字笔记</span></span><em>›</em></a>
-                <a class="source-item" href="#phone-notes"><span class="thumb">录</span><span><b>散步时的语音</b><span>昨天 21:44 · 01:28</span></span><em>›</em></a>
-                <a class="source-item" href="#phone-notes"><span class="thumb">图</span><span><b>花市参考图 × 3</b><span>周一 16:20 · 来自相册</span></span><em>›</em></a>
+              <div class="jot-overview"><small>按记录目的进入</small><h3>同一个入口，不是同一套页面</h3><p>系统先保留原文，再把内容送进最适合继续使用的专属界面。</p></div>
+              <div class="jot-kind-grid">
+                <a class="jot-kind-card idea" href="#phone-idea-thread"><span class="kind-icon">✦</span><b>想法 / 创作</b><span>脉络、对谈、阶段整理与版本演进</span></a>
+                <a class="jot-kind-card life" href="#phone-life-timeline"><span class="kind-icon">日</span><b>生活记录</b><span>时间线、人物地点、生活回顾与回忆卡</span></a>
+                <a class="jot-kind-card interest" href="#phone-interest-board"><span class="kind-icon">藏</span><b>兴趣收藏</b><span>主题收藏板、摘录、灵感与对比整理</span></a>
+                <a class="jot-kind-card work" href="#phone-work-log"><span class="kind-icon">项</span><b>工作记录</b><span>项目档案、进展、决策与材料</span></a>
               </div>
-              <div class="section-title"><b>阶段整理</b><span>不改变原文</span></div>
-              <div class="course-actions"><span class="course-action"><strong>▤</strong><b>正文</b><span>默认阅读</span></span><span class="course-action"><strong>⌘</strong><b>脉络</b><span>看想法变化</span></span><span class="course-action"><strong>▦</strong><b>清单</b><span>看下一步</span></span></div>
-              <a class="primary-btn" style="margin-top:12px;background:var(--purple)" href="#phone-jot-thread">回到持续对谈</a>
+              <a class="source-card" href="#phone-jot-sources"><span class="source-icon">⌘</span><span><b>查看四类随记的原始来源</b><span>18 条文字、录音、图片与收藏</span></span><em>›</em></a>
             </div>
           </div>
-          <p class="screen-next">点来源回原始笔记；点底部回到同一条持续对谈。</p>
+          <p class="screen-next">四张品类卡分别进入专属页面；右上角统一回溯四类原始来源。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>随记 02 · 想法 / 创作</b><span>只有此类保留持续对谈，同时展示想法脉络与版本演进。</span></div>
+          <div class="phone" id="phone-idea-thread">
+            <div class="statusbar"><span>10:35</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-jot-home">‹</a><div class="appbar-title"><b>新版本开场</b><span>想法 / 创作 · 第 3 版</span></div><a class="icon-btn" href="#phone-jot-sources">⌘</a></div>
+            <div class="phone-body tint">
+              <a class="mounted" href="#phone-jot-sources">⌘ 已挂载 6 条原始来源 · 查看来源</a>
+              <div class="idea-map"><small>想法脉络</small><h3>从能力清单改为用户任务开场</h3><div class="idea-node-row"><span class="idea-node">问题<br>能力太早</span><i>→</i><span class="idea-node">转折<br>先讲为什么记</span><i>→</i><span class="idea-node">当前<br>四类任务闭环</span></div></div>
+              <div class="section-title"><b>持续对谈</b><span>仅想法 / 创作使用</span></div>
+              <div class="message">第 2 版已经从功能清单转向用户任务，但还缺少“最终具体功能”这一层。</div>
+              <div class="message user">把四层闭环补齐，并保留每次方案变化。</div>
+              <div class="quick-prompts"><span>生成阶段整理</span><span>展开下一版</span><span>定位原始来源</span></div>
+              <div class="section-title"><b>版本演进</b><span>阶段整理已保存</span></div>
+              <div class="version-list"><div class="version-item"><b>V3 · 四层闭环</b><span>当前</span></div><div class="version-item"><b>V2 · 用户任务开场</b><span>昨天</span></div></div>
+              <div class="chat-input">继续发展这个想法…<i>↑</i></div>
+            </div>
+          </div>
+          <p class="screen-next">持续对谈只属于想法/创作；阶段整理与每一版变化都可回看来源。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>随记 03 · 生活时间线</b><span>按日期、人物和地点组织生活片段，不使用聊天或问答。</span></div>
+          <div class="phone" id="phone-life-timeline">
+            <div class="statusbar"><span>10:36</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-jot-home">‹</a><div class="appbar-title"><b>生活时间线</b><span>9 月 · 12 个生活片段</span></div><a class="icon-btn" href="#phone-jot-sources">⌘</a></div>
+            <div class="phone-body tint">
+              <div class="timeline-hero"><small>今天 · 9 月 10 日</small><h3>和家人一起整理阳台</h3><p>人物：妈妈 · 地点：徐汇花市、家中阳台</p></div>
+              <div class="timeline-day">今天</div>
+              <div class="life-entry"><span class="life-icon">花</span><span><b>和妈妈逛徐汇花市</b><p>挑了龟背竹和蕨类，保留 3 张参考图。</p></span><em>08:16</em></div>
+              <div class="life-entry"><span class="life-icon">家</span><span><b>完成第一个绿植角</b><p>靠窗 90cm，下午阳光比预想柔和。</p></span><em>15:40</em></div>
+              <div class="timeline-day">昨天 · 静安</div>
+              <div class="life-entry"><span class="life-icon">餐</span><span><b>和小林吃晚饭</b><p>记录了新开的云南菜馆与两道喜欢的菜。</p></span><em>19:20</em></div>
+              <a class="primary-btn" style="margin-top:10px;background:#c85f76" href="#phone-life-review">查看本周生活回顾</a>
+            </div>
+          </div>
+          <p class="screen-next">生活片段按时间、人物、地点串联；点底部进入日/周/月回顾。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>随记 04 · 生活回顾</b><span>日、周、月回顾与回忆卡都是结构化生活整理，不是聊天。</span></div>
+          <div class="phone" id="phone-life-review">
+            <div class="statusbar"><span>10:37</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-life-timeline">‹</a><div class="appbar-title"><b>生活回顾</b><span>9 月 8 日–14 日</span></div><a class="icon-btn" href="#phone-jot-sources">⌘</a></div>
+            <div class="phone-body tint">
+              <div class="review-tabs"><span>日</span><span class="active">周</span><span>月</span></div>
+              <div class="review-hero"><small>本周生活回顾</small><h3>家、朋友与一小步改变</h3><p>本周的生活重心从通勤转回家中。阳台绿植角完成第一步，也和两位老朋友重新见面。</p></div>
+              <div class="review-stats"><div class="review-stat"><b>8</b><span>生活片段</span></div><div class="review-stat"><b>4</b><span>重要人物</span></div><div class="review-stat"><b>6</b><span>到访地点</span></div></div>
+              <div class="memory-card"><small>回忆卡 · 9 月 10 日</small><b>阳台的第一盆绿植</b><p>和妈妈从花市带回龟背竹。照片、地点和当时写下的尺寸记录已一起收好。</p></div>
+              <div class="memory-card"><small>本周生活线索</small><b>更愿意把周末留给家和朋友</b><p>3 个家庭片段、2 次朋友见面，较上周增加 4 条生活记录。</p></div>
+              <div class="button-row"><a class="secondary-btn" href="#phone-life-timeline">回时间线</a><a class="secondary-btn" href="#phone-jot-sources">看原始来源</a></div>
+            </div>
+          </div>
+          <p class="screen-next">切换日/周/月尺度查看生活变化；回忆卡始终能定位原始记录。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>随记 05 · 兴趣主题收藏板</b><span>围绕主题聚合收藏、摘录、灵感和对比，不使用对谈界面。</span></div>
+          <div class="phone" id="phone-interest-board">
+            <div class="statusbar"><span>10:38</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-jot-home">‹</a><div class="appbar-title"><b>城市散步路线</b><span>兴趣收藏 · 18 项</span></div><a class="icon-btn" href="#phone-jot-sources">⌘</a></div>
+            <div class="phone-body tint">
+              <div class="interest-hero"><small>主题收藏板</small><h3>梧桐区 · 旧书店 · 河边黄昏</h3><p>网页、图片、地点和摘录已按主题聚在一起。</p></div>
+              <div class="interest-grid">
+                <div class="interest-card"><small>主题收藏</small><b>梧桐区路线</b><span>6 个地点 · 3 篇文章</span></div>
+                <div class="interest-card"><small>重点摘录</small><b>“黄昏从河面开始”</b><span>来自《城市慢行》</span></div>
+                <div class="interest-card"><small>灵感清单</small><b>下次带胶片相机</b><span>还有 4 条待尝试</span></div>
+                <div class="interest-card"><small>对比整理</small><b>两条周末路线</b><span>距离、安静度、店铺</span></div>
+              </div>
+              <div class="quote-card">重点摘录：旧书店适合安排在午后，沿河路线更适合日落前 40 分钟开始。</div>
+              <div class="compare-row"><span>路线 A · 3.2km<br>店铺更多</span><span>路线 B · 2.6km<br>更安静</span></div>
+              <a class="secondary-btn" style="margin-top:8px" href="#phone-jot-sources">查看收藏来源</a>
+            </div>
+          </div>
+          <p class="screen-next">主题内直接查看收藏、摘录、灵感和对比结果；底部可回到每条来源。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>随记 06 · 工作记录 / 项目档案</b><span>围绕项目展示进展、决策和材料，明确行动自动进入待办。</span></div>
+          <div class="phone" id="phone-work-log">
+            <div class="statusbar"><span>10:39</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-jot-home">‹</a><div class="appbar-title"><b>OS5 TR1 方案</b><span>工作记录 · 项目档案</span></div><a class="icon-btn" href="#phone-jot-sources">⌘</a></div>
+            <div class="phone-body tint">
+              <div class="project-hero"><small>项目进展 · 方案收敛</small><h3>四类产品结构已明确</h3><p>最近更新：用户任务矩阵与随记四类专属能力。</p></div>
+              <a class="project-status" href="#phone-todo-center">✓ 2 个明确行动已自动进入待办 <em>查看 ›</em></a>
+              <div class="section-title"><b>进展时间线</b><span>按记录自动更新</span></div>
+              <div class="work-timeline">
+                <div class="work-step"><time>今天</time><span><b>补齐四层闭环</b><span>新增最终具体功能列</span></span></div>
+                <div class="work-step"><time>9 月 8</time><span><b>确认四类顺序</b><span>待办、随记、学习、卡证</span></span></div>
+                <div class="work-step"><time>9 月 5</time><span><b>完成用户材料复核</b><span>1943 条反馈与 801 张图片</span></span></div>
+              </div>
+              <div class="work-assets"><div class="work-asset"><small>关键决策</small><b>随记一入口、四套页面</b></div><div class="work-asset"><small>项目材料</small><b>需求稿 4 · 评审纪要 3</b></div></div>
+              <a class="secondary-btn" style="margin-top:8px" href="#phone-jot-sources">查看项目原始材料</a>
+            </div>
+          </div>
+          <p class="screen-next">进展、决策、材料集中在项目档案；绿色状态直接进入已自动写入的待办。</p>
+        </article>
+
+        <article class="screen-card">
+          <div class="screen-label"><b>随记 07 · 四类共用来源回溯</b><span>想法、生活、兴趣和工作共用来源层，但各自回到专属结果页。</span></div>
+          <div class="phone" id="phone-jot-sources">
+            <div class="statusbar"><span>10:40</span><span class="status-icons">● ◒ ▰</span></div>
+            <div class="appbar"><a class="back" href="#phone-jot-home">‹</a><div class="appbar-title"><b>随记来源</b><span>四类随记 · 18 项</span></div><span class="icon-btn">⌕</span></div>
+            <div class="phone-body tint">
+              <div class="source-scope"><span class="active">想法 / 创作 · 6</span><span>生活记录 · 5</span><span>兴趣收藏 · 4</span><span>工作记录 · 3</span></div>
+              <div class="source-list">
+                <a class="source-item" href="#phone-idea-thread"><span class="thumb">想</span><span><b>想法 / 创作 · 新版本开场</b><span>6 条文字与评审记录 · 今天</span></span><em>›</em></a>
+                <a class="source-item" href="#phone-life-timeline"><span class="thumb">生</span><span><b>生活记录 · 阳台与花市</b><span>3 张照片、2 条文字 · 今天</span></span><em>›</em></a>
+                <a class="source-item" href="#phone-interest-board"><span class="thumb">藏</span><span><b>兴趣收藏 · 城市散步路线</b><span>网页、地点与摘录 · 本周</span></span><em>›</em></a>
+                <a class="source-item" href="#phone-work-log"><span class="thumb">工</span><span><b>工作记录 · OS5 TR1 方案</b><span>会议、需求稿与决策 · 本月</span></span><em>›</em></a>
+              </div>
+              <div class="truth-note">来源层只保留原始内容与归属关系；打开某条来源后，会回到对应的想法、生活、兴趣或工作专属页。</div>
+              <a class="primary-btn" style="margin-top:10px;background:var(--purple)" href="#phone-jot-home">回到随记总览</a>
+            </div>
+          </div>
+          <p class="screen-next">四类内容统一回溯来源，但消费和整理始终回到各自的专属页面。</p>
         </article>
       </div>
     </section>
