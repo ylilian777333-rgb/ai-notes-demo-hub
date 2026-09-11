@@ -308,7 +308,90 @@ tbody td.gy{color:var(--ink-3);}
 .cov.d .t{background:rgba(232,120,16,.07);}
 .cov.hi{box-shadow:0 0 0 1.5px var(--cat),var(--sh-1);}
 .cov.nx{width:22px;display:flex;align-items:center;justify-content:center;color:var(--ink-4);
-  background:rgba(255,255,255,.5);box-shadow:none;border:1px dashed var(--line);font-size:11px;}
+  background:rgba(255,255,255,.5);box-shadow:none;border:1px dashed var(--line);font-size:11px;
+  align-self:center;height:36px;}
+/* ══ 仿真卡证 ══ */
+#c8 .ph{height:476px;}
+.wal{padding:1px 0 2px;}
+.k3{border-radius:11px;overflow:hidden;margin-bottom:7px;
+  box-shadow:0 3px 10px rgba(20,24,34,.09),0 1px 2px rgba(20,24,34,.05);}
+.k3:last-child{margin-bottom:0;}
+.k3.big{margin-bottom:9px;}
+/* 身份证 */
+.kid{background:linear-gradient(122deg,#E9F0FC 0%,#F8FBFE 58%,#EDF3FB 100%);}
+.kid-h{display:flex;align-items:center;gap:5px;padding:6px 9px 5px;border-bottom:1px solid rgba(42,111,240,.14);}
+.kid-h u{width:9px;height:9px;border-radius:50%;flex:none;text-decoration:none;
+  background:linear-gradient(135deg,#E8C97A,#C8952F);}
+.kid-h b{font-size:6.5px;letter-spacing:.07em;color:#3B5C9E;font-weight:600;}
+.kid-h span{margin-left:auto;font-family:var(--num);font-size:6px;color:#7A8CAE;letter-spacing:.06em;}
+.kid-b{display:flex;gap:9px;padding:7px 9px 9px;}
+.pho{flex:none;width:30px;height:40px;border-radius:3px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#D3DDEF,#EAEFF8);}
+.pho::after{content:"";position:absolute;left:50%;top:9px;width:11px;height:11px;border-radius:50%;
+  background:rgba(59,92,158,.24);transform:translateX(-50%);}
+.pho::before{content:"";position:absolute;left:50%;bottom:4px;width:20px;height:14px;border-radius:10px 10px 0 0;
+  background:rgba(59,92,158,.24);transform:translateX(-50%);}
+.fld{flex:1;min-width:0;}
+.fld>div{display:flex;align-items:baseline;gap:4px;margin-bottom:3px;}
+.fld i{font-style:normal;font-size:5.5px;color:#7A8CAE;letter-spacing:.05em;flex:none;}
+.fld b{font-size:7.5px;font-weight:600;color:#1F2C48;}
+.fld .nn{margin-top:4px;padding-top:4px;border-top:1px dashed rgba(59,92,158,.22);
+  flex-direction:column;align-items:flex-start;gap:1px;}
+.fld .nn b{font-family:var(--num);font-size:9.5px;letter-spacing:.1em;}
+/* 银行卡 */
+.kbk{padding:9px 10px 8px;position:relative;color:#fff;
+  background:linear-gradient(122deg,#22518F 0%,#2A6FF0 54%,#5FA0FF 100%);}
+.kbk::after{content:"";position:absolute;right:-20px;top:-24px;width:64px;height:64px;border-radius:50%;
+  background:rgba(255,255,255,.11);}
+.kbk-h{display:flex;align-items:baseline;gap:5px;margin-bottom:8px;position:relative;}
+.kbk-h b{font-size:8px;font-weight:600;letter-spacing:.03em;}
+.kbk-h span{font-size:5.5px;opacity:.74;}
+.chip{display:block;width:14px;height:10px;border-radius:2.5px;margin-bottom:7px;position:relative;
+  background:linear-gradient(135deg,#F0D89A,#C8952F);}
+.kbk-no{font-family:var(--num);font-size:10.5px;letter-spacing:.1em;font-weight:600;margin-bottom:7px;position:relative;}
+.kbk-f{display:flex;align-items:center;gap:8px;font-size:5.5px;opacity:.86;position:relative;}
+.kbk-f em{font-style:normal;margin-left:auto;font-size:6px;font-weight:600;opacity:1;
+  border:1px solid rgba(255,255,255,.55);border-radius:2px;padding:1px 4px;}
+/* 护照 */
+.kpp{background:linear-gradient(122deg,#EFEBF9 0%,#FAF8FD 56%,#ECE7F8 100%);}
+.kpp-h{display:flex;align-items:center;gap:5px;padding:6px 9px 5px;border-bottom:1px solid rgba(122,90,240,.16);}
+.kpp-h u{width:9px;height:9px;border-radius:50%;flex:none;text-decoration:none;
+  background:linear-gradient(135deg,#E8C97A,#C8952F);}
+.kpp-h b{font-size:6.5px;color:#4B3A80;letter-spacing:.07em;font-weight:600;}
+.kpp-h span{margin-left:auto;font-family:var(--num);font-size:7px;color:#7A5AF0;font-weight:600;}
+.kpp-b{display:flex;gap:9px;padding:7px 9px 6px;}
+.pho.pp{width:26px;height:34px;background:linear-gradient(160deg,#DCD5F0,#F0ECFA);}
+.pho.pp::after,.pho.pp::before{background:rgba(90,66,150,.24);}
+.fld.pp i{color:#8B7BB5;}
+.fld.pp b{font-family:var(--num);font-size:8px;letter-spacing:.06em;color:#33255C;}
+.wrn{display:inline-block;margin-top:2px;font-size:6px;color:var(--pain);background:var(--pain-f);
+  border:1px solid var(--pain-b);border-radius:3px;padding:1px 4px;}
+.mrz{font-family:var(--num);font-size:5.5px;letter-spacing:.08em;color:#6B5C9E;white-space:nowrap;
+  overflow:hidden;background:rgba(122,90,240,.07);padding:4px 9px;border-top:1px solid rgba(122,90,240,.14);}
+/* 会员卡 */
+.kmb{padding:9px 10px 8px;position:relative;color:#fff;
+  background:linear-gradient(122deg,#0E7A6E 0%,#0E9384 52%,#3FBFAE 100%);}
+.kmb::after{content:"";position:absolute;right:-16px;bottom:-24px;width:56px;height:56px;border-radius:50%;
+  background:rgba(255,255,255,.10);}
+.kmb-h{display:flex;align-items:baseline;gap:5px;margin-bottom:9px;position:relative;}
+.kmb-h b{font-size:8px;font-weight:600;}
+.kmb-h span{font-size:5.5px;opacity:.75;}
+.kmb-no{font-family:var(--num);font-size:9px;letter-spacing:.12em;margin-bottom:6px;position:relative;}
+.bcode{display:flex;gap:1px;height:11px;align-items:stretch;position:relative;}
+.bcode i{background:rgba(255,255,255,.85);border-radius:.5px;}
+/* 封面上的迷你卡叠影 */
+.mst{position:relative;height:23px;margin-top:5px;}
+.mst i{position:absolute;left:0;right:0;height:13px;border-radius:3px;box-shadow:0 1px 2px rgba(20,24,34,.09);}
+.mst i:nth-child(1){top:0;background:linear-gradient(110deg,#DCE6F8,#F0F5FD);}
+.mst i:nth-child(2){top:5px;background:linear-gradient(110deg,#22518F,#4A87F5);}
+.mst i:nth-child(3){top:10px;background:linear-gradient(110deg,#E3DCF5,#F3EFFB);}
+.mst.g i:nth-child(2){background:linear-gradient(110deg,#0E7A6E,#3FBFAE);}
+/* 单卡操作行 */
+.act3{display:flex;gap:6px;margin:9px 0 7px;}
+.act3>div{flex:1;background:#fff;border-radius:10px;padding:7px 3px;text-align:center;box-shadow:var(--sh-1);}
+.act3 u{display:block;width:18px;height:18px;margin:0 auto 4px;border-radius:5px;text-decoration:none;
+  background:var(--cat-f);border:1px solid var(--cat-b);color:var(--cat);font-size:8.5px;line-height:17px;font-weight:600;}
+.act3 b{display:block;font-size:7.5px;font-weight:600;letter-spacing:-.1px;}
 @media print{.top,.rail{display:none;}.shell{grid-template-columns:1fr;}
   body{background:#fff;font-size:10.5pt;}
   .card,.cut,section,.opener,.tw2{page-break-inside:avoid;box-shadow:none;}}
@@ -1294,7 +1377,7 @@ tbody td.gy{color:var(--ink-3);}
         <h2>卡证</h2>
         <span class="op-role">一张证件照 → 一个卡包</span>
       </div>
-      <p>这一类平时根本不看，急用的那一刻要一眼认出、能拨能复制。内容就那几个字段，所以做得像不像就是全部——它同时是其他场景的视觉标尺。</p>
+      <p>这一类平时根本不看，急用的那一刻要一眼认出、能拨能复制。内容就那几个字段，所以<b>做得像不像就是全部</b>——不是把号码列成一行文字，是画成证件本来的样子炫上去。它同时是其他场景的视觉标尺。</p>
     </div>
 
     <div class="grow" id="s81">
@@ -1306,7 +1389,7 @@ tbody td.gy{color:var(--ink-3);}
     <div class="grp" id="s82">
       <span class="gl">8.2</span>
       <b>封面 + 详情页第一屏</b>
-      <p>封面只说有什么、不说内容，点进去才是卡</p>
+      <p>封面是一叠卡的侧影，点进去是画好的卡本身</p>
       <span class="gn">3 屏</span>
     </div>
     <div class="flow">
@@ -1319,9 +1402,18 @@ tbody td.gy{color:var(--ink-3);}
             <div class="strip">
               <div class="sh2"><b>卡证</b><i>3 个卡包 · 已加锁</i></div>
               <div class="covs">
-                <div class="cov d hi"><div class="t"><b>常用证件</b><span>3 类 5 张 · 锁</span></div><div class="b2"><em>护照 60 天后到期</em></div></div>
-                <div class="cov d"><div class="t"><b>银行卡</b><span>2 张 · 锁</span></div><div class="b2"><em>无到期提醒</em></div></div>
-                <div class="cov d"><div class="t"><b>会员与门禁</b><span>6 张</span></div><div class="b2"><em>健身卡本月到期</em></div></div>
+                <div class="cov d hi">
+                  <div class="t"><b>常用证件</b><span>3 类 5 张 · 锁</span>
+                    <div class="mst"><i></i><i></i><i></i></div>
+                  </div>
+                  <div class="b2"><em>护照 60 天后到期</em></div>
+                </div>
+                <div class="cov d">
+                  <div class="t"><b>会员与门禁</b><span>6 张</span>
+                    <div class="mst g"><i></i><i></i><i></i></div>
+                  </div>
+                  <div class="b2"><em>健身卡本月到期</em></div>
+                </div>
                 <div class="cov nx">›</div>
               </div>
             </div>
@@ -1332,11 +1424,11 @@ tbody td.gy{color:var(--ink-3);}
                 <div class="cov nx">›</div>
               </div>
             </div>
-            <p class="pnote">封面只写类型、张数、有没有快到期的，不出现任何号码。</p>
+            <p class="pnote">封面上是一叠卡的侧影，只说有几类几张和有没有快到期的，不出现号码。</p>
           </div>
           <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
         </div>
-        <figcaption>封面上不露内容，进入需要验证；到期是唯一会主动提醒的事</figcaption>
+        <figcaption>不露内容也要好认：封面靠卡的侧影和类型名认出来</figcaption>
       </figure>
       <span class="arw">→</span>
       <figure class="frm">
@@ -1345,70 +1437,114 @@ tbody td.gy{color:var(--ink-3);}
           <div class="p-st"><i>10:02</i><i>▪▪▪</i></div>
           <div class="p-nav"><span class="bk">‹ 集合</span><h5 class="sm">常用证件</h5><em>已验证 · 3 类 5 张</em></div>
           <div class="p-bd">
-            <div class="idc a">
-              <b>身份证</b>
-              <span class="no hid">1101 •••• •••• 0037</span>
-              <em>长按复制 · 点击显示</em>
+            <div class="wal">
+              <div class="k3 kid">
+                <div class="kid-h"><u></u><b>中华人民共和国居民身份证</b><span>ID</span></div>
+                <div class="kid-b">
+                  <div class="pho"></div>
+                  <div class="fld">
+                    <div><i>姓名</i><b>杨 · ·</b></div>
+                    <div><i>性别</i><b>女</b><i>民族</i><b>汉</b></div>
+                    <div><i>出生</i><b>1993 · 04 · ··</b></div>
+                    <div class="nn"><i>公民身份号码</i><b>1101 ···· ···· 0037</b></div>
+                  </div>
+                </div>
+              </div>
+              <div class="k3 kbk">
+                <div class="kbk-h"><b>招商银行</b><span>储蓄卡</span></div>
+                <u class="chip"></u>
+                <div class="kbk-no">6225 ···· ···· 4418</div>
+                <div class="kbk-f"><span>持卡人 杨 · ·</span><span>08 / 29</span><em>银联</em></div>
+              </div>
+              <div class="k3 kpp">
+                <div class="kpp-h"><u></u><b>中华人民共和国 护照</b><span>P</span></div>
+                <div class="kpp-b">
+                  <div class="pho pp"></div>
+                  <div class="fld pp">
+                    <div><i>Passport No.</i><b>E·······2</b></div>
+                    <div><i>Date of expiry</i><b>2029 · 04 · 18</b></div>
+                    <span class="wrn">60 天后到期</span>
+                  </div>
+                </div>
+                <div class="mrz">P&lt;CHNYANG&lt;&lt;LILIAN&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
+              </div>
             </div>
-            <div class="idc b">
-              <b>银行卡 · 招商</b>
-              <span class="no hid">6225 •••• •••• 4418</span>
-              <em>长按复制卡号</em>
-            </div>
-            <div class="idc c">
-              <b>护照</b>
-              <span class="no">E•••••••2</span>
-              <em>有效期至 2029-04 · 60 天后到期</em>
-            </div>
-            <p class="pnote">字段位置和真证件一致，一眼认得出哪张是哪张。</p>
+            <p class="pnote">版式和真证件一致，敏感位默认打点，长按复制、点一下显示。</p>
           </div>
           <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
         </div>
-        <figcaption>做成实物样式排在一起，打开就是「我的卡包」，不是一张列表</figcaption>
+        <figcaption>打开就是「我的卡包」，一眼认出哪张是哪张，不用读字</figcaption>
       </figure>
       <span class="arw">→</span>
       <figure class="frm">
-        <div class="fn"><i>展开</i><span>复制 · 拨号 · 授权</span></div>
+        <div class="fn"><i>单张</i><span>复制 · 拨号 · 授权</span></div>
         <div class="ph">
           <div class="p-st"><i>10:03</i><i>▪▪▪</i></div>
-          <div class="p-nav"><span class="bk">‹ 常用证件</span><h5 class="sm">银行卡 · 招商</h5><em>已验证</em></div>
+          <div class="p-nav"><span class="bk">‹ 常用证件</span><h5 class="sm">招商银行 · 储蓄卡</h5><em>已验证</em></div>
           <div class="p-bd">
-            <div class="idc b">
-              <b>招商银行 · 储蓄卡</b>
-              <span class="no">6225 8801 4402 4418</span>
-              <em>点一下复制卡号</em>
+            <div class="k3 kbk big">
+              <div class="kbk-h"><b>招商银行</b><span>储蓄卡</span></div>
+              <u class="chip"></u>
+              <div class="kbk-no">6225 8801 4402 4418</div>
+              <div class="kbk-f"><span>持卡人 杨 · ·</span><span>08 / 29</span><em>银联</em></div>
+            </div>
+            <div class="act3">
+              <div><u>复</u><b>复制卡号</b></div>
+              <div><u>拨</u><b>打客服</b></div>
+              <div><u>授</u><b>授权取用</b></div>
             </div>
             <div class="cd">
-              <div class="cd-h"><b>客服</b><em>可直接拨</em></div>
-              <div class="tr"><span>95555</span><em class="b">拨号 ›</em></div>
+              <div class="cd-h"><b>可直接拨</b><em>不用去搜</em></div>
+              <div class="tr"><span>客服 95555</span><em class="b">拨号 ›</em></div>
               <div class="tr"><span>挂失专线</span><em class="b">拨号 ›</em></div>
             </div>
-            <div class="cd">
-              <div class="cd-h"><b>填表时取用</b><em>按字段授权</em></div>
-              <div class="tr"><span>某订票应用</span><em class="b">撤销 ›</em></div>
-            </div>
             <div class="tr"><span>原始照片</span><em class="b">在笔记里 ›</em></div>
-            <p class="pnote">急用的动作只有两个：把号复制走，或者把电话打出去。</p>
+            <p class="pnote">验证之后才显示完整号码，三个动作摆在卡下面。</p>
           </div>
           <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
         </div>
-        <figcaption>验证之后才显示完整号码，动作直接摆在号码旁边</figcaption>
+        <figcaption>急用的动作只有三个，都在卡的正下方，不用往下翻</figcaption>
+      </figure>
+      <span class="arw">→</span>
+      <figure class="frm">
+        <div class="fn"><i>另一个卡包</i><span>会员与门禁</span></div>
+        <div class="ph">
+          <div class="p-st"><i>18:40</i><i>▪▪▪</i></div>
+          <div class="p-nav"><span class="bk">‹ 集合</span><h5 class="sm">会员与门禁</h5><em>6 张 · 不涉敏感</em></div>
+          <div class="p-bd">
+            <div class="wal">
+              <div class="k3 kmb">
+                <div class="kmb-h"><b>某健身房</b><span>年卡 · 本月到期</span></div>
+                <div class="kmb-no">MB 8842 1097</div>
+                <div class="bcode"><i style="flex:2"></i><i style="flex:1"></i><i style="flex:3"></i><i style="flex:1"></i><i style="flex:2"></i><i style="flex:1"></i><i style="flex:1"></i><i style="flex:3"></i><i style="flex:1"></i><i style="flex:2"></i><i style="flex:1"></i><i style="flex:2"></i></div>
+              </div>
+              <div class="k3 kmb">
+                <div class="kmb-h"><b>小区门禁</b><span>常用</span></div>
+                <div class="kmb-no">GATE 0417</div>
+                <div class="bcode"><i style="flex:1"></i><i style="flex:3"></i><i style="flex:1"></i><i style="flex:2"></i><i style="flex:2"></i><i style="flex:1"></i><i style="flex:3"></i><i style="flex:1"></i><i style="flex:1"></i><i style="flex:2"></i></div>
+              </div>
+            </div>
+            <p class="pnote">不涉敏感的卡包不加锁，条码直接亮出来给人扫。</p>
+          </div>
+          <div class="p-tb"><span class="dt on">集合</span><span class="dt">笔记</span><span class="fb"><i>+</i><i class="f">●</i></span></div>
+        </div>
+        <figcaption>同一套版式换个卡包，该亮的亮出来、该锁的锁住</figcaption>
       </figure>
     </div>
 
     <div class="grp" id="s83">
       <span class="gl">8.3</span>
       <b>取舍</b>
-      <p>只做四个，其中三个是取用动作</p>
-      <span class="gn">4 做 · 3 不做</span>
+      <p>做得像最重要，其次是三个取用动作</p>
+      <span class="gn">5 做 · 3 不做</span>
     </div>
     <div class="cut">
       <div class="yes">
         <em>做</em>
         <ul>
-          <li><b>做成实物样式</b>，字段位置和真证件一致，一眼认出哪张是哪张</li>
-          <li><b>复制</b>，长按直接进剪贴板，敏感字段默认遮住</li>
-          <li><b>拨号</b>，客服和挂失摆在号码旁边</li>
+          <li><b>按证件本来的版式画</b>——身份证是照片加字段、银行卡是芯片加卡号、护照带机读码、会员卡带条码，一眼认出哪张是哪张</li>
+          <li><b>复制</b>，长按直接进剪贴板，敏感位默认打点</li>
+          <li><b>拨号</b>，客服和挂失摆在卡的正下方</li>
           <li><b>按字段授权取用</b>，填表时只给需要的那几项，给过的可撕回</li>
           <li><b>有效期到期前提醒</b>，通知里不出现号码</li>
         </ul>
@@ -1418,7 +1554,7 @@ tbody td.gy{color:var(--ink-3);}
         <ul>
           <li>不做对谈，用户在那一刻只想把号拿走</li>
           <li>不做形态转换，这一类没有要交出去的产物</li>
-          <li>封面和通知上一律不露内容，进入需要验证</li>
+          <li>封面和通知上一律不露内容；不涉敏感的卡包（门禁、会员）不加锁</li>
         </ul>
       </div>
     </div>
