@@ -1,0 +1,102 @@
+{
+  "sourceSite": "https://os5-notes-demo.yanglilian703.chatgpt.site",
+  "migratedAt": "2026-09-15",
+  "assets": {
+    "index.html": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/",
+      "contentType": "text/html",
+      "bytes": 3665,
+      "sha256": "464cc6e7bf9bfbe64eef507573ce4ac4e4c1f638181984e5a5aede396d260475"
+    },
+    "style.css": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/style.css",
+      "contentType": "text/css",
+      "bytes": 14146,
+      "sha256": "a386dedc1be48c4e1e35b97d6511d4ced60b8f70fe297ac53675a128fada5bdf"
+    },
+    "details.css": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/details.css",
+      "contentType": "text/css",
+      "bytes": 13802,
+      "sha256": "5f2b3aa0fcbdd7e7395e5f0fc995ae77a666ab00ed74c083f93dbc1300d87328"
+    },
+    "interaction.css": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/interaction.css",
+      "contentType": "text/css",
+      "bytes": 10221,
+      "sha256": "34b03c27c70c6fe5d1f2e2c5be664370a20b13006d015758469cebd7eaadba3a"
+    },
+    "icons.js": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/icons.js",
+      "contentType": "text/javascript",
+      "bytes": 4738,
+      "sha256": "e0565a085261851827735965c74bbcb179b62442dfd8a521f99402963bebfcbf"
+    },
+    "data.js": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/data.js",
+      "contentType": "text/javascript",
+      "bytes": 15409,
+      "sha256": "ece6386668e0231f98904c6f20355966cf36a1a387f52e516238c938ae027db3"
+    },
+    "app.js": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/app.js",
+      "contentType": "text/javascript",
+      "bytes": 21596,
+      "sha256": "d783bfd87fbccbdaaf2f9a7e336c9195c8384562231a9d30f46c02d6f429f9d0"
+    },
+    "interactions.js": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/interactions.js",
+      "contentType": "text/javascript",
+      "bytes": 24613,
+      "sha256": "da10b518886d87c533582ca306cc38c476582457f624c1fff6fea32b40ffb267"
+    },
+    "events.js": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/events.js",
+      "contentType": "text/javascript",
+      "bytes": 10580,
+      "sha256": "6b85209bac637baac0e24a9101e077d6c7457e0637c95418c66d139142a1fbee"
+    },
+    "reference/notes.png": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/reference/notes.png",
+      "contentType": "image/png",
+      "bytes": 247977,
+      "sha256": "22848b1fce0937b96ce4164bf4d877f08a0ad64df9eeb9487210cf340a25491b"
+    },
+    "reference/home.png": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/reference/home.png",
+      "contentType": "image/png",
+      "bytes": 389262,
+      "sha256": "364156a585de914c963a040efb68d52cb352d6432b69abba1a6146d6f028cd4b"
+    },
+    "reference/course.png": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/reference/course.png",
+      "contentType": "image/png",
+      "bytes": 329336,
+      "sha256": "77bce131454af109fc09cdcd79ca2b174f391368363970ce98a7b154c35938b6"
+    },
+    "reference/tasks.png": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/reference/tasks.png",
+      "contentType": "image/png",
+      "bytes": 243591,
+      "sha256": "d3fc61d756084dfc97a3125430d82b3da1497f6cdbcabb89827bd539f4fe53e6"
+    },
+    "reference/ideas.png": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/reference/ideas.png",
+      "contentType": "image/png",
+      "bytes": 310577,
+      "sha256": "97a3867e6079663d2f6f009c51ee81b4c9b30377a3b0c51ad41000c6eb4795ee"
+    },
+    "reference/interview.png": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/reference/interview.png",
+      "contentType": "image/png",
+      "bytes": 288970,
+      "sha256": "0e3eb438ab2c9549024997e239ef735308cf147ea64ae43640c5a5c248ac8709"
+    },
+    "reference/cards.png": {
+      "source": "https://os5-notes-demo.yanglilian703.chatgpt.site/reference/cards.png",
+      "contentType": "image/png",
+      "bytes": 817423,
+      "sha256": "e9b3589dfc09f74afeba2c5a60430d8248f88b5997eeab4c88f8d8f929cb8e2f"
+    }
+  }
+}
