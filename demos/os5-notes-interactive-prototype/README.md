@@ -44,3 +44,21 @@ http://127.0.0.1:4175/demos/os5-notes-interactive-prototype/
 ```text
 https://ylilian777333-rgb.github.io/ai-notes-demo-hub/demos/os5-notes-interactive-prototype/
 ```
+
+## Konsta 场景构建
+
+想法合集与访谈合集由 `konsta-scenes/` 的 React + Konsta UI 局部应用实现，其他五个场景继续使用原静态渲染。
+
+```bash
+cd demos/os5-notes-interactive-prototype/konsta-scenes
+npm ci
+npm run typecheck
+npm run build
+```
+
+构建产物固定输出到：
+
+- `assets/os5-konsta-scenes.js`
+- `assets/os5-konsta-scenes.css`
+
+源码与构建产物必须同时提交。页面使用唯一的宿主 `state/localStorage`，React 不维护第二套业务数据。
