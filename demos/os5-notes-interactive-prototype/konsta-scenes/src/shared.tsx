@@ -60,12 +60,12 @@ export function DetailSheet({title,onClose,children}:{title:string;onClose:()=>v
   </>,target);
 }
 
-export function FooterPortal({host,onAdd,onAsk}:{host:HostBridge;onAdd:()=>void;onAsk:()=>void}) {
+export function FooterPortal({host,onAdd,onAsk,addLabel="补充记录",askLabel="问问AI"}:{host:HostBridge;onAdd:()=>void;onAsk:()=>void;addLabel?:string;askLabel?:string}) {
   const target=document.getElementById("floating-bar");
   if(!target)return null;
   return createPortal(<div className="konsta-footer-actions">
-    <Button clear className="detail-pill" data-konsta-role="footer-add" onClick={onAdd}><LegacyIcon host={host} name="plus"/>补充记录</Button>
-    <Button clear className="detail-pill" data-konsta-role="footer-ask" onClick={onAsk}><AiMark host={host}/>问问AI</Button>
+    <Button clear className="detail-pill" data-konsta-role="footer-add" onClick={onAdd}><LegacyIcon host={host} name="plus"/>{addLabel}</Button>
+    <Button clear className="detail-pill" data-konsta-role="footer-ask" onClick={onAsk}><AiMark host={host}/>{askLabel}</Button>
   </div>,target);
 }
 
@@ -107,9 +107,9 @@ export function SourceList({host,scene,snapshot,onClose,onSource,onNote}:{host:H
   </div></DetailSheet>;
 }
 
-export function ComposerSheet({scene,host,onClose,onSaved}:{scene:SceneName;host:HostBridge;onClose:()=>void;onSaved:(snapshot:SceneSnapshot)=>void}) {
+export function ComposerSheet({scene,host,onClose,onSaved,collectionKey}:{scene:SceneName;host:HostBridge;onClose:()=>void;onSaved:(snapshot:SceneSnapshot)=>void;collectionKey?:string}) {
   const [value,setValue]=useState("");
-  const submit=(event:FormEvent)=>{event.preventDefault();if(!value.trim())return;onSaved(host.addSupplement(scene,value.trim()));onClose();};
+  const submit=(event:FormEvent)=>{event.preventDefault();if(!value.trim())return;onSaved(host.addSupplement(scene,value.trim(),collectionKey));onClose();};
   return <DetailSheet title={scene==="ideas"?"补充想法":"补充访谈记录"} onClose={onClose}><form className="detail-form" onSubmit={submit}><p className="sheet-hint">{scene==="ideas"?"留下一句话，之后再接着想。":"补充一条新的访谈观察或原话。"}</p><textarea autoFocus aria-label="补充记录" maxLength={10000} placeholder="写下内容…" value={value} onChange={event=>setValue(event.target.value)}/><Button data-konsta-role="composer-save" className="primary-button" type="submit" disabled={!value.trim()}>保存到合集</Button></form></DetailSheet>;
 }
 
