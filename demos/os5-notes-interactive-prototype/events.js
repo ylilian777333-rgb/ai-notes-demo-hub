@@ -14,6 +14,9 @@ async function dispatch(action){
     case 'note-filter':noteFilter=arg;render();break;
     case 'task-filter':taskFilter=arg;render();break;
     case 'card-filter':cardFilter=arg;render();break;
+    case 'open-tasks':taskFilter=arg==='done'?'已完成':'全部';go('tasks',true,{tasksFilter:arg||'all'});break;
+    case 'open-idea':go('ideas',true,{ideaCollection:arg||'career'});break;
+    case 'open-card':go('cards',true,{credentialId:arg});break;
     case 'open-task-category':taskFilter=arg;go('tasks');break;
     case 'open-card-category':cardFilter=arg;go('cards');break;
     case 'folders':sheet('文件夹',`<div class="sheet-menu">${['全部','生活','工作','通话笔记'].map(c=>actionButton(icon('folder')+`<span>${c}<small>${state.notes.filter(n=>c==='全部'||n.category===c).length} 篇笔记</small></span>`+icon('right'),'open-folder:'+c)).join('')}</div>`);break;
@@ -89,7 +92,7 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;const el=e.target.closest('.horizontal-scroll');if(el){drag={el,x:e.clientX,left:el.scrollLeft};dragged=false;}});
 document.addEventListener('pointermove',e=>{if(!drag)return;const delta=e.clientX-drag.x;if(Math.abs(delta)>6){dragged=true;drag.el.scrollLeft=drag.left-delta;e.preventDefault();}});
 document.addEventListener('pointerup',()=>{drag=null;setTimeout(()=>dragged=false,0);});
-document.addEventListener('visibilitychange',()=>{if(document.hidden){revealedCards.clear();if(page==='cards')$('credential-list').innerHTML=credentialList();stopSpeech();}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){revealedCards.clear();const list=$('credential-list');if(page==='cards'&&list)list.innerHTML=credentialList();stopSpeech();}});
 window.addEventListener('hashchange',()=>{const requested=location.hash.slice(1);if(PAGE_NAMES[requested]&&requested!==page)go(requested);});
 $('status-icons').innerHTML=statusIcons();
 if(PAGE_NAMES[location.hash.slice(1)])page=location.hash.slice(1);

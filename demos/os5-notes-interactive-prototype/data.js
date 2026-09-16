@@ -70,6 +70,7 @@ let state=initialState();
 try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(saved&&Array.isArray(saved.notes)&&Array.isArray(saved.tasks)&&Array.isArray(saved.mastered)&&Array.isArray(saved.savedSummaries)&&Array.isArray(saved.addedActions)&&saved.supplements&&Number.isInteger(saved.nextId))state=saved;}catch{}
 function persist(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));return true;}catch{return false;}}
 let page='notes',noteFilter='全部',noteQuery='',taskFilter='全部',cardFilter='全部',cardQuery='',chapterIndex=0,interviewTab='insights';
+let sceneEntry={};
 const openChapters=new Set([0,1]),openIdeas=new Set([0]),openInterviews=new Set([0]),collapsedTasks=new Set(),revealedCards=new Set();
 let completedOpen=true,ideaFull=false,interviewFull=false,timelineFull=false,compareMode=false,fullPageMode=false;
 let navigation=[],captureScope='notes',captureMode='text',captureDraft='',chatScope='ideas',chatLog=[],quizIndex=0,quizAnswer=null,slideIndex=0,sheetReturnFocus=null;
