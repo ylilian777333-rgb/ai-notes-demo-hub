@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 语音笔记 × 超级小爱｜发布会 v5</title>
+<style>
+:root{--u:min(1vw,1.7778vh);--ink:#f6f8fc;--sub:#8b93a3;--orange:#ff8f43;--blue:#5c8dff}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.stage{height:100vh;display:grid;place-items:center}
+.deck{width:min(100vw,177.78vh);height:min(56.25vw,100vh);overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth;background:#000}
+.slide{height:100%;position:relative;scroll-snap-align:start;overflow:hidden;padding:calc(var(--u)*5) calc(var(--u)*8.5);display:flex;align-items:center;justify-content:center;background:#000}
+.page{position:absolute;right:calc(var(--u)*4);bottom:calc(var(--u)*3);font-size:calc(var(--u)*.95);font-weight:700;color:#3d4350;letter-spacing:.14em}
+.badge{position:absolute;left:calc(var(--u)*4.5);top:calc(var(--u)*3.6);font-size:calc(var(--u)*1.05);font-weight:850;color:#ffb37a;border:1px solid rgba(255,140,60,.5);border-radius:99px;padding:calc(var(--u)*.4) calc(var(--u)*1.3);letter-spacing:.08em}
+/* layout */
+.wrap{display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*7);width:100%}
+.wrap.rev{flex-direction:row-reverse}
+.txt{flex:1 1 0;max-width:calc(var(--u)*52)}
+.stagep{flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+/* type */
+.big{font-size:calc(var(--u)*5.3);line-height:1.18;font-weight:850;letter-spacing:-.01em;color:#fff;margin:0}
+.huge{font-size:calc(var(--u)*6.6);line-height:1.14;font-weight:860;letter-spacing:-.01em;color:#fff;margin:0}
+.eyebrow{font-size:calc(var(--u)*1.4);font-weight:800;color:var(--blue);letter-spacing:.04em;margin-bottom:calc(var(--u)*1.4)}
+.sub{margin-top:calc(var(--u)*1.7);font-size:calc(var(--u)*1.55);line-height:1.62;color:var(--sub);font-weight:500}
+.say{display:block;font-size:calc(var(--u)*1.7);font-weight:800;color:var(--orange);line-height:1.5;margin-bottom:calc(var(--u)*1.9)}
+.say:before{content:"\201C"}.say:after{content:"\201D"}
+.center{display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*1.4);width:100%}
+/* module overview */
+.ohead{font-size:calc(var(--u)*4.2);font-weight:850;color:#fff;margin:0;text-align:center;line-height:1.2}
+.osub{font-size:calc(var(--u)*1.5);color:var(--sub);margin-top:calc(var(--u)*1);text-align:center}
+.modgrid{display:flex;gap:calc(var(--u)*3);width:100%;max-width:calc(var(--u)*84);margin-top:calc(var(--u)*4)}
+.modcol{flex:1;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);border-radius:calc(var(--u)*1.6);padding:calc(var(--u)*2.4) calc(var(--u)*2.1)}
+.modcol h3{margin:0 0 calc(var(--u)*1.6);font-size:calc(var(--u)*2.1);font-weight:850;color:#fff}
+.mod{display:flex;align-items:center;gap:calc(var(--u)*.8);font-size:calc(var(--u)*1.5);color:#d7dce6;margin:calc(var(--u)*1) 0;font-weight:600}
+.mod:before{content:"";width:calc(var(--u)*.55);height:calc(var(--u)*.55);border-radius:2px;background:var(--blue);flex:none}
+/* phone */
+.phone{position:relative;height:calc(var(--u)*40);aspect-ratio:9/19.5;border-radius:calc(var(--u)*3.4);background:#0b0d12;padding:calc(var(--u)*.42);border:1px solid #232833;box-shadow:0 calc(var(--u)*2.4) calc(var(--u)*7) rgba(0,0,0,.6)}
+.phone::before{content:"";position:absolute;inset:-16% -22%;z-index:-1;filter:blur(24px);background:radial-gradient(circle at 50% 32%,rgba(92,141,255,.20),transparent 60%)}
+.screen{height:100%;border-radius:calc(var(--u)*3.05);overflow:hidden;background:#fbfbfd;color:#1a1c22;padding:calc(var(--u)*1.5) calc(var(--u)*1.3) calc(var(--u)*1.1);position:relative;display:flex;flex-direction:column}
+.stbar{height:calc(var(--u)*1.7);display:flex;justify-content:space-between;align-items:center;color:#8a8f9a;font-size:calc(var(--u)*.7);font-weight:700;flex:none}
+.tbar{display:flex;justify-content:space-between;color:#9aa0ab;font-size:calc(var(--u)*1);margin:calc(var(--u)*.4) 0 calc(var(--u)*.5)}
+.nt{font-size:calc(var(--u)*1.42);font-weight:850;margin:calc(var(--u)*.25) 0 calc(var(--u)*.15);color:#1a1c22}
+.nmeta{font-size:calc(var(--u)*.66);color:#a2a7b2;margin-bottom:calc(var(--u)*.6)}
+.aud{display:flex;align-items:center;gap:calc(var(--u)*.7);background:#f2f4f8;border-radius:calc(var(--u)*1);padding:calc(var(--u)*.55) calc(var(--u)*.8);margin-bottom:calc(var(--u)*.6)}
+.aud .pl{width:calc(var(--u)*1.6);height:calc(var(--u)*1.6);border-radius:50%;background:#5c8dff;color:#fff;display:flex;align-items:center;justify-content:center;font-size:calc(var(--u)*.72);flex:none}
+.aud .du{font-size:calc(var(--u)*.7);color:#606672}
+.aisum{background:linear-gradient(120deg,#eef3ff,#f6f2ff);border-radius:calc(var(--u)*.85);padding:calc(var(--u)*.62) calc(var(--u)*.75);font-size:calc(var(--u)*.72);line-height:1.5;color:#41485a;margin-bottom:calc(var(--u)*.5)}
+.aisum b{color:var(--blue);font-weight:850}
+.sec{font-size:calc(var(--u)*.86);font-weight:850;margin:calc(var(--u)*.6) 0 calc(var(--u)*.26);color:#2b2e36}
+.bl{display:flex;gap:calc(var(--u)*.5);font-size:calc(var(--u)*.75);line-height:1.5;color:#454a55;margin:calc(var(--u)*.2) 0}
+.bl:before{content:"";width:calc(var(--u)*.3);height:calc(var(--u)*.3);margin-top:calc(var(--u)*.46);border-radius:50%;background:#c3c8d2;flex:none}
+.todo{display:flex;gap:calc(var(--u)*.5);font-size:calc(var(--u)*.75);color:#454a55;margin:calc(var(--u)*.24) 0;align-items:flex-start}
+.todo:before{content:"";width:calc(var(--u)*.8);height:calc(var(--u)*.8);margin-top:calc(var(--u)*.04);border:1.5px solid var(--blue);border-radius:3px;flex:none}
+.hg{background:#d6f5e6;border-radius:3px;padding:0 3px;color:#127a4e;font-weight:800}
+.hlb{background:#dfeaff;border-radius:3px;padding:0 3px;color:#2a5bd0;font-weight:800}
+.chipcal{margin-top:calc(var(--u)*.5);align-self:flex-start;display:inline-flex;align-items:center;gap:calc(var(--u)*.4);background:#eef3ff;color:var(--blue);font-size:calc(var(--u)*.72);font-weight:800;padding:calc(var(--u)*.4) calc(var(--u)*.9);border-radius:99px}
+.aibar{margin-top:auto;height:calc(var(--u)*2.7);border:1px solid #e2e6ee;border-radius:calc(var(--u)*1);background:#f4f6fa;display:flex;align-items:center;padding:0 calc(var(--u)*1);font-size:calc(var(--u)*.78);color:#8a90a0;gap:calc(var(--u)*.55);flex:none}
+.aibar .sp{color:var(--blue);font-weight:850}
+.sheet{position:absolute;left:calc(var(--u)*.9);right:calc(var(--u)*.9);bottom:calc(var(--u)*.9);background:#fff;border:1px solid #e6e9f0;border-radius:calc(var(--u)*1.4);box-shadow:0 calc(var(--u)*-1) calc(var(--u)*4) rgba(20,30,60,.14);padding:calc(var(--u)*.9)}
+.sheet .sh{display:flex;align-items:center;gap:calc(var(--u)*.5);font-size:calc(var(--u)*.78);font-weight:850;color:var(--blue);margin-bottom:calc(var(--u)*.5)}
+.aibtns{display:flex;gap:calc(var(--u)*.5);flex-wrap:wrap}
+.aibtns span{background:#eef3ff;color:var(--blue);font-size:calc(var(--u)*.74);font-weight:800;padding:calc(var(--u)*.42) calc(var(--u)*.95);border-radius:99px}
+/* highlight magnifier */
+.hot{border-radius:calc(var(--u)*.7);padding:calc(var(--u)*.2) calc(var(--u)*.4);margin:0 calc(var(--u)*-.4);position:relative}
+.slide.in .hot{animation:hot 2.6s ease 1s infinite}
+@keyframes hot{0%,100%{background:transparent;box-shadow:0 0 0 0 rgba(92,141,255,0)}35%,70%{background:#eaf1ff;box-shadow:0 0 0 2px var(--blue),0 0 calc(var(--u)*2.2) rgba(92,141,255,.55)}}
+.hot::after{content:"🔍";position:absolute;right:calc(var(--u)*-.6);top:calc(var(--u)*-1.1);font-size:calc(var(--u)*1.2);opacity:0}
+.slide.in .hot::after{animation:hotm 2.6s ease 1s infinite}
+@keyframes hotm{0%,100%{opacity:0;transform:scale(.6)}40%,70%{opacity:1;transform:scale(1)}}
+/* recording */
+.rec{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*1.5)}
+.recbtn{width:calc(var(--u)*5.2);height:calc(var(--u)*5.2);border-radius:50%;background:#ff5b53;display:flex;align-items:center;justify-content:center}
+.recbtn i{width:calc(var(--u)*1.9);height:calc(var(--u)*1.9);background:#fff;border-radius:calc(var(--u)*.5)}
+.slide.in .recbtn{animation:pulse 1.6s ease infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 calc(var(--u)*.5) rgba(255,91,83,.28)}50%{box-shadow:0 0 0 calc(var(--u)*1.9) rgba(255,91,83,0)}}
+.waves{display:flex;align-items:flex-end;gap:calc(var(--u)*.38);height:calc(var(--u)*4)}
+.waves i{width:calc(var(--u)*.48);height:20%;border-radius:99px;background:var(--blue)}
+.slide.in .waves i{animation:wv .9s ease-in-out infinite}
+.slide.in .waves i:nth-child(2){animation-delay:.1s}.slide.in .waves i:nth-child(3){animation-delay:.2s}.slide.in .waves i:nth-child(4){animation-delay:.3s}.slide.in .waves i:nth-child(5){animation-delay:.15s}.slide.in .waves i:nth-child(6){animation-delay:.25s}
+@keyframes wv{0%,100%{height:22%}50%{height:100%}}
+.rectext{font-size:calc(var(--u)*.86);color:#9aa0ab;text-align:center;padding:0 calc(var(--u)*1.4)}
+.rectext b{color:#3a4658;font-weight:700}
+/* podcast */
+.podcast{background:#f2f4f8;border-radius:calc(var(--u)*1.2);padding:calc(var(--u)*1);margin:calc(var(--u)*.5) 0}
+.pcover{width:100%;height:calc(var(--u)*7);border-radius:calc(var(--u)*.9);background:linear-gradient(135deg,#5c8dff,#9b6bff);display:flex;align-items:center;justify-content:center;font-size:calc(var(--u)*2.6)}
+.ptitle{font-size:calc(var(--u)*.92);font-weight:850;margin:calc(var(--u)*.55) 0 calc(var(--u)*.2);color:#1a1c22}
+.pmeta{font-size:calc(var(--u)*.66);color:#9aa0ab}
+.pbar{height:calc(var(--u)*.4);background:#dfe3ea;border-radius:99px;margin:calc(var(--u)*.6) 0;position:relative}
+.pbar::before{content:"";position:absolute;left:0;top:0;height:100%;width:38%;background:var(--blue);border-radius:99px}
+.pctrl{display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*1.4);color:#8a90a0;font-size:calc(var(--u)*1)}
+.pctrl .pp{width:calc(var(--u)*2.6);height:calc(var(--u)*2.6);border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:calc(var(--u)*1)}
+/* mini mindmap */
+.mmind{display:flex;align-items:center;gap:calc(var(--u)*.6);margin:calc(var(--u)*.7) 0}
+.mmroot{background:var(--blue);color:#fff;font-weight:850;font-size:calc(var(--u)*.82);padding:calc(var(--u)*.55) calc(var(--u)*.8);border-radius:calc(var(--u)*.7);flex:none}
+.mmb{display:flex;flex-direction:column;gap:calc(var(--u)*.42)}
+.mmb span{background:#eef2fb;color:#33405c;font-size:calc(var(--u)*.72);font-weight:700;padding:calc(var(--u)*.35) calc(var(--u)*.7);border-radius:calc(var(--u)*.6);border:1px solid #dbe3f2}
+.shots{display:flex;gap:calc(var(--u)*.5);margin:calc(var(--u)*.4) 0}
+.shots i{width:calc(var(--u)*2.8);height:calc(var(--u)*2.8);border-radius:calc(var(--u)*.6);background:linear-gradient(135deg,#e8edf6,#d7def0);display:block;flex:none;border:1px solid #dbe3f2}
+/* speaker */
+.spk{display:flex;gap:calc(var(--u)*.5);font-size:calc(var(--u)*.74);line-height:1.5;color:#454a55;margin:calc(var(--u)*.24) 0}
+.spk b{color:var(--blue);font-weight:850;flex:none}
+/* flashcard */
+.card{background:#fff;border:1px solid #e6e9f0;border-radius:calc(var(--u)*1.2);box-shadow:0 calc(var(--u)*.6) calc(var(--u)*2) rgba(20,30,60,.1);padding:calc(var(--u)*1.4) calc(var(--u)*1.1);margin:calc(var(--u)*.7) 0;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:calc(var(--u)*.7)}
+.card .qtag{font-size:calc(var(--u)*.66);color:var(--blue);font-weight:800}
+.card .q{font-size:calc(var(--u)*1.15);font-weight:850;color:#1a1c22;line-height:1.5}
+.card .flip{font-size:calc(var(--u)*.66);color:#9aa0ab}
+.cardctrl{display:flex;gap:calc(var(--u)*.6);margin-bottom:calc(var(--u)*.3)}
+.cardctrl span{flex:1;text-align:center;font-size:calc(var(--u)*.74);font-weight:800;padding:calc(var(--u)*.5) 0;border-radius:calc(var(--u)*.8)}
+.cbad{background:#f2f4f8;color:#8a90a0}
+.cok{background:#eef3ff;color:var(--blue)}
+/* reveal */
+.reveal{opacity:0;transform:translateY(calc(var(--u)*1.6))}
+.slide.in .reveal{animation:rv .7s cubic-bezier(.2,.7,.2,1) forwards}
+.d1{animation-delay:.12s}.d2{animation-delay:.26s}.d3{animation-delay:.4s}
+@keyframes rv{to{opacity:1;transform:none}}
+.slide.in .sheet{opacity:0;transform:translateY(calc(var(--u)*3));animation:up .6s ease .8s forwards}
+@keyframes up{to{opacity:1;transform:none}}
+/* nav */
+.nav{position:fixed;right:1vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:6px}
+.nav button{width:7px;height:7px;border-radius:50%;background:#4c505c;border:0;cursor:pointer;transition:.25s;padding:0}
+.nav button.on{height:20px;border-radius:7px;background:#fff}
+@media print{html,body{overflow:visible}.deck{height:auto;overflow:visible}.slide{page-break-after:always}.nav{display:none}}
+</style>
+</head>
+<body><div class="stage"><main class="deck" id="deck">
+
+<!-- P1 亮相 -->
+<!-- 口播：这是小米 AI 语音笔记。点一下录音，说完这一段，屏幕上就是一篇整理好的笔记——自动分好段、理好条。 -->
+<section class="slide"><div class="wrap">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>2:36</span><span>5G　100</span></div>
+   <div class="rec"><div class="recbtn"><i></i></div><div class="waves"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+   <div class="rectext">正在录音 03:58<br><b>“……那分享会就定在 8 月中，主打产品复盘……”</b></div></div>
+ </div></div></div>
+ <div class="txt"><h1 class="huge reveal d1">AI 语音笔记</h1><p class="sub reveal d2">点一下录音，说完这一段，屏幕上就是一篇整理好的笔记。</p></div>
+</div><div class="page">01 / 09</div></section>
+
+<!-- P2 场景化模块概述 -->
+<!-- 口播：语音笔记不是把每段录音都整理成一个样子。开会、上课、看病，是完全不同的场景，我们给每种场景做了专门的模块——开会自动理出关键决策和待办，上课挑出核心知识点和例题，看病结构出诊断、用药和复诊。 -->
+<section class="slide"><div class="center">
+ <h2 class="ohead reveal">不同场景，笔记给出不同的模块</h2>
+ <p class="osub reveal d1">开会、上课、看病，各有一套专门的结构</p>
+ <div class="modgrid reveal d2">
+   <div class="modcol"><h3>会议</h3><div class="mod">关键决策</div><div class="mod">待办事项</div><div class="mod">议题分类</div></div>
+   <div class="modcol"><h3>课堂</h3><div class="mod">核心知识点</div><div class="mod">考点划重点</div><div class="mod">例题解析</div></div>
+   <div class="modcol"><h3>就诊</h3><div class="mod">诊断结果</div><div class="mod">用药情况</div><div class="mod">复诊时间</div></div>
+ </div>
+</div><div class="page">02 / 09</div></section>
+
+<!-- P3 实例① 课堂 -->
+<!-- 口播：先看一个课堂的例子。一节课信息量很大，一句句记根本跟不上。把这节课录下来，下课就是一份课堂笔记——它把核心知识点单独挑出来，考点、例题也分好了类。复习时翻开，重点就在眼前。 -->
+<section class="slide"><div class="wrap">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>14:11</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>&#8593;&nbsp;&nbsp;&#8942;</span></div>
+   <div class="nt">经济学 · 供需与均衡</div><div class="nmeta">2026/07/22 · 课堂录音整理</div>
+   <div class="aud"><span class="pl">&#9654;</span><span class="du">09:12　时长 58:20</span></div>
+   <div class="hot"><div class="sec">核心知识点</div>
+     <div class="bl">需求曲线右移 → 价格上升</div>
+     <div class="bl">供给减少 → 供不应求 → 涨价</div></div>
+   <div class="sec">考点</div><div class="bl">供需同时移动，均衡如何变化</div>
+   <div class="sec">例题解析</div><div class="bl">需求↑、成本↑，求均衡变动</div>
+   <div class="aibar"><span class="sp">✦</span>超级小爱</div>
+ </div></div></div>
+ <div class="txt"><div class="eyebrow reveal">课堂笔记</div><h1 class="big reveal d1">核心知识点和例题，<br>自动挑出来</h1><p class="sub reveal d2">关键概念、考点、例题分门别类标好，复习翻开就能用。</p></div>
+</div><div class="page">03 / 09</div></section>
+
+<!-- P4 实例② 就诊 -->
+<!-- 口播：再看一个看病的例子。医生几句话说得飞快，回到家那些嘱咐常常想不全。把问诊录下来，到家就是一份就诊记录——诊断、每种药吃多少、一天几次、忌什么口、什么时候复诊，都结构好了；复诊时间还能一键加进日历。 -->
+<section class="slide"><div class="wrap">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>10:24</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>&#8593;&nbsp;&nbsp;&#8942;</span></div>
+   <div class="nt">呼吸内科 · 支气管炎</div><div class="nmeta">2026/07/22 · 就诊录音整理</div>
+   <div class="sec">诊断结果</div><div class="bl">急性支气管炎，血常规基本正常</div>
+   <div class="hot"><div class="sec">用药情况</div>
+     <div class="todo">头孢 · <span class="hlb">3 天，每日两次</span></div>
+     <div class="bl">忌口：<span class="hg">辛辣、油腻少吃</span></div></div>
+   <div class="sec">复诊时间</div><div class="bl">仍咳嗽则<span class="hg">周二上午复诊</span></div>
+   <div class="chipcal">📅 复诊已加入日历，到点提醒</div>
+   <div class="aibar"><span class="sp">✦</span>超级小爱</div>
+ </div></div></div>
+ <div class="txt"><div class="eyebrow reveal">就诊记录</div><h1 class="big reveal d1">诊断、用药、复诊，<br>一条不落</h1><p class="sub reveal d2">每种药吃多少、忌什么口、什么时候复诊，还能一键进日历。</p></div>
+</div><div class="page">04 / 09</div></section>
+
+<!-- P5 亮相小爱 -->
+<!-- 口播：记录，只是开始。一篇笔记记好之后，你还想再对它做点什么。这一次，超级小爱直接进了笔记：打开任意一篇，喊它一声，就着这篇内容，它能帮你做更多。 -->
+<section class="slide"><div class="wrap rev">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>21:00</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>超级小爱</span><span>&#8942;</span></div>
+   <div class="nt">经济学 · 供需与均衡</div><div class="nmeta">刚刚整理</div>
+   <div class="bl">核心知识点、考点、例题已理好</div>
+   <div class="bl">录音 58:20 · 手写补充 2 处</div>
+   <div class="sheet" style="opacity:1;transform:none"><div class="sh">✦ 超级小爱</div>
+     <div class="aibtns"><span>生成播客</span><span>思维导图</span><span>对话访谈</span><span>知识闪卡</span></div></div>
+ </div></div></div>
+ <div class="txt"><h1 class="big reveal d1">继续，交给超级小爱</h1><p class="sub reveal d2">同一篇笔记里唤起小爱，就着这篇内容，帮你做更多。</p></div>
+</div><div class="page">05 / 09</div></section>
+
+<!-- P6 备选A 生成播客 -->
+<!-- 口播（备选A·生成播客）：收藏了一篇很长的行业资料，一直没空看。让小爱把它生成一档播客，通勤、走路的时候戴上耳机就能听，一篇长资料就这么听完了。 -->
+<section class="slide"><div class="badge reveal">备选 A</div><div class="wrap rev">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>08:30</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>播客</span><span>&#8942;</span></div>
+   <div class="nt">行业研究 · 收藏整理</div><div class="nmeta">长资料 · 6200 字</div>
+   <div class="podcast">
+     <div class="pcover">🎧</div>
+     <div class="ptitle">行业研究 · 本篇速览</div>
+     <div class="pmeta">AI 生成 · 时长 08:24</div>
+     <div class="pbar"></div>
+     <div class="pctrl"><span>&#9198;</span><span class="pp">&#9654;</span><span>&#9197;</span></div>
+   </div>
+   <div class="bl">开头 30 秒讲清整篇结论</div>
+   <div class="bl">按章节展开，边走边听</div>
+   <div class="aibar"><span class="sp">✦</span>已生成播客，可离线听</div>
+ </div></div></div>
+ <div class="txt"><h1 class="big reveal d1">生成播客</h1><p class="sub reveal d2">一篇长资料，读成一档能听的播客，路上戴上耳机就能听完。</p></div>
+</div><div class="page">06 / 09</div></section>
+
+<!-- P7 备选B 思维导图（单节课） -->
+<!-- 口播（备选B·思维导图）：一节课，你手打了笔记，又加了录音、拍了几张板书截图，一篇里塞了很多东西。让小爱把这一篇整理成一张思维导图——这节课的知识结构一眼看清，帮你记得住。 -->
+<section class="slide"><div class="badge reveal">备选 B</div><div class="wrap rev">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>19:40</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>思维导图</span><span>&#8942;</span></div>
+   <div class="nt">生物 · 细胞的结构（第 3 节）</div><div class="nmeta">手写 + 录音 + 截图</div>
+   <div class="aud"><span class="pl">&#9654;</span><span class="du">课堂录音 42:10</span></div>
+   <div class="shots"><i></i><i></i><i></i></div>
+   <div class="mmind"><div class="mmroot">细胞结构</div><div class="mmb"><span>细胞膜 · 物质进出</span><span>细胞核 · 遗传信息</span><span>细胞质 · 代谢场所</span></div></div>
+   <div class="aibar"><span class="sp">✦</span>已按这一节内容生成脑图</div>
+ </div></div></div>
+ <div class="txt"><h1 class="big reveal d1">思维导图</h1><p class="sub reveal d2">单节课的手写、录音、截图，整理成一张知识脑图，帮你记住。</p></div>
+</div><div class="page">07 / 09</div></section>
+
+<!-- P8 备选C 对话访谈整理 -->
+<!-- 口播（备选C·对话访谈）：做用户访谈、几个人围坐讨论，录下来常常是一大段谁也理不清的对话。让小爱整理成访谈纪要——按人分开、按观点归类，谁说了什么、达成了什么，一目了然。 -->
+<section class="slide"><div class="badge reveal">备选 C</div><div class="wrap rev">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>15:05</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>对话访谈</span><span>&#8942;</span></div>
+   <div class="nt">用户访谈 · 3 人</div><div class="nmeta">访谈录音整理</div>
+   <div class="aisum">✦ <b>访谈小结</b>　多数用户在意续航与拍照，价格敏感度中等。</div>
+   <div class="sec">按人观点</div>
+   <div class="spk"><b>用户A</b>最看重续航，一天一充受不了</div>
+   <div class="spk"><b>用户B</b>拍照优先，晚上出片要清楚</div>
+   <div class="spk"><b>用户C</b>价格可以再高，但要耐用</div>
+   <div class="aibar"><span class="sp">✦</span>已按人和观点理成访谈纪要</div>
+ </div></div></div>
+ <div class="txt"><h1 class="big reveal d1">对话访谈</h1><p class="sub reveal d2">多人讨论、用户访谈，按人分开、按观点归类，谁说了什么一目了然。</p></div>
+</div><div class="page">08 / 09</div></section>
+
+<!-- P9 备选D 知识闪卡 -->
+<!-- 口播（备选D·知识闪卡）：考前想快速过一遍，让小爱把这节课的重点做成一套闪卡——正面一个问题，翻过来是答案。一张张刷，记住的划走、没记住的再来，比翻整篇笔记高效得多。 -->
+<section class="slide"><div class="badge reveal">备选 D</div><div class="wrap rev">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>22:15</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>知识闪卡</span><span>&#8942;</span></div>
+   <div class="nt">经济学 · 供需与均衡</div><div class="nmeta">本节生成 · 共 12 张</div>
+   <div class="card">
+     <div class="qtag">第 3 / 12 张</div>
+     <div class="q">需求曲线右移，均衡价格会怎样变化？</div>
+     <div class="flip">点按翻面看答案</div>
+   </div>
+   <div class="cardctrl"><span class="cbad">没记住</span><span class="cok">记住了</span></div>
+   <div class="aibar"><span class="sp">✦</span>已按本节生成 12 张闪卡</div>
+ </div></div></div>
+ <div class="txt"><h1 class="big reveal d1">知识闪卡</h1><p class="sub reveal d2">把一节课的重点做成一问一答的闪卡，考前一张张刷着记。</p></div>
+</div><div class="page">09 / 09</div></section>
+
+</main></div><nav class="nav" id="nav"></nav>
+<script>
+const deck=document.querySelector('#deck'),slides=[...document.querySelectorAll('.slide')],nav=document.querySelector('#nav');let cur=0;
+slides.forEach((s,i)=>{let b=document.createElement('button');b.onclick=()=>go(i);nav.appendChild(b)});
+const dots=[...nav.children];
+function go(i){cur=Math.max(0,Math.min(slides.length-1,i));slides[cur].scrollIntoView({behavior:'smooth'})}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');cur=slides.indexOf(e.target);dots.forEach((d,i)=>d.classList.toggle('on',i===cur))}else e.target.classList.remove('in')}),{root:deck,threshold:.55});
+slides.forEach(s=>io.observe(s));
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();go(cur+1)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1)});
+</script>
+</body></html>

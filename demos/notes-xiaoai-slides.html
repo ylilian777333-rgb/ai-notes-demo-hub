@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>笔记 × 小爱 · 更方便（穷举 · 单页方案）</title>
+<style>
+:root{
+  --ink:#f6f7f8; --muted:#9aa0ad; --sub:#b9bdc7; --brand:#aeb4ff;
+  --u:min(1vw, 1.7778vh); /* 16:9 */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:var(--ink);
+  font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{overflow:hidden}
+.stage{height:100vh;display:flex;align-items:center;justify-content:center;background:#000}
+.deck{width:min(100vw,177.78vh);height:min(56.25vw,100vh);position:relative;overflow-y:auto;
+  scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.slide{width:100%;height:100%;scroll-snap-align:start;position:relative;overflow:hidden;background:#000;
+  display:flex;align-items:center;justify-content:center;padding:0 calc(var(--u)*9)}
+.row{width:100%;display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*9)}
+
+/* 左：手机占位 */
+.phone{flex:0 0 auto;height:calc(var(--u)*46);aspect-ratio:9/19.5;border:2px dashed #3a3d47;
+  border-radius:calc(var(--u)*3);background:linear-gradient(180deg,#141620,#0c0d12);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:calc(var(--u)*1.6);padding:calc(var(--u)*3);position:relative;text-align:center}
+.phone .cam{width:calc(var(--u)*.9);height:calc(var(--u)*.9);border-radius:50%;background:#23262f;
+  position:absolute;top:calc(var(--u)*1.8);left:50%;transform:translateX(-50%)}
+.phone .ico{font-size:calc(var(--u)*3.4);opacity:.5}
+.phone .lbl{font-size:calc(var(--u)*1.1);letter-spacing:.12em;color:#6b7080;font-weight:800}
+.phone .desc{font-size:calc(var(--u)*1.15);color:#7a8090;line-height:1.6}
+
+/* 右：文案 */
+.text{flex:0 1 auto;max-width:calc(var(--u)*52)}
+.kicker{display:inline-block;font-size:calc(var(--u)*1.7);font-weight:760;color:var(--brand);
+  letter-spacing:.04em;margin-bottom:calc(var(--u)*2.4);border-bottom:2px solid #33364a;padding-bottom:calc(var(--u)*1)}
+.big{font-size:calc(var(--u)*4.6);font-weight:820;line-height:1.24;letter-spacing:-.01em}
+.big b{color:var(--brand)}
+.sub{font-size:calc(var(--u)*1.9);color:var(--sub);margin-top:calc(var(--u)*2.4);line-height:1.6}
+
+.brand{position:absolute;left:calc(var(--u)*4);bottom:calc(var(--u)*3);color:#6c707a;font-size:calc(var(--u)*1.1);letter-spacing:.06em}
+.pager{position:absolute;right:calc(var(--u)*4);bottom:calc(var(--u)*3);color:#5c606a;font-size:calc(var(--u)*1.15);letter-spacing:.1em}
+.nav{position:fixed;right:1.1vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:#4c4f57;border:0;cursor:pointer;transition:.25s;padding:0}
+.dot.on{height:22px;border-radius:8px;background:var(--brand)}
+.hint{position:fixed;left:50%;bottom:1vh;transform:translateX(-50%);z-index:20;color:#565a63;font-size:calc(var(--u)*1)}
+</style>
+</head>
+<body>
+<div class="stage">
+<div class="deck" id="deck">
+
+  <!-- 1 · 用 AI -->
+  <section class="slide" data-title="用AI">
+    <div class="row">
+      <div class="phone"><span class="cam"></span><span class="ico">📝</span><span class="lbl">图占位</span>
+        <span class="desc">笔记正文 + 底部小爱对话框<br>点"总结/润色/待办"</span></div>
+      <div class="text">
+        <span class="kicker">更方便地 · 用 AI</span>
+        <div class="big">笔记里<b>直接唤起小爱</b></div>
+        <div class="sub">不用跳转到别的 App，选中就能总结、润色、生成待办</div>
+      </div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">01 / 09</div>
+  </section>
+
+  <!-- 2 · 问 -->
+  <section class="slide" data-title="问">
+    <div class="row">
+      <div class="phone"><span class="cam"></span><span class="ico">💬</span><span class="lbl">图占位</span>
+        <span class="desc">就着当前笔记提问<br>小爱基于正文回答</span></div>
+      <div class="text">
+        <span class="kicker">更方便地 · 问</span>
+        <div class="big">就着这篇，<b>问一句就懂</b></div>
+        <div class="sub">默认带着当前笔记做上下文，不用复制粘贴、不用重复交代</div>
+      </div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">02 / 09</div>
+  </section>
+
+  <!-- 3 · 记 -->
+  <section class="slide" data-title="记">
+    <div class="row">
+      <div class="phone"><span class="cam"></span><span class="ico">🎙️</span><span class="lbl">图占位</span>
+        <span class="desc">录音结束 → 转写文字稿<br>+ AI 纪要落到笔记</span></div>
+      <div class="text">
+        <span class="kicker">更方便地 · 记</span>
+        <div class="big">说完就<b>自动成文</b></div>
+        <div class="sub">录音结束后转写，小爱理成纪要与待办，直接落进笔记</div>
+      </div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">03 / 09</div>
+  </section>
+
+  <!-- 4 · 办事（融合核心） -->
+  <section class="slide" data-title="办事">
+    <div class="row">
+      <div class="phone"><span class="cam"></span><span class="ico">📅</span><span class="lbl">图占位</span>
+        <span class="desc">笔记里一句话 → 日历/待办<br>/提醒 结果卡</span></div>
+      <div class="text">
+        <span class="kicker">更方便地 · 办事</span>
+        <div class="big">一句话，<b>顺手把事办了</b></div>
+        <div class="sub">小爱把笔记里的事写进日历、待办、提醒——不只是出文本</div>
+      </div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">04 / 09</div>
+  </section>
+
+  <!-- 5 · 写 -->
+  <section class="slide" data-title="写">
+    <div class="row">
+      <div class="phone"><span class="cam"></span><span class="ico">✍️</span><span class="lbl">图占位</span>
+        <span class="desc">空白/半截笔记<br>小爱续写、扩写、拟提纲</span></div>
+      <div class="text">
+        <span class="kicker">更方便地 · 写</span>
+        <div class="big">不用从零，<b>帮你往下写</b></div>
+        <div class="sub">写不下去时让小爱续写、扩写、拟提纲，顺着思路接着来</div>
+      </div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">05 / 09</div>
+  </section>
+
+  <!-- 6 · 整理 -->
+  <section class="slide" data-title="整理">
+    <div class="row">
+      <div class="phone"><span class="cam"></span><span class="ico">🧠</span><span class="lbl">图占位</span>
+        <span class="desc">杂乱正文 → 思维导图<br>/ 知识卡片</span></div>
+      <div class="text">
+        <span class="kicker">更方便地 · 整理</span>
+        <div class="big">一堆内容，<b>秒变结构</b></div>
+        <div class="sub">让小爱把杂乱内容理成思维导图、知识卡片，一眼看清脉络</div>
+      </div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">06 / 09</div>
+  </section>
+
+  <!-- 7 · 找回 -->
+  <section class="slide" data-title="找回">
+    <div class="row">
+      <div class="phone"><span class="cam"></span><span class="ico">🔍</span><span class="lbl">图占位</span>
+        <span class="desc">首页/小爱问一句<br>全库找回 + 答案带出处</span></div>
+      <div class="text">
+        <span class="kicker">更方便地 · 找回</span>
+        <div class="big">存多了，<b>问一句就调回</b></div>
+        <div class="sub">按意思在全部笔记里找答案，不用记标题，回答还带原文出处</div>
+      </div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">07 / 09</div>
+  </section>
+
+  <!-- 8 · 跨应用 -->
+  <section class="slide" data-title="跨应用">
+    <div class="row">
+      <div class="phone"><span class="cam"></span><span class="ico">📤</span><span class="lbl">图占位</span>
+        <span class="desc">笔记内容 → 分享长图<br>/ 发地图 / 传联系人</span></div>
+      <div class="text">
+        <span class="kicker">更方便地 · 跨应用</span>
+        <div class="big">内容<b>顺手送出去</b></div>
+        <div class="sub">小爱把笔记内容整理成分享长图、发到地图、传给联系人，跨应用一步到位</div>
+      </div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">08 / 09</div>
+  </section>
+
+  <!-- 9 · 跨语言 -->
+  <section class="slide" data-title="跨语言">
+    <div class="row">
+      <div class="phone"><span class="cam"></span><span class="ico">🌐</span><span class="lbl">图占位</span>
+        <span class="desc">整篇/选段翻译<br>多语言结果</span></div>
+      <div class="text">
+        <span class="kicker">更方便地 · 跨语言</span>
+        <div class="big">一键<b>翻译成另一种语言</b></div>
+        <div class="sub">整篇或选段翻译，多语言随手切，出海也能用</div>
+      </div>
+    </div>
+    <div class="brand">XIAOMI NOTES · AI</div><div class="pager">09 / 09</div>
+  </section>
+
+</div>
+</div>
+
+<nav class="nav" id="nav"></nav>
+<div class="hint">← → / SPACE 翻页</div>
+
+<script>
+const deck=document.getElementById('deck');
+const nav=document.getElementById('nav');
+const slides=[...deck.querySelectorAll('.slide')];
+let current=0;
+slides.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.className='dot'+(i===0?' on':'');
+  b.title=s.dataset.title||('第 '+(i+1)+' 页');
+  b.onclick=()=>go(i);
+  nav.appendChild(b);
+});
+const dots=()=>[...nav.children];
+function go(i){
+  current=Math.max(0,Math.min(slides.length-1,i));
+  slides[current].scrollIntoView({behavior:'smooth'});
+  dots().forEach((d,n)=>d.classList.toggle('on',n===current));
+}
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){current=slides.indexOf(e.target);
+    dots().forEach((d,n)=>d.classList.toggle('on',n===current))}
+}),{root:deck,threshold:.6});
+slides.forEach(s=>io.observe(s));
+addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(current+1)}
+  if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}
+  if(e.key==='Home')go(0);
+  if(e.key==='End')go(slides.length-1);
+});
+</script>
+</body>
+</html>

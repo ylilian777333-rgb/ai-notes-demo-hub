@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>记 · 需求分析（浅色版）</title>
+<style>
+  :root{
+    --blue:#3A63E8; --purple:#7C5CE6; --green:#17B784; --orange:#E8720C;
+    --ink:#1A1B1F; --ink2:#4A4D55; --ink3:#8A8F98;
+    --page:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--page);font-family:"MiSans","PingFang SC",-apple-system,"Segoe UI",sans-serif;color:var(--ink);}
+  .slide{width:1180px;margin:0 auto;padding:64px 72px 80px;}
+  .idx{font-size:120px;font-weight:800;line-height:1;color:rgba(58,99,232,.18);letter-spacing:-2px;}
+  .h1{font-size:44px;font-weight:800;margin-top:8px;color:var(--ink);}
+  .divider{height:3px;width:100%;background:linear-gradient(90deg,rgba(58,99,232,.5),rgba(58,99,232,0));margin:20px 0 22px;border-radius:3px;}
+  .lead{font-size:18px;color:var(--ink2);margin-bottom:28px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .card{border-radius:24px;padding:28px 30px;border:1.5px solid;}
+  .card .t{font-size:22px;font-weight:700;margin-bottom:12px;}
+  .card .q{font-size:16px;line-height:1.7;color:var(--ink2);margin-bottom:16px;}
+  .card .want{font-size:16px;font-weight:600;margin-bottom:6px;}
+  .card .to{font-size:14px;color:var(--ink3);}
+  .c-blue{background:rgba(58,99,232,.06);border-color:rgba(58,99,232,.22);}
+  .c-blue .t,.c-blue .want{color:var(--blue);}
+  .c-purple{background:rgba(124,92,230,.06);border-color:rgba(124,92,230,.22);}
+  .c-purple .t,.c-purple .want{color:var(--purple);}
+  .c-green{background:rgba(23,183,132,.06);border-color:rgba(23,183,132,.22);}
+  .c-green .t,.c-green .want{color:var(--green);}
+  .c-orange{background:rgba(232,114,12,.06);border-color:rgba(232,114,12,.22);}
+  .c-orange .t,.c-orange .want{color:var(--orange);}
+  .principle{margin-top:22px;background:rgba(232,114,12,.06);border:1.5px solid rgba(232,114,12,.22);border-radius:24px;padding:30px 34px;}
+  .principle .pt{font-size:24px;font-weight:800;color:var(--orange);margin-bottom:16px;}
+  .principle p{font-size:16px;line-height:1.9;color:var(--ink2);}
+  .principle b{color:var(--ink);font-weight:700;}
+</style>
+</head>
+<body>
+  <section class="slide">
+    <div class="idx">01</div>
+    <div class="h1">「记」 —— 需求分析</div>
+    <div class="divider"></div>
+    <div class="lead">先看四个人：他们想记什么、卡在哪、心里到底想要什么。</div>
+
+    <div class="grid">
+      <div class="card c-blue">
+        <div class="t">🧑‍💼 开会顾不上开录</div>
+        <div class="q">"项目评审开着开着就投入讨论了，等想起来该录一下，前半段最要紧的已经过去；有时干脆忘了开。"</div>
+        <div class="want">想要的：一到会系统就问"要记这场吗"，点一下就录上</div>
+        <div class="to">→ A5 场景触发</div>
+      </div>
+
+      <div class="card c-purple">
+        <div class="t">🚶 语音记被听错</div>
+        <div class="q">"走在路上想起事，语音记了句'让老王把方案发我'——回头一看，'老王'记成了'老汪'，还得自己逐字纠。"</div>
+        <div class="want">想要的：人名、关键词能自动对准，别让我回头一个个改</div>
+        <div class="to">→ B1 名字与术语对准</div>
+      </div>
+
+      <div class="card c-green">
+        <div class="t">🍸 刷到值得留的内容</div>
+        <div class="q">"周末刷到一条调酒教程，顺手截了四五张图。等真想照着调，翻遍相册也找不到，图还散着凑不成一份。"</div>
+        <div class="want">想要的：存下来就能凑成能用的一份，别烂在相册里</div>
+        <div class="to">→ A1 截图存入笔记</div>
+      </div>
+
+      <div class="card c-orange">
+        <div class="t">🔎 想用时找不到</div>
+        <div class="q">"记得上个月记过一份报销政策，真要用时翻了半天找不到；好不容易翻到，AI 的答案又对不上原文。"</div>
+        <div class="want">想要的：存的时候就建好索引、留住来源</div>
+        <div class="to">→ C1 存入即建索引</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="pt">💡 四个人要的，其实是同一串东西</div>
+      <p>
+        <b>① 想记就记下：</b>该记的时候不用惦记（系统帮起头）、看到的顺手存进来，不打断手头的事<br>
+        <b>② 记进来是对的：</b>人名、术语别听错记错，过后自己看得懂<br>
+        <b>③ 以后真用得上：</b>存对、建好索引，以后找得回、对得上出处
+      </p>
+    </div>
+  </section>
+</body>
+</html>

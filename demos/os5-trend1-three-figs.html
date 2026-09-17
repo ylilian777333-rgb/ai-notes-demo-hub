@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>趋势一 · 三图</title>
+<style>
+  :root{
+    --ink:#141A26; --sub:#586074; --dim:#8A93A6;
+    --line:#EAEDF3; --line2:#E1E6EF;
+    --blue:#3E6BFF; --blueSoft:#EEF2FF; --blueLine:#CBD8FF; --blueDeep:#2B50D8;
+    --green:#12A97A; --greenSoft:#E9F8F1; --greenLine:#BDE8D6; --greenDeep:#0C7C5A;
+    --purple:#7C5CE6; --purpleSoft:#F3EFFF; --purpleLine:#DFD3FF; --purpleDeep:#5B3FD1;
+    --amber:#E8720C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"MiSans","PingFang SC",-apple-system,"Microsoft YaHei",sans-serif;
+    background:#EEF1F7;color:var(--ink);padding:40px;
+  }
+  .fig{
+    width:1040px;height:660px;margin:0 auto 44px;position:relative;overflow:hidden;
+    border-radius:30px;padding:44px 46px 40px;
+    background:
+      radial-gradient(70% 46% at 26% -6%,rgba(18,169,122,.10),transparent 60%),
+      radial-gradient(62% 46% at 104% 2%,rgba(62,107,255,.11),transparent 58%),
+      linear-gradient(180deg,#FCFDFF,#F1F4FA);
+    border:1px solid var(--line2);
+    box-shadow:0 30px 70px rgba(24,36,72,.10);
+  }
+  .badge{display:inline-flex;align-items:center;gap:9px;font-size:16px;font-weight:800;letter-spacing:.5px;
+    padding:9px 20px;border-radius:999px;white-space:nowrap;}
+  .badge .dot{width:9px;height:9px;border-radius:50%;}
+  .b-blue{color:var(--blueDeep);background:var(--blueSoft);border:1px solid var(--blueLine);}
+  .b-blue .dot{background:var(--blue);}
+  .b-green{color:var(--greenDeep);background:var(--greenSoft);border:1px solid var(--greenLine);}
+  .b-green .dot{background:var(--green);}
+  .b-purple{color:var(--purpleDeep);background:var(--purpleSoft);border:1px solid var(--purpleLine);}
+  .b-purple .dot{background:var(--purple);}
+
+  .cap{position:absolute;left:46px;right:46px;bottom:34px;font-size:16px;color:var(--sub);line-height:1.6;font-weight:500;}
+  .cap b{color:var(--ink);font-weight:800;}
+  .cap .g{color:var(--greenDeep);font-weight:800;}
+  .cap .bl{color:var(--blueDeep);font-weight:800;}
+  .cap .pu{color:var(--purpleDeep);font-weight:800;}
+
+  /* ===== fig1 : 人人都用到 OS 智能 ===== */
+  .f1-stage{position:absolute;left:0;right:0;top:120px;height:400px;}
+  .phone{position:absolute;left:50%;top:36px;transform:translateX(-50%);
+    width:186px;height:322px;border-radius:34px;background:#fff;border:1px solid var(--blueLine);
+    box-shadow:0 26px 56px rgba(62,107,255,.20);display:flex;flex-direction:column;align-items:center;padding-top:20px;}
+  .phone .notch{width:56px;height:7px;border-radius:6px;background:#E4E9F5;margin-bottom:20px;}
+  .orb{width:96px;height:96px;border-radius:50%;
+    background:radial-gradient(circle at 34% 30%,#8BA6FF,var(--blue) 62%,var(--purpleDeep));
+    box-shadow:0 12px 30px rgba(62,107,255,.42),0 0 0 12px rgba(62,107,255,.10);
+    display:flex;align-items:center;justify-content:center;font-size:40px;color:#fff;}
+  .phone .aiword{margin-top:20px;font-size:15px;font-weight:800;color:var(--blueDeep);}
+  .phone .bar{margin-top:14px;width:120px;height:11px;border-radius:6px;background:#EDF1FB;}
+  .phone .bar.s{width:82px;margin-top:9px;}
+  .ppl{position:absolute;width:96px;text-align:center;}
+  .ppl .av{width:66px;height:66px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;
+    font-size:30px;background:#fff;border:1px solid var(--line2);box-shadow:0 10px 22px rgba(24,36,72,.10);}
+  .ppl .nm{margin-top:9px;font-size:13.5px;color:var(--sub);font-weight:600;white-space:nowrap;}
+  .p1{left:44px;top:20px;} .p2{left:44px;top:230px;}
+  .p3{right:44px;top:20px;} .p4{right:44px;top:230px;}
+  .ray{position:absolute;height:2px;background:linear-gradient(90deg,rgba(62,107,255,0),rgba(62,107,255,.55));border-radius:2px;}
+
+  /* ===== fig2 : 笔记补上个人内容 ===== */
+  .f2-stage{position:absolute;left:46px;right:46px;top:128px;height:392px;display:flex;align-items:center;gap:24px;}
+  .chips{display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:0 0 452px;}
+  .chip{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line2);border-radius:16px;
+    padding:16px 17px;box-shadow:0 10px 24px rgba(24,36,72,.07);}
+  .chip .ic{width:44px;height:44px;flex:0 0 44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--greenSoft);border:1px solid var(--greenLine);}
+  .chip .t{font-size:16px;font-weight:800;color:var(--ink);white-space:nowrap;}
+  .chip.wide{grid-column:1 / span 2;}
+  .flow{flex:0 0 96px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--green);}
+  .flow .arw{font-size:46px;font-weight:800;}
+  .flow .lb{font-size:13px;color:var(--dim);margin-top:2px;white-space:nowrap;font-weight:600;}
+  .book{flex:1;height:330px;border-radius:24px;background:linear-gradient(180deg,#F6FBF8,#EAF7F1);
+    border:1px solid var(--greenLine);box-shadow:0 22px 50px rgba(18,169,122,.18);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;}
+  .book .bic{width:88px;height:88px;border-radius:22px;background:#fff;border:1px solid var(--greenLine);
+    display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 12px 26px rgba(18,169,122,.16);}
+  .book .bt{margin-top:18px;font-size:21px;font-weight:800;color:var(--greenDeep);white-space:nowrap;}
+  .book .bs{margin-top:8px;font-size:14px;color:var(--sub);}
+
+  /* ===== fig3 : 前提是能被调用 ===== */
+  .f3-stage{position:absolute;left:46px;right:46px;top:132px;height:376px;display:flex;align-items:center;justify-content:space-between;}
+  .node{width:250px;height:300px;border-radius:24px;background:#fff;border:1px solid var(--line2);
+    box-shadow:0 20px 46px rgba(24,36,72,.10);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px;}
+  .node.db{border-color:var(--greenLine);background:linear-gradient(180deg,#F6FBF8,#EAF7F1);}
+  .node.os{border-color:var(--blueLine);background:radial-gradient(130% 80% at 50% -10%,rgba(62,107,255,.12),transparent 60%),linear-gradient(180deg,#FBFCFF,#F0F4FF);}
+  .node .nic{width:78px;height:78px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:38px;background:#fff;}
+  .node.db .nic{border:1px solid var(--greenLine);box-shadow:0 10px 24px rgba(18,169,122,.16);}
+  .node.os .nic{border:1px solid var(--blueLine);box-shadow:0 10px 24px rgba(62,107,255,.16);}
+  .node .nt{margin-top:16px;font-size:20px;font-weight:800;white-space:nowrap;}
+  .node.db .nt{color:var(--greenDeep);} .node.os .nt{color:var(--blueDeep);}
+  .node .ns{margin-top:7px;font-size:13.5px;color:var(--sub);line-height:1.5;}
+  .bridge{flex:1;position:relative;height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .caps{display:flex;flex-direction:column;gap:12px;z-index:2;}
+  .cap3{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--purpleLine);border-radius:14px;
+    padding:12px 20px;box-shadow:0 10px 24px rgba(124,92,230,.16);}
+  .cap3 .ci{font-size:20px;} .cap3 .ck{font-size:16px;font-weight:800;color:var(--purpleDeep);white-space:nowrap;}
+  .wire{position:absolute;top:50%;height:3px;left:8px;right:8px;transform:translateY(-50%);
+    background:linear-gradient(90deg,var(--green),var(--purple) 50%,var(--blue));border-radius:3px;opacity:.5;z-index:1;}
+  .apilb{position:absolute;top:calc(50% - 96px);left:50%;transform:translateX(-50%);font-size:13px;font-weight:700;color:var(--purpleDeep);
+    background:var(--purpleSoft);border:1px solid var(--purpleLine);border-radius:999px;padding:5px 14px;white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<!-- ============ 图1 ============ -->
+<div class="fig" id="fig1">
+  <span class="badge b-blue"><span class="dot"></span>人人都用到 OS 的 AI</span>
+  <div class="f1-stage">
+    <div class="ray" style="left:150px;top:78px;width:210px;transform:rotate(20deg);"></div>
+    <div class="ray" style="left:150px;top:300px;width:210px;transform:rotate(-20deg);"></div>
+    <div class="ray" style="right:150px;top:78px;width:210px;transform:rotate(160deg);"></div>
+    <div class="ray" style="right:150px;top:300px;width:210px;transform:rotate(200deg);"></div>
+
+    <div class="ppl p1"><div class="av">🧑‍🎓</div><div class="nm">学生</div></div>
+    <div class="ppl p2"><div class="av">🧑‍🍳</div><div class="nm">生活里</div></div>
+    <div class="ppl p3"><div class="av">🧑‍💼</div><div class="nm">上班族</div></div>
+    <div class="ppl p4"><div class="av">🧳</div><div class="nm">旅途中</div></div>
+
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="orb">🤖</div>
+      <div class="aiword">OS Agent</div>
+      <div class="bar"></div><div class="bar s"></div>
+    </div>
+  </div>
+  <div class="cap">用户不一定都打开笔记，<b>但都会用到 OS 的 AI 能力</b>——所以内容能不能被 <span class="bl">OS Agent 用上</span>，比"多少人打开 App"更关键。</div>
+</div>
+
+<!-- ============ 图2 ============ -->
+<div class="fig" id="fig2">
+  <span class="badge b-green"><span class="dot"></span>笔记补上"个人内容"</span>
+  <div class="f2-stage">
+    <div class="chips">
+      <div class="chip"><div class="ic">📅</div><div class="t">会议</div></div>
+      <div class="chip"><div class="ic">📚</div><div class="t">课程</div></div>
+      <div class="chip"><div class="ic">🗺️</div><div class="t">攻略</div></div>
+      <div class="chip"><div class="ic">🪪</div><div class="t">证件</div></div>
+      <div class="chip wide"><div class="ic">💡</div><div class="t">灵感 · 随手记下的点子</div></div>
+    </div>
+    <div class="flow"><div class="arw">→</div><div class="lb">记进笔记</div></div>
+    <div class="book">
+      <div class="bic">📓</div>
+      <div class="bt">个人内容</div>
+      <div class="bs">用户自己记下的那部分</div>
+    </div>
+  </div>
+  <div class="cap">这些都是<b>用户自己记下的个人内容</b>，正好补上 <span class="bl">OS Agent</span> 平时接触不到的<span class="g">那块上下文</span>。</div>
+</div>
+
+<!-- ============ 图3 ============ -->
+<div class="fig" id="fig3">
+  <span class="badge b-purple"><span class="dot"></span>前提是能被调用</span>
+  <div class="f3-stage">
+    <div class="node db">
+      <div class="nic">📓</div>
+      <div class="nt">笔记内容</div>
+      <div class="ns">用户记下的<br>个人内容</div>
+    </div>
+    <div class="bridge">
+      <div class="wire"></div>
+      <div class="apilb">通过接口打通</div>
+      <div class="caps">
+        <div class="cap3"><span class="ci">🔍</span><span class="ck">被搜到</span></div>
+        <div class="cap3"><span class="ci">✍️</span><span class="ck">被写入</span></div>
+        <div class="cap3"><span class="ci">✨</span><span class="ck">被取用</span></div>
+      </div>
+    </div>
+    <div class="node os">
+      <div class="nic">🤖</div>
+      <div class="nt">OS Agent</div>
+      <div class="ns">拿去当上下文<br>帮用户做事</div>
+    </div>
+  </div>
+  <div class="cap">内容要能被<span class="pu">搜到、写入、取用</span>，<b>才进得了 OS 的上下文</b>——这是笔记进入 Agent 时代的前提。</div>
+</div>
+
+</body>
+</html>

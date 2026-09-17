@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 语音笔记 × 超级小爱｜发布会</title>
+<style>
+:root{--u:min(1vw,1.7778vh);--ink:#f6f8fc;--sub:#8b93a3;--orange:#ff8f43;--blue:#5c8dff}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#000;color:var(--ink);
+ font-family:"MiSans","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.stage{height:100vh;display:grid;place-items:center}
+.deck{width:min(100vw,177.78vh);height:min(56.25vw,100vh);overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth;background:#000}
+.slide{height:100%;position:relative;scroll-snap-align:start;overflow:hidden;
+ padding:calc(var(--u)*5) calc(var(--u)*8.5);display:flex;align-items:center;justify-content:center;background:#000}
+.page{position:absolute;right:calc(var(--u)*4);bottom:calc(var(--u)*3);font-size:calc(var(--u)*.95);font-weight:700;color:#3d4350;letter-spacing:.14em}
+
+/* ---- layout ---- */
+.wrap{display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*7);width:100%}
+.wrap.rev{flex-direction:row-reverse}
+.txt{flex:1 1 0;max-width:calc(var(--u)*52)}
+.stagep{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*2.4)}
+
+/* ---- typography ---- */
+.big{font-size:calc(var(--u)*5.3);line-height:1.18;font-weight:850;letter-spacing:-.01em;color:#fff;margin:0}
+.huge{font-size:calc(var(--u)*6.6);line-height:1.14;font-weight:860;letter-spacing:-.01em;color:#fff;margin:0}
+.sub{margin-top:calc(var(--u)*1.7);font-size:calc(var(--u)*1.55);line-height:1.62;color:var(--sub);font-weight:500}
+.say{display:block;font-size:calc(var(--u)*1.7);font-weight:800;color:var(--orange);line-height:1.5;margin-bottom:calc(var(--u)*1.9)}
+.say:before{content:"\201C"}.say:after{content:"\201D"}
+.center{display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*1.4)}
+.chips{display:flex;gap:calc(var(--u)*1.1);margin-top:calc(var(--u)*3.2)}
+.chips span{border:1px solid rgba(255,255,255,.14);border-radius:99px;padding:calc(var(--u)*.7) calc(var(--u)*1.7);font-size:calc(var(--u)*1.2);font-weight:700;color:#c7cdd8}
+.chips b{color:var(--blue);font-weight:850;margin-right:.4em}
+
+/* ---- phone ---- */
+.phone{position:relative;height:calc(var(--u)*40);aspect-ratio:9/19.5;border-radius:calc(var(--u)*3.4);
+ background:#0b0d12;padding:calc(var(--u)*.42);border:1px solid #232833;box-shadow:0 calc(var(--u)*2.4) calc(var(--u)*7) rgba(0,0,0,.6)}
+.phone::before{content:"";position:absolute;inset:-16% -22%;z-index:-1;filter:blur(24px);
+ background:radial-gradient(circle at 50% 32%,rgba(92,141,255,.20),transparent 60%)}
+.screen{height:100%;border-radius:calc(var(--u)*3.05);overflow:hidden;background:#fbfbfd;color:#1a1c22;
+ padding:calc(var(--u)*1.5) calc(var(--u)*1.3) calc(var(--u)*1.1);position:relative;display:flex;flex-direction:column}
+.stbar{height:calc(var(--u)*1.7);display:flex;justify-content:space-between;align-items:center;color:#8a8f9a;font-size:calc(var(--u)*.7);font-weight:700;flex:none}
+.tbar{display:flex;justify-content:space-between;color:#9aa0ab;font-size:calc(var(--u)*1);margin:calc(var(--u)*.4) 0 calc(var(--u)*.5)}
+.nt{font-size:calc(var(--u)*1.42);font-weight:850;margin:calc(var(--u)*.25) 0 calc(var(--u)*.15);color:#1a1c22}
+.nmeta{font-size:calc(var(--u)*.66);color:#a2a7b2;margin-bottom:calc(var(--u)*.6)}
+.aud{display:flex;align-items:center;gap:calc(var(--u)*.7);background:#f2f4f8;border-radius:calc(var(--u)*1);padding:calc(var(--u)*.55) calc(var(--u)*.8);margin-bottom:calc(var(--u)*.6)}
+.aud .pl{width:calc(var(--u)*1.6);height:calc(var(--u)*1.6);border-radius:50%;background:#ff5b53;color:#fff;display:flex;align-items:center;justify-content:center;font-size:calc(var(--u)*.72);flex:none}
+.aud .du{font-size:calc(var(--u)*.7);color:#606672}
+.aisum{background:linear-gradient(120deg,#eef3ff,#f6f2ff);border-radius:calc(var(--u)*.85);padding:calc(var(--u)*.62) calc(var(--u)*.75);font-size:calc(var(--u)*.72);line-height:1.5;color:#41485a;margin-bottom:calc(var(--u)*.5)}
+.aisum b{color:var(--blue);font-weight:850}
+.sec{font-size:calc(var(--u)*.86);font-weight:850;margin:calc(var(--u)*.6) 0 calc(var(--u)*.26);color:#2b2e36}
+.bl{display:flex;gap:calc(var(--u)*.5);font-size:calc(var(--u)*.75);line-height:1.5;color:#454a55;margin:calc(var(--u)*.2) 0}
+.bl:before{content:"";width:calc(var(--u)*.3);height:calc(var(--u)*.3);margin-top:calc(var(--u)*.46);border-radius:50%;background:#c3c8d2;flex:none}
+.todo{display:flex;gap:calc(var(--u)*.5);font-size:calc(var(--u)*.75);color:#454a55;margin:calc(var(--u)*.24) 0;align-items:flex-start}
+.todo:before{content:"";width:calc(var(--u)*.8);height:calc(var(--u)*.8);margin-top:calc(var(--u)*.04);border:1.5px solid var(--blue);border-radius:3px;flex:none}
+.hlb{background:#dfeaff;border-radius:3px;padding:0 3px;color:#2a5bd0;font-weight:800}
+.hl{background:#fff2c8;border-radius:3px;padding:0 3px;color:#8a6300;font-weight:800}
+.hg{background:#d6f5e6;border-radius:3px;padding:0 3px;color:#127a4e;font-weight:800}
+.sel{background:#dfeaff;outline:2px solid #9cbcff;border-radius:5px;padding:calc(var(--u)*.4)!important}
+.chipcal{margin-top:calc(var(--u)*.5);align-self:flex-start;display:inline-flex;align-items:center;gap:calc(var(--u)*.4);background:#eef3ff;color:var(--blue);font-size:calc(var(--u)*.72);font-weight:800;padding:calc(var(--u)*.4) calc(var(--u)*.9);border-radius:99px}
+.aibar{margin-top:auto;height:calc(var(--u)*2.7);border:1px solid #e2e6ee;border-radius:calc(var(--u)*1);background:#f4f6fa;display:flex;align-items:center;padding:0 calc(var(--u)*1);font-size:calc(var(--u)*.78);color:#8a90a0;gap:calc(var(--u)*.55);flex:none}
+.aibar .sp{color:var(--blue);font-weight:850}
+.sheet{position:absolute;left:calc(var(--u)*.9);right:calc(var(--u)*.9);bottom:calc(var(--u)*.9);background:#fff;border:1px solid #e6e9f0;border-radius:calc(var(--u)*1.4);box-shadow:0 calc(var(--u)*-1) calc(var(--u)*4) rgba(20,30,60,.14);padding:calc(var(--u)*.9)}
+.sheet .sh{display:flex;align-items:center;gap:calc(var(--u)*.5);font-size:calc(var(--u)*.78);font-weight:850;color:var(--blue);margin-bottom:calc(var(--u)*.45)}
+.sheet .sc{font-size:calc(var(--u)*.76);line-height:1.55;color:#2f3542}
+.sheet .btn{margin-top:calc(var(--u)*.6);display:inline-flex;background:var(--blue);color:#fff;font-size:calc(var(--u)*.72);font-weight:800;padding:calc(var(--u)*.42) calc(var(--u)*1);border-radius:99px}
+.aibtns{display:flex;gap:calc(var(--u)*.5);flex-wrap:wrap}
+.aibtns span{background:#eef3ff;color:var(--blue);font-size:calc(var(--u)*.74);font-weight:800;padding:calc(var(--u)*.42) calc(var(--u)*.95);border-radius:99px}
+/* recording */
+.rec{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*1.5)}
+.recbtn{width:calc(var(--u)*5.2);height:calc(var(--u)*5.2);border-radius:50%;background:#ff5b53;display:flex;align-items:center;justify-content:center}
+.recbtn i{width:calc(var(--u)*1.9);height:calc(var(--u)*1.9);background:#fff;border-radius:calc(var(--u)*.5)}
+.slide.in .recbtn{animation:pulse 1.6s ease infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 calc(var(--u)*.5) rgba(255,91,83,.28)}50%{box-shadow:0 0 0 calc(var(--u)*1.9) rgba(255,91,83,0)}}
+.waves{display:flex;align-items:flex-end;gap:calc(var(--u)*.38);height:calc(var(--u)*4)}
+.waves i{width:calc(var(--u)*.48);height:20%;border-radius:99px;background:var(--blue)}
+.slide.in .waves i{animation:wv .9s ease-in-out infinite}
+.slide.in .waves i:nth-child(2){animation-delay:.1s}.slide.in .waves i:nth-child(3){animation-delay:.2s}.slide.in .waves i:nth-child(4){animation-delay:.3s}.slide.in .waves i:nth-child(5){animation-delay:.15s}.slide.in .waves i:nth-child(6){animation-delay:.25s}
+@keyframes wv{0%,100%{height:22%}50%{height:100%}}
+.rectext{font-size:calc(var(--u)*.86);color:#9aa0ab;text-align:center;padding:0 calc(var(--u)*1.4)}
+.rectext b{color:#3a4658;font-weight:700}
+
+/* ---- reveal ---- */
+.reveal{opacity:0;transform:translateY(calc(var(--u)*1.6))}
+.slide.in .reveal{animation:rv .7s cubic-bezier(.2,.7,.2,1) forwards}
+.d1{animation-delay:.12s}.d2{animation-delay:.26s}.d3{animation-delay:.4s}
+@keyframes rv{to{opacity:1;transform:none}}
+.slide.in .sheet{opacity:0;transform:translateY(calc(var(--u)*3));animation:up .6s ease .8s forwards}
+@keyframes up{to{opacity:1;transform:none}}
+
+/* ---- nav ---- */
+.nav{position:fixed;right:1vw;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:6px}
+.nav button{width:7px;height:7px;border-radius:50%;background:#4c505c;border:0;cursor:pointer;transition:.25s;padding:0}
+.nav button.on{height:20px;border-radius:7px;background:#fff}
+@media print{html,body{overflow:visible}.deck{height:auto;overflow:visible}.slide{page-break-after:always}.nav{display:none}}
+</style>
+</head>
+<body><div class="stage"><main class="deck" id="deck">
+
+<!-- P1 亮相 -->
+<!-- 口播：这是小米 AI 语音笔记。点一下录音，说完这一段，屏幕上就是一篇整理好的笔记——自动分好段、理好条。 -->
+<section class="slide"><div class="wrap">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>2:36</span><span>5G　100</span></div>
+   <div class="rec"><div class="recbtn"><i></i></div><div class="waves"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+   <div class="rectext">正在录音 03:58<br><b>“……那分享会就定在 8 月中，主打产品复盘……”</b></div></div>
+ </div></div></div>
+ <div class="txt"><h1 class="huge reveal d1">小米 AI 语音笔记</h1><p class="sub reveal d2">说完，就是一篇笔记。</p></div>
+</div><div class="page">01 / 07</div></section>
+
+<!-- P2 开会 -->
+<!-- 口播：开一场会，你一边听一边记，经常跟不上、记不全。现在你只要把这场会录下来——散会时，笔记里已经是一份纪要：议题分了段，结论一句话说清；更关键的是，该做的事它一条条拎出来了，谁做、几号交，都标上了，散会直接就能发群。 -->
+<section class="slide"><div class="wrap">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>2:36</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>&#8593;&nbsp;&nbsp;&#8942;</span></div>
+   <div class="nt">Q3 团队分享会讨论</div><div class="nmeta">2026/07/22 10:24 · AI 生成</div>
+   <div class="aud"><span class="pl">&#9654;</span><span class="du">10:24　时长 10:58</span></div>
+   <div class="aisum">✦ <b>AI 总结</b>　敲定分享会方案，明确物料、分工与时间。</div>
+   <div class="sec">核心结论</div><div class="bl">分享会定 8 月中，主打产品经验复盘</div>
+   <div class="sec">待办</div>
+   <div class="todo">出第一版视觉方案 · <span class="hlb">张瑶 / 下周三</span></div>
+   <div class="todo">物料清单确认 · <span class="hlb">小陈 / 周五</span></div>
+   <div class="aibar"><span class="sp">✦</span>总结、润色、对话…</div>
+ </div></div></div>
+ <div class="txt"><h1 class="big reveal d1">开完会，待办<br>自动排到人和时间</h1><p class="sub reveal d2">议题、结论分条列好，待办标上谁做、几号交，散会就能发群。</p></div>
+</div><div class="page">02 / 07</div></section>
+
+<!-- P3 上课 -->
+<!-- 口播：一节课四十五分钟，信息量特别大，一句句记根本跟不上。把这节课录下来——下课就是一份课堂笔记：关键概念、老师反复强调的考点、还有例题，分门别类都标了出来。复习时翻开，重点就在眼前。 -->
+<section class="slide"><div class="wrap">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>14:11</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>&#8593;&nbsp;&nbsp;&#8942;</span></div>
+   <div class="nt">经济学 · 供需与均衡</div><div class="nmeta">2026/07/22 · 课堂录音整理</div>
+   <div class="aisum">✦ <b>本节重点</b>　供需曲线移动如何影响均衡价格。</div>
+   <div class="sec">关键概念</div>
+   <div class="bl">需求曲线右移 → 价格上升</div>
+   <div class="bl">供给减少 → 供不应求 → 涨价</div>
+   <div class="sec"><span class="hl">考点</span></div>
+   <div class="bl">供需同时移动，均衡如何变化</div>
+   <div class="sec"><span class="hg">例题</span></div>
+   <div class="bl">需求↑、成本↑，求均衡变动</div>
+   <div class="aibar"><span class="sp">✦</span>总结、润色、对话…</div>
+ </div></div></div>
+ <div class="txt"><h1 class="big reveal d1">上完课，考点和概念<br>替你划出来</h1><p class="sub reveal d2">关键概念、考点、例题分好类，复习时翻开就能用。</p></div>
+</div><div class="page">03 / 07</div></section>
+
+<!-- P4 看病 -->
+<!-- 口播：去医院看个病，医生几句话说得飞快，回到家，那些嘱咐常常就想不全了。你只要把问诊录下来——到家就是一份就诊记录：诊断结论、每种药吃多少、一天几次、忌什么口、什么时候复诊，一条条列成清单；复诊时间还能一键加进日历，到点提醒你。 -->
+<section class="slide"><div class="wrap">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>10:24</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>&#8593;&nbsp;&nbsp;&#8942;</span></div>
+   <div class="nt">呼吸内科门诊记录</div><div class="nmeta">2026/07/22 · 就诊录音整理</div>
+   <div class="sec">诊断</div><div class="bl">血常规基本正常，白细胞偏高</div>
+   <div class="sec">用药方案</div>
+   <div class="todo">头孢 · <span class="hlb">3 天，每日两次</span></div>
+   <div class="bl">忌口：<span class="hg">辛辣、油腻少吃</span></div>
+   <div class="sec">复查</div>
+   <div class="bl">仍咳嗽则<span class="hg">周二上午复诊</span>，带 CT 片</div>
+   <div class="chipcal">📅 复诊已加入日历，到点提醒</div>
+   <div class="aibar"><span class="sp">✦</span>总结、润色、对话…</div>
+ </div></div></div>
+ <div class="txt"><h1 class="big reveal d1">看完病，用药和复诊<br>列成一张清单</h1><p class="sub reveal d2">诊断、剂量频次、忌口、复诊时间逐条列清，复诊还能一键进日历。</p></div>
+</div><div class="page">04 / 07</div></section>
+
+<!-- P5 亮相小爱 -->
+<!-- 口播：记录，只是开始。一篇笔记写好之后，你往往还想再改改、补补，把它变成能发出去、能对外讲的样子。这一次，超级小爱直接进了笔记：打开任意一篇，喊它一声，它就着这篇内容，接着帮你改、帮你写。 -->
+<section class="slide"><div class="wrap rev">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>21:00</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>超级小爱</span><span>&#8942;</span></div>
+   <div class="nt">Q3 团队分享会讨论</div><div class="nmeta">刚刚整理</div>
+   <div class="bl">分享会定 8 月中，主打产品经验复盘</div>
+   <div class="bl">待办：张瑶出视觉、小陈定物料</div>
+   <div class="bl">下周三对齐第一版</div>
+   <div class="sheet"><div class="sh">✦ 超级小爱</div>
+     <div class="aibtns"><span>改写润色</span><span>顺着补写</span><span>总结重点</span></div></div>
+ </div></div></div>
+ <div class="txt"><h1 class="big reveal d1">继续写和改</h1><p class="sub reveal d2">同一篇笔记里，随时唤起超级小爱，接着改、接着写。</p></div>
+</div><div class="page">05 / 07</div></section>
+
+<!-- P6 改写 -->
+<!-- 口播：开会时你随手记了几条，零零碎碎的。会后想发到群里，还得自己重新捋一遍、组织半天。现在你把这几条选中，跟小爱说一句"改得正式点"——它就理成通顺得体的一段，只动表达，不改你的意思，看一眼就能发。 -->
+<section class="slide"><div class="wrap rev">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>21:20</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>超级小爱</span><span>&#8942;</span></div>
+   <div class="nt">改善计划 · 讨论随手记</div><div class="nmeta">会上随手记</div>
+   <div class="bl sel">分手机、pad、海外三块；海外单独一类；8月先交付语音笔记；下周对齐验收</div>
+   <div class="sheet"><div class="sh">✦ 超级小爱 · 理成结论</div>
+     <div class="sc">本次讨论明确：改善计划按手机、Pad、海外三类推进，海外作为独立交付类别；8 月优先交付语音笔记，下周对齐各项验收标准。</div>
+     <div class="btn">替换回原文</div></div>
+ </div></div></div>
+ <div class="txt"><span class="say reveal">改成正式语气</span><h1 class="big reveal d1">零碎讨论，<br>理成能发的结论</h1><p class="sub reveal d2">零碎几句整理成通顺得体的一段，只改表达，不改你的意思。</p></div>
+</div><div class="page">06 / 07</div></section>
+
+<!-- P7 补写 -->
+<!-- 口播：要上台发个言，手上却只有几条提纲。让小爱顺着这几条往下补——出来就是一篇条理清楚、能照着念的稿子，顺着你的重点写，不套模板、不说空话。提纲是你的，话也是你想说的，它只是替你写完整。 -->
+<section class="slide"><div class="wrap rev">
+ <div class="stagep"><div class="phone reveal"><div class="screen">
+   <div class="stbar"><span>21:35</span><span>5G　100</span></div>
+   <div class="tbar"><span>&lsaquo;</span><span>超级小爱</span><span>&#8942;</span></div>
+   <div class="nt">家长会发言 · 提纲</div><div class="nmeta">发言前列的几条</div>
+   <div class="bl">1. 感谢老师这学期的付出</div>
+   <div class="bl">2. 孩子在阅读和表达上的进步</div>
+   <div class="bl">3. 家校怎么配合、下学期小目标</div>
+   <div class="sheet"><div class="sh">✦ 超级小爱 · 补成发言稿</div>
+     <div class="sc">各位老师、家长好。首先感谢老师这一学期的用心付出。孩子在阅读和表达上进步明显，也更愿意主动分享。下学期想和老师一起，把每天的阅读习惯坚持下来。</div>
+     <div class="btn">插入到笔记</div></div>
+ </div></div></div>
+ <div class="txt"><span class="say reveal">扩写成发言稿</span><h1 class="big reveal d1">列了几条提纲<br>写成能照着讲的稿子</h1><p class="sub reveal d2">顺着你写的重点往下补，不套模板、不说空话。</p></div>
+</div><div class="page">07 / 07</div></section>
+
+
+</main></div><nav class="nav" id="nav"></nav>
+<script>
+const deck=document.querySelector('#deck'),slides=[...document.querySelectorAll('.slide')],nav=document.querySelector('#nav');let cur=0;
+slides.forEach((s,i)=>{let b=document.createElement('button');b.onclick=()=>go(i);nav.appendChild(b)});
+const dots=[...nav.children];
+function go(i){cur=Math.max(0,Math.min(slides.length-1,i));slides[cur].scrollIntoView({behavior:'smooth'})}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');cur=slides.indexOf(e.target);dots.forEach((d,i)=>d.classList.toggle('on',i===cur))}else e.target.classList.remove('in')}),{root:deck,threshold:.55});
+slides.forEach(s=>io.observe(s));
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();go(cur+1)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1)});
+</script>
+</body></html>

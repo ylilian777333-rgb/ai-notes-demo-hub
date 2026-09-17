@@ -1,0 +1,2400 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f5f6f8">
+  <link rel="icon" href="data:,">
+  <title>OS5 笔记 · 一句话到访谈原声动效 Demo</title>
+  <style>
+    :root {
+      --ink: #1b2033;
+      --ink-soft: #3a4560;
+      --muted: #6b7280;
+      --muted-light: #9ca3af;
+      --line: #e5e7eb;
+      --panel: #ffffff;
+      --canvas: #f5f6f8;
+      --canvas-deep: #eceff4;
+      --blue: #5780ff;
+      --blue-deep: #4268e8;
+      --blue-soft: #eef3ff;
+      --blue-pale: #f7f9ff;
+      --green: #38a977;
+      --green-soft: #eaf8f1;
+      --amber: #c98519;
+      --amber-soft: #fff6e7;
+      --purple: #8b6de9;
+      --purple-soft: #f3efff;
+      --shadow-lg: 0 30px 80px rgba(41, 49, 73, 0.16), 0 8px 24px rgba(41, 49, 73, 0.08);
+      --shadow-md: 0 14px 34px rgba(41, 49, 73, 0.11), 0 3px 10px rgba(41, 49, 73, 0.06);
+      --ease-out: cubic-bezier(.2, .78, .22, 1);
+      --ease-spring: cubic-bezier(.16, 1, .3, 1);
+      font-family: "MiSans", "Mi Sans", "PingFang SC", "Noto Sans CJK SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      min-width: 0;
+      scroll-behavior: smooth;
+      background: var(--canvas);
+    }
+
+    body {
+      margin: 0;
+      min-width: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 16% 12%, rgba(87, 128, 255, .12), transparent 28rem),
+        radial-gradient(circle at 88% 78%, rgba(56, 169, 119, .08), transparent 30rem),
+        var(--canvas);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    button, a { font: inherit; }
+    button { color: inherit; }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid rgba(87, 128, 255, .42);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 100;
+      top: 12px;
+      left: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: #fff;
+      background: var(--ink);
+      transform: translateY(-150%);
+      transition: transform .2s ease;
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .page {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 48px 0 36px;
+    }
+
+    .page-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 28px;
+      margin-bottom: 36px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 12px;
+      color: var(--blue-deep);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--blue);
+      box-shadow: 0 0 0 5px rgba(87, 128, 255, .12);
+      content: "";
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(34px, 4.2vw, 62px);
+      font-weight: 750;
+      line-height: 1.06;
+      letter-spacing: -.055em;
+    }
+
+    .header-copy {
+      max-width: 690px;
+      margin: 18px 0 0;
+      color: var(--ink-soft);
+      font-size: clamp(15px, 1.35vw, 18px);
+      line-height: 1.72;
+    }
+
+    .header-note {
+      max-width: 248px;
+      padding: 14px 16px;
+      border: 1px solid rgba(27, 32, 51, .08);
+      border-radius: 16px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, .72);
+      font-size: 12px;
+      line-height: 1.6;
+      box-shadow: 0 8px 24px rgba(41, 49, 73, .05);
+      backdrop-filter: blur(16px);
+    }
+
+    .header-note strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .prototype-grid {
+      display: grid;
+      grid-template-columns: minmax(330px, 420px) minmax(0, 1fr);
+      align-items: start;
+      gap: clamp(36px, 6vw, 88px);
+    }
+
+    .device-column {
+      position: sticky;
+      top: 22px;
+      min-width: 0;
+    }
+
+    .phone-wrap {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      padding: 0 14px;
+    }
+
+    .phone-wrap::before {
+      position: absolute;
+      z-index: -1;
+      width: 84%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(87, 128, 255, .2), rgba(87, 128, 255, 0) 68%);
+      filter: blur(16px);
+      content: "";
+    }
+
+    .phone {
+      position: relative;
+      container: phone / inline-size;
+      width: min(392px, 100%);
+      aspect-ratio: 392 / 851;
+      border: 1px solid #dce0e9;
+      border-radius: 11.22cqw;
+      background: #fff;
+      box-shadow: var(--shadow-lg);
+      isolation: isolate;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .phone::after {
+      position: absolute;
+      z-index: 20;
+      inset: 0;
+      border: .85cqw solid rgba(255, 255, 255, .78);
+      border-radius: inherit;
+      pointer-events: none;
+      content: "";
+    }
+
+    .statusbar {
+      position: absolute;
+      z-index: 12;
+      inset: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 8.7cqw;
+      padding: 0 4.85cqw;
+      color: var(--ink);
+      background: rgba(255, 255, 255, .96);
+      font-size: 3.06cqw;
+      font-weight: 650;
+      letter-spacing: -.02em;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 1.02cqw;
+    }
+
+    .status-signal {
+      display: flex;
+      align-items: end;
+      gap: .42cqw;
+      height: 2.55cqw;
+    }
+
+    .status-signal i {
+      display: block;
+      width: .72cqw;
+      border-radius: .4cqw;
+      background: var(--ink);
+    }
+
+    .status-signal i:nth-child(1) { height: 35%; }
+    .status-signal i:nth-child(2) { height: 55%; }
+    .status-signal i:nth-child(3) { height: 78%; }
+    .status-signal i:nth-child(4) { height: 100%; }
+
+    .status-wifi {
+      width: 3.2cqw;
+      height: 2.5cqw;
+      border: .62cqw solid var(--ink);
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+      border-radius: 50% 0 0;
+      transform: rotate(45deg) translateY(.2cqw);
+    }
+
+    .status-battery {
+      position: relative;
+      width: 4.7cqw;
+      height: 2.55cqw;
+      border: .48cqw solid var(--ink);
+      border-radius: .65cqw;
+    }
+
+    .status-battery::before {
+      position: absolute;
+      inset: .35cqw .45cqw;
+      border-radius: .25cqw;
+      background: var(--ink);
+      content: "";
+    }
+
+    .status-battery::after {
+      position: absolute;
+      top: .48cqw;
+      right: -1.05cqw;
+      width: .65cqw;
+      height: 1.05cqw;
+      border-radius: 0 .35cqw .35cqw 0;
+      background: var(--ink);
+      content: "";
+    }
+
+    .phone-viewport {
+      position: absolute;
+      z-index: 2;
+      inset: 8.7cqw 0 17.85cqw;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .screen-layer {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      will-change: opacity, transform;
+    }
+
+    #screenPrevious {
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    #screenCurrent { z-index: 2; }
+
+    #screenCurrent.is-entering {
+      opacity: 0;
+      transform: translateY(2.6cqw) scale(.992);
+    }
+
+    #screenCurrent.is-active {
+      opacity: 1;
+      transform: none;
+      transition: opacity .42s var(--ease-out), transform .48s var(--ease-spring);
+    }
+
+    #screenPrevious.is-exiting {
+      opacity: 0;
+      transform: translateY(-1.8cqw) scale(.995);
+      transition: opacity .32s ease, transform .42s var(--ease-out);
+    }
+
+    .phone-tabs {
+      position: absolute;
+      z-index: 14;
+      inset: auto 0 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 17.85cqw;
+      padding: 2cqw 14.3cqw 3.4cqw;
+      border-top: .25cqw solid rgba(229, 231, 235, .92);
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(20px);
+    }
+
+    .phone-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .7cqw;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 3cqw;
+      color: var(--muted-light);
+      background: transparent;
+      font-size: 2.65cqw;
+      cursor: pointer;
+      transition: color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+    .phone-tab:hover { background: #f7f8fa; }
+    .phone-tab:active { transform: scale(.96); }
+    .phone-tab.is-active { color: var(--blue); font-weight: 700; }
+    .phone-tab svg { width: 5.2cqw; height: 5.2cqw; }
+
+    .home-indicator {
+      position: absolute;
+      z-index: 16;
+      bottom: 1.9cqw;
+      left: 50%;
+      width: 30.6cqw;
+      height: 1.02cqw;
+      border-radius: 999px;
+      background: rgba(27, 32, 51, .22);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 0 4.85cqw 3.6cqw;
+      overflow: hidden;
+      color: var(--ink);
+      background: #fff;
+      font-size: 3.05cqw;
+    }
+
+    .appbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 14.25cqw;
+      gap: 2cqw;
+    }
+
+    .appbar-start,
+    .appbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.5cqw;
+    }
+
+    .appbar-title {
+      margin: 0;
+      font-size: 5.35cqw;
+      font-weight: 750;
+      line-height: 1.12;
+      letter-spacing: -.045em;
+    }
+
+    .appbar-title.small {
+      max-width: 58cqw;
+      overflow: hidden;
+      font-size: 4.2cqw;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .icon-button {
+      display: grid;
+      place-items: center;
+      width: 8.15cqw;
+      height: 8.15cqw;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      color: var(--ink);
+      background: #f4f5f8;
+      cursor: pointer;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .icon-button:hover { background: #eceff4; }
+    .icon-button:active { transform: scale(.92); }
+    .icon-button svg { width: 4.35cqw; height: 4.35cqw; }
+
+    .plain-back {
+      display: grid;
+      place-items: center;
+      width: 7.2cqw;
+      height: 7.2cqw;
+      margin-left: -1.4cqw;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .plain-back:hover { background: #f4f5f8; }
+    .plain-back svg { width: 5.1cqw; height: 5.1cqw; }
+
+    .section-kicker {
+      margin: 1.2cqw 0 2.7cqw;
+      color: var(--muted);
+      font-size: 2.7cqw;
+      font-weight: 600;
+      letter-spacing: .02em;
+    }
+
+    .notes-list {
+      display: grid;
+      gap: 2.55cqw;
+    }
+
+    .note-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 12.75cqw 1fr;
+      gap: 3.05cqw;
+      min-height: 17.6cqw;
+      padding: 3.05cqw;
+      border: .25cqw solid #edf0f4;
+      border-radius: 4.1cqw;
+      background: #fff;
+      box-shadow: 0 1.2cqw 3.7cqw rgba(41, 49, 73, .045);
+      overflow: hidden;
+    }
+
+    button.note-row {
+      width: 100%;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .note-row.is-new {
+      border-color: rgba(87, 128, 255, .34);
+      background: linear-gradient(135deg, #fff, var(--blue-pale));
+      box-shadow: 0 2.3cqw 6cqw rgba(87, 128, 255, .13);
+      animation: noteLand .68s var(--ease-spring) both;
+    }
+
+    .note-row.is-understanding::after {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 26%, rgba(255,255,255,.78) 44%, transparent 62%);
+      transform: translateX(-110%);
+      animation: shimmer 1.35s ease-in-out infinite;
+      pointer-events: none;
+      content: "";
+    }
+
+    .note-time {
+      padding-top: .25cqw;
+      color: var(--muted);
+      font-size: 2.65cqw;
+      line-height: 1.35;
+    }
+
+    .note-time strong {
+      display: block;
+      color: var(--ink-soft);
+      font-size: 3.05cqw;
+      font-weight: 700;
+    }
+
+    .note-copy { min-width: 0; }
+
+    .note-title {
+      margin: 0;
+      font-size: 3.55cqw;
+      font-weight: 720;
+      line-height: 1.32;
+    }
+
+    .note-preview {
+      display: -webkit-box;
+      margin: 1.1cqw 0 0;
+      overflow: hidden;
+      color: var(--ink-soft);
+      font-size: 2.82cqw;
+      line-height: 1.55;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .note-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.2cqw;
+      margin-top: 1.45cqw;
+      color: var(--muted);
+      font-size: 2.45cqw;
+    }
+
+    .mini-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .8cqw;
+      min-height: 5.1cqw;
+      padding: .55cqw 1.7cqw;
+      border-radius: 999px;
+      color: var(--blue-deep);
+      background: var(--blue-soft);
+      font-size: 2.35cqw;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .mini-badge.green { color: #25845b; background: var(--green-soft); }
+
+    .mini-badge .dot {
+      width: 1.25cqw;
+      height: 1.25cqw;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .processing-strip {
+      display: flex;
+      align-items: center;
+      gap: 2.2cqw;
+      margin: 2.3cqw 0 2.8cqw;
+      padding: 2.35cqw 3cqw;
+      border-radius: 3.3cqw;
+      color: var(--blue-deep);
+      background: var(--blue-soft);
+      font-size: 2.75cqw;
+      font-weight: 650;
+      animation: stripIn .46s var(--ease-spring) both;
+    }
+
+    .thinking-dots {
+      display: flex;
+      gap: .8cqw;
+    }
+
+    .thinking-dots i {
+      width: 1.35cqw;
+      height: 1.35cqw;
+      border-radius: 50%;
+      background: var(--blue);
+      animation: thinking 1.1s ease-in-out infinite;
+    }
+
+    .thinking-dots i:nth-child(2) { animation-delay: .13s; }
+    .thinking-dots i:nth-child(3) { animation-delay: .26s; }
+
+    .success-strip {
+      display: flex;
+      align-items: center;
+      gap: 2.2cqw;
+      margin: 2.3cqw 0 2.8cqw;
+      padding: 2.35cqw 3cqw;
+      border-radius: 3.3cqw;
+      color: #237a55;
+      background: var(--green-soft);
+      font-size: 2.75cqw;
+      font-weight: 650;
+      animation: stripIn .46s var(--ease-spring) both;
+    }
+
+    .success-check {
+      display: grid;
+      place-items: center;
+      width: 4.8cqw;
+      height: 4.8cqw;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--green);
+      animation: checkPop .5s var(--ease-spring) both;
+    }
+
+    .success-check svg { width: 3.05cqw; height: 3.05cqw; }
+
+    .saved-toast {
+      position: absolute;
+      z-index: 8;
+      top: 2cqw;
+      left: 50%;
+      display: flex;
+      align-items: center;
+      gap: 1.6cqw;
+      width: max-content;
+      max-width: 83cqw;
+      padding: 2.05cqw 3cqw;
+      border: .25cqw solid rgba(56, 169, 119, .2);
+      border-radius: 999px;
+      color: #237a55;
+      background: rgba(242, 252, 247, .97);
+      box-shadow: 0 2cqw 5cqw rgba(28, 91, 66, .13);
+      font-size: 2.65cqw;
+      font-weight: 680;
+      transform: translateX(-50%);
+      animation: toastDrop .62s var(--ease-spring) both;
+      white-space: nowrap;
+    }
+
+    .saved-toast svg { width: 3.4cqw; height: 3.4cqw; }
+
+    .capture-dim {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background: rgba(246, 248, 252, .56);
+      backdrop-filter: blur(.6cqw);
+      animation: fadeIn .36s ease both;
+    }
+
+    .capture-sheet {
+      position: absolute;
+      z-index: 5;
+      right: 3.05cqw;
+      bottom: 3.05cqw;
+      left: 3.05cqw;
+      min-height: 51cqw;
+      padding: 3.8cqw 3.8cqw 3.3cqw;
+      border: .25cqw solid rgba(87, 128, 255, .18);
+      border-radius: 6.1cqw;
+      background: rgba(255, 255, 255, .98);
+      box-shadow: 0 5cqw 14cqw rgba(41, 49, 73, .2);
+      animation: sheetUp .72s var(--ease-spring) both;
+    }
+
+    .capture-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2cqw;
+    }
+
+    .capture-label {
+      display: flex;
+      align-items: center;
+      gap: 2cqw;
+      color: var(--ink-soft);
+      font-size: 2.7cqw;
+      font-weight: 700;
+    }
+
+    .assistant-orb {
+      position: relative;
+      width: 7.2cqw;
+      height: 7.2cqw;
+      border-radius: 50%;
+      background: conic-gradient(from 210deg, #9fc0ff, #6f8fff, #ab8fff, #72d9bd, #9fc0ff);
+      box-shadow: 0 0 0 1.6cqw rgba(87, 128, 255, .09);
+    }
+
+    .assistant-orb::after {
+      position: absolute;
+      inset: 1.55cqw;
+      border-radius: 50%;
+      background: #fff;
+      content: "";
+    }
+
+    .recording-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.1cqw;
+      padding: 1.15cqw 2cqw;
+      border-radius: 999px;
+      color: #d45555;
+      background: #fff0f0;
+      font-size: 2.35cqw;
+      font-weight: 700;
+    }
+
+    .recording-pill::before {
+      width: 1.6cqw;
+      height: 1.6cqw;
+      border-radius: 50%;
+      background: #e35e5e;
+      animation: recordPulse 1.15s ease-in-out infinite;
+      content: "";
+    }
+
+    .captured-quote {
+      margin: 3cqw 0 2.2cqw;
+      font-size: 3.45cqw;
+      font-weight: 670;
+      line-height: 1.55;
+      letter-spacing: -.025em;
+    }
+
+    .capture-wave {
+      display: flex;
+      align-items: center;
+      gap: .75cqw;
+      height: 8cqw;
+      padding: 0 .6cqw;
+      overflow: hidden;
+    }
+
+    .capture-wave i,
+    .wavebar i {
+      display: block;
+      flex: 1;
+      min-width: .55cqw;
+      border-radius: 999px;
+      background: linear-gradient(to top, var(--blue), #96b2ff);
+      transform-origin: center;
+    }
+
+    .capture-wave i { animation: wave 1.05s ease-in-out infinite alternate; }
+    .capture-wave i:nth-child(3n) { animation-delay: -.38s; }
+    .capture-wave i:nth-child(4n) { animation-delay: -.72s; }
+    .capture-wave i:nth-child(5n) { animation-delay: -.2s; }
+
+    .capture-confirm {
+      display: flex;
+      align-items: center;
+      gap: 1.6cqw;
+      margin-top: 1.4cqw;
+      color: var(--green);
+      font-size: 2.65cqw;
+      font-weight: 700;
+    }
+
+    .capture-confirm svg { width: 3.65cqw; height: 3.65cqw; }
+
+    .collection-hero {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2cqw;
+      margin: .8cqw 0 3.2cqw;
+      padding: 3.45cqw;
+      border: .25cqw solid rgba(87, 128, 255, .14);
+      border-radius: 4.6cqw;
+      background: linear-gradient(135deg, #f9fbff, #eef3ff);
+    }
+
+    .collection-hero strong {
+      display: block;
+      font-size: 3.5cqw;
+      line-height: 1.35;
+    }
+
+    .collection-hero p {
+      margin: 1cqw 0 0;
+      color: var(--muted);
+      font-size: 2.6cqw;
+      line-height: 1.45;
+    }
+
+    .hero-spark {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 8.2cqw;
+      height: 8.2cqw;
+      border-radius: 3cqw;
+      color: var(--blue);
+      background: #fff;
+      box-shadow: 0 1.5cqw 4cqw rgba(87, 128, 255, .12);
+    }
+
+    .hero-spark svg { width: 4.7cqw; height: 4.7cqw; }
+
+    .collection-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.3cqw;
+    }
+
+    .collection-card {
+      position: relative;
+      min-height: 29.2cqw;
+      padding: 3.25cqw;
+      border: .25cqw solid #eceff4;
+      border-radius: 4.35cqw;
+      color: inherit;
+      background: #fff;
+      box-shadow: 0 1.25cqw 4cqw rgba(41, 49, 73, .055);
+      text-align: left;
+      overflow: hidden;
+    }
+
+    button.collection-card {
+      width: 100%;
+      cursor: pointer;
+      transition: transform .24s ease, box-shadow .24s ease;
+    }
+
+    button.collection-card:hover {
+      transform: translateY(-.7cqw);
+      box-shadow: 0 2cqw 6cqw rgba(41, 49, 73, .1);
+    }
+
+    .collection-card.interview {
+      border-color: rgba(87, 128, 255, .3);
+      background: linear-gradient(150deg, #fff, #f4f7ff);
+      animation: cardUpdate .72s var(--ease-spring) both;
+    }
+
+    .collection-icon {
+      display: grid;
+      place-items: center;
+      width: 8.65cqw;
+      height: 8.65cqw;
+      margin-bottom: 3.2cqw;
+      border-radius: 3cqw;
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .collection-icon.green { color: var(--green); background: var(--green-soft); }
+    .collection-icon.amber { color: var(--amber); background: var(--amber-soft); }
+    .collection-icon.purple { color: var(--purple); background: var(--purple-soft); }
+    .collection-icon svg { width: 4.8cqw; height: 4.8cqw; }
+
+    .collection-name {
+      display: block;
+      font-size: 3.35cqw;
+      font-weight: 720;
+      line-height: 1.25;
+    }
+
+    .collection-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1cqw;
+      margin-top: 1.2cqw;
+      color: var(--muted);
+      font-size: 2.45cqw;
+    }
+
+    .count-bump {
+      display: inline-grid;
+      place-items: center;
+      min-width: 5.3cqw;
+      height: 5.3cqw;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--blue);
+      font-size: 2.55cqw;
+      font-weight: 760;
+      animation: countPop .76s var(--ease-spring) both;
+    }
+
+    .update-ribbon {
+      position: absolute;
+      top: 2.5cqw;
+      right: -6.2cqw;
+      width: 24cqw;
+      padding: 1cqw 0;
+      color: #fff;
+      background: var(--green);
+      font-size: 2cqw;
+      font-weight: 750;
+      text-align: center;
+      transform: rotate(35deg);
+      animation: ribbonIn .62s .18s var(--ease-spring) both;
+    }
+
+    .dimension-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .8cqw;
+      margin: .8cqw 0 3cqw;
+      padding: .8cqw;
+      border-radius: 3.4cqw;
+      background: #f2f4f8;
+    }
+
+    .dimension-tab {
+      padding: 1.7cqw 1.3cqw;
+      border: 0;
+      border-radius: 2.7cqw;
+      color: var(--muted);
+      background: transparent;
+      font-size: 2.65cqw;
+      font-weight: 680;
+    }
+
+    .dimension-tab.is-active {
+      color: var(--ink);
+      background: #fff;
+      box-shadow: 0 1cqw 2.7cqw rgba(41, 49, 73, .08);
+    }
+
+    .interview-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2cqw;
+      margin-bottom: 2.6cqw;
+    }
+
+    .interview-summary h2 {
+      margin: 0;
+      font-size: 4.45cqw;
+      line-height: 1.2;
+      letter-spacing: -.035em;
+    }
+
+    .interview-summary p {
+      margin: .75cqw 0 0;
+      color: var(--muted);
+      font-size: 2.5cqw;
+    }
+
+    .people-stack { display: flex; padding-right: 1.3cqw; }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 6.8cqw;
+      height: 6.8cqw;
+      margin-right: -1.25cqw;
+      border: .55cqw solid #fff;
+      border-radius: 50%;
+      color: #fff;
+      background: #7a96eb;
+      font-size: 2.2cqw;
+      font-weight: 750;
+    }
+
+    .avatar:nth-child(2) { background: #5fb28f; }
+    .avatar:nth-child(3) { background: #d29a55; }
+    .avatar:nth-child(4) { background: #9b7cda; }
+
+    .insights-list {
+      display: grid;
+      gap: 2.25cqw;
+    }
+
+    .insight-card {
+      padding: 3.15cqw;
+      border: .25cqw solid #e8ebf0;
+      border-radius: 4.1cqw;
+      background: #fff;
+      box-shadow: 0 1cqw 3.5cqw rgba(41, 49, 73, .05);
+      animation: insightIn .56s var(--ease-spring) both;
+    }
+
+    .insight-card:nth-child(2) { animation-delay: .1s; }
+
+    .insight-head {
+      display: flex;
+      align-items: center;
+      gap: 1.7cqw;
+      margin-bottom: 1.75cqw;
+    }
+
+    .insight-index {
+      display: grid;
+      place-items: center;
+      width: 5.3cqw;
+      height: 5.3cqw;
+      border-radius: 1.7cqw;
+      color: var(--blue-deep);
+      background: var(--blue-soft);
+      font-size: 2.25cqw;
+      font-weight: 780;
+    }
+
+    .insight-title {
+      margin: 0;
+      font-size: 3.15cqw;
+      font-weight: 740;
+    }
+
+    .insight-copy {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 2.72cqw;
+      line-height: 1.6;
+    }
+
+    .quote-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2cqw;
+      width: 100%;
+      margin-top: 2cqw;
+      padding: 2.15cqw 2.35cqw;
+      border: 0;
+      border-radius: 3cqw;
+      color: var(--blue-deep);
+      background: var(--blue-soft);
+      font-size: 2.55cqw;
+      font-weight: 680;
+      text-align: left;
+      cursor: pointer;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .quote-link:hover { background: #e3ebff; }
+    .quote-link:active { transform: scale(.985); }
+    .quote-link svg { flex: 0 0 auto; width: 3.7cqw; height: 3.7cqw; }
+
+    .quote-link.is-locating {
+      color: #fff;
+      background: var(--blue);
+      animation: quoteLocate .8s ease-in-out infinite alternate;
+    }
+
+    .locating-overlay {
+      position: absolute;
+      z-index: 7;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, .7);
+      backdrop-filter: blur(1cqw);
+      animation: fadeIn .28s ease both;
+    }
+
+    .locating-card {
+      display: grid;
+      justify-items: center;
+      width: 66cqw;
+      padding: 5cqw;
+      border: .25cqw solid rgba(87, 128, 255, .2);
+      border-radius: 5cqw;
+      background: rgba(255,255,255,.98);
+      box-shadow: 0 4cqw 12cqw rgba(41,49,73,.16);
+      text-align: center;
+    }
+
+    .locating-radar {
+      position: relative;
+      width: 13cqw;
+      height: 13cqw;
+      margin-bottom: 3cqw;
+      border-radius: 50%;
+      background: var(--blue-soft);
+    }
+
+    .locating-radar::before,
+    .locating-radar::after {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      border-radius: 50%;
+      background: var(--blue);
+      transform: translate(-50%, -50%);
+      content: "";
+    }
+
+    .locating-radar::before {
+      width: 4.3cqw;
+      height: 4.3cqw;
+    }
+
+    .locating-radar::after {
+      width: 8cqw;
+      height: 8cqw;
+      opacity: .16;
+      animation: radar 1.15s ease-out infinite;
+    }
+
+    .locating-card strong { font-size: 3.2cqw; }
+    .locating-card span { margin-top: 1cqw; color: var(--muted); font-size: 2.55cqw; }
+
+    .audio-header {
+      padding: 2.9cqw 3.15cqw;
+      border-radius: 4.2cqw;
+      background: linear-gradient(145deg, #f4f7ff, #edf2ff);
+    }
+
+    .audio-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2cqw;
+    }
+
+    .audio-title {
+      margin: 0;
+      font-size: 3.55cqw;
+      font-weight: 750;
+      line-height: 1.35;
+    }
+
+    .audio-subtitle {
+      margin: .8cqw 0 0;
+      color: var(--muted);
+      font-size: 2.45cqw;
+    }
+
+    .play-disc {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 9.5cqw;
+      height: 9.5cqw;
+      border: 0;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--blue);
+      box-shadow: 0 1.8cqw 4.5cqw rgba(87,128,255,.28);
+      cursor: pointer;
+    }
+
+    .play-disc svg { width: 4.2cqw; height: 4.2cqw; }
+
+    .wavebar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: .48cqw;
+      height: 10.5cqw;
+      margin-top: 2.5cqw;
+      overflow: hidden;
+    }
+
+    .wavebar i {
+      background: #b5c5ee;
+      animation: audioWave 1.25s ease-in-out infinite alternate;
+    }
+
+    .wavebar i.is-played { background: var(--blue); }
+    .wavebar i:nth-child(3n) { animation-delay: -.55s; }
+    .wavebar i:nth-child(4n) { animation-delay: -.88s; }
+
+    .audio-time {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 2.35cqw;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .audio-time strong { color: var(--blue-deep); font-weight: 760; }
+
+    .source-badge {
+      display: flex;
+      align-items: center;
+      gap: 1.4cqw;
+      margin: 2.5cqw 0 2.1cqw;
+      color: var(--blue-deep);
+      font-size: 2.5cqw;
+      font-weight: 700;
+    }
+
+    .source-badge svg { width: 3.6cqw; height: 3.6cqw; }
+
+    .transcript {
+      display: grid;
+      gap: 1.2cqw;
+    }
+
+    .transcript-block {
+      display: grid;
+      grid-template-columns: 10.3cqw 1fr;
+      gap: 2.1cqw;
+      padding: 2.1cqw 2.35cqw;
+      border-radius: 3.1cqw;
+      color: var(--ink-soft);
+      font-size: 2.55cqw;
+      line-height: 1.55;
+    }
+
+    .transcript-block time {
+      color: var(--muted-light);
+      font-size: 2.3cqw;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .transcript-block.is-highlighted {
+      position: relative;
+      color: var(--ink);
+      background: linear-gradient(90deg, #eaf0ff, #f6f8ff);
+      box-shadow: inset .9cqw 0 0 var(--blue);
+      animation: highlightIn .7s var(--ease-spring) both;
+    }
+
+    .transcript-block mark {
+      color: inherit;
+      background: rgba(255, 220, 108, .6);
+      border-radius: .7cqw;
+      padding: 0 .35cqw;
+    }
+
+    .used-by-insight {
+      display: inline-flex;
+      align-items: center;
+      gap: 1cqw;
+      margin: 1.6cqw 0 0 12.4cqw;
+      padding: 1.25cqw 2cqw;
+      border-radius: 999px;
+      color: #237a55;
+      background: var(--green-soft);
+      font-size: 2.35cqw;
+      font-weight: 700;
+      animation: stripIn .55s .28s var(--ease-spring) both;
+    }
+
+    .used-by-insight svg { width: 3.1cqw; height: 3.1cqw; }
+
+    .device-caption {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(56, 169, 119, .1);
+    }
+
+    .story-panel {
+      min-width: 0;
+      padding-top: 6px;
+    }
+
+    .stage-card {
+      padding: clamp(22px, 3vw, 34px);
+      border: 1px solid rgba(27, 32, 51, .08);
+      border-radius: 26px;
+      background: rgba(255, 255, 255, .8);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(18px);
+    }
+
+    .stage-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .stage-number {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--blue-deep);
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: .04em;
+    }
+
+    .stage-number span {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      color: #fff;
+      background: var(--blue);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stage-duration {
+      color: var(--muted);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stage-title {
+      margin: 0;
+      font-size: clamp(27px, 3.1vw, 42px);
+      font-weight: 760;
+      line-height: 1.12;
+      letter-spacing: -.045em;
+    }
+
+    .stage-description {
+      max-width: 580px;
+      min-height: 3.3em;
+      margin: 14px 0 0;
+      color: var(--ink-soft);
+      font-size: 15px;
+      line-height: 1.68;
+    }
+
+    .stage-rule {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      color: #3654aa;
+      background: var(--blue-soft);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .stage-rule svg {
+      flex: 0 0 auto;
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+    }
+
+    .timeline {
+      margin-top: 22px;
+    }
+
+    .timeline-track {
+      position: relative;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: #e4e8ef;
+      overflow: hidden;
+    }
+
+    .timeline-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), #7c9bff);
+      will-change: width;
+    }
+
+    .timeline-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: var(--muted-light);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .control-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 15px;
+      border: 1px solid #dfe3ea;
+      border-radius: 13px;
+      color: var(--ink-soft);
+      background: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .control-button:hover { border-color: #cdd5e3; background: #fafbfc; }
+    .control-button:active { transform: scale(.97); }
+    .control-button.primary { border-color: var(--blue); color: #fff; background: var(--blue); }
+    .control-button.primary:hover { background: var(--blue-deep); }
+    .control-button svg { width: 17px; height: 17px; }
+
+    .shortcut-copy {
+      margin-left: auto;
+      color: var(--muted-light);
+      font-size: 11px;
+    }
+
+    .steps-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 28px 2px 12px;
+    }
+
+    .steps-heading h2 {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: -.01em;
+    }
+
+    .steps-heading span { color: var(--muted); font-size: 12px; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .step-button {
+      position: relative;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 62px;
+      padding: 10px 12px;
+      border: 1px solid rgba(27, 32, 51, .08);
+      border-radius: 15px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, .62);
+      text-align: left;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform .22s ease, background .22s ease, border-color .22s ease, color .22s ease;
+    }
+
+    .step-button:hover {
+      color: var(--ink-soft);
+      background: #fff;
+      transform: translateY(-1px);
+    }
+
+    .step-button.is-active {
+      border-color: rgba(87, 128, 255, .38);
+      color: var(--ink);
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(87, 128, 255, .1);
+    }
+
+    .step-index {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      color: var(--muted);
+      background: #eceff4;
+      font-size: 11px;
+      font-weight: 780;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .step-button.is-active .step-index { color: #fff; background: var(--blue); }
+
+    .step-copy { min-width: 0; }
+    .step-copy strong { display: block; overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+    .step-copy small { display: block; margin-top: 3px; color: var(--muted-light); font-size: 10px; }
+
+    .interaction-note {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 1px dashed #cfd5e0;
+      border-radius: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.62;
+    }
+
+    .interaction-note svg { width: 19px; height: 19px; color: var(--blue); }
+    .interaction-note strong { color: var(--ink-soft); }
+
+    .page-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 44px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(27, 32, 51, .09);
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .source-list { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .source-chip {
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: var(--ink-soft);
+      background: rgba(255,255,255,.72);
+    }
+
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    @keyframes noteLand {
+      0% { opacity: 0; transform: translateY(-4.5cqw) scale(.97); }
+      65% { transform: translateY(.7cqw) scale(1.008); }
+      100% { opacity: 1; transform: none; }
+    }
+
+    @keyframes shimmer { to { transform: translateX(115%); } }
+    @keyframes stripIn { from { opacity: 0; transform: translateY(-1.8cqw); } to { opacity: 1; transform: none; } }
+    @keyframes checkPop { 0% { transform: scale(.2) rotate(-22deg); } 70% { transform: scale(1.14) rotate(3deg); } 100% { transform: none; } }
+    @keyframes thinking { 0%, 70%, 100% { opacity: .32; transform: translateY(0); } 35% { opacity: 1; transform: translateY(-1.2cqw); } }
+    @keyframes toastDrop { from { opacity: 0; transform: translate(-50%, -3.5cqw) scale(.92); } to { opacity: 1; transform: translateX(-50%); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes sheetUp { from { opacity: 0; transform: translateY(13cqw) scale(.96); } to { opacity: 1; transform: none; } }
+    @keyframes recordPulse { 50% { opacity: .35; transform: scale(.7); } }
+    @keyframes wave { from { height: 18%; } to { height: 88%; } }
+    @keyframes cardUpdate { 0% { opacity: .5; transform: scale(.96); } 65% { transform: scale(1.025); } 100% { opacity: 1; transform: none; } }
+    @keyframes countPop { 0% { opacity: 0; transform: scale(.1) rotate(-18deg); } 70% { transform: scale(1.18) rotate(4deg); } 100% { opacity: 1; transform: none; } }
+    @keyframes ribbonIn { from { opacity: 0; transform: translate(6cqw, -5cqw) rotate(35deg); } to { opacity: 1; transform: rotate(35deg); } }
+    @keyframes insightIn { from { opacity: 0; transform: translateY(3cqw); } to { opacity: 1; transform: none; } }
+    @keyframes quoteLocate { to { box-shadow: 0 0 0 1.7cqw rgba(87,128,255,.13); } }
+    @keyframes radar { from { opacity: .22; transform: translate(-50%, -50%) scale(.55); } to { opacity: 0; transform: translate(-50%, -50%) scale(1.8); } }
+    @keyframes audioWave { from { height: 18%; } to { height: 90%; } }
+    @keyframes highlightIn { from { opacity: 0; transform: translateX(-3cqw); } to { opacity: 1; transform: none; } }
+
+    @media (max-width: 900px) {
+      .page { width: min(720px, calc(100% - 32px)); padding-top: 32px; }
+      .page-header { grid-template-columns: 1fr; margin-bottom: 30px; }
+      .header-note { max-width: 100%; }
+      .prototype-grid { grid-template-columns: 1fr; gap: 34px; }
+      .device-column { position: static; }
+      .phone-wrap { padding: 0; }
+      .phone { width: min(392px, calc(100vw - 32px)); }
+      .story-panel { padding-top: 0; }
+      .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 520px) {
+      .page { width: min(100% - 24px, 410px); padding: 22px 0 26px; }
+      .page-header { gap: 14px; margin-bottom: 24px; }
+      h1 { font-size: clamp(32px, 11vw, 46px); }
+      .header-copy { margin-top: 14px; font-size: 14px; }
+      .header-note { display: none; }
+      .phone { width: min(392px, calc(100vw - 24px)); }
+      .device-caption { font-size: 11px; }
+      .stage-card { padding: 20px 17px; border-radius: 20px; }
+      .stage-title { font-size: 28px; }
+      .stage-description { min-height: 0; font-size: 14px; }
+      .controls { display: grid; grid-template-columns: 1fr 1fr; }
+      .control-button { width: 100%; padding: 0 10px; }
+      .shortcut-copy { display: none; }
+      .steps { grid-template-columns: 1fr; }
+      .step-button { min-height: 58px; }
+      .page-footer { margin-top: 32px; }
+    }
+
+    @media (max-width: 340px) {
+      .page { width: calc(100% - 16px); }
+      .phone { width: calc(100vw - 16px); }
+      .eyebrow { font-size: 11px; }
+      h1 { font-size: 30px; }
+      .stage-card { padding: 17px 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#demo-controls">跳到动效控制</a>
+  <main class="page">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">OS5 · Motion Prototype</p>
+        <h1>说一句，直到回到那句原声</h1>
+        <p class="header-copy">一句话先成为可回溯的原始笔记，再被理解并增量归入“访谈”集合；洞察中的每条原话，都能准确跳回录音时间点。</p>
+      </div>
+      <div class="header-note">
+        <strong>交互原则</strong>
+        原文不吞 · 集合增量更新 · 洞察可回源<br>
+        底层信息架构仅保留“笔记 / 集合”
+      </div>
+    </header>
+
+    <section class="prototype-grid" aria-label="OS5 一句话到访谈原声动效演示">
+      <div class="device-column">
+        <div class="phone-wrap">
+          <div class="phone" aria-label="小米笔记 OS5 交互原型" role="application">
+            <div class="statusbar" aria-hidden="true">
+              <span>2:36</span>
+              <span class="status-icons">
+                <span class="status-signal"><i></i><i></i><i></i><i></i></span>
+                <span class="status-wifi"></span>
+                <span class="status-battery"></span>
+              </span>
+            </div>
+
+            <div class="phone-viewport">
+              <div id="screenPrevious" class="screen-layer" aria-hidden="true"></div>
+              <div id="screenCurrent" class="screen-layer"></div>
+            </div>
+
+            <nav class="phone-tabs" aria-label="笔记主导航">
+              <button class="phone-tab" type="button" data-action="tab-notes" aria-label="打开笔记">
+                <span data-tab-icon="notes" aria-hidden="true"></span>
+                <span>笔记</span>
+              </button>
+              <button class="phone-tab" type="button" data-action="tab-collections" aria-label="打开集合">
+                <span data-tab-icon="collections" aria-hidden="true"></span>
+                <span>集合</span>
+              </button>
+            </nav>
+            <div class="home-indicator" aria-hidden="true"></div>
+          </div>
+        </div>
+        <p class="device-caption"><span class="live-dot" aria-hidden="true"></span>可点击手机内的“集合 / 访谈 / 原话 / 返回”继续探索</p>
+      </div>
+
+      <aside class="story-panel" id="demo-controls" aria-label="动效分镜与播放控制">
+        <div class="stage-card">
+          <div class="stage-meta">
+            <div class="stage-number"><span id="stageIndex">01</span><b id="stageLabel">一句话写入</b></div>
+            <div class="stage-duration" id="stageDuration">00:00–00:02.6</div>
+          </div>
+          <h2 class="stage-title" id="stageTitle">先接住原话，不替用户改写</h2>
+          <p class="stage-description" id="stageDescription">系统助手确认这句话已经写入笔记；此刻只完成“保存原文”，还没有把它直接变成集合结果。</p>
+          <div class="stage-rule" id="stageRule"></div>
+
+          <div class="timeline" role="progressbar" aria-label="动效总进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="timelineProgress">
+            <div class="timeline-track"><div class="timeline-fill" id="timelineFill"></div></div>
+            <div class="timeline-labels"><span>00:00</span><span>约 22 秒</span></div>
+          </div>
+
+          <div class="controls">
+            <button class="control-button primary" id="playPauseButton" type="button" data-action="toggle-play">暂停</button>
+            <button class="control-button" type="button" data-action="replay">重播</button>
+            <button class="control-button" type="button" data-action="previous-step" aria-label="上一步">上一步</button>
+            <button class="control-button" type="button" data-action="next-step" aria-label="下一步">下一步</button>
+            <span class="shortcut-copy">空格 播放/暂停 · ← → 跳步 · R 重播</span>
+          </div>
+        </div>
+
+        <div class="steps-heading">
+          <h2>8 帧产品分镜</h2>
+          <span>点击任一帧可停下检查</span>
+        </div>
+        <ol class="steps" id="stepList"></ol>
+
+        <div class="interaction-note">
+          <span id="interactionIcon" aria-hidden="true"></span>
+          <div><strong>这不是一条“直接生成集合”的捷径。</strong> 先出现原始笔记，再理解、归组和更新集合；最后从洞察原话回到 `08:12`，完整保留来源链。</div>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="page-footer">
+      <span>独立原生 CSS / JavaScript 动效 Demo · 无外部依赖</span>
+      <div class="source-list" aria-label="Figma 视觉依据">
+        <span class="source-chip">一句话写入</span>
+        <span class="source-chip">访谈原文</span>
+        <span class="source-chip">原声回溯</span>
+      </div>
+    </footer>
+  </main>
+
+  <div class="sr-only" id="liveRegion" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+    "use strict";
+
+    const ICONS = {
+      notes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h11a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2Z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+      collections: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="7" height="7" rx="2"/><rect x="13.5" y="4" width="7" height="7" rx="2"/><rect x="3.5" y="14" width="7" height="6" rx="2"/><rect x="13.5" y="14" width="7" height="6" rx="2"/></svg>',
+      plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+      search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 4.5 4.5"/></svg>',
+      back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>',
+      check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.2 4.2L19 6.5"/></svg>',
+      spark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8c.6 4.8 2.6 7 7.2 7.7-4.6.7-6.6 2.9-7.2 7.7-.6-4.8-2.6-7-7.2-7.7C9.4 9.8 11.4 7.6 12 2.8Z"/><path d="M19 16c.25 2 1.1 2.9 3 3.2-1.9.3-2.75 1.2-3 3.2-.25-2-1.1-2.9-3-3.2 1.9-.3 2.75-1.2 3-3.2Z"/></svg>',
+      arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>',
+      quote: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 10H4.8a1.8 1.8 0 0 0-1.8 1.8v3.4A1.8 1.8 0 0 0 4.8 17H7a1.8 1.8 0 0 0 1.8-1.8v-4.5c0-3-1.2-4.8-3.5-5.7M17.5 10h-2.7a1.8 1.8 0 0 0-1.8 1.8v3.4a1.8 1.8 0 0 0 1.8 1.8H17a1.8 1.8 0 0 0 1.8-1.8v-4.5c0-3-1.2-4.8-3.5-5.7"/></svg>',
+      play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.2 4.8a1 1 0 0 1 1.52-.85l11 7.2a1 1 0 0 1 0 1.7l-11 7.2a1 1 0 0 1-1.52-.85V4.8Z"/></svg>',
+      pause: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4.2" height="15" rx="1.3"/><rect x="13.8" y="4.5" width="4.2" height="15" rx="1.3"/></svg>',
+      mic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="13" rx="4"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/></svg>',
+      calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 9.5h17"/></svg>',
+      bulb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 15.7A7 7 0 1 1 15.7 15c-1.1.8-1.7 1.8-1.7 3H9.8c0-1-.4-1.8-1.4-2.3Z"/><path d="M9.5 21h4.8"/></svg>',
+      book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v17H6.5A2.5 2.5 0 0 0 4 22V5.5ZM20 5.5A2.5 2.5 0 0 0 17.5 3H13v17h4.5A2.5 2.5 0 0 1 20 22V5.5Z"/></svg>',
+      interview: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5h16v11H9l-5 4v-15Z"/><path d="M8 9h8M8 12h5"/></svg>',
+      link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m9.5 14.5 5-5M7.5 17.5l-1 1a3.5 3.5 0 0 1-5-5l3-3a3.5 3.5 0 0 1 5 0M16.5 6.5l1-1a3.5 3.5 0 1 1 5 5l-3 3a3.5 3.5 0 0 1-5 0"/></svg>',
+      info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 10.8v5.4M12 7.4h.01"/></svg>'
+    };
+
+    const FRAMES = [
+      {
+        label: "一句话写入",
+        short: "接住原话",
+        title: "先接住原话，不替用户改写",
+        description: "系统助手确认这句话已经写入笔记；此刻只完成“保存原文”，还没有把它直接变成集合结果。",
+        rule: "任何入口进来的内容，都先拥有一份可编辑、可回溯的原始笔记。",
+        route: "notes",
+        phase: "idle",
+        duration: 2600
+      },
+      {
+        label: "原始笔记",
+        short: "原文落盘",
+        title: "原始笔记先真实出现",
+        description: "新笔记进入今天的时间流，保留写入时间、录音转写来源和用户刚刚说过的完整句子。",
+        rule: "原文是底座，不因后续归组、总结或重生成而被覆盖。",
+        route: "notes",
+        phase: "noteSaved",
+        duration: 2900
+      },
+      {
+        label: "正在理解",
+        short: "后台理解",
+        title: "理解发生在保存之后",
+        description: "系统识别这是一条访谈观察，并尝试找到最匹配的既有集合；处理状态附着在原始笔记上。",
+        rule: "先保存、再理解；即使理解失败，原始笔记依然完整存在。",
+        route: "notes",
+        phase: "understanding",
+        duration: 2200
+      },
+      {
+        label: "自动归组",
+        short: "归入访谈",
+        title: "笔记被归入“访谈”集合",
+        description: "处理完成后只增加集合关系和状态标识，原始笔记仍留在原来的时间位置，可以随时打开。",
+        rule: "归组是新增关系，不是把原笔记搬走或变成另一份内容。",
+        route: "notes",
+        phase: "grouped",
+        duration: 2200
+      },
+      {
+        label: "集合更新",
+        short: "增量 +1",
+        title: "集合首页只做一次增量更新",
+        description: "“访谈”卡片从 6 条更新到 7 条，并标出刚刚新增；其他集合与原有内容保持不变。",
+        rule: "集合是持续生长的消费对象，新内容只增量合并，不整页重做。",
+        route: "collections",
+        phase: "collectionUpdated",
+        duration: 3200
+      },
+      {
+        label: "访谈洞察",
+        short: "打开洞察",
+        title: "进入专属的访谈消费界面",
+        description: "集合详情按“洞察 × 受访者”组织。第一条洞察直接引用刚写入的观察，并保留原话入口。",
+        rule: "访谈的最终消费是洞察，不是把多篇原始笔记简单堆在一起。",
+        route: "interview",
+        phase: "insightsReady",
+        duration: 3000
+      },
+      {
+        label: "点击原话",
+        short: "定位来源",
+        title: "点击原话，系统开始定位来源",
+        description: "原话携带来源笔记和录音时间点，点击后不是打开一个装饰播放器，而是准确定位到 08:12。",
+        rule: "每条洞察都必须能解释“这句话从哪里来”。",
+        route: "interview",
+        phase: "locating",
+        duration: 2800
+      },
+      {
+        label: "回到原声",
+        short: "08:12 高亮",
+        title: "回到 08:12，原声与逐字稿同步高亮",
+        description: "播放器跳到对应时间，逐字稿高亮这句原话，并明确提示它被哪条洞察引用，来源链完整闭环。",
+        rule: "洞察可验证、可复听、可回到上下文，而不是一段失去证据的 AI 结论。",
+        route: "audio",
+        phase: "insightsReady",
+        duration: 3300
+      }
+    ];
+
+    const TOTAL_DURATION = FRAMES.reduce((sum, frame) => sum + frame.duration, 0);
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const durationScale = reducedMotion ? 0.38 : 1;
+
+    const state = {
+      route: "notes",
+      params: {},
+      navStack: [],
+      phase: "idle",
+      note: {
+        title: "今天访谈的要点",
+        body: "四个用户都提到存完找不回来。有两个说宁愿重新拍一遍也不想翻。",
+        source: "系统助手 · 录音转写",
+        time: "刚刚"
+      },
+      collection: { name: "访谈", beforeCount: 6, count: 7 },
+      audio: { currentTime: 492, duration: 2520, timeLabel: "08:12", isPlaying: true },
+      frameIndex: 0,
+      isPlaying: true,
+      runToken: 0,
+      timerIds: new Set(),
+      frameStartedAt: 0,
+      progressAnimation: null
+    };
+
+    const elements = {
+      current: document.getElementById("screenCurrent"),
+      previous: document.getElementById("screenPrevious"),
+      stageIndex: document.getElementById("stageIndex"),
+      stageLabel: document.getElementById("stageLabel"),
+      stageDuration: document.getElementById("stageDuration"),
+      stageTitle: document.getElementById("stageTitle"),
+      stageDescription: document.getElementById("stageDescription"),
+      stageRule: document.getElementById("stageRule"),
+      timeline: document.getElementById("timelineProgress"),
+      timelineFill: document.getElementById("timelineFill"),
+      playPause: document.getElementById("playPauseButton"),
+      stepList: document.getElementById("stepList"),
+      liveRegion: document.getElementById("liveRegion")
+    };
+
+    function icon(name) {
+      return ICONS[name] || "";
+    }
+
+    function schedule(callback, delay) {
+      const token = state.runToken;
+      const id = window.setTimeout(() => {
+        state.timerIds.delete(id);
+        if (token !== state.runToken) return;
+        callback();
+      }, Math.max(0, delay));
+      state.timerIds.add(id);
+      return id;
+    }
+
+    function cancelSequence() {
+      state.runToken += 1;
+      state.timerIds.forEach((id) => window.clearTimeout(id));
+      state.timerIds.clear();
+      if (state.progressAnimation) {
+        try { state.progressAnimation.cancel(); } catch (_) { /* animation may already be done */ }
+        state.progressAnimation = null;
+      }
+      elements.previous.className = "screen-layer";
+      elements.previous.replaceChildren();
+    }
+
+    function cumulativeDuration(frameIndex) {
+      return FRAMES.slice(0, frameIndex).reduce((sum, frame) => sum + frame.duration, 0);
+    }
+
+    function formatClock(milliseconds) {
+      const totalSeconds = Math.round(milliseconds / 100) / 10;
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = (totalSeconds - minutes * 60).toFixed(1).padStart(4, "0");
+      return `00:${String(Math.floor(totalSeconds)).padStart(2, "0")}${totalSeconds % 1 ? `.${seconds.split(".")[1]}` : ""}`;
+    }
+
+    function frameNavStack(index) {
+      const notes = { route: "notes", phase: "grouped", frameIndex: 3 };
+      const collections = { route: "collections", phase: "collectionUpdated", frameIndex: 4 };
+      const interview = { route: "interview", phase: "insightsReady", frameIndex: 5 };
+      if (index <= 3) return [];
+      if (index === 4) return [notes];
+      if (index <= 6) return [notes, collections];
+      return [notes, collections, interview];
+    }
+
+    function setFrame(index, options = {}) {
+      const nextIndex = Math.max(0, Math.min(FRAMES.length - 1, index));
+      const frame = FRAMES[nextIndex];
+      state.frameIndex = nextIndex;
+      state.route = frame.route;
+      state.phase = frame.phase;
+      state.params = nextIndex === 6 ? { locating: true } : {};
+      state.navStack = frameNavStack(nextIndex);
+      render({ transition: options.transition !== false, announce: options.announce !== false });
+    }
+
+    function startSequence(index = state.frameIndex) {
+      cancelSequence();
+      state.isPlaying = true;
+      setFrame(index, { transition: true });
+      runCurrentFrame();
+    }
+
+    function runCurrentFrame() {
+      const index = state.frameIndex;
+      const duration = Math.round(FRAMES[index].duration * durationScale);
+      state.frameStartedAt = performance.now();
+      animateProgress(index, duration);
+      schedule(() => {
+        if (index < FRAMES.length - 1) {
+          setFrame(index + 1);
+          runCurrentFrame();
+        } else {
+          finishSequence();
+        }
+      }, duration);
+    }
+
+    function finishSequence() {
+      state.isPlaying = false;
+      elements.timelineFill.style.width = "100%";
+      elements.timeline.setAttribute("aria-valuenow", "100");
+      renderControls();
+      announce("动效播放完成。可点击重播，或在手机内继续探索。", true);
+    }
+
+    function pauseSequence() {
+      if (!state.isPlaying) return;
+      const computedWidth = getComputedStyle(elements.timelineFill).width;
+      cancelSequence();
+      elements.timelineFill.style.width = computedWidth;
+      state.isPlaying = false;
+      renderControls();
+      announce("动效已暂停", true);
+    }
+
+    function togglePlay() {
+      if (state.isPlaying) {
+        pauseSequence();
+      } else {
+        startSequence(state.frameIndex === FRAMES.length - 1 ? 0 : state.frameIndex);
+      }
+    }
+
+    function jumpToStep(index) {
+      cancelSequence();
+      state.isPlaying = false;
+      setFrame(index);
+      setStaticProgress(index);
+      renderControls();
+    }
+
+    function stepBy(delta) {
+      jumpToStep(state.frameIndex + delta);
+    }
+
+    function replay() {
+      startSequence(0);
+      announce("从第一帧重新播放", true);
+    }
+
+    function animateProgress(index, duration) {
+      const start = cumulativeDuration(index) / TOTAL_DURATION * 100;
+      const end = (cumulativeDuration(index) + FRAMES[index].duration) / TOTAL_DURATION * 100;
+      if (state.progressAnimation) state.progressAnimation.cancel();
+      elements.timelineFill.style.width = `${start}%`;
+      state.progressAnimation = elements.timelineFill.animate(
+        [{ width: `${start}%` }, { width: `${end}%` }],
+        { duration, easing: "linear", fill: "forwards" }
+      );
+      elements.timeline.setAttribute("aria-valuenow", String(Math.round(start)));
+    }
+
+    function setStaticProgress(index) {
+      const progress = cumulativeDuration(index) / TOTAL_DURATION * 100;
+      elements.timelineFill.style.width = `${progress}%`;
+      elements.timeline.setAttribute("aria-valuenow", String(Math.round(progress)));
+    }
+
+    function render(options = {}) {
+      renderPhone(options.transition !== false);
+      renderStage();
+      renderTabs();
+      renderControls();
+      renderSteps();
+      if (options.announce !== false) announce(`第 ${state.frameIndex + 1} 帧：${FRAMES[state.frameIndex].label}`);
+    }
+
+    function renderPhone(transition) {
+      if (transition && elements.current.innerHTML) {
+        elements.previous.innerHTML = elements.current.innerHTML;
+        elements.previous.className = "screen-layer is-exiting";
+      } else {
+        elements.previous.replaceChildren();
+        elements.previous.className = "screen-layer";
+      }
+
+      elements.current.className = transition ? "screen-layer is-entering" : "screen-layer is-active";
+      elements.current.innerHTML = renderRoute();
+      const token = state.runToken;
+      requestAnimationFrame(() => {
+        if (token !== state.runToken) return;
+        elements.current.classList.add("is-active");
+        elements.current.classList.remove("is-entering");
+      });
+      schedule(() => {
+        elements.previous.replaceChildren();
+        elements.previous.className = "screen-layer";
+      }, reducedMotion ? 10 : 500);
+    }
+
+    function renderRoute() {
+      switch (state.route) {
+        case "collections": return renderCollections();
+        case "interview": return renderInterview();
+        case "audio": return renderAudio();
+        default: return renderNotes();
+      }
+    }
+
+    function renderNotes() {
+      const hasNewNote = state.phase !== "idle";
+      const isUnderstanding = state.phase === "understanding";
+      const isGrouped = state.phase === "grouped";
+      const captureBars = [30, 52, 76, 38, 68, 88, 45, 62, 30, 75, 52, 86, 38, 66, 48, 78, 34, 58]
+        .map((height) => `<i style="height:${height}%"></i>`).join("");
+
+      const newNote = hasNewNote ? `
+        ${isUnderstanding ? `
+          <div class="processing-strip">
+            <span class="thinking-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>正在理解这条笔记，并查找合适的集合…</span>
+          </div>` : ""}
+        ${isGrouped ? `
+          <div class="success-strip">
+            <span class="success-check" aria-hidden="true">${icon("check")}</span>
+            <span>已归入“访谈”集合，原始笔记仍保留在这里</span>
+          </div>` : ""}
+        <button class="note-row is-new ${isUnderstanding ? "is-understanding" : ""}" type="button" data-action="open-note" aria-label="打开新建的原始笔记：今天访谈的要点">
+          <span class="note-time"><strong>刚刚</strong>今天</span>
+          <span class="note-copy">
+            <span class="note-title">${state.note.title}</span>
+            <span class="note-preview">${state.note.body}</span>
+            <span class="note-meta">
+              <span>${state.note.source}</span>
+              ${isGrouped ? '<span class="mini-badge green"><span class="dot"></span>访谈</span>' : ""}
+              ${isUnderstanding ? '<span class="mini-badge"><span class="dot"></span>理解中</span>' : ""}
+            </span>
+          </span>
+        </button>` : "";
+
+      return `
+        <section class="screen" aria-label="笔记列表">
+          <div class="appbar">
+            <h2 class="appbar-title">笔记</h2>
+            <div class="appbar-actions">
+              <button class="icon-button" type="button" aria-label="搜索笔记">${icon("search")}</button>
+              <button class="icon-button" type="button" aria-label="新建笔记">${icon("plus")}</button>
+            </div>
+          </div>
+          ${state.phase === "noteSaved" ? `<div class="saved-toast">${icon("check")}<span>刚在车上说的那句，已经存进来了</span></div>` : ""}
+          <p class="section-kicker">今天 · 9 月 7 日</p>
+          <div class="notes-list">
+            ${newNote}
+            <div class="note-row">
+              <span class="note-time"><strong>13:42</strong>今天</span>
+              <span class="note-copy"><span class="note-title">周五评审前要确认的三件事</span><span class="note-preview">先确认首页层级，再对齐访谈集合的最终消费形态。</span><span class="note-meta"><span>文字笔记</span><span class="mini-badge">日程与待办</span></span></span>
+            </div>
+            <div class="note-row">
+              <span class="note-time"><strong>10:18</strong>今天</span>
+              <span class="note-copy"><span class="note-title">关于“记完就能用”的想法</span><span class="note-preview">不是所有内容都要立刻生成结果，但原文一定要先接住。</span><span class="note-meta"><span>系统助手</span><span class="mini-badge">想法 &amp; 随记</span></span></span>
+            </div>
+            <div class="note-row">
+              <span class="note-time"><strong>昨天</strong>18:06</span>
+              <span class="note-copy"><span class="note-title">课程第 4 章复习</span><span class="note-preview">产品对象、消费表达与来源关系是三件不同的事。</span><span class="note-meta"><span>录音转写 36 分钟</span></span></span>
+            </div>
+          </div>
+          ${state.phase === "idle" ? `
+            <div class="capture-dim" aria-hidden="true"></div>
+            <div class="capture-sheet" aria-label="一句话写入状态">
+              <div class="capture-head">
+                <div class="capture-label"><span class="assistant-orb" aria-hidden="true"></span><span>系统助手正在写入</span></div>
+                <span class="recording-pill">录音转写</span>
+              </div>
+              <p class="captured-quote">“四个用户都提到存完找不回来，有两个宁愿重新拍一遍也不想翻。”</p>
+              <div class="capture-wave" aria-hidden="true">${captureBars}</div>
+              <div class="capture-confirm">${icon("check")}<span>先保存为原始笔记</span></div>
+            </div>` : ""}
+        </section>`;
+    }
+
+    function renderCollections() {
+      return `
+        <section class="screen" aria-label="集合首页">
+          <div class="appbar">
+            <h2 class="appbar-title">集合</h2>
+            <div class="appbar-actions"><button class="icon-button" type="button" aria-label="搜索集合">${icon("search")}</button></div>
+          </div>
+          <div class="collection-hero">
+            <div><strong>内容正在变得更好用</strong><p>原始笔记保留在时间流，集合只承接持续消费。</p></div>
+            <span class="hero-spark" aria-hidden="true">${icon("spark")}</span>
+          </div>
+          <p class="section-kicker">我的集合 · 4</p>
+          <div class="collection-grid">
+            <div class="collection-card">
+              <span class="collection-icon green" aria-hidden="true">${icon("calendar")}</span>
+              <span class="collection-name">日程与待办</span>
+              <span class="collection-meta"><span>今天 3 项</span><span>12</span></span>
+            </div>
+            <div class="collection-card">
+              <span class="collection-icon amber" aria-hidden="true">${icon("bulb")}</span>
+              <span class="collection-name">想法 &amp; 随记</span>
+              <span class="collection-meta"><span>3 个主题</span><span>18</span></span>
+            </div>
+            <div class="collection-card">
+              <span class="collection-icon purple" aria-hidden="true">${icon("book")}</span>
+              <span class="collection-name">上课</span>
+              <span class="collection-meta"><span>2 门课程</span><span>9</span></span>
+            </div>
+            <button class="collection-card interview" type="button" data-action="open-interview" aria-label="打开访谈集合，刚新增 1 条，共 7 条">
+              <span class="update-ribbon">刚更新</span>
+              <span class="collection-icon" aria-hidden="true">${icon("interview")}</span>
+              <span class="collection-name">访谈</span>
+              <span class="collection-meta"><span>4 位受访者</span><span class="count-bump">7</span></span>
+            </button>
+          </div>
+        </section>`;
+    }
+
+    function renderInterview() {
+      const locating = state.phase === "locating" || state.params.locating;
+      return `
+        <section class="screen" aria-label="访谈洞察">
+          <div class="appbar">
+            <div class="appbar-start">
+              <button class="plain-back" type="button" data-action="back" aria-label="返回集合">${icon("back")}</button>
+              <h2 class="appbar-title small">访谈</h2>
+            </div>
+            <button class="icon-button" type="button" aria-label="更多访谈操作">•••</button>
+          </div>
+          <div class="interview-summary">
+            <div><h2>今天访谈的要点</h2><p>9 月 5 日 · 4 位受访者 · 已更新</p></div>
+            <div class="people-stack" aria-label="四位受访者"><span class="avatar">林</span><span class="avatar">陈</span><span class="avatar">周</span><span class="avatar">许</span></div>
+          </div>
+          <div class="dimension-tabs" aria-label="访谈查看维度">
+            <button class="dimension-tab is-active" type="button">按洞察</button>
+            <button class="dimension-tab" type="button">按受访者</button>
+          </div>
+          <div class="insights-list">
+            <article class="insight-card">
+              <div class="insight-head"><span class="insight-index">01</span><h3 class="insight-title">存完以后，找回来太费力</h3></div>
+              <p class="insight-copy">4 位用户都提到“存完找不回来”；其中 2 位会选择重新拍一遍，而不是翻历史记录。</p>
+              <button class="quote-link ${locating ? "is-locating" : ""}" type="button" data-action="open-quote" aria-label="打开 08:12 的原话">
+                <span>“宁愿重新拍一遍，也不想翻。” · 08:12</span>${icon("arrow")}
+              </button>
+            </article>
+            <article class="insight-card">
+              <div class="insight-head"><span class="insight-index">02</span><h3 class="insight-title">用户记得场景，不记得标题</h3></div>
+              <p class="insight-copy">大家更容易说出“那天在车上记的”，而不是笔记标题或所在文件夹。</p>
+              <button class="quote-link" type="button" data-action="open-quote" aria-label="打开 12:46 的原话"><span>查看 3 段相关原话 · 12:46</span>${icon("arrow")}</button>
+            </article>
+          </div>
+          ${locating ? `<div class="locating-overlay" aria-label="正在定位原声"><div class="locating-card"><span class="locating-radar" aria-hidden="true"></span><strong>正在定位原声</strong><span>今天访谈的要点 · 08:12</span></div></div>` : ""}
+        </section>`;
+    }
+
+    function renderAudio() {
+      const heights = [28,42,65,35,79,50,88,61,32,73,44,91,55,37,78,49,83,60,34,72,46,86,52,31,69,48,80,57,36,74,45,67,39,82,54,30,71,47]
+        .map((height, index) => `<i class="${index < 12 ? "is-played" : ""}" style="height:${height}%"></i>`).join("");
+      return `
+        <section class="screen" aria-label="访谈原声回溯">
+          <div class="appbar">
+            <div class="appbar-start">
+              <button class="plain-back" type="button" data-action="back" aria-label="返回访谈洞察">${icon("back")}</button>
+              <h2 class="appbar-title small">今天访谈的要点</h2>
+            </div>
+          </div>
+          <div class="audio-header">
+            <div class="audio-meta">
+              <div><h3 class="audio-title">访谈录音 · 用户 02</h3><p class="audio-subtitle">9 月 5 日 15:20 · 录音转写 42 分钟</p></div>
+              <button class="play-disc" type="button" data-action="toggle-audio" aria-label="暂停原声">${state.audio.isPlaying ? icon("pause") : icon("play")}</button>
+            </div>
+            <div class="wavebar" aria-hidden="true">${heights}</div>
+            <div class="audio-time"><strong>08:12</strong><span>42:00</span></div>
+          </div>
+          <div class="source-badge">${icon("link")}<span>由洞察“存完以后，找回来太费力”定位到这里</span></div>
+          <div class="transcript" aria-label="录音逐字稿">
+            <div class="transcript-block"><time>07:54</time><span>有时候我知道自己存过，但完全不记得放在哪一篇里面。</span></div>
+            <div class="transcript-block is-highlighted"><time>08:12</time><span>对，<mark>我宁愿重新拍一遍，也不想再翻以前的记录</mark>，找起来太费力了。</span></div>
+            <div class="transcript-block"><time>08:24</time><span>如果它能记得我是在车上、或者那次访谈之后存的，可能会更容易。</span></div>
+          </div>
+          <div class="used-by-insight">${icon("check")}<span>这一段被洞察用到了</span></div>
+        </section>`;
+    }
+
+    function renderStage() {
+      const frame = FRAMES[state.frameIndex];
+      const start = cumulativeDuration(state.frameIndex);
+      const end = start + frame.duration;
+      elements.stageIndex.textContent = String(state.frameIndex + 1).padStart(2, "0");
+      elements.stageLabel.textContent = frame.label;
+      elements.stageDuration.textContent = `${formatClock(start)}–${formatClock(end)}`;
+      elements.stageTitle.textContent = frame.title;
+      elements.stageDescription.textContent = frame.description;
+      elements.stageRule.innerHTML = `${icon("info")}<span>${frame.rule}</span>`;
+    }
+
+    function renderTabs() {
+      document.querySelectorAll(".phone-tab").forEach((tab) => {
+        const isNotes = tab.dataset.action === "tab-notes";
+        const active = isNotes ? state.route === "notes" : state.route !== "notes";
+        tab.classList.toggle("is-active", active);
+        if (active) tab.setAttribute("aria-current", "page");
+        else tab.removeAttribute("aria-current");
+      });
+    }
+
+    function renderControls() {
+      elements.playPause.innerHTML = `${state.isPlaying ? icon("pause") : icon("play")}<span>${state.isPlaying ? "暂停" : (state.frameIndex === FRAMES.length - 1 ? "从头播放" : "继续播放")}</span>`;
+      elements.playPause.setAttribute("aria-label", state.isPlaying ? "暂停动效" : "播放动效");
+    }
+
+    function renderSteps() {
+      if (!elements.stepList.children.length) {
+        elements.stepList.innerHTML = FRAMES.map((frame, index) => `
+          <li>
+            <button class="step-button" type="button" data-action="jump-step" data-step="${index}" aria-label="跳到第 ${index + 1} 帧：${frame.label}">
+              <span class="step-index">${String(index + 1).padStart(2, "0")}</span>
+              <span class="step-copy"><strong>${frame.label}</strong><small>${frame.short}</small></span>
+            </button>
+          </li>`).join("");
+      }
+      elements.stepList.querySelectorAll(".step-button").forEach((button, index) => {
+        const active = index === state.frameIndex;
+        button.classList.toggle("is-active", active);
+        if (active) button.setAttribute("aria-current", "step");
+        else button.removeAttribute("aria-current");
+      });
+    }
+
+    function announce(message, immediate = false) {
+      if (immediate) elements.liveRegion.textContent = "";
+      schedule(() => { elements.liveRegion.textContent = message; }, immediate ? 20 : 0);
+    }
+
+    function navigateToFrame(index, pushCurrent = true) {
+      const currentSnapshot = { route: state.route, phase: state.phase, frameIndex: state.frameIndex, params: { ...state.params } };
+      cancelSequence();
+      state.isPlaying = false;
+      if (pushCurrent) state.navStack.push(currentSnapshot);
+      const frame = FRAMES[index];
+      state.frameIndex = index;
+      state.route = frame.route;
+      state.phase = frame.phase;
+      state.params = index === 6 ? { locating: true } : {};
+      render();
+      setStaticProgress(index);
+    }
+
+    function goBack() {
+      cancelSequence();
+      state.isPlaying = false;
+      const target = state.navStack.pop();
+      if (target) {
+        state.frameIndex = target.frameIndex;
+        state.route = target.route;
+        state.phase = target.phase;
+        state.params = target.params || {};
+      } else if (state.route === "audio") {
+        state.frameIndex = 5;
+        state.route = "interview";
+        state.phase = "insightsReady";
+        state.params = {};
+      } else if (state.route === "interview") {
+        state.frameIndex = 4;
+        state.route = "collections";
+        state.phase = "collectionUpdated";
+        state.params = {};
+      } else {
+        state.frameIndex = 3;
+        state.route = "notes";
+        state.phase = "grouped";
+        state.params = {};
+      }
+      render();
+      setStaticProgress(state.frameIndex);
+    }
+
+    function locateQuote() {
+      cancelSequence();
+      state.isPlaying = false;
+      state.navStack = [
+        { route: "notes", phase: "grouped", frameIndex: 3 },
+        { route: "collections", phase: "collectionUpdated", frameIndex: 4 },
+        { route: "interview", phase: "insightsReady", frameIndex: 5 }
+      ];
+      state.frameIndex = 6;
+      state.route = "interview";
+      state.phase = "locating";
+      state.params = { locating: true, time: 492 };
+      render();
+      setStaticProgress(6);
+      schedule(() => {
+        state.frameIndex = 7;
+        state.route = "audio";
+        state.phase = "insightsReady";
+        state.params = { time: 492 };
+        state.audio.currentTime = 492;
+        state.audio.isPlaying = true;
+        render();
+        setStaticProgress(7);
+      }, reducedMotion ? 80 : 720);
+    }
+
+    function handleAction(action, target) {
+      switch (action) {
+        case "toggle-play": togglePlay(); break;
+        case "replay": replay(); break;
+        case "previous-step": stepBy(-1); break;
+        case "next-step": stepBy(1); break;
+        case "jump-step": jumpToStep(Number(target.dataset.step)); break;
+        case "tab-notes": navigateToFrame(3, false); break;
+        case "tab-collections": navigateToFrame(4, false); break;
+        case "open-note": jumpToStep(3); break;
+        case "open-interview": navigateToFrame(5); break;
+        case "open-quote": locateQuote(); break;
+        case "back": goBack(); break;
+        case "toggle-audio":
+          state.audio.isPlaying = !state.audio.isPlaying;
+          renderPhone(false);
+          announce(state.audio.isPlaying ? "原声继续播放" : "原声已暂停", true);
+          break;
+        default: break;
+      }
+    }
+
+    document.addEventListener("click", (event) => {
+      const target = event.target.closest("[data-action]");
+      if (!target) return;
+      handleAction(target.dataset.action, target);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      const tag = event.target.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || event.target.isContentEditable) return;
+      if (event.code === "Space") {
+        event.preventDefault();
+        togglePlay();
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        stepBy(-1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        stepBy(1);
+      } else if (event.key.toLowerCase() === "r") {
+        event.preventDefault();
+        replay();
+      }
+    });
+
+    document.querySelectorAll("[data-tab-icon='notes']").forEach((node) => { node.innerHTML = icon("notes"); });
+    document.querySelectorAll("[data-tab-icon='collections']").forEach((node) => { node.innerHTML = icon("collections"); });
+    document.getElementById("interactionIcon").innerHTML = icon("link");
+
+    render({ transition: false, announce: false });
+    startSequence(0);
+  </script>
+</body>
+</html>
