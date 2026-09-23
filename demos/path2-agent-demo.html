@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>路径二 · 独立 App 承接</title>
+<style>
+:root{--u:min(1vw,1.7778vh);--ink:#f6f8fc;--sub:#8b93a3;--orange:#ff8f43;--blue:#5c8dff;--red:#ff5c5c;--green:#34d399}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#000;color:var(--ink);font-family:"MiSans","PingFang SC",-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.slide{min-height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;padding:calc(var(--u)*5) calc(var(--u)*8);position:relative;overflow:hidden}
+.page{position:absolute;right:calc(var(--u)*3);bottom:calc(var(--u)*2.5);font-size:calc(var(--u)*.9);font-weight:700;color:#3d4350;letter-spacing:.14em}
+
+/* typography */
+.huge{font-size:calc(var(--u)*5.5);font-weight:850;line-height:1.15;letter-spacing:-.02em}
+.big{font-size:calc(var(--u)*3.8);font-weight:850;line-height:1.2;letter-spacing:-.01em}
+.mid{font-size:calc(var(--u)*2.4);font-weight:700;line-height:1.3}
+.body{font-size:calc(var(--u)*1.45);line-height:1.65;color:var(--sub);font-weight:500}
+.eyebrow{font-size:calc(var(--u)*1.2);font-weight:800;color:var(--blue);letter-spacing:.06em;margin-bottom:calc(var(--u)*1.2)}
+.orange{color:var(--orange)}
+.blue{color:var(--blue)}
+.red{color:var(--red)}
+.green{color:var(--green)}
+.dim{color:#555d6e}
+
+/* layout */
+.wrap{display:flex;align-items:center;gap:calc(var(--u)*6);width:100%;max-width:calc(var(--u)*90)}
+.wrap.rev{flex-direction:row-reverse}
+.txt{flex:1 1 0;min-width:0}
+.vis{flex:0 0 auto;display:flex;gap:calc(var(--u)*2.5);align-items:flex-start}
+.center-col{display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*1.5);max-width:calc(var(--u)*75)}
+
+/* phone mockup */
+.phone{position:relative;width:calc(var(--u)*16);aspect-ratio:9/19.5;border-radius:calc(var(--u)*2.4);background:#111318;padding:calc(var(--u)*.35);border:1px solid #2a2e38;box-shadow:0 calc(var(--u)*2) calc(var(--u)*6) rgba(0,0,0,.5)}
+.screen{height:100%;border-radius:calc(var(--u)*2.1);overflow:hidden;background:#fbfbfd;color:#1a1c22;display:flex;flex-direction:column}
+.ph-bar{height:calc(var(--u)*1.6);display:flex;align-items:center;justify-content:space-between;padding:0 calc(var(--u)*1.2);font-size:calc(var(--u)*.6);font-weight:700;color:#8a8f9a;flex:none}
+.ph-body{flex:1;overflow:hidden;padding:calc(var(--u)*.5) calc(var(--u)*.8)}
+.ph-title{font-size:calc(var(--u)*1.3);font-weight:800;color:#1a1c22;margin:calc(var(--u)*.3) 0 calc(var(--u)*.5)}
+.ph-sub{font-size:calc(var(--u)*.6);color:#a0a5b0;margin-bottom:calc(var(--u)*.4)}
+.ph-card{background:#f2f4f7;border-radius:calc(var(--u)*.7);padding:calc(var(--u)*.5) calc(var(--u)*.65);margin-bottom:calc(var(--u)*.35);font-size:calc(var(--u)*.65);line-height:1.45;color:#3a3f4a}
+.ph-card b{font-weight:700;color:#1a1c22;display:block;margin-bottom:calc(var(--u)*.1)}
+.ph-card .meta{font-size:calc(var(--u)*.5);color:#b0b5c0;margin-top:calc(var(--u)*.15)}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*.35);margin-bottom:calc(var(--u)*.4)}
+.ph-cover{height:calc(var(--u)*3.2);border-radius:calc(var(--u)*.55);display:flex;align-items:flex-end;padding:calc(var(--u)*.3) calc(var(--u)*.4);font-size:calc(var(--u)*.55);font-weight:700;color:#fff}
+.ph-label{text-align:center;font-size:calc(var(--u)*.7);color:var(--sub);margin-top:calc(var(--u)*.5)}
+.ph-warn{background:#fff3f3;border:1px solid #ffcaca;border-radius:calc(var(--u)*.5);padding:calc(var(--u)*.4) calc(var(--u)*.5);font-size:calc(var(--u)*.55);color:#c44;margin-top:calc(var(--u)*.3);text-align:center;line-height:1.4}
+.ph-gap{background:#f8f0e0;border:1px dashed #e0c080;border-radius:calc(var(--u)*.5);padding:calc(var(--u)*.4) calc(var(--u)*.5);font-size:calc(var(--u)*.55);color:#a08040;margin-top:calc(var(--u)*.25);text-align:center;line-height:1.4}
+
+/* problem bullet */
+.prob{margin-top:calc(var(--u)*1.5)}
+.prob li{font-size:calc(var(--u)*1.35);line-height:1.6;color:var(--sub);margin-bottom:calc(var(--u)*.8);list-style:none;padding-left:calc(var(--u)*2)}
+.prob li::before{content:"";display:inline-block;width:calc(var(--u)*.5);height:calc(var(--u)*.5);background:var(--red);border-radius:2px;margin-left:calc(var(--u)*-2);margin-right:calc(var(--u)*.8);vertical-align:middle}
+.prob li strong{color:#fff;font-weight:700}
+
+/* comparison columns */
+.cmp{display:flex;gap:calc(var(--u)*3);margin-top:calc(var(--u)*3)}
+.cmp-col{flex:1;text-align:center}
+.cmp-icon{font-size:calc(var(--u)*4);margin-bottom:calc(var(--u)*1)}
+.cmp-name{font-size:calc(var(--u)*2);font-weight:800;margin-bottom:calc(var(--u)*.6)}
+.cmp-desc{font-size:calc(var(--u)*1.3);color:var(--sub)}
+.cmp-status{margin-top:calc(var(--u)*.8);font-size:calc(var(--u)*1.5);font-weight:800}
+
+/* summary cards */
+.sum{display:flex;gap:calc(var(--u)*3);margin-top:calc(var(--u)*3);width:100%;max-width:calc(var(--u)*80)}
+.sum-card{flex:1;border-radius:calc(var(--u)*1.6);padding:calc(var(--u)*2.8) calc(var(--u)*2.4);border:1px solid rgba(255,255,255,.1)}
+.sum-card.rec{background:linear-gradient(135deg,rgba(92,141,255,.12),rgba(92,141,255,.04));border-color:rgba(92,141,255,.3)}
+.sum-card.exp{background:rgba(255,255,255,.03)}
+.sum-tag{font-size:calc(var(--u)*1);font-weight:800;letter-spacing:.06em;margin-bottom:calc(var(--u)*1)}
+.sum-card h3{font-size:calc(var(--u)*2.2);font-weight:850;margin-bottom:calc(var(--u)*1)}
+.sum-card p{font-size:calc(var(--u)*1.3);line-height:1.6;color:var(--sub)}
+
+/* two-col grid */
+.two{display:flex;gap:calc(var(--u)*4);width:100%;max-width:calc(var(--u)*80)}
+.two>div{flex:1}
+.two h3{font-size:calc(var(--u)*2);font-weight:850;margin-bottom:calc(var(--u)*1)}
+.two p{font-size:calc(var(--u)*1.35);line-height:1.65;color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- SLIDE 1: COVER -->
+<div class="slide">
+  <div class="center-col">
+    <div class="eyebrow">OS5 内容归属讨论</div>
+    <h1 class="huge">路径二 · 独立 App 承接</h1>
+    <p class="body" style="margin-top:calc(var(--u)*1.5);max-width:calc(var(--u)*55)">如果 AI 采集的内容不归笔记，而是由独立 App / 人车家 Agent 统一管理——产品会长什么样？能不能走通？</p>
+  </div>
+  <div class="page">01 / 08</div>
+</div>
+
+<!-- SLIDE 2: PRODUCT SHAPE -->
+<div class="slide">
+  <div class="wrap">
+    <div class="txt">
+      <div class="eyebrow">产品形态</div>
+      <h2 class="big">笔记做轻，新 App 管采集与消费</h2>
+      <ul class="prob" style="margin-top:calc(var(--u)*2)">
+        <li style="list-style:none;padding-left:0"><span class="body">归位后剩下的内容全部进入独立 App</span></li>
+        <li style="list-style:none;padding-left:0"><span class="body">首页是四类合集（想法、课程、专题、卡证）</span></li>
+        <li style="list-style:none;padding-left:0"><span class="body">AI 键、悬浮球、随口记采集的内容都进这里</span></li>
+        <li style="list-style:none;padding-left:0"><span class="body">笔记只保留用户坐下来主动写的</span></li>
+      </ul>
+    </div>
+    <div class="vis">
+      <!-- Phone 1: Notes (light) -->
+      <div>
+        <div class="phone">
+          <div class="screen">
+            <div class="ph-bar"><span>9:41</span><span>100%</span></div>
+            <div class="ph-body">
+              <div class="ph-title">笔记</div>
+              <div class="ph-sub">只有你主动写的</div>
+              <div class="ph-card"><b>产品周报 · 第12期</b><div class="meta">手动创建 · 昨天 14:30</div></div>
+              <div class="ph-card"><b>会议纪要 · 复盘</b><div class="meta">手动创建 · 周一 10:00</div></div>
+              <div class="ph-card"><b>旅行清单 · 大理</b><div class="meta">手写 · 上周五</div></div>
+              <div class="ph-card" style="opacity:.5"><b>读书笔记 · 原则</b><div class="meta">手动创建 · 9月15日</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ph-label">笔记（轻量版）</div>
+      </div>
+      <!-- Phone 2: New App -->
+      <div>
+        <div class="phone">
+          <div class="screen">
+            <div class="ph-bar"><span>9:41</span><span>100%</span></div>
+            <div class="ph-body">
+              <div class="ph-title">记忆</div>
+              <div class="ph-grid">
+                <div class="ph-cover" style="background:linear-gradient(135deg,#5c8dff,#3b6bdb)">旅行攻略 · 5</div>
+                <div class="ph-cover" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">产品判断力 · 3</div>
+                <div class="ph-cover" style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">购物清单 · 8</div>
+                <div class="ph-cover" style="background:linear-gradient(135deg,#34d399,#059669)">高等数学 · 6</div>
+              </div>
+              <div class="ph-sub">最近采集</div>
+              <div class="ph-card"><b>小红书 · 大理民宿推荐</b><div class="meta">AI 键 · 2小时前</div></div>
+              <div class="ph-card"><b>🎙 咖啡52度好喝</b><div class="meta">随口记 · 今天 14:23</div></div>
+              <div class="ph-card"><b>微信 · 产品判断力</b><div class="meta">AI 键 · 昨天</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ph-label">新 App（记忆）</div>
+      </div>
+    </div>
+  </div>
+  <div class="page">02 / 08</div>
+</div>
+
+<!-- SLIDE 3: RANDOM NOTES IN NEW APP -->
+<div class="slide">
+  <div class="wrap">
+    <div class="vis">
+      <div>
+        <div class="phone">
+          <div class="screen">
+            <div class="ph-bar"><span>9:41</span><span>100%</span></div>
+            <div class="ph-body">
+              <div class="ph-title">想法合集</div>
+              <div class="ph-sub">来自随口记</div>
+              <div class="ph-card"><b>🎙 产品的核心问题是定位</b><div class="meta">随口记 · 9月20日</div></div>
+              <div class="ph-card"><b>🎙 要从用户视角出发</b><div class="meta">随口记 · 9月18日</div></div>
+              <div class="ph-card"><b>🎙 咖啡52度好喝</b><div class="meta">随口记 · 9月17日</div></div>
+              <div class="ph-card"><b>🎙 访谈都说查找不好</b><div class="meta">随口记 · 9月15日</div></div>
+              <div class="ph-gap">缺失：笔记里手写的<br>《产品思考长文》不在这里</div>
+            </div>
+          </div>
+        </div>
+        <div class="ph-label">新 App · 想法合集</div>
+      </div>
+    </div>
+    <div class="txt">
+      <div class="eyebrow">随口记在新 App</div>
+      <h2 class="big">碎片想法和深度思考<br>被割裂了</h2>
+      <ul class="prob">
+        <li><strong>聚合需要两边素材</strong>——随口记的碎片 + 笔记里手写的深度思考，拆开后想法合集不完整</li>
+        <li><strong>单条不值，聚合才有价值</strong>——但聚合的"另一半"在笔记里，新 App 拿不到</li>
+        <li><strong>今天小爱记忆就是这个模样</strong>——碎片按时间堆着，没人看，换个壳问题可能没变</li>
+      </ul>
+    </div>
+  </div>
+  <div class="page">03 / 08</div>
+</div>
+
+<!-- SLIDE 4: COLLECTION IN NEW APP -->
+<div class="slide">
+  <div class="wrap rev">
+    <div class="vis">
+      <div>
+        <div class="phone">
+          <div class="screen">
+            <div class="ph-bar"><span>9:41</span><span>100%</span></div>
+            <div class="ph-body">
+              <div class="ph-title">旅行攻略</div>
+              <div class="ph-sub">5 条收藏 · AI 键采集</div>
+              <div class="ph-card"><b>大理三天两夜路线</b><div class="meta">小红书 · AI 键</div></div>
+              <div class="ph-card"><b>洱海骑行注意事项</b><div class="meta">微信文章 · AI 键</div></div>
+              <div class="ph-card"><b>大理美食地图</b><div class="meta">抖音 · AI 键</div></div>
+              <div class="ph-card"><b>民宿对比：海景vs古城</b><div class="meta">小红书 · AI 键</div></div>
+              <div class="ph-card"><b>苍山徒步攻略</b><div class="meta">微信文章 · AI 键</div></div>
+              <div class="ph-gap">缺失：笔记里手写的<br>《大理旅行清单》不在这里</div>
+            </div>
+          </div>
+        </div>
+        <div class="ph-label">新 App · 旅行攻略</div>
+      </div>
+    </div>
+    <div class="txt">
+      <div class="eyebrow">收藏在新 App</div>
+      <h2 class="big">同一场景的素材<br>被劈成两半</h2>
+      <ul class="prob">
+        <li><strong>手写的旅行清单还在笔记里</strong>，AI 键抓的帖子在新 App——对用户来说都是"旅行相关的东西"</li>
+        <li><strong>旅行攻略合集素材不完整</strong>——想出一份完整的攻略还是得跨两个 App 找</li>
+        <li><strong>用户想找旅行帖子不会想到来这</strong>——产生地（AI 键）和消费地（新 App）对不上</li>
+      </ul>
+    </div>
+  </div>
+  <div class="page">04 / 08</div>
+</div>
+
+<!-- SLIDE 5: COMMAND IN NEW APP -->
+<div class="slide">
+  <div class="wrap">
+    <div class="vis">
+      <div>
+        <div class="phone">
+          <div class="screen">
+            <div class="ph-bar"><span>9:41</span><span>100%</span></div>
+            <div class="ph-body">
+              <div class="ph-title">AI 总结</div>
+              <div class="ph-sub">来自指令执行结果</div>
+              <div class="ph-card" style="background:#eef3ff;border:1px solid #c5d5ff">
+                <b>📝 产品判断力 · 总结</b>
+                <div style="font-size:calc(var(--u)*.55);color:#556;margin-top:calc(var(--u)*.2);line-height:1.5">1. 判断力核心是实践<br>2. 复盘是加速手段<br>3. 建立自己的框架</div>
+                <div class="meta">AI 生成 · 来自微信文章</div>
+              </div>
+              <div class="ph-card" style="background:#eef3ff;border:1px solid #c5d5ff">
+                <b>📝 高数第三章 · 要点</b>
+                <div style="font-size:calc(var(--u)*.55);color:#556;margin-top:calc(var(--u)*.2)">极限、连续、导数关系...</div>
+                <div class="meta">AI 生成 · 来自课堂录音</div>
+              </div>
+              <div class="ph-warn">课堂录音在笔记里<br>AI 总结在这里——认知链路断了</div>
+            </div>
+          </div>
+        </div>
+        <div class="ph-label">新 App · 指令结果</div>
+      </div>
+    </div>
+    <div class="txt">
+      <div class="eyebrow">指令在新 App</div>
+      <h2 class="big">录音在笔记里，<br>总结在另一个 App</h2>
+      <ul class="prob">
+        <li><strong>认知链路断了</strong>——用户在笔记里录课，你告诉他 AI 总结在另一个 App，怎么理解？</li>
+        <li><strong>"记"的部分本质就是收藏</strong>——归新 App 后，和笔记里的同类内容割裂</li>
+        <li><strong>来源追溯跨 App</strong>——总结放在新 App，但源材料（录音/文章）可能在笔记里</li>
+      </ul>
+    </div>
+  </div>
+  <div class="page">05 / 08</div>
+</div>
+
+<!-- SLIDE 6: CORE DILEMMA -->
+<div class="slide">
+  <div class="center-col">
+    <div class="eyebrow">核心困境</div>
+    <h2 class="huge" style="max-width:calc(var(--u)*65)">一个 App 要成立，<br>用户打开它要知道来干什么</h2>
+    <div class="cmp">
+      <div class="cmp-col">
+        <div class="cmp-icon">📅</div>
+        <div class="cmp-name">日历</div>
+        <div class="cmp-desc">看日程</div>
+        <div class="cmp-status green">✅ 定位清晰</div>
+      </div>
+      <div class="cmp-col">
+        <div class="cmp-icon">🖼</div>
+        <div class="cmp-name">相册</div>
+        <div class="cmp-desc">看照片</div>
+        <div class="cmp-status green">✅ 定位清晰</div>
+      </div>
+      <div class="cmp-col">
+        <div class="cmp-icon">❓</div>
+        <div class="cmp-name">新 App</div>
+        <div class="cmp-desc">看什么？</div>
+        <div class="cmp-status red">❌ 定位说不清</div>
+      </div>
+    </div>
+    <p class="body" style="margin-top:calc(var(--u)*3);max-width:calc(var(--u)*58)">"收集 → 整理 → 消费"描述的是一个<strong style="color:#fff">能力</strong>，不是一个<strong style="color:#fff">产品</strong>。这个能力可以嵌到笔记里、widget 里、小爱里——不需要一个独立的壳。</p>
+  </div>
+  <div class="page">06 / 08</div>
+</div>
+
+<!-- SLIDE 7: BUT AGENT HAS POTENTIAL -->
+<div class="slide">
+  <div class="center-col">
+    <div class="eyebrow">但方向本身有想象空间</div>
+    <h2 class="big" style="margin-bottom:calc(var(--u)*2)">人车家 Agent 会产生现有 App 管不了的新数据</h2>
+    <div class="two">
+      <div>
+        <h3 class="blue">真实的空缺</h3>
+        <p>跨设备、跨场景、跨时间的数据——不归日历、不归相册、不归笔记。开车时的灵感、耳机里听到的要点、手表上的快速记录，这些数据今天确实没有一个统一的归宿。</p>
+      </div>
+      <div>
+        <h3 class="orange">核心问题</h3>
+        <p>一定要有一个用户愿意专门来用的<strong style="color:#fff">具象功能</strong>，这个 App 才能成立。小爱记忆、知识库这些概念不是具象功能，用户不知道来了能干什么。<br><br>这个功能是什么？是接下来要重点探索的课题。</p>
+      </div>
+    </div>
+  </div>
+  <div class="page">07 / 08</div>
+</div>
+
+<!-- SLIDE 8: SUMMARY -->
+<div class="slide">
+  <div class="center-col">
+    <div class="eyebrow">整体判断</div>
+    <h2 class="big" style="margin-bottom:calc(var(--u)*1)">两个方向不是二选一</h2>
+    <p class="body" style="margin-bottom:calc(var(--u)*1)">当前选路径一落地，未来两个方向可以同时存在，各自解决不同的问题</p>
+    <div class="sum">
+      <div class="sum-card rec">
+        <div class="sum-tag blue">当前 · 推荐</div>
+        <h3>路径一：归笔记</h3>
+        <p>同类内容在一起，合集素材完整。笔记从"帮用户记"升级到"帮用户记 + 帮用户用"。笔记是沉淀层，小爱和系统触点是触达层。</p>
+      </div>
+      <div class="sum-card exp">
+        <div class="sum-tag orange">未来 · 探索</div>
+        <h3>路径二：系统 Agent</h3>
+        <p>人车家会产生现有 App 管不了的新数据，方向有想象空间。核心是找到那个独特的产品功能——目前是能力不是产品，需要找到独特的打开理由。</p>
+      </div>
+    </div>
+  </div>
+  <div class="page">08 / 08</div>
+</div>
+
+</div>
+</body>
+</html>
