@@ -3,704 +3,568 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>"记一下" · 完整思考链路</title>
+<title>"记一下" · 思考决策树</title>
 <style>
 :root{font-family:"MiSans","PingFang SC","SF Pro Display",sans-serif;color:#1d1d1f;--blue:#4e8fff;--purple:#8b5cf6;--green:#22c55e;--orange:#f59e0b;--red:#ef4444;--ink2:#555;--ink3:#86868b;--ink4:#aeaeb2}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#f5f4f0;min-height:100vh;padding:40px 20px 80px}
-.container{max-width:960px;margin:0 auto}
+body{background:#f5f4f0;min-height:100vh;padding:40px 20px 80px;overflow-x:auto}
+.page{max-width:1400px;margin:0 auto}
 
 /* Header */
-.header{text-align:center;margin-bottom:48px}
-.header h1{font-size:26px;font-weight:600;letter-spacing:-.5px}
-.header p{font-size:13px;color:var(--ink3);margin-top:8px;line-height:1.6}
-.header .warn{display:inline-block;margin-top:12px;font-size:11px;color:#dc2626;background:#fee2e2;padding:4px 12px;border-radius:10px;font-weight:500}
+.header{text-align:center;margin-bottom:32px}
+.header h1{font-size:24px;font-weight:600;letter-spacing:-.5px}
+.header p{font-size:13px;color:var(--ink3);margin-top:6px}
+.header .warn{display:inline-block;margin-top:10px;font-size:11px;color:#dc2626;background:#fee2e2;padding:4px 12px;border-radius:10px;font-weight:500}
 
-/* Flow */
-.flow{position:relative;display:flex;flex-direction:column}
-.flow::before{content:"";position:absolute;left:36px;top:40px;bottom:40px;width:2px;background:linear-gradient(180deg,#ddd 0%,var(--blue) 8%,var(--red) 20%,var(--orange) 35%,var(--purple) 55%,var(--green) 75%,#1e1b4b 100%);z-index:0}
+/* === Tree === */
+.tree{display:flex;flex-direction:column;align-items:center;gap:0;position:relative}
 
-/* Step */
-.step{position:relative;display:flex;gap:24px}
-.step-dot{width:72px;min-width:72px;display:flex;flex-direction:column;align-items:center;z-index:1}
-.dot{width:22px;height:22px;border-radius:50%;border:3px solid #f5f4f0;box-shadow:0 0 0 2px var(--blue);background:var(--blue);margin-top:24px;position:relative}
-.dot.red{box-shadow:0 0 0 2px var(--red);background:var(--red)}
-.dot.orange{box-shadow:0 0 0 2px var(--orange);background:var(--orange)}
-.dot.purple{box-shadow:0 0 0 2px var(--purple);background:var(--purple)}
-.dot.green{box-shadow:0 0 0 2px var(--green);background:var(--green)}
-.dot.dark{box-shadow:0 0 0 2px #312e81;background:#312e81}
-.dot-num{font-size:10px;font-weight:700;color:#fff;position:absolute;width:22px;height:22px;display:grid;place-items:center;margin-top:24px;z-index:2}
+/* Node */
+.node{position:relative;display:flex;flex-direction:column;align-items:center}
+.node-card{border-radius:14px;padding:16px 20px;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.04);max-width:600px;text-align:center;position:relative;z-index:1}
+.node-card h3{font-size:15px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.node-card p{font-size:12px;color:var(--ink2);line-height:1.6}
+.node-card .label{font-size:9px;padding:2px 8px;border-radius:8px;font-weight:600;letter-spacing:.3px}
+.bg-white{background:#fff}
+.bg-blue{background:#eff6ff}
+.bg-yellow{background:#fffbeb}
+.bg-green{background:#f0fdf4}
+.bg-red{background:#fef2f2}
+.bg-purple{background:#faf5ff}
+.bg-dark{background:#1e1b4b;color:#fff;border-color:#312e81}
+.bg-dark p{color:rgba(255,255,255,.7)}
 
-.step-content{flex:1;padding:12px 0 32px}
-.card{background:#fff;border-radius:16px;padding:24px;border:1px solid rgba(0,0,0,.06);box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.card h2{font-size:16px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.card h2 .label{font-size:10px;padding:3px 8px;border-radius:10px;font-weight:600;letter-spacing:.3px;flex-shrink:0}
 .label-fact{background:#e0f0ff;color:#2994ff}
 .label-q{background:#fef3c7;color:#d97706}
+.label-yes{background:#dcfce7;color:#16a34a}
+.label-no{background:#fee2e2;color:#dc2626}
 .label-insight{background:#ede9fe;color:#7c3aed}
 .label-solution{background:#dcfce7;color:#16a34a}
-.label-problem{background:#fee2e2;color:#dc2626}
 .label-eval{background:#f1f5f9;color:#475569}
-.card .sub{font-size:13px;color:var(--ink3);margin-bottom:16px;line-height:1.5}
 
-/* Blocks */
-.ublock{background:#f8f9fa;border-radius:12px;padding:14px 16px;margin-bottom:10px}
-.ublock .ulabel{font-size:10px;font-weight:600;color:var(--ink4);letter-spacing:.5px;margin-bottom:6px}
-.ublock .utext{font-size:13px;line-height:1.7;color:var(--ink2)}
-.ublock .utext em{font-style:normal;background:#fff3cd;padding:1px 4px;border-radius:3px}
-.ublock .utext strong{font-weight:600;color:#1d1d1f}
+/* Connector lines */
+.vline{width:2px;height:24px;background:#ddd;margin:0 auto}
+.vline.short{height:16px}
 
-.tblock{border-left:3px solid var(--purple);padding:10px 16px;margin-bottom:10px;background:#faf8ff;border-radius:0 10px 10px 0}
-.tblock .tlabel{font-size:10px;font-weight:600;color:var(--purple);letter-spacing:.5px;margin-bottom:4px}
-.tblock .ttext{font-size:13px;line-height:1.7;color:#555}
+/* Branch: horizontal split */
+.branch{display:flex;gap:20px;justify-content:center;position:relative;padding-top:0}
+.branch::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:2px;height:0}
+
+/* Branch connector bar */
+.branch-bar{display:flex;align-items:stretch;justify-content:center;position:relative;margin:0 auto}
+.branch-bar::before{content:"";position:absolute;top:50%;height:2px;background:#ddd}
+.branch-bar.b2::before{left:25%;right:25%}
+.branch-bar.b3::before{left:16.7%;right:16.7%}
+
+/* Branch column */
+.bcol{display:flex;flex-direction:column;align-items:center;gap:0;flex:1;min-width:0}
+
+/* Detail block inside node */
+.detail{text-align:left;margin-top:10px;padding-top:10px;border-top:1px solid rgba(0,0,0,.06);font-size:12px;color:var(--ink2);line-height:1.7}
+.detail strong{color:#1d1d1f}
+.detail ul{padding-left:14px;margin:4px 0}
+.detail .scenario{background:#f8f9fa;border-radius:8px;padding:8px 10px;margin:6px 0;font-size:11px}
+.detail .scenario em{font-style:normal;background:#fff3cd;padding:0 3px;border-radius:2px}
 
 /* Scene table */
-.scene-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
-.scene-table th{background:#f8f9fa;padding:10px 14px;text-align:left;font-weight:600;font-size:12px;color:var(--ink3);border-bottom:2px solid #eee}
-.scene-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;vertical-align:top;line-height:1.5}
-.scene-table tr:last-child td{border-bottom:0}
-.scene-table .stag{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:500;white-space:nowrap}
+.scene-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:11px;text-align:left}
+.scene-table th{background:#f8f9fa;padding:6px 10px;font-weight:600;font-size:10px;color:var(--ink3);border-bottom:2px solid #eee}
+.scene-table td{padding:6px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+.stag{font-size:9px;padding:2px 6px;border-radius:6px;font-weight:500;white-space:nowrap}
 .stag-voice{background:#ede9fe;color:#7c3aed}
 .stag-save{background:#e0f0ff;color:#2994ff}
 .stag-cmd{background:#fef3c7;color:#d97706}
 
-/* Lanes */
-.lanes2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
-.lanes3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:12px 0}
-.lane{border-radius:12px;padding:14px 16px}
-.lane-light{background:#f8f9fa}
-.lane h4{font-size:13px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.lane h4 .ld{width:8px;height:8px;border-radius:50%}
-.lane p{font-size:12px;color:var(--ink2);line-height:1.6}
-.lane .warn-text{color:var(--red);font-weight:500}
+/* Hypothesis pair */
+.hypo-pair{display:flex;gap:16px;width:100%;margin-top:0}
+.hypo{flex:1;border-radius:12px;padding:14px 16px;text-align:left}
+.hypo h4{font-size:13px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.hypo h4 .ld{width:8px;height:8px;border-radius:50%}
+.hypo p{font-size:11px;color:var(--ink2);line-height:1.7}
+.hypo.yes{background:#f0fdf4;border:1px solid #bbf7d0}
+.hypo.no{background:#fef2f2;border:1px solid #fecaca}
+.hypo.maybe{background:#fffbeb;border:1px solid #fde68a}
+.hypo .result{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.06);font-weight:500}
+.hypo .result.go{color:#16a34a}
+.hypo .result.stop{color:#dc2626}
+.hypo .result.cont{color:#d97706}
+
+/* Three-up cards */
+.cards3{display:flex;gap:12px;margin-top:12px}
+.cards3>.c3{flex:1;border-radius:12px;padding:14px;text-align:left;min-width:0}
+.c3 h4{font-size:12px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.c3 p{font-size:11px;color:var(--ink2);line-height:1.6}
 
 /* Mini phone */
-.mini-phone{width:200px;height:380px;border-radius:28px;background:#f3f3f3;border:1px solid #e0e0e0;overflow:hidden;position:relative;flex-shrink:0;box-shadow:0 4px 16px rgba(0,0,0,.06)}
-.mini-phone .mp-status{height:28px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 16px 4px;font-size:9px;font-weight:600;position:relative}
-.mini-phone .mp-status::after{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:64px;height:18px;background:#1d1d1f;border-radius:10px}
-.mini-phone .mp-body{padding:8px 10px;overflow:hidden;height:calc(100% - 28px)}
-.mini-phone .mp-title{font-size:14px;font-weight:600;margin-bottom:4px}
-.mini-phone .mp-sub{font-size:9px;color:#999;margin-bottom:8px}
-.mp-item{background:#fff;border-radius:10px;padding:8px 10px;margin-bottom:6px;font-size:10px;line-height:1.5;position:relative;border:1px solid rgba(0,0,0,.04)}
-.mp-item h5{font-size:11px;font-weight:600;margin-bottom:2px}
-.mp-item .mp-meta{font-size:9px;color:#aaa;margin-top:3px}
-.mp-item .mp-tag{position:absolute;top:6px;right:6px;font-size:8px;padding:1px 6px;border-radius:6px;font-weight:600}
-.mp-tag-idea{background:#ede9fe;color:#7c3aed}
-.mp-tag-todo{background:#dcfce7;color:#16a34a}
-.mp-tag-raw{background:#f3f3f3;color:#999}
-.mp-divider{border:0;border-top:1px dashed #e5e5e5;margin:8px 0}
+.mini-phone{width:180px;height:340px;border-radius:24px;background:#f3f3f3;border:1px solid #e0e0e0;overflow:hidden;position:relative;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.mini-phone .mp-s{height:24px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 14px 3px;font-size:8px;font-weight:600;position:relative}
+.mini-phone .mp-s::after{content:"";position:absolute;top:5px;left:50%;transform:translateX(-50%);width:56px;height:16px;background:#1d1d1f;border-radius:9px}
+.mini-phone .mp-b{padding:6px 8px;overflow:hidden;height:calc(100% - 24px)}
+.mini-phone .mp-t{font-size:12px;font-weight:600;margin-bottom:3px}
+.mini-phone .mp-st{font-size:8px;color:#999;margin-bottom:6px}
+.mp-i{background:#fff;border-radius:8px;padding:6px 8px;margin-bottom:4px;font-size:9px;line-height:1.4;border:1px solid rgba(0,0,0,.04);position:relative}
+.mp-i h5{font-size:10px;font-weight:600;margin-bottom:1px}
+.mp-i .mt{font-size:8px;color:#aaa;margin-top:2px}
+.mp-i .tg{position:absolute;top:4px;right:4px;font-size:7px;padding:1px 5px;border-radius:5px;font-weight:600}
 
 /* Phone row */
-.phone-row{display:flex;gap:16px;margin:16px 0;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
-.phone-row::-webkit-scrollbar{display:none}
-.phone-col{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0}
-.phone-col .pc-label{font-size:10px;color:var(--ink3);font-weight:500;text-align:center}
+.phone-row{display:flex;gap:14px;justify-content:center;margin:14px 0;flex-wrap:wrap}
+.phone-col{display:flex;flex-direction:column;align-items:center;gap:4px}
+.phone-col .pc-l{font-size:10px;color:var(--ink3);font-weight:500;text-align:center}
 
-/* Eval horizontal */
-.eval-row{display:flex;gap:14px;margin:16px 0;overflow-x:auto;scrollbar-width:none}
-.eval-row::-webkit-scrollbar{display:none}
-.eval-col{flex:1;min-width:260px;display:flex;flex-direction:column;gap:10px;flex-shrink:0}
-.eval-header{border-radius:14px;padding:16px;border:1px solid}
-.eval-header.eval-good{background:#f0fdf4;border-color:#bbf7d0}
-.eval-header.eval-bad{background:#fef2f2;border-color:#fecaca}
-.eval-header.eval-mid{background:#fffbeb;border-color:#fde68a}
-.eval-header h4{font-size:14px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.eval-header .verdict{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:600}
+/* Eval row */
+.eval-row{display:flex;gap:14px;margin:14px 0}
+.eval-col{flex:1;display:flex;flex-direction:column;gap:8px;min-width:0}
+.eval-h{border-radius:12px;padding:14px;border:1px solid;text-align:left}
+.eval-h h4{font-size:13px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.eval-h .verdict{font-size:9px;padding:2px 7px;border-radius:7px;font-weight:600}
 .verdict-yes{background:#dcfce7;color:#16a34a}
 .verdict-no{background:#fee2e2;color:#dc2626}
 .verdict-maybe{background:#fef3c7;color:#d97706}
-.eval-header ul{font-size:11px;color:var(--ink2);line-height:1.7;padding-left:14px;margin-top:6px}
-.eval-header p{font-size:11px;color:var(--ink2);line-height:1.7;margin-top:4px}
-.eval-header .section-label{font-size:10px;font-weight:600;color:var(--ink3);margin-top:8px;letter-spacing:.3px}
+.eval-h ul{font-size:10px;color:var(--ink2);line-height:1.7;padding-left:12px;margin-top:4px}
+.eval-h .sl{font-size:9px;font-weight:600;color:var(--ink3);margin-top:6px;letter-spacing:.3px}
+.eval-good{background:#f0fdf4;border-color:#bbf7d0}
+.eval-bad{background:#fef2f2;border-color:#fecaca}
+.eval-mid{background:#fffbeb;border-color:#fde68a}
 
-/* Connector */
-.conn{text-align:center;padding:4px 0 4px 72px;font-size:11px;color:var(--ink4);letter-spacing:.3px}
+/* Think block */
+.tblock{text-align:left;border-left:3px solid var(--purple);padding:8px 14px;margin-top:10px;background:#faf8ff;border-radius:0 8px 8px 0;font-size:11px;line-height:1.7;color:#555}
+.tblock strong{color:#1d1d1f}
+.tblock .tl{font-size:9px;font-weight:600;color:var(--purple);letter-spacing:.5px;margin-bottom:3px}
 
-/* Final */
-.final{background:linear-gradient(135deg,#1e1b4b,#312e81);color:#fff;border-radius:20px;padding:32px;margin-top:36px;text-align:center}
-.final h2{font-size:20px;font-weight:600;margin-bottom:16px}
-.final .fline{display:flex;align-items:center;justify-content:center;gap:6px;margin:8px 0;font-size:13px;flex-wrap:wrap}
-.final .fline .node{background:rgba(255,255,255,.12);padding:5px 12px;border-radius:16px;font-weight:500}
-.final .fline .arr{opacity:.35;font-size:16px}
-.final p{font-size:13px;opacity:.65;line-height:1.7;margin-top:16px;max-width:640px;margin-left:auto;margin-right:auto}
+/* Divider arrow */
+.darr{text-align:center;font-size:18px;color:#ccc;padding:4px 0}
 
-@media(max-width:640px){
-  body{padding:20px 12px 60px}
-  .step-dot{width:48px;min-width:48px}
-  .flow::before{left:24px}
-  .lanes2,.lanes3{grid-template-columns:1fr}
-  .phone-row{flex-wrap:wrap}
-  .conn{padding-left:48px}
-  .mini-phone{width:100%;height:auto;min-height:300px}
+/* Wide card */
+.wide-card{width:100%;max-width:1000px}
+
+@media(max-width:800px){
+  .hypo-pair,.cards3,.eval-row{flex-direction:column}
+  .phone-row{flex-direction:column;align-items:center}
 }
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="page">
   <div class="header">
-    <h1>"帮我记一下" — 从需求到承接方的完整思考链路</h1>
-    <p>不预设承接方，从用户行为出发，推导需求是否成立、如何满足、谁来承接</p>
-    <span class="warn">全程不以任何产品视角出发</span>
+    <h1>"帮我记一下" — 思考决策树</h1>
+    <p>每一步有假设就分叉，每个分叉有结论和处理方式</p>
+    <span class="warn">不预设承接方，从用户行为出发</span>
   </div>
 
-  <div class="flow">
+  <div class="tree">
 
-    <!-- ============ Step 1: 三种"记一下" ============ -->
-    <div class="step">
-      <div class="step-dot"><div class="dot"></div><span class="dot-num">1</span></div>
-      <div class="step-content">
-        <div class="card">
-          <h2><span class="label label-fact">事实</span> 用户在说"帮我记一下"，但这句话有三种完全不同的含义</h2>
-          <div class="sub">先区分清楚——不区分就没法讨论</div>
+    <!-- ===== ROOT: 事实 ===== -->
+    <div class="node">
+      <div class="node-card bg-white wide-card">
+        <h3><span class="label label-fact">事实</span> 用户在对小爱说"帮我记一下"</h3>
+        <p>这句话有三种完全不同的含义</p>
+        <table class="scene-table">
+          <tr><th>场景</th><th>用户意图</th><th>本质</th></tr>
+          <tr><td>"帮我记一下咖啡52度好喝"</td><td>捕捉一个念头</td><td><span class="stag stag-voice">随口记</span></td></tr>
+          <tr><td>AI键/小白条 → "记一下这个屏幕"</td><td>保存外部信息</td><td><span class="stag stag-save">收藏</span></td></tr>
+          <tr><td>AI键 → "记一下这个且帮我总结"</td><td>保存 + 发起任务</td><td><span class="stag stag-cmd">指令</span></td></tr>
+        </table>
+      </div>
+    </div>
 
-          <table class="scene-table">
-            <tr><th>场景</th><th>用户意图</th><th>本质</th></tr>
-            <tr>
-              <td>"帮我记一下咖啡52度好喝"</td>
-              <td>捕捉一个念头</td>
-              <td><span class="stag stag-voice">随口记</span></td>
-            </tr>
-            <tr>
-              <td>AI键/小白条 → "记一下这个屏幕"</td>
-              <td>保存外部信息</td>
-              <td><span class="stag stag-save">收藏</span></td>
-            </tr>
-            <tr>
-              <td>AI键 → "记一下这个且帮我总结"</td>
-              <td>保存 + 发起任务</td>
-              <td><span class="stag stag-cmd">指令</span></td>
-            </tr>
-          </table>
+    <div class="darr">▼</div>
 
-          <div class="tblock">
-            <div class="tlabel">思考点</div>
-            <div class="ttext">
-              <strong>随口记</strong>不需要看屏幕，张嘴就说，什么时候都可以发生（走路、开车、洗澡前）。<br>
-              <strong>收藏</strong>需要看屏幕，指向一个具体的外部内容，本质是"保存到我的地方"。<br>
-              <strong>指令</strong>除了保存，还附带了一个任务——"帮我怎样怎样"。<br><br>
-              三者的触发场景、用户心智、后续期待完全不同。下面分别思考。
-            </div>
+    <!-- ===== Q1: 用户记完想回来看/用吗？ ===== -->
+    <div class="node">
+      <div class="node-card bg-yellow wide-card">
+        <h3><span class="label label-q">提问 1</span> 用户记完之后，想回来看/用这些内容吗？</h3>
+        <p>如果不想，后面所有推导都不成立</p>
+
+        <div class="cards3">
+          <div class="c3 bg-purple" style="border:1px solid #e9d5ff">
+            <h4><span class="stag stag-voice">随口记</span></h4>
+            <p>碎片念头——用户说完可能就忘了。<br>但如果同一主题的碎片攒多了，"我关于这件事到底想了什么"有没有回看价值？</p>
+          </div>
+          <div class="c3 bg-blue" style="border:1px solid #bfdbfe">
+            <h4><span class="stag stag-save">收藏</span></h4>
+            <p>用户主动按AI键保存——<strong>一定想回来用</strong>，否则为什么收藏？<br>动机最强。</p>
+          </div>
+          <div class="c3" style="background:#fffbeb;border:1px solid #fde68a">
+            <h4><span class="stag stag-cmd">指令</span></h4>
+            <p>用户想看任务结果（总结/对比），但不一定想回看原文。<br>结果的消费 > 原文的消费。</p>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="conn">▼ 三条路径分别分析</div>
+    <div class="darr">▼</div>
 
-    <!-- ============ Step 2: 三条路径的现状 ============ -->
-    <div class="step">
-      <div class="step-dot"><div class="dot red"></div><span class="dot-num">2</span></div>
-      <div class="step-content">
-        <div class="card">
-          <h2><span class="label label-problem">问题</span> 三条路径今天都断了</h2>
-          <div class="sub">不同的方式断在不同的地方</div>
+    <!-- 分叉：想 vs 不想 -->
+    <div class="node">
+      <div class="hypo-pair" style="max-width:800px">
+        <div class="hypo yes">
+          <h4><span class="ld" style="background:var(--green)"></span> 假设：想</h4>
+          <p>至少收藏和指令有明确的回看动机。随口记单条可能不想看，但聚合后可能有价值。</p>
+          <div class="result go">→ 继续：量有多大？</div>
+        </div>
+        <div class="hypo no">
+          <h4><span class="ld" style="background:var(--red)"></span> 假设：不想</h4>
+          <p>用户说完就忘，"记一下"只是获得心理安全感（"我交代给 AI 了"），事后不找。</p>
+          <div class="result stop">→ 结论：不需要做显性化。<br>"帮我记一下"只是语音助手的基础能力，做好即时确认就够了，不构成产品方向。</div>
+        </div>
+      </div>
+    </div>
 
-          <div class="lanes3">
-            <div class="lane lane-light">
-              <h4><span class="ld" style="background:var(--purple)"></span> 随口记</h4>
-              <p>内容藏在小爱聊天记录里。<br><strong class="warn-text">用户看不到、找不到、管不了。</strong><br>记了等于没记。</p>
-            </div>
-            <div class="lane lane-light">
-              <h4><span class="ld" style="background:var(--blue)"></span> 收藏</h4>
-              <p>AI键保存后没有反馈、没有去处。<br><strong class="warn-text">保存到哪了？我去哪看？</strong><br>用户不知道东西在哪。</p>
-            </div>
-            <div class="lane lane-light">
-              <h4><span class="ld" style="background:var(--orange)"></span> 指令</h4>
-              <p>小爱执行了任务但结果不持久。<br><strong class="warn-text">总结完了在哪？我怎么找到？</strong><br>结果和来源断开了。</p>
-            </div>
+    <div class="darr">▼ 如果想</div>
+
+    <!-- ===== Q2: 量 ===== -->
+    <div class="node">
+      <div class="node-card bg-yellow" style="max-width:600px">
+        <h3><span class="label label-q">提问 2</span> 量有多大？</h3>
+        <p>用户说"帮我记一下"/ 按 AI 键的频次？一天几次还是一周一次？</p>
+      </div>
+    </div>
+
+    <div class="darr">▼</div>
+
+    <div class="node">
+      <div class="hypo-pair" style="max-width:800px">
+        <div class="hypo yes">
+          <h4><span class="ld" style="background:var(--green)"></span> 量足够</h4>
+          <p>行为频次足以支撑一个产品功能（如每天至少 1-2 次），内容持续积累。</p>
+          <div class="result go">→ 继续：今天的体验满足了吗？</div>
+        </div>
+        <div class="hypo no">
+          <h4><span class="ld" style="background:var(--red)"></span> 量太少</h4>
+          <p>偶发行为，一周一次甚至更少，内容积累不起来。</p>
+          <div class="result stop">→ 结论：不值得做成产品级功能。<br>作为小爱的基础能力优化即可（比如记完后保存到笔记的某个角落），不需要单独设计消费链路。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="darr">▼ 如果量足够</div>
+
+    <!-- ===== Q3: 现状满足了吗？ ===== -->
+    <div class="node">
+      <div class="node-card bg-yellow wide-card">
+        <h3><span class="label label-q">提问 3</span> 今天的体验满足了吗？</h3>
+        <p>三种类型分别验证——用户做了"记"之后，看得到、找得到、管得了吗？</p>
+
+        <div class="cards3">
+          <div class="c3" style="background:#f8f9fa;border:1px solid #eee">
+            <h4><span class="stag stag-voice">随口记</span> 现状？</h4>
+            <p>记到哪了？用户知道吗？<br>事后能找到吗？<br>能回看、修改、删除吗？</p>
           </div>
+          <div class="c3" style="background:#f8f9fa;border:1px solid #eee">
+            <h4><span class="stag stag-save">收藏</span> 现状？</h4>
+            <p>保存到哪了？有反馈吗？<br>用户去哪找这个内容？<br>找到后能做什么？</p>
+          </div>
+          <div class="c3" style="background:#f8f9fa;border:1px solid #eee">
+            <h4><span class="stag stag-cmd">指令</span> 现状？</h4>
+            <p>结果在哪？原文和结果绑定吗？<br>下次能找到吗？<br>能追溯来源吗？</p>
+          </div>
+        </div>
 
-          <div class="tblock">
-            <div class="tlabel">共同问题</div>
-            <div class="ttext"><strong>三条路径的共同问题是：隐性。</strong>用户做了"记"这个动作，但记的结果没有显性化——看不到在哪、不知道怎么找、无法管理。隐性的记 = 没记。</div>
+        <div class="tblock" style="margin-top:14px">
+          <div class="tl">判断标准</div>
+          <strong>显性 vs 隐性。</strong>记的结果是否：1. 看得到  2. 找得到  3. 管得了<br>
+          三条路径逐个检查。已满足的不需要重做，没满足的才是需求缺口。
+        </div>
+      </div>
+    </div>
+
+    <div class="darr">▼</div>
+
+    <div class="node">
+      <div class="hypo-pair" style="max-width:900px">
+        <div class="hypo yes" style="flex:1">
+          <h4><span class="ld" style="background:var(--green)"></span> 假设：都满足了</h4>
+          <p>三条路径体验都做到了显性化——用户看得到、找得到、管得了。</p>
+          <div class="result stop">→ 结论：不需要做。<br>现有体验已经闭合，不存在产品机会。</div>
+        </div>
+        <div class="hypo maybe" style="flex:1">
+          <h4><span class="ld" style="background:var(--orange)"></span> 假设：部分满足</h4>
+          <p>有的路径做到了，有的没有。比如收藏体验 OK 但随口记是断的。</p>
+          <div class="result cont">→ 针对没满足的路径做补全。不需要全面重构，修补缺口即可。</div>
+        </div>
+        <div class="hypo no" style="flex:1">
+          <h4><span class="ld" style="background:var(--red)"></span> 假设：都没满足</h4>
+          <p>三条路径都是隐性的——记了等于没记。</p>
+          <div class="result go">→ 这是一个系统性的产品机会。需要完整设计"记 → 看到 → 用"的链路。继续。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="darr">▼ 如果存在未满足的需求</div>
+
+    <!-- ===== 判断：需求是真的 ===== -->
+    <div class="node">
+      <div class="node-card bg-green" style="max-width:700px;border-color:#bbf7d0">
+        <h3><span class="label label-yes">观点</span> "帮我记一下"的需求真实存在，且现有体验没有完整承接</h3>
+        <p>这是整个方案的起手——不是"某个App要升级"，而是"这个需求存在，需要被显性化"</p>
+        <div class="tblock" style="margin-top:10px">
+          <div class="tl">如果这个观点不成立</div>
+          后面所有推导都不需要。笔记继续做好"帮用户记"本身就够了，不需要往"帮用户用"扩展。
+        </div>
+      </div>
+    </div>
+
+    <div class="darr">▼ 观点成立后</div>
+
+    <!-- ===== Q4: 心智归属 ===== -->
+    <div class="node">
+      <div class="node-card bg-yellow" style="max-width:600px">
+        <h3><span class="label label-q">提问 4</span> 用户想回来看的时候，觉得应该去哪找？</h3>
+        <p>用户脑子里的心智归属决定承接方</p>
+      </div>
+    </div>
+
+    <div class="darr">▼</div>
+
+    <div class="node">
+      <div class="hypo-pair" style="max-width:900px">
+        <div class="hypo maybe" style="flex:1">
+          <h4><span class="ld" style="background:var(--orange)"></span> "去小爱翻一下"</h4>
+          <p>回到对话记录找。但对话界面不适合回看和管理——聊天记录无限滚动，越来越难找。</p>
+          <div class="result cont">→ 小爱是入口，不是管理界面</div>
+        </div>
+        <div class="hypo yes" style="flex:1">
+          <h4><span class="ld" style="background:var(--green)"></span> "去笔记看看"</h4>
+          <p>"记东西"的心智最近的 App。不需要教育用户。</p>
+          <div class="result go">→ 天然承接点</div>
+        </div>
+        <div class="hypo no" style="flex:1">
+          <h4><span class="ld" style="background:var(--red)"></span> "不知道去哪找"</h4>
+          <p>如果用户不知道去哪找，说明今天的体验确实是断的——内容存在但不可达。</p>
+          <div class="result cont">→ 需要建立心智：记的东西在一个明确的地方</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="darr">▼</div>
+
+    <!-- ===== 显性化设计 ===== -->
+    <div class="node">
+      <div class="node-card bg-purple wide-card" style="border-color:#e9d5ff">
+        <h3><span class="label label-insight">推导</span> 显性化需要做什么？</h3>
+        <p>三个产品约定 + 泛化处理 + 分流机制</p>
+
+        <div class="detail">
+          <strong>约定 1：松手就算记下来了。</strong>先保存录音给反馈，AI 后台补充处理。<br>
+          <strong>约定 2：所有内容都有明确的去处。</strong>用户能看到、找到、管理。<br>
+          <strong>约定 3：原始记录永远保留，AI 结果可追溯来源。</strong>一条记录可以同时产生想法 + 待办 + 收藏。
+        </div>
+
+        <div class="tblock" style="margin-top:14px">
+          <div class="tl">泛化问题</div>
+          一旦给具象入口，用户什么都往里塞——想法、待办、收藏、指令全混在一起。<br>
+          <strong>用户不负责分类，AI 负责。</strong>识别意图后自动分流：<br>
+          · 有念头 → 想法 &nbsp; · 有时间/动作 → 待办 &nbsp; · 有外部内容 → 收藏 &nbsp; · 有任务 → 执行 &nbsp; · 识别不出 → 原始记录兜底
+        </div>
+      </div>
+    </div>
+
+    <div class="darr">▼</div>
+
+    <!-- ===== 消费闭环 ===== -->
+    <div class="node">
+      <div class="node-card bg-green wide-card" style="border-color:#bbf7d0">
+        <h3><span class="label label-solution">闭环</span> 记了，咋用？</h3>
+        <p>不同意图分流到不同消费路径</p>
+
+        <div class="phone-row">
+          <div class="phone-col">
+            <div class="mini-phone">
+              <div class="mp-s"><span>9:41</span><span></span></div>
+              <div class="mp-b">
+                <div class="mp-t">随口记</div>
+                <div class="mp-st">按时间看到自己说过什么</div>
+                <div class="mp-i"><h5>☕ 咖啡52度好喝</h5><div class="mt">今天 14:23</div><span class="tg" style="background:#ede9fe;color:#7c3aed">想法</span></div>
+                <div class="mp-i"><h5>📋 周五找设计聊</h5><div class="mt">今天 11:05</div><span class="tg" style="background:#dcfce7;color:#16a34a">待办</span></div>
+                <div class="mp-i"><h5>🎙 播客读书方法</h5><div class="mt">昨天 22:18</div><span class="tg" style="background:#f3f3f3;color:#999">原始</span></div>
+              </div>
+            </div>
+            <span class="pc-l"><strong>回看</strong> · 兜底</span>
+          </div>
+          <div class="phone-col">
+            <div class="mini-phone">
+              <div class="mp-s"><span>9:41</span><span></span></div>
+              <div class="mp-b">
+                <div class="mp-t">💡 想法合集</div>
+                <div class="mp-st">同一主题自动聚合</div>
+                <div class="mp-i"><h5>判断力来自实践</h5><div class="mt">随口记 · 9/20</div></div>
+                <div class="mp-i"><h5>复盘文章三个观点</h5><div class="mt">AI键 · 9/18</div></div>
+                <div class="mp-i"><h5>还得加上反思</h5><div class="mt">随口记 · 9/21</div></div>
+              </div>
+            </div>
+            <span class="pc-l"><strong>思考</strong></span>
+          </div>
+          <div class="phone-col">
+            <div class="mini-phone">
+              <div class="mp-s"><span>9:41</span><span></span></div>
+              <div class="mp-b">
+                <div class="mp-t">✅ 待办</div>
+                <div class="mp-st">识别的行动项</div>
+                <div class="mp-i" style="border-left:3px solid var(--green)"><h5>周五找设计聊查找</h5><div class="mt">来自随口记</div></div>
+                <div class="mp-i" style="border-left:3px solid var(--orange)"><h5>下周三交竞品分析</h5><div class="mt">来自随口记</div></div>
+                <div class="mp-i" style="border-left:3px solid var(--blue)"><h5>约老王喝咖啡</h5><div class="mt">来自随口记</div></div>
+              </div>
+            </div>
+            <span class="pc-l"><strong>行动</strong></span>
+          </div>
+          <div class="phone-col">
+            <div class="mini-phone">
+              <div class="mp-s"><span>9:41</span><span></span></div>
+              <div class="mp-b">
+                <div class="mp-t">📌 专题合集</div>
+                <div class="mp-st">旅行攻略 · 5 条</div>
+                <div class="mp-i"><h5>大理三天两夜</h5><div class="mt">小红书 · AI键</div></div>
+                <div class="mp-i"><h5>洱海骑行注意</h5><div class="mt">微信 · AI键</div></div>
+                <div class="mp-i"><h5>古城住宿推荐</h5><div class="mt">抖音 · AI键</div></div>
+              </div>
+            </div>
+            <span class="pc-l"><strong>参考</strong></span>
+          </div>
+          <div class="phone-col">
+            <div class="mini-phone">
+              <div class="mp-s"><span>9:41</span><span></span></div>
+              <div class="mp-b">
+                <div class="mp-t">⚡ 指令结果</div>
+                <div class="mp-st">任务执行完成</div>
+                <div class="mp-i" style="background:#fffbeb;border-color:#fde68a">
+                  <h5>📄 文章总结</h5>
+                  <div style="font-size:8px;color:#666;margin-top:2px">1.判断力核心<br>2.来自实践<br>3.复盘加速</div>
+                  <div class="mt">原文可追溯</div>
+                </div>
+                <div class="mp-i" style="background:#f5f3ff;border-color:#ddd6fe">
+                  <h5>📊 对比分析</h5>
+                  <div class="mt">两篇异同已整理</div>
+                </div>
+              </div>
+            </div>
+            <span class="pc-l"><strong>执行</strong></span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="conn">▼ 所以核心问题</div>
+    <div class="darr">▼ 最后一个问题</div>
 
-    <!-- ============ Step 3: 需求判断 ============ -->
-    <div class="step">
-      <div class="step-dot"><div class="dot orange"></div><span class="dot-num">3</span></div>
-      <div class="step-content">
-        <div class="card">
-          <h2><span class="label label-q">判断</span> 这个需求是真的还是假的？</h2>
-          <div class="sub">不讨论数据放哪、产品形态是什么——先回答需求本身</div>
+    <!-- ===== Q5: 谁来承接 ===== -->
+    <div class="node">
+      <div class="node-card bg-yellow wide-card">
+        <h3><span class="label label-q">提问 5</span> 谁来承接？</h3>
+        <p>三种假设，逐个分析</p>
 
-          <div class="lanes2">
-            <div class="lane lane-light">
-              <h4><span class="ld" style="background:var(--green)"></span> 判断：需求是真的</h4>
-              <p>用户确实在说"帮我记一下"（行为数据）<br>事后确实想找（回访反馈）<br>竞品在做：iOS备忘录、Notion、flomo<br><strong>行为存在、痛点存在、市场在验证</strong></p>
+        <div class="eval-row">
+          <div class="eval-col">
+            <div class="eval-h eval-mid">
+              <h4>小爱 <span class="verdict verdict-maybe">入口非承接</span></h4>
+              <div class="sl">优势</div>
+              <ul>
+                <li>用户已在跟小爱说"帮我记"</li>
+                <li>语音零门槛，人车家全覆盖</li>
+              </ul>
+              <div class="sl">问题</div>
+              <ul>
+                <li>对话界面不适合回看和管理</li>
+                <li>上下文丢失后再次隐性</li>
+                <li><strong>是入口，不是承接方</strong></li>
+              </ul>
             </div>
-            <div class="lane lane-light">
-              <h4><span class="ld" style="background:var(--red)"></span> 如果是假的</h4>
-              <p>那什么都不用做。<br>但三条路径的数据都说明：<br>用户在记、在收藏、在下指令。<br>只是没被接住。</p>
+            <div class="mini-phone">
+              <div class="mp-s"><span>9:41</span><span></span></div>
+              <div class="mp-b">
+                <div class="mp-t">小爱同学</div>
+                <div class="mp-i" style="background:#e8f4fe"><div style="font-size:8px;color:#999">用户</div><h5>帮我记一下咖啡52度好喝</h5></div>
+                <div class="mp-i" style="background:#f0f0f0"><div style="font-size:8px;color:#999">小爱</div><h5>好的，已帮你记下了</h5></div>
+                <div class="mp-i" style="background:#e8f4fe"><div style="font-size:8px;color:#999">两天后</div><h5>咖啡温度多少来着？</h5></div>
+                <div class="mp-i" style="background:#fee2e2;border-color:#fecaca"><div style="font-size:8px;color:var(--red)">❌ 淹没在聊天记录中</div></div>
+              </div>
             </div>
           </div>
-
-          <div class="tblock">
-            <div class="tlabel">这就是"观点"</div>
-            <div class="ttext">方案的起手不是"某个 App 要升级"，而是——<strong>"帮我记一下"这个需求真实存在，三条路径都断了，需要被显性化承接。</strong></div>
+          <div class="eval-col">
+            <div class="eval-h eval-bad">
+              <h4>新 App <span class="verdict verdict-no">难成立</span></h4>
+              <div class="sl">优势</div>
+              <ul>
+                <li>干净空间，无历史包袱</li>
+              </ul>
+              <div class="sl">问题</div>
+              <ul>
+                <li>"知识库"不是用户认知</li>
+                <li>装机率从零，内容量太薄</li>
+                <li>和笔记争"记东西"心智</li>
+                <li>聚合别的App？每项都有归属</li>
+              </ul>
+            </div>
+            <div class="mini-phone" style="height:auto;min-height:300px">
+              <div class="mp-s"><span>9:41</span><span></span></div>
+              <div class="mp-b">
+                <div class="mp-t">我的助手</div>
+                <div class="mp-i"><div style="display:flex;justify-content:space-between"><h5>📸 家人的9月</h5><span style="font-size:7px;color:var(--red);background:#fee2e2;padding:1px 4px;border-radius:4px;font-weight:600">相册已有</span></div></div>
+                <div class="mp-i"><div style="display:flex;justify-content:space-between"><h5>🏃 运动周报</h5><span style="font-size:7px;color:var(--red);background:#fee2e2;padding:1px 4px;border-radius:4px;font-weight:600">健康已有</span></div></div>
+                <div class="mp-i"><div style="display:flex;justify-content:space-between"><h5>🚄 京沪火车票</h5><span style="font-size:7px;color:var(--red);background:#fee2e2;padding:1px 4px;border-radius:4px;font-weight:600">日历已有</span></div></div>
+                <div class="mp-i"><div style="display:flex;justify-content:space-between"><h5>🚗 驾驶报告</h5><span style="font-size:7px;color:var(--red);background:#fee2e2;padding:1px 4px;border-radius:4px;font-weight:600">汽车已有</span></div></div>
+                <div class="mp-i"><div style="display:flex;justify-content:space-between"><h5>💡 用户访谈</h5><span style="font-size:7px;color:var(--red);background:#fee2e2;padding:1px 4px;border-radius:4px;font-weight:600">笔记已有</span></div></div>
+                <div class="mp-i"><div style="display:flex;justify-content:space-between"><h5>📍 12家餐厅</h5><span style="font-size:7px;color:var(--red);background:#fee2e2;padding:1px 4px;border-radius:4px;font-weight:600">地图已有</span></div></div>
+                <div style="font-size:8px;color:var(--red);text-align:center;padding:4px;font-weight:500">全标红 — 还能放什么？</div>
+              </div>
+            </div>
           </div>
+          <div class="eval-col">
+            <div class="eval-h eval-good">
+              <h4>笔记 <span class="verdict verdict-yes">自然可行</span></h4>
+              <div class="sl">优势</div>
+              <ul>
+                <li><strong>心智已成</strong>——"记东西"→笔记</li>
+                <li>装机率已有，内容量足</li>
+                <li>两 tab 隔离，互不干扰</li>
+              </ul>
+              <div class="sl">需回答</div>
+              <ul>
+                <li>复杂？→ 两 tab 更干净</li>
+                <li>干扰？→ AI 不进时间线</li>
+              </ul>
+            </div>
+            <div class="mini-phone">
+              <div class="mp-s"><span>9:41</span><span></span></div>
+              <div class="mp-b">
+                <div class="mp-t">笔记</div>
+                <div class="mp-st" style="display:flex;gap:10px"><span style="font-weight:600;border-bottom:2px solid #1d1d1f;padding-bottom:1px">笔记</span><span>合集</span></div>
+                <div class="mp-i" style="border-left:2px solid var(--purple)"><h5>产品周报 · 第12期</h5><div class="mt">用户自己写的</div></div>
+                <div class="mp-i" style="border-left:2px solid var(--blue)"><h5>会议纪要 · 复盘</h5><div class="mt">用户自己写的</div></div>
+                <div style="height:6px"></div>
+                <div class="mp-st" style="display:flex;gap:10px"><span>笔记</span><span style="font-weight:600;border-bottom:2px solid #1d1d1f;padding-bottom:1px">合集</span></div>
+                <div class="mp-i" style="background:#faf8ff;border-color:#ede9fe"><h5>💡 产品判断力</h5><div class="mt">3条想法 · AI聚合</div></div>
+                <div class="mp-i" style="background:#f0fdf4;border-color:#bbf7d0"><h5>📌 旅行攻略</h5><div class="mt">5条收藏 · AI归类</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tblock" style="margin-top:10px">
+          <div class="tl">结论</div>
+          <strong>小爱是入口</strong>（记的动作在这里）· <strong>笔记是承接</strong>（记的结果在这里）· <strong>新App没有成立条件</strong><br>
+          入口和承接不是竞争关系——小爱 + 笔记 = 完整链路。
         </div>
       </div>
     </div>
 
-    <div class="conn">▼ 如果需求是真的，下一步</div>
+    <div class="darr">▼</div>
 
-    <!-- ============ Step 4: 显性化 ============ -->
-    <div class="step">
-      <div class="step-dot"><div class="dot purple"></div><span class="dot-num">4</span></div>
-      <div class="step-content">
-        <div class="card">
-          <h2><span class="label label-insight">推导</span> 做显性化 — 三条路径分别需要什么</h2>
-          <div class="sub">让用户看到、找到、管理自己"记"过的一切</div>
-
-          <div class="phone-row">
-            <!-- 随口记 -->
-            <div class="phone-col">
-              <div class="mini-phone">
-                <div class="mp-status"><span>9:41</span><span></span></div>
-                <div class="mp-body">
-                  <div class="mp-title">随口记</div>
-                  <div class="mp-sub">按时间看到自己说过什么</div>
-                  <div class="mp-item">
-                    <h5>☕ 咖啡52度好喝</h5>
-                    <div>捕捉到的念头，随时回看</div>
-                    <div class="mp-meta">今天 14:23 · 语音</div>
-                    <span class="mp-tag mp-tag-idea">想法</span>
-                  </div>
-                  <div class="mp-item">
-                    <h5>📋 周五找设计聊查找问题</h5>
-                    <div>已识别为待办，周五提醒</div>
-                    <div class="mp-meta">今天 11:05 · 语音</div>
-                    <span class="mp-tag mp-tag-todo">待办</span>
-                  </div>
-                  <div class="mp-item">
-                    <h5>🎙 播客说的读书方法</h5>
-                    <div>原始录音 12s · AI 未识别出分类</div>
-                    <div class="mp-meta">昨天 22:18 · 语音</div>
-                    <span class="mp-tag mp-tag-raw">原始</span>
-                  </div>
-                </div>
-              </div>
-              <span class="pc-label">随口记页面<br>回看 · 兜底</span>
-            </div>
-
-            <!-- 收藏 -->
-            <div class="phone-col">
-              <div class="mini-phone">
-                <div class="mp-status"><span>9:41</span><span></span></div>
-                <div class="mp-body">
-                  <div class="mp-title">收藏反馈</div>
-                  <div class="mp-sub">AI键按下 → 保存 → 即时反馈</div>
-                  <div class="mp-item" style="background:linear-gradient(135deg,#e0f0ff,#f0f8ff);border-color:#c7defe">
-                    <h5>✅ 已收藏到「旅行攻略」</h5>
-                    <div>来自小红书 · 大理三天两夜路线</div>
-                    <div class="mp-meta">归入专题合集 · 可回看</div>
-                  </div>
-                  <hr class="mp-divider">
-                  <div class="mp-item" style="background:linear-gradient(135deg,#f0fdf4,#f8fff8);border-color:#bbf7d0">
-                    <h5>✅ 已收藏到「产品参考」</h5>
-                    <div>来自即刻 · 某产品经理的复盘</div>
-                    <div class="mp-meta">归入专题合集 · 可回看</div>
-                  </div>
-                  <hr class="mp-divider">
-                  <div style="font-size:10px;color:#aaa;text-align:center;margin-top:8px">
-                    用户知道保存到哪了<br>知道去哪找
-                  </div>
-                </div>
-              </div>
-              <span class="pc-label">收藏反馈<br>保存 · 归类 · 可查</span>
-            </div>
-
-            <!-- 指令 -->
-            <div class="phone-col">
-              <div class="mini-phone">
-                <div class="mp-status"><span>9:41</span><span></span></div>
-                <div class="mp-body">
-                  <div class="mp-title">指令结果</div>
-                  <div class="mp-sub">记一下 + 帮我总结 → 保存+任务</div>
-                  <div class="mp-item" style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border-color:#fde68a">
-                    <h5>📄 文章已保存 + 总结完成</h5>
-                    <div style="font-size:10px;line-height:1.6;color:#666;margin-top:4px">
-                      核心观点：<br>
-                      1. 产品经理的核心是判断力<br>
-                      2. 判断力来自大量实践<br>
-                      3. 复盘是加速手段
-                    </div>
-                    <div class="mp-meta">原文 + 总结均已保存</div>
-                  </div>
-                  <hr class="mp-divider">
-                  <div style="font-size:10px;color:#aaa;text-align:center;margin-top:8px">
-                    任务结果和来源绑定<br>随时追溯原文
-                  </div>
-                </div>
-              </div>
-              <span class="pc-label">指令结果<br>执行 · 保存 · 追溯</span>
-            </div>
-          </div>
-
-          <div class="tblock">
-            <div class="tlabel">三个产品约定</div>
-            <div class="ttext">
-              <strong>1. 松手就算记下来了。</strong>先保存给反馈，AI 后台补充处理。<br>
-              <strong>2. 所有内容都有明确的去处。</strong>用户能看到、找到、管理。<br>
-              <strong>3. 原始记录永远保留，AI 结果可追溯来源。</strong>一条记录可以同时产生想法 + 待办 + 收藏。
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="conn">▼ 但一旦显性化</div>
-
-    <!-- ============ Step 5: 泛化 ============ -->
-    <div class="step">
-      <div class="step-dot"><div class="dot red"></div><span class="dot-num">5</span></div>
-      <div class="step-content">
-        <div class="card">
-          <h2><span class="label label-problem">挑战</span> 给了具象入口后，用户什么都往里塞</h2>
-          <div class="sub">三种本质不同的行为，用户不会区分，全混在一起</div>
-
-          <div class="ublock">
-            <div class="ulabel">泛化的例子</div>
-            <div class="utext">
-              "最近访谈大家都说<em>笔记查找不好</em>，<em>周五</em>找设计一起讨论下"<br>
-              → 这一句话同时包含了 <strong>想法</strong>（笔记查找不好）+ <strong>待办</strong>（周五讨论）<br><br>
-              用户在 AI 键上说"记一下这个屏幕，<em>帮我对比下</em>跟上次看的那篇"<br>
-              → 同时是 <strong>收藏</strong>（保存屏幕）+ <strong>指令</strong>（对比分析）
-            </div>
-          </div>
-
-          <div class="tblock">
-            <div class="tlabel">关键认识</div>
-            <div class="ttext">
-              <strong>用户不负责分类，系统负责。</strong><br>
-              用户只管说"帮我记一下"，AI 识别意图后自动分流：<br>
-              · 有念头 → 想法<br>
-              · 有时间/动作 → 待办<br>
-              · 有外部内容 → 收藏/专题<br>
-              · 有任务 → 执行<br>
-              · 识别不出来 → 原始记录兜底，用户随时在时间线里找到
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="conn">▼ 分流之后</div>
-
-    <!-- ============ Step 6: 记了咋用 ============ -->
-    <div class="step">
-      <div class="step-dot"><div class="dot green"></div><span class="dot-num">6</span></div>
-      <div class="step-content">
-        <div class="card">
-          <h2><span class="label label-solution">闭环</span> 记了，咋用？</h2>
-          <div class="sub">不同意图分流到不同的消费路径</div>
-
-          <div class="phone-row">
-            <div class="phone-col">
-              <div class="mini-phone">
-                <div class="mp-status"><span>9:41</span><span></span></div>
-                <div class="mp-body">
-                  <div class="mp-title">💡 想法合集</div>
-                  <div class="mp-sub">关于"产品判断力"的思考</div>
-                  <div class="mp-item"><h5>播客说判断力来自实践</h5><div class="mp-meta">9月20日 · 随口记</div></div>
-                  <div class="mp-item"><h5>那篇复盘文章的三个观点</h5><div class="mp-meta">9月18日 · AI键收藏</div></div>
-                  <div class="mp-item"><h5>我觉得还得加上反思</h5><div class="mp-meta">9月21日 · 随口记</div></div>
-                  <hr class="mp-divider">
-                  <div style="font-size:9px;color:#aaa;text-align:center">同一主题自动聚合<br>帮你继续思考</div>
-                </div>
-              </div>
-              <span class="pc-label">想法合集<br><strong>思考</strong></span>
-            </div>
-
-            <div class="phone-col">
-              <div class="mini-phone">
-                <div class="mp-status"><span>9:41</span><span></span></div>
-                <div class="mp-body">
-                  <div class="mp-title">✅ 待办</div>
-                  <div class="mp-sub">从记录中识别的行动项</div>
-                  <div class="mp-item" style="border-left:3px solid var(--green)">
-                    <h5>周五找设计聊查找问题</h5>
-                    <div class="mp-meta">来源：9月23日随口记</div>
-                  </div>
-                  <div class="mp-item" style="border-left:3px solid var(--orange)">
-                    <h5>下周三前交竞品分析</h5>
-                    <div class="mp-meta">来源：9月22日随口记</div>
-                  </div>
-                  <div class="mp-item" style="border-left:3px solid var(--blue)">
-                    <h5>约老王喝咖啡</h5>
-                    <div class="mp-meta">来源：9月20日随口记</div>
-                  </div>
-                  <hr class="mp-divider">
-                  <div style="font-size:9px;color:#aaa;text-align:center">分发到日历/提醒<br>帮你安排和行动</div>
-                </div>
-              </div>
-              <span class="pc-label">待办分发<br><strong>行动</strong></span>
-            </div>
-
-            <div class="phone-col">
-              <div class="mini-phone">
-                <div class="mp-status"><span>9:41</span><span></span></div>
-                <div class="mp-body">
-                  <div class="mp-title">📌 专题合集</div>
-                  <div class="mp-sub">旅行攻略 · 5 条收藏</div>
-                  <div class="mp-item"><h5>大理三天两夜路线</h5><div class="mp-meta">来自小红书 · AI 键收藏</div></div>
-                  <div class="mp-item"><h5>洱海骑行注意事项</h5><div class="mp-meta">来自微信文章 · AI 键</div></div>
-                  <div class="mp-item"><h5>古城附近住宿推荐</h5><div class="mp-meta">来自抖音 · AI 键收藏</div></div>
-                  <hr class="mp-divider">
-                  <div style="font-size:9px;color:#aaa;text-align:center">外部内容按主题归类<br>变成可用的资料集</div>
-                </div>
-              </div>
-              <span class="pc-label">专题合集<br><strong>参考</strong></span>
-            </div>
-
-            <div class="phone-col">
-              <div class="mini-phone">
-                <div class="mp-status"><span>9:41</span><span></span></div>
-                <div class="mp-body">
-                  <div class="mp-title">⚡ 指令结果</div>
-                  <div class="mp-sub">保存 + 任务执行完成</div>
-                  <div class="mp-item" style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border-color:#fde68a">
-                    <h5>📄 文章已保存 + 总结完成</h5>
-                    <div style="font-size:9px;line-height:1.5;color:#666;margin-top:4px">
-                      1. 产品经理的核心是判断力<br>
-                      2. 判断力来自大量实践<br>
-                      3. 复盘是加速手段
-                    </div>
-                    <div class="mp-meta">原文 + 总结均已保存</div>
-                  </div>
-                  <div class="mp-item" style="background:linear-gradient(135deg,#ede9fe,#f5f3ff);border-color:#ddd6fe">
-                    <h5>📊 对比分析完成</h5>
-                    <div style="font-size:9px;color:#666;margin-top:2px">两篇文章的异同已整理</div>
-                    <div class="mp-meta">原文可追溯</div>
-                  </div>
-                  <hr class="mp-divider">
-                  <div style="font-size:9px;color:#aaa;text-align:center">任务结果和来源绑定<br>随时追溯原文</div>
-                </div>
-              </div>
-              <span class="pc-label">指令结果<br><strong>执行</strong></span>
-            </div>
-          </div>
-
-          <div class="tblock">
-            <div class="tlabel">完整链路</div>
-            <div class="ttext">
-              <strong>随口记页面</strong> → 让用户看清自己记了什么（回看 + 兜底）<br>
-              <strong>想法合集</strong> → 同一主题的碎片聚合，帮用户继续思考<br>
-              <strong>待办分发</strong> → 识别出的行动项分发到系统，帮用户执行<br>
-              <strong>专题合集</strong> → 收藏的外部内容归类整理，变成参考资料<br>
-              <strong>指令结果</strong> → 任务执行完成，结果和来源绑定，随时追溯
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="conn">▼ 最后一个问题：谁来承接？</div>
-
-    <!-- ============ Step 7: 承接方假设 ============ -->
-    <div class="step">
-      <div class="step-dot"><div class="dot dark"></div><span class="dot-num">7</span></div>
-      <div class="step-content">
-        <div class="card">
-          <h2><span class="label label-eval">假设分析</span> 如果是小爱 / 新 App / 笔记，分别会怎样？</h2>
-          <div class="sub">不预设答案，逐个分析每种承接方的优势和问题</div>
-
-          <div class="eval-row">
-            <!-- 假设 A: 小爱 -->
-            <div class="eval-col">
-              <div class="eval-header eval-mid">
-                <h4>假设 A：小爱 <span class="verdict verdict-maybe">入口但非承接</span></h4>
-                <div class="section-label">优势</div>
-                <ul>
-                  <li>用户已在跟小爱说"帮我记"，入口天然</li>
-                  <li>语音交互零门槛</li>
-                  <li>人车家全场景覆盖</li>
-                </ul>
-                <div class="section-label">问题</div>
-                <ul>
-                  <li>对话界面<strong>不适合回看和管理</strong></li>
-                  <li>用户不会打开小爱"浏览我的想法"</li>
-                  <li>上下文丢失后内容再次隐性</li>
-                  <li><strong>小爱是入口，不是承接方</strong></li>
-                </ul>
-              </div>
-              <div class="mini-phone">
-                <div class="mp-status"><span>9:41</span><span></span></div>
-                <div class="mp-body">
-                  <div class="mp-title">小爱同学</div>
-                  <div class="mp-sub">对话界面</div>
-                  <div class="mp-item" style="background:#e8f4fe;border-color:#c7defe">
-                    <div style="font-size:10px;color:#999">用户</div>
-                    <h5>帮我记一下咖啡52度好喝</h5>
-                  </div>
-                  <div class="mp-item" style="background:#f0f0f0;border-color:#e0e0e0">
-                    <div style="font-size:10px;color:#999">小爱</div>
-                    <h5>好的，已帮你记下了</h5>
-                  </div>
-                  <div class="mp-item" style="background:#e8f4fe;border-color:#c7defe">
-                    <div style="font-size:10px;color:#999">用户（两天后）</div>
-                    <h5>我之前说的那个咖啡温度是多少来着？</h5>
-                  </div>
-                  <div class="mp-item" style="background:#fee2e2;border-color:#fecaca">
-                    <div style="font-size:10px;color:var(--red)">❌ 找不到了</div>
-                    <div style="font-size:9px;color:#999">淹没在聊天记录中</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 假设 B: 新 App -->
-            <div class="eval-col">
-              <div class="eval-header eval-bad">
-                <h4>假设 B：新 App <span class="verdict verdict-no">很难成立</span></h4>
-                <div class="section-label">优势</div>
-                <ul>
-                  <li>干净产品空间，无历史包袱</li>
-                  <li>可围绕"记→用"全新设计</li>
-                </ul>
-                <div class="section-label">问题</div>
-                <ul>
-                  <li><strong>"知识库""记忆中心"不是用户认知</strong></li>
-                  <li>装机率从零开始</li>
-                  <li>只有随口记+收藏+指令，<strong>内容量太薄</strong></li>
-                  <li>和笔记争夺"记东西"心智</li>
-                  <li>聚合其他 App 内容？每项都有归属</li>
-                </ul>
-              </div>
-              <div class="mini-phone" style="height:auto;min-height:460px">
-                <div class="mp-status"><span>9:41</span><span></span></div>
-                <div class="mp-body">
-                  <div class="mp-title">我的助手</div>
-                  <div class="mp-sub">人车家全场景 · AI 数据中心</div>
-                  <div class="mp-item">
-                    <div style="display:flex;justify-content:space-between;align-items:center"><h5>📸 和家人的 9 月</h5><span style="font-size:8px;color:var(--red);background:#fee2e2;padding:1px 5px;border-radius:6px;font-weight:600">相册已有</span></div>
-                    <div class="mp-meta">47 张照片 · 自动整理</div>
-                  </div>
-                  <div class="mp-item">
-                    <div style="display:flex;justify-content:space-between;align-items:center"><h5>🏃 运动周报</h5><span style="font-size:8px;color:var(--red);background:#fee2e2;padding:1px 5px;border-radius:6px;font-weight:600">健康已有</span></div>
-                    <div class="mp-meta">日均 8,234 步</div>
-                  </div>
-                  <div class="mp-item">
-                    <div style="display:flex;justify-content:space-between;align-items:center"><h5>🚄 北京南 → 上海虹桥</h5><span style="font-size:8px;color:var(--red);background:#fee2e2;padding:1px 5px;border-radius:6px;font-weight:600">日历已有</span></div>
-                    <div class="mp-meta">G101 · 9月28日</div>
-                  </div>
-                  <div class="mp-item">
-                    <div style="display:flex;justify-content:space-between;align-items:center"><h5>🚗 SU7 驾驶报告</h5><span style="font-size:8px;color:var(--red);background:#fee2e2;padding:1px 5px;border-radius:6px;font-weight:600">汽车已有</span></div>
-                    <div class="mp-meta">本周 286km</div>
-                  </div>
-                  <div class="mp-item">
-                    <div style="display:flex;justify-content:space-between;align-items:center"><h5>💡 扫地机用户访谈</h5><span style="font-size:8px;color:var(--red);background:#fee2e2;padding:1px 5px;border-radius:6px;font-weight:600">笔记已有</span></div>
-                    <div class="mp-meta">3 位受访者</div>
-                  </div>
-                  <div class="mp-item">
-                    <div style="display:flex;justify-content:space-between;align-items:center"><h5>📍 收藏的 12 家餐厅</h5><span style="font-size:8px;color:var(--red);background:#fee2e2;padding:1px 5px;border-radius:6px;font-weight:600">地图已有</span></div>
-                    <div class="mp-meta">地图 App</div>
-                  </div>
-                  <hr class="mp-divider">
-                  <div style="font-size:9px;color:var(--red);text-align:center;padding:4px 0;font-weight:500;line-height:1.6">
-                    每一项都标红——全是别的 App 在做的<br>
-                    🤔 这个 App 还能放什么？
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 假设 C: 笔记 -->
-            <div class="eval-col">
-              <div class="eval-header eval-good">
-                <h4>假设 C：笔记 <span class="verdict verdict-yes">自然 + 可行</span></h4>
-                <div class="section-label">优势</div>
-                <ul>
-                  <li><strong>用户心智已成</strong>——"记东西"→ 打开笔记</li>
-                  <li>装机率已有，无需推广</li>
-                  <li>自己的笔记 + AI 帮记的，互相补充</li>
-                  <li>两个 tab 物理隔离，互不干扰</li>
-                </ul>
-                <div class="section-label">需回答</div>
-                <ul>
-                  <li>复杂？→ 两 tab 隔离，首页更干净</li>
-                  <li>干扰？→ AI 内容不进时间线</li>
-                  <li>为什么在笔记？→ "帮我记"最自然去笔记</li>
-                </ul>
-              </div>
-              <div class="mini-phone">
-                <div class="mp-status"><span>9:41</span><span></span></div>
-                <div class="mp-body">
-                  <div class="mp-title">笔记</div>
-                  <div class="mp-sub" style="display:flex;gap:12px">
-                    <span style="font-weight:600;color:#1d1d1f;border-bottom:2px solid #1d1d1f;padding-bottom:2px">笔记</span>
-                    <span>合集</span>
-                  </div>
-                  <div class="mp-item" style="border-left:3px solid var(--purple)">
-                    <h5>产品周报 · 第12期</h5>
-                    <div class="mp-meta">用户自己写的</div>
-                  </div>
-                  <div class="mp-item" style="border-left:3px solid var(--blue)">
-                    <h5>会议纪要 · 9月复盘</h5>
-                    <div class="mp-meta">用户自己写的</div>
-                  </div>
-                  <hr class="mp-divider">
-                  <div class="mp-sub" style="display:flex;gap:12px;margin-top:6px">
-                    <span>笔记</span>
-                    <span style="font-weight:600;color:#1d1d1f;border-bottom:2px solid #1d1d1f;padding-bottom:2px">合集</span>
-                  </div>
-                  <div class="mp-item" style="background:#faf8ff;border-color:#ede9fe">
-                    <h5>💡 产品判断力</h5>
-                    <div class="mp-meta">3 条想法 · AI 聚合</div>
-                  </div>
-                  <div class="mp-item" style="background:#f0fdf4;border-color:#bbf7d0">
-                    <h5>📌 旅行攻略</h5>
-                    <div class="mp-meta">5 条收藏 · AI 归类</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="tblock">
-            <div class="tlabel">三者关系</div>
-            <div class="ttext">
-              <strong>小爱是入口</strong>（记的动作发生在这里）<br>
-              <strong>笔记是承接</strong>（记的结果沉淀在这里）<br>
-              <strong>新 App 没有成立条件</strong>（没有独占功能、没有用户心智、内容量不足）<br><br>
-              入口和承接不是竞争关系——小爱 + 笔记 = 完整链路。
-            </div>
-          </div>
-        </div>
+    <!-- ===== FINAL ===== -->
+    <div class="node">
+      <div class="node-card bg-dark wide-card">
+        <h3>完整链路</h3>
+        <p style="margin-top:8px;font-size:13px;opacity:.9">
+          用户说"记一下" → 松手即保存 → 显性化反馈 → AI 识别分流 → 想法/待办/专题/指令 → 思考/行动/参考/执行
+        </p>
+        <p style="margin-top:12px;font-size:12px">
+          每一步如果假设不成立，链路就停在那里。<br>
+          只有每一步都成立，才推导出完整方案。
+        </p>
       </div>
     </div>
 
   </div>
-
-  <!-- Final -->
-  <div class="final">
-    <h2>完整链路</h2>
-    <div class="fline">
-      <span class="node">用户说"记一下"</span>
-      <span class="arr">→</span>
-      <span class="node">小爱/AI键/语音</span>
-      <span class="arr">→</span>
-      <span class="node">松手即保存</span>
-      <span class="arr">→</span>
-      <span class="node">显性化反馈</span>
-    </div>
-    <div class="fline">
-      <span class="arr">→</span>
-      <span class="node">AI 识别分流</span>
-      <span class="arr">→</span>
-      <span class="node">想法 / 待办 / 专题</span>
-      <span class="arr">→</span>
-      <span class="node">思考 / 行动 / 参考</span>
-    </div>
-    <p>从"帮我记一下"出发 → 三条路径（随口记/收藏/指令）都断了 → 需求是真的 → 做显性化 → 处理泛化 → AI 分流 → 分路径消费 → 小爱是入口，承接在笔记</p>
-  </div>
-
 </div>
 
 </body>
