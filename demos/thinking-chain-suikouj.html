@@ -25,7 +25,6 @@ body{background:#f5f4f0;overflow:auto}
 .ng{background:#f0fdf4;border:1px solid #bbf7d0}
 .nr{background:#fef2f2;border:1px solid #fecaca}
 .np{background:#faf5ff;border:1px solid #e9d5ff}
-.nd{background:#1e1b4b;border:1px solid #312e81;color:#fff}.nd p{color:rgba(255,255,255,.7)}
 .ngy{background:#f8f8f6;border:1px solid #e5e5e0}
 
 .tf{background:#e0f0ff;color:#2994ff}
@@ -33,19 +32,21 @@ body{background:#f5f4f0;overflow:auto}
 .ty{background:#dcfce7;color:var(--green)}
 .tn{background:#fee2e2;color:var(--red)}
 .ti{background:#ede9fe;color:var(--purple)}
-.ts{background:#dcfce7;color:var(--green)}
 
+/* Table */
 .tb{width:100%;border-collapse:collapse;margin:6px 0;font-size:9px}
 .tb th{text-align:left;padding:3px 6px;font-size:8px;color:var(--g);border-bottom:1px solid #eee;font-weight:600}
 .tb td{padding:3px 6px;border-bottom:1px solid #f5f5f5}
 .st{font-size:7px;padding:1px 4px;border-radius:4px;font-weight:600}
 
-/* Flow table for 泛化 */
-.ft{width:100%;border-collapse:collapse;margin:8px 0;font-size:9px}
-.ft th{text-align:center;padding:4px 6px;font-size:8px;color:#fff;font-weight:600}
-.ft td{padding:5px 6px;text-align:center;border-bottom:1px solid rgba(0,0,0,.04);font-size:10px}
-.ft .arr{color:#ccc;font-size:12px}
+/* Flow table */
+.ft{width:100%;border-collapse:separate;border-spacing:0 3px;margin:6px 0;font-size:10px}
+.ft td{padding:4px 8px;background:#f8f8f6;border-radius:6px;vertical-align:middle}
+.ft td:first-child{text-align:left;font-weight:500}
+.ft td:nth-child(2){text-align:center;background:none;color:#ccc;font-size:14px;padding:0 4px;width:20px}
+.ft td:last-child{text-align:left;color:var(--g2)}
 
+/* Mini phone */
 .mp{width:100%;height:180px;border-radius:8px;background:#f3f3f3;border:1px solid #e0e0e0;overflow:hidden;margin-top:6px}
 .mp .ms{height:16px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 8px 1px;font-size:6px;font-weight:600;position:relative}
 .mp .ms::after{content:"";position:absolute;top:2px;left:50%;transform:translateX(-50%);width:36px;height:10px;background:#1d1d1f;border-radius:6px}
@@ -65,7 +66,12 @@ svg.L circle{fill:#d0d0c8}
 <div class="title">思考过程</div>
 <svg class="L" id="S"></svg>
 
-<!-- L0: Root — top:70 -->
+<!--
+  主干在 x=260 往下走
+  "否"分支往右 x=620
+-->
+
+<!-- ===== ROOT ===== top:70 -->
 <div class="n nw" id="a" style="left:200px;top:70px;width:340px">
   <h3><span class="tag tf">事实</span> 用户在说"帮我记一下"</h3>
   <table class="tb">
@@ -76,198 +82,149 @@ svg.L circle{fill:#d0d0c8}
   </table>
 </div>
 
-<!-- L1: Q1 — top:250 -->
-<div class="n ny" id="b" style="left:260px;top:250px">
+<!-- ===== Q1 ===== top:250 -->
+<div class="n ny" id="q1" style="left:260px;top:250px">
   <h3><span class="tag tq">提问 1</span></h3>
   <p><span class="b">用户记完后想回来看/用吗？</span><br>如果不想，后面全部不成立</p>
 </div>
 
-<!-- L1 YES — top:380 -->
-<div class="n ng" id="c" style="left:260px;top:380px">
+<!-- Q1 YES top:380 -->
+<div class="n ng" id="q1y" style="left:260px;top:380px">
   <h3><span class="tag ty">想</span></h3>
-  <p>收藏和指令有明确回看动机。随口记聚合后可能有。</p>
+  <p>收藏和指令有明确回看动机。随口记聚合后可能有价值。</p>
   <p class="g" style="margin-top:4px">↓ 继续</p>
 </div>
 
-<!-- L1 NO — top:380 -->
-<div class="n nr" id="d" style="left:620px;top:380px">
+<!-- Q1 NO top:380 -->
+<div class="n nr" id="q1n" style="left:620px;top:380px">
   <h3><span class="tag tn">不想</span></h3>
   <p>说完就忘，"记一下"只是心理安全感。</p>
   <p class="r" style="margin-top:4px">⬛ 不需要做显性化。做好即时确认就够了。</p>
 </div>
 
-<!-- L2: Q2 — top:520 -->
-<div class="n ny" id="e" style="left:260px;top:520px">
+<!-- ===== Q2 ===== top:510 -->
+<div class="n ny" id="q2" style="left:260px;top:510px">
   <h3><span class="tag tq">提问 2</span></h3>
   <p><span class="b">量有多大？</span><br>一天几次还是一周一次？</p>
 </div>
 
-<!-- L2 YES — top:640 -->
-<div class="n ng" id="f" style="left:260px;top:640px">
+<!-- Q2 YES top:630 -->
+<div class="n ng" id="q2y" style="left:260px;top:630px">
   <h3><span class="tag ty">量足够</span></h3>
   <p>每天1-2次以上，内容持续积累。</p>
   <p class="g" style="margin-top:4px">↓ 继续</p>
 </div>
 
-<!-- L2 NO — top:640 -->
-<div class="n nr" id="g" style="left:620px;top:640px">
+<!-- Q2 NO top:630 -->
+<div class="n nr" id="q2n" style="left:620px;top:630px">
   <h3><span class="tag tn">量太少</span></h3>
   <p>偶发行为，一周一次或更少。</p>
   <p class="r" style="margin-top:4px">⬛ 不值得做产品级功能。小爱基础能力优化即可。</p>
 </div>
 
-<!-- L3: Q3 — top:780 -->
-<div class="n ny" id="h" style="left:260px;top:780px">
+<!-- ===== Q3 ===== top:760 -->
+<div class="n ny" id="q3" style="left:260px;top:760px">
   <h3><span class="tag tq">提问 3</span></h3>
-  <p><span class="b">今天体验满足了吗？</span><br>看得到？找得到？管得了？<br><span style="color:var(--g);font-size:9px">已满足的不重做，没满足的才是缺口</span></p>
+  <p><span class="b">今天体验满足了吗？</span><br>看得到？找得到？管得了？</p>
 </div>
 
-<!-- L3: 有缺口 — top:940 -->
-<div class="n ng" id="i1" style="left:260px;top:940px">
+<!-- Q3: 有缺口 top:890 -->
+<div class="n ng" id="q3y" style="left:260px;top:890px">
   <h3><span class="tag ty">有缺口</span></h3>
   <p>至少有一条路径是隐性的——用户记了但看不到、找不到、管不了。</p>
   <p class="g" style="margin-top:4px">↓ 继续</p>
 </div>
 
-<!-- L3: 没缺口 — top:940 -->
-<div class="n nr" id="i3" style="left:620px;top:940px">
+<!-- Q3: 没缺口 top:890 -->
+<div class="n nr" id="q3n" style="left:620px;top:890px">
   <h3><span class="tag tn">没缺口</span></h3>
-  <p>三条路径体验都做到了显性化。</p>
-  <p class="r" style="margin-top:4px">⬛ 不需要做。现有体验已闭合。</p>
+  <p>三条路径都做到了显性化。</p>
+  <p class="r" style="margin-top:4px">⬛ 不需要做。体验已闭合。</p>
 </div>
 
-<!-- L4: Q4 心智 — top:1080 -->
-<div class="n ny" id="k" style="left:260px;top:1080px">
-  <h3><span class="tag tq">提问 4</span></h3>
-  <p><span class="b">用户想找时，觉得去哪？</span></p>
+<!-- ===== 新层：三种类型分别怎么处理 ===== top:1030 -->
+<div class="n np" id="how" style="left:200px;top:1030px;width:340px">
+  <h3><span class="tag ti">推导</span> 三种类型各自怎么处理？</h3>
+  <p>确认有缺口之后，不急着选承接方——先想清楚每种类型的内容需要什么样的处理</p>
 </div>
 
-<!-- L4: 三选项 — top:1210 -->
-<div class="n ngy" id="k1" style="left:80px;top:1210px">
-  <h3>"去小爱翻一下"</h3>
-  <p>对话界面不适合回看。聊天记录越来越长，越来越难找。</p>
-</div>
-<div class="n ngy" id="k2" style="left:380px;top:1210px">
-  <h3>"去笔记看看"</h3>
-  <p>"记东西"心智最近。用户不需要学就知道来这找。</p>
-</div>
-<div class="n ngy" id="k3" style="left:680px;top:1210px">
-  <h3>"不知道去哪"</h3>
-  <p>内容存在但不可达。用户记了却找不到，等于没记。</p>
-</div>
-
-<!-- L5: 显性化 — top:1380 -->
-<div class="n np" id="l" style="left:180px;top:1380px;width:440px">
-  <h3><span class="tag ti">推导</span> 显性化怎么做？</h3>
-  <p style="margin-bottom:8px">
-    <span class="b">约定1</span> 松手就算记下来了<br>
-    <span class="b">约定2</span> 所有内容都有明确去处<br>
-    <span class="b">约定3</span> 原始记录保留，结果可追溯
+<!-- 三个处理分支 top:1190 -->
+<div class="n ngy" id="h1" style="left:40px;top:1190px;width:260px">
+  <h3><span class="st" style="background:#ede9fe;color:#7c3aed">随口记</span> 碎片念头</h3>
+  <p>
+    <span class="b">单条</span>：需要一个地方回看——"我说过什么"<br>
+    <span class="b">多条同主题</span>：聚合后有价值——"我关于这件事想了什么"<br>
+    <span class="b">含待办</span>：识别出时间/动作，分发到提醒
   </p>
-  <p style="margin-bottom:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,.06)">
-    <span class="b">用户什么都往里塞怎么办？</span><br>
-    用户不负责分类，AI 负责。根据内容自动识别意图：
+  <p style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,.06)">
+    需要：<span class="b">时间线回看</span> + <span class="b">主题聚合</span> + <span class="b">待办识别</span>
   </p>
+</div>
+
+<div class="n ngy" id="h2" style="left:320px;top:1190px;width:260px">
+  <h3><span class="st" style="background:#e0f0ff;color:#2994ff">收藏</span> 外部内容</h3>
+  <p>
+    <span class="b">保存时</span>：需要即时反馈——"已保存到哪了"<br>
+    <span class="b">找的时候</span>：按主题归类——不是翻时间线，是按"旅行""产品"找<br>
+    <span class="b">用的时候</span>：需要原文可访问，最好有摘要
+  </p>
+  <p style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,.06)">
+    需要：<span class="b">保存反馈</span> + <span class="b">主题归类</span> + <span class="b">原文追溯</span>
+  </p>
+</div>
+
+<div class="n ngy" id="h3" style="left:600px;top:1190px;width:260px">
+  <h3><span class="st" style="background:#fef3c7;color:#d97706">指令</span> 保存+任务</h3>
+  <p>
+    <span class="b">执行后</span>：结果需要保存在可找到的地方<br>
+    <span class="b">回看时</span>：结果和原文绑定——"这个总结是从哪来的"<br>
+    <span class="b">追加时</span>：能在已有结果上继续操作
+  </p>
+  <p style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,.06)">
+    需要：<span class="b">结果持久化</span> + <span class="b">来源绑定</span> + <span class="b">可追加</span>
+  </p>
+</div>
+
+<!-- ===== 汇总需求 ===== top:1480 -->
+<div class="n np" id="sum" style="left:180px;top:1480px;width:380px">
+  <h3><span class="tag ti">汇总</span> 承接方需要具备什么能力？</h3>
   <table class="ft">
-    <tr style="background:var(--purple);border-radius:4px">
-      <th>用户说了什么</th><th></th><th>AI 识别为</th>
-    </tr>
-    <tr><td>"咖啡52度好喝"</td><td class="arr">→</td><td>念头 / 碎片想法</td></tr>
-    <tr><td>"周五找设计聊"</td><td class="arr">→</td><td>有时间 / 有动作</td></tr>
-    <tr><td>AI键"记一下屏幕"</td><td class="arr">→</td><td>外部内容</td></tr>
-    <tr><td>"记这个且帮我总结"</td><td class="arr">→</td><td>保存 + 任务</td></tr>
-    <tr><td>"播客说的读书方法"</td><td class="arr">→</td><td>识别不出</td></tr>
+    <tr><td>时间线回看</td><td>→</td><td>所有内容按时间可浏览</td></tr>
+    <tr><td>主题聚合</td><td>→</td><td>碎片想法按主题自动归类</td></tr>
+    <tr><td>待办识别</td><td>→</td><td>有动作意图的分发到提醒/日历</td></tr>
+    <tr><td>保存反馈</td><td>→</td><td>用户知道存到哪了</td></tr>
+    <tr><td>主题归类</td><td>→</td><td>收藏按主题整理，不是堆时间线</td></tr>
+    <tr><td>结果持久化</td><td>→</td><td>任务结果可查、可追溯来源</td></tr>
   </table>
-  <p style="margin-top:6px;color:var(--g);font-size:9px">识别出意图后，分别怎么处理？↓</p>
+  <p style="margin-top:4px;color:var(--g);font-size:9px">谁能满足这些？↓</p>
 </div>
 
-<!-- L6: 消费闭环 5个手机 — top:1720 -->
-<div class="n ng" id="m1" style="left:20px;top:1720px;width:220px">
-  <h3>回看 · 兜底</h3>
-  <div class="mp">
-    <div class="ms"><span>9:41</span><span></span></div>
-    <div class="mb">
-      <div class="mt">随口记</div>
-      <div class="mi"><h5>☕ 咖啡52度好喝</h5></div>
-      <div class="mi"><h5>📋 周五找设计聊</h5></div>
-      <div class="mi"><h5>🎙 播客读书方法</h5></div>
-    </div>
-  </div>
-</div>
-<div class="n ng" id="m2" style="left:260px;top:1720px;width:220px">
-  <h3>💡 想法 · 思考</h3>
-  <div class="mp">
-    <div class="ms"><span>9:41</span><span></span></div>
-    <div class="mb">
-      <div class="mt">产品判断力</div>
-      <div class="mi"><h5>判断力来自实践</h5></div>
-      <div class="mi"><h5>复盘文章三观点</h5></div>
-      <div class="mi"><h5>还得加上反思</h5></div>
-    </div>
-  </div>
-</div>
-<div class="n ng" id="m3" style="left:500px;top:1720px;width:220px">
-  <h3>✅ 待办 · 行动</h3>
-  <div class="mp">
-    <div class="ms"><span>9:41</span><span></span></div>
-    <div class="mb">
-      <div class="mt">待办</div>
-      <div class="mi" style="border-left:2px solid var(--green)"><h5>周五找设计聊查找</h5></div>
-      <div class="mi" style="border-left:2px solid var(--orange)"><h5>下周三交竞品分析</h5></div>
-      <div class="mi" style="border-left:2px solid var(--blue)"><h5>约老王喝咖啡</h5></div>
-    </div>
-  </div>
-</div>
-<div class="n ng" id="m4" style="left:740px;top:1720px;width:220px">
-  <h3>📌 专题 · 参考</h3>
-  <div class="mp">
-    <div class="ms"><span>9:41</span><span></span></div>
-    <div class="mb">
-      <div class="mt">旅行攻略</div>
-      <div class="mi"><h5>大理三天两夜</h5></div>
-      <div class="mi"><h5>洱海骑行注意</h5></div>
-      <div class="mi"><h5>古城住宿推荐</h5></div>
-    </div>
-  </div>
-</div>
-<div class="n ng" id="m5" style="left:980px;top:1720px;width:220px">
-  <h3>⚡ 指令 · 执行</h3>
-  <div class="mp">
-    <div class="ms"><span>9:41</span><span></span></div>
-    <div class="mb">
-      <div class="mt">指令结果</div>
-      <div class="mi" style="background:#fffbeb"><h5>📄 文章总结</h5></div>
-      <div class="mi" style="background:#faf5ff"><h5>📊 对比分析</h5></div>
-    </div>
-  </div>
-</div>
-
-<!-- L7: Q5 — top:2010 -->
-<div class="n ny" id="n" style="left:460px;top:2010px">
-  <h3><span class="tag tq">提问 5</span></h3>
+<!-- ===== Q5: 谁来承接 ===== top:1740 -->
+<div class="n ny" id="q5" style="left:280px;top:1740px">
+  <h3><span class="tag tq">提问 4</span></h3>
   <p><span class="b">谁来承接？</span></p>
 </div>
 
-<!-- L8: 三个假设 — top:2140 -->
-<div class="n ny" id="o1" style="left:60px;top:2140px;width:300px">
-  <h3>假设A：小爱 <span class="tag" style="background:#fef3c7;color:var(--orange)">入口非承接</span></h3>
-  <p><span class="b">优势</span> 入口天然，全场景<br><span class="b">问题</span> 对话界面不适合回看</p>
-  <div class="mp" style="height:130px">
+<!-- 三个假设 top:1870 -->
+<div class="n ny" id="ha" style="left:40px;top:1870px;width:300px">
+  <h3>假设A：小爱</h3>
+  <p><span class="b">优势</span> 入口天然，全场景覆盖<br><span class="b">问题</span> 对话界面不适合回看和管理；无法做主题归类；上下文丢失后再次隐性</p>
+  <div class="mp" style="height:120px">
     <div class="ms"><span>9:41</span><span></span></div>
     <div class="mb">
       <div class="mt">小爱同学</div>
       <div class="mi" style="background:#e8f4fe"><h5>帮我记一下咖啡52度</h5></div>
       <div class="mi" style="background:#f0f0f0"><h5>好的，已记下了</h5></div>
-      <div class="mi" style="background:#fee2e2"><h5 style="color:var(--red);font-size:7px">❌ 两天后找不到</h5></div>
+      <div class="mi" style="background:#fee2e2"><h5 style="color:var(--red);font-size:7px">❌ 两天后找不到了</h5></div>
     </div>
   </div>
-  <p class="o" style="margin-top:4px">→ 是入口，不是承接方</p>
+  <p class="o" style="margin-top:4px">→ 能记，但没法看、没法管、没法用</p>
 </div>
 
-<div class="n nr" id="o2" style="left:400px;top:2140px;width:300px">
-  <h3>假设B：新App <span class="tag tn">难成立</span></h3>
-  <p><span class="b">优势</span> 干净空间<br><span class="b">问题</span> 无用户认知，装机率零，内容薄</p>
-  <div class="mp" style="height:130px">
+<div class="n nr" id="hb" style="left:380px;top:1870px;width:300px">
+  <h3>假设B：新 App</h3>
+  <p><span class="b">优势</span> 干净空间，无包袱<br><span class="b">问题</span> 用户认知里没有这个App；装机率零；只靠记录内容量太薄；和其他App争心智</p>
+  <div class="mp" style="height:120px">
     <div class="ms"><span>9:41</span><span></span></div>
     <div class="mb">
       <div class="mt">我的助手</div>
@@ -277,13 +234,13 @@ svg.L circle{fill:#d0d0c8}
       <div class="mi"><h5>💡 用户访谈 <span class="rt">笔记已有</span></h5></div>
     </div>
   </div>
-  <p class="r" style="margin-top:4px">→ 全标红，无独占功能</p>
+  <p class="r" style="margin-top:4px">→ 聚合别的App？每项都有归属。自己内容？撑不起来。</p>
 </div>
 
-<div class="n ng" id="o3" style="left:740px;top:2140px;width:300px">
-  <h3>假设C：笔记 <span class="tag ty">自然可行</span></h3>
-  <p><span class="b">优势</span> 心智已成，装机率有，两tab隔离<br><span class="b">需回答</span> 复杂？干扰？</p>
-  <div class="mp" style="height:130px">
+<div class="n ng" id="hc" style="left:720px;top:1870px;width:300px">
+  <h3>假设C：笔记</h3>
+  <p><span class="b">优势</span> "记东西"心智已成；装机率有；自己内容+AI内容互补，量足<br><span class="b">需回答</span> 复杂？干扰？凭什么在笔记？</p>
+  <div class="mp" style="height:120px">
     <div class="ms"><span>9:41</span><span></span></div>
     <div class="mb">
       <div class="mt">笔记</div>
@@ -294,27 +251,24 @@ svg.L circle{fill:#d0d0c8}
       <div class="mi" style="background:#f0fdf4"><h5>📌 旅行攻略</h5></div>
     </div>
   </div>
-  <p class="g" style="margin-top:4px">→ 小爱入口 + 笔记承接 = 完整链路</p>
+  <p class="g" style="margin-top:4px">→ 两个tab隔离：用户的笔记 + AI整理的合集</p>
 </div>
-
-<!-- End -->
 
 </div>
 
 <script>
 const edges=[
-  ['a','b'],
-  ['b','c'],['b','d'],
-  ['c','e'],
-  ['e','f'],['e','g'],
-  ['f','h'],
-  ['h','i1'],['h','i3'],
-  ['i1','k'],
-  ['k','k1'],['k','k2'],['k','k3'],
-  ['k1','l'],['k2','l'],['k3','l'],
-  ['l','m1'],['l','m2'],['l','m3'],['l','m4'],['l','m5'],
-  ['m1','n'],['m2','n'],['m3','n'],['m4','n'],['m5','n'],
-  ['n','o1'],['n','o2'],['n','o3'],
+  ['a','q1'],
+  ['q1','q1y'],['q1','q1n'],
+  ['q1y','q2'],
+  ['q2','q2y'],['q2','q2n'],
+  ['q2y','q3'],
+  ['q3','q3y'],['q3','q3n'],
+  ['q3y','how'],
+  ['how','h1'],['how','h2'],['how','h3'],
+  ['h1','sum'],['h2','sum'],['h3','sum'],
+  ['sum','q5'],
+  ['q5','ha'],['q5','hb'],['q5','hc'],
 ];
 
 function cx(el){return el.offsetLeft+el.offsetWidth/2}
@@ -328,24 +282,19 @@ function draw(){
   s.style.height=c.scrollHeight+'px';
   let html='';
   const groups={};
-  edges.forEach(([fid,tid])=>{
-    if(!groups[fid])groups[fid]=[];
-    groups[fid].push(tid);
-  });
+  edges.forEach(([f,t])=>{if(!groups[f])groups[f]=[];groups[f].push(t)});
   Object.keys(groups).forEach(fid=>{
     const f=document.getElementById(fid);
     if(!f)return;
-    const targets=groups[fid].map(tid=>document.getElementById(tid)).filter(Boolean);
+    const targets=groups[fid].map(t=>document.getElementById(t)).filter(Boolean);
     if(!targets.length)return;
-    const fy=bot(f);
-    const fxc=cx(f);
+    const fy=bot(f), fxc=cx(f);
     const tys=[...new Set(targets.map(t=>top_(t)))];
     tys.forEach(ty=>{
       const ts=targets.filter(t=>top_(t)===ty);
       const midY=fy+(ty-fy)/2;
       if(ts.length===1){
-        const t=ts[0];
-        const txc=cx(t);
+        const t=ts[0], txc=cx(t);
         if(Math.abs(fxc-txc)<2){
           html+=`<line x1="${fxc}" y1="${fy}" x2="${txc}" y2="${ty}"/>`;
         }else{
@@ -356,10 +305,8 @@ function draw(){
         html+=`<circle cx="${txc}" cy="${ty}" r="3"/>`;
       }else{
         const xs=ts.map(t=>cx(t));
-        const minX=Math.min(...xs);
-        const maxX=Math.max(...xs);
         html+=`<line x1="${fxc}" y1="${fy}" x2="${fxc}" y2="${midY}"/>`;
-        html+=`<line x1="${minX}" y1="${midY}" x2="${maxX}" y2="${midY}"/>`;
+        html+=`<line x1="${Math.min(...xs)}" y1="${midY}" x2="${Math.max(...xs)}" y2="${midY}"/>`;
         ts.forEach(t=>{
           const txc=cx(t);
           html+=`<line x1="${txc}" y1="${midY}" x2="${txc}" y2="${ty}"/>`;
