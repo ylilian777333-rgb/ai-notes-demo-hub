@@ -5,387 +5,420 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>思考过程</title>
 <style>
-:root{font-family:"MiSans","PingFang SC","SF Pro Display",sans-serif;color:#1d1d1f;--blue:#4e8fff;--green:#22c55e;--orange:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--g:#86868b;--g2:#555;--g3:#aeaeb2;--W:280px}
+:root{font-family:"MiSans","PingFang SC","SF Pro Display",sans-serif;color:#1d1d1f;--W:280px;--gap:60px;--blue:#4e8fff;--green:#16a34a;--red:#dc2626;--orange:#d97706;--purple:#7c3aed;--g:#999;--g2:#555}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#f0efeb;min-height:100vh;overflow:auto}
+body{background:#f5f4f0;overflow:auto}
+.canvas{position:relative;padding:60px 60px 120px;min-width:1300px;min-height:100vh}
+.title{font-size:13px;font-weight:600;color:#aaa;letter-spacing:1px;position:absolute;top:24px;left:32px}
 
-/* Canvas */
-.canvas{position:relative;min-width:100vw;min-height:100vh;padding:60px 80px 120px}
+/* Nodes */
+.n{width:var(--W);border-radius:10px;padding:12px 14px;font-size:11px;line-height:1.55;position:absolute;z-index:1;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.n h3{font-size:12px;font-weight:600;margin-bottom:3px;display:flex;align-items:center;gap:5px}
+.n p{color:var(--g2);font-size:10px;line-height:1.6}
+.tag{font-size:8px;padding:2px 6px;border-radius:5px;font-weight:600;letter-spacing:.2px;flex-shrink:0}
+.n .b{font-weight:600;color:#1d1d1f}
+.n .r{color:var(--red);font-weight:500}
+.n .g{color:var(--green);font-weight:500}
+.n .o{color:var(--orange);font-weight:500}
 
-/* Title */
-.title{position:absolute;top:28px;left:40px;font-size:14px;font-weight:600;color:#999;letter-spacing:1px}
+/* Colors */
+.nw{background:#fff;border:1px solid #e5e5e2}
+.ny{background:#fffbeb;border:1px solid #fde68a}
+.ng{background:#f0fdf4;border:1px solid #bbf7d0}
+.nr{background:#fef2f2;border:1px solid #fecaca}
+.np{background:#faf5ff;border:1px solid #e9d5ff}
+.nd{background:#1e1b4b;border:1px solid #312e81;color:#fff}.nd p{color:rgba(255,255,255,.7)}
+.ngy{background:#f8f8f6;border:1px solid #e5e5e0}
 
-/* All nodes same width */
-.n{width:var(--W);border-radius:12px;padding:14px 16px;font-size:11px;line-height:1.6;position:absolute;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.n h3{font-size:13px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:5px}
-.n p{color:var(--g2);font-size:11px;line-height:1.6}
-.n .tag{font-size:8px;padding:2px 6px;border-radius:6px;font-weight:600;letter-spacing:.2px;flex-shrink:0}
+.tf{background:#e0f0ff;color:#2994ff}
+.tq{background:#fef3c7;color:var(--orange)}
+.ty{background:#dcfce7;color:var(--green)}
+.tn{background:#fee2e2;color:var(--red)}
+.ti{background:#ede9fe;color:var(--purple)}
+.ts{background:#dcfce7;color:var(--green)}
+.tm{background:#fef3c7;color:var(--orange)}
 
-/* Node colors */
-.n-white{background:#fff;border:1px solid #e8e8e5}
-.n-blue{background:#eff6ff;border:1px solid #bfdbfe}
-.n-yellow{background:#fffbeb;border:1px solid #fde68a}
-.n-green{background:#f0fdf4;border:1px solid #bbf7d0}
-.n-red{background:#fef2f2;border:1px solid #fecaca}
-.n-purple{background:#faf5ff;border:1px solid #e9d5ff}
-.n-dark{background:#1e1b4b;border:1px solid #312e81;color:#fff}
-.n-dark p{color:rgba(255,255,255,.7)}
-.n-gray{background:#f8f8f6;border:1px solid #e5e5e0}
+/* Table */
+.tb{width:100%;border-collapse:collapse;margin:6px 0;font-size:9px}
+.tb th{text-align:left;padding:2px 4px;font-size:8px;color:var(--g);border-bottom:1px solid #eee;font-weight:600}
+.tb td{padding:2px 4px;border-bottom:1px solid #f5f5f5}
+.st{font-size:7px;padding:1px 4px;border-radius:4px;font-weight:600}
 
-.tag-fact{background:#e0f0ff;color:#2994ff}
-.tag-q{background:#fef3c7;color:#d97706}
-.tag-yes{background:#dcfce7;color:#16a34a}
-.tag-no{background:#fee2e2;color:#dc2626}
-.tag-maybe{background:#fef3c7;color:#d97706}
-.tag-insight{background:#ede9fe;color:#7c3aed}
-.tag-sol{background:#dcfce7;color:#16a34a}
+/* Mini phone */
+.mp{width:100%;height:180px;border-radius:8px;background:#f3f3f3;border:1px solid #e0e0e0;overflow:hidden;margin-top:6px}
+.mp .ms{height:16px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 8px 1px;font-size:6px;font-weight:600;position:relative}
+.mp .ms::after{content:"";position:absolute;top:2px;left:50%;transform:translateX(-50%);width:36px;height:10px;background:#1d1d1f;border-radius:6px}
+.mp .mb{padding:3px 5px;overflow:hidden}
+.mp .mt{font-size:9px;font-weight:600;margin-bottom:2px;color:#1d1d1f}
+.mp .mi{background:#fff;border-radius:5px;padding:3px 5px;margin-bottom:2px;font-size:8px;line-height:1.3;border:1px solid rgba(0,0,0,.04);color:#333}
+.mp .mi h5{font-size:8px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.mp .mi .rt{font-size:6px;color:var(--red);background:#fee2e2;padding:0 3px;border-radius:3px;font-weight:600}
 
-/* Mini table */
-.mt{width:100%;border-collapse:collapse;margin:8px 0;font-size:10px}
-.mt th{text-align:left;padding:3px 6px;font-size:9px;color:var(--g);border-bottom:1px solid #eee;font-weight:600}
-.mt td{padding:3px 6px;border-bottom:1px solid #f5f5f5}
-.stag{font-size:8px;padding:1px 5px;border-radius:5px;font-weight:600}
-
-/* Emphasis */
-.n .em{font-weight:600;color:#1d1d1f}
-.n .red{color:var(--red);font-weight:600}
-.n .green{color:var(--green);font-weight:600}
-.n .orange{color:var(--orange);font-weight:600}
-
-/* Mini phone in node */
-.mp{width:100%;height:200px;border-radius:10px;background:#f3f3f3;border:1px solid #e0e0e0;overflow:hidden;margin-top:8px;position:relative}
-.mp .mps{height:18px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 10px 2px;font-size:7px;font-weight:600;position:relative}
-.mp .mps::after{content:"";position:absolute;top:3px;left:50%;transform:translateX(-50%);width:40px;height:12px;background:#1d1d1f;border-radius:7px}
-.mp .mpb{padding:4px 6px;overflow:hidden}
-.mp .mpt{font-size:10px;font-weight:600;margin-bottom:2px;color:#1d1d1f}
-.mp .mpi{background:#fff;border-radius:6px;padding:4px 6px;margin-bottom:3px;font-size:8px;line-height:1.3;border:1px solid rgba(0,0,0,.04);color:#333}
-.mp .mpi h5{font-size:9px;font-weight:600;margin-bottom:1px;display:flex;justify-content:space-between;align-items:center}
-.mp .mpi .rt{font-size:7px;color:var(--red);background:#fee2e2;padding:0 4px;border-radius:4px;font-weight:600;flex-shrink:0}
-.mp .mpi .gt{font-size:7px;color:var(--green);background:#dcfce7;padding:0 4px;border-radius:4px;font-weight:600;flex-shrink:0}
-
-/* SVG connector lines */
-.lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
-.lines line,.lines path{stroke:#ccc;stroke-width:1.5;fill:none}
-.lines circle{fill:#ccc}
-
-/* Z-index for nodes above lines */
-.n{z-index:1}
+/* SVG */
+svg.L{position:absolute;top:0;left:0;pointer-events:none;z-index:0;overflow:visible}
+svg.L line{stroke:#d0d0c8;stroke-width:1.5}
+svg.L circle{fill:#d0d0c8}
 </style>
 </head>
 <body>
+<div class="canvas" id="C">
+<div class="title">思考过程</div>
+<svg class="L" id="S"></svg>
 
-<div class="canvas" id="canvas">
-  <div class="title">思考过程</div>
+<!--
+  Layout: main trunk goes down at x=320
+  "no/stop" branches go right to x=680
+  Sub-branches go further right
+-->
 
-  <svg class="lines" id="lines"></svg>
+<!-- L0: Root -->
+<div class="n nw" id="a" style="left:200px;top:70px;width:340px">
+  <h3><span class="tag tf">事实</span> 用户在说"帮我记一下"</h3>
+  <table class="tb">
+    <tr><th>场景</th><th>意图</th><th>本质</th></tr>
+    <tr><td>"咖啡52度好喝"</td><td>捕捉念头</td><td><span class="st" style="background:#ede9fe;color:#7c3aed">随口记</span></td></tr>
+    <tr><td>AI键→"记一下屏幕"</td><td>保存外部</td><td><span class="st" style="background:#e0f0ff;color:#2994ff">收藏</span></td></tr>
+    <tr><td>AI键→"记这个且帮我总结"</td><td>保存+任务</td><td><span class="st" style="background:#fef3c7;color:#d97706">指令</span></td></tr>
+  </table>
+</div>
 
-  <!-- Row 0: Root -->
-  <div class="n n-white" id="root" style="left:520px;top:80px;width:340px">
-    <h3><span class="tag tag-fact">事实</span> 用户在说"帮我记一下"</h3>
-    <table class="mt">
-      <tr><th>场景</th><th>意图</th><th>本质</th></tr>
-      <tr><td>"咖啡52度好喝"</td><td>捕捉念头</td><td><span class="stag" style="background:#ede9fe;color:#7c3aed">随口记</span></td></tr>
-      <tr><td>AI键→"记一下屏幕"</td><td>保存外部</td><td><span class="stag" style="background:#e0f0ff;color:#2994ff">收藏</span></td></tr>
-      <tr><td>AI键→"记一下且帮我总结"</td><td>保存+任务</td><td><span class="stag" style="background:#fef3c7;color:#d97706">指令</span></td></tr>
-    </table>
-  </div>
+<!-- L1: Q1 -->
+<div class="n ny" id="b" style="left:260px;top:250px">
+  <h3><span class="tag tq">提问 1</span></h3>
+  <p><span class="b">用户记完后想回来看/用吗？</span><br>如果不想，后面全部不成立</p>
+</div>
 
-  <!-- Row 1: Q1 -->
-  <div class="n n-yellow" id="q1" style="left:540px;top:280px">
-    <h3><span class="tag tag-q">提问 1</span></h3>
-    <p><span class="em">用户记完后想回来看/用吗？</span><br>如果不想，后面所有推导不成立</p>
-  </div>
+<!-- L1 YES -->
+<div class="n ng" id="c" style="left:260px;top:380px">
+  <h3><span class="tag ty">想</span></h3>
+  <p>收藏和指令有明确回看动机。随口记聚合后可能有。</p>
+  <p class="g" style="margin-top:4px">↓ 继续</p>
+</div>
 
-  <!-- Row 2: Q1 分叉 -->
-  <div class="n n-green" id="q1y" style="left:340px;top:400px">
-    <h3><span class="tag tag-yes">想</span></h3>
-    <p>至少收藏和指令有明确回看动机。随口记单条不一定，聚合后可能有。</p>
-    <p class="green" style="margin-top:6px">→ 继续：量有多大？</p>
-  </div>
+<!-- L1 NO → stop -->
+<div class="n nr" id="d" style="left:620px;top:380px">
+  <h3><span class="tag tn">不想</span></h3>
+  <p>说完就忘，"记一下"只是心理安全感。</p>
+  <p class="r" style="margin-top:4px">⬛ 结论：不需要做显性化。做好即时确认就够了。</p>
+</div>
 
-  <div class="n n-red" id="q1n" style="left:700px;top:400px">
-    <h3><span class="tag tag-no">不想</span></h3>
-    <p>用户说完就忘，"记一下"只是心理安全感。事后不找。</p>
-    <p class="red" style="margin-top:6px">→ 结论：不需要做显性化。只做好即时确认就够了。</p>
-  </div>
+<!-- L2: Q2 -->
+<div class="n ny" id="e" style="left:260px;top:520px">
+  <h3><span class="tag tq">提问 2</span></h3>
+  <p><span class="b">量有多大？</span><br>一天几次还是一周一次？</p>
+</div>
 
-  <!-- Row 3: Q2 -->
-  <div class="n n-yellow" id="q2" style="left:340px;top:570px">
-    <h3><span class="tag tag-q">提问 2</span></h3>
-    <p><span class="em">量有多大？</span><br>一天几次还是一周一次？</p>
-  </div>
+<!-- L2 YES -->
+<div class="n ng" id="f" style="left:260px;top:640px">
+  <h3><span class="tag ty">量足够</span></h3>
+  <p>每天1-2次以上，内容持续积累。</p>
+  <p class="g" style="margin-top:4px">↓ 继续</p>
+</div>
 
-  <!-- Row 4: Q2 分叉 -->
-  <div class="n n-green" id="q2y" style="left:140px;top:690px">
-    <h3><span class="tag tag-yes">量足够</span></h3>
-    <p>行为频次足以支撑产品功能（每天至少1-2次），内容持续积累。</p>
-    <p class="green" style="margin-top:6px">→ 继续：今天体验满足了吗？</p>
-  </div>
+<!-- L2 NO → stop -->
+<div class="n nr" id="g" style="left:620px;top:640px">
+  <h3><span class="tag tn">量太少</span></h3>
+  <p>偶发行为，一周一次或更少。</p>
+  <p class="r" style="margin-top:4px">⬛ 结论：不值得做产品级功能。小爱基础能力优化即可。</p>
+</div>
 
-  <div class="n n-red" id="q2n" style="left:500px;top:690px">
-    <h3><span class="tag tag-no">量太少</span></h3>
-    <p>偶发行为，一周一次甚至更少。</p>
-    <p class="red" style="margin-top:6px">→ 结论：不值得做成产品级功能。作为小爱基础能力优化即可。</p>
-  </div>
+<!-- L3: Q3 -->
+<div class="n ny" id="h" style="left:260px;top:780px">
+  <h3><span class="tag tq">提问 3</span></h3>
+  <p><span class="b">今天体验满足了吗？</span><br>看得到？找得到？管得了？<br><span style="color:var(--g);font-size:9px">已满足的不重做，没满足的才是缺口</span></p>
+</div>
 
-  <!-- Row 5: Q3 -->
-  <div class="n n-yellow" id="q3" style="left:80px;top:870px;width:340px">
-    <h3><span class="tag tag-q">提问 3</span> 今天体验满足了吗？</h3>
-    <p>三种类型分别验证：看得到？找得到？管得了？</p>
-    <p style="margin-top:6px;font-size:10px;color:var(--g)">
-      <span class="em">显性 vs 隐性</span> — 已满足的不重做，没满足的才是缺口
-    </p>
-  </div>
+<!-- L3: 三分叉 -->
+<div class="n nr" id="i1" style="left:260px;top:940px;width:200px">
+  <h3><span class="tag tn">都没满足</span></h3>
+  <p>三条路径全隐性。记了等于没记。</p>
+  <p class="g" style="margin-top:4px">↓ 系统性机会，继续</p>
+</div>
 
-  <!-- Row 6: Q3 三分叉 -->
-  <div class="n n-green" id="q3a" style="left:0px;top:1040px;width:220px">
-    <h3><span class="tag tag-yes">都满足</span></h3>
-    <p>三条路径都做到了显性化。</p>
-    <p class="red" style="margin-top:6px">→ 不需要做。现有体验已闭合。</p>
-  </div>
+<div class="n ny" id="i2" style="left:490px;top:940px;width:200px">
+  <h3><span class="tag tm">部分满足</span></h3>
+  <p>有的OK有的断。</p>
+  <p class="o" style="margin-top:4px">⬛ 补全缺口路径即可</p>
+</div>
 
-  <div class="n n-yellow" id="q3b" style="left:240px;top:1040px;width:220px">
-    <h3><span class="tag tag-maybe">部分满足</span></h3>
-    <p>有的OK有的断。</p>
-    <p class="orange" style="margin-top:6px">→ 针对没满足的路径补全，不需要全面重构。</p>
-  </div>
+<div class="n ng" id="i3" style="left:720px;top:940px;width:200px">
+  <h3><span class="tag ty">都满足</span></h3>
+  <p>三条都做到了显性化。</p>
+  <p class="r" style="margin-top:4px">⬛ 不需要做。体验已闭合。</p>
+</div>
 
-  <div class="n n-red" id="q3c" style="left:480px;top:1040px;width:220px">
-    <h3><span class="tag tag-no">都没满足</span></h3>
-    <p>三条路径全是隐性——记了等于没记。</p>
-    <p class="green" style="margin-top:6px">→ 系统性产品机会。需要完整设计链路。继续。</p>
-  </div>
+<!-- L4: 观点 -->
+<div class="n ng" id="j" style="left:240px;top:1100px;width:320px">
+  <h3><span class="tag ts">观点</span></h3>
+  <p><span class="b">"帮我记一下"需求真实存在，现有体验没完整承接。</span></p>
+  <p style="margin-top:4px;color:var(--g);font-size:9px">这个观点成立，后面才成立。不成立则止。</p>
+</div>
 
-  <!-- Row 7: 观点 -->
-  <div class="n n-green" id="pov" style="left:360px;top:1220px;width:340px">
-    <h3><span class="tag tag-sol">观点</span></h3>
-    <p><span class="em">"帮我记一下"的需求真实存在，现有体验没有完整承接。</span></p>
-    <p style="margin-top:6px;color:var(--g)">这个观点成立后面才成立。不成立则不需要往下走。</p>
-  </div>
+<!-- L5: Q4 心智 -->
+<div class="n ny" id="k" style="left:280px;top:1250px">
+  <h3><span class="tag tq">提问 4</span></h3>
+  <p><span class="b">用户想找时，觉得去哪？</span></p>
+</div>
 
-  <!-- Row 8: Q4 心智归属 -->
-  <div class="n n-yellow" id="q4" style="left:380px;top:1400px">
-    <h3><span class="tag tag-q">提问 4</span></h3>
-    <p><span class="em">用户想回来看时，觉得去哪找？</span></p>
-  </div>
+<!-- L5: 三选项 -->
+<div class="n ngy" id="k1" style="left:100px;top:1380px;width:220px">
+  <h3>"去小爱翻一下"</h3>
+  <p>对话界面不适合回看。</p>
+  <p class="o" style="margin-top:4px">→ 小爱是入口，不是管理界面</p>
+</div>
+<div class="n ngy" id="k2" style="left:340px;top:1380px;width:220px">
+  <h3>"去笔记看看"</h3>
+  <p>"记东西"心智最近。</p>
+  <p class="g" style="margin-top:4px">→ 天然承接点</p>
+</div>
+<div class="n ngy" id="k3" style="left:580px;top:1380px;width:220px">
+  <h3>"不知道去哪"</h3>
+  <p>内容存在但不可达。</p>
+  <p class="o" style="margin-top:4px">→ 需要建立心智</p>
+</div>
 
-  <!-- Row 9: Q4 三分叉 -->
-  <div class="n n-gray" id="q4a" style="left:160px;top:1530px">
-    <h3>"去小爱翻一下"</h3>
-    <p>对话界面不适合回看和管理。聊天记录无限滚动。</p>
-    <p class="orange" style="margin-top:6px">→ 小爱是入口，不是管理界面</p>
-  </div>
+<!-- L6: 显性化 -->
+<div class="n np" id="l" style="left:220px;top:1540px;width:360px">
+  <h3><span class="tag ti">推导</span> 显性化设计</h3>
+  <p>
+    <span class="b">约定1</span> 松手就算记下来了<br>
+    <span class="b">约定2</span> 所有内容都有明确去处<br>
+    <span class="b">约定3</span> 原始记录保留，结果可追溯
+  </p>
+  <p style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,.06)">
+    <span class="b">泛化→AI分流：</span>念头→想法 · 动作→待办 · 外部→收藏 · 任务→执行 · 不确定→兜底
+  </p>
+</div>
 
-  <div class="n n-gray" id="q4b" style="left:460px;top:1530px">
-    <h3>"去笔记看看"</h3>
-    <p>"记东西"心智最近的App。不需要教育。</p>
-    <p class="green" style="margin-top:6px">→ 天然承接点</p>
-  </div>
-
-  <div class="n n-gray" id="q4c" style="left:760px;top:1530px">
-    <h3>"不知道去哪找"</h3>
-    <p>说明今天的体验确实断了——内容存在但不可达。</p>
-    <p class="orange" style="margin-top:6px">→ 需要建立心智</p>
-  </div>
-
-  <!-- Row 10: 显性化设计 -->
-  <div class="n n-purple" id="design" style="left:340px;top:1720px;width:380px">
-    <h3><span class="tag tag-insight">推导</span> 显性化设计</h3>
-    <p>
-      <span class="em">约定 1</span> 松手就算记下来了<br>
-      <span class="em">约定 2</span> 所有内容都有明确的去处<br>
-      <span class="em">约定 3</span> 原始记录保留，AI结果可追溯
-    </p>
-    <p style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.06)">
-      <span class="em">泛化问题：</span>用户什么都往里塞<br>
-      <span class="em">解法：</span>AI识别意图，自动分流<br>
-      念头→想法 · 动作→待办 · 外部→收藏 · 任务→执行 · 识别不出→兜底
-    </p>
-  </div>
-
-  <!-- Row 11: 闭环 - 5个手机 -->
-  <div class="n n-green" id="loop" style="left:60px;top:1960px;width:var(--W)">
-    <h3>回看 · 兜底</h3>
-    <div class="mp">
-      <div class="mps"><span>9:41</span><span></span></div>
-      <div class="mpb">
-        <div class="mpt">随口记</div>
-        <div class="mpi"><h5>☕ 咖啡52度好喝 <span class="gt">想法</span></h5></div>
-        <div class="mpi"><h5>📋 周五找设计聊 <span class="gt">待办</span></h5></div>
-        <div class="mpi"><h5>🎙 播客读书方法</h5><div style="font-size:7px;color:#aaa">原始录音 · 未分类</div></div>
-      </div>
+<!-- L7: 消费闭环 5个 -->
+<div class="n ng" id="m1" style="left:20px;top:1740px;width:220px">
+  <h3>回看 · 兜底</h3>
+  <div class="mp">
+    <div class="ms"><span>9:41</span><span></span></div>
+    <div class="mb">
+      <div class="mt">随口记</div>
+      <div class="mi"><h5>☕ 咖啡52度好喝</h5></div>
+      <div class="mi"><h5>📋 周五找设计聊</h5></div>
+      <div class="mi"><h5>🎙 播客读书方法</h5></div>
     </div>
   </div>
-
-  <div class="n n-green" id="ideas" style="left:360px;top:1960px;width:var(--W)">
-    <h3>💡 想法 · 思考</h3>
-    <div class="mp">
-      <div class="mps"><span>9:41</span><span></span></div>
-      <div class="mpb">
-        <div class="mpt">产品判断力</div>
-        <div class="mpi"><h5>判断力来自实践</h5><div style="font-size:7px;color:#aaa">随口记 · 9/20</div></div>
-        <div class="mpi"><h5>复盘文章三观点</h5><div style="font-size:7px;color:#aaa">AI键 · 9/18</div></div>
-        <div class="mpi"><h5>还得加上反思</h5><div style="font-size:7px;color:#aaa">随口记 · 9/21</div></div>
-      </div>
+</div>
+<div class="n ng" id="m2" style="left:260px;top:1740px;width:220px">
+  <h3>💡 想法 · 思考</h3>
+  <div class="mp">
+    <div class="ms"><span>9:41</span><span></span></div>
+    <div class="mb">
+      <div class="mt">产品判断力</div>
+      <div class="mi"><h5>判断力来自实践</h5></div>
+      <div class="mi"><h5>复盘文章三观点</h5></div>
+      <div class="mi"><h5>还得加上反思</h5></div>
     </div>
   </div>
-
-  <div class="n n-green" id="todos" style="left:660px;top:1960px;width:var(--W)">
-    <h3>✅ 待办 · 行动</h3>
-    <div class="mp">
-      <div class="mps"><span>9:41</span><span></span></div>
-      <div class="mpb">
-        <div class="mpt">待办</div>
-        <div class="mpi" style="border-left:2px solid var(--green)"><h5>周五找设计聊查找</h5></div>
-        <div class="mpi" style="border-left:2px solid var(--orange)"><h5>下周三交竞品分析</h5></div>
-        <div class="mpi" style="border-left:2px solid var(--blue)"><h5>约老王喝咖啡</h5></div>
-      </div>
+</div>
+<div class="n ng" id="m3" style="left:500px;top:1740px;width:220px">
+  <h3>✅ 待办 · 行动</h3>
+  <div class="mp">
+    <div class="ms"><span>9:41</span><span></span></div>
+    <div class="mb">
+      <div class="mt">待办</div>
+      <div class="mi" style="border-left:2px solid var(--green)"><h5>周五找设计聊查找</h5></div>
+      <div class="mi" style="border-left:2px solid var(--orange)"><h5>下周三交竞品分析</h5></div>
+      <div class="mi" style="border-left:2px solid var(--blue)"><h5>约老王喝咖啡</h5></div>
     </div>
   </div>
-
-  <div class="n n-green" id="topics" style="left:960px;top:1960px;width:var(--W)">
-    <h3>📌 专题 · 参考</h3>
-    <div class="mp">
-      <div class="mps"><span>9:41</span><span></span></div>
-      <div class="mpb">
-        <div class="mpt">旅行攻略</div>
-        <div class="mpi"><h5>大理三天两夜</h5><div style="font-size:7px;color:#aaa">小红书 · AI键</div></div>
-        <div class="mpi"><h5>洱海骑行注意</h5><div style="font-size:7px;color:#aaa">微信 · AI键</div></div>
-        <div class="mpi"><h5>古城住宿推荐</h5><div style="font-size:7px;color:#aaa">抖音 · AI键</div></div>
-      </div>
+</div>
+<div class="n ng" id="m4" style="left:740px;top:1740px;width:220px">
+  <h3>📌 专题 · 参考</h3>
+  <div class="mp">
+    <div class="ms"><span>9:41</span><span></span></div>
+    <div class="mb">
+      <div class="mt">旅行攻略</div>
+      <div class="mi"><h5>大理三天两夜</h5></div>
+      <div class="mi"><h5>洱海骑行注意</h5></div>
+      <div class="mi"><h5>古城住宿推荐</h5></div>
     </div>
   </div>
-
-  <div class="n n-green" id="cmds" style="left:1260px;top:1960px;width:var(--W)">
-    <h3>⚡ 指令 · 执行</h3>
-    <div class="mp">
-      <div class="mps"><span>9:41</span><span></span></div>
-      <div class="mpb">
-        <div class="mpt">指令结果</div>
-        <div class="mpi" style="background:#fffbeb"><h5>📄 文章总结</h5><div style="font-size:7px;color:#666">1.判断力 2.实践 3.复盘</div></div>
-        <div class="mpi" style="background:#faf5ff"><h5>📊 对比分析</h5><div style="font-size:7px;color:#666">两篇异同已整理</div></div>
-      </div>
+</div>
+<div class="n ng" id="m5" style="left:980px;top:1740px;width:220px">
+  <h3>⚡ 指令 · 执行</h3>
+  <div class="mp">
+    <div class="ms"><span>9:41</span><span></span></div>
+    <div class="mb">
+      <div class="mt">指令结果</div>
+      <div class="mi" style="background:#fffbeb"><h5>📄 文章总结</h5></div>
+      <div class="mi" style="background:#faf5ff"><h5>📊 对比分析</h5></div>
     </div>
   </div>
+</div>
 
-  <!-- Row 12: Q5 谁来承接 -->
-  <div class="n n-yellow" id="q5" style="left:540px;top:2280px">
-    <h3><span class="tag tag-q">提问 5</span></h3>
-    <p><span class="em">谁来承接？</span></p>
-  </div>
+<!-- L8: Q5 -->
+<div class="n ny" id="n" style="left:460px;top:2020px">
+  <h3><span class="tag tq">提问 5</span></h3>
+  <p><span class="b">谁来承接？</span></p>
+</div>
 
-  <!-- Row 13: 三个承接假设 -->
-  <div class="n n-yellow" id="ha" style="left:80px;top:2410px;width:320px">
-    <h3>假设 A：小爱 <span class="tag tag-maybe">入口非承接</span></h3>
-    <p>
-      <span class="em">优势</span> 入口天然，语音零门槛，全场景<br>
-      <span class="em">问题</span> 对话界面不适合回看；上下文丢失后隐性
-    </p>
-    <div class="mp" style="height:160px">
-      <div class="mps"><span>9:41</span><span></span></div>
-      <div class="mpb">
-        <div class="mpt">小爱同学</div>
-        <div class="mpi" style="background:#e8f4fe"><h5>帮我记一下咖啡52度</h5></div>
-        <div class="mpi" style="background:#f0f0f0"><h5>好的，已帮你记下了</h5></div>
-        <div class="mpi" style="background:#fee2e2"><h5 style="color:var(--red)">❌ 两天后找不到</h5></div>
-      </div>
+<!-- L9: 三个假设 -->
+<div class="n ny" id="o1" style="left:60px;top:2150px;width:300px">
+  <h3>假设A：小爱 <span class="tag tm">入口非承接</span></h3>
+  <p><span class="b">优势</span> 入口天然，全场景<br><span class="b">问题</span> 对话界面不适合回看</p>
+  <div class="mp" style="height:130px">
+    <div class="ms"><span>9:41</span><span></span></div>
+    <div class="mb">
+      <div class="mt">小爱同学</div>
+      <div class="mi" style="background:#e8f4fe"><h5>帮我记一下咖啡52度</h5></div>
+      <div class="mi" style="background:#f0f0f0"><h5>好的，已记下了</h5></div>
+      <div class="mi" style="background:#fee2e2"><h5 style="color:var(--red);font-size:7px">❌ 两天后找不到</h5></div>
     </div>
-    <p class="orange" style="margin-top:6px">→ 是入口，不是承接方</p>
   </div>
+  <p class="o" style="margin-top:4px">→ 是入口，不是承接方</p>
+</div>
 
-  <div class="n n-red" id="hb" style="left:440px;top:2410px;width:320px">
-    <h3>假设 B：新 App <span class="tag tag-no">难成立</span></h3>
-    <p>
-      <span class="em">优势</span> 干净空间，无包袱<br>
-      <span class="em">问题</span> "知识库"不是用户认知；装机率零；内容薄
-    </p>
-    <div class="mp" style="height:160px">
-      <div class="mps"><span>9:41</span><span></span></div>
-      <div class="mpb">
-        <div class="mpt">我的助手</div>
-        <div class="mpi"><h5>📸 家人的9月 <span class="rt">相册已有</span></h5></div>
-        <div class="mpi"><h5>🏃 运动周报 <span class="rt">健康已有</span></h5></div>
-        <div class="mpi"><h5>🚄 京沪火车票 <span class="rt">日历已有</span></h5></div>
-        <div class="mpi"><h5>💡 用户访谈 <span class="rt">笔记已有</span></h5></div>
-      </div>
+<div class="n nr" id="o2" style="left:400px;top:2150px;width:300px">
+  <h3>假设B：新App <span class="tag tn">难成立</span></h3>
+  <p><span class="b">优势</span> 干净空间<br><span class="b">问题</span> 无用户认知，装机率零，内容薄</p>
+  <div class="mp" style="height:130px">
+    <div class="ms"><span>9:41</span><span></span></div>
+    <div class="mb">
+      <div class="mt">我的助手</div>
+      <div class="mi"><h5>📸 家人的9月 <span class="rt">相册已有</span></h5></div>
+      <div class="mi"><h5>🏃 运动周报 <span class="rt">健康已有</span></h5></div>
+      <div class="mi"><h5>🚄 京沪火车票 <span class="rt">日历已有</span></h5></div>
+      <div class="mi"><h5>💡 用户访谈 <span class="rt">笔记已有</span></h5></div>
     </div>
-    <p class="red" style="margin-top:6px">→ 全标红，找不到独占功能</p>
   </div>
+  <p class="r" style="margin-top:4px">→ 全标红，无独占功能</p>
+</div>
 
-  <div class="n n-green" id="hc" style="left:800px;top:2410px;width:320px">
-    <h3>假设 C：笔记 <span class="tag tag-yes">自然可行</span></h3>
-    <p>
-      <span class="em">优势</span> 心智已成，装机率有，两tab隔离<br>
-      <span class="em">需回答</span> 复杂？干扰？为什么在笔记？
-    </p>
-    <div class="mp" style="height:160px">
-      <div class="mps"><span>9:41</span><span></span></div>
-      <div class="mpb">
-        <div class="mpt">笔记</div>
-        <div style="display:flex;gap:8px;font-size:8px;margin-bottom:4px"><span style="font-weight:600;border-bottom:1.5px solid #1d1d1f;padding-bottom:1px">笔记</span><span style="color:#aaa">合集</span></div>
-        <div class="mpi" style="border-left:2px solid var(--purple)"><h5>产品周报 · 第12期</h5></div>
-        <div style="display:flex;gap:8px;font-size:8px;margin:4px 0"><span style="color:#aaa">笔记</span><span style="font-weight:600;border-bottom:1.5px solid #1d1d1f;padding-bottom:1px">合集</span></div>
-        <div class="mpi" style="background:#faf8ff"><h5>💡 产品判断力</h5></div>
-        <div class="mpi" style="background:#f0fdf4"><h5>📌 旅行攻略</h5></div>
-      </div>
+<div class="n ng" id="o3" style="left:740px;top:2150px;width:300px">
+  <h3>假设C：笔记 <span class="tag ty">自然可行</span></h3>
+  <p><span class="b">优势</span> 心智已成，装机率有，两tab隔离<br><span class="b">需回答</span> 复杂？干扰？</p>
+  <div class="mp" style="height:130px">
+    <div class="ms"><span>9:41</span><span></span></div>
+    <div class="mb">
+      <div class="mt">笔记</div>
+      <div style="display:flex;gap:6px;font-size:7px;margin-bottom:3px"><span style="font-weight:700;border-bottom:1px solid #1d1d1f">笔记</span><span style="color:#aaa">合集</span></div>
+      <div class="mi" style="border-left:2px solid var(--purple)"><h5>产品周报</h5></div>
+      <div style="display:flex;gap:6px;font-size:7px;margin:3px 0"><span style="color:#aaa">笔记</span><span style="font-weight:700;border-bottom:1px solid #1d1d1f">合集</span></div>
+      <div class="mi" style="background:#faf8ff"><h5>💡 产品判断力</h5></div>
+      <div class="mi" style="background:#f0fdf4"><h5>📌 旅行攻略</h5></div>
     </div>
-    <p class="green" style="margin-top:6px">→ 小爱入口 + 笔记承接 = 完整链路</p>
   </div>
+  <p class="g" style="margin-top:4px">→ 小爱入口 + 笔记承接 = 完整链路</p>
+</div>
 
-  <!-- Row 14: 结论 -->
-  <div class="n n-dark" id="final" style="left:400px;top:2830px;width:380px;text-align:center">
-    <h3 style="justify-content:center">完整链路</h3>
-    <p style="margin-top:6px;font-size:12px;opacity:.9">
-      说"记一下" → 松手保存 → 显性化反馈<br>→ AI分流 → 想法/待办/专题/指令<br>→ 思考/行动/参考/执行
-    </p>
-    <p style="margin-top:10px;font-size:10px">每一步假设不成立，链路就停。<br>只有每一步都成立，才推导出完整方案。</p>
-  </div>
+<!-- L10: Final -->
+<div class="n nd" id="z" style="left:360px;top:2590px;width:380px;text-align:center">
+  <h3 style="justify-content:center">完整链路</h3>
+  <p style="font-size:11px;opacity:.9;margin-top:4px">
+    说"记一下" → 松手保存 → 显性化<br>→ AI分流 → 想法/待办/专题/指令<br>→ 思考/行动/参考/执行
+  </p>
+  <p style="margin-top:8px;font-size:9px">每一步假设不成立就停。全部成立才有完整方案。</p>
+</div>
 
 </div>
 
 <script>
-const lines=[
-  ['root','q1'],
-  ['q1','q1y'],['q1','q1n'],
-  ['q1y','q2'],
-  ['q2','q2y'],['q2','q2n'],
-  ['q2y','q3'],
-  ['q3','q3a'],['q3','q3b'],['q3','q3c'],
-  ['q3c','pov'],['q3b','pov'],
-  ['pov','q4'],
-  ['q4','q4a'],['q4','q4b'],['q4','q4c'],
-  ['q4a','design'],['q4b','design'],['q4c','design'],
-  ['design','loop'],['design','ideas'],['design','todos'],['design','topics'],['design','cmds'],
-  ['loop','q5'],['ideas','q5'],['todos','q5'],['topics','q5'],['cmds','q5'],
-  ['q5','ha'],['q5','hb'],['q5','hc'],
-  ['ha','final'],['hb','final'],['hc','final'],
+// Straight-line connectors: vertical down then horizontal
+const edges=[
+  // trunk
+  ['a','b','d'],['b','c','d'],
+  ['c','d','r'],  // Q1 yes→down, no→right
+  ['c','e','d'],
+  ['e','f','d'],
+  ['f','g','r'],  // Q2 yes→down, no→right
+  ['f','h','d'],
+  // Q3 three branches
+  ['h','i1','d'],['h','i2','d'],['h','i3','d'],
+  // continue
+  ['i1','j','d'],
+  ['j','k','d'],
+  // Q4 three
+  ['k','k1','d'],['k','k2','d'],['k','k3','d'],
+  // design
+  ['k1','l','d'],['k2','l','d'],['k3','l','d'],
+  // 5 phones
+  ['l','m1','d'],['l','m2','d'],['l','m3','d'],['l','m4','d'],['l','m5','d'],
+  // Q5
+  ['m1','n','d'],['m2','n','d'],['m3','n','d'],['m4','n','d'],['m5','n','d'],
+  // 3 hypotheses
+  ['n','o1','d'],['n','o2','d'],['n','o3','d'],
+  // final
+  ['o1','z','d'],['o2','z','d'],['o3','z','d'],
 ];
+
+function cx(el){return el.offsetLeft+el.offsetWidth/2}
+function bot(el){return el.offsetTop+el.offsetHeight}
+function top_(el){return el.offsetTop}
+
 function draw(){
-  const svg=document.getElementById('lines');
-  svg.innerHTML='';
-  const ns='http://www.w3.org/2000/svg';
-  lines.forEach(([fid,tid])=>{
-    const f=document.getElementById(fid);
-    const t=document.getElementById(tid);
-    if(!f||!t)return;
-    const fx=f.offsetLeft+f.offsetWidth/2;
-    const fy=f.offsetTop+f.offsetHeight;
-    const tx=t.offsetLeft+t.offsetWidth/2;
-    const ty=t.offsetTop;
-    const my=(fy+ty)/2;
-    const p=document.createElementNS(ns,'path');
-    p.setAttribute('d',`M${fx},${fy} C${fx},${my} ${tx},${my} ${tx},${ty}`);
-    svg.appendChild(p);
-    const c=document.createElementNS(ns,'circle');
-    c.setAttribute('cx',tx);c.setAttribute('cy',ty);c.setAttribute('r','3');
-    svg.appendChild(c);
+  const s=document.getElementById('S');
+  const c=document.getElementById('C');
+  s.style.width=c.scrollWidth+'px';
+  s.style.height=c.scrollHeight+'px';
+  let html='';
+  const done=new Set();
+
+  // Group edges by source
+  const groups={};
+  edges.forEach(([fid,tid])=>{
+    if(!groups[fid])groups[fid]=[];
+    groups[fid].push(tid);
   });
-  svg.style.width=document.getElementById('canvas').scrollWidth+'px';
-  svg.style.height=document.getElementById('canvas').scrollHeight+'px';
+
+  Object.keys(groups).forEach(fid=>{
+    const f=document.getElementById(fid);
+    if(!f)return;
+    const targets=groups[fid].map(tid=>document.getElementById(tid)).filter(Boolean);
+    if(!targets.length)return;
+
+    const fy=bot(f);
+    const fxc=cx(f);
+
+    // If multiple targets at same Y, draw a horizontal bus
+    const tys=[...new Set(targets.map(t=>top_(t)))];
+
+    tys.forEach(ty=>{
+      const ts=targets.filter(t=>top_(t)===ty);
+      const midY=fy+(ty-fy)/2;
+
+      if(ts.length===1){
+        const t=ts[0];
+        const txc=cx(t);
+        // Straight down then horizontal then down
+        if(Math.abs(fxc-txc)<2){
+          // Straight vertical
+          html+=`<line x1="${fxc}" y1="${fy}" x2="${txc}" y2="${ty}"/>`;
+        }else{
+          // L-shape: down to midY, horizontal, down
+          html+=`<line x1="${fxc}" y1="${fy}" x2="${fxc}" y2="${midY}"/>`;
+          html+=`<line x1="${fxc}" y1="${midY}" x2="${txc}" y2="${midY}"/>`;
+          html+=`<line x1="${txc}" y1="${midY}" x2="${txc}" y2="${ty}"/>`;
+        }
+        html+=`<circle cx="${txc}" cy="${ty}" r="3"/>`;
+      }else{
+        // Multiple: vertical trunk, horizontal bar, vertical drops
+        const xs=ts.map(t=>cx(t));
+        const minX=Math.min(...xs);
+        const maxX=Math.max(...xs);
+        // Trunk down
+        html+=`<line x1="${fxc}" y1="${fy}" x2="${fxc}" y2="${midY}"/>`;
+        // Horizontal bar
+        html+=`<line x1="${minX}" y1="${midY}" x2="${maxX}" y2="${midY}"/>`;
+        // Drops
+        ts.forEach(t=>{
+          const txc=cx(t);
+          html+=`<line x1="${txc}" y1="${midY}" x2="${txc}" y2="${ty}"/>`;
+          html+=`<circle cx="${txc}" cy="${ty}" r="3"/>`;
+        });
+      }
+    });
+  });
+
+  s.innerHTML=html;
 }
+
 window.addEventListener('load',draw);
 window.addEventListener('resize',draw);
 </script>
-
 </body>
 </html>
