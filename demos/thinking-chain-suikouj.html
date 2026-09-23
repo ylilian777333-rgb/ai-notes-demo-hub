@@ -8,7 +8,7 @@
 :root{font-family:"MiSans","PingFang SC","SF Pro Display",sans-serif;color:#1d1d1f;--W:280px;--green:#16a34a;--red:#dc2626;--orange:#d97706;--purple:#7c3aed;--blue:#4e8fff;--g:#999;--g2:#555}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#f5f4f0;overflow:auto}
-.canvas{position:relative;padding:60px 60px 120px;min-width:1500px}
+.canvas{position:relative;padding:60px 60px 120px;min-width:3200px;min-height:100vh}
 .title{font-size:13px;font-weight:600;color:#aaa;letter-spacing:1px;position:absolute;top:24px;left:32px}
 
 /* Nodes */
@@ -21,7 +21,7 @@ body{background:#f5f4f0;overflow:auto}
 .n .g{color:var(--green);font-weight:500}
 .n .o{color:var(--orange);font-weight:500}
 
-/* Colors */
+/* Node colors - all light */
 .nw{background:#fff;border:1px solid #e5e5e2}
 .ny{background:#fffbeb;border:1px solid #fde68a}
 .ng{background:#f0fdf4;border:1px solid #bbf7d0}
@@ -35,61 +35,55 @@ body{background:#f5f4f0;overflow:auto}
 .ty{background:#dcfce7;color:var(--green)}
 .tn{background:#fee2e2;color:var(--red)}
 .ti{background:#ede9fe;color:var(--purple)}
-.tb2{background:#e0f0ff;color:var(--blue)}
 
-/* Table */
+/* Tables */
 .tb{width:100%;border-collapse:collapse;margin:6px 0;font-size:9px}
 .tb th{text-align:left;padding:3px 6px;font-size:8px;color:var(--g);border-bottom:1px solid #eee;font-weight:600}
-.tb td{padding:3px 6px;border-bottom:1px solid #f5f5f5;vertical-align:top}
+.tb td{padding:3px 6px;border-bottom:1px solid #f5f5f5}
 .st{font-size:7px;padding:1px 4px;border-radius:4px;font-weight:600}
 
 /* Phone mockup */
-.phone{width:220px;border-radius:32px;background:#f3f3f3;border:1px solid #ddd;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08);margin:0 auto}
-.ph-status{height:32px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 20px 4px;font-size:10px;font-weight:600;position:relative;background:#f3f3f3}
-.ph-status::after{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:80px;height:22px;background:#1d1d1f;border-radius:12px}
-.ph-body{background:#fff;min-height:340px;padding:0}
-.ph-home{height:6px;display:flex;justify-content:center;align-items:center;padding:4px 0 6px;background:#f3f3f3}
-.ph-home::after{content:"";width:100px;height:4px;background:#1d1d1f;border-radius:2px;opacity:.5}
+.phone{width:200px;border-radius:28px;background:#fff;border:1px solid #e0e0e0;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);position:relative}
+.phone .bar{height:28px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 18px 4px;font-size:10px;font-weight:600;position:relative;background:#fff}
+.phone .bar::after{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:56px;height:16px;background:#1d1d1f;border-radius:10px}
+.phone .bar .ri{font-size:9px;display:flex;align-items:center;gap:2px}
+.phone .body{padding:4px 8px 8px;min-height:200px;background:#fff}
+.phone .hind{height:20px;display:flex;align-items:center;justify-content:center}
+.phone .hind::after{content:"";width:100px;height:4px;background:#1d1d1f;border-radius:2px;opacity:.2}
+/* Phone UI elements */
+.phone .ptitle{font-size:14px;font-weight:600;margin:2px 0 4px}
+.phone .psub{font-size:8px;color:#999;margin-bottom:6px}
+.phone .ptabs{display:flex;gap:0;margin-bottom:6px;border-bottom:1px solid #f0f0f0}
+.phone .ptabs span{font-size:9px;padding:4px 10px;color:#aaa}
+.phone .ptabs span.on{color:#1d1d1f;font-weight:600;border-bottom:2px solid #1d1d1f}
+.phone .pitem{background:#f8f8f8;border-radius:8px;padding:6px 8px;margin-bottom:4px;font-size:9px;line-height:1.4;position:relative}
+.phone .pitem h5{font-size:9px;font-weight:600;margin-bottom:1px;display:flex;align-items:center;gap:4px}
+.phone .pitem .meta{font-size:7px;color:#aaa;margin-top:2px}
+.phone .pitem .ptag{position:absolute;top:5px;right:6px;font-size:7px;padding:1px 5px;border-radius:4px;font-weight:600}
+.phone .ptoast{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px;margin-bottom:6px;font-size:9px;font-weight:500;color:var(--green);text-align:center}
+.phone .pchat-user{background:#e8f4fe;border-radius:8px;padding:6px 8px;margin-bottom:3px;font-size:9px;margin-left:30px}
+.phone .pchat-ai{background:#f3f3f3;border-radius:8px;padding:6px 8px;margin-bottom:3px;font-size:9px;margin-right:30px}
+.phone .pchat-label{font-size:7px;color:#aaa;margin-bottom:2px}
+/* Phone group */
+.phone-pair{display:flex;gap:16px;position:absolute;z-index:1}
+.phone-single{position:absolute;z-index:1}
+.phone-label{font-size:9px;color:var(--g);text-align:center;margin-top:4px}
 
-/* Phone inner UI */
-.ph-header{padding:10px 14px 0}
-.ph-header h4{font-size:16px;font-weight:600}
-.ph-header .sub{font-size:9px;color:#999;margin-top:1px}
-.ph-tabs{display:flex;gap:0;padding:8px 14px;border-bottom:1px solid #f0f0f0}
-.ph-tab{padding:4px 12px;font-size:10px;color:#999;border-bottom:2px solid transparent;font-weight:500}
-.ph-tab.on{color:#1d1d1f;border-bottom-color:#1d1d1f;font-weight:600}
-.ph-list{padding:6px 10px}
-.ph-item{display:flex;align-items:flex-start;gap:8px;padding:8px 6px;border-bottom:1px solid #f8f8f8}
-.ph-item:last-child{border-bottom:0}
-.ph-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.ph-item-body{flex:1;min-width:0}
-.ph-item-body h5{font-size:10px;font-weight:600;margin-bottom:1px;display:flex;align-items:center;gap:4px}
-.ph-item-body .desc{font-size:8px;color:#999;line-height:1.4}
-.ph-badge{font-size:7px;padding:1px 5px;border-radius:4px;font-weight:600;flex-shrink:0}
+/* Strategy card */
+.strat{width:var(--W);border-radius:10px;padding:12px 14px;font-size:10px;line-height:1.55;position:absolute;z-index:1;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.strat h4{font-size:11px;font-weight:600;margin-bottom:4px}
+.strat .pro{color:var(--green);font-size:9px;margin-top:4px}
+.strat .con{color:var(--red);font-size:9px;margin-top:2px}
+.strat p{color:var(--g2);font-size:9px;line-height:1.6}
 
-/* Toast overlay */
-.ph-toast{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;font-size:9px;padding:6px 14px;border-radius:16px;white-space:nowrap;display:flex;align-items:center;gap:5px}
+/* Grid for collection covers */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:6px}
+.pgrid .cover{height:36px;border-radius:6px;display:flex;align-items:flex-end;padding:3px 4px;font-size:7px;font-weight:600;color:#fff}
 
-/* Grid cards */
-.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 10px}
-.ph-grid-card{background:#f8f8f6;border-radius:10px;overflow:hidden}
-.ph-grid-card .cover{height:48px;display:flex;align-items:center;justify-content:center;font-size:20px}
-.ph-grid-card .info{padding:5px 7px}
-.ph-grid-card .info h5{font-size:9px;font-weight:600}
-.ph-grid-card .info .ct{font-size:8px;color:#999}
-
-/* Decision node */
-.dn{display:flex;flex-direction:column;gap:4px}
-.dn-item{font-size:10px;color:var(--g2);padding:6px 10px;background:#f8f8f6;border-radius:6px;line-height:1.5}
-.dn-item .q{font-weight:600;color:#1d1d1f}
-
-/* Section label */
-.section-label{position:absolute;z-index:2;font-size:11px;font-weight:600;color:#bbb;letter-spacing:1px;text-transform:uppercase}
-
-/* SVG Lines */
+/* SVG lines */
 svg.L{position:absolute;top:0;left:0;pointer-events:none;z-index:0;overflow:visible}
-svg.L line{stroke:#d4d4ce;stroke-width:1.5}
-svg.L circle{fill:#d4d4ce}
+svg.L line{stroke:#d0d0c8;stroke-width:1.5}
+svg.L circle{fill:#d0d0c8}
 </style>
 </head>
 <body>
@@ -97,10 +91,11 @@ svg.L circle{fill:#d4d4ce}
 <div class="title">思考过程</div>
 <svg class="L" id="S"></svg>
 
-<!-- ========== MAIN TRUNK ========== -->
+<!-- ==================== MAIN TRUNK ==================== -->
+<!-- x=700 center for trunk, "no" at x=1100 -->
 
-<!-- Root top:60 -->
-<div class="n nw" id="root" style="left:300px;top:60px;width:340px">
+<!-- ROOT: top=70 -->
+<div class="n nw" id="root" style="left:560px;top:70px;width:340px">
   <h3><span class="tag tf">事实</span> 用户在说"帮我记一下"</h3>
   <table class="tb">
     <tr><th>场景</th><th>意图</th><th>本质</th></tr>
@@ -110,398 +105,661 @@ svg.L circle{fill:#d4d4ce}
   </table>
 </div>
 
-<!-- Q1 top:240 -->
-<div class="n ny" id="q1" style="left:370px;top:240px">
+<!-- Q1: top=260 -->
+<div class="n ny" id="q1" style="left:630px;top:260px">
   <h3><span class="tag tq">提问 1</span></h3>
   <p><span class="b">用户记完后想回来看/用吗？</span><br>如果不想，后面全部不成立</p>
 </div>
-<!-- Q1 yes top:370 -->
-<div class="n ng" id="q1y" style="left:370px;top:370px">
+
+<!-- Q1 YES: top=390 -->
+<div class="n ng" id="q1y" style="left:630px;top:390px">
   <h3><span class="tag ty">想</span></h3>
   <p>收藏和指令有明确回看动机。随口记聚合后可能有价值。</p>
   <p class="g" style="margin-top:4px">↓ 继续</p>
 </div>
-<!-- Q1 no top:370 -->
-<div class="n nr" id="q1n" style="left:730px;top:370px">
+
+<!-- Q1 NO: top=390 -->
+<div class="n nr" id="q1n" style="left:1100px;top:390px">
   <h3><span class="tag tn">不想</span></h3>
   <p>说完就忘，"记一下"只是心理安全感。</p>
   <p class="r" style="margin-top:4px">⬛ 不需要做显性化。做好即时确认就够了。</p>
 </div>
 
-<!-- Q2 top:500 -->
-<div class="n ny" id="q2" style="left:370px;top:500px">
+<!-- Q2: top=530 -->
+<div class="n ny" id="q2" style="left:630px;top:530px">
   <h3><span class="tag tq">提问 2</span></h3>
   <p><span class="b">量有多大？</span><br>一天几次还是一周一次？</p>
 </div>
-<!-- Q2 yes top:620 -->
-<div class="n ng" id="q2y" style="left:370px;top:620px">
+
+<!-- Q2 YES: top=660 -->
+<div class="n ng" id="q2y" style="left:630px;top:660px">
   <h3><span class="tag ty">量足够</span></h3>
   <p>每天1-2次以上，内容持续积累。</p>
   <p class="g" style="margin-top:4px">↓ 继续</p>
 </div>
-<!-- Q2 no top:620 -->
-<div class="n nr" id="q2n" style="left:730px;top:620px">
+
+<!-- Q2 NO: top=660 -->
+<div class="n nr" id="q2n" style="left:1100px;top:660px">
   <h3><span class="tag tn">量太少</span></h3>
   <p>偶发行为，一周一次或更少。</p>
   <p class="r" style="margin-top:4px">⬛ 不值得做产品级功能。小爱基础能力优化即可。</p>
 </div>
 
-<!-- Q3 top:750 -->
-<div class="n ny" id="q3" style="left:370px;top:750px">
+<!-- Q3: top=800 -->
+<div class="n ny" id="q3" style="left:630px;top:800px">
   <h3><span class="tag tq">提问 3</span></h3>
   <p><span class="b">今天体验满足了吗？</span><br>看得到？找得到？管得了？</p>
 </div>
-<!-- Q3 yes top:880 -->
-<div class="n ng" id="q3y" style="left:370px;top:880px">
+
+<!-- Q3 YES (有缺口): top=930 -->
+<div class="n ng" id="q3y" style="left:630px;top:930px">
   <h3><span class="tag ty">有缺口</span></h3>
-  <p>至少有一条路径隐性——用户记了但看不到、找不到、管不了。</p>
-  <p class="g" style="margin-top:4px">↓ 三种类型分别怎么处理？</p>
+  <p>至少有一条路径是隐性的。</p>
+  <p class="g" style="margin-top:4px">↓ 三种类型各自怎么处理？</p>
 </div>
-<!-- Q3 no top:880 -->
-<div class="n nr" id="q3n" style="left:730px;top:880px">
+
+<!-- Q3 NO: top=930 -->
+<div class="n nr" id="q3n" style="left:1100px;top:930px">
   <h3><span class="tag tn">没缺口</span></h3>
   <p>三条路径都做到了显性化。</p>
   <p class="r" style="margin-top:4px">⬛ 不需要做。体验已闭合。</p>
 </div>
 
-<!-- ========== SECTION LABELS ========== -->
-<div class="section-label" style="left:100px;top:1020px">随口记</div>
-<div class="section-label" style="left:520px;top:1020px">收藏</div>
-<div class="section-label" style="left:940px;top:1020px">指令</div>
 
-<!-- ========== COL 1: 随口记 ========== -->
+<!-- ==================== THREE COLUMNS ==================== -->
+<!-- Column 1: 随口记 x≈200, Column 2: 收藏 x≈1050, Column 3: 指令 x≈1900 -->
 
-<!-- S1: 概述 top:1050 -->
-<div class="n np" id="s1" style="left:30px;top:1050px">
-  <h3><span class="tag ti">随口记</span> 用户说了一句话</h3>
-  <p>AI 转写之后，这句话可能是……</p>
+<!-- === COLUMN 1: 随口记 === -->
+
+<!-- Header: top=1100 -->
+<div class="n np" id="sk_h" style="left:180px;top:1100px">
+  <h3><span class="st" style="background:#ede9fe;color:#7c3aed;font-size:9px;padding:2px 8px">随口记</span> 碎片念头</h3>
+  <p>用户张嘴说了一句话，AI 转写后可能是：</p>
+</div>
+
+<!-- Analysis: top=1230 -->
+<div class="n nw" id="sk_a" style="left:100px;top:1230px;width:360px">
   <table class="tb">
-    <tr><th>说了什么</th><th>性质</th><th>处理</th></tr>
-    <tr><td>"咖啡52度好喝"</td><td>纯想法</td><td>留着，聚合</td></tr>
-    <tr><td>"周五找设计聊"</td><td>待办</td><td>分发到提醒</td></tr>
-    <tr><td>"访谈大家说查找不好，周五讨论"</td><td>想法+待办</td><td>拆两条</td></tr>
-    <tr><td>"提醒我买牛奶"</td><td>纯提醒</td><td>直接分发</td></tr>
-    <tr><td>"播客的读书方法不错"</td><td>模糊</td><td>原始记录兜底</td></tr>
+    <tr><th>说了什么</th><th>性质</th><th>怎么处理</th></tr>
+    <tr><td>"咖啡52度好喝"</td><td>纯想法</td><td>留着，按主题聚合</td></tr>
+    <tr><td>"周五找设计聊查找"</td><td>待办</td><td>识别→分发到日历</td></tr>
+    <tr><td>"访谈都说查找不好，周五讨论"</td><td>想法+待办</td><td>拆两条</td></tr>
+    <tr><td>"提醒我明天买牛奶"</td><td>纯提醒</td><td>分发到提醒，和"记"无关</td></tr>
+    <tr><td>"播客的读书方法不错"</td><td>模糊</td><td>AI判断不了→原始记录兜底</td></tr>
   </table>
 </div>
 
-<!-- S2: 手机 demo top:1360 -->
-<div class="n nw" id="s2" style="left:30px;top:1360px;width:260px;padding:10px">
+<!-- Phone demo: top=1460 -->
+<div class="phone-single" id="sk_p" style="left:195px;top:1460px">
   <div class="phone">
-    <div class="ph-status"><span>9:41</span><span style="font-size:8px">100%</span></div>
-    <div class="ph-body">
-      <div class="ph-header"><h4>随口记</h4><div class="sub">所有你说过的"帮我记一下"</div></div>
-      <div class="ph-tabs">
-        <div class="ph-tab on">全部</div>
-        <div class="ph-tab">想法</div>
-        <div class="ph-tab">待办</div>
+    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+    <div class="body">
+      <div class="ptitle">随口记</div>
+      <div class="ptabs">
+        <span class="on">全部</span>
+        <span>想法</span>
+        <span>待办</span>
       </div>
-      <div class="ph-list">
-        <div class="ph-item">
-          <div class="ph-icon" style="background:#f3f0ff">🎙</div>
-          <div class="ph-item-body">
-            <h5>咖啡52度好喝 <span class="ph-badge" style="background:#ede9fe;color:#7c3aed">想法</span></h5>
-            <div class="desc">今天 14:23 · 12s 录音</div>
-          </div>
-        </div>
-        <div class="ph-item">
-          <div class="ph-icon" style="background:#dcfce7">✅</div>
-          <div class="ph-item-body">
-            <h5>周五找设计聊查找 <span class="ph-badge" style="background:#dcfce7;color:#16a34a">待办</span></h5>
-            <div class="desc">今天 11:05 · 已分发到日历 📅</div>
-          </div>
-        </div>
-        <div class="ph-item">
-          <div class="ph-icon" style="background:#f3f0ff">🎙</div>
-          <div class="ph-item-body">
-            <h5>访谈大家说查找不好 <span class="ph-badge" style="background:#ede9fe;color:#7c3aed">想法</span></h5>
-            <div class="desc">今天 11:05 · 拆分自同一条记录</div>
-          </div>
-        </div>
-        <div class="ph-item">
-          <div class="ph-icon" style="background:#f8f8f6">🎙</div>
-          <div class="ph-item-body">
-            <h5>播客说的读书方法不错</h5>
-            <div class="desc">昨天 22:18 · 8s 录音 · <span style="color:#ccc">未分类</span></div>
-          </div>
-        </div>
+      <div class="pitem">
+        <h5>🎙 咖啡52度好喝</h5>
+        <div class="meta">今天 14:23 · 语音 12s</div>
+        <span class="ptag" style="background:#ede9fe;color:#7c3aed">想法</span>
+      </div>
+      <div class="pitem">
+        <h5>🎙 周五找设计聊查找问题</h5>
+        <div class="meta">今天 11:05 · 语音 8s</div>
+        <span class="ptag" style="background:#dcfce7;color:#16a34a">待办 · 已提醒</span>
+      </div>
+      <div class="pitem">
+        <h5>🎙 访谈都说查找不好，周五讨论</h5>
+        <div class="meta">昨天 16:42 · 语音 15s</div>
+        <span class="ptag" style="background:#fef3c7;color:#d97706">混合</span>
+      </div>
+      <div class="pitem">
+        <h5>🎙 播客说的读书方法不错</h5>
+        <div class="meta">昨天 22:18 · 语音 12s</div>
+        <span class="ptag" style="background:#f3f3f3;color:#999">未分类</span>
       </div>
     </div>
-    <div class="ph-home"></div>
+    <div class="hind"></div>
   </div>
-  <p style="text-align:center;font-size:9px;color:#aaa;margin-top:6px">每条：可播放录音 + 转写 + AI标签</p>
+  <div class="phone-label">随口记页面原型</div>
 </div>
 
-<!-- S3: 界面决策 top:1900 -->
-<div class="n ny" id="s3" style="left:30px;top:1900px">
+<!-- Interface decisions: top=1810 -->
+<div class="n ny" id="sk_q" style="left:140px;top:1810px;width:300px">
   <h3><span class="tag tq">界面决策</span></h3>
-  <div class="dn">
-    <div class="dn-item"><span class="q">它是什么？</span><br>独立页面？一个 tab？还是独立 App？</div>
-    <div class="dn-item"><span class="q">进来看到什么？</span><br>平铺时间线 vs 分类 tab（全部/想法/待办）vs 按主题自动归</div>
-    <div class="dn-item"><span class="q">待办分发后还显示吗？</span><br>"已分发到日历" 标记 vs 直接消失</div>
-    <div class="dn-item"><span class="q">未分类的怎么办？</span><br>AI 判断不了的内容，原始记录兜底就够？还是需要用户手动分？</div>
-    <div class="dn-item"><span class="q">量大了之后呢？</span><br>需要搜索？需要按时间筛选？需要工作/生活等标签？</div>
+  <p>
+    · 是独立页面？一个tab？独立App？<br>
+    · 进来平铺时间线 or 分类tab？<br>
+    · 待办分发后这里还显示吗？<br>
+    · 每条：录音（可播放）+ 转写 + AI标签<br>
+    · 要不要工作/生活等标签？
+  </p>
+</div>
+
+<!-- Strategy header: top=1990 -->
+<div class="n np" id="sk_sh" style="left:180px;top:1990px">
+  <h3>去哪？三种策略</h3>
+</div>
+
+<!-- Strategy A: top=2110 -->
+<div class="strat ng" id="sk_sa" style="left:20px;top:2110px">
+  <h4>策略A：笔记的一个 tab</h4>
+  <p>随口记作为笔记App内的第二个tab</p>
+  <div class="pro">✓ 用户心智：记东西→笔记</div>
+  <div class="pro">✓ 装机率已有</div>
+  <div class="pro">✓ 和手写笔记互补</div>
+  <div class="con">✗ 笔记会不会变复杂？</div>
+  <div class="con">✗ 语音碎片和正式笔记气质不同</div>
+</div>
+
+<!-- Phone for Strategy A: top=2340 -->
+<div class="phone-single" id="sk_pa" style="left:30px;top:2340px">
+  <div class="phone">
+    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+    <div class="body">
+      <div class="ptitle">笔记</div>
+      <div class="ptabs">
+        <span>笔记</span>
+        <span class="on">随口记</span>
+      </div>
+      <div class="pitem"><h5>🎙 咖啡52度好喝</h5><div class="meta">今天 14:23</div></div>
+      <div class="pitem"><h5>🎙 周五找设计聊</h5><div class="meta">今天 11:05 · <span style="color:var(--green)">已提醒</span></div></div>
+      <div class="pitem"><h5>🎙 播客读书方法</h5><div class="meta">昨天 22:18</div></div>
+    </div>
+    <div class="hind"></div>
   </div>
 </div>
 
-<!-- S4: 去哪 top:2290 -->
-<div class="n ngy" id="s4" style="left:30px;top:2290px">
-  <h3>随口记去哪？</h3>
-  <div class="dn">
-    <div class="dn-item"><span class="q">选项1</span> 笔记里的一个 tab / 页面</div>
-    <div class="dn-item"><span class="q">选项2</span> 小爱 App 里的一个入口</div>
-    <div class="dn-item"><span class="q">选项3</span> 独立入口（桌面卡片/小组件）</div>
-  </div>
-  <p style="margin-top:6px;font-size:9px;color:var(--g)">取决于用户心智："我说过的话"在哪找最自然？</p>
+<!-- Strategy B: top=2110 -->
+<div class="strat nb" id="sk_sb" style="left:340px;top:2110px">
+  <h4>策略B：小爱的独立面板</h4>
+  <p>小爱里新增一个"我的记录"入口</p>
+  <div class="pro">✓ 记的动作本来就在小爱</div>
+  <div class="pro">✓ 入口和管理在同一个地方</div>
+  <div class="con">✗ 用户不习惯打开小爱去"浏览"</div>
+  <div class="con">✗ 小爱是对话界面，管理体验弱</div>
 </div>
 
-<!-- ========== COL 2: 收藏 ========== -->
+<!-- Phone for Strategy B: top=2340 -->
+<div class="phone-single" id="sk_pb" style="left:350px;top:2340px">
+  <div class="phone">
+    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+    <div class="body">
+      <div class="ptitle">小爱同学</div>
+      <div class="ptabs">
+        <span>对话</span>
+        <span class="on">我的记录</span>
+      </div>
+      <div class="pitem"><h5>🎙 咖啡52度好喝</h5><div class="meta">今天 14:23</div></div>
+      <div class="pitem"><h5>🎙 周五找设计聊</h5><div class="meta">今天 11:05</div></div>
+      <div class="pitem"><h5>🎙 播客读书方法</h5><div class="meta">昨天 22:18</div></div>
+    </div>
+    <div class="hind"></div>
+  </div>
+</div>
 
-<!-- C1: 概述 top:1050 -->
-<div class="n nb" id="c1" style="left:450px;top:1050px">
-  <h3><span class="tag tb2">收藏</span> 用户在看屏幕按AI键</h3>
-  <p>保存的是外部内容，来源多样：</p>
+<!-- Strategy C: top=2110 -->
+<div class="strat ngy" id="sk_sc" style="left:660px;top:2110px">
+  <h4>策略C：独立 App</h4>
+  <p>做一个"记录"独立应用</p>
+  <div class="pro">✓ 干净空间，围绕"记→用"设计</div>
+  <div class="con">✗ 用户不知道这个App是干什么的</div>
+  <div class="con">✗ 装机率从零开始</div>
+  <div class="con">✗ 只有语音碎片，内容量太薄</div>
+  <div class="con">✗ 和笔记争"记东西"心智</div>
+</div>
+
+<!-- Phone for Strategy C: top=2340 -->
+<div class="phone-single" id="sk_pc" style="left:670px;top:2340px">
+  <div class="phone">
+    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+    <div class="body">
+      <div class="ptitle">记录</div>
+      <div class="psub">AI 帮你记住一切</div>
+      <div class="pitem"><h5>🎙 咖啡52度好喝</h5><div class="meta">今天 14:23</div></div>
+      <div class="pitem"><h5>🎙 周五找设计聊</h5><div class="meta">今天 11:05</div></div>
+      <div style="text-align:center;font-size:8px;color:#ccc;padding:12px 0">就这些了…<br>内容量撑不起独立App</div>
+    </div>
+    <div class="hind"></div>
+  </div>
+</div>
+
+
+<!-- === COLUMN 2: 收藏 === -->
+
+<!-- Header: top=1100 -->
+<div class="n nb" id="sc_h" style="left:1050px;top:1100px">
+  <h3><span class="st" style="background:#e0f0ff;color:#2994ff;font-size:9px;padding:2px 8px">收藏</span> 外部内容</h3>
+  <p>用户在看屏幕，按 AI 键说"记一下这个"</p>
+</div>
+
+<!-- Analysis: top=1230 -->
+<div class="n nw" id="sc_a" style="left:960px;top:1230px;width:360px">
   <table class="tb">
-    <tr><th>在看什么</th><th>保存了什么</th><th>归类</th></tr>
-    <tr><td>小红书帖子</td><td>内容/截图/链接</td><td>旅行攻略</td></tr>
-    <tr><td>微信文章</td><td>全文/摘要/链接</td><td>产品参考</td></tr>
-    <tr><td>抖音视频</td><td>链接/AI提取信息</td><td>灵感</td></tr>
-    <tr><td>商品页面</td><td>价格/规格/截图</td><td>购物清单</td></tr>
-    <tr><td>地图上的店</td><td>店名/地址/评分</td><td>收藏地点</td></tr>
+    <tr><th>在看什么</th><th>保存了什么</th><th>怎么组织</th></tr>
+    <tr><td>小红书帖子</td><td>内容/截图/链接</td><td>按主题→"旅行攻略"</td></tr>
+    <tr><td>微信文章</td><td>全文/摘要/链接</td><td>按主题→"产品参考"</td></tr>
+    <tr><td>抖音视频</td><td>链接/AI关键信息</td><td>按主题归类</td></tr>
+    <tr><td>商品页面</td><td>价格/规格/截图</td><td>按主题→"购物清单"</td></tr>
+    <tr><td>地图上的店</td><td>店名/地址/评分</td><td>按地点归类</td></tr>
   </table>
 </div>
 
-<!-- C2: 手机 demo - toast top:1360 -->
-<div class="n nw" id="c2a" style="left:420px;top:1360px;width:150px;padding:10px">
-  <div class="phone" style="width:140px;border-radius:24px">
-    <div class="ph-status" style="padding:0 12px 3px;font-size:8px"><span>9:41</span><span></span></div>
-    <div class="ph-body" style="min-height:220px;background:#000;position:relative">
-      <div style="padding:20px 10px;color:#fff;font-size:8px;opacity:.3;text-align:center">
-        （用户正在浏览小红书）
+<!-- Two phone demos side by side: top=1460 -->
+<div class="phone-pair" id="sc_p" style="left:1000px;top:1460px">
+  <!-- Phone 1: Toast feedback -->
+  <div>
+    <div class="phone">
+      <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+      <div class="body" style="background:#f8f8f8">
+        <div style="height:60px;background:linear-gradient(135deg,#fed7aa,#fbbf24);border-radius:8px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#92400e">小红书帖子内容</div>
+        <div class="ptoast">✅ 已保存到「旅行攻略」</div>
+        <div style="font-size:8px;color:#999;text-align:center">用户知道：存了、存到哪了</div>
       </div>
-      <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.95);color:#1d1d1f;font-size:8px;padding:6px 12px;border-radius:12px;white-space:nowrap;display:flex;align-items:center;gap:4px;box-shadow:0 2px 8px rgba(0,0,0,.2)">
-        <span style="color:var(--green)">✓</span> 已保存到「旅行攻略」
-      </div>
+      <div class="hind"></div>
     </div>
-    <div class="ph-home" style="background:#000"></div>
+    <div class="phone-label">保存瞬间反馈</div>
   </div>
-  <p style="text-align:center;font-size:9px;color:#aaa;margin-top:4px">保存瞬间 · 即时反馈</p>
+  <!-- Phone 2: Collection grid -->
+  <div>
+    <div class="phone">
+      <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+      <div class="body">
+        <div class="ptitle">我的收藏</div>
+        <div class="pgrid">
+          <div class="cover" style="background:linear-gradient(135deg,#93c5fd,#3b82f6)">旅行攻略 · 5</div>
+          <div class="cover" style="background:linear-gradient(135deg,#86efac,#22c55e)">产品参考 · 3</div>
+          <div class="cover" style="background:linear-gradient(135deg,#fcd34d,#f59e0b)">购物清单 · 8</div>
+          <div class="cover" style="background:linear-gradient(135deg,#c4b5fd,#8b5cf6)">读书笔记 · 2</div>
+        </div>
+        <div style="font-size:8px;color:#999;text-align:center">按主题自动归类</div>
+      </div>
+      <div class="hind"></div>
+    </div>
+    <div class="phone-label">收藏主页</div>
+  </div>
 </div>
 
-<!-- C2b: 手机 demo - 收藏主页 top:1360 -->
-<div class="n nw" id="c2b" style="left:590px;top:1360px;width:260px;padding:10px">
-  <div class="phone">
-    <div class="ph-status"><span>9:41</span><span style="font-size:8px">100%</span></div>
-    <div class="ph-body">
-      <div class="ph-header"><h4>我的收藏</h4><div class="sub">AI 键保存的所有内容</div></div>
-      <div class="ph-grid">
-        <div class="ph-grid-card">
-          <div class="cover" style="background:linear-gradient(135deg,#dbeafe,#93c5fd)">✈️</div>
-          <div class="info"><h5>旅行攻略</h5><div class="ct">5 条收藏</div></div>
-        </div>
-        <div class="ph-grid-card">
-          <div class="cover" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)">💡</div>
-          <div class="info"><h5>产品参考</h5><div class="ct">3 条收藏</div></div>
-        </div>
-        <div class="ph-grid-card">
-          <div class="cover" style="background:linear-gradient(135deg,#fce7f3,#f9a8d4)">🛒</div>
-          <div class="info"><h5>购物清单</h5><div class="ct">2 条收藏</div></div>
-        </div>
-        <div class="ph-grid-card">
-          <div class="cover" style="background:linear-gradient(135deg,#d1fae5,#6ee7b7)">📍</div>
-          <div class="info"><h5>收藏地点</h5><div class="ct">4 条收藏</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="ph-home"></div>
-  </div>
-  <p style="text-align:center;font-size:9px;color:#aaa;margin-top:6px">按主题自动归类 · 带封面</p>
-</div>
-
-<!-- C3: 界面决策 top:1900 -->
-<div class="n ny" id="c3" style="left:450px;top:1900px">
+<!-- Interface decisions: top=1810 -->
+<div class="n ny" id="sc_q" style="left:1000px;top:1810px;width:300px">
   <h3><span class="tag tq">界面决策</span></h3>
-  <div class="dn">
-    <div class="dn-item"><span class="q">AI 怎么判断主题？</span><br>现有合集能匹配→归入，匹配不了→新建？用户确认？</div>
-    <div class="dn-item"><span class="q">用户能手动调分类吗？</span><br>合并 / 拆分 / 重命名合集？</div>
-    <div class="dn-item"><span class="q">原文怎么处理？</span><br>保存链接可跳回？还是抓取全文本地存？</div>
-    <div class="dn-item"><span class="q">合集内部长什么样？</span><br>列表？卡片？带缩略图？能预览？</div>
-    <div class="dn-item"><span class="q">和随口记的关系？</span><br>随口记里说"那个帖子不错"也算收藏吗？还是只有AI键才算？</div>
+  <p>
+    · AI怎么判断主题？匹配现有→归入，不匹配→新建？<br>
+    · 用户能手动调分类吗？<br>
+    · 原文：保存链接跳回 or 抓全文本地存？<br>
+    · 每个合集里面：卡片 or 列表？<br>
+    · 跨App收藏如何统一体验？
+  </p>
+</div>
+
+<!-- Strategy header: top=1990 -->
+<div class="n nb" id="sc_sh" style="left:1050px;top:1990px">
+  <h3>去哪？三种策略</h3>
+</div>
+
+<!-- Strategy A: top=2110 -->
+<div class="strat ng" id="sc_sa" style="left:880px;top:2110px">
+  <h4>策略A：笔记里的合集 tab</h4>
+  <p>收藏内容作为笔记App合集tab的一种</p>
+  <div class="pro">✓ 和想法合集、课程合集统一管理</div>
+  <div class="pro">✓ 不需要新App</div>
+  <div class="pro">✓ 笔记本身就有"收藏"心智</div>
+  <div class="con">✗ 收藏的内容和笔记气质不同？</div>
+</div>
+
+<!-- Phone for Strategy A: top=2340 -->
+<div class="phone-single" id="sc_pa" style="left:890px;top:2340px">
+  <div class="phone">
+    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+    <div class="body">
+      <div class="ptitle">笔记</div>
+      <div class="ptabs">
+        <span>笔记</span>
+        <span class="on">合集</span>
+      </div>
+      <div class="pgrid">
+        <div class="cover" style="background:linear-gradient(135deg,#93c5fd,#3b82f6)">旅行攻略 · 5</div>
+        <div class="cover" style="background:linear-gradient(135deg,#c4b5fd,#8b5cf6)">产品判断力 · 3</div>
+        <div class="cover" style="background:linear-gradient(135deg,#fcd34d,#f59e0b)">购物清单 · 8</div>
+        <div class="cover" style="background:linear-gradient(135deg,#86efac,#22c55e)">高等数学 · 6</div>
+      </div>
+      <div style="font-size:7px;color:#999;text-align:center">想法+收藏+课程 统一在合集里</div>
+    </div>
+    <div class="hind"></div>
   </div>
 </div>
 
-<!-- C4: 去哪 top:2290 -->
-<div class="n ngy" id="c4" style="left:450px;top:2290px">
-  <h3>收藏去哪？</h3>
-  <div class="dn">
-    <div class="dn-item"><span class="q">选项1</span> 笔记里的合集 tab</div>
-    <div class="dn-item"><span class="q">选项2</span> 浏览器书签 / 系统收藏夹</div>
-    <div class="dn-item"><span class="q">选项3</span> 独立的"收藏"App</div>
-  </div>
-  <p style="margin-top:6px;font-size:9px;color:var(--g)">收藏心智最强——用户一定会回来找。去哪最自然？</p>
+<!-- Strategy B: top=2110 -->
+<div class="strat ny" id="sc_sb" style="left:1200px;top:2110px">
+  <h4>策略B：各App自带收藏</h4>
+  <p>小红书收藏在小红书，微信收藏在微信</p>
+  <div class="pro">✓ 用户已有习惯</div>
+  <div class="pro">✓ 不需要新建任何东西</div>
+  <div class="con">✗ 分散在各处，找不到</div>
+  <div class="con">✗ 无法跨App按主题聚合</div>
+  <div class="con">✗ 这就是今天的现状——用户痛点</div>
 </div>
 
-<!-- ========== COL 3: 指令 ========== -->
+<!-- Phone for Strategy B: top=2340 -->
+<div class="phone-single" id="sc_pb" style="left:1210px;top:2340px">
+  <div class="phone">
+    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+    <div class="body">
+      <div class="ptitle">要找大理攻略…</div>
+      <div class="pitem" style="border-left:3px solid #ff2442"><h5>小红书收藏</h5><div class="meta">3条相关</div></div>
+      <div class="pitem" style="border-left:3px solid #07c160"><h5>微信收藏</h5><div class="meta">1条相关</div></div>
+      <div class="pitem" style="border-left:3px solid #1d1d1f"><h5>抖音收藏</h5><div class="meta">1条相关</div></div>
+      <div style="text-align:center;font-size:8px;color:var(--red);padding:8px 0">分散在三个App里<br>没有统一的地方</div>
+    </div>
+    <div class="hind"></div>
+  </div>
+</div>
 
-<!-- I1: 概述 top:1050 -->
-<div class="n ny" id="i1" style="left:870px;top:1050px;width:320px">
-  <h3><span class="tag tq">指令</span> 其实是两件事</h3>
-  <p style="margin-bottom:6px"><span class="b">"记一下这个"</span> = 收藏（保存源材料）<br><span class="b">"帮我怎样怎样"</span> = 任务执行</p>
+<!-- Strategy C: top=2110 -->
+<div class="strat ngy" id="sc_sc" style="left:1520px;top:2110px">
+  <h4>策略C：独立收藏 App</h4>
+  <p>做一个跨App的统一收藏应用</p>
+  <div class="pro">✓ 体验最完整，专注收藏</div>
+  <div class="con">✗ 和浏览器书签、各App收藏冲突</div>
+  <div class="con">✗ 装机率从零</div>
+  <div class="con">✗ 如果只做收藏，功能太单一</div>
+</div>
+
+<!-- Phone for Strategy C: top=2340 -->
+<div class="phone-single" id="sc_pc" style="left:1530px;top:2340px">
+  <div class="phone">
+    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+    <div class="body">
+      <div class="ptitle">收藏</div>
+      <div class="psub">跨App统一收藏</div>
+      <div class="pgrid">
+        <div class="cover" style="background:linear-gradient(135deg,#93c5fd,#3b82f6)">旅行攻略 · 5</div>
+        <div class="cover" style="background:linear-gradient(135deg,#86efac,#22c55e)">产品参考 · 3</div>
+      </div>
+      <div style="text-align:center;font-size:8px;color:#ccc;padding:6px 0">功能单一<br>撑不起独立App</div>
+    </div>
+    <div class="hind"></div>
+  </div>
+</div>
+
+
+<!-- === COLUMN 3: 指令 === -->
+
+<!-- Header: top=1100 -->
+<div class="n ny" id="zl_h" style="left:1900px;top:1100px">
+  <h3><span class="st" style="background:#fef3c7;color:#d97706;font-size:9px;padding:2px 8px">指令</span> 保存+任务</h3>
+  <p>"记一下这个且帮我怎样怎样"其实是两件事</p>
+</div>
+
+<!-- Analysis: top=1230 -->
+<div class="n nw" id="zl_a" style="left:1820px;top:1230px;width:380px">
+  <h3>拆开看</h3>
   <table class="tb">
     <tr><th>用户说的</th><th>"记"的部分</th><th>"做"的部分</th><th>结果</th></tr>
-    <tr><td>"记一下，帮我总结"</td><td>保存文章</td><td>AI 总结</td><td>摘要</td></tr>
-    <tr><td>"记一下，帮我对比"</td><td>保存当前页</td><td>AI 对比</td><td>对比表</td></tr>
-    <tr><td>"记一下，帮我翻译"</td><td>保存原文</td><td>AI 翻译</td><td>译文</td></tr>
+    <tr><td>"记一下这篇，帮我总结"</td><td>保存文章</td><td>AI 总结</td><td>一段摘要</td></tr>
+    <tr><td>"记一下这个，帮我对比上次"</td><td>保存当前页</td><td>AI 对比</td><td>对比表</td></tr>
+    <tr><td>"记一下这段，帮我翻译"</td><td>保存原文</td><td>AI 翻译</td><td>译文</td></tr>
   </table>
+  <p style="margin-top:6px;padding-top:6px;border-top:1px solid #eee">
+    <span class="b">"记"= 收藏</span>（处理方式同收藏）<br>
+    <span class="b">"做"= 小爱的任务执行能力</span>（跟"记"无关）<br>
+    <span class="b">核心问题：结果放在哪？</span>
+  </p>
 </div>
 
-<!-- I2: 手机 demo top:1360 -->
-<div class="n nw" id="i2" style="left:870px;top:1360px;width:260px;padding:10px">
-  <div class="phone">
-    <div class="ph-status"><span>9:41</span><span style="font-size:8px">100%</span></div>
-    <div class="ph-body">
-      <div class="ph-header"><h4>指令结果</h4><div class="sub">来源：微信文章 · AI 键</div></div>
-      <div class="ph-list">
-        <div style="padding:8px 10px">
-          <div style="font-size:9px;font-weight:600;color:#1d1d1f;margin-bottom:4px">📄 原文摘要</div>
-          <div style="font-size:8px;color:#666;line-height:1.5;padding:6px 8px;background:#f8f8f6;border-radius:6px">
-            产品经理如何建立判断力？三个关键：大量实践、持续复盘、跨领域借鉴……
-          </div>
+<!-- Two phone demos: top=1460 -->
+<div class="phone-pair" id="zl_p" style="left:1870px;top:1510px">
+  <!-- Phone 1: Chat dialog -->
+  <div>
+    <div class="phone">
+      <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+      <div class="body">
+        <div class="ptitle">小爱同学</div>
+        <div class="pchat-user">
+          <div class="pchat-label">用户</div>
+          记一下这篇文章，帮我总结
         </div>
-        <div style="padding:8px 10px;border-top:1px solid #f0f0f0">
-          <div style="font-size:9px;font-weight:600;color:var(--purple);margin-bottom:4px">✨ AI 总结</div>
-          <div style="font-size:8px;color:#333;line-height:1.6;padding:6px 8px;background:#faf5ff;border-radius:6px;border:1px solid #ede9fe">
-            <strong>核心观点</strong><br>
-            1. 判断力的核心是实践量<br>
-            2. 复盘是加速手段<br>
-            3. 跨领域经验提供新视角<br><br>
-            <strong>我的思考</strong><br>
-            可以和之前那篇复盘方法论对照看。
-          </div>
+        <div class="pchat-ai">
+          <div class="pchat-label">小爱</div>
+          好的，文章已保存 ✅<br>正在生成总结…
+        </div>
+        <div class="pchat-ai">
+          <div class="pchat-label">小爱</div>
+          <div style="font-weight:600;margin-bottom:2px">总结完成：</div>
+          1. 产品判断力的核心是实践<br>
+          2. 复盘是加速手段<br>
+          3. 要建立自己的框架
         </div>
       </div>
+      <div class="hind"></div>
     </div>
-    <div class="ph-home"></div>
+    <div class="phone-label">① 对话中执行</div>
   </div>
-  <p style="text-align:center;font-size:9px;color:#aaa;margin-top:6px">原文 + AI 结果绑定展示</p>
+  <!-- Phone 2: Result page -->
+  <div>
+    <div class="phone">
+      <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+      <div class="body">
+        <div class="ptitle">任务结果</div>
+        <div class="pitem" style="background:#fffbeb;border:1px solid #fde68a">
+          <h5>📄 原文</h5>
+          <div style="font-size:8px;color:#666;margin-top:2px">《产品经理的判断力》</div>
+          <div class="meta">来自微信文章 · 可跳转原文</div>
+        </div>
+        <div style="text-align:center;font-size:10px;color:#ccc;padding:2px">↕ 绑定</div>
+        <div class="pitem" style="background:#f0fdf4;border:1px solid #bbf7d0">
+          <h5>📝 AI 总结</h5>
+          <div style="font-size:8px;color:#666;margin-top:2px">
+            1. 判断力核心是实践<br>
+            2. 复盘是加速手段<br>
+            3. 建立自己的框架
+          </div>
+        </div>
+        <div style="font-size:8px;color:#999;text-align:center;margin-top:6px">结果和来源绑定<br>可追溯</div>
+      </div>
+      <div class="hind"></div>
+    </div>
+    <div class="phone-label">② 结果展示</div>
+  </div>
 </div>
 
-<!-- I3: 核心问题 top:1900 -->
-<div class="n nr" id="i3" style="left:870px;top:1900px;width:320px">
-  <h3><span class="tag tn">核心问题</span> 结果放哪？</h3>
-  <div class="dn">
-    <div class="dn-item"><span class="q">留在小爱对话里？</span><br>→ 会丢。下次找不到。</div>
-    <div class="dn-item"><span class="q">作为一条笔记？</span><br>→ "AI帮我总结的结果"不是"我的笔记"。硬塞进去不自然。</div>
-    <div class="dn-item"><span class="q">附在收藏的源材料上？</span><br>→ "这篇文章 + 它的总结"绑定在一起。最合理？</div>
-    <div class="dn-item"><span class="q">独立的"任务历史"？</span><br>→ 需要一个新界面。值得做吗？</div>
-  </div>
-</div>
-
-<!-- I4: 关键洞察 top:2290 -->
-<div class="n ngy" id="i4" style="left:870px;top:2290px;width:320px">
-  <h3>指令可能要拆成两半</h3>
+<!-- Core question: top=1870 -->
+<div class="n nr" id="zl_q" style="left:1870px;top:1870px;width:300px">
+  <h3><span class="tag tn">核心问题</span> 结果放在哪？</h3>
   <p>
-    <span class="b">"记"的部分</span>（源材料）→ 走收藏流程<br>
-    <span class="b">"做"的部分</span>（任务结果）→ 走小爱的任务系统？附在源材料上？
+    "记"的部分 = 收藏，走收藏流程<br>
+    "做"的部分 = 任务结果，这个才是问题<br><br>
+    <span class="b">指令可能拆成两半处理：</span><br>
+    源材料 → 走收藏流程<br>
+    任务结果 → 不一定和收藏放一起
   </p>
-  <p style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.06)">
-    <span class="b">指令结果不一定要进笔记。</span><br>
-    如果硬塞进去，笔记就变成 AI 的垃圾桶。<br>
-    但如果"记"的部分进了收藏，"做"的部分附在上面，也许就自然了。
-  </p>
+</div>
+
+<!-- Strategy header: top=2000 -->
+<div class="n ny" id="zl_sh" style="left:1930px;top:2050px">
+  <h3>结果去哪？三种策略</h3>
+</div>
+
+<!-- Strategy A: top=2170 -->
+<div class="strat ng" id="zl_sa" style="left:1700px;top:2170px">
+  <h4>策略A：附在源材料上</h4>
+  <p>"这篇文章" + "它的总结"绑在一起</p>
+  <div class="pro">✓ 来源可追溯</div>
+  <div class="pro">✓ 结果和上下文不分离</div>
+  <div class="con">✗ 需要收藏系统支持附件</div>
+  <div class="con">✗ 复杂任务（对比两篇）绑哪个？</div>
+</div>
+
+<!-- Phone for Strategy A: top=2400 -->
+<div class="phone-single" id="zl_pa" style="left:1710px;top:2400px">
+  <div class="phone">
+    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+    <div class="body">
+      <div class="ptitle">旅行攻略</div>
+      <div class="psub">合集 · 5条收藏</div>
+      <div class="pitem">
+        <h5>大理三天两夜路线</h5>
+        <div class="meta">小红书 · AI键收藏</div>
+      </div>
+      <div class="pitem" style="background:#f0fdf4;border:1px solid #bbf7d0;margin-left:12px">
+        <h5 style="font-size:8px">📝 附：AI总结要点</h5>
+        <div class="meta">总结绑定在这条收藏上</div>
+      </div>
+      <div class="pitem">
+        <h5>洱海骑行注意事项</h5>
+        <div class="meta">微信文章 · AI键</div>
+      </div>
+    </div>
+    <div class="hind"></div>
+  </div>
+</div>
+
+<!-- Strategy B: top=2170 -->
+<div class="strat ny" id="zl_sb" style="left:2020px;top:2170px">
+  <h4>策略B：留在小爱对话</h4>
+  <p>总结完了就在对话里看，不另外保存</p>
+  <div class="pro">✓ 最简单，不需要新建任何东西</div>
+  <div class="pro">✓ 对话上下文完整</div>
+  <div class="con">✗ 过几天就找不到了</div>
+  <div class="con">✗ 和"帮我记一下"的需求矛盾——记了等于没记</div>
+</div>
+
+<!-- Phone for Strategy B: top=2400 -->
+<div class="phone-single" id="zl_pb" style="left:2030px;top:2400px">
+  <div class="phone">
+    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+    <div class="body">
+      <div class="ptitle">小爱同学</div>
+      <div class="pchat-ai">
+        <div class="pchat-label">3天前</div>
+        总结完成：<br>1.判断力核心是实践…
+      </div>
+      <div style="text-align:center;font-size:14px;color:#eee;padding:6px">⋮<br>⋮<br>⋮</div>
+      <div class="pchat-user">
+        <div class="pchat-label">今天</div>
+        上次那个文章总结在哪？
+      </div>
+      <div class="pchat-ai" style="background:#fee2e2">
+        <div style="font-size:8px;color:var(--red)">❌ 淹没在对话历史中</div>
+      </div>
+    </div>
+    <div class="hind"></div>
+  </div>
+</div>
+
+<!-- Strategy C: top=2170 -->
+<div class="strat ngy" id="zl_sc" style="left:2340px;top:2170px">
+  <h4>策略C：作为一条笔记</h4>
+  <p>AI总结结果保存为笔记App中的一条笔记</p>
+  <div class="pro">✓ 可查、可编辑、可管理</div>
+  <div class="con">✗ "AI帮我总结的"不是"我的笔记"</div>
+  <div class="con">✗ 笔记变成AI的垃圾桶</div>
+  <div class="con">✗ 和用户自己写的笔记混在一起</div>
+  <div class="con">✗ <span class="b">指令结果不一定要进笔记</span></div>
+</div>
+
+<!-- Phone for Strategy C: top=2400 -->
+<div class="phone-single" id="zl_pc" style="left:2350px;top:2400px">
+  <div class="phone">
+    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
+    <div class="body">
+      <div class="ptitle">笔记</div>
+      <div class="pitem" style="border-left:3px solid var(--purple)"><h5>产品周报 · 第12期</h5><div class="meta">我写的</div></div>
+      <div class="pitem" style="border-left:3px solid var(--blue)"><h5>会议纪要 · 复盘</h5><div class="meta">我写的</div></div>
+      <div class="pitem" style="background:#fffbeb;border:1px solid #fde68a">
+        <h5>📝 AI总结：产品判断力</h5>
+        <div class="meta" style="color:var(--red)">这不是我写的…为什么在这？</div>
+      </div>
+    </div>
+    <div class="hind"></div>
+  </div>
 </div>
 
 </div>
 
 <script>
-const edges = [
-  // Main trunk
+const edges=[
   ['root','q1'],
-  ['q1','q1y'], ['q1','q1n'],
+  ['q1','q1y'],['q1','q1n'],
   ['q1y','q2'],
-  ['q2','q2y'], ['q2','q2n'],
+  ['q2','q2y'],['q2','q2n'],
   ['q2y','q3'],
-  ['q3','q3y'], ['q3','q3n'],
-  // Split to 3 columns
-  ['q3y','s1'], ['q3y','c1'], ['q3y','i1'],
-  // Col 1 chain
-  ['s1','s2'], ['s2','s3'], ['s3','s4'],
-  // Col 2 chain
-  ['c1','c2b'], ['c2b','c3'], ['c3','c4'],
-  // Col 3 chain
-  ['i1','i2'], ['i2','i3'], ['i3','i4'],
+  ['q3','q3y'],['q3','q3n'],
+  // Three columns from q3y
+  ['q3y','sk_h'],['q3y','sc_h'],['q3y','zl_h'],
+  // 随口记 column
+  ['sk_h','sk_a'],
+  ['sk_a','sk_p'],
+  ['sk_p','sk_q'],
+  ['sk_q','sk_sh'],
+  ['sk_sh','sk_sa'],['sk_sh','sk_sb'],['sk_sh','sk_sc'],
+  ['sk_sa','sk_pa'],['sk_sb','sk_pb'],['sk_sc','sk_pc'],
+  // 收藏 column
+  ['sc_h','sc_a'],
+  ['sc_a','sc_p'],
+  ['sc_p','sc_q'],
+  ['sc_q','sc_sh'],
+  ['sc_sh','sc_sa'],['sc_sh','sc_sb'],['sc_sh','sc_sc'],
+  ['sc_sa','sc_pa'],['sc_sb','sc_pb'],['sc_sc','sc_pc'],
+  // 指令 column
+  ['zl_h','zl_a'],
+  ['zl_a','zl_p'],
+  ['zl_p','zl_q'],
+  ['zl_q','zl_sh'],
+  ['zl_sh','zl_sa'],['zl_sh','zl_sb'],['zl_sh','zl_sc'],
+  ['zl_sa','zl_pa'],['zl_sb','zl_pb'],['zl_sc','zl_pc'],
 ];
 
-function cx(el) { return el.offsetLeft + el.offsetWidth / 2; }
-function bot(el) { return el.offsetTop + el.offsetHeight; }
-function top_(el) { return el.offsetTop; }
+function cx(el){return el.offsetLeft+el.offsetWidth/2}
+function bot(el){return el.offsetTop+el.offsetHeight}
+function top_(el){return el.offsetTop}
 
-function draw() {
-  const svg = document.getElementById('S');
-  const c = document.getElementById('C');
-  svg.style.width = c.scrollWidth + 'px';
-  svg.style.height = c.scrollHeight + 'px';
-  let h = '';
-
-  // Group by source
-  const groups = {};
-  edges.forEach(([f, t]) => {
-    if (!groups[f]) groups[f] = [];
-    groups[f].push(t);
-  });
-
-  Object.keys(groups).forEach(fid => {
-    const f = document.getElementById(fid);
-    if (!f) return;
-    const targets = groups[fid].map(t => document.getElementById(t)).filter(Boolean);
-    if (!targets.length) return;
-    const fy = bot(f);
-    const fxc = cx(f);
-
-    // Group targets by their Y position
-    const byY = {};
-    targets.forEach(t => {
-      const ty = top_(t);
-      if (!byY[ty]) byY[ty] = [];
-      byY[ty].push(t);
-    });
-
-    Object.keys(byY).forEach(tyStr => {
-      const ty = Number(tyStr);
-      const ts = byY[ty];
-      const midY = fy + (ty - fy) / 2;
-
-      if (ts.length === 1) {
-        const t = ts[0];
-        const txc = cx(t);
-        if (Math.abs(fxc - txc) < 3) {
-          h += `<line x1="${fxc}" y1="${fy}" x2="${txc}" y2="${ty}"/>`;
-        } else {
-          h += `<line x1="${fxc}" y1="${fy}" x2="${fxc}" y2="${midY}"/>`;
-          h += `<line x1="${fxc}" y1="${midY}" x2="${txc}" y2="${midY}"/>`;
-          h += `<line x1="${txc}" y1="${midY}" x2="${txc}" y2="${ty}"/>`;
+function draw(){
+  const s=document.getElementById('S');
+  const c=document.getElementById('C');
+  s.style.width=c.scrollWidth+'px';
+  s.style.height=c.scrollHeight+'px';
+  let html='';
+  const groups={};
+  edges.forEach(([f,t])=>{if(!groups[f])groups[f]=[];groups[f].push(t)});
+  Object.keys(groups).forEach(fid=>{
+    const f=document.getElementById(fid);
+    if(!f)return;
+    const targets=groups[fid].map(t=>document.getElementById(t)).filter(Boolean);
+    if(!targets.length)return;
+    const fy=bot(f), fxc=cx(f);
+    const tys=[...new Set(targets.map(t=>top_(t)))];
+    tys.forEach(ty=>{
+      const ts=targets.filter(t=>top_(t)===ty);
+      const midY=fy+Math.min((ty-fy)/2, 30);
+      if(ts.length===1){
+        const t=ts[0], txc=cx(t);
+        if(Math.abs(fxc-txc)<3){
+          html+=`<line x1="${fxc}" y1="${fy}" x2="${txc}" y2="${ty}"/>`;
+        }else{
+          html+=`<line x1="${fxc}" y1="${fy}" x2="${fxc}" y2="${midY}"/>`;
+          html+=`<line x1="${fxc}" y1="${midY}" x2="${txc}" y2="${midY}"/>`;
+          html+=`<line x1="${txc}" y1="${midY}" x2="${txc}" y2="${ty}"/>`;
         }
-        h += `<circle cx="${txc}" cy="${ty}" r="3"/>`;
-      } else {
-        const xs = ts.map(t => cx(t));
-        const minX = Math.min(...xs);
-        const maxX = Math.max(...xs);
-        h += `<line x1="${fxc}" y1="${fy}" x2="${fxc}" y2="${midY}"/>`;
-        h += `<line x1="${minX}" y1="${midY}" x2="${maxX}" y2="${midY}"/>`;
-        ts.forEach(t => {
-          const txc = cx(t);
-          h += `<line x1="${txc}" y1="${midY}" x2="${txc}" y2="${ty}"/>`;
-          h += `<circle cx="${txc}" cy="${ty}" r="3"/>`;
+        html+=`<circle cx="${txc}" cy="${ty}" r="2.5"/>`;
+      }else{
+        const xs=ts.map(t=>cx(t));
+        html+=`<line x1="${fxc}" y1="${fy}" x2="${fxc}" y2="${midY}"/>`;
+        html+=`<line x1="${Math.min(...xs)}" y1="${midY}" x2="${Math.max(...xs)}" y2="${midY}"/>`;
+        ts.forEach(t=>{
+          const txc=cx(t);
+          html+=`<line x1="${txc}" y1="${midY}" x2="${txc}" y2="${ty}"/>`;
+          html+=`<circle cx="${txc}" cy="${ty}" r="2.5"/>`;
         });
       }
     });
   });
-
-  svg.innerHTML = h;
+  s.innerHTML=html;
 }
-
-window.addEventListener('load', draw);
-window.addEventListener('resize', draw);
+window.addEventListener('load',draw);
+window.addEventListener('resize',draw);
 </script>
 </body>
 </html>
