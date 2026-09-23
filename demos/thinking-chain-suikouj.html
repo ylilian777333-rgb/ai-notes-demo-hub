@@ -166,86 +166,24 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 
-<!-- ==================== ARCHITECTURE FORK ==================== -->
-
-<div class="n ny" id="arch_q" style="left:530px;top:1070px;width:380px">
-  <h3><span class="tag tq">架构分叉</span> 怎么记？先记还是先判断？</h3>
-  <p>这是一个根本性的产品架构选择，影响整个体验设计</p>
-</div>
-
-<div class="n ng" id="arch_a" style="left:120px;top:1220px;width:340px">
-  <h3>路径A：先记后分</h3>
-  <p>用户说什么都先记下来 → 所有内容进同一个时间线 → AI 后台识别意图 → 自动分类/分发</p>
-  <p style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,.06)">
-    <span style="color:var(--green);font-size:10px;font-weight:500">✓ 用户零负担，张嘴就行</span><br>
-    <span style="color:var(--green);font-size:10px;font-weight:500">✓ 兜底好，AI判断错了也能找到</span><br>
-    <span style="color:var(--green);font-size:10px;font-weight:500">✓ 松手就算记下来了</span><br>
-    <span style="color:var(--red);font-size:10px;font-weight:500">✗ 初始看到的是混杂时间线</span><br>
-    <span style="color:var(--red);font-size:10px;font-weight:500">✗ 分类有延迟</span>
-  </p>
-</div>
-
-<div class="phone-single" id="arch_pa" style="position:absolute;left:480px;top:1220px;z-index:1">
-  <div class="phone">
-    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
-    <div class="body">
-      <div class="ptitle">所有记录</div>
-      <div class="psub">先记下来，AI 后台整理中…</div>
-      <div class="pitem"><h5>🎙 咖啡52度好喝</h5><div class="meta">今天 14:23</div><span class="ptag" style="background:#ede9fe;color:#7c3aed">AI: 想法</span></div>
-      <div class="pitem"><h5>🎙 周五找设计聊查找</h5><div class="meta">今天 11:05</div><span class="ptag" style="background:#dcfce7;color:#16a34a">已分发到日历</span></div>
-      <div class="pitem"><h5>📎 大理三天两夜攻略</h5><div class="meta">今天 10:30 · AI键</div><span class="ptag" style="background:#e0f0ff;color:#2994ff">AI: 旅行攻略</span></div>
-      <div class="pitem"><h5>🎙 播客读书方法不错</h5><div class="meta">昨天 22:18</div><span class="ptag" style="background:#f3f3f3;color:#999">识别中…</span></div>
-    </div>
-    <div class="hind"></div>
-  </div>
-  <div class="phone-label">先全进时间线，AI后台分类</div>
-</div>
-
-<div class="n nb" id="arch_b" style="left:800px;top:1220px;width:340px">
-  <h3>路径B：先判断再路由</h3>
-  <p>系统实时识别用户意图 → 直接送到对应地方（想法→想法池、待办→日历、收藏→合集）</p>
-  <p style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,.06)">
-    <span style="color:var(--green);font-size:10px;font-weight:500">✓ 内容一开始就在对的地方</span><br>
-    <span style="color:var(--green);font-size:10px;font-weight:500">✓ 不需要用户二次整理</span><br>
-    <span style="color:var(--red);font-size:10px;font-weight:500">✗ 判断错了怎么办？</span><br>
-    <span style="color:var(--red);font-size:10px;font-weight:500">✗ 意图模糊时路由去哪？</span><br>
-    <span style="color:var(--red);font-size:10px;font-weight:500">✗ 用户要记住不同内容在不同地方</span>
-  </p>
-</div>
-
-<div class="phone-single" id="arch_pb" style="position:absolute;left:1160px;top:1220px;z-index:1">
-  <div class="phone">
-    <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
-    <div class="body">
-      <div class="ptitle">小爱同学</div>
-      <div class="pitem" style="background:#e8f4fe"><h5 style="font-size:8px">用户：周五找设计聊查找问题</h5></div>
-      <div class="pitem" style="background:#f0fdf4;border:1px solid #bbf7d0"><h5 style="font-size:8px">✅ 已识别为待办 · 已添加到日历 · 周五</h5></div>
-      <div style="height:6px"></div>
-      <div class="pitem" style="background:#e8f4fe"><h5 style="font-size:8px">用户：咖啡52度好喝</h5></div>
-      <div class="pitem" style="background:#faf5ff;border:1px solid #e9d5ff"><h5 style="font-size:8px">💡 已保存到「想法」</h5></div>
-      <div style="height:6px"></div>
-      <div class="pitem" style="background:#e8f4fe"><h5 style="font-size:8px">用户：播客读书方法…（模糊）</h5></div>
-      <div class="pitem" style="background:#fffbeb;border:1px solid #fde68a"><h5 style="font-size:8px;color:var(--orange)">⚠ 识别不确定，放入未分类</h5></div>
-    </div>
-    <div class="hind"></div>
-  </div>
-  <div class="phone-label">实时识别，直接路由</div>
-</div>
-
 <!-- ==================== THREE COLUMNS ==================== -->
 <!-- Column 1: 随口记 x≈200, Column 2: 收藏 x≈1050, Column 3: 指令 x≈1900 -->
 
 <!-- === COLUMN 1: 随口记 === -->
 
 <!-- Header: top=1100 -->
-<div class="n np" id="sk_h" style="left:180px;top:1700px">
+<div class="n np" id="sk_h" style="left:180px;top:1100px">
   <h3><span class="st" style="background:#ede9fe;color:#7c3aed;font-size:9px;padding:2px 8px">随口记</span> 碎片念头</h3>
   <p>用户张嘴说了一句话，AI 转写后可能是：</p>
 </div>
 
 <!-- Analysis: top=1230 -->
-<div class="n nw" id="sk_a" style="left:100px;top:1830px;width:360px">
-  <table class="tb">
+<div class="n nw" id="sk_a" style="left:100px;top:1230px;width:360px">
+  <p><span class="b">单条</span>：需要一个地方回看——"我说过什么"<br>
+  <span class="b">多条同主题</span>：聚合有价值——"我关于这件事想了什么"<br>
+  <span class="b">含待办</span>：识别动作意图，分发到提醒</p>
+  <p style="margin-top:8px;padding-top:8px;border-top:1px solid #eee;color:#1e40af;font-weight:700">需要：时间线回看 + 主题聚合 + 待办识别</p>
+  <table class="tb" style="margin-top:10px">
     <tr><th>说了什么</th><th>性质</th><th>怎么处理</th></tr>
     <tr><td>"咖啡52度好喝"</td><td>纯想法</td><td>留着，按主题聚合</td></tr>
     <tr><td>"周五找设计聊查找"</td><td>待办</td><td>识别→分发到日历</td></tr>
@@ -256,7 +194,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Phone demo: top=1460 -->
-<div class="phone-single" id="sk_p" style="left:195px;top:2060px">
+<div class="phone-single" id="sk_p" style="left:195px;top:1460px">
   <div class="phone">
     <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
     <div class="body">
@@ -292,8 +230,27 @@ svg.L circle{fill:#d0d0c8}
   <div class="phone-label">随口记页面原型</div>
 </div>
 
-<!-- Interface decisions: top=1810 -->
-<div class="n ny" id="sk_q" style="left:140px;top:2410px;width:300px">
+
+<!-- Product thinking: top=1700 -->
+<div class="n" id="sk_think" style="left:80px;top:1700px;width:420px;background:#fefce8;border:1px solid #fde047;padding:14px">
+  <h3 style="color:#854d0e">产品思考：用户真的会回去看吗？</h3>
+  <p style="color:#713f12;font-size:10px;line-height:1.8;margin-top:6px">
+    <span style="font-weight:600">先看动机：</span>随口说的一句话，事后回看的动机是什么？<br>
+    &nbsp;&nbsp;· 纯念头（"咖啡52度好喝"）→ 大概率不会专门去找这条<br>
+    &nbsp;&nbsp;· 但如果攒了20条关于"产品判断力"的随口念头 → 聚合之后值得看<br>
+    &nbsp;&nbsp;· 含待办的 → 会主动找，但那时候已经转成了日历提醒<br><br>
+    <span style="font-weight:600">结论：单条不值，聚合有价值。</span><br>
+    用户不会为了一条"咖啡好喝"翻出来看，但如果有"你最近说过15条关于产品的想法，要不要整理成一篇"，这个是有用的。<br><br>
+    <span style="font-weight:600">怎么看？不是翻时间线，而是被召唤。</span><br>
+    用户不会主动打开"随口记"去翻，更可能的路径是：<br>
+    &nbsp;&nbsp;① 小爱主动提醒："你上周说了很多关于X的想法，要看看吗？"<br>
+    &nbsp;&nbsp;② 用户在写笔记时，旁边推荐相关随口念头<br>
+    &nbsp;&nbsp;③ 搜索时顺带出来
+  </p>
+</div>
+
+<!-- Interface decisions: top=2060 -->
+<div class="n ny" id="sk_q" style="left:140px;top:2060px;width:300px">
   <h3><span class="tag tq">界面决策</span></h3>
   <p>
     · 是独立页面？一个tab？独立App？<br>
@@ -305,12 +262,12 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Strategy header: top=1990 -->
-<div class="n np" id="sk_sh" style="left:180px;top:2590px">
+<div class="n np" id="sk_sh" style="left:180px;top:2300px">
   <h3>去哪？三种策略</h3>
 </div>
 
 <!-- Strategy A: top=2110 -->
-<div class="strat ng" id="sk_sa" style="left:20px;top:2710px">
+<div class="strat ng" id="sk_sa" style="left:20px;top:2420px">
   <h4>策略A：笔记的一个 tab</h4>
   <p>随口记作为笔记App内的第二个tab</p>
   <div class="pro">✓ 用户心智：记东西→笔记</div>
@@ -321,7 +278,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Phone for Strategy A: top=2340 -->
-<div class="phone-single" id="sk_pa" style="left:30px;top:2940px">
+<div class="phone-single" id="sk_pa" style="left:30px;top:2650px">
   <div class="phone">
     <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
     <div class="body">
@@ -339,7 +296,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Strategy B: top=2110 -->
-<div class="strat nb" id="sk_sb" style="left:340px;top:2710px">
+<div class="strat nb" id="sk_sb" style="left:340px;top:2420px">
   <h4>策略B：小爱的独立面板</h4>
   <p>小爱里新增一个"我的记录"入口</p>
   <div class="pro">✓ 记的动作本来就在小爱</div>
@@ -349,7 +306,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Phone for Strategy B: top=2340 -->
-<div class="phone-single" id="sk_pb" style="left:350px;top:2940px">
+<div class="phone-single" id="sk_pb" style="left:350px;top:2650px">
   <div class="phone">
     <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
     <div class="body">
@@ -367,7 +324,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Strategy C: top=2110 -->
-<div class="strat ngy" id="sk_sc" style="left:660px;top:2710px">
+<div class="strat ngy" id="sk_sc" style="left:660px;top:2420px">
   <h4>策略C：独立 App</h4>
   <p>做一个"记录"独立应用</p>
   <div class="pro">✓ 干净空间，围绕"记→用"设计</div>
@@ -378,7 +335,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Phone for Strategy C: top=2340 -->
-<div class="phone-single" id="sk_pc" style="left:670px;top:2940px">
+<div class="phone-single" id="sk_pc" style="left:670px;top:2650px">
   <div class="phone">
     <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
     <div class="body">
@@ -396,14 +353,18 @@ svg.L circle{fill:#d0d0c8}
 <!-- === COLUMN 2: 收藏 === -->
 
 <!-- Header: top=1100 -->
-<div class="n nb" id="sc_h" style="left:1050px;top:1700px">
+<div class="n nb" id="sc_h" style="left:1050px;top:1100px">
   <h3><span class="st" style="background:#e0f0ff;color:#2994ff;font-size:9px;padding:2px 8px">收藏</span> 外部内容</h3>
   <p>用户在看屏幕，按 AI 键说"记一下这个"</p>
 </div>
 
 <!-- Analysis: top=1230 -->
-<div class="n nw" id="sc_a" style="left:960px;top:1830px;width:360px">
-  <table class="tb">
+<div class="n nw" id="sc_a" style="left:960px;top:1230px;width:360px">
+  <p><span class="b">保存时</span>：需要即时反馈——"已保存到哪了"<br>
+  <span class="b">找的时候</span>：按主题归类，不是翻时间线<br>
+  <span class="b">用的时候</span>：原文可访问，最好有摘要</p>
+  <p style="margin-top:8px;padding-top:8px;border-top:1px solid #eee;color:#1e40af;font-weight:700">需要：保存反馈 + 主题归类 + 原文追溯</p>
+  <table class="tb" style="margin-top:10px">
     <tr><th>在看什么</th><th>保存了什么</th><th>怎么组织</th></tr>
     <tr><td>小红书帖子</td><td>内容/截图/链接</td><td>按主题→"旅行攻略"</td></tr>
     <tr><td>微信文章</td><td>全文/摘要/链接</td><td>按主题→"产品参考"</td></tr>
@@ -414,7 +375,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Two phone demos side by side: top=1460 -->
-<div class="phone-pair" id="sc_p" style="left:1000px;top:2060px">
+<div class="phone-pair" id="sc_p" style="left:1000px;top:1460px">
   <!-- Phone 1: Toast feedback -->
   <div>
     <div class="phone">
@@ -449,7 +410,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Interface decisions: top=1810 -->
-<div class="n ny" id="sc_q" style="left:1000px;top:2410px;width:300px">
+<div class="n ny" id="sc_q" style="left:1000px;top:1810px;width:300px">
   <h3><span class="tag tq">界面决策</span></h3>
   <p>
     · AI怎么判断主题？匹配现有→归入，不匹配→新建？<br>
@@ -461,12 +422,12 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Strategy header: top=1990 -->
-<div class="n nb" id="sc_sh" style="left:1050px;top:2590px">
+<div class="n nb" id="sc_sh" style="left:1050px;top:1990px">
   <h3>去哪？三种策略</h3>
 </div>
 
 <!-- Strategy A: top=2110 -->
-<div class="strat ng" id="sc_sa" style="left:880px;top:2710px">
+<div class="strat ng" id="sc_sa" style="left:880px;top:2110px">
   <h4>策略A：笔记里的合集 tab</h4>
   <p>收藏内容作为笔记App合集tab的一种</p>
   <div class="pro">✓ 和想法合集、课程合集统一管理</div>
@@ -476,7 +437,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Phone for Strategy A: top=2340 -->
-<div class="phone-single" id="sc_pa" style="left:890px;top:2940px">
+<div class="phone-single" id="sc_pa" style="left:890px;top:2340px">
   <div class="phone">
     <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
     <div class="body">
@@ -498,7 +459,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Strategy B: top=2110 -->
-<div class="strat ny" id="sc_sb" style="left:1200px;top:2710px">
+<div class="strat ny" id="sc_sb" style="left:1200px;top:2110px">
   <h4>策略B：各App自带收藏</h4>
   <p>小红书收藏在小红书，微信收藏在微信</p>
   <div class="pro">✓ 用户已有习惯</div>
@@ -509,7 +470,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Phone for Strategy B: top=2340 -->
-<div class="phone-single" id="sc_pb" style="left:1210px;top:2940px">
+<div class="phone-single" id="sc_pb" style="left:1210px;top:2340px">
   <div class="phone">
     <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
     <div class="body">
@@ -524,7 +485,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Strategy C: top=2110 -->
-<div class="strat ngy" id="sc_sc" style="left:1520px;top:2710px">
+<div class="strat ngy" id="sc_sc" style="left:1520px;top:2110px">
   <h4>策略C：独立收藏 App</h4>
   <p>做一个跨App的统一收藏应用</p>
   <div class="pro">✓ 体验最完整，专注收藏</div>
@@ -534,7 +495,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Phone for Strategy C: top=2340 -->
-<div class="phone-single" id="sc_pc" style="left:1530px;top:2940px">
+<div class="phone-single" id="sc_pc" style="left:1530px;top:2340px">
   <div class="phone">
     <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
     <div class="body">
@@ -554,14 +515,18 @@ svg.L circle{fill:#d0d0c8}
 <!-- === COLUMN 3: 指令 === -->
 
 <!-- Header: top=1100 -->
-<div class="n ny" id="zl_h" style="left:1900px;top:1700px">
+<div class="n ny" id="zl_h" style="left:1900px;top:1100px">
   <h3><span class="st" style="background:#fef3c7;color:#d97706;font-size:9px;padding:2px 8px">指令</span> 保存+任务</h3>
   <p>"记一下这个且帮我怎样怎样"其实是两件事</p>
 </div>
 
 <!-- Analysis: top=1230 -->
-<div class="n nw" id="zl_a" style="left:1820px;top:1830px;width:380px">
-  <h3>拆开看</h3>
+<div class="n nw" id="zl_a" style="left:1820px;top:1230px;width:380px">
+  <p><span class="b">执行后</span>：结果需要保存在可找到的地方<br>
+  <span class="b">回看时</span>：结果和原文绑定——"这个总结从哪来的"<br>
+  <span class="b">追加时</span>：能在已有结果上继续操作</p>
+  <p style="margin-top:8px;padding-top:8px;border-top:1px solid #eee;color:#1e40af;font-weight:700">需要：结果持久化 + 来源绑定 + 可追加</p>
+  <h3 style="margin-top:12px">拆开看</h3>
   <table class="tb">
     <tr><th>用户说的</th><th>"记"的部分</th><th>"做"的部分</th><th>结果</th></tr>
     <tr><td>"记一下这篇，帮我总结"</td><td>保存文章</td><td>AI 总结</td><td>一段摘要</td></tr>
@@ -576,7 +541,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Two phone demos: top=1460 -->
-<div class="phone-pair" id="zl_p" style="left:1870px;top:2110px">
+<div class="phone-pair" id="zl_p" style="left:1870px;top:1510px">
   <!-- Phone 1: Chat dialog -->
   <div>
     <div class="phone">
@@ -632,7 +597,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Core question: top=1870 -->
-<div class="n nr" id="zl_q" style="left:1870px;top:2470px;width:300px">
+<div class="n nr" id="zl_q" style="left:1870px;top:1870px;width:300px">
   <h3><span class="tag tn">核心问题</span> 结果放在哪？</h3>
   <p>
     "记"的部分 = 收藏，走收藏流程<br>
@@ -644,12 +609,12 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Strategy header: top=2000 -->
-<div class="n ny" id="zl_sh" style="left:1930px;top:2650px">
+<div class="n ny" id="zl_sh" style="left:1930px;top:2050px">
   <h3>结果去哪？三种策略</h3>
 </div>
 
 <!-- Strategy A: top=2170 -->
-<div class="strat ng" id="zl_sa" style="left:1700px;top:2770px">
+<div class="strat ng" id="zl_sa" style="left:1700px;top:2170px">
   <h4>策略A：附在源材料上</h4>
   <p>"这篇文章" + "它的总结"绑在一起</p>
   <div class="pro">✓ 来源可追溯</div>
@@ -659,7 +624,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Phone for Strategy A: top=2400 -->
-<div class="phone-single" id="zl_pa" style="left:1710px;top:3000px">
+<div class="phone-single" id="zl_pa" style="left:1710px;top:2400px">
   <div class="phone">
     <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
     <div class="body">
@@ -683,7 +648,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Strategy B: top=2170 -->
-<div class="strat ny" id="zl_sb" style="left:2020px;top:2770px">
+<div class="strat ny" id="zl_sb" style="left:2020px;top:2170px">
   <h4>策略B：留在小爱对话</h4>
   <p>总结完了就在对话里看，不另外保存</p>
   <div class="pro">✓ 最简单，不需要新建任何东西</div>
@@ -693,7 +658,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Phone for Strategy B: top=2400 -->
-<div class="phone-single" id="zl_pb" style="left:2030px;top:3000px">
+<div class="phone-single" id="zl_pb" style="left:2030px;top:2400px">
   <div class="phone">
     <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
     <div class="body">
@@ -716,7 +681,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Strategy C: top=2170 -->
-<div class="strat ngy" id="zl_sc" style="left:2340px;top:2770px">
+<div class="strat ngy" id="zl_sc" style="left:2340px;top:2170px">
   <h4>策略C：作为一条笔记</h4>
   <p>AI总结结果保存为笔记App中的一条笔记</p>
   <div class="pro">✓ 可查、可编辑、可管理</div>
@@ -727,7 +692,7 @@ svg.L circle{fill:#d0d0c8}
 </div>
 
 <!-- Phone for Strategy C: top=2400 -->
-<div class="phone-single" id="zl_pc" style="left:2350px;top:3000px">
+<div class="phone-single" id="zl_pc" style="left:2350px;top:2400px">
   <div class="phone">
     <div class="bar"><span>9:41</span><span class="ri">⚡</span></div>
     <div class="body">
@@ -742,33 +707,6 @@ svg.L circle{fill:#d0d0c8}
     <div class="hind"></div>
   </div>
 </div>
-<!-- ==================== MY THINKING ==================== -->
-<div class="n" id="conclusion" style="left:600px;top:3250px;width:600px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:14px;padding:20px 24px">
-  <h3 style="font-size:14px;margin-bottom:10px">💭 我的初步思考</h3>
-  <p style="font-size:11px;line-height:1.8;color:#333">
-    <span class="b">架构选择：倾向"先记后分"</span><br>
-    · 用户说"帮我记一下"的时候，不应该需要等系统判断完才给反馈。松手就算记下来了——这是第一优先级<br>
-    · AI 分类可以后台跑，用户下次打开时看到的就是整理好的<br>
-    · 兜底很重要：AI 判断不了的，至少在时间线里能找到<br>
-    <br>
-    <span class="b">随口记 → 倾向放笔记</span><br>
-    · 用户说"帮我记"，最自然的去处是"笔记"——不需要教育<br>
-    · 但不是混在用户自己写的笔记里，而是一个独立的tab或入口<br>
-    · 待办识别出来后分发到系统日历/提醒，随口记页面标记"已分发"<br>
-    <br>
-    <span class="b">收藏 → 倾向放笔记合集</span><br>
-    · 按主题归类的合集，和随口记的想法合集放在一起<br>
-    · 统一的"合集"tab，包含想法合集 + 专题合集<br>
-    <br>
-    <span class="b">指令 → 需要更多讨论</span><br>
-    · 源材料部分可以走收藏流程<br>
-    · 但任务结果（总结/对比/翻译）是否进笔记？存疑<br>
-    · 强行塞进去会让笔记变成"AI的垃圾桶"<br>
-    · 可能更适合留在小爱的任务系统，或者附在源材料上<br>
-    <br>
-    <span class="b" style="font-size:12px">核心原则：小爱是入口，笔记是承接，但不是所有东西都进笔记</span>
-  </p>
-</div>
 
 </div>
 
@@ -780,15 +718,13 @@ const edges=[
   ['q2','q2y'],['q2','q2n'],
   ['q2y','q3'],
   ['q3','q3y'],['q3','q3n'],
-  // Architecture fork
-  ['q3y','arch_q'],
-  ['arch_q','arch_a'],['arch_q','arch_b'],
   // Three columns from q3y
   ['q3y','sk_h'],['q3y','sc_h'],['q3y','zl_h'],
   // 随口记 column
   ['sk_h','sk_a'],
   ['sk_a','sk_p'],
-  ['sk_p','sk_q'],
+  ['sk_p','sk_think'],
+  ['sk_think','sk_q'],
   ['sk_q','sk_sh'],
   ['sk_sh','sk_sa'],['sk_sh','sk_sb'],['sk_sh','sk_sc'],
   ['sk_sa','sk_pa'],['sk_sb','sk_pb'],['sk_sc','sk_pc'],
