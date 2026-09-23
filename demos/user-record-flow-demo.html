@@ -426,6 +426,10 @@ body{min-height:100vh;background:#e9e9e7;padding:40px 0 80px}
       <h2><span class="num" style="background:#ff9f0a">7</span> 去找</h2>
       <div class="desc">去哪找？用户不确定。可能问小爱，可能打开笔记翻，可能翻微信收藏——到处翻一遍。</div>
       <div class="insight">用户不知道去哪找——因为记的时候没有做"存到哪"的决策，现在也不记得内容到底进了哪个地方。</div>
+      <div style="margin-top:12px;padding:10px 14px;background:#fef2f2;border-radius:10px;border-left:3px solid var(--red);font-size:11px;color:var(--red);font-weight:600;line-height:1.6">
+        🔴 卡点一：不知道去哪找<br>
+        <span style="font-weight:400;color:#dc2626">内容产生地（小爱记忆）和用户预期消费地对不上，找不到入口</span>
+      </div>
     </div>
     <div class="step-phone">
       <div class="phone" style="height:420px">
@@ -529,7 +533,7 @@ body{min-height:100vh;background:#e9e9e7;padding:40px 0 80px}
 
   <!-- Deep analysis 2: 主路径是问小爱 -->
   <div class="step" style="margin-bottom:72px">
-    <div class="step-dot" style="background:var(--green);font-size:11px">!</div>
+    <div class="step-dot" style="background:var(--green);font-size:10px;letter-spacing:-0.5px">✓</div>
     <div class="step-info" style="width:640px;background:#f0fdf4;border-color:#bbf7d0">
       <h2 style="color:var(--green)"><span class="num" style="background:var(--green)">!</span> 转折：小爱能找到，也能聚合——这是模型能力</h2>
       <div class="desc">换个角度想：用户通过小爱/系统入口记的内容，找的时候第一反应就是问小爱。而<strong>小爱是能找到的，也能做聚合</strong>——这就是大模型的能力。</div>
@@ -580,6 +584,10 @@ body{min-height:100vh;background:#e9e9e7;padding:40px 0 80px}
         <span class="scene-tag">写报告要观点，不是20条碎片</span>
         <span class="scene-tag">复习要结构，不是50段录音</span>
       </div>
+      <div style="margin-top:12px;padding:10px 14px;background:#fef2f2;border-radius:10px;border-left:3px solid var(--red);font-size:11px;color:var(--red);font-weight:600;line-height:1.6">
+        🔴 卡点二：找到了也用不了<br>
+        <span style="font-weight:400;color:#dc2626">内容是原始碎片按时间堆放，没有组织，无法直接使用</span>
+      </div>
     </div>
     <div class="step-phone">
       <div class="phone" style="height:420px">
@@ -627,6 +635,10 @@ body{min-height:100vh;background:#e9e9e7;padding:40px 0 80px}
       <h2><span class="num" style="background:var(--red)">9</span> 自己整理，或放弃</h2>
       <div class="desc">打开笔记/文档，手动把碎片拼起来——复制粘贴、筛选、归纳。或者干脆放弃，重新搜一遍。</div>
       <div class="insight" style="background:#fef2f2;color:#dc2626">记了也找不到，找到了也用不了，最后还得自己整理——那我记它干嘛？<strong>回看率就是这么掉下去的。下次不记了。</strong></div>
+      <div style="margin-top:12px;padding:10px 14px;background:#fef2f2;border-radius:10px;border-left:3px solid var(--red);font-size:11px;color:var(--red);font-weight:600;line-height:1.6">
+        🔴 卡点三：记了没用，放弃记录<br>
+        <span style="font-weight:400;color:#dc2626">用户被这个链路伤过之后，下次看到好内容不再记——记录行为本身消失</span>
+      </div>
     </div>
     <div class="step-phone">
       <div class="phone" style="height:340px">
@@ -651,6 +663,98 @@ body{min-height:100vh;background:#e9e9e7;padding:40px 0 80px}
   </div>
 
 </div>
+
+  <!-- Step 10: 消费成品 -->
+  <div class="step">
+    <div class="step-dot" style="background:var(--blue)">10</div>
+    <div class="step-info">
+      <h2><span class="num" style="background:var(--blue)">10</span> 消费：拿到成品</h2>
+      <div class="desc">用户问小爱，小爱从记忆里检索+聚合，直接出成品。用户拿到的不是原始碎片，是可以直接用的东西。</div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+        <div style="background:#eff6ff;border-radius:10px;padding:10px 12px;font-size:11px;color:#2563eb;line-height:1.7">
+          <strong>带着问题来</strong>——"帮我整理一份大理攻略"<br>
+          小爱从5篇帖子里聚合 → 直接出攻略草稿
+        </div>
+        <div style="background:#f0fdf4;border-radius:10px;padding:10px 12px;font-size:11px;color:#16a34a;line-height:1.7">
+          <strong>不带问题来</strong>——翻翻自己攒了什么<br>
+          需要一个可以浏览的地方，不适合问小爱
+        </div>
+        <div style="background:#faf5ff;border-radius:10px;padding:10px 12px;font-size:11px;color:#7c3aed;line-height:1.7">
+          <strong>系统主动推</strong>——"你最近关于旅行说了很多，整理好了"<br>
+          用户什么都没做，成品推到面前
+        </div>
+      </div>
+    </div>
+    <div class="step-phone">
+      <div class="phone" style="height:460px">
+        <div class="statusbar">
+          <span>9:41</span>
+          <div class="right"><span>📶</span><span>🔋</span></div>
+        </div>
+        <div class="phone-body">
+          <div class="scr">
+            <div style="font-size:10px;color:var(--ink3);margin-bottom:6px">小爱同学</div>
+            <div style="background:#f0f0f5;border-radius:10px 10px 10px 2px;padding:9px 12px;font-size:11px;color:var(--ink2);margin-bottom:6px">帮我把存的大理攻略整理一下</div>
+            <div style="background:linear-gradient(135deg,#eff6ff,#f0fdf4);border-radius:2px 10px 10px 10px;padding:10px 12px;font-size:10px;line-height:1.7;color:var(--ink)">
+              <div style="font-weight:600;margin-bottom:6px">📍 大理三天两夜攻略</div>
+              <div><strong>Day 1</strong> 古城漫步 → 洋人街 → 下关风</div>
+              <div><strong>Day 2</strong> 环洱海骑行 → 双廊 → 喜洲粑粑</div>
+              <div><strong>Day 3</strong> 苍山索道 → 感通寺 → 返程</div>
+              <div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,.06);font-size:9px;color:var(--ink3)">整合自 5 条收藏 · 可继续编辑</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-caption">问小爱，直接出成品</div>
+    </div>
+  </div>
+
+  <!-- Step 11: 用 + 产生新碎片 -->
+  <div class="step">
+    <div class="step-dot" style="background:var(--blue)">11</div>
+    <div class="step-info">
+      <h2><span class="num" style="background:var(--blue)">11</span> 用：成品是半成品，使用中产生新碎片</h2>
+      <div class="desc">拿到攻略不会直接用——用户会改、会补、会发出去。而使用的过程中会产生新的碎片，又回到第①步。</div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;font-size:11px;color:var(--ink2);line-height:1.8">
+        <div>攻略发给同行朋友 → 朋友回"那家店关了，换这家" → <span style="color:var(--blue);font-weight:600">新碎片</span></div>
+        <div>照着攻略出发 → "大理那家咖啡真不错下次还去" → <span style="color:var(--blue);font-weight:600">新碎片</span></div>
+        <div>旅行结束 → "下次想去苍山深度徒步" → <span style="color:var(--blue);font-weight:600">新碎片</span></div>
+      </div>
+      <div class="insight" style="margin-top:14px">
+        <strong>内容在滚雪球。</strong>每转一圈，同一个主题下的内容越来越厚——从5篇帖子，变成攻略+朋友补充+旅行中随口记+旅行后感受。主题越滚越完整。
+      </div>
+    </div>
+    <div class="step-phone">
+      <div class="phone" style="height:400px">
+        <div class="statusbar">
+          <span>9:41</span>
+          <div class="right"><span>📶</span><span>🔋</span></div>
+        </div>
+        <div class="phone-body">
+          <div class="scr">
+            <div style="font-size:10px;color:var(--ink3);margin-bottom:8px">旅行中……</div>
+            <div style="background:#fff;border-radius:10px;padding:10px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,.06)">
+              <div style="font-size:9px;color:var(--ink3)">朋友发来</div>
+              <div style="font-size:11px;margin-top:2px">"那家餐厅关了，换玉洱路那家"</div>
+            </div>
+            <div style="background:#ede9fe;border-radius:10px;padding:10px;margin-bottom:6px;display:flex;align-items:center;gap:8px">
+              <div style="font-size:16px">🎙</div>
+              <div>
+                <div style="font-size:10px;color:#7c3aed;font-weight:600">随口记</div>
+                <div style="font-size:10px;color:var(--ink2);">"咖啡那家真的好喝，下次还来"</div>
+              </div>
+            </div>
+            <div style="background:#fff;border-radius:10px;padding:10px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,.06)">
+              <div style="font-size:9px;color:var(--ink3)">AI 键截图</div>
+              <div style="font-size:11px;margin-top:2px">苍山徒步路线图</div>
+            </div>
+            <div style="text-align:center;padding:8px;font-size:10px;color:var(--blue);font-weight:500">↑ 新碎片不断产生，又回到 ①</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-caption">使用中持续产生新碎片</div>
+    </div>
+  </div>
 
 <!-- Insight box -->
 <div class="insight-box">
