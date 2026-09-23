@@ -475,6 +475,58 @@ body{min-height:100vh;background:#e9e9e7;padding:40px 0 80px}
     </div>
   </div>
 
+  <!-- Deep analysis: 用户怎么找 -->
+  <div class="step" style="margin-bottom:72px">
+    <div class="step-dot" style="background:#af52de;font-size:11px">?</div>
+    <div class="step-info" style="width:640px;background:#faf5ff;border-color:#e9d5ff">
+      <h2 style="color:#7c3aed"><span class="num" style="background:#af52de">?</span> 深层问题：用户去哪找？</h2>
+      <div class="desc">用户找东西的行为，<strong>跟着"我当时怎么记的"走</strong>，不是跟着"这个内容属于什么类型"走。心智模型绑定的是交互对象，不是内容分类。</div>
+      <div style="margin-top:16px;background:#fff;border-radius:12px;padding:14px 16px;border:1px solid #e9d5ff">
+        <table style="width:100%;border-collapse:collapse;font-size:11px;line-height:1.7">
+          <tr style="border-bottom:1px solid #f0e6ff">
+            <th style="text-align:left;padding:6px 8px;font-size:10px;color:#7c3aed;font-weight:600">当时怎么记的</th>
+            <th style="text-align:left;padding:6px 8px;font-size:10px;color:#7c3aed;font-weight:600">用户心智</th>
+            <th style="text-align:left;padding:6px 8px;font-size:10px;color:#7c3aed;font-weight:600">找的时候第一反应</th>
+          </tr>
+          <tr style="border-bottom:1px solid #f5f0ff">
+            <td style="padding:6px 8px">在笔记里手写的</td>
+            <td style="padding:6px 8px">"我在笔记里写过"</td>
+            <td style="padding:6px 8px;color:var(--green);font-weight:600">打开笔记 ✓</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f5f0ff">
+            <td style="padding:6px 8px">跟小爱说的</td>
+            <td style="padding:6px 8px">"我跟小爱说过"</td>
+            <td style="padding:6px 8px;color:var(--orange);font-weight:500">去问小爱</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f5f0ff">
+            <td style="padding:6px 8px">按 AI 键存的</td>
+            <td style="padding:6px 8px">"我按过那个键"</td>
+            <td style="padding:6px 8px;color:var(--red);font-weight:500">？不知道去哪</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f5f0ff">
+            <td style="padding:6px 8px">车机上说的</td>
+            <td style="padding:6px 8px">"我在车上说过"</td>
+            <td style="padding:6px 8px;color:var(--red);font-weight:500">？更不知道去哪</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px">悬浮球圈的</td>
+            <td style="padding:6px 8px">"我圈过一段"</td>
+            <td style="padding:6px 8px;color:var(--red);font-weight:500">？完全不确定</td>
+          </tr>
+        </table>
+      </div>
+      <div class="insight" style="background:#faf5ff;color:#7c3aed;margin-top:14px;border:1px solid #e9d5ff">
+        <strong>只有在笔记里主动写的，用户会自然去笔记找。</strong>其他通过系统入口记的，用户第一反应不是"去笔记"，而是"去找那个帮我记的东西"——也就是小爱/系统。
+      </div>
+      <div style="margin-top:14px;padding:12px 14px;background:#fff;border-radius:12px;border:1px solid #e9d5ff;font-size:11px;line-height:1.8;color:var(--ink2)">
+        <strong style="color:#7c3aed">这引出一个关键分叉：</strong><br>
+        <strong>如果用户心智跟着交互对象走</strong>（"跟小爱说的去找小爱要"）→ 消费入口可能是小爱，笔记只是沉淀层<br>
+        <strong>如果用户心智跟着内容类型走</strong>（"旅行的东西去笔记找"）→ 消费入口是笔记<br>
+        <span style="color:#7c3aed;font-weight:600">到底跟着谁走？可能两种用户都有——但哪种是主流？需要验证。</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Step 8: 找到了但是原始碎片 -->
   <div class="step">
     <div class="step-dot" style="background:var(--red)">8</div>
