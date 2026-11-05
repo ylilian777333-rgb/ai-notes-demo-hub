@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>愿景 · 守住下限，打开上限</title>
+<style>
+  :root {
+    --blue: #2F6BFF;
+    --blue-soft: #EEF3FF;
+    --ink: #1B2033;
+    --ink-2: #4A5368;
+    --ink-3: #8A92A6;
+    --line: #E3E7EF;
+    --bg: #F7F8FB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "MiSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1280px; margin: 0 auto; padding: 72px 64px 96px; }
+  .eyebrow { font-size: 15px; color: var(--ink-3); letter-spacing: 2px; margin-bottom: 18px; }
+  h1 { font-size: 64px; font-weight: 700; letter-spacing: 1px; line-height: 1.2; }
+  .formula { margin-top: 24px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .chip {
+    font-size: 22px; font-weight: 600; color: var(--blue);
+    background: var(--blue-soft); border-radius: 999px; padding: 10px 24px;
+  }
+  .why { margin-top: 28px; font-size: 18px; color: var(--ink-2); line-height: 1.8; }
+  .why b { color: var(--ink); }
+
+  .section { margin-top: 64px; }
+  .section-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 22px; }
+  .section-head h2 { font-size: 30px; font-weight: 700; white-space: nowrap; }
+  .section-head span { font-size: 15px; color: var(--ink-3); }
+
+  .grid-2 { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 28px 32px;
+  }
+  .card-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .card-sub { font-size: 15px; color: var(--ink-3); margin-bottom: 22px; }
+
+  .loop { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
+  .node {
+    flex: 1; text-align: center; padding: 14px 0; border-radius: 12px;
+    background: var(--blue-soft); color: var(--blue); font-size: 19px; font-weight: 700;
+    white-space: nowrap;
+  }
+  .arrow { color: var(--ink-3); font-size: 18px; }
+  .loop-back {
+    margin-top: 10px; font-size: 14px; color: var(--ink-3); text-align: right;
+  }
+  .rows { margin-top: 18px; display: grid; gap: 10px; }
+  .row { display: grid; grid-template-columns: 56px 1fr; font-size: 16px; line-height: 1.6; }
+  .row b { color: var(--blue); }
+  .row span { color: var(--ink-2); }
+
+  .abilities { display: grid; gap: 14px; }
+  .ability { display: grid; grid-template-columns: 64px 1fr; align-items: start; }
+  .ability .k {
+    font-size: 19px; font-weight: 700; color: var(--blue); line-height: 1.5;
+  }
+  .ability .v { font-size: 16px; color: var(--ink-2); line-height: 1.6; }
+
+  .conds { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .cond { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 24px 22px; }
+  .cond .k { font-size: 26px; font-weight: 700; color: var(--blue); margin-bottom: 10px; }
+  .cond .v { font-size: 16px; color: var(--ink-2); line-height: 1.65; }
+
+  table { width: 100%; border-collapse: separate; border-spacing: 0; background: #fff;
+    border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  th, td { text-align: left; padding: 15px 22px; font-size: 16px; line-height: 1.5; }
+  th { background: #F2F5FA; color: var(--ink-2); font-weight: 600; font-size: 15px; }
+  td { border-top: 1px solid var(--line); color: var(--ink-2); }
+  td:first-child { color: var(--ink); font-weight: 600; }
+  .tag { display: inline-block; color: var(--blue); background: var(--blue-soft);
+    border-radius: 6px; padding: 2px 10px; margin: 2px 6px 2px 0; font-size: 14px; font-weight: 600; }
+  .verdict { margin-top: 20px; font-size: 19px; font-weight: 700; color: var(--ink); }
+
+  .foot { margin-top: 56px; font-size: 14px; color: var(--ink-3); line-height: 1.8; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow">产品设计工作方法 Workshop · 第二部分 · 愿景</div>
+  <h1>守住下限，打开上限</h1>
+  <div class="formula">
+    <div class="chip">下限靠体系</div>
+    <div class="chip">上限靠学习</div>
+    <div class="chip">组织给条件</div>
+  </div>
+  <p class="why">
+    下限要解决：<b>同样的问题反复出现</b>。<br>
+    上限要解决：<b>越来越会交作业，越来越难做出好产品</b>。
+  </p>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>产品设计团队：自己要建的能力</h2>
+      <span>整个产品设计组织，不只是产品经理个人</span>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">守住下限</div>
+        <div class="card-sub">五个环节，不靠个人临场发挥</div>
+        <div class="loop">
+          <div class="node">定义</div><div class="arrow">→</div>
+          <div class="node">协作</div><div class="arrow">→</div>
+          <div class="node">验证</div><div class="arrow">→</div>
+          <div class="node">评审</div><div class="arrow">→</div>
+          <div class="node">复盘</div>
+        </div>
+        <div class="loop-back">复盘结论回到定义标准 ↺</div>
+        <div class="rows">
+          <div class="row"><b>定义</b><span>开工前讲清为谁、解决什么、用什么结果衡量</span></div>
+          <div class="row"><b>协作</b><span>用研、交互、视觉、数据从定义阶段就一起做</span></div>
+          <div class="row"><b>验证</b><span>方案还能改时，就拿真实用户任务去测</span></div>
+          <div class="row"><b>评审</b><span>指出问题和依据，给出改法和验收标准</span></div>
+          <div class="row"><b>复盘</b><span>上线后看用户用没用、满不满意</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">打开上限</div>
+        <div class="card-sub">三种能力，让团队能做出新东西</div>
+        <div class="abilities">
+          <div class="ability"><div class="k">学习</div><div class="v">新领域、新技术上手快；职级看学习速度，不只看资历</div></div>
+          <div class="ability"><div class="k">发现</div><div class="v">深入真实场景，找到用户还没说出口的需求，先用小实验验证</div></div>
+          <div class="ability"><div class="k">沉淀</div><div class="v">一个人学到的，变成全队能复用的方法和案例</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>组织：要给的四个条件</h2>
+      <span>产品部之外的管理、资源、跨部门协同和版本决策</span>
+    </div>
+    <div class="conds">
+      <div class="cond"><div class="k">信息</div><div class="v">做判断时查得到可信、最新的上下文，不靠认识谁、碰巧听过</div></div>
+      <div class="cond"><div class="k">权责</div><div class="v">每个关键场景有一个端到端 Owner，权、责、资源配在同一个结果上</div></div>
+      <div class="cond"><div class="k">时间</div><div class="v">用户研究、技术学习、原型实验有正式工时，新想法可以先小范围试</div></div>
+      <div class="cond"><div class="k">底线</div><div class="v">体验不达标时，由组织正式决定减范围、延期或不上线，不压给产品经理个人</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>问题、愿景、解法的对应</h2>
+      <span>左接复盘，右接解决方案</span>
+    </div>
+    <table>
+      <thead>
+        <tr><th style="width:30%">复盘里的问题</th><th style="width:20%">团队要建的</th><th style="width:18%">组织要给的</th><th>解法方向</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>端到端体验没人负责</td><td><span class="tag">协作</span></td><td><span class="tag">权责</span></td><td>端到端 Owner、共同指标</td></tr>
+        <tr><td>规格只覆盖主路径</td><td><span class="tag">定义</span></td><td><span class="tag">信息</span></td><td>产品定义标准、统一知识库</td></tr>
+        <tr><td>评审验收看功能，不看体验</td><td><span class="tag">验证</span><span class="tag">评审</span></td><td><span class="tag">底线</span></td><td>体验验收标准、质量门禁</td></tr>
+        <tr><td>方案改动后体验回退</td><td><span class="tag">验证</span></td><td><span class="tag">底线</span></td><td>不可砍的体验清单、变更复核</td></tr>
+        <tr><td>问题暴露后没人拍板</td><td><span class="tag">复盘</span></td><td><span class="tag">权责</span><span class="tag">底线</span></td><td>风险升级、放行决策</td></tr>
+        <tr><td>越来越会交作业，难做出新东西</td><td><span class="tag">学习</span><span class="tag">发现</span><span class="tag">沉淀</span></td><td><span class="tag">时间</span><span class="tag">信息</span></td><td>探索工时、实验机制、学习型人才标准</td></tr>
+      </tbody>
+    </table>
+    <div class="verdict">每一行都同时需要团队和组织改变，单靠提升产品经理个人能力解决不了。</div>
+  </div>
+
+  <div class="foot">
+    依据：六个组第二次研讨的愿景都落在用户价值上；一、二、四组各自讲到了同一件事：底线要稳，上限要打开。<br>
+    问题一列来自第一次研讨收敛的五类共性原因，外加“越来越会交作业”这一条上限问题。
+  </div>
+
+</div>
+</body>
+</html>
