@@ -242,7 +242,7 @@ const I={
  train:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="14" rx="4"/><path d="M5 11h14M8 3.5V7a4 4 0 0 0 8 0V3.5"/><path d="m8 21 1.6-2.5M16 21l-1.6-2.5"/><circle cx="9" cy="14" r="1" fill="currentColor"/><circle cx="15" cy="14" r="1" fill="currentColor"/></svg>',
  bag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="7" width="15" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M12 11v5"/></svg>',
 };
-const TONE={blue:['#3a7afe','#e9f1ff'],green:['#2f9e6a','#e7f5ee'],orange:['#e8792b','#fff1e3'],purpa:['#7a5be0','#efeafd'],accent:['#b98a0a','#fff1c9']};
+const TONE={blue:['#3a7afe','#e9f1ff'],green:['#2f9e6a','#e7f5ee'],orange:['#e8792b','#fff1e3'],purpa:['#7a5be0','#efeafd'],accent:['#b98a0a','#fff1c9'],rose:['#d64531','#fcece9']};
 function ric(name,tone){const [c,b]=TONE[tone];return '<span class="ric" style="color:'+c+';background:'+b+'">'+I[name]+'</span>';}
 
 const TRAVEL=[
@@ -348,8 +348,35 @@ const HOMEC=[
   rows:[{ic:'clock',t:'green',b:'16:40 出发去高铁站',s:'周五晚高峰，留足时间',rv:'提前'},
         {ic:'car',t:'blue',b:'打车去北京南 · 约 ¥52',s:'到点一键叫车',btn:'叫车',btnToast:'已为你叫车'}]},
 ];
-const APPS={today:TODAY,travel:TRAVEL,course:COURSE,commute:COMMUTE,med:MED,dine:DINE,home:HOMEC};
-const SCENE=[['today','今日安排','#3a7afe'],['travel','稻城亚丁出行','#2f9e6a'],['course','高数课程','#7a5be0'],['commute','上下班通勤','#3a7afe'],['med','带娃看病','#d64531'],['dine','约饭','#e8792b'],['home','回老家','#2f9e6a']];
+const BDAY=[
+ {k:'提前一周',type:'info',pin:'下周一 · 妈妈生日',icon:'star',itone:'rose',title:'妈妈的生日',sub:'5月23日 周一',
+  rows:[{ic:'star',t:'rose',b:'还有 7 天',s:'去年她喜欢你送的丝巾',rv:'7 天'},
+        {ic:'note',t:'purpa',b:'准备礼物和蛋糕',s:'AI 挑了 3 个礼物建议',btn:'看看',btnToast:'已打开礼物建议'}]},
+ {k:'前一天',type:'check',pin:'明天就是妈妈生日',icon:'list',itone:'accent',title:'生日准备',sub:'5月22日',
+  items:['取预订的蛋糕','包装好礼物','订一束花','想好要说的祝福'],done:[]},
+ {k:'当天',type:'info',pin:'今天 · 妈妈生日',icon:'star',itone:'rose',title:'今天给妈妈过生日',sub:'5月23日',
+  rows:[{ic:'note',t:'rose',b:'发一段生日祝福',s:'AI 帮你写好了草稿',btn:'发送',btnToast:'已发送祝福'},
+        {ic:'pin',t:'green',b:'晚上家庭聚餐 18:30',s:'已订「湘遇」· 6 人',rv:'18:30'}]},
+];
+const HEALTH=[
+ {k:'每日用药',type:'info',pin:'该吃药了 · 降压药',icon:'cross',itone:'green',title:'健康 · 用药提醒',sub:'今天 08:00',
+  rows:[{ic:'cross',t:'green',b:'降压药 1 片',s:'早餐后 · 已连续 92 天',btn:'已吃',btnToast:'已记录本次服药'},
+        {ic:'clock',t:'blue',b:'晚上 20:00 还有一次',s:'到点会再提醒你',rv:'20:00'}]},
+ {k:'复诊',type:'info',pin:'周四 · 复诊',icon:'cal',itone:'rose',title:'心内科复诊',sub:'5月19日 周四 上午',
+  rows:[{ic:'cal',t:'rose',b:'周四 09:00 心内科',s:'协和医院 · 已挂号',rv:'周四'},
+        {ic:'list',t:'accent',b:'带上近 3 个月血压记录',s:'已自动整理成表',btn:'查看'}]},
+];
+const PARCEL=[
+ {k:'待取件',type:'info',pin:'2 个快递待取',icon:'bag',itone:'orange',title:'快递 · 待取件',sub:'小区驿站',
+  rows:[{ic:'bag',t:'orange',b:'顺丰 · 取件码 8-2-3104',s:'驿站今天 21:00 关门',btn:'导航',btnToast:'已导航到驿站'},
+        {ic:'bag',t:'blue',b:'京东 · 已放快递柜',s:'丰巢 B 柜 · 取件码 6692',rv:'待取'}]},
+ {k:'派送中',type:'info',pin:'1 件今天送达',icon:'car',itone:'blue',title:'快递 · 派送中',sub:'预计今天 16:00',
+  rows:[{ic:'car',t:'blue',b:'生鲜 · 正在派送',s:'骑手距你 3 公里',rv:'16:00'}]},
+ {k:'待寄件',type:'info',icon:'bag',itone:'green',title:'快递 · 寄件',sub:'要寄回的东西',
+  rows:[{ic:'bag',t:'green',b:'寄回租借的相机',s:'明天到期，别忘记寄',btn:'下单',btnToast:'已呼叫上门取件'}]},
+];
+const APPS={today:TODAY,travel:TRAVEL,course:COURSE,commute:COMMUTE,med:MED,dine:DINE,home:HOMEC,bday:BDAY,health:HEALTH,parcel:PARCEL};
+const SCENE=[['today','今日安排','#3a7afe'],['travel','稻城亚丁出行','#2f9e6a'],['course','高数课程','#7a5be0'],['commute','上下班通勤','#3a7afe'],['med','带娃看病','#d64531'],['dine','约饭','#e8792b'],['home','回老家','#2f9e6a'],['bday','生日纪念','#d64531'],['health','健康用药','#2f9e6a'],['parcel','收寄快递','#e8792b']];
 function defStage(sc){return sc==='travel'?2:0;}
 const DETAIL={
  travel:{title:'稻城亚丁旅游攻略',sub:'更新时间 · 今天 10:31',tabs:['总结','笔记（12）'],body:
