@@ -9,10 +9,10 @@
   :root{--ink:#111;--t2:#595959;--t3:#8c8c8c;--t4:#b4b4b4;--page:#f3f4f6;--blue:#3a6df5;--red:#ef5a4c;--line:#eee}
   html,body{height:100%}
   body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
-    background:radial-gradient(1100px 680px at 50% -8%,#222634 0%,#0c0e13 62%);min-height:100%;
+    background:radial-gradient(1200px 760px at 50% -12%,#fcfdff 0%,#eceff4 58%,#e2e7ef 100%);min-height:100%;
     -webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 14px 40px}
-  .cap{color:#c6ccd8;font-size:13px;font-weight:600;text-align:center}
-  .cap span{display:block;color:#7c8498;font-size:11.5px;font-weight:400;margin-top:3px}
+  .cap{color:#3a4150;font-size:13px;font-weight:600;text-align:center}
+  .cap span{display:block;color:#98a1b2;font-size:11.5px;font-weight:400;margin-top:3px}
   .device{width:390px;height:844px;border-radius:54px;background:#0a0c10;padding:11px;position:relative;
     box-shadow:0 36px 90px rgba(0,0,0,.55),inset 0 0 0 2px #2a303c;flex:0 0 auto}
   .screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:var(--page)}
@@ -162,5 +162,6 @@ document.querySelectorAll('.ck .box').forEach(function(b){b.parentElement&&b.add
 if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
 var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
 </script>
+<script src="../os5-kit/interaction.js"></script>
 </body>
 </html>

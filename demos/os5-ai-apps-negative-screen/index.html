@@ -13,12 +13,12 @@
   html,body{height:100%}
   body{
     font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","MiSans","Microsoft YaHei",sans-serif;
-    background:radial-gradient(1100px 680px at 50% -8%,#1b2330 0%,#0c0e13 62%);
+    background:radial-gradient(1200px 760px at 50% -12%,#fcfdff 0%,#eceff4 58%,#e2e7ef 100%);
     min-height:100%;-webkit-font-smoothing:antialiased;color:var(--ink);
-    display:flex;flex-direction:column;align-items:center;gap:14px;padding:26px 14px 40px;
+    display:flex;flex-direction:column;align-items:center;gap:16px;padding:26px 20px 48px;
   }
-  .cap{color:#c6ccd8;font-size:13.5px;font-weight:600;text-align:center}
-  .cap span{display:block;color:#7c8498;font-size:11.5px;font-weight:400;margin-top:4px}
+  .cap{color:#2b303a;font-size:14px;font-weight:650;text-align:center}
+  .cap span{display:block;color:#8a93a3;font-size:11.5px;font-weight:400;margin-top:4px}
 
   /* device */
   .device{width:390px;height:844px;border-radius:54px;background:#0a0c10;padding:11px;
@@ -151,20 +151,31 @@
     display:flex;align-items:center;gap:8px;animation:tin .2s ease}
   @keyframes tin{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
 
-  /* stage switcher (demo chrome) */
-  .stages{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;max-width:430px}
-  .stages button{font-family:inherit;font-size:12px;font-weight:600;border:1px solid #2b313d;background:#161a22;color:#aeb6c6;
+  /* layout: left scene menu + device */
+  .stagewrap{display:flex;flex-direction:row;align-items:flex-start;justify-content:center;gap:26px}
+  .devwrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+
+  /* scene menu (left vertical) */
+  .scenes{display:flex;flex-direction:column;gap:6px;width:194px;flex-shrink:0;
+    background:rgba(255,255,255,.74);border:1px solid rgba(20,30,60,.06);border-radius:24px;padding:12px;
+    box-shadow:0 20px 54px rgba(30,42,74,.12);position:sticky;top:26px}
+  .scenes .shd{font-size:12px;font-weight:700;color:#9aa2b2;padding:5px 12px 9px;letter-spacing:.3px}
+  .scenes button{font-family:inherit;font-size:14px;font-weight:600;border:none;background:transparent;color:#49505f;
+    border-radius:15px;padding:11px 14px;cursor:pointer;display:flex;align-items:center;gap:11px;text-align:left;width:100%;transition:background .15s,color .15s}
+  .scenes button:hover{background:rgba(20,30,60,.045)}
+  .scenes button .d{width:9px;height:9px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 3px rgba(0,0,0,.04)}
+  .scenes button.on{background:#fff;color:#14161c;font-weight:700;box-shadow:0 3px 12px rgba(30,42,74,.12)}
+
+  /* stage switcher (demo chrome, light) */
+  .stages{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;max-width:390px}
+  .stages button{font-family:inherit;font-size:12px;font-weight:600;border:1px solid #dfe3ea;background:#fff;color:#5a6270;
     border-radius:18px;padding:7px 13px;cursor:pointer}
   .stages button.on{background:var(--accent);border-color:var(--accent);color:#4a3600}
-  .scenes{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:470px;margin-top:2px}
-  .scenes button{font-family:inherit;font-size:12.5px;font-weight:700;border:1px solid #333a48;background:#1b2130;color:#cdd4e2;
-    border-radius:20px;padding:8px 15px;cursor:pointer;display:flex;align-items:center;gap:6px}
-  .scenes button .d{width:8px;height:8px;border-radius:50%}
-  .scenes button.on{background:#fff;border-color:#fff;color:#12131a}
 
   @media(max-width:440px){
     body{padding:0;gap:0;background:#000}
-    .cap,.stages{display:none}
+    .cap,.stages,.scenes{display:none}
+    .stagewrap{display:block}.devwrap{gap:0}
     .device{width:100vw;height:100vh;border-radius:0;padding:0;box-shadow:none}
     .screen{border-radius:0}
     .screen .notch{display:none}
@@ -172,8 +183,11 @@
 </style>
 </head>
 <body>
-<div class="cap">场景化 AI App · 负一屏（OS5）<span>一个场景一个 AI app · 上排切场景 · 下排切阶段 · 点卡片展开详情</span></div>
+<div class="cap">场景化 AI App · 负一屏（OS5）<span>左侧切场景 · 下方切阶段 · 点卡片展开高保真落地页（落地页内按钮/行均可点，二级页已补全）</span></div>
 
+<div class="stagewrap">
+<nav class="scenes" id="scenes" aria-label="切换场景"></nav>
+<div class="devwrap">
 <div class="device">
   <div class="screen">
     <div class="wall"></div>
@@ -221,9 +235,9 @@
     <div class="homebar"></div>
   </div>
 </div>
-
-<div class="scenes" id="scenes"></div>
 <div class="stages" id="stages"></div>
+</div>
+</div>
 
 <script>
 const I={
@@ -459,7 +473,7 @@ document.getElementById('askBtn').onclick=()=>toast('小爱：已根据这个场
 document.getElementById('addBtn').onclick=()=>toast('可以补充一条内容');
 function renderStages(){const w=document.getElementById('stages');w.innerHTML=APPS[scene].map((s,i)=>'<button class="'+(i===cur?'on':'')+'" data-i="'+i+'">'+(i+1)+'. '+s.k+'</button>').join('');
  w.querySelectorAll('button').forEach(b=>b.onclick=()=>{cur=+b.getAttribute('data-i');renderCard();renderStages();});}
-function renderScenes(){const w=document.getElementById('scenes');w.innerHTML=SCENE.map(x=>'<button class="'+(x[0]===scene?'on':'')+'" data-s="'+x[0]+'"><span class="d" style="background:'+x[2]+'"></span>'+x[1]+'</button>').join('');
+function renderScenes(){const w=document.getElementById('scenes');w.innerHTML='<div class="shd">场景 AI App</div>'+SCENE.map(x=>'<button class="'+(x[0]===scene?'on':'')+'" data-s="'+x[0]+'"><span class="d" style="background:'+x[2]+'"></span>'+x[1]+'</button>').join('');
  w.querySelectorAll('button').forEach(b=>b.onclick=()=>{scene=b.getAttribute('data-s');cur=defStage(scene);closeLanding();closeDetail();renderScenes();renderStages();renderCard();});}
 
 // app grid + dock
