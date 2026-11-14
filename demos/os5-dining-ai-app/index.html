@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>约饭 AI App · 落地页（OS5 高保真）</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#111;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#f3a93c;--green:#2f9e6a;--orange:#f0772b;--line:#eee}
+  html,body{height:100%}
+  body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:radial-gradient(1100px 680px at 50% -8%,#222634 0%,#0c0e13 62%);min-height:100%;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 14px 40px}
+  .cap{color:#c6ccd8;font-size:13px;font-weight:600;text-align:center}
+  .cap span{display:block;color:#7c8498;font-size:11.5px;font-weight:400;margin-top:3px}
+  .device{width:390px;height:844px;border-radius:54px;background:#0a0c10;padding:11px;position:relative;box-shadow:0 36px 90px rgba(0,0,0,.55),inset 0 0 0 2px #2a303c;flex:0 0 auto}
+  .screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:var(--page)}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#0a0c10;border-radius:0 0 18px 18px;z-index:60}
+  .app{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}
+  .app::-webkit-scrollbar{display:none}
+
+  .hero{position:relative;background:linear-gradient(168deg,#ffb067 0%,#ff8a63 28%,#f98a86 60%,#ecd9cf 86%,var(--page) 100%);padding:0 0 12px;overflow:hidden}
+  .ill{position:absolute;right:10px;top:40px;width:140px;height:140px;pointer-events:none}
+  .sb{position:relative;display:flex;justify-content:space-between;align-items:center;padding:15px 24px 4px;font-size:14px;font-weight:650;color:#fff}
+  .sb .r{display:flex;align-items:center;gap:6px}
+  .batt{font-size:10.5px;font-weight:700;background:#fff;color:#1b1b1b;border-radius:4px;padding:1px 5px}
+  .back{position:relative;margin:4px 0 0 16px;width:34px;height:34px;border:none;background:transparent;cursor:pointer;color:#fff}
+  .greet{position:relative;font-size:14px;color:rgba(255,255,255,.92);font-weight:500;padding:2px 24px 0}
+  .htitle{position:relative;font-size:32px;font-weight:700;color:#fff;letter-spacing:-.5px;padding:3px 24px 0;text-shadow:0 1px 10px rgba(0,0,0,.1)}
+  .hpills{position:relative;display:flex;gap:8px;margin:13px 0 0 24px;flex-wrap:wrap}
+  .pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.26);border-radius:999px;padding:7px 12px;font-size:12.5px;color:#fff;font-weight:500;backdrop-filter:blur(4px)}
+
+  .body{padding:0 16px 0;position:relative;margin-top:2px}
+  .sec{display:flex;align-items:center;gap:8px;margin:22px 2px 11px;font-size:15px;font-weight:650;color:#17171b}
+  .sec .si{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff}
+  .sec .si svg{width:14px;height:14px}
+  .sec .rt{margin-left:auto;font-size:12.5px;color:var(--t4);font-weight:400}
+  .card{background:#fff;border-radius:20px}
+
+  .nextup{position:relative;background:linear-gradient(135deg,#f0772b 0%,#f5583f 55%,#ff5277 100%);border-radius:24px;padding:17px 18px;color:#fff;overflow:hidden;box-shadow:0 12px 30px rgba(240,110,50,.3);margin-top:16px}
+  .nextup .eb{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;opacity:.95}
+  .nextup .eb .dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3)}
+  .nextup h3{font-size:21px;font-weight:700;margin:11px 0 4px;letter-spacing:-.3px}
+  .nextup p{font-size:13px;opacity:.95;display:flex;align-items:center;gap:6px}
+  .nextup .nbtns{display:flex;gap:9px;margin-top:15px}
+  .nextup .nbtns button{border:none;border-radius:12px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
+  .nextup .nbtns .pri{background:#fff;color:#e2561f}
+  .nextup .nbtns .ghost{background:rgba(255,255,255,.2);color:#fff}
+  .nextup .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid rgba(255,255,255,.12)}
+
+  .info{padding:4px 16px}
+  .irow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:14px}
+  .irow+.irow{border-top:1px solid var(--line)}
+  .irow .k{color:var(--t3)}
+  .irow .v{font-weight:600;color:#1b1b1b}
+  .irow .v.hl{color:var(--orange)}
+
+  .ppl{display:flex;align-items:center;gap:12px;padding:13px 16px}
+  .ppl+.ppl{border-top:1px solid var(--line)}
+  .ppl .av{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:600}
+  .ppl .pc{flex:1}
+  .ppl .pc b{font-size:14.5px;font-weight:600;color:#1b1b1b}
+  .ppl .pc s{font-style:normal;font-size:12px;color:var(--t4);display:block;margin-top:3px}
+  .ppl .st{font-size:11.5px;font-weight:600;border-radius:999px;padding:3px 10px}
+
+  .lst{padding:2px 0}
+  .li{display:flex;gap:12px;padding:13px 16px;align-items:flex-start}
+  .li+.li{border-top:1px solid var(--line)}
+  .li .ic{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}
+  .li .lc{flex:1;min-width:0}
+  .li .lc b{font-size:14.5px;font-weight:600;color:#1b1b1b;display:block}
+  .li .lc p{font-size:12.5px;color:var(--t3);margin-top:4px;line-height:1.5}
+  .li .go{align-self:center;font-size:12.5px;font-weight:600;color:var(--orange);flex-shrink:0}
+
+  .fab{position:absolute;right:18px;bottom:22px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;z-index:40;background:radial-gradient(circle at 35% 30%,#fff,#fff0e8);box-shadow:0 8px 24px rgba(240,110,50,.3),0 1px 4px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center}
+  .fab svg{width:28px;height:28px}
+  .homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:120px;height:4.5px;border-radius:5px;background:rgba(0,0,0,.22);z-index:45}
+  @media(max-width:430px){body{padding:0;gap:0;background:#000}.cap{display:none}.device{width:100vw;height:100vh;border-radius:0;padding:0;box-shadow:none}.screen{border-radius:0}.notch{display:none}}
+</style>
+</head>
+<body>
+<div class="cap">约饭 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>今晚聚餐 · 接下来 / 聚会信息 / 一起吃饭 / 到店前 / 点餐与买单</span></div>
+<div class="device"><div class="screen">
+  <div class="notch"></div>
+  <div class="app">
+    <div class="hero">
+      <svg class="ill" viewBox="0 0 150 150" fill="none">
+        <path d="M30 34c0 0 4 10 14 10M40 30c0 0 2 12 12 14" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+        <ellipse cx="75" cy="96" rx="52" ry="14" fill="#ffffff" fill-opacity=".9"/>
+        <path d="M24 92a51 20 0 0 0 102 0Z" fill="#ffffff" fill-opacity=".92"/>
+        <path d="M30 92h90" stroke="#ffb98a" stroke-width="3"/>
+        <circle cx="62" cy="86" r="7" fill="#ff8f5e"/><circle cx="84" cy="88" r="6" fill="#ff6f6f"/><circle cx="74" cy="82" r="5" fill="#ffd36b"/>
+        <path d="M96 40 70 78M104 44 82 80" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <div class="sb"><span>2:36</span><span class="r">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#fff"/></svg>
+        <span class="batt">100</span></span>
+      </div>
+      <button class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+      <div class="greet">今晚和朋友聚餐 · 已订好位</div>
+      <div class="htitle">约饭</div>
+      <div class="hpills">
+        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>今晚 19:00</span>
+        <span class="pill">比目鱼火锅</span>
+        <span class="pill">4 人</span>
+      </div>
+    </div>
+
+    <div class="body">
+      <div class="nextup">
+        <div class="ring"></div>
+        <div class="eb"><span class="dot"></span>接下来 · 还有约 3 小时</div>
+        <h3>19:00 比目鱼火锅（三里屯店）</h3>
+        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg>已订位 · 4 人 · 大厅卡座 · 保留 30 分钟</p>
+        <div class="nbtns"><button class="pri">导航去餐厅</button><button class="ghost">一键叫车</button></div>
+      </div>
+
+      <div class="sec"><span class="si" style="background:#f0772b"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v7a2 2 0 0 0 2 2 2 2 0 0 0 2-2V3M6 12v9M18 3c-1.6 0-2.5 2-2.5 4.5S16.4 12 18 12v9"/></svg></span>聚会信息</div>
+      <div class="card info">
+        <div class="irow"><span class="k">餐厅</span><span class="v">比目鱼火锅（三里屯店）</span></div>
+        <div class="irow"><span class="k">时间</span><span class="v">今晚 19:00</span></div>
+        <div class="irow"><span class="k">人数 · 座位</span><span class="v">4 人 · 大厅卡座</span></div>
+        <div class="irow"><span class="k">人均</span><span class="v hl">约 ¥138</span></div>
+        <div class="irow"><span class="k">位置</span><span class="v">三里屯太古里 N4-2</span></div>
+      </div>
+
+      <div class="sec"><span class="si" style="background:#3a7afe"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19a4 4 0 0 0-8 0M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M20 19a3.5 3.5 0 0 0-5-3.2M4 19a3.5 3.5 0 0 1 5-3.2"/></svg></span>一起吃饭<span class="rt">3 / 4 已确认</span></div>
+      <div class="card">
+        <div class="ppl"><span class="av" style="background:#f0772b">我</span><div class="pc"><b>你（发起人）</b><s>从公司出发，预计 18:50 到</s></div><span class="st" style="background:#fff1e3;color:#e8792b">发起</span></div>
+        <div class="ppl"><span class="av" style="background:#3a7afe">敏</span><div class="pc"><b>小敏</b><s>已确认 · 会准时到</s></div><span class="st" style="background:#e7f5ee;color:#2f9e6a">已确认</span></div>
+        <div class="ppl"><span class="av" style="background:#2f9e6a">强</span><div class="pc"><b>阿强</b><s>在路上 · 预计晚 10 分钟</s></div><span class="st" style="background:#e9f1ff;color:#3a7afe">在路上</span></div>
+        <div class="ppl"><span class="av" style="background:#9aa0ab">丽</span><div class="pc"><b>丽丽</b><s>待确认 · 已发送提醒</s></div><span class="st" style="background:#f4f4f6;color:#8a8a8a">待确认</span></div>
+      </div>
+
+      <div class="sec"><span class="si" style="background:#2f9e6a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>到店前</div>
+      <div class="card lst">
+        <div class="li"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14a2 2 0 0 1 2 2v4h-2m0 0H7m-2 0H3v-4a2 2 0 0 1 2-2"/><circle cx="7.5" cy="14.5" r="1"/><circle cx="16.5" cy="14.5" r="1"/></svg></span><div class="lc"><b>18:42 打车出发最合适</b><p>从公司打车约 18 分钟，赶在 19:00 前到。</p></div><span class="go">叫车 ›</span></div>
+        <div class="li"><span class="ic" style="background:#e8792b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 4l9 6.5M5 9.5V20h14V9.5M9 20v-5h6v5"/></svg></span><div class="lc"><b>停车：太古里 B2 停车场</b><p>消费满 ¥100 免 3 小时，餐厅可盖章。</p></div></div>
+      </div>
+
+      <div class="sec"><span class="si" style="background:#7b5bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span>点餐与买单</div>
+      <div class="card">
+        <div class="li"><span class="ic" style="background:#f0772b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l2.5 5.6 6.1.6-4.6 4 1.4 6-5.4-3.2L6.1 19.4l1.4-6-4.6-4 6.1-.6z"/></svg></span><div class="lc"><b>招牌菜：秘制比目鱼锅底</b><p>大众点评 4.8 分 · 你们上次点过的还在收藏里。</p></div></div>
+        <div class="li"><span class="ic" style="background:#2f9e6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="17" height="12" rx="2.5"/><path d="M3.5 10h17"/></svg></span><div class="lc"><b>有一张 ¥50 代金券可用</b><p>美团卡包里，结账时自动提醒使用。</p></div><span class="go">查看 ›</span></div>
+        <div class="li"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span><div class="lc"><b>买单一键发起 AA</b><p>按 4 人平摊，账单自动发到群里。</p></div><span class="go">发起 ›</span></div>
+      </div>
+      <div style="height:34px"></div>
+    </div>
+    <button class="fab"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z" fill="#f0772b"/><circle cx="18.5" cy="5.5" r="1.4" fill="#ffb98a"/></svg></button>
+    <div class="homebar"></div>
+  </div>
+</div></div>
+<script>
+document.querySelectorAll('.nbtns button,.go').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();});});
+var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
+if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+</script>
+</body>
+</html>
