@@ -446,7 +446,7 @@ function detailHTML(){
    h+='</div>';});
  return h+'</div>';
 }
-const LANDING={today:'../os5-today-ai-app/',course:'../os5-course-ai-app-figma/',travel:'../os5-travel-ai-app-figma/',commute:'../os5-commute-ai-app/'};
+const LANDING={today:'../os5-today-ai-app/',course:'../os5-course-ai-app-figma/',travel:'../os5-travel-ai-app-figma/',commute:'../os5-commute-ai-app/',med:'../os5-clinic-ai-app/'};
 function openDetail(){
  const lp=LANDING[scene];
  if(lp){const f=document.getElementById('landing');if(f.src.indexOf(lp)<0)f.src=lp;f.classList.add('open');return;}
