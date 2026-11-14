@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>健康用药 AI App · 落地页（OS5 高保真）</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#111;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#f3a93c;--green:#1faa6a;--line:#eee}
+  html,body{height:100%}
+  body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:radial-gradient(1100px 680px at 50% -8%,#222634 0%,#0c0e13 62%);min-height:100%;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 14px 40px}
+  .cap{color:#c6ccd8;font-size:13px;font-weight:600;text-align:center}
+  .cap span{display:block;color:#7c8498;font-size:11.5px;font-weight:400;margin-top:3px}
+  .device{width:390px;height:844px;border-radius:54px;background:#0a0c10;padding:11px;position:relative;box-shadow:0 36px 90px rgba(0,0,0,.55),inset 0 0 0 2px #2a303c;flex:0 0 auto}
+  .screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:var(--page)}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#0a0c10;border-radius:0 0 18px 18px;z-index:60}
+  .app{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}
+  .app::-webkit-scrollbar{display:none}
+
+  .hero{position:relative;background:linear-gradient(168deg,#a7ead0 0%,#bfe9d6 30%,#d7eee0 62%,#e9f1ec 86%,var(--page) 100%);padding:0 0 12px;overflow:hidden}
+  .ill{position:absolute;right:12px;top:36px;width:138px;height:138px;pointer-events:none}
+  .sb{position:relative;display:flex;justify-content:space-between;align-items:center;padding:15px 24px 4px;font-size:14px;font-weight:650;color:#13503a}
+  .sb .r{display:flex;align-items:center;gap:6px}
+  .batt{font-size:10.5px;font-weight:700;background:#13503a;color:#fff;border-radius:4px;padding:1px 5px}
+  .back{position:relative;margin:4px 0 0 16px;width:34px;height:34px;border:none;background:transparent;cursor:pointer;color:#13503a}
+  .greet{position:relative;font-size:14px;color:#2f7757;font-weight:500;padding:2px 24px 0}
+  .htitle{position:relative;font-size:32px;font-weight:700;color:#0f4030;letter-spacing:-.5px;padding:3px 24px 0}
+  .hpills{position:relative;display:flex;gap:8px;margin:13px 0 0 24px;flex-wrap:wrap}
+  .pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.75);border-radius:999px;padding:7px 12px;font-size:12.5px;color:#2f7757;font-weight:500}
+
+  .body{padding:0 16px 0;position:relative;margin-top:2px}
+  .sec{display:flex;align-items:center;gap:8px;margin:22px 2px 11px;font-size:15px;font-weight:650;color:#17171b}
+  .sec .si{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff}
+  .sec .si svg{width:14px;height:14px}
+  .sec .rt{margin-left:auto;font-size:12.5px;color:var(--t4);font-weight:400}
+  .card{background:#fff;border-radius:20px}
+
+  .nextup{position:relative;background:linear-gradient(135deg,#1faa6a 0%,#19a79a 55%,#2b8fd6 100%);border-radius:24px;padding:17px 18px;color:#fff;overflow:hidden;box-shadow:0 12px 30px rgba(31,170,106,.28);margin-top:16px}
+  .nextup .eb{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;opacity:.95}
+  .nextup .eb .dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3)}
+  .nextup h3{font-size:21px;font-weight:700;margin:11px 0 4px;letter-spacing:-.3px}
+  .nextup p{font-size:13px;opacity:.95;display:flex;align-items:center;gap:6px}
+  .nextup .nbtns{display:flex;gap:9px;margin-top:15px}
+  .nextup .nbtns button{border:none;border-radius:12px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
+  .nextup .nbtns .pri{background:#fff;color:#0f8a5a}
+  .nextup .nbtns .ghost{background:rgba(255,255,255,.2);color:#fff}
+  .nextup .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid rgba(255,255,255,.12)}
+
+  .tl{padding:2px 2px 0}
+  .tli{display:flex;gap:12px}
+  .tli .tm{width:46px;flex-shrink:0;text-align:right;padding-top:14px}
+  .tli .tm b{font-size:13px;font-weight:650;color:#1b1b1b;display:block}
+  .tli .tm s{font-size:10.5px;color:#b0b0b0;font-style:normal}
+  .tli .rail{position:relative;width:14px;flex-shrink:0;display:flex;justify-content:center}
+  .tli .rail i{width:12px;height:12px;border-radius:50%;background:#fff;margin-top:16px;z-index:2;box-shadow:0 0 0 2.5px currentColor}
+  .tli.ok .rail i{background:currentColor}
+  .tli .rail:before{content:"";position:absolute;top:18px;bottom:-6px;left:50%;width:2px;background:#e8e8e8;transform:translateX(-50%)}
+  .tli:last-child .rail:before{display:none}
+  .tli .tc{flex:1;min-width:0;background:#fff;border-radius:16px;padding:12px 15px;margin-bottom:11px}
+  .tli .tc b{font-size:15px;font-weight:600;color:#1b1b1b;display:flex;align-items:center;gap:7px}
+  .tli .tc .tag{font-size:10.5px;font-weight:600;border-radius:6px;padding:1px 7px}
+  .tli .tc p{font-size:12.5px;color:var(--t3);margin-top:6px;line-height:1.5}
+
+  .med{display:flex;align-items:center;gap:12px;padding:13px 16px}
+  .med+.med{border-top:1px solid var(--line)}
+  .med .pic{width:40px;height:40px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}
+  .med .mc{flex:1;min-width:0}
+  .med .mc b{font-size:14.5px;font-weight:600;color:#1b1b1b}
+  .med .mc p{font-size:12px;color:var(--t3);margin-top:3px}
+  .med .mc .bar{height:4px;border-radius:3px;background:#eee;margin-top:7px;overflow:hidden}
+  .med .mc .bar i{display:block;height:100%;border-radius:3px}
+  .med .mr{text-align:right;flex-shrink:0}
+  .med .mr b{font-size:13px;font-weight:650}
+  .med .mr button{display:block;margin-top:6px;border:none;border-radius:9px;padding:5px 11px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;background:#e9f1ff;color:var(--blue)}
+  .med .mr button.warn{background:#fcece9;color:#d64531}
+
+  .sug{display:flex;gap:12px;padding:14px 16px;align-items:flex-start}
+  .sug+.sug{border-top:1px solid var(--line)}
+  .sug .ic{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}
+  .sug .sc b{font-size:14px;font-weight:600;color:#1b1b1b;display:block}
+  .sug .sc p{font-size:12.5px;color:var(--t3);margin-top:4px;line-height:1.5}
+
+  .fab{position:absolute;right:18px;bottom:22px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;z-index:40;background:radial-gradient(circle at 35% 30%,#fff,#e6faf0);box-shadow:0 8px 24px rgba(31,170,106,.3),0 1px 4px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center}
+  .fab svg{width:28px;height:28px}
+  .homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:120px;height:4.5px;border-radius:5px;background:rgba(0,0,0,.22);z-index:45}
+  @media(max-width:430px){body{padding:0;gap:0;background:#000}.cap{display:none}.device{width:100vw;height:100vh;border-radius:0;padding:0;box-shadow:none}.screen{border-radius:0}.notch{display:none}}
+</style>
+</head>
+<body>
+<div class="cap">健康用药 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>妈妈的用药管理 · 接下来 / 今日用药 / 药品库存 / 健康提醒</span></div>
+<div class="device"><div class="screen">
+  <div class="notch"></div>
+  <div class="app">
+    <div class="hero">
+      <svg class="ill" viewBox="0 0 150 150" fill="none">
+        <rect x="30" y="56" width="90" height="40" rx="20" fill="#ffffff" fill-opacity=".92" transform="rotate(-32 75 76)"/>
+        <path d="M58 44 92 78" stroke="#19b37a" stroke-width="3" opacity=".5"/>
+        <g transform="rotate(-32 75 76)"><rect x="30" y="56" width="45" height="40" rx="20" fill="#5bd1a0"/><circle cx="52" cy="76" r="4" fill="#fff" opacity=".7"/><circle cx="62" cy="70" r="3" fill="#fff" opacity=".6"/></g>
+        <path d="M24 112c6 0 6-8 12-8s6 8 12 8 6-8 12-8 6 8 12 8 6-8 12-8 6 8 12 8" stroke="#2b8fd6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+      </svg>
+      <div class="sb"><span>2:36</span><span class="r">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="#13503a"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#13503a" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#13503a"/></svg>
+        <span class="batt">100</span></span>
+      </div>
+      <button class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+      <div class="greet">妈妈的用药管理 · 今日</div>
+      <div class="htitle">健康用药</div>
+      <div class="hpills">
+        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>今日 4 次</span>
+        <span class="pill">已服 1 次</span>
+        <span class="pill" style="color:#0f8a5a">下次 12:30</span>
+      </div>
+    </div>
+
+    <div class="body">
+      <div class="nextup">
+        <div class="ring"></div>
+        <div class="eb"><span class="dot"></span>下一次服药 · 还有约 40 分钟</div>
+        <h3>12:30 午餐后服药</h3>
+        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 4 14a5 5 0 0 1 7-7l6.5 6.5a5 5 0 0 1-7 7ZM7.5 7.5l6 6"/></svg>降压药 1 片 + 降糖药 1 片 · 饭后 30 分钟</p>
+        <div class="nbtns"><button class="pri">标记已服</button><button class="ghost">到点提醒妈妈</button></div>
+      </div>
+
+      <div class="sec"><span class="si" style="background:#1faa6a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>今日用药<span class="rt">按医嘱时间提醒</span></div>
+      <div class="tl">
+        <div class="tli ok"><div class="tm"><b>08:00</b><s>已服</s></div><div class="rail" style="color:#1faa6a"><i></i></div><div class="tc"><b>早餐后 <span class="tag" style="background:#e7f5ee;color:#2f9e6a">已服</span></b><p>苯磺酸氨氯地平 1 片（降压）· 妈妈 08:05 已确认。</p></div></div>
+        <div class="tli"><div class="tm"><b>12:30</b><s>待服</s></div><div class="rail" style="color:#19a79a"><i></i></div><div class="tc"><b>午餐后 <span class="tag" style="background:#e9f1ff;color:#3a7afe">下一次</span></b><p>苯磺酸氨氯地平 1 片 + 二甲双胍 1 片（降糖）。</p></div></div>
+        <div class="tli"><div class="tm"><b>18:00</b></div><div class="rail" style="color:#b0b0b0"><i></i></div><div class="tc"><b>晚餐后</b><p>阿托伐他汀 1 片（降脂）。</p></div></div>
+        <div class="tli"><div class="tm"><b>21:00</b></div><div class="rail" style="color:#b0b0b0"><i></i></div><div class="tc"><b>睡前</b><p>钙片 1 片 + 维生素 D。</p></div></div>
+      </div>
+
+      <div class="sec"><span class="si" style="background:#3a7afe"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 4 14a5 5 0 0 1 7-7l6.5 6.5a5 5 0 0 1-7 7ZM7.5 7.5l6 6"/></svg></span>药品库存<span class="rt">自动盯库存</span></div>
+      <div class="card">
+        <div class="med"><span class="pic" style="background:#ef5a4c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 4 14a5 5 0 0 1 7-7l6.5 6.5a5 5 0 0 1-7 7ZM7.5 7.5l6 6"/></svg></span><div class="mc"><b>苯磺酸氨氯地平（降压）</b><p>每日 2 片</p><div class="bar"><i style="width:18%;background:#ef5a4c"></i></div></div><div class="mr"><b style="color:#d64531">剩 6 片 ≈ 3 天</b><button class="warn">补药</button></div></div>
+        <div class="med"><span class="pic" style="background:#3a7afe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 4 14a5 5 0 0 1 7-7l6.5 6.5a5 5 0 0 1-7 7ZM7.5 7.5l6 6"/></svg></span><div class="mc"><b>二甲双胍（降糖）</b><p>每日 1 片</p><div class="bar"><i style="width:66%;background:#3a7afe"></i></div></div><div class="mr"><b>剩 20 片</b><button>记录</button></div></div>
+        <div class="med"><span class="pic" style="background:#f3a93c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 4 14a5 5 0 0 1 7-7l6.5 6.5a5 5 0 0 1-7 7ZM7.5 7.5l6 6"/></svg></span><div class="mc"><b>阿托伐他汀（降脂）</b><p>每日 1 片</p><div class="bar"><i style="width:50%;background:#f3a93c"></i></div></div><div class="mr"><b>剩 15 片</b><button>记录</button></div></div>
+      </div>
+
+      <div class="sec"><span class="si" style="background:#19a79a"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span>健康提醒</div>
+      <div class="card">
+        <div class="sug"><span class="ic" style="background:#ef5a4c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h4l2-6 4 12 2-6h4"/></svg></span><div class="sc"><b>今早血压 135/85，略偏高</b><p>已记入健康档案，连续偏高 3 天会提醒复诊。</p></div></div>
+        <div class="sug"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4M9 14l2 2 4-4"/></svg></span><div class="sc"><b>下周三 心内科复诊</b><p>已挂好号，复诊前自动整理这段时间的血压和用药记录。</p></div></div>
+        <div class="sug"><span class="ic" style="background:#1faa6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19a4 4 0 0 0-8 0M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/></svg></span><div class="sc"><b>用药记录已同步给女儿</b><p>家人可远程看到妈妈今天有没有按时吃药，漏服会提醒。</p></div></div>
+      </div>
+      <div style="height:34px"></div>
+    </div>
+    <button class="fab"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z" fill="#1faa6a"/><circle cx="18.5" cy="5.5" r="1.4" fill="#7fd6b0"/></svg></button>
+    <div class="homebar"></div>
+  </div>
+</div></div>
+<script>
+document.querySelectorAll('.nbtns button,.med button').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();});});
+var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
+if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+</script>
+</body>
+</html>
