@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>一方应用体验赛道 · 业务全景（四种画法）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #EEF1F6; font-family: "PingFang SC", "MiSans", "Microsoft YaHei", sans-serif; color: #1F2937; }
+  .page-note { width: 1400px; margin: 24px auto 0; font-size: 15px; color: #6B7280; }
+  .board { width: 1400px; margin: 18px auto 40px; padding: 44px 60px 44px; background: #fff; border-radius: 4px; }
+  .tag-v { font-size: 13px; color: #8A93A6; margin-bottom: 6px; }
+  .title { text-align: center; font-size: 30px; font-weight: 700; color: #475066; letter-spacing: 1px; }
+  .sub { text-align: center; font-size: 17px; color: #8A93A6; margin-top: 10px; }
+  .box { border-radius: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 14px 12px; }
+  .box b { font-size: 22px; font-weight: 600; color: #1F2937; }
+  .box s { text-decoration: none; font-size: 16px; color: #6B7280; margin-top: 8px; line-height: 1.5; }
+  .p { background: #F1ECFD; border: 1.5px solid #A48BE6; }
+  .bl { background: #E9F0FF; border: 1.5px solid #7096E6; }
+  .y { background: #FDF5DA; border: 1.5px solid #E2B65E; }
+  .g { background: #E4F3E8; border: 1.5px solid #72B183; }
+
+  /* V1 分层简版 */
+  .v1 { margin-top: 34px; display: flex; flex-direction: column; gap: 16px; }
+  .v1 .row { display: grid; grid-template-columns: 112px 1fr; column-gap: 20px; }
+  .v1 .lab { display: flex; align-items: center; justify-content: flex-end; font-size: 20px; font-weight: 600; color: #5F6B7E; }
+  .v1 .cells { display: grid; gap: 16px; background: #F5F8FE; border: 1.5px dashed #AFC2EA; border-radius: 12px; padding: 16px; }
+  .v1 .c4 { grid-template-columns: repeat(4, 1fr); }
+  .v1 .c3 { grid-template-columns: repeat(3, 1fr); }
+  .v1 .c1 { grid-template-columns: 1fr; }
+  .v1 .box { min-height: 104px; }
+  .v1 .dev { min-height: 64px; }
+
+  /* V2 从用户到目标 */
+  .v2 { margin-top: 30px; display: grid; grid-template-columns: 1fr 56px 1.3fr 56px 1fr; }
+  .v2 .head { font-size: 17px; font-weight: 600; color: #8A93A6; text-align: center; margin-bottom: 14px; }
+  .v2 .col { display: flex; flex-direction: column; gap: 18px; }
+  .v2 .col .box { height: 96px; }
+  .v2 .col3 .box { height: 128px; }
+  .v2 .arr { display: flex; flex-direction: column; gap: 18px; padding-top: 38px; }
+  .v2 .arr div { height: 96px; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #A9BDE8; }
+  .v2 .arr.one { justify-content: center; padding-top: 38px; }
+  .v2 .arr.one div { height: 438px; font-size: 40px; }
+  .v2 .goal { grid-column: 1 / span 5; margin-top: 26px; background: #EEF3FF; border: 1.5px solid #C5D5FA; border-radius: 10px; padding: 18px; text-align: center; font-size: 21px; font-weight: 600; color: #2F55B5; }
+
+  /* V3 四宫格 */
+  .v3 .banner { margin-top: 30px; background: #EEF3FF; border: 1.5px solid #C5D5FA; border-radius: 10px; padding: 18px; text-align: center; font-size: 21px; font-weight: 600; color: #2F55B5; }
+  .v3 .grid { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .v3 .card { background: #F7F9FE; border: 1.5px solid #CBD8F4; border-radius: 12px; padding: 22px 24px; }
+  .v3 .card .hd { display: flex; align-items: center; justify-content: space-between; }
+  .v3 .card .nm { font-size: 24px; font-weight: 700; color: #2F4B8F; }
+  .v3 .card .who { font-size: 16px; font-weight: 600; color: #6B4BD6; background: #F1ECFD; border: 1px solid #CDBEF4; border-radius: 16px; padding: 4px 14px; }
+  .v3 .chips { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .v3 .chips span { font-size: 17px; color: #1F2937; background: #E9F0FF; border: 1px solid #B8CBF2; border-radius: 6px; padding: 6px 14px; }
+  .v3 .card .k { margin-top: 16px; font-size: 16.5px; color: #4B5563; }
+  .v3 .card .k i { font-style: normal; color: #2F7A4A; font-weight: 600; margin-right: 6px; }
+  .v3 .bottom { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .v3 .bottom .box { min-height: 84px; }
+
+  /* V4 赛道屋 */
+  .v4 { margin-top: 30px; }
+  .v4 .roof { height: 120px; background: #F1ECFD; clip-path: polygon(50% 0, 100% 100%, 0 100%); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 18px; font-size: 22px; font-weight: 700; color: #5B3FC4; }
+  .v4 .beam { margin-top: 10px; background: #EEF3FF; border: 1.5px solid #C5D5FA; border-radius: 10px; padding: 16px; text-align: center; font-size: 20px; font-weight: 600; color: #2F55B5; }
+  .v4 .pillars { margin-top: 14px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .v4 .pl { background: #FDF7E3; border: 1.5px solid #E6C27A; border-radius: 10px; padding: 20px 22px; min-height: 196px; }
+  .v4 .pl b { display: block; text-align: center; font-size: 24px; font-weight: 700; color: #1F2937; }
+  .v4 .pl .u { text-align: center; font-size: 16.5px; color: #6B7280; margin-top: 8px; }
+  .v4 .pl ul { margin-top: 14px; padding-left: 22px; font-size: 17px; color: #374151; line-height: 1.75; }
+  .v4 .base { margin-top: 14px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .v4 .base .box { min-height: 70px; }
+  .v4 .ground { margin-top: 14px; text-align: center; font-size: 16px; color: #8A93A6; }
+</style>
+</head>
+<body>
+<div class="page-note">一方应用体验赛道 · 业务全景，四种画法。每张都能单独导出放进 DSTE 文档。</div>
+
+<!-- ============ V1 分层简版 ============ -->
+<div class="board" id="v1">
+  <div class="tag-v">画法一 · 分层简版</div>
+  <div class="title">一方应用体验赛道 · 业务全景</div>
+  <div class="sub">从用户每天要做的事，到一方应用，再到支撑能力</div>
+  <div class="v1">
+    <div class="row"><div class="lab">用户场景</div>
+      <div class="cells c4">
+        <div class="box p"><b>安排时间和出行</b><s>记日程、看天气、定闹钟</s></div>
+        <div class="box p"><b>和人联系</b><s>接打电话、收发短信</s></div>
+        <div class="box p"><b>管理手机</b><s>找功能、调设置、更新系统</s></div>
+        <div class="box p"><b>换机和选购</b><s>换新机、门店上手体验</s></div>
+      </div></div>
+    <div class="row"><div class="lab">一方应用</div>
+      <div class="cells c4">
+        <div class="box bl"><b>日程出行</b><s>日历 · 天气 · 时钟 · 出行助手</s></div>
+        <div class="box bl"><b>通讯</b><s>电话 · 短信 · 联系人 · 黄页</s></div>
+        <div class="box bl"><b>设备管理</b><s>系统设置 · 小米换机 等</s></div>
+        <div class="box bl"><b>门店演示</b><s>演示桌面 · MiShow</s></div>
+      </div></div>
+    <div class="row"><div class="lab">支撑能力</div>
+      <div class="cells c3">
+        <div class="box y"><b>基础体验</b><s>流畅 · 稳定 · 内存 · 美学一致</s></div>
+        <div class="box y"><b>AI 能力</b><s>三个 Agent · 能力和数据接入超级小爱</s></div>
+        <div class="box y"><b>服务</b><s>云同步 · 号码和天气数据</s></div>
+      </div></div>
+    <div class="row"><div class="lab">设备</div>
+      <div class="cells c1">
+        <div class="box g dev"><b style="font-size:20px;color:#2F6B45">HyperOS · 以小米手机为主，覆盖平板、手表、车、家</b></div>
+      </div></div>
+  </div>
+</div>
+
+<!-- ============ V2 从用户到目标 ============ -->
+<div class="board" id="v2">
+  <div class="tag-v">画法二 · 从用户到目标</div>
+  <div class="title">一方应用体验赛道 · 业务全景</div>
+  <div class="sub">用户每天要做的事，落到四个子赛道，再落到 2027 年三件事</div>
+  <div class="v2">
+    <div>
+      <div class="head">用户每天要做的事</div>
+      <div class="col">
+        <div class="box p"><b>安排时间和出行</b></div>
+        <div class="box p"><b>和人联系</b></div>
+        <div class="box p"><b>管理手机</b></div>
+        <div class="box p"><b>换机和选购</b></div>
+      </div>
+    </div>
+    <div class="arr"><div>→</div><div>→</div><div>→</div><div>→</div></div>
+    <div>
+      <div class="head">一方应用</div>
+      <div class="col">
+        <div class="box bl"><b>日程出行</b><s>日历 · 天气 · 时钟 · 出行助手</s></div>
+        <div class="box bl"><b>通讯</b><s>电话 · 短信 · 联系人 · 黄页</s></div>
+        <div class="box bl"><b>设备管理</b><s>系统设置 · 小米换机 · 开机引导 等</s></div>
+        <div class="box bl"><b>门店演示</b><s>演示桌面 · MiShow</s></div>
+      </div>
+    </div>
+    <div class="arr one"><div>→</div></div>
+    <div>
+      <div class="head">2027 年三件事</div>
+      <div class="col col3">
+        <div class="box g"><b>基础体验</b><s>每天使用的功能稳定可靠</s></div>
+        <div class="box g"><b>NSS</b><s>找得到、少打扰、信息准确</s></div>
+        <div class="box g"><b>AI 竞争力</b><s>手机提前准备好要用的信息</s></div>
+      </div>
+    </div>
+    <div class="goal">赛道目标：一方应用满意度三年安卓第一</div>
+  </div>
+</div>
+
+<!-- ============ V3 四宫格 ============ -->
+<div class="board" id="v3">
+  <div class="tag-v">画法三 · 四个子赛道</div>
+  <div class="title">一方应用体验赛道 · 业务全景</div>
+  <div class="v3">
+    <div class="banner">让用户每天要做的事顺畅、可靠、少打扰 ｜ 一方应用满意度三年安卓第一</div>
+    <div class="grid">
+      <div class="card">
+        <div class="hd"><span class="nm">日程出行</span><span class="who">安排时间和出行</span></div>
+        <div class="chips"><span>日历</span><span>天气</span><span>时钟</span><span>出行助手</span></div>
+        <div class="k"><i>2027</i>事件自动收进日历，到点提醒</div>
+      </div>
+      <div class="card">
+        <div class="hd"><span class="nm">通讯</span><span class="who">和人联系</span></div>
+        <div class="chips"><span>电话</span><span>短信</span><span>联系人</span><span>黄页</span></div>
+        <div class="k"><i>2027</i>少被骚扰，通话摘要在端侧生成并默认开启</div>
+      </div>
+      <div class="card">
+        <div class="hd"><span class="nm">设备管理</span><span class="who">管理手机</span></div>
+        <div class="chips"><span>系统设置</span><span>小米换机</span><span>开机引导</span><span>系统更新</span><span>未成年模式</span><span>10 个小工具</span></div>
+        <div class="k"><i>2027</i>用自然语言找设置，换机数据接入率 90%</div>
+      </div>
+      <div class="card">
+        <div class="hd"><span class="nm">门店演示</span><span class="who">门店上手体验</span></div>
+        <div class="chips"><span>演示桌面</span><span>MiShow</span><span>设置还原</span><span>强制升级</span></div>
+        <div class="k"><i>2027</i>演示流畅稳定，24 小时升级率 ≥99%</div>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="box y"><b>基础体验</b><s>流畅 · 稳定 · 内存 · 美学一致（承接横向赛道）</s></div>
+      <div class="box y"><b>AI 能力</b><s>三个 Agent · 能力和数据接入超级小爱（依赖 AI 赛道）</s></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ V4 赛道屋 ============ -->
+<div class="board" id="v4">
+  <div class="tag-v">画法四 · 赛道屋</div>
+  <div class="title">一方应用体验赛道 · 目标和三件事</div>
+  <div class="v4">
+    <div class="roof">用户满意度：一方应用满意度三年安卓第一</div>
+    <div class="beam">让用户每天要做的事顺畅、可靠、少打扰，手机提前把要用的信息准备好</div>
+    <div class="pillars">
+      <div class="pl"><b>基础体验</b><div class="u">每天使用的功能稳定可靠</div>
+        <ul><li>22 个降负载场景达标</li><li>高负载 ANR 清零</li><li>换机数据接入率 90%</li></ul></div>
+      <div class="pl"><b>NSS</b><div class="u">找得到、少打扰、信息准确</div>
+        <ul><li>3 个应用各提升 4 个百分点</li><li>1 个追回 OS4 目标</li><li>其余 5 个应用不下滑</li></ul></div>
+      <div class="pl"><b>AI 竞争力</b><div class="u">手机提前准备好要用的信息</div>
+        <ul><li>日程出行、设备管理 Agent（OS5.0）</li><li>通讯 Agent（OS5.1，待共识）</li><li>能力和数据接入超级小爱</li></ul></div>
+    </div>
+    <div class="base">
+      <div class="box g"><b>日程出行</b></div>
+      <div class="box g"><b>通讯</b></div>
+      <div class="box g"><b>设备管理</b></div>
+      <div class="box g"><b>门店演示</b></div>
+    </div>
+    <div class="ground">承接横向赛道：基础体验、美学、中低端、国际 ｜ 依赖：AI 赛道、系统体验、服务端</div>
+  </div>
+</div>
+</body>
+</html>
