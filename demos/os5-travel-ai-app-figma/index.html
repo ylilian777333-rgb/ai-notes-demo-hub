@@ -206,6 +206,7 @@
 <script>
 document.querySelectorAll('.ksbtn button, .fbtns button, .more, .rbtns a').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();});});
 if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+var tb=document.querySelector('.nav .ib');if(tb)tb.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
 </script>
 </body>
 </html>

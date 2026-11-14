@@ -116,6 +116,9 @@
   .detail{position:absolute;inset:0;z-index:50;background:#f4f4f6;display:flex;flex-direction:column;
     transform:translateY(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);overflow:hidden}
   .detail.open{transform:translateY(0)}
+  .landing{position:absolute;inset:0;z-index:70;width:100%;height:100%;border:none;background:#f3f3f3;
+    transform:translateY(100%);transition:transform .34s cubic-bezier(.4,0,.2,1)}
+  .landing.open{transform:translateY(0)}
   .dnav{height:92px;display:flex;align-items:flex-end;gap:8px;padding:0 14px 8px;flex-shrink:0}
   .dnav .ib{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:#222}
   .dnav .sp{flex:1}
@@ -214,6 +217,7 @@
       </div>
     </div>
 
+    <iframe class="landing" id="landing" title="场景落地页"></iframe>
     <div class="homebar"></div>
   </div>
 </div>
@@ -388,7 +392,9 @@ const DETAIL={
  today:{title:'今天 · 全部安排',sub:'5月16日 周五 · 5 件事',tabs:['今天','本周'],body:
   '<div class="dsec" style="margin-top:4px">今天</div><div class="dcard"><div class="day"><h4><i>08:30</i>出门上班</h4><p>今天限行尾号 4，建议坐地铁 10 号线，约 35 分钟。</p></div><div class="day"><h4><i>10:00</i>产品评审会</h4><p>会议室 A302，6 人，资料已备好。</p></div><div class="day"><h4><i>15:00</i>接孩子放学</h4><p>阳光小学，提前 20 分钟提醒出发。</p></div><div class="day"><h4><i>16:30</i>牙医复诊</h4><p>口腔医院，别忘带医保卡。</p></div><div class="day"><h4><i>19:00</i>和小敏吃饭</h4><p>三里屯比目鱼火锅，已订位。</p></div></div>'},
 };
-const _hs=(location.hash||'').match(/^#([a-z]+)(?:-s([0-9]))?$/);
+const _raw=(location.hash||'').replace(/^#/,'');
+const _open=/-open$/.test(_raw);
+const _hs=_raw.replace(/-open$/,'').match(/^([a-z]+)(?:-s([0-9]))?$/);
 let scene=(_hs&&APPS[_hs[1]])?_hs[1]:'today';
 let cur=(_hs&&_hs[2]!==undefined)?+_hs[2]:defStage(scene), checkState={};
 const cardEl=document.getElementById('aicard');
@@ -440,15 +446,21 @@ function detailHTML(){
    h+='</div>';});
  return h+'</div>';
 }
-function openDetail(){document.getElementById('dbody').innerHTML=detailHTML();document.getElementById('detail').classList.add('open');document.getElementById('home').classList.add('hide');}
+const LANDING={course:'../os5-course-ai-app-figma/',travel:'../os5-travel-ai-app-figma/'};
+function openDetail(){
+ const lp=LANDING[scene];
+ if(lp){const f=document.getElementById('landing');if(f.src.indexOf(lp)<0)f.src=lp;f.classList.add('open');return;}
+ document.getElementById('dbody').innerHTML=detailHTML();document.getElementById('detail').classList.add('open');document.getElementById('home').classList.add('hide');}
 function closeDetail(){document.getElementById('detail').classList.remove('open');document.getElementById('home').classList.remove('hide');}
+function closeLanding(){const f=document.getElementById('landing');f.classList.remove('open');}
+window.addEventListener('message',function(e){if(e.data==='close-landing')closeLanding();});
 document.getElementById('back').onclick=closeDetail;
 document.getElementById('askBtn').onclick=()=>toast('小爱：已根据这个场景为你整理好');
 document.getElementById('addBtn').onclick=()=>toast('可以补充一条内容');
 function renderStages(){const w=document.getElementById('stages');w.innerHTML=APPS[scene].map((s,i)=>'<button class="'+(i===cur?'on':'')+'" data-i="'+i+'">'+(i+1)+'. '+s.k+'</button>').join('');
  w.querySelectorAll('button').forEach(b=>b.onclick=()=>{cur=+b.getAttribute('data-i');renderCard();renderStages();});}
 function renderScenes(){const w=document.getElementById('scenes');w.innerHTML=SCENE.map(x=>'<button class="'+(x[0]===scene?'on':'')+'" data-s="'+x[0]+'"><span class="d" style="background:'+x[2]+'"></span>'+x[1]+'</button>').join('');
- w.querySelectorAll('button').forEach(b=>b.onclick=()=>{scene=b.getAttribute('data-s');cur=defStage(scene);closeDetail();renderScenes();renderStages();renderCard();});}
+ w.querySelectorAll('button').forEach(b=>b.onclick=()=>{scene=b.getAttribute('data-s');cur=defStage(scene);closeLanding();closeDetail();renderScenes();renderStages();renderCard();});}
 
 // app grid + dock
 const HOMEAPPS=[['相册','conic-gradient(from 210deg,#ff7a7a,#ffd36b,#6be39b,#6bb8ff,#c98bff,#ff7a7a)',''],
@@ -467,7 +479,7 @@ const DOCK=[['#34c759','<svg viewBox=\'0 0 24 24\' fill=\'#fff\'><path d=\'M6.5 
 document.getElementById('dock').innerHTML=DOCK.map(a=>'<span class="ai" style="background:'+a[0]+'">'+a[1]+'</span>').join('');
 
 renderScenes();renderStages();renderCard();
-if((location.hash||'').indexOf('-open')>=0){openDetail();}
+if(_open){openDetail();}
 </script>
 </body>
 </html>

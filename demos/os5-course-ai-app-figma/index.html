@@ -160,6 +160,7 @@
 <script>
 document.querySelectorAll('.ck .box').forEach(function(b){b.parentElement&&b.addEventListener('click',function(){b.parentElement.classList.toggle('done');b.innerHTML=b.parentElement.classList.contains('done')?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'';});});
 if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
 </script>
 </body>
 </html>
