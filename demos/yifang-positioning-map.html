@@ -4,72 +4,88 @@
 <meta charset="UTF-8">
 <title>一方应用体验赛道 · 一页全景</title>
 <style>
-  :root { --blue: #3B6BF5; --blue-d: #2A4FB8; --bar: #C9D7FB; --ink: #1B2033; --ink2: #3A4560; --ink3: #8A93A6; --rule: #E6EAF1; }
+  :root { --blue: #3B6BF5; --blue-d: #2A4FB8; --line: #C9D7FB; --band: #EEF3FE; --ink: #1B2033; --ink2: #3A4560; --ink3: #8A93A6; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #EEF1F6; font-family: "MiSans", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
-  .board { width: 1280px; height: 720px; margin: 24px auto; background: #fff; padding: 56px 60px 58px; }
+  .board { width: 1280px; height: 720px; margin: 24px auto; background: #fff; padding: 0 60px; display: flex; flex-direction: column; justify-content: center; }
   .ln { white-space: nowrap; }
-  /* 五种字：说明 16 / 目标 33 / 标题 20 / 定位 25 / 正文 19 */
   .cap { font-size: 16px; font-weight: 600; color: var(--blue); letter-spacing: 1px; }
-  .goal { font-size: 33px; font-weight: 700; line-height: 1.3; margin-top: 12px; }
-  .metrics { display: flex; gap: 44px; margin-top: 16px; }
-  .metrics div { font-size: 19px; color: var(--ink2); }
-  .metrics b { font-size: 16px; font-weight: 600; color: var(--blue); margin-right: 10px; letter-spacing: 1px; }
-  .rule { height: 1px; background: var(--rule); margin: 32px 0; }
-  .cols3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; margin-top: 20px; }
-  .cols4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; margin-top: 16px; }
-  .col { min-width: 0; }
-  .h { font-size: 20px; font-weight: 600; }
-  .h span { color: var(--ink3); font-weight: 400; margin-left: 8px; }
-  .pos { font-size: 25px; font-weight: 700; color: var(--blue-d); margin-top: 12px; }
-  .body { font-size: 19px; line-height: 1.6; color: var(--ink2); }
-  .who2 { margin-top: 4px; }
-  .can { margin-top: 16px; border-left: 2px solid var(--bar); padding-left: 14px; }
-  .app .body { margin-top: 6px; }
+  .head { font-size: 32px; font-weight: 700; margin-top: 12px; }
+  .sub { font-size: 19px; color: var(--ink2); margin-top: 10px; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr 1.6fr 1.4fr; column-gap: 28px; }
+  .cell { min-width: 0; }
+
+  /* 用户的一条线 */
+  .tl { position: relative; margin-top: 54px; height: 16px; }
+  .tl::before { content: ""; position: absolute; left: 8px; right: 10px; top: 7px; height: 2px; background: var(--line); }
+  .tl::after { content: ""; position: absolute; right: 0; top: 2px; border-left: 12px solid var(--line); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+  .tl .cell { position: relative; z-index: 1; }
+  .dot { width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 3px solid var(--blue); }
+
+  .step { margin-top: 16px; }
+  .step .n { font-size: 24px; font-weight: 700; }
+  .step .apps { margin-top: 6px; min-height: 55px; }
+  .step .apps .ln { font-size: 17px; line-height: 1.6; color: var(--ink3); }
+  .kpis { display: flex; gap: 28px; margin-top: 20px; }
+  .kpi .k { font-size: 16px; color: var(--ink3); }
+  .kpi .v { font-size: 26px; font-weight: 700; color: var(--blue-d); margin-top: 2px; }
+
+  /* 公司、系统、生态 */
+  .bands-cap { margin-top: 52px; }
+  .bands { row-gap: 10px; margin-top: 14px; }
+  .band { background: var(--band); border-radius: 10px; padding: 13px 16px; display: flex; gap: 12px; align-items: baseline; }
+  .band b { font-size: 19px; font-weight: 700; color: var(--blue-d); }
+  .band span { font-size: 19px; color: var(--ink2); }
+  .c12 { grid-column: 1 / 3; }
+  .c34 { grid-column: 3 / 5; }
+  .r1 { grid-row: 1; } .r2 { grid-row: 2; } .r3 { grid-row: 3; }
 </style>
 </head>
 <body>
 <div class="board" id="p1">
-  <div class="cap">一方应用体验赛道 · 2027 年目标</div>
-  <div class="goal ln">让用户每天要做的事顺畅、可靠、少打扰，手机提前把要用的信息准备好</div>
-  <div class="metrics">
-    <div class="ln"><b>基础体验</b>新增 22 个降负载场景达标</div>
-    <div class="ln"><b>NSS</b>3 个应用提升 4 个百分点</div>
-    <div class="ln"><b>AI 竞争力</b>日程出行、设备管理 Agent 上线</div>
+  <div class="cap">一方应用体验赛道 · 2027</div>
+  <div class="head ln">用户觉得小米手机好不好用，很大程度上取决于一方应用</div>
+  <div class="sub ln">2027 年目标：让用户每天要做的事顺畅、可靠、少打扰，手机提前把要用的信息准备好</div>
+
+  <div class="cols tl">
+    <div class="cell"><div class="dot"></div></div>
+    <div class="cell"><div class="dot"></div></div>
+    <div class="cell"><div class="dot"></div></div>
+    <div class="cell"><div class="dot"></div></div>
   </div>
 
-  <div class="rule"></div>
-
-  <div class="cap">我们是谁、能做什么</div>
-  <div class="cols3">
-    <div class="col">
-      <div class="h ln">生态视角<span>人车家全生态</span></div>
-      <div class="pos ln">人车家和三方服务的连接点</div>
-      <div class="body who2 ln">用户日程和联系人的汇集处</div>
-      <div class="can"><div class="body ln">汇入三方服务</div><div class="body ln">家庭日历</div><div class="body ln">跨设备延续</div></div>
+  <div class="cols">
+    <div class="cell step">
+      <div class="n ln">在门店试机</div>
+      <div class="apps"><div class="ln">演示桌面、MiShow</div></div>
+      <div class="kpis"><div class="kpi"><div class="k ln">卖点渗透率</div><div class="v ln">4.39% → 7%</div></div></div>
     </div>
-    <div class="col">
-      <div class="h ln">公司视角<span>小米</span></div>
-      <div class="pos ln">选购、换机、日常使用的体验</div>
-      <div class="body who2 ln">直接影响成交、留存和口碑</div>
-      <div class="can"><div class="body ln">帮助成交</div><div class="body ln">留住用户</div><div class="body ln">海外交付</div></div>
+    <div class="cell step">
+      <div class="n ln">换到新机</div>
+      <div class="apps"><div class="ln">小米换机、开机引导</div></div>
+      <div class="kpis"><div class="kpi"><div class="k ln">换机数据接入率</div><div class="v ln">78% → 90%</div></div></div>
     </div>
-    <div class="col">
-      <div class="h ln">系统视角<span>澎湃OS 和超级小爱</span></div>
-      <div class="pos ln">基础体验最直接的载体</div>
-      <div class="body who2 ln">也是超级小爱个人数据的主要来源</div>
-      <div class="can"><div class="body ln">基础体验达标</div><div class="body ln">接入超级小爱</div><div class="body ln">三个 Agent</div></div>
+    <div class="cell step">
+      <div class="n ln">每天使用</div>
+      <div class="apps"><div class="ln">电话、短信、联系人、日历、天气、</div><div class="ln">时钟、出行助手、系统设置等</div></div>
+      <div class="kpis">
+        <div class="kpi"><div class="k ln">高负载 ANR</div><div class="v ln">清零</div></div>
+        <div class="kpi"><div class="k ln">3 个应用满意度</div><div class="v ln">+4 个百分点</div></div>
+      </div>
+    </div>
+    <div class="cell step">
+      <div class="n ln">不用自己记、自己找</div>
+      <div class="apps"><div class="ln">日程出行、设备管理 Agent</div><div class="ln">接入超级小爱</div></div>
+      <div class="kpis"><div class="kpi"><div class="k ln">人均有效日程</div><div class="v ln">≥ 5 条</div></div></div>
     </div>
   </div>
 
-  <div class="rule"></div>
-
-  <div class="cap">赛道包含的应用</div>
-  <div class="cols4">
-    <div class="col app"><div class="h ln">日程出行</div><div class="body ln">日历、天气、时钟、出行助手</div></div>
-    <div class="col app"><div class="h ln">通讯</div><div class="body ln">电话、短信、联系人、黄页</div></div>
-    <div class="col app"><div class="h ln">设备管理</div><div class="body ln">系统设置、换机、开机引导等</div></div>
-    <div class="col app"><div class="h ln">门店演示</div><div class="body ln">演示桌面、MiShow</div></div>
+  <div class="cap bands-cap">对公司、系统、生态，我们能做什么</div>
+  <div class="cols bands">
+    <div class="band c12 r1"><b class="ln">公司 · 小米</b><span class="ln">帮助成交、留住用户、海外按期交付</span></div>
+    <div class="band c34 r1"><b class="ln">系统 · 澎湃OS 和超级小爱</b><span class="ln">承载基础体验，为超级小爱提供个人数据和能力</span></div>
+    <div class="band c34 r2"><b class="ln">生态 · 人车家和三方服务</b><span class="ln">三方行程、快递收进日历，家人共享日程</span></div>
   </div>
 </div>
 </body>
