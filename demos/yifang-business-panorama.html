@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>一方应用体验赛道 · 业务全景</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #ffffff; font-family: "PingFang SC", "MiSans", "Microsoft YaHei", sans-serif; color: #1F2937; }
+  .board { width: 1600px; padding: 36px 48px 28px; }
+  .title { text-align: center; font-size: 26px; font-weight: 700; color: #6B7487; letter-spacing: 1px; margin-bottom: 22px; }
+  .wrap { display: grid; grid-template-columns: 96px 1fr 128px; column-gap: 18px; }
+  .labels, .tags { display: flex; flex-direction: column; padding: 22px 0 0; gap: 16px; }
+  .lab { display: flex; align-items: center; justify-content: flex-end; font-size: 17px; font-weight: 600; color: #5F6B7E; padding-right: 4px; }
+  .tag { display: flex; align-items: center; }
+  .tag span { display: inline-block; font-size: 14px; font-weight: 600; color: #2F6BFF; background: #EEF3FF; border: 1px solid #C9D8FF; border-radius: 14px; padding: 5px 12px; }
+  .tags .head { font-size: 13px; color: #8A93A6; height: 0; position: relative; }
+  .tags .head i { position: absolute; top: -20px; left: 2px; font-style: normal; white-space: nowrap; }
+  .main { background: #F2F6FD; border: 2px dashed #9DB4E6; border-radius: 12px; padding: 22px 22px 18px; display: flex; flex-direction: column; gap: 16px; }
+  .row { display: flex; gap: 14px; align-items: stretch; }
+  .box { flex: 1; border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6px 8px; }
+  .box b { font-size: 15.5px; font-weight: 600; color: #1F2937; }
+  .box s { text-decoration: none; font-size: 13px; color: #6B7280; margin-top: 4px; line-height: 1.35; }
+  .p { background: #F1ECFD; border: 1.5px solid #A48BE6; }
+  .y { background: #FDF4D7; border: 1.5px solid #E3B65C; }
+  .b { background: #E7EEFF; border: 1.5px solid #6E92E8; }
+  .g { background: #E3E9F7; border: 1.5px solid #7D96D6; }
+  .grp { position: relative; border: 1.5px dashed #86BE95; background: #EEF8F1; border-radius: 9px; padding: 18px 10px 10px; display: grid; gap: 8px; }
+  .grp.purple { border-color: #B3A1EA; background: #F7F4FE; }
+  .grp.plain { padding: 10px; }
+  .chip { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 12.5px; font-weight: 600; color: #2F7A4A; background: #DDF0E3; border: 1px solid #A9D5B6; border-radius: 4px; padding: 1px 8px; }
+  .grp.purple .chip { color: #6B4BD6; background: #EEE8FD; border-color: #CFC2F5; }
+  .app { background: #E3E9F7; border: 1.3px solid #7D96D6; border-radius: 6px; font-size: 14px; font-weight: 500; color: #1F2937; display: flex; align-items: center; justify-content: center; text-align: center; height: 34px; padding: 0 4px; }
+  .cap { height: 36px; }
+  .dev { background: #E1F1E6; border: 1.5px solid #6FAE80; border-radius: 8px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; color: #2F6B45; }
+  .icons { display: flex; justify-content: space-around; align-items: center; height: 60px; padding: 0 60px; }
+  .icons svg { width: 46px; height: 46px; stroke: #B3C2E4; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .foot { margin-top: 14px; font-size: 13px; color: #8A93A6; text-align: center; }
+</style>
+</head>
+<body>
+<div class="board">
+  <div class="title">一方应用体验赛道 · 业务全景</div>
+  <div class="wrap">
+
+    <div class="labels">
+      <div class="lab" style="height:96px">场景层</div>
+      <div class="lab" style="height:64px">入口层</div>
+      <div class="lab" style="height:64px">智能层</div>
+      <div class="lab" style="height:120px">应用层</div>
+      <div class="lab" style="height:120px">能力层</div>
+      <div class="lab" style="height:50px">设备层</div>
+    </div>
+
+    <div>
+      <div class="main">
+        <!-- 场景层 -->
+        <div class="row" style="height:96px">
+          <div class="grp purple" style="flex:3;grid-template-columns:repeat(3,1fr);padding-top:16px">
+            <span class="chip">用户每天要做的事</span>
+            <div class="box p"><b>安排时间和出行</b><s>记日程、看天气、定闹钟、赶车赶飞机</s></div>
+            <div class="box p"><b>和人联系</b><s>接打电话、收发短信、找联系人</s></div>
+            <div class="box p"><b>管理手机</b><s>找功能、调设置、系统更新、孩子用机</s></div>
+          </div>
+          <div class="grp purple plain" style="flex:1;grid-template-columns:1fr;padding-top:16px">
+            <div class="box p"><b>换机和选购</b><s>换新机迁移数据、门店上手体验</s></div>
+          </div>
+        </div>
+
+        <!-- 入口层 -->
+        <div class="row" style="height:64px">
+          <div class="grp plain" style="flex:1;grid-template-columns:repeat(3,1fr)">
+            <div class="box y"><b>应用内</b><s>打开应用直接使用</s></div>
+            <div class="box y"><b>超级小爱</b><s>语音、文字</s></div>
+            <div class="box y"><b>系统触点</b><s>Launcher、桌面建议卡、锁屏、岛、通知</s></div>
+          </div>
+        </div>
+
+        <!-- 智能层 -->
+        <div class="row" style="height:64px">
+          <div class="box b"><b>日程出行 Agent</b><s>事件自动收进日历、到点提醒</s></div>
+          <div class="box b"><b>通讯 Agent</b><s>端侧通话摘要、号码反查</s></div>
+          <div class="box b"><b>设备管理 Agent</b><s>主动推荐功能、自然语言找设置</s></div>
+          <div class="box b"><b>能力和数据接入超级小爱</b><s>一方应用 AI 服务化、端侧数据接入</s></div>
+        </div>
+
+        <!-- 应用层 -->
+        <div class="row" style="height:120px">
+          <div class="grp" style="flex:2;grid-template-columns:repeat(2,1fr)"><span class="chip">日程出行</span>
+            <div class="app">日历</div><div class="app">天气</div><div class="app">时钟</div><div class="app">出行助手</div>
+          </div>
+          <div class="grp" style="flex:2;grid-template-columns:repeat(2,1fr)"><span class="chip">通讯</span>
+            <div class="app">电话</div><div class="app">短信</div><div class="app">联系人</div><div class="app">黄页</div>
+          </div>
+          <div class="grp" style="flex:3;grid-template-columns:repeat(3,1fr)"><span class="chip">设备管理</span>
+            <div class="app">系统设置</div><div class="app">小米换机</div><div class="app">开机引导</div>
+            <div class="app">系统更新</div><div class="app">未成年模式</div><div class="app">10 个小工具</div>
+          </div>
+          <div class="grp" style="flex:2;grid-template-columns:repeat(2,1fr)"><span class="chip">门店演示</span>
+            <div class="app">演示桌面</div><div class="app">MiShow</div><div class="app">设置还原</div><div class="app">强制升级</div>
+          </div>
+        </div>
+
+        <!-- 能力层 -->
+        <div class="row" style="height:120px">
+          <div class="grp" style="flex:3;grid-template-columns:repeat(3,1fr)"><span class="chip">体验能力 · 承接横向赛道</span>
+            <div class="app cap">流畅与负载</div><div class="app cap">稳定性</div><div class="app cap">内存</div>
+            <div class="app cap">美学统一框架</div><div class="app cap">中低端功能分层</div><div class="app cap">质量保障与埋点</div>
+          </div>
+          <div class="grp" style="flex:2;grid-template-columns:repeat(2,1fr)"><span class="chip">智能能力 · AI 赛道</span>
+            <div class="app cap">端侧模型和 ASR</div><div class="app cap">Agent 框架</div>
+            <div class="app cap" style="grid-column:span 2">端侧系统数据基建</div>
+          </div>
+          <div class="grp" style="flex:2;grid-template-columns:repeat(2,1fr)"><span class="chip">服务能力 · 服务端</span>
+            <div class="app cap">云同步和备份</div><div class="app cap">号码库</div>
+            <div class="app cap">天气数据</div><div class="app cap">三方账号接入</div>
+          </div>
+        </div>
+
+        <!-- 设备层 -->
+        <div class="dev">HyperOS · 以小米手机为主，覆盖平板、手表、车、家</div>
+        <div class="icons">
+          <svg viewBox="0 0 48 48"><rect x="14" y="4" width="20" height="40" rx="4"/><line x1="21" y1="38" x2="27" y2="38"/></svg>
+          <svg viewBox="0 0 48 48"><rect x="6" y="8" width="36" height="32" rx="4"/><line x1="21" y1="35" x2="27" y2="35"/></svg>
+          <svg viewBox="0 0 48 48"><rect x="13" y="13" width="22" height="22" rx="6"/><path d="M18 13 L19 5 H29 L30 13"/><path d="M18 35 L19 43 H29 L30 35"/></svg>
+          <svg viewBox="0 0 48 48"><path d="M8 30 L12 18 Q13 15 16 15 H32 Q35 15 36 18 L40 30"/><rect x="5" y="29" width="38" height="9" rx="3"/><circle cx="14" cy="38" r="3.5"/><circle cx="34" cy="38" r="3.5"/></svg>
+          <svg viewBox="0 0 48 48"><path d="M6 22 L24 7 L42 22"/><path d="M11 19 V41 H37 V19"/><rect x="20" y="28" width="8" height="13"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="tags">
+      <div class="tag" style="height:96px"></div>
+      <div class="tag" style="height:64px"></div>
+      <div class="tag" style="height:64px"><span>AI 竞争力</span></div>
+      <div class="tag" style="height:120px"><span>NSS</span></div>
+      <div class="tag" style="height:120px"><span>基础体验</span></div>
+      <div class="tag" style="height:50px"></div>
+    </div>
+
+  </div>
+  <div class="foot">右侧标签：2027 年三件事分别落在哪一层</div>
+</div>
+</body>
+</html>
