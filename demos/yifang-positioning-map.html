@@ -5,82 +5,92 @@
 <title>一方应用体验赛道 · 一页全景</title>
 <style>
   :root {
-    --blue: #3B6BF5; --blue-d: #2A4FB8; --t1: #F5F7FC; --t2: #E6ECFC; --bd: #C9D7FB;
-    --ink: #1B2033; --ink2: #3A4560; --ink3: #6B7280; --line: #DCE0E9;
+    --blue: #3B6BF5; --blue-d: #2A4FB8; --top: #EBF1FE; --bot: #F4F6FB; --ic: #DCE6FD;
+    --ink: #1B2033; --ink2: #3A4560; --ink3: #6B7280; --frame: #E1E7F2;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #EEF1F6; font-family: "MiSans", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
-  .board { width: 1600px; margin: 24px auto; background: #fff; padding: 60px 80px 72px; }
+  .board { width: 1600px; margin: 24px auto; background: #fff; padding: 56px; }
   .ln { white-space: nowrap; }
-  .sec { font-size: 21px; font-weight: 600; color: var(--blue); letter-spacing: 1px; text-align: center; }
-  .goal { text-align: center; font-size: 38px; font-weight: 700; margin-top: 14px; }
-  .metrics { display: flex; justify-content: center; margin-top: 22px; }
-  .metrics div { padding: 0 30px; font-size: 21px; color: var(--ink2); border-left: 1px solid var(--line); }
-  .metrics div:first-child { border-left: none; }
-  .metrics b { color: var(--blue-d); font-weight: 700; margin-right: 10px; }
-  .gap { height: 52px; }
-  .views { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: 18px; }
-  .view { background: var(--t1); border-radius: 20px; padding: 28px 30px 30px; min-width: 0; }
-  .vh { display: flex; align-items: center; gap: 12px; }
-  .ic { width: 42px; height: 42px; border-radius: 12px; background: var(--t2); display: flex; align-items: center; justify-content: center; flex: none; }
-  .ic svg { width: 24px; height: 24px; fill: none; stroke: var(--blue); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .vn { font-size: 26px; font-weight: 700; }
-  .vo { font-size: 18px; color: var(--ink3); }
-  .lab { font-size: 16px; font-weight: 600; color: var(--blue); margin-top: 22px; letter-spacing: 1px; }
-  .who { margin-top: 8px; }
-  .who .ln { font-size: 28px; font-weight: 700; line-height: 1.45; }
-  .chips { display: flex; gap: 8px; margin-top: 10px; }
-  .chips span { font-size: 20px; color: var(--blue-d); background: #fff; border: 1px solid var(--bd); border-radius: 999px; padding: 5px 12px; white-space: nowrap; }
-  .apps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 20px; }
-  .app { padding: 2px 14px; border-left: 1px solid var(--line); text-align: center; min-width: 0; }
-  .app:first-child { border-left: none; }
-  .app .n { font-size: 26px; font-weight: 700; }
-  .app .a { font-size: 20px; color: var(--ink2); margin-top: 8px; }
+  .house { border: 1.5px solid var(--frame); border-radius: 28px; overflow: hidden; }
+  .sec { font-size: 19px; font-weight: 600; color: var(--blue); letter-spacing: 1px; text-align: center; }
+
+  /* 顶：2027 年目标 */
+  .top { background: var(--top); padding: 42px 60px 40px; text-align: center; }
+  .goal { font-size: 38px; font-weight: 700; margin-top: 14px; }
+  .metrics { display: flex; justify-content: center; gap: 48px; margin-top: 20px; font-size: 20px; color: var(--ink2); }
+  .metrics b { color: var(--blue-d); font-weight: 600; margin-right: 10px; }
+
+  /* 中：三个视角 */
+  .mid { padding: 40px 20px 48px; }
+  .views { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 26px; }
+  .v { text-align: center; padding: 0 20px; min-width: 0; }
+  .ic { width: 50px; height: 50px; border-radius: 50%; background: var(--ic); display: inline-flex; align-items: center; justify-content: center; }
+  .ic svg { width: 25px; height: 25px; fill: none; stroke: var(--blue); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .vl { margin-top: 14px; font-size: 20px; }
+  .vl b { font-weight: 600; }
+  .vl span { font-size: 17px; color: var(--ink3); margin-left: 8px; }
+  .pos { font-size: 28px; font-weight: 700; margin-top: 18px; }
+  .gray { font-size: 19px; color: var(--ink3); margin-top: 8px; }
+  .can { font-size: 19px; font-weight: 500; color: var(--blue-d); margin-top: 18px; }
+
+  /* 底：赛道包含的应用 */
+  .bot { background: var(--bot); padding: 30px 40px 34px; }
+  .apps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 16px; text-align: center; }
+  .app { padding: 0 12px; min-width: 0; }
+  .app .n { font-size: 23px; font-weight: 700; }
+  .app .a { font-size: 18px; color: var(--ink2); margin-top: 8px; }
 </style>
 </head>
 <body>
 <div class="board" id="p1">
-  <div class="sec">一方应用体验赛道 · 2027 年目标</div>
-  <div class="goal ln">让用户每天要做的事顺畅、可靠、少打扰，手机提前把要用的信息准备好</div>
-  <div class="metrics">
-    <div class="ln"><b>基础体验</b>新增 22 个降负载场景达标</div>
-    <div class="ln"><b>NSS</b>3 个应用提升 4 个百分点</div>
-    <div class="ln"><b>AI 竞争力</b>日程出行、设备管理 Agent 上线</div>
-  </div>
+  <div class="house">
+    <div class="top">
+      <div class="sec">一方应用体验赛道 · 2027 年目标</div>
+      <div class="goal ln">让用户每天要做的事顺畅、可靠、少打扰，手机提前把要用的信息准备好</div>
+      <div class="metrics">
+        <div class="ln"><b>基础体验</b>新增 22 个降负载场景达标</div>
+        <div class="ln"><b>NSS</b>3 个应用提升 4 个百分点</div>
+        <div class="ln"><b>AI 竞争力</b>日程出行、设备管理 Agent 上线</div>
+      </div>
+    </div>
 
-  <div class="gap"></div>
-  <div class="sec">我们是谁、能做什么</div>
-  <div class="views">
-    <div class="view">
-      <div class="vh"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="m6.5 6.5 3.3 3.3M17.5 6.5l-3.3 3.3M6.5 17.5l3.3-3.3M17.5 17.5l-3.3-3.3"/></svg></span><span class="vn">生态视角</span><span class="vo">人车家全生态</span></div>
-      <div class="lab">我们是</div>
-      <div class="who"><div class="ln">人车家和三方服务的连接点</div><div class="ln">用户日程和联系人的汇集处</div></div>
-      <div class="lab">能做</div>
-      <div class="chips"><span>汇入三方服务</span><span>家庭日历</span><span>跨设备延续</span></div>
+    <div class="mid">
+      <div class="sec">我们是谁 · 能做什么</div>
+      <div class="views">
+        <div class="v">
+          <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="m6.5 6.5 3.3 3.3M17.5 6.5l-3.3 3.3M6.5 17.5l3.3-3.3M17.5 17.5l-3.3-3.3"/></svg></span>
+          <div class="vl ln"><b>生态视角</b><span>人车家全生态</span></div>
+          <div class="pos ln">人车家和三方服务的连接点</div>
+          <div class="gray ln">用户日程和联系人的汇集处</div>
+          <div class="can ln">汇入三方服务 · 家庭日历 · 跨设备延续</div>
+        </div>
+        <div class="v">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V4.5L13 2v19"/><path d="M13 8.5h6V21"/><path d="M8 7h2M8 11h2M8 15h2M16 12h1M16 16h1"/></svg></span>
+          <div class="vl ln"><b>公司视角</b><span>小米</span></div>
+          <div class="pos ln">选购、换机、日常使用的体验</div>
+          <div class="gray ln">直接影响成交、留存和口碑</div>
+          <div class="can ln">帮助成交 · 留住用户 · 海外交付</div>
+        </div>
+        <div class="v">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 12.5 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span>
+          <div class="vl ln"><b>系统视角</b><span>澎湃OS 和超级小爱</span></div>
+          <div class="pos ln">基础体验最直接的载体</div>
+          <div class="gray ln">也是超级小爱个人数据的主要来源</div>
+          <div class="can ln">基础体验达标 · 接入超级小爱 · 三个 Agent</div>
+        </div>
+      </div>
     </div>
-    <div class="view">
-      <div class="vh"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V4.5L13 2v19"/><path d="M13 8.5h6V21"/><path d="M8 7h2M8 11h2M8 15h2M16 12h1M16 16h1"/></svg></span><span class="vn">公司视角</span><span class="vo">小米</span></div>
-      <div class="lab">我们是</div>
-      <div class="who"><div class="ln">用户从选购、换机</div><div class="ln">到日常使用的手机体验</div></div>
-      <div class="lab">能做</div>
-      <div class="chips"><span>帮助成交</span><span>留住用户</span><span>海外交付</span></div>
-    </div>
-    <div class="view">
-      <div class="vh"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 12.5 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span><span class="vn">系统视角</span><span class="vo">澎湃OS 和超级小爱</span></div>
-      <div class="lab">我们是</div>
-      <div class="who"><div class="ln">基础体验最直接的载体</div><div class="ln">超级小爱个人数据的主要来源</div></div>
-      <div class="lab">能做</div>
-      <div class="chips"><span>体验达标</span><span>接入超级小爱</span><span>三个 Agent</span></div>
-    </div>
-  </div>
 
-  <div class="gap"></div>
-  <div class="sec">赛道包含的应用</div>
-  <div class="apps">
-    <div class="app"><div class="n">日程出行</div><div class="a ln">日历 · 天气 · 时钟 · 出行助手</div></div>
-    <div class="app"><div class="n">通讯</div><div class="a ln">电话 · 短信 · 联系人 · 黄页</div></div>
-    <div class="app"><div class="n">设备管理</div><div class="a ln">系统设置 · 小米换机 · 开机引导等</div></div>
-    <div class="app"><div class="n">门店演示</div><div class="a ln">演示桌面 · MiShow</div></div>
+    <div class="bot">
+      <div class="sec">赛道包含的应用</div>
+      <div class="apps">
+        <div class="app"><div class="n">日程出行</div><div class="a ln">日历 · 天气 · 时钟 · 出行助手</div></div>
+        <div class="app"><div class="n">通讯</div><div class="a ln">电话 · 短信 · 联系人 · 黄页</div></div>
+        <div class="app"><div class="n">设备管理</div><div class="a ln">系统设置 · 小米换机 · 开机引导等</div></div>
+        <div class="app"><div class="n">门店演示</div><div class="a ln">演示桌面 · MiShow</div></div>
+      </div>
+    </div>
   </div>
 </div>
 </body>
