@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生日纪念 AI App · 落地页（OS5 高保真）</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#111;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#f3a93c;--green:#2f9e6a;--pink:#e85b9a;--line:#eee}
+  html,body{height:100%}
+  body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:radial-gradient(1100px 680px at 50% -8%,#222634 0%,#0c0e13 62%);min-height:100%;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 14px 40px}
+  .cap{color:#c6ccd8;font-size:13px;font-weight:600;text-align:center}
+  .cap span{display:block;color:#7c8498;font-size:11.5px;font-weight:400;margin-top:3px}
+  .device{width:390px;height:844px;border-radius:54px;background:#0a0c10;padding:11px;position:relative;box-shadow:0 36px 90px rgba(0,0,0,.55),inset 0 0 0 2px #2a303c;flex:0 0 auto}
+  .screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:var(--page)}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#0a0c10;border-radius:0 0 18px 18px;z-index:60}
+  .app{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}
+  .app::-webkit-scrollbar{display:none}
+
+  .hero{position:relative;background:linear-gradient(168deg,#ff9ec6 0%,#f58fd0 26%,#c79af0 60%,#e3d7f3 86%,var(--page) 100%);padding:0 0 12px;overflow:hidden}
+  .ill{position:absolute;right:10px;top:30px;width:150px;height:150px;pointer-events:none}
+  .sb{position:relative;display:flex;justify-content:space-between;align-items:center;padding:15px 24px 4px;font-size:14px;font-weight:650;color:#7a2256}
+  .sb .r{display:flex;align-items:center;gap:6px}
+  .batt{font-size:10.5px;font-weight:700;background:#7a2256;color:#fff;border-radius:4px;padding:1px 5px}
+  .back{position:relative;margin:4px 0 0 16px;width:34px;height:34px;border:none;background:transparent;cursor:pointer;color:#7a2256}
+  .greet{position:relative;font-size:14px;color:#9c3a74;font-weight:500;padding:2px 24px 0}
+  .htitle{position:relative;font-size:32px;font-weight:700;color:#6a1f4e;letter-spacing:-.5px;padding:3px 24px 0}
+  .hpills{position:relative;display:flex;gap:8px;margin:13px 0 0 24px;flex-wrap:wrap}
+  .pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.72);border-radius:999px;padding:7px 12px;font-size:12.5px;color:#9c3a74;font-weight:500}
+
+  .body{padding:0 16px 0;position:relative;margin-top:2px}
+  .sec{display:flex;align-items:center;gap:8px;margin:22px 2px 11px;font-size:15px;font-weight:650;color:#17171b}
+  .sec .si{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff}
+  .sec .si svg{width:14px;height:14px}
+  .sec .rt{margin-left:auto;font-size:12.5px;color:var(--t4);font-weight:400}
+  .card{background:#fff;border-radius:20px}
+
+  .nextup{position:relative;background:linear-gradient(135deg,#e85b9a 0%,#c45bd8 55%,#8a5bff 100%);border-radius:24px;padding:17px 18px;color:#fff;overflow:hidden;box-shadow:0 12px 30px rgba(200,90,180,.3);margin-top:16px}
+  .nextup .eb{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;opacity:.95}
+  .nextup .eb .dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3)}
+  .nextup h3{font-size:21px;font-weight:700;margin:11px 0 4px;letter-spacing:-.3px}
+  .nextup p{font-size:13px;opacity:.95;display:flex;align-items:center;gap:6px}
+  .nextup .nbtns{display:flex;gap:9px;margin-top:15px}
+  .nextup .nbtns button{border:none;border-radius:12px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
+  .nextup .nbtns .pri{background:#fff;color:#c0398a}
+  .nextup .nbtns .ghost{background:rgba(255,255,255,.2);color:#fff}
+  .nextup .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid rgba(255,255,255,.12)}
+
+  .lst{padding:2px 0}
+  .li{display:flex;gap:12px;padding:13px 16px;align-items:center}
+  .li+.li{border-top:1px solid var(--line)}
+  .li .ic{width:40px;height:40px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+  .li .lc{flex:1;min-width:0}
+  .li .lc b{font-size:14.5px;font-weight:600;color:#1b1b1b;display:block}
+  .li .lc p{font-size:12px;color:var(--t3);margin-top:3px}
+  .li .cd{text-align:right;flex-shrink:0}
+  .li .cd b{font-size:15px;font-weight:650;color:var(--pink)}
+  .li .cd s{display:block;font-style:normal;font-size:11px;color:var(--t4);margin-top:2px}
+
+  .ck{display:flex;align-items:flex-start;gap:12px;padding:13px 16px}
+  .ck+.ck{border-top:1px solid var(--line)}
+  .ck .box{width:20px;height:20px;border-radius:6px;border:1.6px solid #cfcfcf;flex-shrink:0;margin-top:1px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .ck.done .box{background:var(--pink);border-color:var(--pink)}
+  .ck .ct b{font-size:15px;font-weight:450;color:#1c1c1c;line-height:1.5;display:block}
+  .ck.done .ct b{color:#b4b4b4;text-decoration:line-through}
+  .ck .ct s{font-style:normal;font-size:12px;color:#a6a6a6;display:block;margin-top:4px}
+
+  .sug{display:flex;gap:12px;padding:14px 16px;align-items:flex-start}
+  .sug+.sug{border-top:1px solid var(--line)}
+  .sug .ic{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}
+  .sug .sc{flex:1}
+  .sug .sc b{font-size:14px;font-weight:600;color:#1b1b1b;display:block}
+  .sug .sc p{font-size:12.5px;color:var(--t3);margin-top:4px;line-height:1.5}
+  .sug .go{align-self:center;font-size:12.5px;font-weight:600;color:var(--pink);flex-shrink:0}
+
+  .fab{position:absolute;right:18px;bottom:22px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;z-index:40;background:radial-gradient(circle at 35% 30%,#fff,#fdeaf4);box-shadow:0 8px 24px rgba(200,90,180,.3),0 1px 4px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center}
+  .fab svg{width:28px;height:28px}
+  .homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:120px;height:4.5px;border-radius:5px;background:rgba(0,0,0,.22);z-index:45}
+  @media(max-width:430px){body{padding:0;gap:0;background:#000}.cap{display:none}.device{width:100vw;height:100vh;border-radius:0;padding:0;box-shadow:none}.screen{border-radius:0}.notch{display:none}}
+</style>
+</head>
+<body>
+<div class="cap">生日纪念 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>妈妈 60 岁生日 · 接下来 / 近期纪念日 / 准备清单 / 礼物灵感</span></div>
+<div class="device"><div class="screen">
+  <div class="notch"></div>
+  <div class="app">
+    <div class="hero">
+      <svg class="ill" viewBox="0 0 160 160" fill="none">
+        <circle cx="40" cy="36" r="4" fill="#fff" opacity=".8"/><circle cx="118" cy="30" r="3" fill="#fff" opacity=".7"/><circle cx="135" cy="60" r="3.5" fill="#fff" opacity=".7"/>
+        <rect x="44" y="92" width="72" height="42" rx="8" fill="#ffffff" fill-opacity=".92"/>
+        <rect x="44" y="104" width="72" height="30" rx="8" fill="#ffd9ec"/>
+        <path d="M44 104c8 0 8 6 16 6s8-6 16-6 8 6 16 6 8-6 16-6" stroke="#fff" stroke-width="3" fill="none" opacity=".9"/>
+        <rect x="58" y="74" width="4" height="18" rx="2" fill="#ff8ab0"/><rect x="78" y="70" width="4" height="22" rx="2" fill="#ffb24d"/><rect x="98" y="74" width="4" height="18" rx="2" fill="#8a9bff"/>
+        <path d="M60 74c0-4-4-4-4-8 0 4-4 4-4 8" fill="#ffd36b"/><path d="M82 70c0-4-4-4-4-8 0 4-4 4-4 8" fill="#ffd36b"/><path d="M102 74c0-4-4-4-4-8 0 4-4 4-4 8" fill="#ffd36b"/>
+      </svg>
+      <div class="sb"><span>2:36</span><span class="r">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="#7a2256"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#7a2256" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#7a2256"/></svg>
+        <span class="batt">100</span></span>
+      </div>
+      <button class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+      <div class="greet">本周日 · 妈妈的生日</div>
+      <div class="htitle">生日纪念</div>
+      <div class="hpills">
+        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg>本周日</span>
+        <span class="pill">妈妈 60 岁</span>
+        <span class="pill">还有 2 天</span>
+      </div>
+    </div>
+
+    <div class="body">
+      <div class="nextup">
+        <div class="ring"></div>
+        <div class="eb"><span class="dot"></span>最近的纪念日 · 还有 2 天</div>
+        <h3>妈妈的 60 岁生日 🎂</h3>
+        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-5a8 8 0 0 1 16 0v5M12 3v3M4 21h16"/></svg>本周日 · 大寿，值得好好准备一次</p>
+        <div class="nbtns"><button class="pri">准备礼物</button><button class="ghost">订蛋糕</button></div>
+      </div>
+
+      <div class="sec"><span class="si" style="background:#e85b9a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg></span>近期纪念日</div>
+      <div class="card lst">
+        <div class="li"><span class="ic" style="background:#e85b9a">🎂</span><div class="lc"><b>妈妈生日（60 岁大寿）</b><p>本周日 · 5 月 18 日</p></div><div class="cd"><b>2 天后</b><s>周日</s></div></div>
+        <div class="li"><span class="ic" style="background:#8a5bff">💍</span><div class="lc"><b>结婚 5 周年</b><p>6 月 12 日</p></div><div class="cd"><b style="color:#8a5bff">28 天后</b><s>下月</s></div></div>
+        <div class="li"><span class="ic" style="background:#3a7afe">🎁</span><div class="lc"><b>爸爸生日</b><p>7 月 3 日</p></div><div class="cd"><b style="color:#3a7afe">49 天后</b><s>7 月</s></div></div>
+      </div>
+
+      <div class="sec"><span class="si" style="background:#f3a93c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></span>准备清单<span class="rt">还有 2 天</span></div>
+      <div class="card">
+        <div class="ck"><span class="box"></span><div class="ct"><b>订一个 8 寸生日蛋糕</b><s>妈妈爱吃栗子口味 · 周日中午前送到老家</s></div></div>
+        <div class="ck"><span class="box"></span><div class="ct"><b>预订家庭聚餐餐厅</b><s>老家 6 人桌 · 已挑好 2 家</s></div></div>
+        <div class="ck"><span class="box"></span><div class="ct"><b>买生日礼物</b><s>参考下面「礼物灵感」</s></div></div>
+        <div class="ck"><span class="box"></span><div class="ct"><b>准备红包和一束康乃馨</b><s>康乃馨可随蛋糕一起送</s></div></div>
+        <div class="ck"><span class="box"></span><div class="ct"><b>叫上弟弟一家视频连线</b><s>周日 12:00 家庭视频</s></div></div>
+      </div>
+
+      <div class="sec"><span class="si" style="background:#8a5bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span>礼物灵感</div>
+      <div class="card">
+        <div class="sug"><span class="ic" style="background:#e85b9a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 22V7M12 7S10 3 7.5 3 4 6 7.5 7m4.5 0s2-4 4.5-4S20 6 16.5 7"/></svg></span><div class="sc"><b>今年推荐：羊绒围巾 / 智能手环 / 体检卡</b><p>按妈妈的喜好和你 ¥800 的预算排的序，可一键下单送到老家。</p></div><span class="go">看看 ›</span></div>
+        <div class="sug"><span class="ic" style="background:#f3a93c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><div class="sc"><b>去年送的按摩仪她很喜欢</b><p>避免重复，今年换个品类。相关记录在「家人」合集里。</p></div></div>
+        <div class="sug"><span class="ic" style="background:#8a5bff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4 18 5-4.5 4 3 3-2.5 4 3.5"/></svg></span><div class="sc"><b>生成「妈妈的 60 岁」祝福相册</b><p>自动挑这些年和妈妈的合照，做成电子相册或祝福视频。</p></div><span class="go">生成 ›</span></div>
+      </div>
+      <div style="height:34px"></div>
+    </div>
+    <button class="fab"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z" fill="#e85b9a"/><circle cx="18.5" cy="5.5" r="1.4" fill="#f4a5cb"/></svg></button>
+    <div class="homebar"></div>
+  </div>
+</div></div>
+<script>
+document.querySelectorAll('.ck .box').forEach(function(b){b.addEventListener('click',function(){var r=b.parentElement;r.classList.toggle('done');b.innerHTML=r.classList.contains('done')?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'';});});
+document.querySelectorAll('.nbtns button,.go').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();});});
+var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
+if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+</script>
+</body>
+</html>
