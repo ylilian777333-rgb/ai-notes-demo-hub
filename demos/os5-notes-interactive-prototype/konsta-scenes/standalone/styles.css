@@ -493,7 +493,8 @@ button:disabled { cursor: default; opacity: .4; }
 .plan-row .pc span{display:block;color:#a3a3a3;font-size:12px;margin-top:4px}
 .plan-after{font-size:12px;color:#9a9a9a;flex-shrink:0}
 .plan-tag{font-size:12px;font-weight:600;color:#927321;background:#fff1c6;border-radius:9px;padding:4px 10px;flex-shrink:0}
-.plan-cta{height:33px!important;border-radius:11px!important;background:#f5d784!important;color:#57471b!important;padding:0 15px!important;font-size:13px!important;flex-shrink:0}
+.plan-cta{width:auto!important;min-width:0!important;flex:0 0 auto!important;height:33px!important;border-radius:11px!important;background:#f5d784!important;color:#57471b!important;padding:0 16px!important;font-size:13px!important}
+.plan-row .pc{min-width:0}
 .assistant-message .small-eyebrow{color:#ab9247}
 .assistant-message h3{font-size:16px;font-weight:600;margin:10px 0 6px;color:#6d5f38}
 .outing-eyebrow{display:flex;align-items:center;gap:6px;font-size:12px;color:#a58a52}

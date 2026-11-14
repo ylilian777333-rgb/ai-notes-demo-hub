@@ -1,6 +1,6 @@
 "use client";
 import { useState, type CSSProperties } from "react";
-import { App, Button, Sheet, Tabbar, TabbarLink } from "konsta/react";
+import { App, Button, Tabbar, TabbarLink } from "konsta/react";
 import {
   Signal, Wifi, Check, Sparkles, MoreVertical, Plus, ArrowLeft, FileText, ChevronRight,
   X, CalendarDays, Clock3, Car, TrainFront, Bell, MapPin, Utensils, Stethoscope, Luggage,
@@ -231,7 +231,7 @@ export function Demo() {
         {/* compose */}
         {composeOpen && <>
           <button className="sheet-backdrop" aria-label="关闭" onClick={() => setComposeOpen(false)} />
-          <Sheet opened backdrop={false} className="notes-sheet" role="dialog" aria-modal="true">
+          <div className="notes-sheet" role="dialog" aria-modal="true">
             <div><div className="sheet-handle" />
               <header className="sheet-header"><h2>说一句</h2><Button clear className="icon-button" aria-label="关闭" onClick={() => setComposeOpen(false)}><X size={21} /></Button></header>
               <form className="create-form" onSubmit={(e) => { e.preventDefault(); if (!draft.trim()) return; const i = keyToIdx(draft); setComposeOpen(false); openDetail(i); notify("已为你安排好 · 到点会提醒你"); }}>
@@ -243,13 +243,13 @@ export function Demo() {
                 <Button className="primary-button" type="submit" disabled={!draft.trim()}>让小爱安排</Button>
               </form>
             </div>
-          </Sheet>
+          </div>
         </>}
 
         {/* ask */}
         {askOpen && <>
           <button className="sheet-backdrop" aria-label="关闭" onClick={() => setAskOpen(false)} />
-          <Sheet opened backdrop={false} className="notes-sheet" role="dialog" aria-modal="true">
+          <div className="notes-sheet" role="dialog" aria-modal="true">
             <div><div className="sheet-handle" />
               <header className="sheet-header"><h2>问一问</h2><Button clear className="icon-button" aria-label="关闭" onClick={() => setAskOpen(false)}><X size={21} /></Button></header>
               <p className="subtle-copy">关于「{s.title}」· 示例问答</p>
@@ -262,7 +262,7 @@ export function Demo() {
                 ? "按现在的路况，" + s.plan[0].title + "就不会迟到；我已经设了到点提醒，出发前会叫你。"
                 : (s.bring ? "要带的东西我列了 " + s.bring.length + " 样：" + s.bring.join("、") + "。出门前会提醒你核对。" : "出发时间、打车和到点提醒都准备好了，到点跟着提醒走就行。")}</p></div>}
             </div>
-          </Sheet>
+          </div>
         </>}
       </div>
     </App>
