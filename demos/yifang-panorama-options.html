@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>一方应用体验赛道 · 业务全景（四种画法）</title>
+<title>一方应用体验赛道 · 业务全景（八种画法）</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #EEF1F6; font-family: "PingFang SC", "MiSans", "Microsoft YaHei", sans-serif; color: #1F2937; }
@@ -68,10 +68,15 @@
   .v4 .base { margin-top: 14px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
   .v4 .base .box { min-height: 70px; }
   .v4 .ground { margin-top: 14px; text-align: center; font-size: 16px; color: #8A93A6; }
+
+  /* V5-V8：带连线的关系图，整张用 SVG 画 */
+  .board.svgb { padding: 0; overflow: hidden; }
+  .board.svgb .tag-v { padding: 14px 20px 0; margin: 0; }
+  .board svg { display: block; }
 </style>
 </head>
 <body>
-<div class="page-note">一方应用体验赛道 · 业务全景，四种画法。每张都能单独导出放进 DSTE 文档。</div>
+<div class="page-note">一方应用体验赛道 · 业务全景，八种画法（一～四是分块画法，五～八是带连线的关系图）。每张都能单独导出放进 DSTE 文档。</div>
 
 <!-- ============ V1 分层简版 ============ -->
 <div class="board" id="v1">
@@ -202,6 +207,222 @@
     </div>
     <div class="ground">承接横向赛道：基础体验、美学、中低端、国际 ｜ 依赖：AI 赛道、系统体验、服务端</div>
   </div>
+</div>
+
+<!-- ============ V5 关系网络 ============ -->
+<div class="board svgb" id="v5">
+<div class="tag-v">画法五 · 关系网络</div>
+<svg width="1400" height="760" viewBox="0 0 1400 760" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC, MiSans, sans-serif">
+  <rect width="1400" height="760" fill="#ffffff"/>
+  <text x="700" y="62" text-anchor="middle" font-size="30" font-weight="700" fill="#475066">一方应用体验赛道 · 业务全景</text>
+  <text x="700" y="98" text-anchor="middle" font-size="17" fill="#8A93A6">用户每天要做的事连到一方应用，一方应用再连到支撑能力</text>
+  <g font-size="16" font-weight="600" fill="#8A93A6" text-anchor="middle">
+    <text x="125" y="160">用户</text><text x="430" y="160">每天要做的事</text><text x="850" y="160">一方应用</text><text x="1230" y="160">支撑能力</text>
+  </g>
+  <g fill="none" stroke="#C9BCF3" stroke-width="2.2">
+    <path d="M197 410 C 250 410, 250 230, 300 230"/><path d="M197 410 C 250 410, 250 350, 300 350"/>
+    <path d="M197 410 C 250 410, 250 470, 300 470"/><path d="M197 410 C 250 410, 250 590, 300 590"/>
+  </g>
+  <g fill="none" stroke="#A9BDE8" stroke-width="2.2">
+    <path d="M560 230 L700 230"/><path d="M560 350 L700 350"/><path d="M560 470 L700 470"/><path d="M560 590 L700 590"/>
+    <path d="M560 590 C 630 590, 630 470, 700 470"/>
+  </g>
+  <g fill="none" stroke="#A48BE6" stroke-width="2" stroke-dasharray="6 5">
+    <path d="M1000 230 C 1055 230, 1055 300, 1110 300"/><path d="M1000 350 C 1055 350, 1055 300, 1110 300"/>
+    <path d="M1000 470 C 1055 470, 1055 300, 1110 300"/>
+  </g>
+  <g fill="none" stroke="#8CC79C" stroke-width="2">
+    <path d="M1000 230 C 1055 230, 1055 520, 1110 520"/><path d="M1000 350 C 1055 350, 1055 520, 1110 520"/>
+    <path d="M1000 470 C 1055 470, 1055 520, 1110 520"/><path d="M1000 590 C 1055 590, 1055 520, 1110 520"/>
+  </g>
+  <circle cx="125" cy="410" r="72" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/>
+  <text x="125" y="410" text-anchor="middle" dominant-baseline="middle" font-size="26" font-weight="700" fill="#4B2FB0">用户</text>
+  <g text-anchor="middle" dominant-baseline="middle">
+    <rect x="300" y="190" width="260" height="80" rx="10" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/>
+    <text x="430" y="218" font-size="20" font-weight="600" fill="#1F2937">安排时间和出行</text><text x="430" y="246" font-size="15" fill="#6B7280">记日程、看天气、定闹钟</text>
+    <rect x="300" y="310" width="260" height="80" rx="10" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/>
+    <text x="430" y="338" font-size="20" font-weight="600" fill="#1F2937">和人联系</text><text x="430" y="366" font-size="15" fill="#6B7280">接打电话、收发短信</text>
+    <rect x="300" y="430" width="260" height="80" rx="10" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/>
+    <text x="430" y="458" font-size="20" font-weight="600" fill="#1F2937">管理手机</text><text x="430" y="486" font-size="15" fill="#6B7280">找功能、调设置、更新系统</text>
+    <rect x="300" y="550" width="260" height="80" rx="10" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/>
+    <text x="430" y="578" font-size="20" font-weight="600" fill="#1F2937">换机和选购</text><text x="430" y="606" font-size="15" fill="#6B7280">换新机、门店上手体验</text>
+
+    <rect x="700" y="184" width="300" height="92" rx="10" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/>
+    <text x="850" y="216" font-size="21" font-weight="600" fill="#1F2937">日程出行</text><text x="850" y="248" font-size="15" fill="#6B7280">日历 · 天气 · 时钟 · 出行助手</text>
+    <rect x="700" y="304" width="300" height="92" rx="10" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/>
+    <text x="850" y="336" font-size="21" font-weight="600" fill="#1F2937">通讯</text><text x="850" y="368" font-size="15" fill="#6B7280">电话 · 短信 · 联系人 · 黄页</text>
+    <rect x="700" y="424" width="300" height="92" rx="10" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/>
+    <text x="850" y="456" font-size="21" font-weight="600" fill="#1F2937">设备管理</text><text x="850" y="488" font-size="15" fill="#6B7280">系统设置 · 小米换机 · 开机引导 等</text>
+    <rect x="700" y="544" width="300" height="92" rx="10" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/>
+    <text x="850" y="576" font-size="21" font-weight="600" fill="#1F2937">门店演示</text><text x="850" y="608" font-size="15" fill="#6B7280">演示桌面 · MiShow</text>
+
+    <rect x="1110" y="230" width="240" height="140" rx="12" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/>
+    <text x="1230" y="270" font-size="19" font-weight="700" fill="#5B3FC4">超级小爱 · 系统 Agent</text>
+    <text x="1230" y="304" font-size="15" fill="#6B7280">三个一方 Agent</text><text x="1230" y="330" font-size="15" fill="#6B7280">提前把要用的信息准备好</text>
+    <rect x="1110" y="450" width="240" height="140" rx="12" fill="#E4F3E8" stroke="#72B183" stroke-width="1.5"/>
+    <text x="1230" y="490" font-size="21" font-weight="700" fill="#2F6B45">基础体验</text>
+    <text x="1230" y="522" font-size="15" fill="#6B7280">流畅 · 稳定 · 内存 · 美学一致</text><text x="1230" y="548" font-size="14" fill="#6B7280">承接基础体验、美学、中低端赛道</text>
+    <rect x="1110" y="612" width="240" height="50" rx="10" fill="#F5F6F8" stroke="#D5D9E0" stroke-width="1.2"/>
+    <text x="1230" y="637" font-size="14.5" fill="#6B7280">服务端：云同步 · 号码和天气数据</text>
+  </g>
+  <g font-size="14.5" fill="#6B7280" dominant-baseline="middle">
+    <line x1="430" y1="712" x2="470" y2="712" stroke="#A9BDE8" stroke-width="2.2"/><text x="480" y="712">对应关系</text>
+    <line x1="610" y1="712" x2="650" y2="712" stroke="#A48BE6" stroke-width="2" stroke-dasharray="6 5"/><text x="660" y="712">接入超级小爱</text>
+    <line x1="820" y1="712" x2="860" y2="712" stroke="#8CC79C" stroke-width="2"/><text x="870" y="712">基础体验支撑</text>
+  </g>
+</svg>
+</div>
+
+<!-- ============ V6 用户的一天 ============ -->
+<div class="board svgb" id="v6">
+<div class="tag-v">画法六 · 用户的一天</div>
+<svg width="1400" height="690" viewBox="0 0 1400 690" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC, MiSans, sans-serif">
+  <rect width="1400" height="690" fill="#ffffff"/>
+  <text x="700" y="62" text-anchor="middle" font-size="30" font-weight="700" fill="#475066">一方应用串起用户的一天</text>
+  <text x="700" y="98" text-anchor="middle" font-size="17" fill="#8A93A6">示例：一位上班族的一天。每一步都要稳定可靠，超级小爱提前把要用的信息准备好</text>
+  <rect x="80" y="130" width="1240" height="60" rx="12" fill="#F7F4FE" stroke="#A48BE6" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <text x="700" y="160" text-anchor="middle" dominant-baseline="middle" font-size="19" font-weight="700" fill="#5B3FC4">超级小爱 · 系统 Agent：提前把要用的信息准备好</text>
+  <g stroke="#A48BE6" stroke-width="2" stroke-dasharray="5 4">
+    <line x1="594" y1="190" x2="594" y2="262"/><line x1="806" y1="190" x2="806" y2="262"/>
+    <line x1="1018" y1="190" x2="1018" y2="262"/><line x1="1230" y1="190" x2="1230" y2="262"/>
+  </g>
+  <g text-anchor="middle" dominant-baseline="middle" font-size="14" fill="#6B4BD6">
+    <rect x="519" y="212" width="150" height="28" rx="14" fill="#FFFFFF" stroke="#CDBEF4"/><text x="594" y="226">事件自动收进日历</text>
+    <rect x="741" y="212" width="130" height="28" rx="14" fill="#FFFFFF" stroke="#CDBEF4"/><text x="806" y="226">陌生号码识别</text>
+    <rect x="953" y="212" width="130" height="28" rx="14" fill="#FFFFFF" stroke="#CDBEF4"/><text x="1018" y="226">行程到点提醒</text>
+    <rect x="1158" y="212" width="144" height="28" rx="14" fill="#FFFFFF" stroke="#CDBEF4"/><text x="1230" y="226">自然语言找设置</text>
+  </g>
+  <line x1="110" y1="420" x2="1290" y2="420" stroke="#C9D3EA" stroke-width="4" stroke-linecap="round"/>
+  <g stroke="#A9BDE8" stroke-width="2">
+    <line x1="170" y1="346" x2="170" y2="409"/><line x1="382" y1="346" x2="382" y2="409"/><line x1="594" y1="346" x2="594" y2="409"/>
+    <line x1="806" y1="346" x2="806" y2="409"/><line x1="1018" y1="346" x2="1018" y2="409"/><line x1="1230" y1="346" x2="1230" y2="409"/>
+    <line x1="170" y1="431" x2="170" y2="462"/><line x1="382" y1="431" x2="382" y2="462"/><line x1="594" y1="431" x2="594" y2="462"/>
+    <line x1="806" y1="431" x2="806" y2="462"/><line x1="1018" y1="431" x2="1018" y2="462"/><line x1="1230" y1="431" x2="1230" y2="462"/>
+  </g>
+  <g stroke="#9FCFAE" stroke-width="2">
+    <line x1="170" y1="508" x2="170" y2="580"/><line x1="382" y1="508" x2="382" y2="580"/><line x1="594" y1="508" x2="594" y2="580"/>
+    <line x1="806" y1="508" x2="806" y2="580"/><line x1="1018" y1="508" x2="1018" y2="580"/><line x1="1230" y1="508" x2="1230" y2="580"/>
+  </g>
+  <g fill="#7096E6" stroke="#ffffff" stroke-width="3">
+    <circle cx="170" cy="420" r="11"/><circle cx="382" cy="420" r="11"/><circle cx="594" cy="420" r="11"/>
+    <circle cx="806" cy="420" r="11"/><circle cx="1018" cy="420" r="11"/><circle cx="1230" cy="420" r="11"/>
+  </g>
+  <g text-anchor="middle" dominant-baseline="middle">
+    <rect x="78" y="262" width="184" height="84" rx="10" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/><text x="170" y="290" font-size="18" font-weight="700" fill="#2F4B8F">07:30</text><text x="170" y="320" font-size="17" fill="#1F2937">闹钟叫醒</text>
+    <rect x="290" y="262" width="184" height="84" rx="10" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/><text x="382" y="290" font-size="18" font-weight="700" fill="#2F4B8F">08:00</text><text x="382" y="320" font-size="17" fill="#1F2937">出门前看天气</text>
+    <rect x="502" y="262" width="184" height="84" rx="10" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/><text x="594" y="290" font-size="18" font-weight="700" fill="#2F4B8F">09:30</text><text x="594" y="320" font-size="17" fill="#1F2937">会议提醒</text>
+    <rect x="714" y="262" width="184" height="84" rx="10" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/><text x="806" y="290" font-size="18" font-weight="700" fill="#2F4B8F">12:30</text><text x="806" y="320" font-size="17" fill="#1F2937">快递员来电</text>
+    <rect x="926" y="262" width="184" height="84" rx="10" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/><text x="1018" y="290" font-size="18" font-weight="700" fill="#2F4B8F">18:00</text><text x="1018" y="320" font-size="17" fill="#1F2937">赶高铁</text>
+    <rect x="1138" y="262" width="184" height="84" rx="10" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/><text x="1230" y="290" font-size="18" font-weight="700" fill="#2F4B8F">22:00</text><text x="1230" y="320" font-size="17" fill="#1F2937">打开护眼模式</text>
+
+    <rect x="82" y="462" width="176" height="46" rx="8" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/><text x="170" y="485" font-size="16" fill="#1F2937">时钟</text>
+    <rect x="294" y="462" width="176" height="46" rx="8" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/><text x="382" y="485" font-size="16" fill="#1F2937">天气</text>
+    <rect x="506" y="462" width="176" height="46" rx="8" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/><text x="594" y="485" font-size="16" fill="#1F2937">日历</text>
+    <rect x="718" y="462" width="176" height="46" rx="8" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/><text x="806" y="485" font-size="16" fill="#1F2937">电话 · 黄页</text>
+    <rect x="930" y="462" width="176" height="46" rx="8" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/><text x="1018" y="485" font-size="16" fill="#1F2937">出行助手 · 短信</text>
+    <rect x="1142" y="462" width="176" height="46" rx="8" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/><text x="1230" y="485" font-size="16" fill="#1F2937">系统设置</text>
+  </g>
+  <rect x="80" y="580" width="1240" height="60" rx="12" fill="#E4F3E8" stroke="#72B183" stroke-width="1.5"/>
+  <text x="700" y="610" text-anchor="middle" dominant-baseline="middle" font-size="19" font-weight="700" fill="#2F6B45">基础体验：每一步都流畅、稳定、不丢数据</text>
+</svg>
+</div>
+
+<!-- ============ V7 飞轮 ============ -->
+<div class="board svgb" id="v7">
+<div class="tag-v">画法七 · 三件事如何互相带动</div>
+<svg width="1400" height="800" viewBox="0 0 1400 800" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC, MiSans, sans-serif">
+  <defs><marker id="ar7" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#8FA9E3"/></marker></defs>
+  <rect width="1400" height="800" fill="#ffffff"/>
+  <text x="700" y="62" text-anchor="middle" font-size="30" font-weight="700" fill="#475066">一方应用体验赛道 · 三件事如何互相带动</text>
+  <text x="700" y="98" text-anchor="middle" font-size="17" fill="#8A93A6">从每天使用到主动服务，三件事前后带动，共同指向用户满意度</text>
+  <circle cx="700" cy="450" r="260" fill="none" stroke="#DCE3F3" stroke-width="2" stroke-dasharray="6 6"/>
+  <g fill="none" stroke="#8FA9E3" stroke-width="3" marker-end="url(#ar7)">
+    <path d="M883.8 266.2 A260 260 0 0 1 951.1 382.7"/><path d="M951.1 517.3 A260 260 0 0 1 883.8 633.8"/>
+    <path d="M516.2 633.8 A260 260 0 0 1 448.9 517.3"/><path d="M448.9 382.7 A260 260 0 0 1 516.2 266.2"/>
+  </g>
+  <g font-size="15.5" fill="#6B7280" dominant-baseline="middle">
+    <text x="975" y="300">先保证稳定可靠</text><text x="975" y="600">再补满意度短板</text>
+    <text x="425" y="600" text-anchor="end">把能力和数据交给 Agent</text><text x="425" y="300" text-anchor="end">主动服务，用户用得更多</text>
+  </g>
+  <circle cx="700" cy="450" r="118" fill="#EEF3FF" stroke="#9DB4E6" stroke-width="1.5"/>
+  <text x="700" y="434" text-anchor="middle" dominant-baseline="middle" font-size="24" font-weight="700" fill="#2F55B5">用户满意度</text>
+  <text x="700" y="468" text-anchor="middle" dominant-baseline="middle" font-size="18" fill="#2F55B5">三年安卓第一</text>
+  <g text-anchor="middle" dominant-baseline="middle">
+    <rect x="545" y="134" width="310" height="112" rx="14" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/>
+    <text x="700" y="176" font-size="21" font-weight="700" fill="#1F2937">用户每天都在用</text>
+    <text x="700" y="210" font-size="15.5" fill="#6B7280">安排时间、和人联系、管理手机</text>
+
+    <rect x="805" y="394" width="310" height="112" rx="14" fill="#E4F3E8" stroke="#72B183" stroke-width="1.5"/>
+    <rect x="912" y="406" width="96" height="26" rx="13" fill="#FFFFFF" stroke="#9FCFAE"/><text x="960" y="419" font-size="14" font-weight="600" fill="#2F7A4A">基础体验</text>
+    <text x="960" y="452" font-size="20" font-weight="700" fill="#1F2937">功能稳定可靠</text>
+    <text x="960" y="482" font-size="15.5" fill="#6B7280">不卡顿、不闪退、不丢数据</text>
+
+    <rect x="545" y="654" width="310" height="112" rx="14" fill="#FDF5DA" stroke="#E2B65E" stroke-width="1.5"/>
+    <rect x="664" y="666" width="72" height="26" rx="13" fill="#FFFFFF" stroke="#E6C27A"/><text x="700" y="679" font-size="14" font-weight="600" fill="#9A6B12">NSS</text>
+    <text x="700" y="712" font-size="20" font-weight="700" fill="#1F2937">找得到、少打扰、信息准确</text>
+    <text x="700" y="742" font-size="15.5" fill="#6B7280">满意度偏低的应用补短板</text>
+
+    <rect x="285" y="394" width="310" height="112" rx="14" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/>
+    <rect x="384" y="406" width="112" height="26" rx="13" fill="#FFFFFF" stroke="#B8CBF2"/><text x="440" y="419" font-size="14" font-weight="600" fill="#2F55B5">AI 竞争力</text>
+    <text x="440" y="452" font-size="20" font-weight="700" fill="#1F2937">提前准备好要用的信息</text>
+    <text x="440" y="482" font-size="15.5" fill="#6B7280">能力和数据接入超级小爱</text>
+  </g>
+</svg>
+</div>
+
+<!-- ============ V8 同心圆 ============ -->
+<div class="board svgb" id="v8">
+<div class="tag-v">画法八 · 同心圆</div>
+<svg width="1400" height="900" viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC, MiSans, sans-serif">
+  <defs>
+    <path id="arcTop8" d="M365 500 A335 335 0 0 1 1035 500"/>
+    <path id="arcBot8" d="M365 500 A335 335 0 0 0 1035 500"/>
+  </defs>
+  <rect width="1400" height="900" fill="#ffffff"/>
+  <text x="700" y="58" text-anchor="middle" font-size="30" font-weight="700" fill="#475066">一方应用体验赛道 · 以用户为中心</text>
+  <text x="700" y="94" text-anchor="middle" font-size="17" fill="#8A93A6">由内向外：用户、每天要做的事、一方应用、支撑能力</text>
+  <circle cx="700" cy="500" r="370" fill="#FDF5DA" stroke="#E2B65E" stroke-width="1.5"/>
+  <path d="M330 500 A370 370 0 0 0 1070 500 Z" fill="#F3EEFD" stroke="#A48BE6" stroke-width="1.5"/>
+  <circle cx="700" cy="500" r="300" fill="#E9F0FF" stroke="#7096E6" stroke-width="1.5"/>
+  <circle cx="700" cy="500" r="180" fill="#F1ECFD" stroke="#A48BE6" stroke-width="1.5"/>
+  <circle cx="700" cy="500" r="85" fill="#FFFFFF" stroke="#A48BE6" stroke-width="1.5"/>
+  <g stroke="#FFFFFF" stroke-width="4">
+    <line x1="700" y1="200" x2="700" y2="415"/><line x1="700" y1="585" x2="700" y2="800"/>
+    <line x1="400" y1="500" x2="615" y2="500"/><line x1="785" y1="500" x2="1000" y2="500"/>
+    <line x1="330" y1="500" x2="400" y2="500"/><line x1="1000" y1="500" x2="1070" y2="500"/>
+  </g>
+  <text font-size="18" font-weight="700" fill="#9A6B12" dominant-baseline="middle"><textPath href="#arcTop8" startOffset="50%" text-anchor="middle">基础体验：流畅 · 稳定 · 内存 · 美学一致（承接横向赛道）</textPath></text>
+  <text font-size="18" font-weight="700" fill="#5B3FC4" dominant-baseline="middle"><textPath href="#arcBot8" startOffset="50%" text-anchor="middle">超级小爱：一方应用的能力和数据接入，提前把要用的信息准备好</textPath></text>
+  <text x="700" y="500" text-anchor="middle" dominant-baseline="middle" font-size="26" font-weight="700" fill="#4B2FB0">用户</text>
+  <g text-anchor="middle" dominant-baseline="middle" font-size="18" font-weight="700" fill="#4B2FB0">
+    <text x="607" y="395">安排时间</text><text x="607" y="420">和出行</text>
+    <text x="793" y="407">和人联系</text>
+    <text x="607" y="581">管理手机</text><text x="607" y="606">和换机</text>
+    <text x="793" y="593">门店选购</text>
+  </g>
+  <g text-anchor="middle" dominant-baseline="middle">
+    <text x="545" y="290" font-size="20" font-weight="700" fill="#2F4B8F">日程出行</text>
+    <text x="545" y="316" font-size="14.5" fill="#6B7280">日历 · 天气 · 时钟</text><text x="545" y="340" font-size="14.5" fill="#6B7280">出行助手</text>
+    <text x="855" y="290" font-size="20" font-weight="700" fill="#2F4B8F">通讯</text>
+    <text x="855" y="316" font-size="14.5" fill="#6B7280">电话 · 短信</text><text x="855" y="340" font-size="14.5" fill="#6B7280">联系人 · 黄页</text>
+    <text x="545" y="660" font-size="20" font-weight="700" fill="#2F4B8F">设备管理</text>
+    <text x="545" y="686" font-size="14.5" fill="#6B7280">系统设置 · 小米换机</text><text x="545" y="710" font-size="14.5" fill="#6B7280">开机引导 等</text>
+    <text x="855" y="660" font-size="20" font-weight="700" fill="#2F4B8F">门店演示</text>
+    <text x="855" y="686" font-size="14.5" fill="#6B7280">演示桌面 · MiShow</text><text x="855" y="710" font-size="14.5" fill="#6B7280">设置还原</text>
+  </g>
+  <g font-size="16" fill="#4B5563">
+    <rect x="40" y="400" width="250" height="200" rx="12" fill="#F7F9FE" stroke="#D5DEF2"/>
+    <text x="64" y="436" font-size="17" font-weight="700" fill="#475066">2027 年三件事</text>
+    <text x="64" y="476">基础体验：外圈上半</text>
+    <text x="64" y="512">NSS：一方应用这一圈</text>
+    <text x="64" y="548">AI 竞争力：外圈下半</text>
+    <rect x="1110" y="400" width="250" height="200" rx="12" fill="#F7F9FE" stroke="#D5DEF2"/>
+    <text x="1134" y="436" font-size="17" font-weight="700" fill="#475066">由内向外</text>
+    <text x="1134" y="476">用户</text>
+    <text x="1134" y="512">每天要做的事</text>
+    <text x="1134" y="548">一方应用、支撑能力</text>
+  </g>
+</svg>
 </div>
 </body>
 </html>
