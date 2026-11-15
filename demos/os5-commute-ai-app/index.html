@@ -6,6 +6,7 @@
 <title>上下班通勤 AI App · 落地页（OS5 高保真）</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
+  s{text-decoration:none}
   :root{--ink:#111;--t2:#595959;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#f3a93c;--green:#2f9e6a;--line:#eee}
   html,body{height:100%}
   body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
@@ -21,6 +22,8 @@
   .app::-webkit-scrollbar{display:none}
 
   .hero{position:relative;background:linear-gradient(168deg,#ff9e7a 0%,#f98fa6 28%,#9a8ad8 62%,#c3bfe6 86%,var(--page) 100%);padding:0 0 12px;overflow:hidden}
+  .hero{transition:background .5s}
+  .hero.am{background:linear-gradient(168deg,#7cc4ff 0%,#9cbcff 30%,#bfcdf6 62%,#dde2f3 86%,var(--page) 100%)}
   .city{position:absolute;right:0;bottom:30px;width:230px;height:120px;pointer-events:none;opacity:.95}
   .sb{position:relative;display:flex;justify-content:space-between;align-items:center;padding:15px 24px 4px;font-size:14px;font-weight:650;color:#fff}
   .sb .r{display:flex;align-items:center;gap:6px}
@@ -49,7 +52,7 @@
   .nextup .nbtns .ghost{background:rgba(255,255,255,.2);color:#fff}
   .nextup .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid rgba(255,255,255,.12)}
 
-  .route{display:flex;align-items:center;gap:13px;padding:14px 16px;position:relative}
+  .route{display:flex;align-items:center;gap:13px;padding:14px 16px;position:relative;cursor:pointer}
   .route+.route{border-top:1px solid var(--line)}
   .route .ri{width:40px;height:40px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}
   .route .rc{flex:1;min-width:0}
@@ -86,7 +89,7 @@
 </style>
 </head>
 <body>
-<div class="cap">上下班通勤 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>下班回家 · 推荐方案 / 通勤方案对比 / 路上提醒 / 顺路 / 到家</span></div>
+<div class="cap">上下班通勤 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>同一个 App 早上是「上班通勤」，晚上是「下班回家」· 方案 / 路上提醒 / 顺路 / 到家</span></div>
 <div class="device"><div class="screen">
   <div class="notch"></div>
   <div class="app">
@@ -98,7 +101,7 @@
         <rect x="0" y="108" width="230" height="12" fill="#5a4b8a" opacity=".5"/>
         <rect x="150" y="96" width="46" height="18" rx="5" fill="#ffffff" opacity=".9"/><circle cx="160" cy="116" r="4" fill="#3a3a4a"/><circle cx="186" cy="116" r="4" fill="#3a3a4a"/>
       </svg>
-      <div class="sb"><span>2:36</span><span class="r">
+      <div class="sb"><span>18:30</span><span class="r">
         <svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
         <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#fff"/></svg>
         <span class="batt">100</span></span>
@@ -107,9 +110,9 @@
       <div class="greet">该下班啦 · 上下班通勤</div>
       <div class="htitle">下班回家</div>
       <div class="hpills">
-        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>18:30</span>
+        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="p1">18:30</span></span>
         <span class="pill">距离 14.2 km</span>
-        <span class="pill">预计 45 分钟</span>
+        <span class="pill"><span class="p3">预计 42 分钟</span></span>
       </div>
     </div>
 
@@ -118,7 +121,7 @@
         <div class="ring"></div>
         <div class="eb"><span class="dot"></span>现在走最省时 · 比晚高峰后快 16 分钟</div>
         <h3>地铁 10 号线 · 42 分钟到家</h3>
-        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg>公司 → 国贸站换乘 → 家，步行共 6 分钟</p>
+        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg><span class="np">公司 → 国贸站换乘 → 家，步行共 6 分钟</span></p>
         <div class="nbtns"><button class="pri">开始导航</button><button class="ghost">到站提醒</button></div>
       </div>
 
@@ -130,24 +133,26 @@
       </div>
 
       <div class="sec"><span class="si" style="background:#f3a93c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 2.5 18a1.5 1.5 0 0 0 1.3 2.2h16.4a1.5 1.5 0 0 0 1.3-2.2L13.7 3.9a1.5 1.5 0 0 0-2.6 0Z"/></svg></span>路上提醒</div>
-      <div class="card lst">
+      <div class="card lst" id="road">
         <div class="li"><span class="ic" style="background:#ef5a4c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14v6H5z"/><path d="M3 15h18"/></svg></span><div class="lc"><b>今日限行尾号 4，你的车限行</b><p>已自动把自驾从推荐中排除，优先地铁。</p></div></div>
         <div class="li"><span class="ic" style="background:#4f86f7"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><div class="lc"><b>10 号线末班车 23:15</b><p>现在出发完全来得及，不必赶。</p></div></div>
         <div class="li"><span class="ic" style="background:#7b5bff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a8 8 0 0 1 16 0M3 18h18M8 10l-1-2M16 10l1-2"/></svg></span><div class="lc"><b>到家前有小雨</b><p>出地铁站步行约 5 分钟，建议带伞。</p></div></div>
       </div>
 
+      <div data-st="1">
       <div class="sec"><span class="si" style="background:#2f9e6a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 4l9 6.5M5 9.5V20h14V9.5"/></svg></span>顺路</div>
       <div class="card lst">
         <div class="li"><span class="ic" style="background:#e8792b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7" width="17" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M8 12h8"/></svg></span><div class="lc"><b>菜鸟驿站 2 个待取快递</b><p>地铁站 B 口出来顺路 80 米。</p></div><span class="go">去取 ›</span></div>
-        <div class="li"><span class="ic" style="background:#2f9e6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H3M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2M17 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/></svg></span><div class="lc"><b>盒马今晚牛排 5 折</b><p>回家路上经过 · 冰箱缺晚饭食材。</p></div><span class="go">看看 ›</span></div>
+        <div class="li"><span class="ic" style="background:#2f9e6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H3M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2M17 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/></svg></span><div class="lc"><b>购物清单里还有 2 样</b><p>鸡蛋、牛奶 · 小区门口超市顺路买。</p></div><span class="go" data-sheet="shop">看看 ›</span></div>
       </div>
 
-      <div class="sec"><span class="si" style="background:#7b5bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span>到家</div>
+      </div>
+      <div class="sec"><span class="si" style="background:#7b5bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span><span class="sa">到家</span></div>
       <div class="card arrive">
-        <div class="big">19:15<s>预计到家</s></div>
+        <div class="big">19:12<s>预计到家</s></div>
         <div class="av">
-          <p><i style="background:#3a7afe"></i>米家：空调已远程开启 26°</p>
-          <p><i style="background:#2f9e6a"></i>晚饭：冰箱食材可做番茄牛腩</p>
+          <p><i style="background:#3a7afe"></i>米家：到家前 10 分钟开空调 26°</p>
+          <p><i style="background:#2f9e6a"></i>米家：进小区时打开玄关灯</p>
           <p><i style="background:#f3a93c"></i>23:00 自动进入免打扰</p>
         </div>
       </div>
@@ -158,9 +163,32 @@
   </div>
 </div></div>
 <script>
-document.querySelectorAll('.nbtns button,.go,.route').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();});});
 var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
-if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,3000);}
+</script>
+<script>
+/* 阶段：早高峰（上班）→ 晚高峰（下班） */
+(function(){
+  function EB(t){return '<span class="dot"></span>'+t;}
+  window.OS5_ACC='#7b5bff'; window.OS5_STAGE_BASE=1;
+  window.OS5_STAGES=[
+    {k:'早高峰',t:'07:40',cls:{'.hero':'am'},
+     set:{'.greet':'早上好 · 上班通勤','.htitle':'上班通勤','.p1':'07:40','.p3':'预计 40 分钟',
+      '.nextup .eb':EB('尾号 4 今天限行 · 地铁最快'),'.nextup h3':'地铁 10 号线 · 38 分钟到公司','.nextup .np':'家 → 国贸站换乘 → 公司，步行共 6 分钟',
+      '.route:nth-child(1) .rc p':'少步行 · 不受路况影响 · 早高峰 3 分钟一班','.route:nth-child(1) .rr b':'38 分',
+      '.route:nth-child(2) .rc p':'尾号 4 今日限行 · 早高峰拥堵','.route:nth-child(2) .rr b':'52 分',
+      '.route:nth-child(3) .rc p':'约 4 分钟接驾 · 早高峰小幅加价','.route:nth-child(3) .rr b':'48 分','.route:nth-child(3) .rr s':'约 ¥55',
+      '#road .li:nth-child(2) .lc b':'国贸站换乘人多','#road .li:nth-child(2) .lc p':'走 B 通道换乘更快，比 A 通道少排 3 分钟队。',
+      '#road .li:nth-child(3) .lc b':'傍晚有阵雨','#road .li:nth-child(3) .lc p':'下班时可能下雨，出门记得带伞。',
+      '.sa':'到公司','.arrive .big':'08:20<s>预计到公司</s>',
+      '.arrive .av':'<p><i style="background:#7b5bff"></i>10:00 产品评审会 · 资料已备好</p><p><i style="background:#3a7afe"></i>米家：出门后空调和灯已关闭</p><p><i style="background:#2f9e6a"></i>米家：扫地机器人开始清扫</p>'}},
+    {k:'晚高峰',t:'18:30',cls:{'.hero':''},set:{}}
+  ];
+  window.OS5_SHEETS={
+    shop:{t:'购物清单',h:'<div class="k-card"><div class="k-kv"><span class="k">鸡蛋</span><span class="v">1 盒</span></div><div class="k-kv"><span class="k">牛奶</span><span class="v">2 瓶</span></div></div><div class="k-note">来自你的「购物清单」笔记 · 小区门口超市营业到 23:00</div>',a:['稍后','到超市提醒我'],at:['好的，稍后再提醒你','到小区门口时提醒你 🔔']}
+  };
+  window.OS5_DEST='公司 / 家';
+})();
 </script>
 <script src="../os5-kit/interaction.js"></script>
 </body>

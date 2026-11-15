@@ -6,6 +6,7 @@
 <title>回老家 AI App · 落地页（OS5 高保真）</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
+  s{text-decoration:none}
   :root{--ink:#111;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#eb9a2e;--green:#2f9e6a;--line:#eee}
   html,body{height:100%}
   body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:radial-gradient(1200px 760px at 50% -12%,#fcfdff 0%,#eceff4 58%,#e2e7ef 100%);min-height:100%;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 14px 40px}
@@ -43,6 +44,11 @@
   .nextup .nbtns{display:flex;gap:9px;margin-top:15px}
   .nextup .nbtns button{border:none;border-radius:12px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
   .nextup .nbtns .pri{background:#fff;color:#d97a1e}
+  .nextup{transition:background .4s}
+  .nextup.c-blue{background:linear-gradient(135deg,#2b8fd6 0%,#3a7afe 60%,#5b6cff 100%);box-shadow:0 12px 30px rgba(50,110,230,.28)}
+  .nextup.c-green{background:linear-gradient(135deg,#1f9e6e 0%,#22a88a 55%,#14a7a0 100%);box-shadow:0 12px 30px rgba(30,150,110,.28)}
+  .nextup.c-purple{background:linear-gradient(135deg,#6a5bff 0%,#7b5bff 50%,#a067e8 100%);box-shadow:0 12px 30px rgba(110,90,230,.3)}
+  .nextup.c-blue .nbtns .pri{color:#2f62d8}.nextup.c-green .nbtns .pri{color:#14845e}.nextup.c-purple .nbtns .pri{color:#5b4bd6}
   .nextup .nbtns .ghost{background:rgba(255,255,255,.2);color:#fff}
   .nextup .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid rgba(255,255,255,.12)}
 
@@ -82,7 +88,7 @@
 </style>
 </head>
 <body>
-<div class="cap">回老家 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>本周六回家 · 接下来 / 回家行程 / 行李清单 / 到家与惦记</span></div>
+<div class="cap">回老家 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>计划 → 收拾 → 出发 → 到达 · 车票来自 12306 购票短信（不替你抢票）</span></div>
 <div class="device"><div class="screen">
   <div class="notch"></div>
   <div class="app">
@@ -96,7 +102,7 @@
         <path d="M80 58v-10h10v16" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none"/>
         <path d="M30 128h100" stroke="#e08a4a" stroke-width="4" stroke-linecap="round" opacity=".6"/>
       </svg>
-      <div class="sb"><span>2:36</span><span class="r">
+      <div class="sb"><span>12:20</span><span class="r">
         <svg width="17" height="11" viewBox="0 0 17 11" fill="#6a3d12"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
         <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#6a3d12" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#6a3d12"/></svg>
         <span class="batt">100</span></span>
@@ -107,7 +113,7 @@
       <div class="hpills">
         <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg>周六 08:00</span>
         <span class="pill">G1234</span>
-        <span class="pill">约 4.5 小时</span>
+        <span class="pill">约 2 小时</span>
       </div>
     </div>
 
@@ -116,33 +122,33 @@
         <div class="ring"></div>
         <div class="eb"><span class="dot"></span>还有 2 天 · 周六出发</div>
         <h3>G1234 北京南 → 济南西</h3>
-        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="14" rx="4"/><path d="M5 11h14"/></svg>08:00 开车 · 二等座 05 车 12A · 已购票</p>
+        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="14" rx="4"/><path d="M5 11h14"/></svg><span class="np">08:00 开车 · 二等座 05 车 12A · 已购票</span></p>
         <div class="nbtns"><button class="pri">查看车票</button><button class="ghost">出发前提醒</button></div>
       </div>
 
       <div class="sec"><span class="si" style="background:#eb9a2e"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.4"/><circle cx="18" cy="5" r="2.4"/><path d="M8.4 19H14a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h5.6"/></svg></span>回家行程</div>
       <div class="tl">
         <div class="tli"><div class="tm"><b>周五晚</b></div><div class="rail" style="color:var(--amber)"><i></i></div><div class="tc"><b>收拾行李</b><p>按下面「行李清单」提前装好，别落下给爸妈的东西。</p></div></div>
-        <div class="tli"><div class="tm"><b>06:40</b><s>将提醒</s></div><div class="rail" style="color:var(--amber)"><i></i></div><div class="tc"><b>打车去北京南站</b><p>早高峰路上约 40 分钟，06:40 提醒你出发并叫车。</p></div></div>
-        <div class="tli"><div class="tm"><b>07:30</b></div><div class="rail" style="color:#b0b0b0"><i></i></div><div class="tc"><b>检票进站 <span class="tag" style="background:#fff1e3;color:#e8792b">12 检票口</span></b><p>刷身份证直接进，提前 20 分钟到候车厅。</p></div></div>
-        <div class="tli"><div class="tm"><b>12:30</b></div><div class="rail" style="color:#b0b0b0"><i></i></div><div class="tc"><b>济南西站到达</b><p>爸说开车来接站，到站前给他发个到达提醒。</p></div></div>
-        <div class="tli"><div class="tm"><b>到家</b></div><div class="rail" style="color:#2f9e6a"><i></i></div><div class="tc"><b>回到家 <span class="tag" style="background:#e7f5ee;color:#2f9e6a">周末</span></b><p>妈妈念叨想你了，今晚做你爱吃的红烧肉。</p></div></div>
+        <div class="tli"><div class="tm"><b>06:40</b></div><div class="rail" style="color:#3a7afe"><i></i></div><div class="tc"><b>打车去北京南站</b><p>周六早上路况畅通，约 35 分钟，06:30 提醒你出发并叫车。</p></div></div>
+        <div class="tli"><div class="tm"><b>07:40</b></div><div class="rail" style="color:#e8792b"><i></i></div><div class="tc"><b>检票进站 <span class="tag" style="background:#fff1e3;color:#e8792b">12 检票口</span></b><p>刷身份证进站，07:40 开始检票，08:00 开车。</p></div></div>
+        <div class="tli"><div class="tm"><b>09:52</b></div><div class="rail" style="color:#7b5bff"><i></i></div><div class="tc"><b>济南西站到达</b><p>爸说开车来接站（你记在笔记里），到站后给他发个消息。</p></div></div>
+        <div class="tli"><div class="tm"><b>到家</b></div><div class="rail" style="color:#2f9e6a"><i></i></div><div class="tc"><b>回到家 <span class="tag" style="background:#e7f5ee;color:#2f9e6a">周末</span></b><p>周末陪爸妈去做体检，套餐单记得带上。</p></div></div>
       </div>
 
       <div class="sec"><span class="si" style="background:#f3a93c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></span>行李清单</div>
       <div class="card">
         <div class="ck"><span class="box"></span><div class="ct"><b>给爸妈预约的体检套餐单</b><s>打印好带回去</s></div></div>
-        <div class="ck"><span class="box"></span><div class="ct"><b>给妈妈买的护手霜、给爸的茶叶</b><s>已下单 · 明天到</s></div></div>
+        <div class="ck"><span class="box"></span><div class="ct"><b>给妈妈买的护手霜、给爸的茶叶</b><s class="gift">已下单 · 明天到</s></div></div>
         <div class="ck"><span class="box"></span><div class="ct"><b>身份证、孩子的证件</b><s>进站 / 返程都要用</s></div></div>
         <div class="ck"><span class="box"></span><div class="ct"><b>给爷爷的降压药（2 盒）</b><s>老家不好买，记得带</s></div></div>
-        <div class="ck"><span class="box"></span><div class="ct"><b>充电器、数据线、耳机</b><s>路上 4.5 小时够用</s></div></div>
+        <div class="ck"><span class="box"></span><div class="ct"><b>充电器、数据线、耳机</b><s>路上 2 小时，平板记得充满电</s></div></div>
       </div>
 
       <div class="sec"><span class="si" style="background:#7b5bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span>到家与惦记</div>
       <div class="card">
         <div class="sug"><span class="ic" style="background:#4f86f7"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.5 5.5 7 7M17 17l1.5 1.5"/></svg></span><div class="sc"><b>老家今天多云 18°，比北京暖</b><p>周末有小雨，给爸妈带的薄外套记得放上面。</p></div></div>
-        <div class="sug"><span class="ic" style="background:#2f9e6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H3M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2M17 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/></svg></span><div class="sc"><b>给家里备点年货 / 水果</b><p>就近超市可下单到家，到站前送到老家。</p></div><span class="go">去买 ›</span></div>
-        <div class="sug"><span class="ic" style="background:#eb9a2e"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><div class="sc"><b>返程票：周日 16:00 已加入提醒</b><p>还没买返程，帮你盯着放票，合适就提醒抢。</p></div><span class="go">看票 ›</span></div>
+        <div class="sug"><span class="ic" style="background:#2f9e6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H3M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2M17 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/></svg></span><div class="sc"><b>给爸妈带点水果</b><p>济南西站出站口有水果店，也可以下单让超市送到家。</p></div><span class="go">去买 ›</span></div>
+        <div class="sug"><span class="ic" style="background:#eb9a2e"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><div class="sc"><b>返程票还没买</b><p>周日下午回北京的车次多，今晚 20:00 提醒你打开 12306 买票。</p></div><span class="go">去 12306 ›</span></div>
       </div>
       <div style="height:34px"></div>
     </div>
@@ -152,9 +158,37 @@
 </div></div>
 <script>
 document.querySelectorAll('.ck .box').forEach(function(b){b.addEventListener('click',function(){var r=b.parentElement;r.classList.toggle('done');b.innerHTML=r.classList.contains('done')?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'';});});
-document.querySelectorAll('.nbtns button,.go').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();});});
 var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
-if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,3000);}
+</script>
+<script>
+/* 阶段：计划（周四）→ 收拾（周五晚）→ 出发（周六早）→ 到达 */
+(function(){
+  function EB(t){return '<span class="dot"></span>'+t;}
+  function BT(a,b){return '<button class="pri">'+a+'</button><button class="ghost">'+b+'</button>';}
+  window.OS5_ACC='#eb9a2e'; window.OS5_STAGE_BASE=0; window.OS5_DEST='北京南站';
+  window.OS5_STAGES=[
+    {k:'计划',t:'12:20',cls:{'.nextup':''},
+     set:{'.greet':'本周六回家 · 已购高铁票','.nextup .eb':EB('还有 2 天 · 周六出发'),'.nextup h3':'G1234 北京南 → 济南西','.nextup .np':'08:00 开车 · 二等座 05 车 12A · 已购票','.nextup .nbtns':BT('查看车票','出发前提醒'),'.gift':'已下单 · 明天到'},
+     tl:['','','','',''],ck:[0,0,0,0,0]},
+    {k:'收拾',t:'21:00',cls:{'.nextup':'c-purple'},
+     set:{'.greet':'明天回家 · 今晚收拾行李','.nextup .eb':EB('明早 06:40 出发 · 早点睡'),'.nextup h3':'行李清单 · 已备好 2 / 5','.nextup .np':'明早 06:30 提醒你出门叫车','.nextup .nbtns':BT('看行李清单','设明早闹钟'),'.gift':'已收到 · 放进行李箱'},
+     tl:['now:今晚','','','',''],ck:[0,1,1,0,0]},
+    {k:'出发',t:'06:30',cls:{'.nextup':'c-blue'},
+     set:{'.greet':'出发回家 · 路上顺利','.nextup .eb':EB('10 分钟后出发 · 06:40'),'.nextup h3':'打车去北京南站','.nextup .np':'约 35 分钟 · 07:15 到站 · 12 检票口','.nextup .nbtns':BT('一键叫车','查看车票'),'.gift':'已收到 · 放进行李箱'},
+     tl:['done','now:下一步','','',''],ck:[1,1,1,1,1]},
+    {k:'到达',t:'09:55',cls:{'.nextup':'c-green'},
+     set:{'.greet':'到济南了 · 欢迎回家','.nextup .eb':EB('已到济南西站 · 09:52 准点'),'.nextup h3':'给爸发个到站消息','.nextup .np':'爸说开车来接站 · 出站后走 B 出口','.nextup .nbtns':BT('发消息','打电话'),'.gift':'已收到 · 放进行李箱'},
+     tl:['done','done','done','now:已到站',''],ck:[1,1,1,1,1]}
+  ];
+  window.OS5_ACTIONS=[
+    [/看行李清单/,function(){var c=document.querySelector('.ck');if(c)window.os5focus(c.parentElement,'行李清单在这里 · 已备好 2 / 5');}],
+    [/^发消息$/,'已发送：爸，我到济南西了，B 出口等你 💬'],
+    [/出发前提醒/,'已设置周六 06:30 出发提醒 🔔'],
+    [/去买/,'已为你打开超市下单页，送到老家 🛒']
+  ];
+  window.OS5_CHAT={'返程票什么时候买':'周日下午回北京的车次多，今晚 20:00 我提醒你打开 12306 买票。','老家这两天天气':'济南周六多云 18°，周日有小雨，给爸妈的薄外套记得带上。'};
+})();
 </script>
 <script src="../os5-kit/interaction.js"></script>
 </body>

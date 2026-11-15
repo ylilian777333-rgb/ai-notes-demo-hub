@@ -6,6 +6,7 @@
 <title>高数课程 AI App · 落地页（OS5 Figma 高保真）</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
+  s{text-decoration:none}
   :root{--ink:#111;--t2:#595959;--t3:#8c8c8c;--t4:#b4b4b4;--page:#f3f4f6;--blue:#3a6df5;--red:#ef5a4c;--line:#eee}
   html,body{height:100%}
   body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
@@ -32,6 +33,17 @@
   .datepill svg{color:#2f9e6a}
   .illus{position:absolute;right:-8px;top:40px;width:214px;height:214px;object-fit:contain;pointer-events:none}
 
+  /* key suggestion（与旅行 Figma 同一设计语言） */
+  .keysug{background:#fff;border-radius:26px;padding:16px;box-shadow:0 10px 30px rgba(40,50,80,.08);margin-top:8px}
+  .keysug .kt{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:650}
+  .keysug .kt b{background:linear-gradient(90deg,#356eff 10%,#0051ff 28%,#a385ff 64%,#ff775c 92%,#ff7700);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .keysug .kt .sp{width:18px;height:18px;color:#5b7cff}
+  .keysug h3{font-size:15px;font-weight:650;color:#111;margin:11px 0 6px}
+  .keysug p{font-size:13px;line-height:1.5;color:#8c8c8c}
+  .ksbtn{display:flex;gap:8px;margin-top:14px}
+  .ksbtn button{flex:1;height:38px;border:none;border-radius:45px;background:rgba(0,0,0,.05);font-family:inherit;font-size:13px;font-weight:500;color:rgba(0,0,0,.9);cursor:pointer}
+  .ksbtn button.pri{background:linear-gradient(90deg,#3a7afe,#6a5bff);color:#fff}
+  .crow,.kp,.coll{cursor:pointer}
   /* sections */
   .body{padding:4px 16px 0;margin-top:-2px}
   .sec{display:flex;align-items:center;gap:8px;margin:20px 2px 11px;font-size:15px;font-weight:650;color:#17171b}
@@ -51,7 +63,7 @@
 
   /* calendar */
   .calhd{font-size:13px;color:#8c8c8c;padding:14px 2px 10px;font-weight:500}
-  .week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;gap:2px;padding-bottom:6px}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;gap:2px;padding-bottom:6px;position:relative;z-index:0}
   .week .wd{font-size:12px;color:#a6a6a6;padding-bottom:9px}
   .week .dn{font-size:16px;color:#2a2a2a;font-weight:500;height:30px;display:flex;align-items:center;justify-content:center;position:relative}
   .week .dn.bl{color:#fff}.week .dn.bl:before{content:"";position:absolute;width:30px;height:30px;border-radius:50%;background:var(--blue);z-index:-1}
@@ -100,12 +112,12 @@
 </style>
 </head>
 <body>
-<div class="cap">高数课程 AI App · 落地页（Figma node 3966-30328 · 完全高保真）<span>点进去的详情页 · 考前准备 / 课程表 / 课程合集 / 本章知识点</span></div>
+<div class="cap">高数课程 AI App · 落地页（Figma node 3966-30328 · 完全高保真）<span>课前 → 临近上课 → 上课中 → 课后 → 考前 · 课表来自你导入的课程表，笔记来自课堂速记</span></div>
 <div class="device"><div class="screen">
   <div class="notch"></div>
   <div class="app">
     <div class="hero">
-      <div class="sb"><span>2:36</span><span class="r">
+      <div class="sb"><span>12:30</span><span class="r">
         <svg width="17" height="11" viewBox="0 0 17 11" fill="#1b1b1b"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
         <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#1b1b1b" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#1b1b1b"/></svg>
         <span class="batt">100</span></span>
@@ -117,11 +129,30 @@
     </div>
 
     <div class="body">
+      <div class="keysug">
+        <div class="kt"><span class="sp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/><circle cx="18.5" cy="5.5" r="1.3"/></svg></span><b>关键建议</b></div>
+        <h3>今天 14:30 摸底测验</h3>
+        <p>考场在教学楼 A301。考前再过一遍下面 4 个必考点，14:00 提醒你出发。</p>
+        <div class="ksbtn"><button>稍后</button><button class="pri">开始复习</button></div>
+      </div>
+
+      <div data-st="0 1 2 3">
+      <div class="sec"><span class="si" style="background:#f3a93c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></span>课前准备</div>
+      <div class="card">
+        <div class="ck"><span class="box"></span><div class="ct"><b>带上教材和演算纸</b><s><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a6a6a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>周三 13:30 提醒你</s></div></div>
+        <div class="ck"><span class="box"></span><div class="ct"><b>预习：极限与连续</b><s><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a6a6a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>先看 ε-N 定义，要点已整理好</s></div></div>
+        <div class="ck"><span class="box"></span><div class="ct"><b>上课时打开语音速记</b><s><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a6a6a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>老师讲的内容自动转成文字</s></div></div>
+      </div>
+      </div>
+
+      <div data-st="4">
       <div class="sec"><span class="si" style="background:#f3a93c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></span>考前准备</div>
       <div class="card">
         <div class="ck"><span class="box"></span><div class="ct"><b>带好学生证</b></div></div>
         <div class="ck"><span class="box"></span><div class="ct"><b>准备两支黑色签字笔、2B 铅笔、直尺</b><s><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a6a6a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>今天 14:30</s></div></div>
         <div class="ck"><span class="box"></span><div class="ct"><b>考试地点：教学楼 A301 的位置</b></div></div>
+      </div>
+
       </div>
 
       <div class="sec"><span class="si" style="background:#4f86f7"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M5 19V9M12 19V5M19 19v-7"/></svg></span>课程表</div>
@@ -138,7 +169,7 @@
 
       <div class="sec"><span class="si" style="background:#4f86f7"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M5 19V9M12 19V5M19 19v-7"/></svg></span>课程合集</div>
       <div class="card coll">
-        <div class="cl"><b>高等数学（上）</b><s><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a0a0a0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8L19 8v12.5H6z"/><path d="M13.5 3.5V8H19"/></svg>3 条笔记</s></div>
+        <div class="cl"><b>高等数学（上）</b><s><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a0a0a0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8L19 8v12.5H6z"/><path d="M13.5 3.5V8H19"/></svg><span class="cn">3 条笔记</span></s></div>
         <div class="cover"><b>高等数学</b><em>Σ</em></div>
       </div>
 
@@ -159,8 +190,31 @@
 </div></div>
 <script>
 document.querySelectorAll('.ck .box').forEach(function(b){b.parentElement&&b.addEventListener('click',function(){b.parentElement.classList.toggle('done');b.innerHTML=b.parentElement.classList.contains('done')?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'';});});
-if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,3000);}
 var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
+</script>
+<script>
+/* 阶段：课前 → 临近上课 → 上课中 → 课后 → 考前（考前 = Figma 原稿状态） */
+(function(){
+  function BT(a,b){return '<button>'+a+'</button><button class="pri">'+b+'</button>';}
+  function S(kt,h3,p,b){return {'.keysug .kt b':kt,'.keysug h3':h3,'.keysug p':p,'.keysug .ksbtn':b};}
+  function M(o,x){for(var k in x)o[k]=x[k];return o;}
+  window.OS5_ACC='#6a5bff'; window.OS5_STAGE_BASE=4;
+  window.OS5_STAGES=[
+    {k:'课前',t:'21:00',set:M(S('关键建议','明天 14:00 高等数学 A','教学楼 A203 · 张老师。上节课老师说要先预习「极限与连续」，要点已经帮你整理好了。',BT('稍后','开始预习')),{'.coll .cn':'2 条笔记'}),ck:[0,0,0,0,0,0]},
+    {k:'临近上课',t:'13:50',set:M(S('关键建议','10 分钟后上课 · A203','到座位后点「开始速记」，老师讲的内容会自动转成文字，重点会标出来。',BT('手机静音','开始速记')),{'.coll .cn':'2 条笔记'}),ck:[1,1,0,0,0,0]},
+    {k:'上课中',t:'14:20',set:M(S('正在上课','语音速记中 · 00:20:04','已转写 1,860 字，标出了老师强调的 2 处重点。看到板书可以随手拍。',BT('拍板书','查看速记')),{'.coll .cn':'2 条笔记'}),ck:[1,1,1,0,0,0]},
+    {k:'课后',t:'15:45',set:M(S('课后整理','这节课的笔记整理好了','提取了 3 个关键知识点和 1 项作业（习题 1-2 第 3、5 题，周五交），已存进课程合集。',BT('稍后','查看笔记')),{'.coll .cn':'3 条笔记'}),ck:[1,1,1,0,0,0]},
+    {k:'考前',t:'12:30',set:M(S('关键建议','今天 14:30 摸底测验','考场在教学楼 A301。考前再过一遍下面 4 个必考点，14:00 提醒你出发。',BT('稍后','开始复习')),{'.coll .cn':'3 条笔记'}),ck:[1,1,1,0,0,0]}
+  ];
+  window.OS5_SHEETS={
+    prev:{t:'预习 · 极限与连续',h:'<div class="k-card"><span class="t">先看这 3 点（约 15 分钟）</span><div class="k-bul"><i></i><span>ε-N 定义：任给 ε&gt;0，总存在 N，n&gt;N 时 |aₙ−a|&lt;ε</span></div><div class="k-bul"><i></i><span>夹逼定理：两边极限相同，中间也一样</span></div><div class="k-bul"><i></i><span>单调有界数列必有极限</span></div></div><div class="k-note">按课本第 1 章和上节课的速记整理</div>',a:['稍后','标记已预习'],at:['好的，稍后提醒你','已标记预习完成 ✓']},
+    live:{t:'实时速记',h:'<div class="k-card"><p>……所以我们说数列 aₙ 收敛到 a，就是说对<b>任意给定</b>的 ε 大于 0，都能找到一个正整数 N……（老师强调：这个定义考试一定会考）</p></div><div class="k-note">已转写 1,860 字 · 只在本机处理</div>',a:['','知道了']},
+    note:{t:'课堂笔记 · 极限与连续',h:'<div class="k-card"><span class="t">3 个关键知识点</span><div class="k-bul"><i></i><span>ε-N 定义的写法和使用</span></div><div class="k-bul"><i></i><span>夹逼定理（证明题常考）</span></div><div class="k-bul"><i></i><span>单调有界准则判定收敛</span></div></div><div class="k-card"><span class="t">作业</span><p>习题 1-2 第 3、5 题 · 周五交 · 周四 20:00 提醒你</p></div>',a:['分享给同学','打开笔记'],at:['已发送给同学 💬','已打开这节课的笔记']},
+    review:{t:'考前过一遍 · 4 个必考点',h:'<div class="k-card"><div class="k-bul"><i></i><span>ε-N / ε-δ 定义——写法和使用</span></div><div class="k-bul"><i></i><span>夹逼定理——证明题必考</span></div><div class="k-bul"><i></i><span>单调有界准则——判定收敛</span></div><div class="k-bul"><i></i><span>连续三条件与间断点分类</span></div></div><div class="k-note">来自你的 3 条课堂笔记</div>',a:['出 3 道练习题','开始复习'],at:['正在出题… ✨','已打开复习卡片 ✓']}
+  };
+  window.OS5_ACTIONS=[[/开始预习/,'sheet:prev'],[/开始速记/,'已开始语音速记，老师讲的内容会自动转成文字 🎙️'],[/查看速记/,'sheet:live'],[/查看笔记/,'sheet:note'],[/开始复习/,'sheet:review']];
+})();
 </script>
 <script src="../os5-kit/interaction.js"></script>
 </body>

@@ -6,6 +6,7 @@
 <title>带娃看病 AI App · 落地页（OS5 高保真）</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
+  s{text-decoration:none}
   :root{--ink:#111;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#f3a93c;--green:#2f9e6a;--teal:#14a7a0;--line:#eee}
   html,body{height:100%}
   body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:radial-gradient(1200px 760px at 50% -12%,#fcfdff 0%,#eceff4 58%,#e2e7ef 100%);min-height:100%;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 14px 40px}
@@ -35,7 +36,10 @@
   .sec .rt{margin-left:auto;font-size:12.5px;color:var(--t4);font-weight:400}
   .card{background:#fff;border-radius:20px}
 
-  .nextup{position:relative;background:linear-gradient(135deg,#14a7a0 0%,#1aa3c0 55%,#2b8fd6 100%);border-radius:24px;padding:17px 18px;color:#fff;overflow:hidden;box-shadow:0 12px 30px rgba(20,150,150,.28);margin-top:16px}
+  .nextup{position:relative;background:linear-gradient(135deg,#14a7a0 0%,#1aa3c0 55%,#2b8fd6 100%);border-radius:24px;padding:17px 18px;color:#fff;overflow:hidden;box-shadow:0 12px 30px rgba(20,150,150,.28);margin-top:16px;transition:background .4s}
+  .nextup.c-blue{background:linear-gradient(135deg,#2b8fd6 0%,#3a7afe 60%,#5b6cff 100%);box-shadow:0 12px 30px rgba(50,110,230,.28)}
+  .nextup.c-green{background:linear-gradient(135deg,#1f9e6e 0%,#22a88a 55%,#14a7a0 100%);box-shadow:0 12px 30px rgba(30,150,110,.28)}
+  .nextup.c-purple{background:linear-gradient(135deg,#6a5bff 0%,#7b5bff 50%,#a067e8 100%);box-shadow:0 12px 30px rgba(110,90,230,.3)}
   .nextup .eb{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;opacity:.92}
   .nextup .eb .dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3)}
   .nextup h3{font-size:21px;font-weight:700;margin:11px 0 4px;letter-spacing:-.3px}
@@ -43,17 +47,17 @@
   .nextup .nbtns{display:flex;gap:9px;margin-top:15px}
   .nextup .nbtns button{border:none;border-radius:12px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
   .nextup .nbtns .pri{background:#fff;color:#0f8a84}
+  .nextup.c-blue .nbtns .pri{color:#2f62d8}.nextup.c-green .nbtns .pri{color:#14845e}.nextup.c-purple .nbtns .pri{color:#5b4bd6}
   .nextup .nbtns .ghost{background:rgba(255,255,255,.2);color:#fff}
   .nextup .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid rgba(255,255,255,.12)}
 
   .tl{padding:2px 2px 0}
-  .tli{display:flex;gap:12px}
+  .tli{display:flex;gap:12px;cursor:pointer}
   .tli .tm{width:50px;flex-shrink:0;text-align:right;padding-top:14px}
   .tli .tm b{font-size:13px;font-weight:650;color:#1b1b1b;display:block}
   .tli .tm s{font-size:10.5px;color:#b0b0b0;font-style:normal}
   .tli .rail{position:relative;width:14px;flex-shrink:0;display:flex;justify-content:center}
   .tli .rail i{width:12px;height:12px;border-radius:50%;background:#fff;margin-top:16px;z-index:2;box-shadow:0 0 0 2.5px currentColor}
-  .tli.ok .rail i{background:currentColor}
   .tli .rail:before{content:"";position:absolute;top:18px;bottom:-6px;left:50%;width:2px;background:#e8e8e8;transform:translateX(-50%)}
   .tli:last-child .rail:before{display:none}
   .tli .tc{flex:1;min-width:0;background:#fff;border-radius:16px;padding:12px 15px;margin-bottom:11px}
@@ -61,7 +65,7 @@
   .tli .tc .tag{font-size:10.5px;font-weight:600;border-radius:6px;padding:1px 7px}
   .tli .tc p{font-size:12.5px;color:var(--t3);margin-top:6px;line-height:1.5}
 
-  .ck{display:flex;align-items:flex-start;gap:12px;padding:13px 16px}
+  .ck{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;cursor:pointer}
   .ck+.ck{border-top:1px solid var(--line)}
   .ck .box{width:20px;height:20px;border-radius:6px;border:1.6px solid #cfcfcf;flex-shrink:0;margin-top:1px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
   .ck.done .box{background:var(--teal);border-color:var(--teal)}
@@ -69,12 +73,35 @@
   .ck.done .ct b{color:#b4b4b4;text-decoration:line-through}
   .ck .ct s{font-style:normal;font-size:12px;color:#a6a6a6;display:block;margin-top:4px}
 
+  /* 宝宝这几天：体温记录（来自用户自己的笔记） */
+  .temp{padding:14px 16px 6px}
+  .bars{display:flex;gap:14px;align-items:flex-end;height:112px;padding:0 6px 2px;border-bottom:1px dashed #e6e6e6}
+  .bars .bc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%}
+  .bars .bv{font-size:13px;font-weight:700}
+  .bars .bb{width:100%;max-width:52px;border-radius:12px 12px 6px 6px}
+  .bdays{display:flex;gap:14px;padding:7px 6px 4px}
+  .bdays span{flex:1;text-align:center;font-size:11.5px;color:var(--t4)}
+  .tn{display:flex;gap:10px;font-size:12.5px;color:var(--t3);padding:10px 0;line-height:1.5}
+  .tn+.tn{border-top:1px solid var(--line)}
+  .tn i{font-style:normal;color:#1b1b1b;font-weight:600;flex-shrink:0;width:34px}
+  .tbtn{display:flex;align-items:center;justify-content:center;gap:6px;margin:4px 0 10px;height:40px;border-radius:12px;background:#eef8f7;color:#0f8a84;font-size:13.5px;font-weight:600;cursor:pointer;border:none;width:100%;font-family:inherit}
+
+  /* 医嘱与用药（来自拍下的处方） */
+  .rx{padding:4px 16px 14px}
+  .rxi{display:flex;gap:12px;padding:13px 0;align-items:flex-start}
+  .rxi+.rxi{border-top:1px solid var(--line)}
+  .rxi .pic{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .rxi .rxc b{font-size:14.5px;font-weight:600;color:#1b1b1b;display:block}
+  .rxi .rxc p{font-size:12.5px;color:var(--t3);margin-top:4px;line-height:1.5}
+  .rxbtn{display:block;width:100%;height:42px;border:none;border-radius:13px;background:linear-gradient(135deg,#14a7a0,#2b8fd6);color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px}
+
   .info{padding:4px 16px}
-  .irow{display:flex;justify-content:space-between;align-items:center;padding:13px 0;font-size:14px}
+  .irow{display:flex;justify-content:space-between;align-items:center;padding:13px 0;font-size:14px;gap:12px}
   .irow+.irow{border-top:1px solid var(--line)}
-  .irow .k{color:var(--t3)}
-  .irow .v{font-weight:600;color:#1b1b1b}
-  .irow .v.hl{color:var(--teal)}
+  .irow .k{color:var(--t3);flex-shrink:0}
+  .irow .v{font-weight:600;color:#1b1b1b;text-align:right}
+  .srcl{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:11px 0 12px;font-size:12px;color:#9a9ea6}
+  .srcl a{color:#0f8a84;font-weight:600;cursor:pointer}
 
   .sug{display:flex;gap:12px;padding:14px 16px;align-items:flex-start}
   .sug+.sug{border-top:1px solid var(--line)}
@@ -89,7 +116,7 @@
 </style>
 </head>
 <body>
-<div class="cap">带娃看病 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>呼吸科复诊 · 接下来 / 就诊流程 / 别忘带 / 就诊信息 / 贴心提醒</span></div>
+<div class="cap">带娃看病 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>只用手机上已有的信息：挂号短信 · 你记的体温笔记 · 你拍的处方（不接医院系统）</span></div>
 <div class="device"><div class="screen">
   <div class="notch"></div>
   <div class="app">
@@ -100,45 +127,71 @@
         <path d="M18 92h18l8-16 12 34 10-56 11 40 7-18h31" stroke="#2b8fd6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
         <circle cx="128" cy="44" r="12" fill="#ff8f6b"/><path d="M123 44h10M128 39v10" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
       </svg>
-      <div class="sb"><span>2:36</span><span class="r">
+      <div class="sb"><span>20:30</span><span class="r">
         <svg width="17" height="11" viewBox="0 0 17 11" fill="#0f3f3b"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
         <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#0f3f3b" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#0f3f3b"/></svg>
         <span class="batt">100</span></span>
       </div>
       <button class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-      <div class="greet">带娃看病 · 已为你安排好</div>
+      <div class="greet">明天上午复诊 · 已帮你安排好</div>
       <div class="htitle">带娃看病</div>
       <div class="hpills">
-        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg>今天 15:30</span>
+        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg><span class="pv1">明天 09:30</span></span>
         <span class="pill">市儿童医院</span>
-        <span class="pill" style="color:#0f8a84">✓ 已挂号</span>
+        <span class="pill" style="color:#0f8a84"><span class="pv3">✓ 已挂号</span></span>
       </div>
     </div>
 
     <div class="body">
       <div class="nextup">
         <div class="ring"></div>
-        <div class="eb"><span class="dot"></span>接下来 · 还有约 2 小时</div>
-        <h3>15:30 呼吸科复诊</h3>
-        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg>市儿童医院 · 3 号楼 2 层 · 王医生</p>
-        <div class="nbtns"><button class="pri">导航去医院</button><button class="ghost">出发提醒</button></div>
+        <div class="eb"><span class="dot"></span>明天 · 09:30–10:00 时段</div>
+        <h3>呼吸科复诊 · 王医生</h3>
+        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg><span class="np">市儿童医院 · 3 号楼 2 层</span></p>
+        <div class="nbtns"><button class="pri">设出发提醒</button><button class="ghost">看要带什么</button></div>
       </div>
 
-      <div class="sec"><span class="si" style="background:#14a7a0"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l2 2 4-4M7.5 3.5h9a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2Z"/></svg></span>就诊流程<span class="rt">实时同步医院叫号</span></div>
+      <div class="sec"><span class="si" style="background:#14a7a0"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l2 2 4-4M7.5 3.5h9a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2Z"/></svg></span>就诊安排<span class="rt"><span class="k-src">按挂号短信整理</span></span></div>
       <div class="tl">
-        <div class="tli ok"><div class="tm"><b>已完成</b></div><div class="rail" style="color:#2f9e6a"><i></i></div><div class="tc"><b>线上挂号 <span class="tag" style="background:#e7f5ee;color:#2f9e6a">完成</span></b><p>呼吸科复诊号 · 王医生 · 下午号源 015 号。</p></div></div>
-        <div class="tli"><div class="tm"><b>14:50</b><s>将提醒</s></div><div class="rail" style="color:var(--teal)"><i></i></div><div class="tc"><b>出发去医院</b><p>车程约 25 分钟，14:50 提醒你带齐东西出发。</p></div></div>
-        <div class="tli"><div class="tm"><b>15:20</b></div><div class="rail" style="color:#b0b0b0"><i></i></div><div class="tc"><b>到院取号报到</b><p>2 层自助机刷医保卡报到，或扫码签到。</p></div></div>
-        <div class="tli"><div class="tm"><b>候诊</b></div><div class="rail" style="color:#b0b0b0"><i></i></div><div class="tc"><b>候诊叫号 <span class="tag" style="background:#e9f1ff;color:#3a7afe">前方 12 人</span></b><p>预计 15:30 左右叫到，叫号前 3 位会震动提醒。</p></div></div>
-        <div class="tli"><div class="tm"><b>就诊后</b></div><div class="rail" style="color:#b0b0b0"><i></i></div><div class="tc"><b>缴费取药回家</b><p>手机缴费 → 1 层药房取药 → 一键叫车回家。</p></div></div>
+        <div class="tli"><div class="tm"><b>5/15</b></div><div class="rail" style="color:#2f9e6a"><i></i></div><div class="tc"><b>挂号成功 <span class="tag" style="background:#e7f5ee;color:#2f9e6a">短信</span></b><p>呼吸科复诊 · 王医生 · 5月16日 周六 09:30–10:00 时段。</p></div></div>
+        <div class="tli"><div class="tm"><b>08:50</b></div><div class="rail" style="color:var(--teal)"><i></i></div><div class="tc"><b>出发去医院</b><p>打车约 25 分钟，08:40 提醒你带齐东西出发。</p></div></div>
+        <div class="tli"><div class="tm"><b>09:15</b></div><div class="rail" style="color:#3a7afe"><i></i></div><div class="tc"><b>到 3 号楼 2 层报到</b><p>挂号短信提示：到呼吸科分诊台报到，出示电子医保码。</p></div></div>
+        <div class="tli"><div class="tm"><b>09:30</b></div><div class="rail" style="color:#7b5bff"><i></i></div><div class="tc"><b>看医生</b><p>把这 3 天的体温和用药记录给医生看，问清楚怎么吃药、什么时候复查。</p></div></div>
+        <div class="tli"><div class="tm"><b>看完</b></div><div class="rail" style="color:#e8792b"><i></i></div><div class="tc"><b>记医嘱 · 回家</b><p>拍下处方设吃药提醒，发票和化验单拍照存档，一键叫车回家。</p></div></div>
       </div>
 
-      <div class="sec"><span class="si" style="background:#f3a93c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></span>别忘带</div>
-      <div class="card">
-        <div class="ck"><span class="box"></span><div class="ct"><b>医保卡 / 电子医保码</b><s>报到、缴费都要用</s></div></div>
-        <div class="ck"><span class="box"></span><div class="ct"><b>孩子的病历本和上次化验单</b><s>复诊对比用</s></div></div>
-        <div class="ck"><span class="box"></span><div class="ct"><b>最近几天的体温和用药记录</b><s>已自动整理成一页，可出示给医生</s></div></div>
-        <div class="ck"><span class="box"></span><div class="ct"><b>水杯、小零食、备用口罩</b><s>候诊时安抚孩子</s></div></div>
+      <div data-st="3">
+        <div class="sec"><span class="si" style="background:#7b5bff"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>医嘱与用药<span class="rt"><span class="k-src">识别自你拍的处方</span></span></div>
+        <div class="card rx">
+          <div class="rxi"><span class="pic" style="background:#ef5a4c">💊</span><div class="rxc"><b>布洛芬混悬液（退烧）</b><p>体温 ≥ 38.5° 时服用 · 每次 5 ml · 两次间隔 ≥ 6 小时</p></div></div>
+          <div class="rxi"><span class="pic" style="background:#3a7afe">🧴</span><div class="rxc"><b>氨溴索口服液（化痰）</b><p>每天 2 次 · 每次 5 ml · 连续 5 天（早 8 点 / 晚 8 点）</p></div></div>
+          <div class="rxi"><span class="pic" style="background:#14a7a0">📅</span><div class="rxc"><b>复查 · 5月19日 周二上午</b><p>呼吸科 王医生 · 咳嗽没好转或再发烧要提前来</p></div></div>
+          <button class="rxbtn" data-toast="已设好吃药提醒 · 今晚 20:00 第一次，复查已加进日程 🔔">确认并设提醒</button>
+        </div>
+      </div>
+
+      <div data-st="0 1 2">
+        <div class="sec" id="bring"><span class="si" style="background:#f3a93c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></span>别忘带</div>
+        <div class="card">
+          <div class="ck"><span class="box"></span><div class="ct"><b>医保卡 / 电子医保码</b><s>报到、缴费都要用</s></div></div>
+          <div class="ck"><span class="box"></span><div class="ct"><b>病历本和上次化验单</b><s>复诊对比用</s></div></div>
+          <div class="ck"><span class="box"></span><div class="ct"><b>这 3 天的体温记录</b><s>已从你的笔记整理成一页，可直接给医生看</s></div></div>
+          <div class="ck"><span class="box"></span><div class="ct"><b>水杯、小零食、备用口罩</b><s>等候时安抚宝宝</s></div></div>
+        </div>
+      </div>
+
+      <div class="sec"><span class="si" style="background:#ef5a4c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.8V5a2 2 0 1 0-4 0v9.8a4 4 0 1 0 4 0Z"/></svg></span>宝宝这几天<span class="rt"><span class="k-src">来自你记的笔记</span></span></div>
+      <div class="card temp">
+        <div class="bars">
+          <div class="bc"><span class="bv" style="color:#e2553f">38.6°</span><span class="bb" style="height:70px;background:linear-gradient(180deg,#ff8a6b,#ef5a4c)"></span></div>
+          <div class="bc"><span class="bv" style="color:#e8792b">38.2°</span><span class="bb" style="height:56px;background:linear-gradient(180deg,#ffb27a,#f08a3c)"></span></div>
+          <div class="bc"><span class="bv" style="color:#c9971c">37.6°</span><span class="bb" style="height:36px;background:linear-gradient(180deg,#ffd77a,#f3b23c)"></span></div>
+        </div>
+        <div class="bdays"><span>5/13</span><span>5/14</span><span>5/15</span></div>
+        <div class="tn"><i>5/13</i><span>夜里开始咳嗽，最高 38.6°，吃了 1 次布洛芬</span></div>
+        <div class="tn"><i>5/14</i><span>白天精神还行，咳嗽有痰，最高 38.2°</span></div>
+        <div class="tn"><i>5/15</i><span>体温降到 37.6°，还在咳，胃口一般</span></div>
+        <button class="tbtn" data-sheet="temp">整理成一页 · 给医生看</button>
       </div>
 
       <div class="sec"><span class="si" style="background:#3a7afe"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></span>就诊信息</div>
@@ -146,14 +199,16 @@
         <div class="irow"><span class="k">医院</span><span class="v">市儿童医院（总院）</span></div>
         <div class="irow"><span class="k">科室 · 位置</span><span class="v">呼吸科 · 3 号楼 2 层</span></div>
         <div class="irow"><span class="k">医生</span><span class="v">王医生（主治）</span></div>
-        <div class="irow"><span class="k">叫号进度</span><span class="v hl">前方 12 人</span></div>
+        <div class="irow"><span class="k">就诊时段</span><span class="v">5月16日 周六 09:30–10:00</span></div>
+        <div class="srcl"><span>来自 5月15日 20:14 收到的挂号短信</span><a data-sheet="sms">查看原短信 ›</a></div>
       </div>
 
       <div class="sec"><span class="si" style="background:#7b5bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span>贴心提醒</div>
       <div class="card">
-        <div class="sug"><span class="ic" style="background:#14a7a0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><div class="sc"><b>就诊后设置用药提醒</b><p>医生开药后，自动按剂量和间隔提醒孩子吃药。</p></div></div>
-        <div class="sug"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h9L19 7.5v13H6z"/><path d="M15 3.5V7.5H19M9 12h7M9 15.5h5"/></svg></span><div class="sc"><b>发票和病历自动归档</b><p>缴费发票、检查单自动存入「孩子健康」合集，方便报销。</p></div></div>
-        <div class="sug"><span class="ic" style="background:#e8792b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg></span><div class="sc"><b>就诊结束一键叫车</b><p>取完药后，自动在药房门口为你叫车回家。</p></div></div>
+        <div class="sug" data-st="0"><span class="ic" style="background:#2b8fd6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg></span><div class="sc"><b>今晚早点睡</b><p>明早 08:40 提醒你出门。宝宝的外套、水杯今晚先放门口。</p></div></div>
+        <div class="sug" data-st="0 1 2" data-sheet="rx"><span class="ic" style="background:#14a7a0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6.5" width="17" height="13" rx="3"/><path d="M8.5 6.5 10 4h4l1.5 2.5"/><circle cx="12" cy="13" r="3.2"/></svg></span><div class="sc"><b>看完拍一下处方</b><p>识别药名和用法用量，你确认后按时提醒喂药，不用自己记。</p></div></div>
+        <div class="sug"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h9L19 7.5v13H6z"/><path d="M15 3.5V7.5H19M9 12h7M9 15.5h5"/></svg></span><div class="sc"><b>发票、化验单拍照存档</b><p>拍下来自动归到「宝宝健康」合集，报销和下次复诊都好找。</p></div></div>
+        <div class="sug"><span class="ic" style="background:#e8792b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg></span><div class="sc"><b>看完一键叫车回家</b><p>不用抱着孩子在路边等，点一下就能叫车到门诊楼门口。</p></div></div>
       </div>
       <div style="height:34px"></div>
     </div>
@@ -163,9 +218,64 @@
 </div></div>
 <script>
 document.querySelectorAll('.ck .box').forEach(function(b){b.addEventListener('click',function(){var r=b.parentElement;r.classList.toggle('done');b.innerHTML=r.classList.contains('done')?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'';});});
-document.querySelectorAll('.nbtns button').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();});});
 var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
-if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,3000);}
+</script>
+<script>
+/* 阶段：挂号后（前一晚）→ 出发前 → 到医院 → 看完病。只用手机上已有的数据，不接医院系统 */
+(function(){
+  function EB(t){return '<span class="dot"></span>'+t;}
+  function BT(a,b){return '<button class="pri">'+a+'</button><button class="ghost">'+b+'</button>';}
+  window.OS5_ACC='#14a7a0'; window.OS5_STAGE_BASE=0; window.OS5_DEST='市儿童医院 · 3 号楼';
+  window.OS5_STAGES=[
+    {k:'挂号后',t:'20:30',cls:{'.nextup':''},
+     set:{'.greet':'明天上午复诊 · 已帮你安排好','.pv1':'明天 09:30','.pv3':'✓ 已挂号',
+      '.nextup .eb':EB('明天 · 09:30–10:00 时段'),'.nextup h3':'呼吸科复诊 · 王医生','.nextup .np':'市儿童医院 · 3 号楼 2 层','.nextup .nbtns':BT('设出发提醒','看要带什么')},
+     tl:['done:已挂号','','','',''],ck:[0,0,0,0]},
+    {k:'出发前',t:'08:40',cls:{'.nextup':'c-blue'},
+     set:{'.greet':'该出发了 · 东西带齐了吗','.pv1':'今天 09:30','.pv3':'✓ 已挂号',
+      '.nextup .eb':EB('08:50 出发 · 路上约 25 分钟'),'.nextup h3':'出发去市儿童医院','.nextup .np':'周六早上路况畅通 · 医院停车紧张，建议打车','.nextup .nbtns':BT('一键叫车','导航去医院')},
+     tl:['done:已挂号','now:该出发','','',''],ck:[1,1,0,0]},
+    {k:'到医院',t:'09:15',cls:{'.nextup':'c-green'},
+     set:{'.greet':'到医院了 · 先去报到','.pv1':'今天 09:30','.pv3':'✓ 已到医院',
+      '.nextup .eb':EB('已到市儿童医院 · 09:15'),'.nextup h3':'去 3 号楼 2 层报到','.nextup .np':'呼吸科分诊台 · 出示电子医保码','.nextup .nbtns':BT('打开医保码','体温记录')},
+     tl:['done:已挂号','done','now:现在','',''],ck:[1,1,1,1]},
+    {k:'看完病',t:'10:20',cls:{'.nextup':'c-purple'},
+     set:{'.greet':'看完了 · 把医嘱记下来','.pv1':'5/19 复查','.pv3':'✓ 已看完',
+      '.nextup .eb':EB('看完了 · 10:20'),'.nextup h3':'拍处方，设好吃药提醒','.nextup .np':'识别药名和用法，你确认后才会提醒','.nextup .nbtns':BT('拍处方','叫车回家')},
+     tl:['done:已挂号','done','done','done','now:现在'],ck:[1,1,1,1]}
+  ];
+  var TEMP='<div class="k-card"><span class="t">发烧 3 天 · 体温在下降</span>'
+    +'<div class="k-kv"><span class="k">5/13 周三</span><span class="v">最高 38.6° · 夜里开始咳嗽</span></div>'
+    +'<div class="k-kv"><span class="k">5/14 周四</span><span class="v">最高 38.2° · 咳嗽有痰</span></div>'
+    +'<div class="k-kv"><span class="k">5/15 周五</span><span class="v">最高 37.6° · 还在咳</span></div></div>'
+    +'<div class="k-card"><span class="t">吃过的药</span><div class="k-bul"><i></i><span>5/13 22:10 布洛芬混悬液 5 ml（38.6° 时）</span></div><div class="k-bul"><i></i><span>其余时间物理降温，没有吃其他药</span></div></div>'
+    +'<div class="k-note">整理自你语音记的 4 条笔记，没有其他来源</div>';
+  window.OS5_SHEETS={
+    temp:{t:'宝宝这 3 天的情况',h:TEMP,a:['分享给家人','全屏给医生看'],at:['已发送给家人 💬','已全屏显示，可以直接递给医生看']},
+    sms:{t:'挂号短信',h:'<div class="k-card"><p>【市儿童医院】您已成功预约 5月16日（周六）09:30–10:00 呼吸科 王医生 复诊号。请就诊当日到 3 号楼 2 层呼吸科分诊台报到，凭电子医保码就诊。</p></div><div class="k-note">5月15日 20:14 收到 · 只在本机识别，不上传</div>',a:['','知道了']},
+    rx:{t:'拍处方',cam:true,camLabel:'对准处方，正在识别药名和用法…',
+      h:'<div class="k-card"><span class="t">识别到 2 种药 + 复查时间</span>'
+       +'<div class="k-kv"><span class="k">布洛芬混悬液</span><span class="v">≥ 38.5° 时 · 5 ml · 间隔 ≥ 6 小时</span></div>'
+       +'<div class="k-kv"><span class="k">氨溴索口服液</span><span class="v">每天 2 次 · 5 ml · 5 天</span></div>'
+       +'<div class="k-kv"><span class="k">复查</span><span class="v">5月19日 周二上午</span></div></div>'
+       +'<div class="k-note">识别结果仅供核对，以医生医嘱为准</div>',
+      a:['重拍','确认并设提醒'],at:['已重新打开相机','已设好吃药提醒 · 今晚 20:00 第一次，复查已加进日程 🔔']}
+  };
+  window.OS5_ACTIONS=[
+    [/设出发提醒/,'已设好明早 08:40 出发提醒 🔔'],
+    [/看要带什么/,function(){var b=document.getElementById('bring');if(b)window.os5focus(b.nextElementSibling,'要带的 4 样东西在这里，带齐了勾一下');}],
+    [/医保码/,'已打开电子医保码，出示给分诊台即可'],
+    [/体温记录|给医生看/,'sheet:temp'],
+    [/拍处方/,'sheet:rx'],
+    [/叫车回家/,'已为你叫车，司机到门诊楼门口接你 🚕']
+  ];
+  window.OS5_CHAT={
+    '看医生前要准备什么':'带好医保卡和病历本。宝宝这 3 天的体温我已经整理成一页（38.6° → 38.2° → 37.6°），看医生时直接给医生看就行。',
+    '帮我整理宝宝这几天的情况':'根据你记的笔记：5/13 夜里开始咳嗽、最高 38.6°，吃过 1 次布洛芬；5/14 最高 38.2°，咳嗽有痰；5/15 降到 37.6°，还在咳。',
+    '开完药提醒我喂药':'看完后拍一下处方，我会识别药名和用法，你确认后按时提醒你喂药。'
+  };
+})();
 </script>
 <script src="../os5-kit/interaction.js"></script>
 </body>

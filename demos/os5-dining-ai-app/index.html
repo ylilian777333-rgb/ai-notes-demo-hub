@@ -6,6 +6,7 @@
 <title>约饭 AI App · 落地页（OS5 高保真）</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
+  s{text-decoration:none}
   :root{--ink:#111;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#f3a93c;--green:#2f9e6a;--orange:#f0772b;--line:#eee}
   html,body{height:100%}
   body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:radial-gradient(1200px 760px at 50% -12%,#fcfdff 0%,#eceff4 58%,#e2e7ef 100%);min-height:100%;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 14px 40px}
@@ -43,6 +44,13 @@
   .nextup .nbtns{display:flex;gap:9px;margin-top:15px}
   .nextup .nbtns button{border:none;border-radius:12px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
   .nextup .nbtns .pri{background:#fff;color:#e2561f}
+  .nextup{transition:background .4s}
+  .nextup.c-blue{background:linear-gradient(135deg,#2b8fd6 0%,#3a7afe 60%,#5b6cff 100%);box-shadow:0 12px 30px rgba(50,110,230,.28)}
+  .nextup.c-green{background:linear-gradient(135deg,#1f9e6e 0%,#22a88a 55%,#14a7a0 100%);box-shadow:0 12px 30px rgba(30,150,110,.28)}
+  .nextup.c-purple{background:linear-gradient(135deg,#6a5bff 0%,#7b5bff 50%,#a067e8 100%);box-shadow:0 12px 30px rgba(110,90,230,.3)}
+  .nextup.c-blue .nbtns .pri{color:#2f62d8}.nextup.c-green .nbtns .pri{color:#14845e}.nextup.c-purple .nbtns .pri{color:#5b4bd6}
+  .srcl{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:11px 0 12px;font-size:12px;color:#9a9ea6}
+  .srcl a{color:#e2561f;font-weight:600;cursor:pointer}
   .nextup .nbtns .ghost{background:rgba(255,255,255,.2);color:#fff}
   .nextup .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid rgba(255,255,255,.12)}
 
@@ -53,7 +61,7 @@
   .irow .v{font-weight:600;color:#1b1b1b}
   .irow .v.hl{color:var(--orange)}
 
-  .ppl{display:flex;align-items:center;gap:12px;padding:13px 16px}
+  .ppl{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer}
   .ppl+.ppl{border-top:1px solid var(--line)}
   .ppl .av{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:600}
   .ppl .pc{flex:1}
@@ -77,7 +85,7 @@
 </style>
 </head>
 <body>
-<div class="cap">约饭 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>今晚聚餐 · 接下来 / 聚会信息 / 一起吃饭 / 到店前 / 点餐与买单</span></div>
+<div class="cap">约饭 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>约定 → 出发 → 到店 → 饭后 · 信息来自订位短信和你的笔记（不读取朋友位置）</span></div>
 <div class="device"><div class="screen">
   <div class="notch"></div>
   <div class="app">
@@ -90,7 +98,7 @@
         <circle cx="62" cy="86" r="7" fill="#ff8f5e"/><circle cx="84" cy="88" r="6" fill="#ff6f6f"/><circle cx="74" cy="82" r="5" fill="#ffd36b"/>
         <path d="M96 40 70 78M104 44 82 80" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
       </svg>
-      <div class="sb"><span>2:36</span><span class="r">
+      <div class="sb"><span>16:00</span><span class="r">
         <svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
         <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#fff"/></svg>
         <span class="batt">100</span></span>
@@ -110,7 +118,7 @@
         <div class="ring"></div>
         <div class="eb"><span class="dot"></span>接下来 · 还有约 3 小时</div>
         <h3>19:00 比目鱼火锅（三里屯店）</h3>
-        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg>已订位 · 4 人 · 大厅卡座 · 保留 30 分钟</p>
+        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg><span class="np">已订位 · 4 人 · 大厅卡座 · 保留 30 分钟</span></p>
         <div class="nbtns"><button class="pri">导航去餐厅</button><button class="ghost">一键叫车</button></div>
       </div>
 
@@ -121,27 +129,31 @@
         <div class="irow"><span class="k">人数 · 座位</span><span class="v">4 人 · 大厅卡座</span></div>
         <div class="irow"><span class="k">人均</span><span class="v hl">约 ¥138</span></div>
         <div class="irow"><span class="k">位置</span><span class="v">三里屯太古里 N4-2</span></div>
+        <div class="irow"><span class="k">入座</span><span class="v">报手机尾号 6688</span></div>
+        <div class="srcl"><span>来自 5月13日 收到的订位短信</span><a data-sheet="book">查看原短信 ›</a></div>
       </div>
 
-      <div class="sec"><span class="si" style="background:#3a7afe"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19a4 4 0 0 0-8 0M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M20 19a3.5 3.5 0 0 0-5-3.2M4 19a3.5 3.5 0 0 1 5-3.2"/></svg></span>一起吃饭<span class="rt">3 / 4 已确认</span></div>
+      <div class="sec"><span class="si" style="background:#3a7afe"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19a4 4 0 0 0-8 0M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M20 19a3.5 3.5 0 0 0-5-3.2M4 19a3.5 3.5 0 0 1 5-3.2"/></svg></span>一起吃饭<span class="rt">4 人</span></div>
       <div class="card">
-        <div class="ppl"><span class="av" style="background:#f0772b">我</span><div class="pc"><b>你（发起人）</b><s>从公司出发，预计 18:50 到</s></div><span class="st" style="background:#fff1e3;color:#e8792b">发起</span></div>
-        <div class="ppl"><span class="av" style="background:#3a7afe">敏</span><div class="pc"><b>小敏</b><s>已确认 · 会准时到</s></div><span class="st" style="background:#e7f5ee;color:#2f9e6a">已确认</span></div>
-        <div class="ppl"><span class="av" style="background:#2f9e6a">强</span><div class="pc"><b>阿强</b><s>在路上 · 预计晚 10 分钟</s></div><span class="st" style="background:#e9f1ff;color:#3a7afe">在路上</span></div>
-        <div class="ppl"><span class="av" style="background:#9aa0ab">丽</span><div class="pc"><b>丽丽</b><s>待确认 · 已发送提醒</s></div><span class="st" style="background:#f4f4f6;color:#8a8a8a">待确认</span></div>
+        <div class="ppl"><span class="av" style="background:#f0772b">我</span><div class="pc"><b>你（发起人）</b><s class="me">从公司出发 · 18:20 提醒你出门</s></div><span class="st" style="background:#fff1e3;color:#e8792b">发起</span></div>
+        <div class="ppl"><span class="av" style="background:#3a7afe">敏</span><div class="pc"><b>小敏</b><s>大学室友 · 不吃辣（你记过）</s></div><span class="st" style="background:#e9f1ff;color:#3a7afe">好友</span></div>
+        <div class="ppl"><span class="av" style="background:#2f9e6a">强</span><div class="pc"><b>阿强</b><s>同事 · 上次一起来过这家</s></div><span class="st" style="background:#e7f5ee;color:#2f9e6a">同事</span></div>
+        <div class="ppl"><span class="av" style="background:#9a7bd8">丽</span><div class="pc"><b>丽丽</b><s>小敏带来的朋友</s></div><span class="st" style="background:#f2edfb;color:#7b5bd0">朋友</span></div>
       </div>
 
+      <div data-st="0 1">
       <div class="sec"><span class="si" style="background:#2f9e6a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>到店前</div>
       <div class="card lst">
-        <div class="li"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14a2 2 0 0 1 2 2v4h-2m0 0H7m-2 0H3v-4a2 2 0 0 1 2-2"/><circle cx="7.5" cy="14.5" r="1"/><circle cx="16.5" cy="14.5" r="1"/></svg></span><div class="lc"><b>18:42 打车出发最合适</b><p>从公司打车约 18 分钟，赶在 19:00 前到。</p></div><span class="go">叫车 ›</span></div>
+        <div class="li"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14a2 2 0 0 1 2 2v4h-2m0 0H7m-2 0H3v-4a2 2 0 0 1 2-2"/><circle cx="7.5" cy="14.5" r="1"/><circle cx="16.5" cy="14.5" r="1"/></svg></span><div class="lc"><b>18:20 打车出发最合适</b><p>晚高峰从公司打车约 25 分钟，18:45 前到。</p></div><span class="go">叫车 ›</span></div>
         <div class="li"><span class="ic" style="background:#e8792b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 4l9 6.5M5 9.5V20h14V9.5M9 20v-5h6v5"/></svg></span><div class="lc"><b>停车：太古里 B2 停车场</b><p>消费满 ¥100 免 3 小时，餐厅可盖章。</p></div></div>
       </div>
 
+      </div>
       <div class="sec"><span class="si" style="background:#7b5bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span>点餐与买单</div>
       <div class="card">
-        <div class="li"><span class="ic" style="background:#f0772b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l2.5 5.6 6.1.6-4.6 4 1.4 6-5.4-3.2L6.1 19.4l1.4-6-4.6-4 6.1-.6z"/></svg></span><div class="lc"><b>招牌菜：秘制比目鱼锅底</b><p>大众点评 4.8 分 · 你们上次点过的还在收藏里。</p></div></div>
-        <div class="li"><span class="ic" style="background:#2f9e6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="17" height="12" rx="2.5"/><path d="M3.5 10h17"/></svg></span><div class="lc"><b>有一张 ¥50 代金券可用</b><p>美团卡包里，结账时自动提醒使用。</p></div><span class="go">查看 ›</span></div>
-        <div class="li"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span><div class="lc"><b>买单一键发起 AA</b><p>按 4 人平摊，账单自动发到群里。</p></div><span class="go">发起 ›</span></div>
+        <div class="li"><span class="ic" style="background:#f0772b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l2.5 5.6 6.1.6-4.6 4 1.4 6-5.4-3.2L6.1 19.4l1.4-6-4.6-4 6.1-.6z"/></svg></span><div class="lc"><b>招牌菜：秘制比目鱼锅底</b><p>你上次收藏的：锅底 + 手打虾滑 + 酥肉。</p></div></div>
+        <div class="li"><span class="ic" style="background:#2f9e6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="17" height="12" rx="2.5"/><path d="M3.5 10h17"/></svg></span><div class="lc"><b>你记过：小敏不吃辣</b><p>点鸳鸯锅更稳妥，辣锅那边给阿强。</p></div><span class="go" data-sheet="menu">点菜参考 ›</span></div>
+        <div class="li"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span><div class="lc"><b>买单后算 AA</b><p>拍一下小票，按 4 人算好每人多少，复制发到群里。</p></div><span class="go" data-sheet="aa">拍小票 ›</span></div>
       </div>
       <div style="height:34px"></div>
     </div>
@@ -150,9 +162,35 @@
   </div>
 </div></div>
 <script>
-document.querySelectorAll('.nbtns button,.go').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();});});
 var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
-if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,3000);}
+</script>
+<script>
+/* 阶段：约定 → 出发 → 到店 → 饭后 */
+(function(){
+  function EB(t){return '<span class="dot"></span>'+t;}
+  function BT(a,b){return '<button class="pri">'+a+'</button><button class="ghost">'+b+'</button>';}
+  window.OS5_ACC='#f0772b'; window.OS5_STAGE_BASE=0; window.OS5_DEST='比目鱼火锅（三里屯店）';
+  window.OS5_STAGES=[
+    {k:'约定',t:'16:00',cls:{'.nextup':''},
+     set:{'.greet':'今晚和朋友聚餐 · 已订好位','.nextup .eb':EB('接下来 · 还有约 3 小时'),'.nextup h3':'19:00 比目鱼火锅（三里屯店）','.nextup .np':'已订位 · 4 人 · 大厅卡座 · 保留 15 分钟','.nextup .nbtns':BT('查看订位','18:20 提醒出发'),'.ppl .me':'从公司出发 · 18:20 提醒你出门'}},
+    {k:'出发',t:'18:20',cls:{'.nextup':'c-blue'},
+     set:{'.greet':'该出发了 · 外面小雨','.nextup .eb':EB('该出发了 · 打车约 25 分钟'),'.nextup h3':'现在出发，18:45 到店','.nextup .np':'外面小雨 · 打车直接到太古里北区门口','.nextup .nbtns':BT('一键叫车','导航去餐厅'),'.ppl .me':'在路上 · 按路况 18:45 到'}},
+    {k:'到店',t:'18:50',cls:{'.nextup':'c-green'},
+     set:{'.greet':'到店了 · 报手机尾号入座','.nextup .eb':EB('已到店 · 18:50'),'.nextup h3':'报手机尾号 6688 入座','.nextup .np':'大厅卡座 · 4 人 · 订位短信里的信息','.nextup .nbtns':BT('点菜参考','查看订位'),'.ppl .me':'已到店 · 18:50'}},
+    {k:'饭后',t:'20:40',cls:{'.nextup':'c-purple'},
+     set:{'.greet':'吃完啦 · 算个 AA','.nextup .eb':EB('吃完啦 · 20:40'),'.nextup h3':'拍一下小票，算好 AA','.nextup .np':'4 人平摊 · 算好后复制到群里','.nextup .nbtns':BT('拍小票','打车回家'),'.ppl .me':'吃完了 · 20:40'}}
+  ];
+  window.OS5_SHEETS={
+    book:{t:'订位信息',h:'<div class="k-card"><p>【比目鱼火锅】您已成功预订 5月15日（周五）19:00 三里屯店 大厅卡座 4 位，到店请报预订手机尾号 6688，座位保留 15 分钟。</p></div><div class="k-note">5月13日 收到的订位短信 · 只在本机识别</div>',a:['','知道了']},
+    menu:{t:'点菜参考',h:'<div class="k-card"><span class="t">你上次收藏的</span><div class="k-bul"><i></i><span>秘制比目鱼锅底（选鸳鸯锅）</span></div><div class="k-bul"><i></i><span>手打虾滑、现炸酥肉</span></div><div class="k-bul"><i></i><span>小敏不吃辣，清汤那边下她爱吃的菌菇</span></div></div><div class="k-note">来自你的收藏和「朋友喜好」笔记</div>',a:['','好的']},
+    aa:{t:'拍小票 · 算 AA',cam:true,camLabel:'对准小票，正在识别金额…',
+      h:'<div class="k-card"><div class="k-kv"><span class="k">合计</span><span class="v">¥548</span></div><div class="k-kv"><span class="k">人数</span><span class="v">4 人</span></div><div class="k-kv"><span class="k">每人</span><span class="v">¥137</span></div></div><div class="k-note">复制后可以直接粘贴到群里</div>',
+      a:['重拍','复制到剪贴板'],at:['已重新打开相机','已复制：今晚火锅 ¥548，每人 ¥137 ✓']}
+  };
+  window.OS5_ACTIONS=[[/查看订位/,'sheet:book'],[/点菜参考/,'sheet:menu'],[/拍小票/,'sheet:aa'],[/18:20 提醒出发/,'已设置 18:20 出发提醒 🔔'],[/打车回家/,'已为你叫车回家，预计 3 分钟到 🚕']];
+  window.OS5_CHAT={'小敏有什么忌口':'你记过：小敏不吃辣。点鸳鸯锅就好，清汤那边下菌菇。','买单怎么算 AA':'吃完拍一下小票，我按 4 人算好每人多少，复制发到群里就行。'};
+})();
 </script>
 <script src="../os5-kit/interaction.js"></script>
 </body>

@@ -151,6 +151,24 @@
     display:flex;align-items:center;gap:8px;animation:tin .2s ease}
   @keyframes tin{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
 
+
+  s{text-decoration:none}
+  .wall{z-index:0}
+  .wall::after{z-index:2}
+  .wl{position:absolute;inset:0;opacity:0;transition:opacity .7s ease;z-index:1}
+  .l-d{background:radial-gradient(90% 60% at 20% 10%,#f4f9ff 0%,rgba(244,249,255,0) 55%),radial-gradient(120% 80% at 70% 100%,#93bcc6 0%,rgba(147,188,198,0) 60%),linear-gradient(160deg,#e3f0f4 0%,#b9d4da 50%,#8fb5be 100%)}
+  .l-e{background:radial-gradient(90% 55% at 82% 8%,#ffdcbc 0%,rgba(255,220,188,0) 60%),radial-gradient(120% 80% at 18% 100%,#7b77b6 0%,rgba(123,119,182,0) 62%),linear-gradient(172deg,#f0b391 0%,#d49ab0 42%,#9488c4 76%,#6e6fae 100%)}
+  .l-n{background:radial-gradient(70% 45% at 78% 10%,rgba(160,175,255,.32) 0%,rgba(160,175,255,0) 60%),radial-gradient(90% 60% at 10% 100%,rgba(90,110,200,.35) 0%,rgba(90,110,200,0) 60%),linear-gradient(172deg,#2d3868 0%,#212a54 45%,#151c3a 100%)}
+  .screen.tod-d .l-d,.screen.tod-e .l-e,.screen.tod-n .l-n{opacity:1}
+  .sb{transition:color .4s}
+  .screen.tod-n .sb{color:#fff}
+  .screen.tod-n .batt{background:#fff;color:#111}
+  .aicard.swap{animation:cswap .5s cubic-bezier(.2,.8,.2,1)}
+  @keyframes cswap{0%{opacity:0;transform:translateY(12px) scale(.985)}100%{opacity:1;transform:none}}
+  .ckmore{font-size:12px;color:var(--ink3);padding:8px 2px 0;border-top:1px solid rgba(0,0,0,.05)}
+  .stages button i{font-style:normal;font-weight:500;opacity:.62;margin-left:5px}
+  .stagecap{font-size:12px;color:#7a8394;text-align:center;margin-top:-4px}
+  .stagecap b{color:#2b303a;font-weight:650}
   /* layout: left scene menu + device */
   .stagewrap{display:flex;flex-direction:row;align-items:flex-start;justify-content:center;gap:26px}
   .devwrap{display:flex;flex-direction:column;align-items:center;gap:14px}
@@ -167,14 +185,14 @@
   .scenes button.on{background:#fff;color:#14161c;font-weight:700;box-shadow:0 3px 12px rgba(30,42,74,.12)}
 
   /* stage switcher (demo chrome, light) */
-  .stages{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;max-width:390px}
+  .stages{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;max-width:480px}
   .stages button{font-family:inherit;font-size:12px;font-weight:600;border:1px solid #dfe3ea;background:#fff;color:#5a6270;
-    border-radius:18px;padding:7px 13px;cursor:pointer}
+    border-radius:18px;padding:7px 12px;cursor:pointer}
   .stages button.on{background:var(--accent);border-color:var(--accent);color:#4a3600}
 
   @media(max-width:440px){
     body{padding:0;gap:0;background:#000}
-    .cap,.stages,.scenes{display:none}
+    .cap,.stages,.scenes,.stagecap{display:none}
     .stagewrap{display:block}.devwrap{gap:0}
     .device{width:100vw;height:100vh;border-radius:0;padding:0;box-shadow:none}
     .screen{border-radius:0}
@@ -183,20 +201,20 @@
 </style>
 </head>
 <body>
-<div class="cap">场景化 AI App · 负一屏（OS5）<span>左侧切场景 · 下方切阶段 · 点卡片展开高保真落地页（落地页内按钮/行均可点，二级页已补全）</span></div>
+<div class="cap">场景化 AI App · 负一屏（OS5）<span>左侧切场景 · 下方切时间阶段（时钟、壁纸、卡片、落地页一起变）· 点卡片展开高保真落地页</span></div>
 
 <div class="stagewrap">
 <nav class="scenes" id="scenes" aria-label="切换场景"></nav>
 <div class="devwrap">
 <div class="device">
   <div class="screen">
-    <div class="wall"></div>
+    <div class="wall"><div class="wl l-d"></div><div class="wl l-e"></div><div class="wl l-n"></div></div>
     <div class="notch"></div>
     <div class="sb">
       <span id="sbTime">8:12</span>
       <span class="r">
-        <svg width="17" height="11" viewBox="0 0 17 11" fill="#1d1d1d"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
-        <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0" stroke="#1d1d1d" stroke-width="1.5" stroke-linecap="round"/><path d="M3.6 6.9a8 8 0 0 1 9.8 0" stroke="#1d1d1d" stroke-width="1.5" stroke-linecap="round"/><path d="M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#1d1d1d" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#1d1d1d"/></svg>
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.6 6.9a8 8 0 0 1 9.8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6.2 9.5a4 4 0 0 1 4.6 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="currentColor"/></svg>
         <span class="batt">100</span>
       </span>
     </div>
@@ -204,7 +222,7 @@
     <!-- HOME / 负一屏 -->
     <div class="home" id="home">
       <div class="clockwrap">
-        <div class="cdate">5月16日 周五　七月初九</div>
+        <div class="cdate">5月15日 周五</div>
         <div class="ctime">8:12</div>
       </div>
       <div class="aiwrap"><div id="aicard"></div></div>
@@ -236,6 +254,7 @@
   </div>
 </div>
 <div class="stages" id="stages"></div>
+<div class="stagecap" id="stagecap"></div>
 </div>
 </div>
 
@@ -263,162 +282,184 @@ const I={
 const TONE={blue:['#3a7afe','#e9f1ff'],green:['#2f9e6a','#e7f5ee'],orange:['#e8792b','#fff1e3'],purpa:['#7a5be0','#efeafd'],accent:['#b98a0a','#fff1c9'],rose:['#d64531','#fcece9']};
 function ric(name,tone){const [c,b]=TONE[tone];return '<span class="ric" style="color:'+c+';background:'+b+'">'+I[name]+'</span>';}
 
-const TRAVEL=[
- {k:'制定计划',type:'sug',title:'稻城亚丁旅行',eyebrow:'AI 识别到出行订单',
-  text:'发现你 6 月 10–14 日要去稻城亚丁，已根据你收藏的攻略生成 5 天 4 晚行程，酒店还没订。'},
- {k:'预订交通住宿',type:'info',icon:'plane',itone:'blue',title:'稻城亚丁行程',sub:'6 月 16 日出发',
-  rows:[{ic:'plane',t:'blue',b:'已预订 · CA4403 成都 → 稻城',s:'6/16 08:20 · 双流 T2',rv:'准点'},
-        {ic:'hotel',t:'green',b:'香格里拉镇住宿待预订',s:'距景区近 · 已挑 3 家',btn:'去预订'}]},
- {k:'出发前准备',type:'check',icon:'list',itone:'accent',title:'稻城亚丁准备',sub:'出发前 2 天',
-  items:['提前预订香格里拉镇住宿','在稻城亚丁小程序实名预约入园','确认航班或班车，机场大巴衔接时间'],done:[]},
- {k:'出发日',type:'info',pin:'出发前 3 小时 · 机票动态',icon:'plane',itone:'blue',title:'今天出发 · 去机场',sub:'CA4403 08:20 起飞',
-  rows:[{ic:'clock',t:'blue',b:'06:40 出发去双流机场',s:'早高峰，路上约 45 分钟',rv:'45 分钟'},
-        {ic:'car',t:'blue',b:'打车去双流 T2 · 约 ¥68',s:'到点一键叫车',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'},
-        {ic:'plane',t:'green',b:'CA4403 值机 · 登机口 C12',s:'座位 32A · 准点',rv:'已值机'}]},
- {k:'抵达目的地',type:'info',icon:'pin',itone:'green',title:'已抵达稻城亚丁',sub:'香格里拉镇',
-  rows:[{ic:'sun',t:'orange',b:'稻城 今天 晴 · 12°／3°',s:'高原紫外线强，注意防晒',rv:'晴'},
-        {ic:'car',t:'blue',b:'打车去香格里拉镇',s:'亚丁机场 → 镇上 · 约 50 分钟',btn:'叫车',btnToast:'已为你叫车'}]},
- {k:'游玩',type:'info',icon:'route',itone:'purpa',title:'今日行程 · Day 2',sub:'短线和珍珠海',
-  rows:[{ic:'pin',t:'green',b:'冲古寺 → 珍珠海',s:'徒步约 3.5h · 海拔 3900m',rv:'09:00'},
-        {ic:'star',t:'accent',b:'收藏的牛奶海观景点',s:'来自你收藏的攻略',btn:'导航',btnToast:'已开始导航'}]},
- {k:'返程',type:'info',pin:'返程前一天',icon:'plane',itone:'blue',title:'准备返程',sub:'6/20 返回成都',
-  rows:[{ic:'plane',t:'blue',b:'CA4404 稻城 → 成都',s:'6/20 11:05 · 提醒 08:30 出发',rv:'准点'},
-        {ic:'note',t:'purpa',b:'整理这趟的照片和花费',s:'一键生成游记',btn:'生成',btnToast:'正在生成游记…'}]},
- {k:'旅行结束',type:'info',icon:'photo',itone:'purpa',title:'稻城亚丁 · 旅行回顾',sub:'已自动整理',
-  rows:[{ic:'photo',t:'purpa',b:'精选了 18 张照片',s:'神山 / 珍珠海 / 草甸',rv:'查看'},
-        {ic:'note',t:'green',b:'攻略已整理成合集',s:'行程 + 花费 ¥4,860 + 游记',btn:'打开',btnToast:'已打开合集'}]},
-];
-
+/* ===== 场景数据：每个阶段 = 一个时刻。tm 时间、dt 日期，负一屏时钟/壁纸/卡片和落地页一起变 ===== */
 const TODAY=[
- {k:'早晨',type:'info',pin:'早上好 · 今天 3 件事',icon:'cal',itone:'blue',title:'今天 · 周五',sub:'5月16日 · 多云转晴',
-  rows:[{ic:'sun',t:'orange',b:'今天多云转晴 18°／26°',s:'适合外出，傍晚可能有风',rv:'晴'},
-        {ic:'car',t:'blue',b:'今天限行尾号 4 和 9',s:'你的车尾号 4，建议地铁/打车',rv:'限行'},
-        {ic:'cal',t:'purpa',b:'今天 3 件事',s:'10:00 评审 · 15:00 接孩子 · 19:00 聚餐',btn:'展开'}]},
- {k:'上午',type:'info',pin:'下一件事 · 10:00 产品评审',icon:'cal',itone:'purpa',title:'上午安排',sub:'现在 09:40',
-  rows:[{ic:'cal',t:'purpa',b:'10:00 产品评审会',s:'会议室 A302 · 6 人 · 资料已备',rv:'20 分钟后'},
-        {ic:'note',t:'blue',b:'11:30 回复客户邮件',s:'昨天标记的待办',btn:'完成',btnToast:'已标记完成'}]},
- {k:'下午',type:'info',pin:'15:00 接孩子 · 该出发了',icon:'pin',itone:'green',title:'下午安排',sub:'现在 14:30',
-  rows:[{ic:'clock',t:'green',b:'14:40 出发去阳光小学',s:'路上约 18 分钟',rv:'18 分钟'},
+ {k:'早晨',tm:'07:50',type:'info',pin:'早上好 · 今天 5 件事',icon:'cal',itone:'blue',title:'今天 · 周五',sub:'5月15日 · 多云转晴 18°–26°',
+  rows:[{ic:'train',t:'blue',b:'08:30 出门上班',s:'地铁 10 号线 · 约 35 分钟到公司',btn:'路线',btnToast:'已规划地铁路线 · 08:20 提醒你出门'},
+        {ic:'sun',t:'orange',b:'傍晚有阵雨，带把伞',s:'18:00 后降水概率 70%',rv:'阵雨'},
+        {ic:'cal',t:'purpa',b:'今天 5 件事',s:'10:00 评审 · 15:00 接娃 · 16:30 牙医 · 19:00 聚餐',btn:'展开',open:true}]},
+ {k:'上午',tm:'09:40',type:'info',pin:'下一件事 · 10:00 产品评审',icon:'cal',itone:'purpa',title:'上午安排',sub:'现在 09:40 · 已到公司',
+  rows:[{ic:'cal',t:'purpa',b:'10:00 产品评审会',s:'会议室 A302 · 6 人',rv:'20 分钟后'},
+        {ic:'note',t:'blue',b:'评审材料 v3 已备好',s:'会后可一键生成纪要',btn:'查看',open:true}]},
+ {k:'下午',tm:'14:30',type:'info',pin:'15:00 接孩子 · 14:40 出发',icon:'pin',itone:'green',title:'下午安排',sub:'现在 14:30',
+  rows:[{ic:'clock',t:'green',b:'14:40 出发去阳光小学',s:'东门 · 打车约 15 分钟',rv:'10 分钟后'},
         {ic:'car',t:'blue',b:'打车去学校 · 约 ¥19',s:'到点一键叫车',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'},
-        {ic:'cross',t:'rose',b:'16:30 牙医复诊',s:'口腔医院 · 别忘带医保卡',rv:'16:30'}]},
- {k:'晚上',type:'info',pin:'19:00 和小敏吃饭',icon:'dine',itone:'orange',title:'晚上安排',sub:'现在 18:10',
-  rows:[{ic:'clock',t:'orange',b:'18:20 出发赴约',s:'三里屯 · 晚高峰约 25 分钟',rv:'25 分钟'},
-        {ic:'note',t:'green',b:'顺路买牛奶和鸡蛋',s:'家里没了 · 小区超市',btn:'完成',btnToast:'已标记完成'}]},
+        {ic:'cross',t:'rose',b:'16:30 牙医复诊',s:'市口腔医院 3 楼 · 别忘带医保卡',rv:'16:30'}]},
+ {k:'晚上',tm:'18:10',type:'info',pin:'19:00 和小敏吃饭 · 18:20 出发',icon:'dine',itone:'orange',title:'晚上安排',sub:'现在 18:10 · 外面小雨',
+  rows:[{ic:'clock',t:'orange',b:'18:20 出发去三里屯',s:'比目鱼火锅 · 打车约 25 分钟',rv:'10 分钟后'},
+        {ic:'car',t:'blue',b:'一键叫车 · 约 ¥32',s:'外面在下小雨，记得带伞',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'},
+        {ic:'note',t:'green',b:'回家顺路买牛奶和鸡蛋',s:'来自你的购物清单',btn:'完成',btnToast:'已标记完成 ✓'}]},
+];
+const TRAVEL=[
+ {k:'制定计划',tm:'21:05',dt:'5月20日 周三',type:'sug',title:'稻城亚丁旅行',eyebrow:'AI 识别到机票订单',
+  text:'发现你 6 月 10–14 日要去稻城亚丁。你收藏的 12 条攻略可以整理成一份 5 天 4 晚的行程，酒店还没订。'},
+ {k:'预订交通住宿',tm:'12:30',dt:'5月21日 周四',type:'info',icon:'plane',itone:'blue',title:'稻城亚丁行程',sub:'6 月 10 日出发',
+  rows:[{ic:'plane',t:'blue',b:'已订 · CA4186 成都 → 稻城',s:'6/10 08:20 · 双流 T2',rv:'待出行'},
+        {ic:'hotel',t:'green',b:'香格里拉镇住宿还没订',s:'6/10–6/13 · 挑了 3 家离景区近的',btn:'去预订',btnToast:'已打开酒店预订页 🛒'}]},
+ {k:'出发前准备',tm:'20:00',dt:'6月8日 周一',type:'check',pin:'出发前 2 天',icon:'list',itone:'accent',title:'稻城亚丁准备',sub:'还差 3 件',
+  items:['预订香格里拉镇住宿','在稻城亚丁小程序实名预约入园','备好抗高反药、防晒霜和羽绒服','确认机场大巴衔接时间'],done:[0]},
+ {k:'出发日',tm:'05:50',dt:'6月10日 周三',type:'info',pin:'出发前 2.5 小时 · 机票动态',icon:'plane',itone:'blue',title:'今天出发 · 去机场',sub:'CA4186 08:20 起飞',
+  rows:[{ic:'clock',t:'blue',b:'06:10 出发去双流机场',s:'全程 12.5 公里 · 约 20 分钟',rv:'20 分钟后'},
+        {ic:'car',t:'blue',b:'打车去双流 T2 · 约 ¥45',s:'到点一键叫车',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'},
+        {ic:'plane',t:'green',b:'CA4186 · 登机口 D12',s:'座位 A24 · 准点',rv:'已值机'}]},
+ {k:'抵达目的地',tm:'10:50',dt:'6月10日 周三',type:'info',pin:'已抵达 · 海拔 4411 米',icon:'pin',itone:'green',title:'已抵达稻城亚丁',sub:'今天先适应海拔',
+  rows:[{ic:'sun',t:'orange',b:'稻城 今天晴 · 12°／3°',s:'高原紫外线强，注意防晒',rv:'晴'},
+        {ic:'car',t:'blue',b:'11:30 机场大巴去香格里拉镇',s:'约 2.5 小时 · 到达口出门右手边',btn:'查看',open:true}]},
+ {k:'游玩',tm:'07:30',dt:'6月11日 周四',type:'info',pin:'Day 2 · 短线和珍珠海',icon:'route',itone:'purpa',title:'今日行程 · Day 2',sub:'晴 · 适合短线徒步',
+  rows:[{ic:'pin',t:'green',b:'冲古寺 → 珍珠海',s:'徒步约 3.5 小时 · 海拔 3900 米',rv:'08:00'},
+        {ic:'star',t:'accent',b:'明天长线：牛奶海、五色海',s:'来自你收藏的攻略 · 07:00 前进山',rv:'Day 3'}]},
+ {k:'返程',tm:'20:00',dt:'6月13日 周六',type:'info',pin:'返程前一天',icon:'plane',itone:'blue',title:'明天返程',sub:'6/14 回成都',
+  rows:[{ic:'plane',t:'blue',b:'CA4187 稻城 → 成都',s:'6/14 14:30 · 建议 11:30 出发去机场',rv:'明天'},
+        {ic:'note',t:'purpa',b:'整理这趟的照片和花费',s:'一键生成游记',btn:'生成',btnToast:'正在生成游记，完成后通知你 ✨'}]},
+ {k:'旅行结束',tm:'21:00',dt:'6月14日 周日',type:'info',pin:'到家了 · 旅行回顾',icon:'photo',itone:'purpa',title:'稻城亚丁 · 旅行回顾',sub:'已自动整理',
+  rows:[{ic:'photo',t:'purpa',b:'精选了 18 张照片',s:'神山 / 珍珠海 / 牛奶海',rv:'18 张'},
+        {ic:'note',t:'green',b:'游记和花费已整理好',s:'行程 + 花费 ¥4,860 + 游记',btn:'打开',open:true}]},
 ];
 const COURSE=[
- {k:'课前',type:'info',pin:'明天 10:00 有高数课',icon:'book',itone:'purpa',title:'高等数学',sub:'2026 秋 · 周三 / 周五',
-  rows:[{ic:'cal',t:'purpa',b:'下节课 周五 10:00',s:'教学楼 A203',rv:'明天'},
-        {ic:'book',t:'blue',b:'预习 第 3 章 · 定积分',s:'上节课老师提过要点',btn:'预习',btnToast:'已打开预习'},
-        {ic:'list',t:'accent',b:'带上教材和演算纸',s:'课前准备',rv:'提醒'}]},
- {k:'临近上课',type:'check',pin:'10 分钟后上课 · A203',icon:'clock',itone:'blue',title:'马上上课',sub:'高等数学 · 09:50',
-  items:['到 A203 就座','开始语音速记（边听边录）','静音闹钟，避免打断'],done:[]},
- {k:'上课中',type:'info',pin:'正在上课 · 语音速记中',icon:'note',itone:'purpa',title:'高数 · 第 3 章',sub:'录音整理中',
-  rows:[{ic:'note',t:'purpa',b:'语音速记进行中',s:'00:12:04 · 自动转文字',rv:'录音中'},
-        {ic:'photo',t:'blue',b:'拍一张黑板板书',s:'自动插入到这节笔记',btn:'拍照',btnToast:'已插入板书'}]},
- {k:'课后',type:'info',pin:'这节课已整理好',icon:'book',itone:'green',title:'课堂笔记 · 定积分',sub:'刚刚整理',
-  rows:[{ic:'note',t:'green',b:'3 个关键知识点已提取',s:'牛顿-莱布尼茨 / 换元 / 分部',btn:'查看'},
-        {ic:'list',t:'accent',b:'作业：习题 3.2 · 周五交',s:'已加入待办，周四提醒',rv:'待办'},
-        {ic:'book',t:'purpa',b:'加入「高等数学」合集',s:'已累计 12 篇课堂笔记',btn:'打开'}]},
- {k:'考前复习',type:'info',pin:'期中考试 · 2 天后',icon:'book',itone:'rose',title:'高数 期中冲刺',sub:'复习 Day 1',
-  rows:[{ic:'list',t:'accent',b:'高频考点 8 个',s:'按老师强调度排序',btn:'开始'},
-        {ic:'book',t:'purpa',b:'知识点思维导图',s:'一页看全第 1–3 章',btn:'查看'},
-        {ic:'note',t:'blue',b:'易错题复习卡 · 18 张',s:'来自你的错题和笔记',rv:'18 张'}]},
+ {k:'课前',tm:'21:00',dt:'9月8日 周二',type:'info',pin:'明天 14:00 有高数课',icon:'book',itone:'purpa',title:'高等数学 A',sub:'周三 14:00 · 周五 08:00',
+  rows:[{ic:'cal',t:'purpa',b:'明天 14:00 · 教学楼 A203',s:'张老师 · 14:00–15:40',rv:'明天'},
+        {ic:'book',t:'blue',b:'预习：极限与连续',s:'上节课老师说要先看 ε-N 定义',btn:'预习',open:true},
+        {ic:'list',t:'accent',b:'带上教材和演算纸',s:'明天 13:30 提醒你',rv:'提醒'}]},
+ {k:'临近上课',tm:'13:50',dt:'9月9日 周三',type:'check',pin:'10 分钟后上课 · A203',icon:'clock',itone:'blue',title:'马上上课',sub:'高等数学 A · 14:00',
+  items:['到 A203 找位置坐下','打开语音速记（边听边记）','手机调成静音'],done:[0]},
+ {k:'上课中',tm:'14:20',dt:'9月9日 周三',type:'info',pin:'正在上课 · 语音速记中',icon:'note',itone:'purpa',title:'高数 · 极限与连续',sub:'已转写 1,860 字',
+  rows:[{ic:'note',t:'purpa',b:'语音速记进行中',s:'00:20:04 · 自动转文字',rv:'录音中'},
+        {ic:'photo',t:'blue',b:'拍一张黑板板书',s:'自动插入到这节笔记',btn:'拍照',btnToast:'已把板书插入这节笔记 ✓'}]},
+ {k:'课后',tm:'15:45',dt:'9月9日 周三',type:'info',pin:'这节课已整理好',icon:'book',itone:'green',title:'课堂笔记 · 极限与连续',sub:'刚刚整理',
+  rows:[{ic:'note',t:'green',b:'提取了 3 个关键知识点',s:'ε-N 定义 / 夹逼定理 / 单调有界',btn:'查看',open:true},
+        {ic:'list',t:'accent',b:'作业：习题 1-2 第 3、5 题',s:'周五交 · 周四晚提醒你',rv:'待办'},
+        {ic:'book',t:'purpa',b:'已存入「高等数学（上）」',s:'课程合集第 3 条笔记',btn:'打开',open:true}]},
+ {k:'考前',tm:'12:30',dt:'9月11日 周五',type:'info',pin:'今天 14:30 摸底测验',icon:'book',itone:'rose',title:'高数 摸底测验',sub:'教学楼 A301 · 14:30',
+  rows:[{ic:'list',t:'accent',b:'学生证、签字笔、2B 铅笔、直尺',s:'考前准备 · 出门前核对',btn:'核对',open:true},
+        {ic:'book',t:'purpa',b:'再过一遍 4 个必考点',s:'极限与连续 · 来自你的课堂笔记',btn:'复习',open:true},
+        {ic:'clock',t:'blue',b:'14:00 出发去 A301',s:'步行约 8 分钟',rv:'14:00'}]},
 ];
 const COMMUTE=[
- {k:'早高峰',type:'info',pin:'早高峰 · 今天限行尾号 4',icon:'car',itone:'blue',title:'上班通勤',sub:'现在 07:40',
-  rows:[{ic:'sun',t:'orange',b:'今天多云 18° · 傍晚有风',s:'记得带把伞',rv:'多云'},
-        {ic:'car',t:'blue',b:'尾号 4 限行，建议坐地铁',s:'10 号线 · 约 35 分钟',btn:'导航',btnToast:'已规划地铁路线'},
-        {ic:'cal',t:'purpa',b:'到公司第一件事：10:00 评审',s:'资料已备好',rv:'10:00'}]},
- {k:'晚高峰',type:'info',pin:'晚高峰 · 可以下班回家了',icon:'car',itone:'blue',title:'下班通勤',sub:'现在 18:30',
-  rows:[{ic:'car',t:'blue',b:'回家路况一般 · 约 40 分钟',s:'绕行三环更快',btn:'导航',btnToast:'已规划回家路线'},
-        {ic:'note',t:'green',b:'顺路取快递（2 件）',s:'小区驿站 21:00 关门',btn:'完成',btnToast:'已标记完成'}]},
+ {k:'早高峰',tm:'07:40',dt:'5月14日 周四',type:'info',pin:'上班 · 尾号 4 今天限行',icon:'car',itone:'blue',title:'上班通勤',sub:'现在 07:40 · 预计 40 分钟',
+  rows:[{ic:'train',t:'purpa',b:'地铁 10 号线 · 38 分钟到公司',s:'限行日首选 · 早高峰车厢较挤',btn:'导航',btnToast:'已规划地铁路线 🧭'},
+        {ic:'sun',t:'orange',b:'多云 18° · 傍晚有阵雨',s:'记得带把伞',rv:'带伞'},
+        {ic:'cal',t:'blue',b:'到公司第一件事：10:00 评审',s:'资料已备好',rv:'10:00'}]},
+ {k:'晚高峰',tm:'18:30',dt:'5月14日 周四',type:'info',pin:'下班 · 现在走最省时',icon:'car',itone:'blue',title:'下班回家',sub:'现在 18:30 · 预计 42 分钟',
+  rows:[{ic:'train',t:'purpa',b:'地铁 10 号线 · 42 分钟到家',s:'比打车快 8 分钟 · 不受路况影响',btn:'导航',btnToast:'已规划回家路线 🧭'},
+        {ic:'bag',t:'orange',b:'顺路取 2 个快递',s:'菜鸟驿站 · 地铁 B 口出来 80 米',btn:'取件码',open:true}]},
 ];
 const MED=[
- {k:'预约',type:'info',icon:'cross',itone:'rose',title:'带宝宝看儿科',sub:'已挂号 · 明天上午',
-  rows:[{ic:'cal',t:'rose',b:'明天 09:30 儿科门诊',s:'市儿童医院 · 门诊 3 楼',rv:'明天'},
-        {ic:'list',t:'accent',b:'核对要带的证件资料',s:'出门前会提醒',btn:'查看'}]},
- {k:'出发',type:'check',pin:'出发前 · 别忘带',icon:'list',itone:'accent',title:'出门前核对',sub:'08:20',
-  items:['宝宝社保卡 / 就诊卡','病历本 + 之前的检查单','退烧药 / 常用药','水杯、备用尿不湿'],done:[]},
- {k:'到院',type:'info',pin:'已到医院',icon:'pin',itone:'green',title:'儿童医院 · 门诊 3 楼',sub:'09:25',
-  rows:[{ic:'pin',t:'green',b:'导航到门诊 3 楼 · 5 号诊室',s:'院内步行约 4 分钟',btn:'导航',btnToast:'已开始院内导航'},
-        {ic:'clock',t:'blue',b:'当前排队 3 号',s:'预计 20 分钟后就诊',rv:'3 号'}]},
- {k:'取药',type:'info',icon:'cross',itone:'rose',title:'就诊完成 · 取药',sub:'10:40',
-  rows:[{ic:'note',t:'purpa',b:'用药提醒已设置',s:'退烧药每 6 小时 · 连续 3 天',btn:'查看'},
-        {ic:'cal',t:'rose',b:'3 天后复查',s:'已加入日程',rv:'复查'}]},
+ {k:'挂号后',tm:'20:30',dt:'5月15日 周五',type:'info',pin:'识别到挂号短信',icon:'cross',itone:'rose',title:'带宝宝复诊',sub:'明天 09:30 · 市儿童医院',
+  rows:[{ic:'cal',t:'rose',b:'明天 09:30–10:00 · 呼吸科',s:'王医生 · 3 号楼 2 层 · 来自挂号短信',rv:'已挂号'},
+        {ic:'list',t:'accent',b:'今晚把要带的东西备好',s:'医保卡 · 病历本 · 体温记录',btn:'查看',open:true}]},
+ {k:'出发前',tm:'08:40',dt:'5月16日 周六',type:'check',pin:'08:50 出发 · 别忘带',icon:'list',itone:'accent',title:'出门前核对',sub:'去市儿童医院 · 约 25 分钟',
+  items:['医保卡 / 电子医保码','病历本和上次化验单','这 3 天的体温记录（已整理）','水杯、小零食、备用口罩'],done:[0,1]},
+ {k:'到医院',tm:'09:15',dt:'5月16日 周六',type:'info',pin:'已到市儿童医院',icon:'pin',itone:'green',title:'先去报到',sub:'离 09:30 就诊时段还有 15 分钟',
+  rows:[{ic:'pin',t:'green',b:'3 号楼 2 层 · 呼吸科分诊台',s:'挂号短信里写的报到位置',rv:'去报到'},
+        {ic:'note',t:'purpa',b:'给医生看这 3 天的体温',s:'38.6° → 38.2° → 37.6° · 你记的',btn:'打开',open:true}]},
+ {k:'看完病',tm:'10:20',dt:'5月16日 周六',type:'info',pin:'看完了 · 记好医嘱',icon:'cross',itone:'rose',title:'拍处方 · 设吃药提醒',sub:'医生说 3 天后复查',
+  rows:[{ic:'photo',t:'purpa',b:'拍一下处方',s:'识别药名和用法 · 你确认后才提醒',btn:'拍处方',open:true},
+        {ic:'cal',t:'rose',b:'5月19日 周二上午复查',s:'要加到日程吗？',btn:'加入',btnToast:'已加入日程 · 前一晚提醒你 🔔'}]},
 ];
 const DINE=[
- {k:'约定',type:'info',icon:'dine',itone:'orange',title:'和小敏吃饭',sub:'今晚 19:00',
-  rows:[{ic:'dine',t:'orange',b:'三里屯 · 比目鱼火锅',s:'已订位 · 6 人桌',rv:'已订位'},
-        {ic:'cal',t:'purpa',b:'19:00 · 到点提醒出发',s:'',rv:'19:00'}]},
- {k:'出发',type:'info',pin:'该出发了',icon:'clock',itone:'orange',title:'出发赴约',sub:'现在 18:10',
-  rows:[{ic:'clock',t:'orange',b:'18:20 出发最稳',s:'晚高峰约 25 分钟',rv:'25 分钟'},
-        {ic:'car',t:'blue',b:'打车去三里屯 · 约 ¥32',s:'到点一键叫车',btn:'叫车',btnToast:'已为你叫车'}]},
- {k:'到店',type:'info',icon:'pin',itone:'green',title:'到店',sub:'18:55',
-  rows:[{ic:'pin',t:'green',b:'比目鱼火锅 · 3 楼',s:'小敏已到，在等你',btn:'导航',btnToast:'已开始导航'}]},
+ {k:'约定',tm:'16:00',dt:'5月15日 周五',type:'info',pin:'今晚 19:00 · 已订位',icon:'dine',itone:'orange',title:'和小敏他们吃饭',sub:'今晚 19:00 · 4 人',
+  rows:[{ic:'dine',t:'orange',b:'比目鱼火锅（三里屯店）',s:'大厅卡座 · 来自订位短信',rv:'已订位'},
+        {ic:'clock',t:'purpa',b:'18:20 提醒你出发',s:'晚高峰打车约 25 分钟',rv:'18:20'}]},
+ {k:'出发',tm:'18:20',dt:'5月15日 周五',type:'info',pin:'该出发了',icon:'clock',itone:'orange',title:'出发去三里屯',sub:'现在 18:20 · 外面小雨',
+  rows:[{ic:'car',t:'blue',b:'打车去三里屯 · 约 ¥32',s:'约 25 分钟 · 18:45 到',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'},
+        {ic:'sun',t:'orange',b:'外面在下小雨',s:'记得带伞',rv:'小雨'}]},
+ {k:'到店',tm:'18:50',dt:'5月15日 周五',type:'info',pin:'到店了',icon:'pin',itone:'green',title:'比目鱼火锅',sub:'太古里 N4-2 · 18:50',
+  rows:[{ic:'note',t:'green',b:'报手机尾号 6688 入座',s:'大厅卡座 · 订位短信里的信息',rv:'4 人'},
+        {ic:'star',t:'accent',b:'你记过：小敏不吃辣',s:'点鸳鸯锅 · 上次收藏的菜还在',btn:'看看',open:true}]},
+ {k:'饭后',tm:'20:40',dt:'5月15日 周五',type:'info',pin:'吃完啦',icon:'dine',itone:'orange',title:'买单 · 回家',sub:'20:40',
+  rows:[{ic:'photo',t:'purpa',b:'拍一下小票，算好 AA',s:'按 4 人平摊 · 复制发到群里',btn:'拍小票',open:true},
+        {ic:'car',t:'blue',b:'打车回家 · 约 35 分钟',s:'约 ¥48',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'}]},
 ];
 const HOMEC=[
- {k:'计划',type:'info',icon:'train',itone:'green',title:'回老家',sub:'周五出发',
-  rows:[{ic:'train',t:'blue',b:'周五 18:00 高铁 G1234',s:'北京南 → 济南西',rv:'已购票'},
-        {ic:'list',t:'accent',b:'要带的东西清单',s:'出发前两次提醒',btn:'查看'}]},
- {k:'收拾',type:'check',pin:'出发前一晚 · 收拾行李',icon:'bag',itone:'accent',title:'别忘带',sub:'周四 21:00',
-  items:['给爸妈买的茶叶','常用药','充电器 / 充电宝','老家要用的证件'],done:[]},
- {k:'出发',type:'info',pin:'出门前再核对一遍',icon:'train',itone:'green',title:'出发回家',sub:'周五 16:40',
-  rows:[{ic:'clock',t:'green',b:'16:40 出发去高铁站',s:'周五晚高峰，留足时间',rv:'提前'},
-        {ic:'car',t:'blue',b:'打车去北京南 · 约 ¥52',s:'到点一键叫车',btn:'叫车',btnToast:'已为你叫车'}]},
+ {k:'计划',tm:'12:20',dt:'5月21日 周四',type:'info',pin:'识别到 12306 购票短信',icon:'train',itone:'green',title:'回老家',sub:'周六出发 · 还有 2 天',
+  rows:[{ic:'train',t:'blue',b:'G1234 北京南 → 济南西',s:'周六 08:00 开 · 05 车 12A',rv:'已购票'},
+        {ic:'list',t:'accent',b:'要带的东西清单',s:'周五晚 21:00 提醒你收拾',btn:'查看',open:true}]},
+ {k:'收拾',tm:'21:00',dt:'5月22日 周五',type:'check',pin:'明天出发 · 今晚收拾行李',icon:'bag',itone:'accent',title:'行李清单',sub:'已备好 2 / 5',
+  items:['给爸妈的体检套餐单','给妈妈的护手霜、给爸的茶叶','身份证、孩子的证件','给爷爷的降压药（2 盒）','充电器、数据线、耳机'],done:[1,2]},
+ {k:'出发',tm:'06:30',dt:'5月23日 周六',type:'info',pin:'06:40 出发 · 08:00 开车',icon:'train',itone:'green',title:'出发去北京南',sub:'周六早上路况畅通',
+  rows:[{ic:'car',t:'blue',b:'打车去北京南站 · 约 ¥52',s:'约 35 分钟 · 07:15 到站',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'},
+        {ic:'train',t:'green',b:'G1234 · 12 检票口',s:'07:40 开始检票 · 05 车 12A',btn:'车票',open:true}]},
+ {k:'到达',tm:'09:55',dt:'5月23日 周六',type:'info',pin:'已到济南西站',icon:'pin',itone:'green',title:'到站了',sub:'09:52 到达 · 准点',
+  rows:[{ic:'note',t:'green',b:'给爸发个到站消息',s:'爸说开车来接站 · 你记在笔记里',btn:'发消息',btnToast:'已发送：爸，我到济南西了 💬'},
+        {ic:'cal',t:'purpa',b:'返程票还没买',s:'今晚 20:00 提醒你买周日下午的票',rv:'待办'}]},
 ];
 const BDAY=[
- {k:'提前一周',type:'info',pin:'下周一 · 妈妈生日',icon:'star',itone:'rose',title:'妈妈的生日',sub:'5月23日 周一',
-  rows:[{ic:'star',t:'rose',b:'还有 7 天',s:'去年她喜欢你送的丝巾',rv:'7 天'},
-        {ic:'note',t:'purpa',b:'准备礼物和蛋糕',s:'AI 挑了 3 个礼物建议',btn:'看看',btnToast:'已打开礼物建议'}]},
- {k:'前一天',type:'check',pin:'明天就是妈妈生日',icon:'list',itone:'accent',title:'生日准备',sub:'5月22日',
-  items:['取预订的蛋糕','包装好礼物','订一束花','想好要说的祝福'],done:[]},
- {k:'当天',type:'info',pin:'今天 · 妈妈生日',icon:'star',itone:'rose',title:'今天给妈妈过生日',sub:'5月23日',
-  rows:[{ic:'note',t:'rose',b:'发一段生日祝福',s:'AI 帮你写好了草稿',btn:'发送',btnToast:'已发送祝福'},
-        {ic:'pin',t:'green',b:'晚上家庭聚餐 18:30',s:'已订「湘遇」· 6 人',rv:'18:30'}]},
+ {k:'提前一周',tm:'10:00',dt:'5月10日 周日',type:'info',pin:'下周日 · 妈妈 60 岁生日',icon:'star',itone:'rose',title:'妈妈的生日',sub:'5月17日 周日 · 还有 7 天',
+  rows:[{ic:'star',t:'rose',b:'60 岁大寿，提前准备',s:'去年送的按摩仪她很喜欢',rv:'7 天'},
+        {ic:'note',t:'purpa',b:'礼物灵感 · 预算 ¥800',s:'羊绒围巾 / 智能手环 / 体检卡',btn:'看看',open:true}]},
+ {k:'前两天',tm:'12:00',dt:'5月15日 周五',type:'check',pin:'还有 2 天 · 妈妈生日',icon:'list',itone:'accent',title:'生日准备',sub:'已完成 2 / 5',
+  items:['订一个 8 寸生日蛋糕','预订家庭聚餐餐厅','买生日礼物','准备红包和一束康乃馨','叫上弟弟一家视频连线'],done:[1,2]},
+ {k:'当天',tm:'08:30',dt:'5月17日 周日',type:'info',pin:'今天 · 妈妈 60 岁生日',icon:'star',itone:'rose',title:'今天给妈妈过生日',sub:'5月17日 周日',
+  rows:[{ic:'note',t:'rose',b:'先给妈妈发生日祝福',s:'帮你写好了草稿，可以改',btn:'看看',open:true},
+        {ic:'cal',t:'purpa',b:'12:00 家庭视频 · 18:30 聚餐',s:'弟弟一家 · 老家 6 人桌',rv:'今天'}]},
 ];
 const HEALTH=[
- {k:'每日用药',type:'info',pin:'该吃药了 · 降压药',icon:'cross',itone:'green',title:'健康 · 用药提醒',sub:'今天 08:00',
-  rows:[{ic:'cross',t:'green',b:'降压药 1 片',s:'早餐后 · 已连续 92 天',btn:'已吃',btnToast:'已记录本次服药'},
-        {ic:'clock',t:'blue',b:'晚上 20:00 还有一次',s:'到点会再提醒你',rv:'20:00'}]},
- {k:'复诊',type:'info',pin:'周四 · 复诊',icon:'cal',itone:'rose',title:'心内科复诊',sub:'5月19日 周四 上午',
-  rows:[{ic:'cal',t:'rose',b:'周四 09:00 心内科',s:'协和医院 · 已挂号',rv:'周四'},
-        {ic:'list',t:'accent',b:'带上近 3 个月血压记录',s:'已自动整理成表',btn:'查看'}]},
+ {k:'早上',tm:'07:50',dt:'5月15日 周五',type:'info',pin:'08:00 妈妈该吃药了',icon:'cross',itone:'green',title:'妈妈的用药',sub:'今天 4 次 · 已服 0 次',
+  rows:[{ic:'cross',t:'green',b:'08:00 早餐后 · 氨氯地平 1 片',s:'降压药 · 饭后服用',btn:'提醒妈妈',btnToast:'已提醒妈妈，她的手机会响铃 🔔'},
+        {ic:'sun',t:'orange',b:'早上量个血压',s:'米家血压计 · 测完自动记录',rv:'待测'}]},
+ {k:'中午',tm:'11:50',dt:'5月15日 周五',type:'info',pin:'12:30 午餐后服药',icon:'cross',itone:'green',title:'妈妈的用药',sub:'已服 1 次 · 下次 12:30',
+  rows:[{ic:'cross',t:'green',b:'12:30 氨氯地平 + 二甲双胍',s:'各 1 片 · 饭后 30 分钟',btn:'提醒妈妈',btnToast:'已提醒妈妈 🔔'},
+        {ic:'bag',t:'rose',b:'氨氯地平只剩 6 片 ≈ 3 天',s:'一键补药，送到妈妈家',btn:'补药',btnToast:'已加入购药清单 💊'}]},
+ {k:'晚上',tm:'20:40',dt:'5月15日 周五',type:'info',pin:'21:00 睡前服药',icon:'cross',itone:'green',title:'妈妈的用药',sub:'已服 3 次 · 还剩 1 次',
+  rows:[{ic:'cross',t:'green',b:'21:00 钙片 + 维生素 D',s:'睡前服用',btn:'提醒妈妈',btnToast:'已提醒妈妈 🔔'},
+        {ic:'note',t:'purpa',b:'今天按时吃了 3 次',s:'08:05 · 12:34 · 18:10 妈妈打卡',rv:'按时'}]},
+ {k:'复诊前',tm:'19:30',dt:'5月19日 周二',type:'info',pin:'明天 09:00 心内科复诊',icon:'cal',itone:'rose',title:'陪妈妈复诊',sub:'5月20日 周三 · 协和医院',
+  rows:[{ic:'cal',t:'rose',b:'明天 09:00 · 心内科',s:'来自挂号短信',rv:'明天'},
+        {ic:'list',t:'accent',b:'近 3 个月血压和用药记录',s:'已整理成一页，给医生看',btn:'查看',open:true}]},
 ];
 const PARCEL=[
- {k:'待取件',type:'info',pin:'2 个快递待取',icon:'bag',itone:'orange',title:'快递 · 待取件',sub:'小区驿站',
-  rows:[{ic:'bag',t:'orange',b:'顺丰 · 取件码 8-2-3104',s:'驿站今天 21:00 关门',btn:'导航',btnToast:'已导航到驿站'},
-        {ic:'bag',t:'blue',b:'京东 · 已放快递柜',s:'丰巢 B 柜 · 取件码 6692',rv:'待取'}]},
- {k:'派送中',type:'info',pin:'1 件今天送达',icon:'car',itone:'blue',title:'快递 · 派送中',sub:'预计今天 16:00',
-  rows:[{ic:'car',t:'blue',b:'生鲜 · 正在派送',s:'骑手距你 3 公里',rv:'16:00'}]},
- {k:'待寄件',type:'info',icon:'bag',itone:'green',title:'快递 · 寄件',sub:'要寄回的东西',
-  rows:[{ic:'bag',t:'green',b:'寄回租借的相机',s:'明天到期，别忘记寄',btn:'下单',btnToast:'已呼叫上门取件'}]},
+ {k:'派送中',tm:'14:00',dt:'5月14日 周四',type:'info',pin:'1 件今天送达',icon:'car',itone:'blue',title:'快递 · 派送中',sub:'来自物流短信',
+  rows:[{ic:'car',t:'blue',b:'顺丰 · 耳机 正在派送',s:'预计 18:00 前送到公司前台',rv:'派送中'},
+        {ic:'bag',t:'orange',b:'还有 2 件在驿站待取',s:'菜鸟驿站 · 今天 22:00 前',btn:'取件码',open:true}]},
+ {k:'待取件',tm:'18:40',dt:'5月14日 周四',type:'info',pin:'2 个快递待取 · 顺路',icon:'bag',itone:'orange',title:'快递 · 待取件',sub:'菜鸟驿站 · 22:00 关门',
+  rows:[{ic:'bag',t:'orange',b:'顺丰 · 取件码 8-2-3056',s:'李宁运动鞋 · 地铁 B 口 80 米',btn:'取件码',open:true},
+        {ic:'bag',t:'blue',b:'京东 · 取件码 5-1-1088',s:'猫砂 20kg × 2 · 较重可叫跑腿',btn:'跑腿',btnToast:'已下单跑腿代取 · 约 15 分钟到驿站 🛵'}]},
+ {k:'待寄件',tm:'20:30',dt:'5月15日 周五',type:'info',pin:'明天 14:00 顺丰上门',icon:'bag',itone:'green',title:'快递 · 待寄件',sub:'退货 · 7 天无理由',
+  rows:[{ic:'bag',t:'green',b:'退货：天猫连衣裙',s:'今晚把衣服和吊牌装好',rv:'明天'},
+        {ic:'clock',t:'blue',b:'14:00–15:00 顺丰上门取件',s:'已预约 · 来自寄件短信',btn:'改约',btnToast:'已打开改约页面，可选其他时间段'}]},
 ];
 const APPS={today:TODAY,travel:TRAVEL,course:COURSE,commute:COMMUTE,med:MED,dine:DINE,home:HOMEC,bday:BDAY,health:HEALTH,parcel:PARCEL};
 const SCENE=[['today','今日安排','#3a7afe'],['travel','稻城亚丁出行','#2f9e6a'],['course','高数课程','#7a5be0'],['commute','上下班通勤','#3a7afe'],['med','带娃看病','#d64531'],['dine','约饭','#e8792b'],['home','回老家','#2f9e6a'],['bday','生日纪念','#d64531'],['health','健康用药','#2f9e6a'],['parcel','收寄快递','#e8792b']];
+const DEFDATE='5月15日 周五';
 function defStage(sc){return sc==='travel'?2:0;}
-const DETAIL={
- travel:{title:'稻城亚丁旅游攻略',sub:'更新时间 · 今天 10:31',tabs:['总结','笔记（12）'],body:
-  '<div class="dsec" style="margin-top:4px">合集摘要</div><div class="dcard"><p>这是一份川西稻城亚丁漫游指南。不管是自驾特种兵、徒步爱好者，还是带长辈慢游，这里都能找到适配的打开方式。核心看点是神山群、高原海子和辽阔草甸，建议优先根据体力选好游览路线。</p></div>'+
-  '<div class="dsec">内容总结</div><div class="dcard"><div class="day"><h4><i>Day 1</i>抵达和适应</h4><p>当天不安排进山。入住后只在镇上轻量活动，早点休息，为第二天短线保留体力。</p></div><div class="day"><h4><i>Day 2</i>短线和珍珠海</h4><p>短线距离较短，适合先判断自己对海拔和徒步强度的适应情况。主要看冲古寺、珍珠海及仙乃日方向景观。</p><div class="dayimg"></div></div><div class="day"><h4><i>Day 3</i>长线和牛奶海</h4><p>全天高强度徒步，直奔牛奶海与五色海。早出发、备足干粮和水，视身体情况决定是否登顶。</p></div></div>'},
- course:{title:'高等数学 · 课程合集',sub:'12 篇课堂笔记 · 更新于今天',tabs:['总结','笔记（12）'],body:
-  '<div class="dsec" style="margin-top:4px">课程摘要</div><div class="dcard"><p>高等数学（2026 秋），每周三、五上午 A203。本学期重点是极限、导数与定积分，期中覆盖第 1–3 章。下面按章节整理了每节课的关键知识点与作业。</p></div>'+
-  '<div class="dsec">章节知识点</div><div class="dcard"><div class="day"><h4><i>第1章</i>函数与极限</h4><p>两个重要极限、等价无穷小替换；连续性与间断点判定。</p></div><div class="day"><h4><i>第2章</i>导数与微分</h4><p>求导法则、复合函数链式法则、隐函数与参数方程求导。</p></div><div class="day"><h4><i>第3章</i>定积分</h4><p>牛顿-莱布尼茨公式、换元法、分部积分；定积分几何意义。</p></div></div>'},
- today:{title:'今天 · 全部安排',sub:'5月16日 周五 · 5 件事',tabs:['今天','本周'],body:
-  '<div class="dsec" style="margin-top:4px">今天</div><div class="dcard"><div class="day"><h4><i>08:30</i>出门上班</h4><p>今天限行尾号 4，建议坐地铁 10 号线，约 35 分钟。</p></div><div class="day"><h4><i>10:00</i>产品评审会</h4><p>会议室 A302，6 人，资料已备好。</p></div><div class="day"><h4><i>15:00</i>接孩子放学</h4><p>阳光小学，提前 20 分钟提醒出发。</p></div><div class="day"><h4><i>16:30</i>牙医复诊</h4><p>口腔医院，别忘带医保卡。</p></div><div class="day"><h4><i>19:00</i>和小敏吃饭</h4><p>三里屯比目鱼火锅，已订位。</p></div></div>'},
-};
+
 const _raw=(location.hash||'').replace(/^#/,'');
 const _open=/-open$/.test(_raw);
 const _hs=_raw.replace(/-open$/,'').match(/^([a-z]+)(?:-s([0-9]))?$/);
 let scene=(_hs&&APPS[_hs[1]])?_hs[1]:'today';
-let cur=(_hs&&_hs[2]!==undefined)?+_hs[2]:defStage(scene), checkState={};
+let cur=(_hs&&_hs[2]!==undefined&&APPS[scene][+_hs[2]])?+_hs[2]:defStage(scene), checkState={};
 const cardEl=document.getElementById('aicard');
+const screenEl=document.querySelector('.screen');
+const landingEl=document.getElementById('landing');
 const toastT={id:null};
-function toast(msg){const d=document.getElementById('detail');const host=d.classList.contains('open')?d:document.querySelector('.screen');
+function toast(msg){const d=document.getElementById('detail');const host=d.classList.contains('open')?d:screenEl;
   let t=document.createElement('div');t.className='toast';t.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+msg;
-  host.appendChild(t);clearTimeout(toastT.id);toastT.id=setTimeout(()=>t.remove(),1900);}
+  host.querySelectorAll('.toast').forEach(x=>x.remove());host.appendChild(t);clearTimeout(toastT.id);toastT.id=setTimeout(()=>t.remove(),1900);}
 
-function renderCard(){
- const s=APPS[scene][cur];const [ic,ib]=s.icon?TONE[s.itone]:['',''];
+/* 时钟 / 日期 / 壁纸跟着阶段时间走 */
+function todOf(tm){const p=(tm||'08:00').split(':');const h=+p[0]+(+p[1])/60;
+  if(h<5)return 'n';if(h<7)return 'e';if(h<11)return 'm';if(h<16.5)return 'd';if(h<19.5)return 'e';return 'n';}
+function renderClock(){
+ const s=APPS[scene][cur];const tm=(s.tm||'08:12').replace(/^0/,'');
+ document.querySelector('.ctime').textContent=tm;document.getElementById('sbTime').textContent=tm;
+ document.querySelector('.cdate').textContent=s.dt||DEFDATE;
+ screenEl.classList.remove('tod-m','tod-d','tod-e','tod-n');screenEl.classList.add('tod-'+todOf(s.tm));
+ const name=(SCENE.find(x=>x[0]===scene)||['','',''])[1];
+ document.getElementById('stagecap').innerHTML='<b>'+name+'</b> · 第 '+(cur+1)+' / '+APPS[scene].length+' 阶段 · 模拟时间 '+(s.dt||DEFDATE)+' '+(s.tm||'');
+}
+
+function renderCard(anim){
+ const s=APPS[scene][cur];const [ic]=s.icon?TONE[s.itone]:[''];
  let inner='';
  if(s.pin) inner+='<div class="pin"><span class="dot"></span>'+s.pin+'</div>';
  if(s.type==='sug'){
@@ -426,55 +467,56 @@ function renderCard(){
    inner+='<div class="eyebrow">'+I.spark+' '+s.eyebrow+'</div>';
    inner+='<div class="aihd" style="margin-bottom:8px"><div class="ti"><b>'+s.title+'</b></div></div>';
    inner+='<div class="sgtext">'+s.text+'</div>';
-   inner+='<div class="sgact"><button class="sgbtn s" data-stop>暂不</button><button class="sgbtn p" data-go>创建任务</button></div>';
+   inner+='<div class="sgact"><button class="sgbtn s" data-stop>暂不</button><button class="sgbtn p" data-go>整理行程</button></div>';
  }else{
    cardEl.className='aicard';
    inner+='<div class="aihd"><span class="ic" style="color:#fff;background:'+ic+'">'+I[s.icon]+'</span><div class="ti"><b>'+s.title+'</b><s>'+s.sub+'</s></div><span class="more">展开</span></div>';
    inner+='<div class="aibody">';
    if(s.type==='check'){
-     s.items.forEach((it,i)=>{const dn=checkState[scene+':'+cur+'#'+i];inner+='<div class="ck '+(dn?'done':'')+'" data-ck="'+i+'"><span class="box">'+(dn?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</span><span>'+it+'</span></div>';});
+     const MAXI=4;
+     s.items.slice(0,MAXI).forEach((it,i)=>{const k=scene+':'+cur+'#'+i;const dn=(k in checkState)?checkState[k]:(s.done||[]).indexOf(i)>=0;
+       inner+='<div class="ck '+(dn?'done':'')+'" data-ck="'+i+'"><span class="box">'+(dn?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</span><span>'+it+'</span></div>';});
+     if(s.items.length>MAXI) inner+='<div class="ckmore">还有 '+(s.items.length-MAXI)+' 项 · 展开查看</div>';
    }else{
-     s.rows.forEach((r,i)=>{inner+='<div class="row">'+ric(r.ic,r.t)+'<div class="rc"><b>'+r.b+'</b><s>'+r.s+'</s></div>'+
-       (r.btn?'<button class="rbtn y" data-btn="'+i+'">'+r.btn+'</button>':'<span class="rv'+(r.rv==='晴'?'':'')+'">'+r.rv+'</span>')+'</div>';});
+     s.rows.forEach((r,i)=>{inner+='<div class="row">'+ric(r.ic,r.t)+'<div class="rc"><b>'+r.b+'</b>'+(r.s?'<s>'+r.s+'</s>':'')+'</div>'+
+       (r.btn?'<button class="rbtn y" data-btn="'+i+'">'+r.btn+'</button>':'<span class="rv">'+(r.rv||'')+'</span>')+'</div>';});
    }
    inner+='</div>';
  }
  cardEl.innerHTML=inner;
- // interactions
+ if(anim){cardEl.classList.remove('swap');void cardEl.offsetWidth;cardEl.classList.add('swap');}
  if(s.type!=='sug'){cardEl.onclick=(e)=>{if(e.target.closest('[data-ck]')||e.target.closest('[data-btn]'))return;openDetail();};}
- else cardEl.onclick=null;
- cardEl.querySelectorAll('[data-ck]').forEach(el=>el.onclick=()=>{const i=el.getAttribute('data-ck');const k=scene+':'+cur+'#'+i;checkState[k]=!checkState[k];renderCard();});
- cardEl.querySelectorAll('[data-btn]').forEach(el=>el.onclick=(e)=>{e.stopPropagation();const r=s.rows[+el.getAttribute('data-btn')];toast(r.btnToast||'已处理');});
- const go=cardEl.querySelector('[data-go]');if(go)go.onclick=()=>{cur=1;renderCard();renderStages();toast('已创建「稻城亚丁旅行」任务');};
- const stop=cardEl.querySelector('[data-stop]');if(stop)stop.onclick=()=>toast('已忽略，稍后可再创建');
+ else cardEl.onclick=(e)=>{if(e.target.closest('button'))return;openDetail();};
+ cardEl.querySelectorAll('[data-ck]').forEach(el=>el.onclick=()=>{const i=+el.getAttribute('data-ck');const k=scene+':'+cur+'#'+i;const was=(k in checkState)?checkState[k]:(s.done||[]).indexOf(i)>=0;checkState[k]=!was;renderCard(false);});
+ cardEl.querySelectorAll('[data-btn]').forEach(el=>el.onclick=(e)=>{e.stopPropagation();const r=s.rows[+el.getAttribute('data-btn')];if(r.open){openDetail();return;}toast(r.btnToast||'已完成');});
+ const go=cardEl.querySelector('[data-go]');if(go)go.onclick=(e)=>{e.stopPropagation();cur=1;renderAll(true);syncLanding();toast('已整理成行程，接下来帮你订酒店');};
+ const stop=cardEl.querySelector('[data-stop]');if(stop)stop.onclick=(e)=>{e.stopPropagation();toast('好的，明天再提醒你');};
 }
-function detailHTML(){
- const d=DETAIL[scene];
- if(d)return '<div class="dtitle">'+d.title+'</div><div class="dsub">'+d.sub+'</div><div class="tabs"><button class="on">'+d.tabs[0]+'</button><button>'+d.tabs[1]+'</button></div>'+d.body;
- const name=(SCENE.find(x=>x[0]===scene)||['','',''])[1];
- let h='<div class="dtitle">'+name+' · 全部</div><div class="dsub">这个场景的完整安排</div><div class="dcard">';
- APPS[scene].forEach(st=>{h+='<div class="day"><h4><i>'+st.k+'</i>'+(st.title||'')+'</h4>';
-   if(st.rows)st.rows.forEach(r=>h+='<p>'+r.b+(r.s?'　·　'+r.s:'')+'</p>');
-   if(st.items)st.items.forEach(it=>h+='<p>• '+it+'</p>');
-   if(st.text)h+='<p>'+st.text+'</p>';
-   h+='</div>';});
- return h+'</div>';
-}
+
+/* 落地页：iframe + ?s=阶段；已打开时切阶段用 postMessage 实时同步，不重新加载 */
 const LANDING={today:'../os5-today-ai-app/',course:'../os5-course-ai-app-figma/',travel:'../os5-travel-ai-app-figma/',commute:'../os5-commute-ai-app/',med:'../os5-clinic-ai-app/',dine:'../os5-dining-ai-app/',home:'../os5-hometown-ai-app/',bday:'../os5-anniversary-ai-app/',health:'../os5-medication-ai-app/',parcel:'../os5-parcel-ai-app/'};
+function postStage(init){try{landingEl.contentWindow.postMessage({os5stage:cur,init:!!init},'*');}catch(e){}}
+landingEl.addEventListener('load',()=>postStage(true));
 function openDetail(){
- const lp=LANDING[scene];
- if(lp){const f=document.getElementById('landing');if(f.src.indexOf(lp)<0)f.src=lp;f.classList.add('open');return;}
- document.getElementById('dbody').innerHTML=detailHTML();document.getElementById('detail').classList.add('open');document.getElementById('home').classList.add('hide');}
+ const lp=LANDING[scene];if(!lp)return;
+ if(landingEl.dataset.lp===lp){postStage(true);}else{landingEl.dataset.lp=lp;landingEl.src=lp+'?s='+cur;}
+ landingEl.classList.add('open');
+}
+function syncLanding(){if(landingEl.classList.contains('open')&&landingEl.dataset.lp===LANDING[scene])postStage(false);}
 function closeDetail(){document.getElementById('detail').classList.remove('open');document.getElementById('home').classList.remove('hide');}
-function closeLanding(){const f=document.getElementById('landing');f.classList.remove('open');}
+function closeLanding(){landingEl.classList.remove('open');}
 window.addEventListener('message',function(e){if(e.data==='close-landing')closeLanding();});
 document.getElementById('back').onclick=closeDetail;
 document.getElementById('askBtn').onclick=()=>toast('小爱：已根据这个场景为你整理好');
 document.getElementById('addBtn').onclick=()=>toast('可以补充一条内容');
-function renderStages(){const w=document.getElementById('stages');w.innerHTML=APPS[scene].map((s,i)=>'<button class="'+(i===cur?'on':'')+'" data-i="'+i+'">'+(i+1)+'. '+s.k+'</button>').join('');
- w.querySelectorAll('button').forEach(b=>b.onclick=()=>{cur=+b.getAttribute('data-i');renderCard();renderStages();});}
+
+function renderStages(){const w=document.getElementById('stages');
+ w.innerHTML=APPS[scene].map((s,i)=>'<button class="'+(i===cur?'on':'')+'" data-i="'+i+'">'+(i+1)+'. '+s.k+'<i>'+(s.tm||'')+'</i></button>').join('');
+ w.querySelectorAll('button').forEach(b=>b.onclick=()=>{const n=+b.getAttribute('data-i');if(n===cur)return;cur=n;renderAll(true);syncLanding();});}
 function renderScenes(){const w=document.getElementById('scenes');w.innerHTML='<div class="shd">场景 AI App</div>'+SCENE.map(x=>'<button class="'+(x[0]===scene?'on':'')+'" data-s="'+x[0]+'"><span class="d" style="background:'+x[2]+'"></span>'+x[1]+'</button>').join('');
- w.querySelectorAll('button').forEach(b=>b.onclick=()=>{scene=b.getAttribute('data-s');cur=defStage(scene);closeLanding();closeDetail();renderScenes();renderStages();renderCard();});}
+ w.querySelectorAll('button').forEach(b=>b.onclick=()=>{const sc=b.getAttribute('data-s');if(sc===scene&&!landingEl.classList.contains('open'))return;scene=sc;cur=defStage(scene);closeLanding();closeDetail();renderAll(true);});}
+function renderAll(anim){renderScenes();renderStages();renderClock();renderCard(anim);
+ try{history.replaceState(null,'','#'+scene+'-s'+cur);}catch(e){}}
 
 // app grid + dock
 const HOMEAPPS=[['相册','conic-gradient(from 210deg,#ff7a7a,#ffd36b,#6be39b,#6bb8ff,#c98bff,#ff7a7a)',''],
@@ -492,7 +534,7 @@ const DOCK=[['#34c759','<svg viewBox=\'0 0 24 24\' fill=\'#fff\'><path d=\'M6.5 
  ['#1b1b1f','<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#fff\' stroke-width=\'1.8\'><path d=\'M4 8.5h3l1.5-2h7L17 8.5h3v10H4z\'/><circle cx=\'12\' cy=\'13\' r=\'3.3\'/></svg>']];
 document.getElementById('dock').innerHTML=DOCK.map(a=>'<span class="ai" style="background:'+a[0]+'">'+a[1]+'</span>').join('');
 
-renderScenes();renderStages();renderCard();
+renderAll(false);
 if(_open){openDetail();}
 </script>
 </body>

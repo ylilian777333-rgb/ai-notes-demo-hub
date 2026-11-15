@@ -6,6 +6,7 @@
 <title>稻城亚丁旅行 AI App · 落地页（OS5 Figma 高保真）</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
+  s{text-decoration:none}
   :root{--ink:#111;--t2:#595959;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3482ff;--red:#ef5a4c;--line:#eee}
   html,body{height:100%}
   body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
@@ -62,6 +63,8 @@
   .flight .ftop{display:flex;align-items:center;justify-content:space-between;position:relative}
   .flight .fd{font-size:13px;font-weight:600;color:#333}
   .flight .fs{font-size:11px;font-weight:600;color:var(--blue);background:#e9f1ff;border-radius:6px;padding:2px 8px}
+  .flight .fs.gray{color:#8a8a8a;background:#f0f0f0}.flight .fs.green{color:#1f9e6a;background:#e7f5ee}.flight .fs.orange{color:#e8792b;background:#fff1e3}
+  .flight{cursor:pointer}.coll{cursor:pointer}.xrow{cursor:pointer}
   .flight .times{display:flex;align-items:center;gap:14px;margin:14px 0 2px;position:relative}
   .flight .times b{font-size:27px;font-weight:700;color:#1b1b1b;letter-spacing:-.5px}
   .flight .pline{flex:1;height:1px;background:repeating-linear-gradient(90deg,#c7c7c7 0 4px,transparent 4px 8px);position:relative}
@@ -126,7 +129,7 @@
   <div class="app">
     <div class="hero">
       <div class="bg"></div><div class="fade"></div>
-      <div class="sb"><span>2:36</span><span class="r">
+      <div class="sb"><span>21:05</span><span class="r">
         <svg width="17" height="11" viewBox="0 0 17 11" fill="#1b1b1b"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
         <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#1b1b1b" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#1b1b1b"/></svg>
         <span class="batt">100</span></span>
@@ -134,7 +137,7 @@
       <div class="nav">
         <button class="ib"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
         <span class="sp"></span>
-        <button class="ib"><svg width="22" height="22" viewBox="0 0 24 24" fill="#1b1b1b"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button>
+        <button class="ib" data-sheet="more"><svg width="22" height="22" viewBox="0 0 24 24" fill="#1b1b1b"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button>
         <span class="circ"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
       </div>
       <div class="htitle">稻城亚丁旅行</div>
@@ -161,14 +164,14 @@
         </div>
         <div class="flight">
           <img class="plane" src="./plane.png" alt="">
-          <div class="ftop"><span class="fd">6月14日</span><span class="fs" style="color:#8a8a8a;background:#f0f0f0">返程</span></div>
+          <div class="ftop"><span class="fd">6月14日</span><span class="fs gray">返程</span></div>
           <div class="times"><b>14:30</b><span class="pline"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V18l-2 1.5V21l3.5-1 3.5 1v-1.5L13 18v-4.5L21 16Z"/></svg></span><b>16:40</b></div>
           <div class="ports"><span>稻城亚丁</span><span>成都双流 T2</span></div>
           <div class="stats"><div class="st"><s>航班</s><b>CA4187</b></div><div class="st"><s>登机口</s><b>待定</b></div><div class="st"><s>座位号</s><b>待选</b></div><div class="st"><s>准点率</s><b>待定</b></div></div>
           <div class="fbtns"><button>查看办理</button><button class="pri">行程详情</button></div>
         </div>
       </div>
-      <div class="remind">
+      <div class="remind" data-st="0 1 2 3 4 5 6">
         <div class="mapimg"></div>
         <div class="rc"><b>建议 06:10 出发，06:30 到双流 T2</b><s>全程 12.5 公里 · 预计 20 分钟</s>
           <div class="rbtns"><a class="g">查看路线</a><a>设置提醒</a></div>
@@ -177,7 +180,7 @@
 
       <div class="sec"><span class="si" style="background:#2f9e6a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8L19 8v11.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1Z"/><path d="M13.5 3.5V8H19M8 12h8M8 15.5h5"/></svg></span>旅行合集</div>
       <div class="card coll">
-        <div class="cl"><b>稻城亚丁旅行</b><s><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a0a0a0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8L19 8v12.5H6z"/><path d="M13.5 3.5V8H19"/></svg>共 23 条笔记</s></div>
+        <div class="cl"><b>稻城亚丁旅行</b><s><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a0a0a0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8L19 8v12.5H6z"/><path d="M13.5 3.5V8H19"/></svg><span class="cn">共 23 条笔记</span></s></div>
         <div class="cover"></div>
       </div>
 
@@ -204,9 +207,55 @@
   </div>
 </div></div>
 <script>
-document.querySelectorAll('.ksbtn button, .fbtns button, .more, .rbtns a').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();});});
-if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,3000);}
 var tb=document.querySelector('.nav .ib');if(tb)tb.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
+</script>
+<script>
+/* 阶段：制定计划 → 预订交通住宿 → 出发前准备 → 出发日 → 抵达 → 游玩 → 返程 → 旅行结束（Figma 版式不变，只换内容） */
+(function(){
+  function BT(a,b){return '<button>'+a+'</button><button class="pri">'+b+'</button>';}
+  function RB(a,b){return '<a class="g">'+a+'</a><a>'+b+'</a>';}
+  var F1='.fscroll .flight:nth-child(1)', F2='.fscroll .flight:nth-child(2)';
+  function S(o){ var b={'.keysug .kt b':'关键建议'}; for(var k in o) b[k]=o[k]; return b; }
+  window.OS5_ACC='#3482ff'; window.OS5_STAGE_BASE=0; window.OS5_DEST='成都双流机场 T2';
+  window.OS5_STAGES=[
+    {k:'制定计划',t:'21:05',cls:{},set:S({})},
+    {k:'预订交通住宿',t:'12:30',cls:{},
+     set:S({'.keysug h3':'香格里拉镇住宿还没订','.keysug p':'6/10–6/13 共 4 晚。按你收藏的攻略挑了 3 家离景区近的，6 月是旺季，建议这两天订好。','.keysug .ksbtn':BT('稍后','去预订')})},
+    {k:'出发前准备',t:'20:00',cls:{},
+     set:S({'.keysug h3':'出发前 2 天 · 还差 3 件事','.keysug p':'实名预约入园、备好抗高反药和羽绒服、确认机场大巴时间，已整理成清单。','.keysug .ksbtn':BT('稍后','查看清单')})},
+    {k:'出发日',t:'05:50',cls:{},
+     set:S({'.keysug .kt b':'出发提醒','.keysug h3':'今天出发 · 06:10 出门最稳','.keysug p':'CA4186 08:20 起飞，登机口 D12，座位 A24 已值机。路况畅通，到双流 T2 约 20 分钟。','.keysug .ksbtn':BT('查看路线','一键叫车'),
+      '.remind .rc b':'06:10 出发 · 06:30 到双流 T2','.remind .rc s':'现在路况畅通 · 预计 20 分钟 · 打车约 ¥45','.remind .rbtns':RB('查看路线','一键叫车')})},
+    {k:'抵达目的地',t:'10:50',cls:{},
+     set:S({'.keysug h3':'已抵达 · 今天先适应海拔','.keysug p':'机场海拔 4411 米，慢慢走别跑跳。今天不进山，坐 11:30 的机场大巴去香格里拉镇，早点休息。','.keysug .ksbtn':BT('知道了','大巴信息'),
+      '.remind .rc b':'11:30 坐机场大巴去镇上','.remind .rc s':'到香格里拉镇约 2.5 小时 · 到达口右手边上车','.remind .rbtns':RB('查看路线','设置提醒')})},
+    {k:'游玩',t:'07:30',cls:{},
+     set:S({'.keysug .kt b':'今日行程','.keysug h3':'Day 2 · 短线和珍珠海','.keysug p':'今天晴，适合走短线。08:00 坐观光车到扎灌崩，步行去冲古寺和珍珠海，全程约 3.5 小时。','.keysug .ksbtn':BT('设置提醒','查看路线'),
+      '.remind .rc b':'08:00 观光车到扎灌崩','.remind .rc s':'步行 1.2 公里到冲古寺 · 海拔 3900 米','.remind .rbtns':RB('查看路线','设置提醒')})},
+    {k:'返程',t:'20:00',cls:{},
+     set:S({'.keysug h3':'明天返程 · CA4187 14:30','.keysug p':'从香格里拉镇到机场约 2.5 小时，建议 11:30 出发。现在可以在线值机选座了。','.keysug .ksbtn':BT('稍后','在线值机'),
+      '.remind .rc b':'明天 11:30 出发去机场','.remind .rc s':'香格里拉镇 → 稻城亚丁机场 · 约 2.5 小时','.remind .rbtns':RB('查看路线','设置提醒')})},
+    {k:'旅行结束',t:'21:00',cls:{},
+     set:S({'.keysug .kt b':'旅行回顾','.keysug h3':'这趟旅行的游记整理好了','.keysug p':'精选了 18 张照片、花费 ¥4,860，按天整理成游记，可以分享给同行的朋友。','.keysug .ksbtn':BT('稍后','查看游记'),'.coll .cn':'共 31 条笔记 · 含游记'})}
+  ];
+  /* 航班状态随阶段变化 */
+  var FS1=['待出行','待出行','待出行','今天出发','已完成','已完成','已完成','已完成'], C1=['','','','green','gray','gray','gray','gray'];
+  var FS2=['返程','返程','返程','返程','返程','返程','明天出发','已完成'], C2=['gray','gray','gray','gray','gray','gray','orange','gray'];
+  window.OS5_STAGES.forEach(function(s,i){
+    s.set[F1+' .fs']=FS1[i]; s.cls[F1+' .fs']=C1[i]; s.set[F2+' .fs']=FS2[i]; s.cls[F2+' .fs']=C2[i];
+    s.set[F1+' .stats .st:nth-child(4) b']=i>=3?'准点':'待定';
+    s.set[F2+' .stats .st:nth-child(3) b']=i===6?'可值机':(i===7?'A12':'待选');
+  });
+  window.OS5_SHEETS={
+    more:{t:'更多',h:'<div class="k-card"><div class="k-kv"><span class="k">分享行程</span><span class="v">发给同行的朋友</span></div><div class="k-kv"><span class="k">导出 PDF</span><span class="v">离线也能看</span></div><div class="k-kv"><span class="k">编辑行程</span><span class="v">调整每天安排</span></div></div>',a:['导出 PDF','分享行程'],at:['已导出 PDF 到文件 ✓','已生成分享卡片 💬']},
+    prep:{t:'出发前清单',h:'<div class="k-card"><div class="k-kv"><span class="k">✓ 香格里拉镇住宿</span><span class="v">已订 4 晚</span></div><div class="k-kv"><span class="k">○ 入园实名预约</span><span class="v">稻城亚丁小程序</span></div><div class="k-kv"><span class="k">○ 抗高反药 / 防晒 / 羽绒服</span><span class="v">景区早晚 0°左右</span></div><div class="k-kv"><span class="k">○ 机场大巴时间</span><span class="v">11:30 发车</span></div></div><div class="k-note">按你收藏的攻略整理</div>',a:['稍后','去实名预约'],at:['好的，明天再提醒你','已打开稻城亚丁小程序']},
+    bus:{t:'机场大巴',h:'<div class="k-card"><div class="k-kv"><span class="k">发车</span><span class="v">11:30 · 到达口出门右手边</span></div><div class="k-kv"><span class="k">终点</span><span class="v">香格里拉镇（约 2.5 小时）</span></div><div class="k-kv"><span class="k">票价</span><span class="v">约 ¥70 · 上车买票</span></div></div><div class="k-note">公开班次信息，以现场为准</div>',a:['','知道了']},
+    checkin2:{t:'在线值机 · CA4187',h:'<div class="k-card"><div class="k-kv"><span class="k">航班</span><span class="v">CA4187 稻城 → 成都</span></div><div class="k-kv"><span class="k">起飞</span><span class="v">6月14日 14:30</span></div><div class="k-kv"><span class="k">推荐座位</span><span class="v">A12 靠窗（看雪山那一侧）</span></div></div>',a:['换座位','确认值机'],at:['已打开选座','值机成功，登机牌已存入卡包 ✈️']},
+    trip:{t:'稻城亚丁 · 游记',h:'<div class="k-card"><span class="t">5 天 4 晚 · ¥4,860</span><div class="k-bul"><i></i><span>Day 1 抵达适应，镇上休息</span></div><div class="k-bul"><i></i><span>Day 2 冲古寺、珍珠海短线</span></div><div class="k-bul"><i></i><span>Day 3 牛奶海、五色海长线</span></div><div class="k-bul"><i></i><span>Day 4 洛绒牛场，Day 5 返程</span></div></div><div class="k-note">照片来自你的相册，花费来自支付记录里你确认过的条目</div>',a:['导出长图','分享给朋友'],at:['已导出长图到相册 ✓','已生成分享卡片 💬']}
+  };
+  window.OS5_ACTIONS=[[/查看清单/,'sheet:prep'],[/大巴信息/,'sheet:bus'],[/在线值机/,'sheet:checkin2'],[/查看游记/,'sheet:trip'],[/去生成/,'已按你的 12 条收藏生成 5 天 4 晚行程 ✨'],[/去预订/,'已打开酒店预订页：香格里拉镇 6/10–6/14 🛒']];
+})();
 </script>
 <script src="../os5-kit/interaction.js"></script>
 </body>

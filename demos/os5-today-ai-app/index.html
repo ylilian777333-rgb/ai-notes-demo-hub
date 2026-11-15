@@ -6,6 +6,7 @@
 <title>今日安排 AI App · 落地页（OS5 高保真）</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
+  s{text-decoration:none}
   :root{--ink:#111;--t2:#595959;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#f3a93c;--green:#2f9e6a;--line:#eee}
   html,body{height:100%}
   body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
@@ -23,6 +24,14 @@
   /* hero */
   .hero{position:relative;background:linear-gradient(170deg,#ffd9a8 0%,#ffc6b0 24%,#dfc9f0 60%,#ecebf4 86%,var(--page) 100%);padding:0 0 12px;overflow:hidden}
   .sun{position:absolute;right:-18px;top:30px;width:150px;height:150px;pointer-events:none}
+  .hero{transition:background .5s}
+  .hero.noon{background:linear-gradient(170deg,#ffe6a3 0%,#ffd3a6 26%,#d8e6f6 62%,#ecf0f5 86%,var(--page) 100%)}
+  .hero.eve{background:linear-gradient(170deg,#b7b2ef 0%,#cdb2e3 26%,#ddd2f1 60%,#ecebf4 86%,var(--page) 100%)}
+  .hero.eve .greet{color:#5b4f86}
+  .nextup{transition:background .4s}
+  .nextup.c-green{background:linear-gradient(135deg,#1f9e6e 0%,#22a88a 55%,#14a7a0 100%);box-shadow:0 12px 30px rgba(30,150,110,.28)}
+  .nextup.c-orange{background:linear-gradient(135deg,#f08a3c 0%,#f2724e 55%,#e5577c 100%);box-shadow:0 12px 30px rgba(230,110,70,.3)}
+  .nextup.c-green .nbtns .pri{color:#14845e}.nextup.c-orange .nbtns .pri{color:#d4553c}
   .sb{position:relative;display:flex;justify-content:space-between;align-items:center;padding:15px 24px 4px;font-size:14px;font-weight:650;color:#1b1b1b}
   .sb .r{display:flex;align-items:center;gap:6px}
   .batt{font-size:10.5px;font-weight:700;background:#1b1b1b;color:#fff;border-radius:4px;padding:1px 5px}
@@ -56,7 +65,7 @@
 
   /* timeline */
   .tl{padding:2px 2px 0}
-  .tli{display:flex;gap:12px}
+  .tli{display:flex;gap:12px;cursor:pointer}
   .tli .tm{width:46px;flex-shrink:0;text-align:right;padding-top:14px}
   .tli .tm b{font-size:14px;font-weight:650;color:#1b1b1b;display:block}
   .tli .tm s{font-size:10.5px;color:#b0b0b0;font-style:normal}
@@ -71,7 +80,7 @@
   .tli .tc .act{margin-top:9px;display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--blue)}
 
   /* checklist */
-  .ck{display:flex;align-items:flex-start;gap:12px;padding:13px 16px}
+  .ck{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;cursor:pointer}
   .ck+.ck{border-top:1px solid var(--line)}
   .ck .box{width:20px;height:20px;border-radius:6px;border:1.6px solid #cfcfcf;flex-shrink:0;margin-top:1px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
   .ck.done .box{background:var(--blue);border-color:var(--blue)}
@@ -100,12 +109,12 @@
 </style>
 </head>
 <body>
-<div class="cap">今日安排 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>李楠「一天内近期的事情安排」· 接下来 / 今日时间轴 / 别忘了 / 智能建议</span></div>
+<div class="cap">今日安排 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>李楠「一天内近期的事情安排」· 早晨 / 上午 / 下午 / 晚上 四个时刻状态不同</span></div>
 <div class="device"><div class="screen">
   <div class="notch"></div>
   <div class="app">
     <div class="hero">
-      <svg class="sun" viewBox="0 0 160 160" fill="none">
+      <svg class="sun" data-st="0 1 2" viewBox="0 0 160 160" fill="none">
         <defs><radialGradient id="sg" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#fff2cf"/><stop offset="55%" stop-color="#ffd166"/><stop offset="100%" stop-color="#ffb24d"/></radialGradient></defs>
         <g stroke="#ffcf7a" stroke-width="6" stroke-linecap="round" opacity=".85">
           <path d="M80 8v16M80 136v16M8 80h16M136 80h16M27 27l11 11M122 122l11 11M133 27l-11 11M38 122l-11 11"/></g>
@@ -113,7 +122,14 @@
         <circle cx="80" cy="80" r="40" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="2"/>
         <path d="M44 118c0-10 8-18 18-18 2-9 10-16 20-16s18 7 20 16c10 0 18 8 18 18z" fill="#fff" fill-opacity=".82"/>
       </svg>
-      <div class="sb"><span>2:36</span><span class="r">
+      <svg class="sun" data-st="3" viewBox="0 0 160 160" fill="none">
+        <defs><radialGradient id="mg" cx="40%" cy="38%" r="62%"><stop offset="0%" stop-color="#fffbe6"/><stop offset="70%" stop-color="#ffe7a3"/><stop offset="100%" stop-color="#f6cf72"/></radialGradient></defs>
+        <circle cx="88" cy="70" r="40" fill="url(#mg)"/><circle cx="108" cy="58" r="34" fill="#c9b8ec"/>
+        <circle cx="40" cy="40" r="3" fill="#fff" opacity=".9"/><circle cx="132" cy="112" r="2.4" fill="#fff" opacity=".8"/><circle cx="58" cy="118" r="2" fill="#fff" opacity=".7"/>
+        <path d="M30 128c0-9 7-16 16-16 2-8 9-14 18-14s16 6 18 14c9 0 16 7 16 16z" fill="#fff" fill-opacity=".7"/>
+        <g stroke="#9fb6ff" stroke-width="3" stroke-linecap="round" opacity=".8"><path d="M44 136l-3 8M58 136l-3 8M72 136l-3 8"/></g>
+      </svg>
+      <div class="sb"><span>09:40</span><span class="r">
         <svg width="17" height="11" viewBox="0 0 17 11" fill="#1b1b1b"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
         <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#1b1b1b" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#1b1b1b"/></svg>
         <span class="batt">100</span></span>
@@ -122,28 +138,28 @@
       <div class="greet">上午好，李楠 👋</div>
       <div class="htitle">今天</div>
       <div class="hpills">
-        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg>5月16日 周五</span>
-        <span class="pill w"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12h2.5M19 12h2.5M5.2 5.2l1.8 1.8M17 17l1.8 1.8M18.8 5.2 17 7M7 17l-1.8 1.8"/></svg>晴 23°</span>
-        <span class="pill">共 5 件事</span>
+        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg>5月15日 周五</span>
+        <span class="pill w"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12h2.5M19 12h2.5M5.2 5.2l1.8 1.8M17 17l1.8 1.8M18.8 5.2 17 7M7 17l-1.8 1.8"/></svg><span class="wv">晴 23°</span></span>
+        <span class="pill"><span class="pc">还剩 4 件</span></span>
       </div>
     </div>
 
     <div class="body">
       <div class="nextup">
         <div class="ring"></div>
-        <div class="eb"><span class="dot"></span>接下来 · 还有约 1 小时</div>
+        <div class="eb"><span class="dot"></span>接下来 · 还有 20 分钟</div>
         <h3>10:00 产品评审会</h3>
-        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg>会议室 A302 · 6 人 · 资料已自动备好</p>
+        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg><span class="np">会议室 A302 · 6 人 · 资料已自动备好</span></p>
         <div class="nbtns"><button class="pri">查看资料</button><button class="ghost">提前 10 分钟提醒</button></div>
       </div>
 
       <div class="sec"><span class="si" style="background:#3a7afe"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>今日时间轴<span class="rt">按时间自动排序</span></div>
       <div class="tl">
-        <div class="tli"><div class="tm"><b>08:30</b><s>已完成</s></div><div class="rail" style="color:#b0b0b0"><i></i></div><div class="tc"><b>出门上班</b><p>今天限行尾号 4，建议坐地铁 10 号线，约 35 分钟到公司。</p></div></div>
-        <div class="tli"><div class="tm"><b>10:00</b><s>进行中</s></div><div class="rail" style="color:var(--blue)"><i></i></div><div class="tc"><b>产品评审会 <span class="tag" style="background:#e9f1ff;color:#3a7afe">工作</span></b><p>会议室 A302，6 人参会，评审资料和纪要模板已自动整理好。</p><span class="act">查看资料<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div></div>
-        <div class="tli"><div class="tm"><b>15:00</b></div><div class="rail" style="color:var(--amber)"><i></i></div><div class="tc"><b>接孩子放学 <span class="tag" style="background:#fff1e3;color:#e8792b">家庭</span></b><p>阳光小学东门，将在 14:40 提醒你出发，车程约 15 分钟。</p><span class="act" style="color:var(--amber)">设置提醒<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div></div>
+        <div class="tli"><div class="tm"><b>08:30</b></div><div class="rail" style="color:var(--blue)"><i></i></div><div class="tc"><b>出门上班 <span class="tag" style="background:#e9f1ff;color:#3a7afe">通勤</span></b><p>地铁 10 号线约 35 分钟到公司，早高峰车厢较挤，08:20 提醒你出门。</p></div></div>
+        <div class="tli"><div class="tm"><b>10:00</b></div><div class="rail" style="color:#7b5bff"><i></i></div><div class="tc"><b>产品评审会 <span class="tag" style="background:#efeafd;color:#7b5bff">工作</span></b><p>会议室 A302，6 人参会，评审资料和纪要模板已自动整理好。</p><span class="act" style="color:#7b5bff">查看资料<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div></div>
+        <div class="tli"><div class="tm"><b>15:00</b></div><div class="rail" style="color:var(--amber)"><i></i></div><div class="tc"><b>接孩子放学 <span class="tag" style="background:#fff1e3;color:#e8792b">家庭</span></b><p>阳光小学东门，14:40 提醒你出发，打车约 15 分钟。</p><span class="act" style="color:var(--amber)">设置提醒<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div></div>
         <div class="tli"><div class="tm"><b>16:30</b></div><div class="rail" style="color:var(--red)"><i></i></div><div class="tc"><b>牙医复诊 <span class="tag" style="background:#fcece9;color:#d64531">健康</span></b><p>市口腔医院 3 楼，别忘了带医保卡（已加入「别忘了」清单）。</p></div></div>
-        <div class="tli"><div class="tm"><b>19:00</b></div><div class="rail" style="color:var(--green)"><i></i></div><div class="tc"><b>和小敏吃饭 <span class="tag" style="background:#e7f5ee;color:#2f9e6a">社交</span></b><p>三里屯比目鱼火锅，已订位 2 人，可一键叫车前往。</p><span class="act" style="color:var(--green)">一键叫车<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div></div>
+        <div class="tli"><div class="tm"><b>19:00</b></div><div class="rail" style="color:var(--green)"><i></i></div><div class="tc"><b>和小敏吃饭 <span class="tag" style="background:#e7f5ee;color:#2f9e6a">社交</span></b><p>三里屯比目鱼火锅，已订位 4 人，可一键叫车前往。</p><span class="act" style="color:var(--green)">一键叫车<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div></div>
       </div>
 
       <div class="sec"><span class="si" style="background:#f3a93c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></span>别忘了</div>
@@ -151,13 +167,17 @@
         <div class="ck"><span class="box"></span><div class="ct"><b>带医保卡</b><s>16:30 牙医复诊需要</s></div></div>
         <div class="ck"><span class="box"></span><div class="ct"><b>带评审资料 U 盘</b><s>10:00 产品评审会</s></div></div>
         <div class="ck"><span class="box"></span><div class="ct"><b>给妈妈买生日礼物</b><s>本周日妈妈生日</s></div></div>
+        <div class="ck"><span class="box"></span><div class="ct"><b>回家顺路买牛奶和鸡蛋</b><s>来自你的购物清单</s></div></div>
       </div>
 
       <div class="sec"><span class="si" style="background:#7b5bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span>智能建议</div>
       <div class="card">
-        <div class="sug"><span class="ic" style="background:#4f86f7"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a8 8 0 0 1 16 0M7 14a5 5 0 0 1 10 0M3 18h18M8 10l-1-2M16 10l1-2"/></svg></span><div class="sc"><b>傍晚有阵雨，记得带伞</b><p>18:00 后降水概率 70%，和小敏吃饭出门前提醒你。</p></div></div>
-        <div class="sug"><span class="ic" style="background:#2f9e6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14M6 11v5m12-5v5M7.5 14.5h.01M16.5 14.5h.01"/></svg></span><div class="sc"><b>15:00 接娃与 16:30 复诊时间较紧</b><p>建议接完孩子直接前往口腔医院，已规划顺路路线，约省 20 分钟。</p></div></div>
-        <div class="sug"><span class="ic" style="background:#e8792b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8L19 8v11.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1Z"/><path d="M13.5 3.5V8H19M8 13h8M8 16.5h5"/></svg></span><div class="sc"><b>评审会纪要模板已就绪</b><p>会议结束后可一键生成纪要，自动同步给 6 位参会人。</p></div></div>
+        <div class="sug" data-st="0 1 2"><span class="ic" style="background:#4f86f7"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a8 8 0 0 1 16 0M7 14a5 5 0 0 1 10 0M3 18h18M8 10l-1-2M16 10l1-2"/></svg></span><div class="sc"><b>傍晚有阵雨，记得带伞</b><p>18:00 后降水概率 70%，和小敏吃饭出门前提醒你。</p></div></div>
+        <div class="sug" data-st="0 1 2"><span class="ic" style="background:#2f9e6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14M6 11v5m12-5v5M7.5 14.5h.01M16.5 14.5h.01"/></svg></span><div class="sc"><b>15:00 接娃与 16:30 复诊时间较紧</b><p>建议接完孩子直接前往口腔医院，已规划顺路路线，约省 20 分钟。</p></div></div>
+        <div class="sug" data-st="0 1"><span class="ic" style="background:#e8792b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8L19 8v11.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1Z"/><path d="M13.5 3.5V8H19M8 13h8M8 16.5h5"/></svg></span><div class="sc"><b>评审会纪要模板已就绪</b><p>会议结束后可一键生成纪要，确认后发给 6 位参会人。</p></div></div>
+        <div class="sug" data-st="2 3"><span class="ic" style="background:#e8792b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8L19 8v11.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1Z"/><path d="M13.5 3.5V8H19M8 13h8M8 16.5h5"/></svg></span><div class="sc"><b>评审会纪要已生成</b><p>整理出 4 项待办，确认后可发给 6 位参会人。</p></div><span class="go" style="margin-left:auto;font-size:12.5px;font-weight:600;color:#e8792b;flex-shrink:0;padding-top:2px">发给参会人 ›</span></div>
+        <div class="sug" data-st="3"><span class="ic" style="background:#4f86f7"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a8 8 0 0 1 16 0M7 14a5 5 0 0 1 10 0M3 18h18M8 10l-1-2M16 10l1-2"/></svg></span><div class="sc"><b>外面在下小雨</b><p>出门记得带伞。打车直接到店门口，不用淋雨走路。</p></div></div>
+        <div class="sug" data-st="3"><span class="ic" style="background:#14a7a0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg></span><div class="sc"><b>明早 09:30 带宝宝复诊</b><p>市儿童医院呼吸科，今晚 21:00 提醒你把医保卡和病历本备好。</p></div></div>
       </div>
       <div style="height:34px"></div>
     </div>
@@ -167,9 +187,43 @@
 </div></div>
 <script>
 document.querySelectorAll('.ck .box').forEach(function(b){b.addEventListener('click',function(){var r=b.parentElement;r.classList.toggle('done');b.innerHTML=r.classList.contains('done')?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'';});});
-document.querySelectorAll('.nbtns button,.act').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();});});
 var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
-if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,3000);}
+</script>
+<script>
+/* 阶段：早晨 → 上午 → 下午 → 晚上。时间轴、接下来、别忘了、建议都跟着时间走 */
+(function(){
+  function EB(t){return '<span class="dot"></span>'+t;}
+  function BT(a,b){return '<button class="pri">'+a+'</button><button class="ghost">'+b+'</button>';}
+  window.OS5_ACC='#3a7afe'; window.OS5_STAGE_BASE=1; window.OS5_NOW='下一件';
+  window.OS5_STAGES=[
+    {k:'早晨',t:'07:50',cls:{'.hero':'','.nextup':''},
+     set:{'.greet':'早上好，李楠 ☀️','.wv':'多云 19°','.pc':'共 5 件事',
+      '.nextup .eb':EB('接下来 · 40 分钟后出门'),'.nextup h3':'08:30 出门上班','.nextup .np':'地铁 10 号线 · 约 35 分钟到公司','.nextup .nbtns':BT('查看路线','出门前提醒')},
+     tl:['now','','','',''],ck:[0,0,0,0]},
+    {k:'上午',t:'09:40',cls:{'.hero':'','.nextup':''},
+     set:{'.greet':'上午好，李楠 👋','.wv':'晴 23°','.pc':'还剩 4 件',
+      '.nextup .eb':EB('接下来 · 还有 20 分钟'),'.nextup h3':'10:00 产品评审会','.nextup .np':'会议室 A302 · 6 人 · 资料已自动备好','.nextup .nbtns':BT('查看资料','提前 10 分钟提醒')},
+     tl:['done','now','','',''],ck:[0,1,0,0]},
+    {k:'下午',t:'14:30',cls:{'.hero':'noon','.nextup':'c-green'},
+     set:{'.greet':'下午好，李楠','.wv':'晴 26°','.pc':'还剩 3 件',
+      '.nextup .eb':EB('该出发了 · 14:40 出门'),'.nextup h3':'15:00 接孩子放学','.nextup .np':'阳光小学东门 · 打车约 15 分钟','.nextup .nbtns':BT('一键叫车','查看路线')},
+     tl:['done','done','now','',''],ck:[1,1,0,0]},
+    {k:'晚上',t:'18:10',cls:{'.hero':'eve','.nextup':'c-orange'},
+     set:{'.greet':'晚上好，李楠 🌙','.wv':'小雨 21°','.pc':'还剩 1 件',
+      '.nextup .eb':EB('接下来 · 18:20 出发'),'.nextup h3':'19:00 和小敏吃饭','.nextup .np':'三里屯比目鱼火锅 · 已订位 4 人','.nextup .nbtns':BT('一键叫车','导航去餐厅')},
+     tl:['done','done','done','done','now'],ck:[1,1,0,0]}
+  ];
+  window.OS5_ACTIONS=[
+    [/出门前提醒/,'已设置 08:20 出门提醒 🔔'],
+    [/提前 10 分钟提醒/,'已设置 09:50 提醒 🔔'],
+    [/发给参会人/,'已把纪要发给 6 位参会人 💬']
+  ];
+  window.OS5_CHAT={
+    '今天还有哪些事没做':'今天还有：15:00 接孩子、16:30 牙医复诊（带医保卡）、19:00 和小敏吃饭。别忘了给妈妈买生日礼物。',
+    '晚上聚餐要带什么':'外面傍晚有阵雨，记得带伞。比目鱼火锅已订位 4 人，18:20 出发打车约 25 分钟。'
+  };
+})();
 </script>
 <script src="../os5-kit/interaction.js"></script>
 </body>

@@ -6,6 +6,7 @@
 <title>生日纪念 AI App · 落地页（OS5 高保真）</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
+  s{text-decoration:none}
   :root{--ink:#111;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#f3a93c;--green:#2f9e6a;--pink:#e85b9a;--line:#eee}
   html,body{height:100%}
   body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:radial-gradient(1200px 760px at 50% -12%,#fcfdff 0%,#eceff4 58%,#e2e7ef 100%);min-height:100%;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 14px 40px}
@@ -43,6 +44,9 @@
   .nextup .nbtns{display:flex;gap:9px;margin-top:15px}
   .nextup .nbtns button{border:none;border-radius:12px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
   .nextup .nbtns .pri{background:#fff;color:#c0398a}
+  .nextup{transition:background .4s}
+  .nextup.c-party{background:linear-gradient(135deg,#ff7a59 0%,#f2547d 50%,#c45bd8 100%);box-shadow:0 12px 30px rgba(240,90,110,.32)}
+  .nextup.c-party .nbtns .pri{color:#e0405f}
   .nextup .nbtns .ghost{background:rgba(255,255,255,.2);color:#fff}
   .nextup .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid rgba(255,255,255,.12)}
 
@@ -80,7 +84,7 @@
 </style>
 </head>
 <body>
-<div class="cap">生日纪念 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>妈妈 60 岁生日 · 接下来 / 近期纪念日 / 准备清单 / 礼物灵感</span></div>
+<div class="cap">生日纪念 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>提前一周 → 前两天 → 当天 · 生日来自通讯录，喜好来自你的「家人」笔记</span></div>
 <div class="device"><div class="screen">
   <div class="notch"></div>
   <div class="app">
@@ -93,7 +97,7 @@
         <rect x="58" y="74" width="4" height="18" rx="2" fill="#ff8ab0"/><rect x="78" y="70" width="4" height="22" rx="2" fill="#ffb24d"/><rect x="98" y="74" width="4" height="18" rx="2" fill="#8a9bff"/>
         <path d="M60 74c0-4-4-4-4-8 0 4-4 4-4 8" fill="#ffd36b"/><path d="M82 70c0-4-4-4-4-8 0 4-4 4-4 8" fill="#ffd36b"/><path d="M102 74c0-4-4-4-4-8 0 4-4 4-4 8" fill="#ffd36b"/>
       </svg>
-      <div class="sb"><span>2:36</span><span class="r">
+      <div class="sb"><span>12:00</span><span class="r">
         <svg width="17" height="11" viewBox="0 0 17 11" fill="#7a2256"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
         <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#7a2256" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#7a2256"/></svg>
         <span class="batt">100</span></span>
@@ -102,9 +106,9 @@
       <div class="greet">本周日 · 妈妈的生日</div>
       <div class="htitle">生日纪念</div>
       <div class="hpills">
-        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg>本周日</span>
+        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg><span class="p1">本周日</span></span>
         <span class="pill">妈妈 60 岁</span>
-        <span class="pill">还有 2 天</span>
+        <span class="pill"><span class="p3">还有 2 天</span></span>
       </div>
     </div>
 
@@ -113,18 +117,18 @@
         <div class="ring"></div>
         <div class="eb"><span class="dot"></span>最近的纪念日 · 还有 2 天</div>
         <h3>妈妈的 60 岁生日 🎂</h3>
-        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-5a8 8 0 0 1 16 0v5M12 3v3M4 21h16"/></svg>本周日 · 大寿，值得好好准备一次</p>
+        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-5a8 8 0 0 1 16 0v5M12 3v3M4 21h16"/></svg><span class="np">本周日 · 大寿，值得好好准备一次</span></p>
         <div class="nbtns"><button class="pri">准备礼物</button><button class="ghost">订蛋糕</button></div>
       </div>
 
       <div class="sec"><span class="si" style="background:#e85b9a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg></span>近期纪念日</div>
-      <div class="card lst">
-        <div class="li"><span class="ic" style="background:#e85b9a">🎂</span><div class="lc"><b>妈妈生日（60 岁大寿）</b><p>本周日 · 5 月 18 日</p></div><div class="cd"><b>2 天后</b><s>周日</s></div></div>
+      <div class="card lst" id="days">
+        <div class="li"><span class="ic" style="background:#e85b9a">🎂</span><div class="lc"><b>妈妈生日（60 岁大寿）</b><p>本周日 · 5 月 17 日</p></div><div class="cd"><b>2 天后</b><s>周日</s></div></div>
         <div class="li"><span class="ic" style="background:#8a5bff">💍</span><div class="lc"><b>结婚 5 周年</b><p>6 月 12 日</p></div><div class="cd"><b style="color:#8a5bff">28 天后</b><s>下月</s></div></div>
         <div class="li"><span class="ic" style="background:#3a7afe">🎁</span><div class="lc"><b>爸爸生日</b><p>7 月 3 日</p></div><div class="cd"><b style="color:#3a7afe">49 天后</b><s>7 月</s></div></div>
       </div>
 
-      <div class="sec"><span class="si" style="background:#f3a93c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></span>准备清单<span class="rt">还有 2 天</span></div>
+      <div class="sec"><span class="si" style="background:#f3a93c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></span>准备清单<span class="rt prt">还有 2 天</span></div>
       <div class="card">
         <div class="ck"><span class="box"></span><div class="ct"><b>订一个 8 寸生日蛋糕</b><s>妈妈爱吃栗子口味 · 周日中午前送到老家</s></div></div>
         <div class="ck"><span class="box"></span><div class="ct"><b>预订家庭聚餐餐厅</b><s>老家 6 人桌 · 已挑好 2 家</s></div></div>
@@ -135,7 +139,8 @@
 
       <div class="sec"><span class="si" style="background:#8a5bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span>礼物灵感</div>
       <div class="card">
-        <div class="sug"><span class="ic" style="background:#e85b9a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 22V7M12 7S10 3 7.5 3 4 6 7.5 7m4.5 0s2-4 4.5-4S20 6 16.5 7"/></svg></span><div class="sc"><b>今年推荐：羊绒围巾 / 智能手环 / 体检卡</b><p>按妈妈的喜好和你 ¥800 的预算排的序，可一键下单送到老家。</p></div><span class="go">看看 ›</span></div>
+        <div class="sug" data-st="2"><span class="ic" style="background:#f2547d"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg></span><div class="sc"><b>生日祝福帮你写好了</b><p>「妈，60 岁生日快乐！这些年辛苦了…」可以改成你的语气再发。</p></div><span class="go" data-sheet="wish">看看 ›</span></div>
+        <div class="sug" data-st="0 1"><span class="ic" style="background:#e85b9a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 22V7M12 7S10 3 7.5 3 4 6 7.5 7m4.5 0s2-4 4.5-4S20 6 16.5 7"/></svg></span><div class="sc"><b>今年推荐：羊绒围巾 / 智能手环 / 体检卡</b><p>按妈妈的喜好和你 ¥800 的预算排的序，可一键下单送到老家。</p></div><span class="go">看看 ›</span></div>
         <div class="sug"><span class="ic" style="background:#f3a93c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><div class="sc"><b>去年送的按摩仪她很喜欢</b><p>避免重复，今年换个品类。相关记录在「家人」合集里。</p></div></div>
         <div class="sug"><span class="ic" style="background:#8a5bff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4 18 5-4.5 4 3 3-2.5 4 3.5"/></svg></span><div class="sc"><b>生成「妈妈的 60 岁」祝福相册</b><p>自动挑这些年和妈妈的合照，做成电子相册或祝福视频。</p></div><span class="go">生成 ›</span></div>
       </div>
@@ -147,9 +152,39 @@
 </div></div>
 <script>
 document.querySelectorAll('.ck .box').forEach(function(b){b.addEventListener('click',function(){var r=b.parentElement;r.classList.toggle('done');b.innerHTML=r.classList.contains('done')?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'';});});
-document.querySelectorAll('.nbtns button,.go').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();});});
 var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
-if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,2000);}
+if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,3000);}
+</script>
+<script>
+/* 阶段：提前一周 → 前两天 → 当天 */
+(function(){
+  function EB(t){return '<span class="dot"></span>'+t;}
+  function BT(a,b){return '<button class="pri">'+a+'</button><button class="ghost">'+b+'</button>';}
+  function CD(a,b,c){return '<b'+(c?' style="color:'+c+'"':'')+'>'+a+'</b><s>'+b+'</s>';}
+  window.OS5_ACC='#e85b9a'; window.OS5_STAGE_BASE=1;
+  window.OS5_STAGES=[
+    {k:'提前一周',t:'10:00',cls:{'.nextup':''},
+     set:{'.greet':'下周日 · 妈妈的生日','.p1':'5月17日 周日','.p3':'还有 7 天','.prt':'还有 7 天',
+      '.nextup .eb':EB('最近的纪念日 · 还有 7 天'),'.nextup h3':'妈妈的 60 岁生日 🎂','.nextup .np':'下周日 · 大寿，提前一周准备刚好','.nextup .nbtns':BT('准备礼物','订蛋糕'),
+      '#days .li:nth-child(1) .lc p':'下周日 · 5 月 17 日','#days .li:nth-child(1) .cd':CD('7 天后','下周日'),'#days .li:nth-child(2) .cd':CD('33 天后','下月','#8a5bff'),'#days .li:nth-child(3) .cd':CD('54 天后','7 月','#3a7afe')},
+     ck:[0,0,0,0,0]},
+    {k:'前两天',t:'12:00',cls:{'.nextup':''},
+     set:{'.greet':'本周日 · 妈妈的生日','.p1':'本周日','.p3':'还有 2 天','.prt':'还有 2 天',
+      '.nextup .eb':EB('最近的纪念日 · 还有 2 天'),'.nextup h3':'妈妈的 60 岁生日 🎂','.nextup .np':'本周日 · 准备清单还差 3 项','.nextup .nbtns':BT('订蛋糕','准备礼物')},
+     ck:[0,1,1,0,0]},
+    {k:'当天',t:'08:30',cls:{'.nextup':'c-party'},
+     set:{'.greet':'今天 · 妈妈 60 岁生日 🎉','.p1':'今天','.p3':'生日快乐','.prt':'今天',
+      '.nextup .eb':EB('今天 · 妈妈生日'),'.nextup h3':'先给妈妈发个祝福 🎂','.nextup .np':'12:00 家庭视频 · 18:30 家庭聚餐','.nextup .nbtns':BT('看看祝福','打电话'),
+      '#days .li:nth-child(1) .lc p':'今天 · 5 月 17 日','#days .li:nth-child(1) .cd':CD('今天','🎉'),'#days .li:nth-child(2) .cd':CD('26 天后','下月','#8a5bff'),'#days .li:nth-child(3) .cd':CD('47 天后','7 月','#3a7afe')},
+     ck:[1,1,1,1,0]}
+  ];
+  window.OS5_SHEETS={
+    wish:{t:'生日祝福（草稿）',h:'<div class="k-card"><p>妈，60 岁生日快乐！这些年辛苦了，今年中午视频的时候我们一起给您唱生日歌。晚上的饭店订好了，您就负责开开心心的。爱您！</p></div><div class="k-note">按你往年发给妈妈的语气写的，可以改</div>',a:['换一版','复制去发送'],at:['已换一版更口语的','已复制，打开微信粘贴发送 💬']},
+    gift:{t:'礼物灵感 · 预算 ¥800',h:'<div class="k-card"><div class="k-kv"><span class="k">羊绒围巾</span><span class="v">¥560 · 她冬天怕冷</span></div><div class="k-kv"><span class="k">智能手环</span><span class="v">¥299 · 可以看心率</span></div><div class="k-kv"><span class="k">体检卡</span><span class="v">¥780 · 家人合集里提过</span></div></div><div class="k-note">按「家人」笔记里妈妈的喜好排序，去年送过按摩仪</div>',a:['换一批','去下单'],at:['已换一批','已为你打开下单页，送到老家 🛒']}
+  };
+  window.OS5_ACTIONS=[[/准备礼物/,'sheet:gift'],[/看看祝福/,'sheet:wish'],[/订蛋糕/,'已打开蛋糕店下单页：8 寸栗子口味，周日中午前送到老家 🎂'],[/^看看$/,'sheet:gift']];
+  window.OS5_CHAT={'送妈妈什么礼物好':'按你「家人」笔记里的记录：妈妈冬天怕冷，去年送的按摩仪她很喜欢。今年可以送羊绒围巾，预算内还能加一束康乃馨。','帮我写一段祝福':'妈，60 岁生日快乐！这些年辛苦了，中午视频时我们一起给您唱生日歌。'};
+})();
 </script>
 <script src="../os5-kit/interaction.js"></script>
 </body>
