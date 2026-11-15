@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>一方应用体验赛道 · 业务全景</title>
+<style>
+  :root { --bg: #EEE7DD; --mod: #E5DCCD; --hi: #DCD0BC; --cell: #F3EEE6; --ink: #26221D; --ink2: #5A5249; --rule: #B9AE9E; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #E4DED5; font-family: "MiSans", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  .board { width: 1600px; margin: 24px auto; background: var(--bg); padding: 46px 56px 56px; }
+  .ln { white-space: nowrap; }
+  .ttl { text-align: center; font-size: 40px; font-weight: 700; letter-spacing: 1px; }
+
+  .goal { margin-top: 26px; height: 60px; border: 2px solid var(--ink); border-radius: 10px; background: var(--hi); display: flex; align-items: center; justify-content: center; gap: 18px; font-size: 21px; font-weight: 600; }
+  .goal b { font-weight: 700; }
+
+  .main { display: grid; grid-template-columns: 236px minmax(0, 1fr) 236px; column-gap: 40px; margin-top: 34px; }
+  .mod { background: var(--mod); border: 2px solid var(--ink); border-radius: 12px; padding: 14px 16px 16px; position: relative; min-width: 0; }
+  .mod > h3 { font-size: 23px; font-weight: 700; text-align: center; padding-bottom: 10px; border-bottom: 1.5px solid var(--rule); }
+  .mod > h3 small { display: block; font-size: 15px; font-weight: 400; color: var(--ink2); margin-top: 3px; }
+  .cell { background: var(--cell); border: 1.3px solid var(--ink); border-radius: 8px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 18px; min-width: 0; }
+  .grp { font-size: 15px; color: var(--ink2); text-align: center; margin: 12px 0 7px; }
+  .g { display: grid; gap: 9px; }
+  .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .g5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+  /* 中间：系统里的一方应用 */
+  .row { display: grid; grid-template-columns: 104px minmax(0, 1fr); column-gap: 14px; align-items: center; margin-top: 17px; }
+  .row .lab { font-size: 17px; font-weight: 700; line-height: 1.3; text-align: right; }
+  .row .lab small { display: block; font-size: 13px; font-weight: 400; color: var(--ink2); }
+  .sub4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .sub { background: var(--cell); border: 1.3px solid var(--ink); border-radius: 9px; padding: 8px 8px 9px; min-width: 0; }
+  .sub h5 { font-size: 18px; font-weight: 700; text-align: center; }
+  .sub .apps { font-size: 15px; color: var(--ink2); text-align: center; line-height: 1.5; margin-top: 3px; }
+  .hi .cell { background: var(--hi); font-weight: 600; }
+  .sys .row .cell { height: 50px; }
+  .sys .sub { padding: 10px 8px 11px; }
+
+  /* 双向箭头 */
+  .arr { position: absolute; top: 50%; width: 40px; height: 2px; background: var(--ink); }
+  .arr::before, .arr::after { content: ""; position: absolute; top: -6px; border-top: 7px solid transparent; border-bottom: 7px solid transparent; }
+  .arr::before { left: -2px; border-right: 10px solid var(--ink); }
+  .arr::after { right: -2px; border-left: 10px solid var(--ink); }
+  .arr.l { left: -42px; }
+  .arr.r { right: -42px; }
+</style>
+</head>
+<body>
+<div class="board" id="arch">
+  <div class="ttl">一方应用体验赛道 · 业务全景</div>
+  <div class="goal ln"><b>2027 年目标</b>让用户每天要做的事顺畅、可靠、少打扰，手机提前把要用的信息准备好</div>
+
+  <div class="main">
+    <!-- 公司 -->
+    <div class="mod">
+      <h3 class="ln">公司 · 小米<small>选购、换机、日常使用的体验</small></h3>
+      <div class="grp">门店</div>
+      <div class="cell ln">演示机流畅，帮助成交</div>
+      <div class="grp">换机</div>
+      <div class="cell ln">迁移更完整，留住用户</div>
+      <div class="grp">口碑</div>
+      <div class="cell ln">满意度提升，守住口碑</div>
+      <div class="grp">海外</div>
+      <div class="cell ln">合规和 Google 需求</div>
+    </div>
+
+    <!-- 系统 -->
+    <div class="mod sys">
+      <i class="arr l"></i><i class="arr r"></i>
+      <h3 class="ln">系统 · 澎湃OS 和超级小爱<small>基础体验的载体，超级小爱个人数据的主要来源</small></h3>
+      <div class="row"><div class="lab">用户入口</div><div class="g g4"><div class="cell ln">App 内</div><div class="cell ln">超级小爱</div><div class="cell ln">Launcher · 建议卡</div><div class="cell ln">锁屏 · 超级岛</div></div></div>
+      <div class="row hi"><div class="lab">一方 Agent<small>2027 年新增</small></div><div class="g g4"><div class="cell ln">日程出行 Agent</div><div class="cell ln">通讯 Agent</div><div class="cell ln">设备管理 Agent</div><div class="cell ln">接入超级小爱</div></div></div>
+      <div class="row"><div class="lab">一方应用<small>四个子赛道</small></div>
+        <div class="sub4">
+          <div class="sub"><h5 class="ln">日程出行</h5><div class="apps"><div class="ln">日历 · 天气</div><div class="ln">时钟 · 出行助手</div></div></div>
+          <div class="sub"><h5 class="ln">通讯</h5><div class="apps"><div class="ln">电话 · 短信</div><div class="ln">联系人 · 黄页</div></div></div>
+          <div class="sub"><h5 class="ln">设备管理</h5><div class="apps"><div class="ln">系统设置 · 换机</div><div class="ln">开机引导 · 更新</div></div></div>
+          <div class="sub"><h5 class="ln">门店演示</h5><div class="apps"><div class="ln">演示桌面</div><div class="ln">MiShow</div></div></div>
+        </div>
+      </div>
+      <div class="row"><div class="lab">体验基础</div><div class="g g5"><div class="cell ln">稳定</div><div class="cell ln">流畅</div><div class="cell ln">内存</div><div class="cell ln">美学一致</div><div class="cell ln">中低端</div></div></div>
+    </div>
+
+    <!-- 生态 -->
+    <div class="mod">
+      <h3 class="ln">生态 · 人车家<small>三方服务和人车家的连接点</small></h3>
+      <div class="grp">三方服务汇入日历</div>
+      <div class="g g3"><div class="cell ln">出行</div><div class="cell ln">快递</div><div class="cell ln">演出</div></div>
+      <div class="grp">家人共享</div>
+      <div class="cell ln">家庭公共日历</div>
+      <div class="grp">三方 IM 接入</div>
+      <div class="g g2"><div class="cell ln">联系人</div><div class="cell ln">通话记录</div></div>
+      <div class="grp">跨设备（三年）</div>
+      <div class="g g3"><div class="cell ln">手表</div><div class="cell ln">车</div><div class="cell ln">家</div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
