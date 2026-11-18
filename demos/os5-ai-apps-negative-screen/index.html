@@ -2,255 +2,134 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>日程出行 AI App · 负一屏（OS5 稻城亚丁）</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#7ea79a">
+<title>场景化 AI App · 负一屏（OS5 · 短期日程 / 长途出行）</title>
+<script>if(/OS5SceneDemo/.test(navigator.userAgent)||/[?&]apk=1/.test(location.search))document.documentElement.classList.add('apk');</script>
+<link rel="stylesheet" href="../os5-kit/os5.css">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  :root{
-    --ink:#1b1b1b; --ink2:#4a4a4a; --ink3:#8a8a8a; --line:#ededed;
-    --paper:#f4f4f6; --accent:#ffbb0f; --blue:#3a7afe; --purpa:#8a7bf0;
-  }
-  html,body{height:100%}
-  body{
-    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","MiSans","Microsoft YaHei",sans-serif;
-    background:radial-gradient(1200px 760px at 50% -12%,#fcfdff 0%,#eceff4 58%,#e2e7ef 100%);
-    min-height:100%;-webkit-font-smoothing:antialiased;color:var(--ink);
-    display:flex;flex-direction:column;align-items:center;gap:16px;padding:26px 20px 48px;
-  }
-  .cap{color:#2b303a;font-size:14px;font-weight:650;text-align:center}
-  .cap span{display:block;color:#8a93a3;font-size:11.5px;font-weight:400;margin-top:4px}
-
-  /* device */
-  .device{width:390px;height:844px;border-radius:54px;background:#0a0c10;padding:11px;
-    box-shadow:0 36px 90px rgba(0,0,0,.55),inset 0 0 0 2px #2a303c;position:relative;flex:0 0 auto}
-  .screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:#cdd6cf}
-  .wall{position:absolute;inset:0;background:
-    radial-gradient(90% 60% at 18% 12%, #eef3ea 0%, rgba(238,243,234,0) 55%),
-    radial-gradient(80% 55% at 88% 22%, #d3e0d4 0%, rgba(211,224,212,0) 52%),
-    radial-gradient(120% 80% at 72% 96%, #a9c0ab 0%, rgba(169,192,171,0) 58%),
-    conic-gradient(from 160deg at 60% 45%, #cdddcb, #b7ccb6, #d6e2d2, #c0d2bf, #cdddcb),
-    linear-gradient(158deg, #e9f0e6 0%, #c6d6c4 48%, #a6bda7 100%);}
-  .wall::after{content:"";position:absolute;inset:0;background:
-    radial-gradient(60% 40% at 30% 30%, rgba(255,255,255,.35), transparent 60%),
-    radial-gradient(50% 36% at 78% 62%, rgba(255,255,255,.22), transparent 60%);}
-  .screen .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#0a0c10;border-radius:0 0 18px 18px;z-index:60}
-
-  /* status bar */
-  .sb{position:absolute;top:0;left:0;right:0;height:52px;display:flex;align-items:center;justify-content:space-between;
-    padding:16px 26px 0;font-size:14px;font-weight:650;color:#1d1d1d;z-index:40}
-  .sb .r{display:flex;align-items:center;gap:6px}
-  .sb svg{display:block}
-  .batt{font-size:11px;font-weight:700;background:#222;color:#fff;border-radius:4px;padding:1px 5px;line-height:1.3}
-
-  /* home layer */
-  .home{position:absolute;inset:0;display:flex;flex-direction:column;z-index:20;transition:opacity .25s, transform .25s}
-  .home.hide{opacity:0;transform:scale(1.03);pointer-events:none}
-  .clockwrap{text-align:center;margin-top:62px;color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.18)}
-  .cdate{font-size:15px;font-weight:600;letter-spacing:.3px;opacity:.96}
-  .ctime{font-size:74px;font-weight:600;line-height:1.02;letter-spacing:-1px;margin-top:2px}
-
-  /* AI card */
-  .aiwrap{margin:18px 14px 0}
-  .aicard{background:rgba(249,250,250,.72);backdrop-filter:blur(34px) saturate(1.4);-webkit-backdrop-filter:blur(34px) saturate(1.4);
-    border:1px solid rgba(255,255,255,.6);border-radius:30px;padding:16px 16px 15px;box-shadow:0 18px 44px rgba(20,30,24,.18);
-    cursor:pointer;transition:transform .15s}
-  .aicard:active{transform:scale(.985)}
-  .aihd{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-  .aihd .ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
-  .aihd .ti{flex:1;min-width:0}
-  .aihd .ti b{font-size:16.5px;font-weight:650;display:block;letter-spacing:-.2px}
-  .aihd .ti s{font-size:11.5px;color:var(--ink3);font-style:normal;display:block;margin-top:1px}
-  .aihd .more{font-size:11px;color:var(--ink3);font-weight:600;background:rgba(0,0,0,.05);border-radius:20px;padding:4px 10px;flex-shrink:0}
-  .aibody{display:flex;flex-direction:column;gap:2px}
-
-  /* checklist rows */
-  .ck{display:flex;align-items:center;gap:11px;padding:9px 2px;font-size:15px;color:#2a2a2a}
-  .ck .box{width:20px;height:20px;border-radius:50%;border:1.6px solid #bdbdbd;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.4)}
-  .ck.done .box{background:var(--accent);border-color:var(--accent);color:#fff}
-  .ck.done span{color:#aaa;text-decoration:line-through}
-  .ck+.ck{border-top:1px solid rgba(0,0,0,.05)}
-
-  /* info rows (flight/weather/car) */
-  .row{display:flex;align-items:center;gap:12px;padding:10px 2px}
-  .row+.row{border-top:1px solid rgba(0,0,0,.05)}
-  .row .ric{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .row .rc{flex:1;min-width:0}
-  .row .rc b{font-size:14.5px;font-weight:600;display:block;line-height:1.35}
-  .row .rc s{font-size:11.5px;color:var(--ink3);font-style:normal;display:block;margin-top:3px}
-  .row .rv{font-size:12px;font-weight:650;color:#2a2a2a;flex-shrink:0;text-align:right}
-  .row .rv.hot{color:#e8632a}
-  .rbtn{flex-shrink:0;font-size:12.5px;font-weight:650;color:#fff;background:#2b2b2b;border:none;border-radius:20px;padding:7px 14px;cursor:pointer}
-  .rbtn.y{background:var(--accent);color:#4a3600}
-
-  /* dynamic pin banner */
-  .pin{display:flex;align-items:center;gap:7px;margin:-2px 2px 10px;font-size:11px;font-weight:700;color:#b06a1f}
-  .pin .dot{width:6px;height:6px;border-radius:50%;background:#f0a020;box-shadow:0 0 0 3px #f7d58a66}
-
-  /* suggestion (dark) card variant */
-  .sug{background:rgba(38,38,40,.82);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:none;color:#eee}
-  .sug .aihd .ti b{color:#fff}
-  .sug .sgtext{font-size:14px;line-height:1.6;color:#d6d6d8;margin-bottom:14px}
-  .sug .eyebrow{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:#b9a6ff;margin-bottom:9px}
-  .sug .eyebrow svg{width:15px;height:15px;flex:0 0 auto}
-  .sug .sgact{display:flex;gap:10px;justify-content:flex-end}
-  .sgbtn{font-size:13.5px;font-weight:600;border-radius:22px;padding:9px 18px;border:none;cursor:pointer}
-  .sgbtn.s{background:rgba(255,255,255,.14);color:#e9e9ea}
-  .sgbtn.p{background:linear-gradient(135deg,#6d78f0,#9a6cf0);color:#fff}
-
-  /* app grid + dock */
-  .grid-area{margin-top:auto;padding:0 20px 6px}
-  .appgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 18px;margin-bottom:12px}
-  .app{display:flex;flex-direction:column;align-items:center;gap:6px}
-  .app .ai{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.14);font-weight:700}
-  .app .al{font-size:11px;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.45);font-weight:500}
-  .app .ai svg{width:30px;height:30px}
-  .srch{display:flex;align-items:center;justify-content:center;gap:6px;margin:2px auto 14px;width:112px;height:30px;border-radius:20px;
-    background:rgba(255,255,255,.28);backdrop-filter:blur(16px);color:#fff;font-size:12.5px}
-  .dock{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;background:rgba(255,255,255,.26);backdrop-filter:blur(26px);
-    border-radius:34px;padding:12px 16px;margin-bottom:8px}
-  .dock .ai{width:56px;height:56px;border-radius:15px;display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 4px 12px rgba(0,0,0,.14)}
-  .dock .ai svg{width:32px;height:32px}
-  .homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4.5px;border-radius:5px;background:rgba(255,255,255,.7);z-index:45}
-
-  /* expanded detail */
-  .detail{position:absolute;inset:0;z-index:50;background:#f4f4f6;display:flex;flex-direction:column;
-    transform:translateY(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);overflow:hidden}
-  .detail.open{transform:translateY(0)}
-  .landing{position:absolute;inset:0;z-index:70;width:100%;height:100%;border:none;background:#f3f3f3;
-    transform:translateY(100%);transition:transform .34s cubic-bezier(.4,0,.2,1)}
+  /* 负一屏：392×851 设计稿画布，按屏幕等比铺满（壁纸、图标、卡片位置与 Figma 3981:88322 一致）*/
+  .screen{background:#7d9c92}
+  .neg{position:absolute;left:50%;top:50%;width:392px;height:851px;transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:50% 50%;overflow:hidden}
+  .wall{position:absolute;left:0;top:-1px;width:392px;height:851px;background:url(../os5-kit/assets/wall-home.jpg) 0 0/100% 100% no-repeat}
+  .tint{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .8s ease,background .8s ease}
+  .neg.tod-d .tint{opacity:1;background:linear-gradient(180deg,rgba(255,250,236,.20) 0%,rgba(255,250,236,.10) 45%,rgba(255,250,236,0) 62%)}
+  .neg.tod-e .tint{opacity:1;background:linear-gradient(180deg,rgba(255,148,96,.34) 0%,rgba(236,120,150,.20) 36%,rgba(236,120,150,.06) 54%,rgba(236,120,150,0) 64%)}
+  .neg.tod-n .tint{opacity:1;background:linear-gradient(180deg,rgba(6,12,38,.62) 0%,rgba(10,18,52,.46) 38%,rgba(10,18,52,.18) 54%,rgba(10,18,52,0) 64%)}
+  .clk{position:absolute;left:0;right:0;top:86px;text-align:center;color:#fff;pointer-events:none}
+  .cdate{font-size:18.5px;font-weight:500;line-height:25px;letter-spacing:.2px}
+  .ctime{font-size:92px;font-weight:400;line-height:100px;letter-spacing:1.2px;margin-top:1px}
+  .cards{position:absolute;inset:0}
+  .cards .gcard,.cards .wpair{position:absolute}
+  .cards>*{cursor:pointer;transition:transform .15s}
+  .cards>*:active{transform:scale(.985)}
+  /* 负一屏航班卡（Figma 3981:89334：332×189，内边距 11）比落地页的航班卡更紧凑 */
+  .cards .flt{padding:11px 11px 11px}
+  .cards .flt .fd{font-size:12.5px;line-height:17px;margin-left:4px}
+  .cards .flt .fl{margin:5px 4px 0}
+  .cards .flt .fl b{font-size:18px;font-weight:400;line-height:24px}
+  .cards .flt .fl img{width:72px}
+  .cards .flt .fl .tr{font-size:24px;line-height:24px}
+  .cards .flt .fp{font-size:11px;margin:2px 4px 0}
+  .cards .flt .fp span:nth-child(2){font-size:9px}
+  .cards .flt .fline{margin:8px 4px 7px}
+  .cards .flt .stats b{font-size:13px;font-weight:400;line-height:17px}
+  .cards .flt .stats s{font-size:9px;margin-top:1px}
+  .cards .flt .fbtns{margin-top:8px;gap:7px}
+  .cards .flt .fb{height:31px;border-radius:10px;font-size:12px}
+  .cards .taxi .opts div{height:36px}
+  .cards .taxi .gbtns{margin-top:10px}
+  .cards .swap{animation:cswap .55s cubic-bezier(.2,.8,.2,1)}
+  @keyframes cswap{0%{opacity:0;transform:translateY(14px) scale(.98)}100%{opacity:1;transform:none}}
+  .landing{position:absolute;inset:0;z-index:100;width:100%;height:100%;border:none;background:var(--page);
+    transform:translateY(101%);transition:transform .36s cubic-bezier(.32,.72,0,1)}
   .landing.open{transform:translateY(0)}
-  .dnav{height:92px;display:flex;align-items:flex-end;gap:8px;padding:0 14px 8px;flex-shrink:0}
-  .dnav .ib{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:#222}
-  .dnav .sp{flex:1}
-  .dbody{flex:1;overflow-y:auto;padding:4px 20px 96px;scrollbar-width:none}
-  .dbody::-webkit-scrollbar{display:none}
-  .dtitle{font-size:27px;font-weight:600;letter-spacing:-.5px;margin:2px 0 5px}
-  .dsub{font-size:12.5px;color:var(--ink3);margin-bottom:16px}
-  .tabs{display:flex;gap:8px;background:#e9e9ec;border-radius:22px;padding:4px;margin-bottom:18px}
-  .tabs button{flex:1;border:none;background:transparent;font-family:inherit;font-size:14px;font-weight:600;color:var(--ink3);
-    padding:8px;border-radius:18px;cursor:pointer}
-  .tabs button.on{background:#fff;color:#222;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-  .dsec{font-size:18px;font-weight:600;margin:22px 1px 12px}
-  .dcard{background:#fff;border-radius:21px;padding:16px 17px;margin-bottom:12px}
-  .dcard p{font-size:15px;line-height:1.75;color:#5c5c5c}
-  .day{margin-bottom:16px}
-  .day h4{font-size:15.5px;font-weight:650;margin-bottom:5px}
-  .day h4 i{font-style:normal;color:var(--accent);margin-right:7px}
-  .day p{font-size:14px;line-height:1.7;color:#6c6c6c}
-  .dayimg{height:120px;border-radius:14px;margin-top:10px;background-size:cover;background-position:center;
-    background-image:linear-gradient(120deg,#9fb7c9,#cdbfa6)}
-  .fbar{position:absolute;bottom:0;left:0;right:0;display:flex;gap:12px;padding:12px 20px max(20px,env(safe-area-inset-bottom));
-    background:#f4f4f6ee;backdrop-filter:blur(14px);border-top:1px solid #e7e7e7}
-  .fbar button{flex:1;height:46px;border-radius:15px;border:none;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;gap:7px}
-  .fbar .ask{background:#fff;color:#444;flex:1.3}
-  .fbar .add{background:#fff;color:#444}
-
-  .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%);z-index:80;background:rgba(28,28,30,.93);color:#fff;
-    font-size:13.5px;font-weight:500;padding:11px 18px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.3);white-space:nowrap;
-    display:flex;align-items:center;gap:8px;animation:tin .2s ease}
+  .toast{position:absolute;left:50%;bottom:118px;transform:translateX(-50%);z-index:160;background:rgba(28,28,30,.94);color:#fff;font-size:13.5px;font-weight:500;
+    padding:11px 18px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.3);max-width:84%;text-align:center;line-height:1.45;animation:tin .2s ease}
   @keyframes tin{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
 
-
-  s{text-decoration:none}
-  .wall{z-index:0}
-  .wall::after{z-index:2}
-  .wl{position:absolute;inset:0;opacity:0;transition:opacity .7s ease;z-index:1}
-  .l-d{background:radial-gradient(90% 60% at 20% 10%,#f4f9ff 0%,rgba(244,249,255,0) 55%),radial-gradient(120% 80% at 70% 100%,#93bcc6 0%,rgba(147,188,198,0) 60%),linear-gradient(160deg,#e3f0f4 0%,#b9d4da 50%,#8fb5be 100%)}
-  .l-e{background:radial-gradient(90% 55% at 82% 8%,#ffdcbc 0%,rgba(255,220,188,0) 60%),radial-gradient(120% 80% at 18% 100%,#7b77b6 0%,rgba(123,119,182,0) 62%),linear-gradient(172deg,#f0b391 0%,#d49ab0 42%,#9488c4 76%,#6e6fae 100%)}
-  .l-n{background:radial-gradient(70% 45% at 78% 10%,rgba(160,175,255,.32) 0%,rgba(160,175,255,0) 60%),radial-gradient(90% 60% at 10% 100%,rgba(90,110,200,.35) 0%,rgba(90,110,200,0) 60%),linear-gradient(172deg,#2d3868 0%,#212a54 45%,#151c3a 100%)}
-  .screen.tod-d .l-d,.screen.tod-e .l-e,.screen.tod-n .l-n{opacity:1}
-  .sb{transition:color .4s}
-  .screen.tod-n .sb{color:#fff}
-  .screen.tod-n .batt{background:#fff;color:#111}
-  .aicard.swap{animation:cswap .5s cubic-bezier(.2,.8,.2,1)}
-  @keyframes cswap{0%{opacity:0;transform:translateY(12px) scale(.985)}100%{opacity:1;transform:none}}
-  .ckmore{font-size:12px;color:var(--ink3);padding:8px 2px 0;border-top:1px solid rgba(0,0,0,.05)}
-  .stages button i{font-style:normal;font-weight:500;opacity:.62;margin-left:5px}
+  /* 桌面演示外壳：左侧两大品类菜单 + 设备 + 时间阶段 */
+  body.hub{gap:14px}
+  .stagewrap{display:flex;align-items:flex-start;justify-content:center;gap:28px}
+  .devcol{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .scenes{width:214px;flex:0 0 auto;background:rgba(255,255,255,.78);border:1px solid rgba(20,30,60,.06);border-radius:24px;padding:12px;
+    box-shadow:0 20px 54px rgba(30,42,74,.12);position:sticky;top:22px}
+  .scenes .hd{font-size:12px;font-weight:700;color:#9aa2b2;padding:4px 12px 6px;letter-spacing:.3px}
+  .scenes .grp{margin-top:8px}
+  .scenes .gt{padding:8px 12px 6px}
+  .scenes .gt b{display:block;font-size:15px;font-weight:700;color:#14161c}
+  .scenes .gt s{display:block;font-size:11px;color:#9aa2b2;margin-top:2px}
+  .scenes .grp+.grp{border-top:1px solid rgba(20,30,60,.07);padding-top:6px}
+  .scenes button{font-size:14px;font-weight:600;color:#49505f;border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:10px;width:100%;text-align:left}
+  .scenes button:hover{background:rgba(20,30,60,.045)}
+  .scenes button .d{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+  .scenes button .n{margin-left:auto;font-size:11px;font-weight:500;color:#a7aebb}
+  .scenes button.on{background:#fff;color:#14161c;font-weight:700;box-shadow:0 3px 12px rgba(30,42,74,.12)}
+  .stages{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;max-width:520px}
+  .stages button{font-size:12px;font-weight:600;border:1px solid #dfe3ea;background:#fff;color:#5a6270;border-radius:18px;padding:7px 12px}
+  .stages button i{font-weight:500;opacity:.62;margin-left:5px}
+  .stages button.on{background:var(--yellow);border-color:var(--yellow);color:#4a3600}
   .stagecap{font-size:12px;color:#7a8394;text-align:center;margin-top:-4px}
   .stagecap b{color:#2b303a;font-weight:650}
-  /* layout: left scene menu + device */
-  .stagewrap{display:flex;flex-direction:row;align-items:flex-start;justify-content:center;gap:26px}
-  .devwrap{display:flex;flex-direction:column;align-items:center;gap:14px}
 
-  /* scene menu (left vertical) */
-  .scenes{display:flex;flex-direction:column;gap:6px;width:194px;flex-shrink:0;
-    background:rgba(255,255,255,.74);border:1px solid rgba(20,30,60,.06);border-radius:24px;padding:12px;
-    box-shadow:0 20px 54px rgba(30,42,74,.12);position:sticky;top:26px}
-  .scenes .shd{font-size:12px;font-weight:700;color:#9aa2b2;padding:5px 12px 9px;letter-spacing:.3px}
-  .scenes button{font-family:inherit;font-size:14px;font-weight:600;border:none;background:transparent;color:#49505f;
-    border-radius:15px;padding:11px 14px;cursor:pointer;display:flex;align-items:center;gap:11px;text-align:left;width:100%;transition:background .15s,color .15s}
-  .scenes button:hover{background:rgba(20,30,60,.045)}
-  .scenes button .d{width:9px;height:9px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 3px rgba(0,0,0,.04)}
-  .scenes button.on{background:#fff;color:#14161c;font-weight:700;box-shadow:0 3px 12px rgba(30,42,74,.12)}
-
-  /* stage switcher (demo chrome, light) */
-  .stages{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;max-width:480px}
-  .stages button{font-family:inherit;font-size:12px;font-weight:600;border:1px solid #dfe3ea;background:#fff;color:#5a6270;
-    border-radius:18px;padding:7px 12px;cursor:pointer}
-  .stages button.on{background:var(--accent);border-color:var(--accent);color:#4a3600}
-
-  @media(max-width:440px){
-    body{padding:0;gap:0;background:#000}
-    .cap,.stages,.scenes,.stagecap{display:none}
-    .stagewrap{display:block}.devwrap{gap:0}
-    .device{width:100vw;height:100vh;border-radius:0;padding:0;box-shadow:none}
-    .screen{border-radius:0}
-    .screen .notch{display:none}
-  }
+  /* 手机 / APK 演示控制：右上角小圆点 → 底部面板（两大品类 + 时间阶段）；卡片左右滑切阶段 */
+  .dbtn{display:none;position:absolute;right:14px;top:calc(48px * var(--s,1));z-index:120;width:30px;height:30px;border-radius:50%;
+    background:rgba(255,255,255,.22);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 .5px rgba(255,255,255,.4);
+    align-items:center;justify-content:center;color:#fff}
+  .dbtn svg{width:16px;height:16px}
+  .dsheet{position:absolute;inset:0;z-index:150;pointer-events:none}
+  .dsheet .bg{position:absolute;inset:0;background:rgba(0,0,0,.32);opacity:0;transition:opacity .25s}
+  .dsheet .pn{position:absolute;left:0;right:0;bottom:0;max-height:82%;overflow:auto;background:#f6f6f8;border-radius:28px 28px 0 0;padding:10px 18px calc(22px + env(safe-area-inset-bottom));
+    transform:translateY(102%);transition:transform .34s cubic-bezier(.32,.72,0,1);scrollbar-width:none}
+  .dsheet.open{pointer-events:auto}.dsheet.open .bg{opacity:1}.dsheet.open .pn{transform:none}
+  .dsheet .gr{width:36px;height:4px;border-radius:2px;background:#d4d4d8;margin:0 auto 10px}
+  .dsheet h3{font-size:18px;font-weight:650;display:flex;align-items:center;justify-content:space-between}
+  .dsheet h3 button{font-size:13px;font-weight:500;color:var(--t3);background:rgba(0,0,0,.05);border-radius:16px;padding:5px 12px}
+  .dsheet .seg{display:flex;background:rgba(0,0,0,.05);border-radius:14px;padding:3px;margin:14px 0 12px}
+  .dsheet .seg button{flex:1;height:34px;border-radius:11px;font-size:14px;font-weight:600;color:var(--t3)}
+  .dsheet .seg button.on{background:#fff;color:#000;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  .dsheet .sc{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .dsheet .sc button{height:44px;border-radius:14px;background:#fff;font-size:14px;font-weight:600;color:#222;display:flex;align-items:center;justify-content:center;gap:6px}
+  .dsheet .sc button.on{box-shadow:inset 0 0 0 1.5px var(--blue);color:var(--blue)}
+  .dsheet .sc button i{width:7px;height:7px;border-radius:50%}
+  .dsheet .lb{font-size:13px;color:var(--t4);margin:16px 2px 8px}
+  .dsheet .st{display:flex;flex-wrap:wrap;gap:8px}
+  .dsheet .st button{height:36px;padding:0 13px;border-radius:18px;background:#fff;font-size:13px;font-weight:600;color:#333}
+  .dsheet .st button i{font-weight:400;color:var(--t4);margin-left:5px}
+  .dsheet .st button.on{background:var(--yellow);color:#4a3600}
+  .dsheet .st button.on i{color:#6b5300}
+  .dsheet .tip{font-size:12px;color:var(--t4);margin-top:14px;line-height:1.6}
+  @media (max-width:500px){ .dbtn{display:flex} }
+  html.apk .dbtn{display:flex}
+  .landing.open~.dbtn{display:none!important}
 </style>
 </head>
-<body>
-<div class="cap">场景化 AI App · 负一屏（OS5）<span>左侧切场景 · 下方切时间阶段（时钟、壁纸、卡片、落地页一起变）· 点卡片展开高保真落地页</span></div>
+<body class="hub">
+<div class="cap">场景化 AI App · 负一屏（OS5）<span>左侧按「短期日程 / 长途出行」切场景 · 下方切时间阶段（时钟、日期、卡片、落地页一起变）· 点卡片进入高保真落地页</span></div>
 
 <div class="stagewrap">
 <nav class="scenes" id="scenes" aria-label="切换场景"></nav>
-<div class="devwrap">
+<div class="devcol">
 <div class="device">
-  <div class="screen">
-    <div class="wall"><div class="wl l-d"></div><div class="wl l-e"></div><div class="wl l-n"></div></div>
-    <div class="notch"></div>
-    <div class="sb">
-      <span id="sbTime">8:12</span>
-      <span class="r">
-        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
-        <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.6 6.9a8 8 0 0 1 9.8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6.2 9.5a4 4 0 0 1 4.6 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="currentColor"/></svg>
-        <span class="batt">100</span>
-      </span>
+  <div class="screen" id="screen">
+    <div class="neg" id="neg">
+      <div class="wall"></div><div class="tint"></div>
+      <div class="sb light"><div class="row"><span class="tm" id="sbTime">8:12</span><span class="ics" id="sbIcs"></span></div></div>
+      <div class="clk"><div class="cdate" id="cdate"></div><div class="ctime" id="ctime"></div></div>
+      <div class="cards" id="cards"></div>
     </div>
-
-    <!-- HOME / 负一屏 -->
-    <div class="home" id="home">
-      <div class="clockwrap">
-        <div class="cdate">5月15日 周五</div>
-        <div class="ctime">8:12</div>
-      </div>
-      <div class="aiwrap"><div id="aicard"></div></div>
-      <div class="grid-area">
-        <div class="appgrid" id="appgrid"></div>
-        <div class="srch">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3" stroke-linecap="round"/></svg>搜索
-        </div>
-        <div class="dock" id="dock"></div>
-      </div>
-    </div>
-
-    <!-- EXPANDED 攻略 -->
-    <div class="detail" id="detail">
-      <div class="dnav">
-        <button class="ib" id="back" aria-label="返回"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-        <span class="sp"></span>
-        <button class="ib" aria-label="更多"><svg width="22" height="22" viewBox="0 0 24 24" fill="#222"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
-      </div>
-      <div class="dbody" id="dbody"></div>
-      <div class="fbar">
-        <button class="ask" id="askBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#caa21a"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>问小爱</button>
-        <button class="add" id="addBtn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>添加内容</button>
-      </div>
-    </div>
-
     <iframe class="landing" id="landing" title="场景落地页"></iframe>
-    <div class="homebar"></div>
+    <button class="dbtn" id="dbtn" aria-label="演示控制"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h9"/></svg></button>
+    <div class="dsheet" id="dsheet"><div class="bg"></div><div class="pn">
+      <div class="gr"></div>
+      <h3>演示控制<button id="dclose">完成</button></h3>
+      <div class="seg" id="dseg"></div>
+      <div class="sc" id="dsc"></div>
+      <div class="lb" id="dlb">时间阶段</div>
+      <div class="st" id="dst"></div>
+      <div class="tip">在卡片上左右滑动也能切换时间阶段；点卡片进入落地页，返回键回到负一屏。</div>
+    </div></div>
+    <div class="cutout"></div>
   </div>
 </div>
 <div class="stages" id="stages"></div>
@@ -258,284 +137,139 @@
 </div>
 </div>
 
+<script src="../os5-kit/scenes.js"></script>
+<script src="../os5-kit/cards.js"></script>
 <script>
-const I={
- plane:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V18l-2 1.5V21l3.5-1 3.5 1v-1.5L13 18v-4.5L21 16Z"/></svg>',
- hotel:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20V6a1 1 0 0 1 1-1h10a3 3 0 0 1 3 3v4h3a1 1 0 0 1 1 1v7"/><path d="M3 20h18M7 9h3"/></svg>',
- clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
- car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14M5 11a2 2 0 0 0-2 2v4h2m14-6a2 2 0 0 1 2 2v4h-2m0 0H7m12 0v2m-12-2v2"/><circle cx="7.5" cy="14.5" r="1"/><circle cx="16.5" cy="14.5" r="1"/></svg>',
- sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6 19 19M19 5l-1.4 1.4M6.4 17.6 5 19"/></svg>',
- pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2.2"/></svg>',
- route:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.4"/><circle cx="18" cy="5" r="2.4"/><path d="M8.4 19H14a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h5.6"/></svg>',
- star:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2l2.5 5.6 6.1.6-4.6 4 1.4 6-5.4-3.2L6.1 19.4l1.4-6-4.6-4 6.1-.6z"/></svg>',
- note:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8L19 8v11.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1Z"/><path d="M13.5 3.5V8H19M8 12h8M8 15.5h5"/></svg>',
- photo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4 18 5-4.5 4 3 3-2.5 4 3.5"/></svg>',
- list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>',
- spark:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>',
- cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg>',
- cross:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg>',
- dine:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v7a2 2 0 0 0 2 2 2 2 0 0 0 2-2V3"/><path d="M6 12v9"/><path d="M18 3v18"/><path d="M18 3c-1.6 0-2.5 2-2.5 4.5S16.4 12 18 12"/></svg>',
- book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h10a3 3 0 0 1 3 3v12H8a3 3 0 0 0-3 3z"/><path d="M5 4.5v15"/><path d="M18 19.5a3 3 0 0 0-3-3H5"/></svg>',
- train:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="14" rx="4"/><path d="M5 11h14M8 3.5V7a4 4 0 0 0 8 0V3.5"/><path d="m8 21 1.6-2.5M16 21l-1.6-2.5"/><circle cx="9" cy="14" r="1" fill="currentColor"/><circle cx="15" cy="14" r="1" fill="currentColor"/></svg>',
- bag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="7" width="15" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M12 11v5"/></svg>',
-};
-const TONE={blue:['#3a7afe','#e9f1ff'],green:['#2f9e6a','#e7f5ee'],orange:['#e8792b','#fff1e3'],purpa:['#7a5be0','#efeafd'],accent:['#b98a0a','#fff1c9'],rose:['#d64531','#fcece9']};
-function ric(name,tone){const [c,b]=TONE[tone];return '<span class="ric" style="color:'+c+';background:'+b+'">'+I[name]+'</span>';}
+(function(){
+  var D=window.OS5_SCENES, S=D.scenes, C=window.OS5Cards;
+  var neg=document.getElementById('neg'), screenEl=document.getElementById('screen'), cardsEl=document.getElementById('cards'), landingEl=document.getElementById('landing');
+  document.getElementById('sbIcs').innerHTML=C.icons.signal+C.icons.wifi+C.icons.batt;
 
-/* ===== 场景数据：每个阶段 = 一个时刻。tm 时间、dt 日期，负一屏时钟/壁纸/卡片和落地页一起变 ===== */
-const TODAY=[
- {k:'早晨',tm:'07:50',type:'info',pin:'早上好 · 今天 5 件事',icon:'cal',itone:'blue',title:'今天 · 周五',sub:'5月15日 · 多云转晴 18°–26°',
-  rows:[{ic:'train',t:'blue',b:'08:30 出门上班',s:'地铁 10 号线 · 约 35 分钟到公司',btn:'路线',btnToast:'已规划地铁路线 · 08:20 提醒你出门'},
-        {ic:'sun',t:'orange',b:'傍晚有阵雨，带把伞',s:'18:00 后降水概率 70%',rv:'阵雨'},
-        {ic:'cal',t:'purpa',b:'今天 5 件事',s:'10:00 评审 · 15:00 接娃 · 16:30 牙医 · 19:00 聚餐',btn:'展开',open:true}]},
- {k:'上午',tm:'09:40',type:'info',pin:'下一件事 · 10:00 产品评审',icon:'cal',itone:'purpa',title:'上午安排',sub:'现在 09:40 · 已到公司',
-  rows:[{ic:'cal',t:'purpa',b:'10:00 产品评审会',s:'会议室 A302 · 6 人',rv:'20 分钟后'},
-        {ic:'note',t:'blue',b:'评审材料 v3 已备好',s:'会后可一键生成纪要',btn:'查看',open:true}]},
- {k:'下午',tm:'14:30',type:'info',pin:'15:00 接孩子 · 14:40 出发',icon:'pin',itone:'green',title:'下午安排',sub:'现在 14:30',
-  rows:[{ic:'clock',t:'green',b:'14:40 出发去阳光小学',s:'东门 · 打车约 15 分钟',rv:'10 分钟后'},
-        {ic:'car',t:'blue',b:'打车去学校 · 约 ¥19',s:'到点一键叫车',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'},
-        {ic:'cross',t:'rose',b:'16:30 牙医复诊',s:'市口腔医院 3 楼 · 别忘带医保卡',rv:'16:30'}]},
- {k:'晚上',tm:'18:10',type:'info',pin:'19:00 和小敏吃饭 · 18:20 出发',icon:'dine',itone:'orange',title:'晚上安排',sub:'现在 18:10 · 外面小雨',
-  rows:[{ic:'clock',t:'orange',b:'18:20 出发去三里屯',s:'比目鱼火锅 · 打车约 25 分钟',rv:'10 分钟后'},
-        {ic:'car',t:'blue',b:'一键叫车 · 约 ¥32',s:'外面在下小雨，记得带伞',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'},
-        {ic:'note',t:'green',b:'回家顺路买牛奶和鸡蛋',s:'来自你的购物清单',btn:'完成',btnToast:'已标记完成 ✓'}]},
-];
-const TRAVEL=[
- {k:'制定计划',tm:'21:05',dt:'5月20日 周三',type:'sug',title:'稻城亚丁旅行',eyebrow:'AI 识别到机票订单',
-  text:'发现你 6 月 10–14 日要去稻城亚丁。你收藏的 12 条攻略可以整理成一份 5 天 4 晚的行程，酒店还没订。'},
- {k:'预订交通住宿',tm:'12:30',dt:'5月21日 周四',type:'info',icon:'plane',itone:'blue',title:'稻城亚丁行程',sub:'6 月 10 日出发',
-  rows:[{ic:'plane',t:'blue',b:'已订 · CA4186 成都 → 稻城',s:'6/10 08:20 · 双流 T2',rv:'待出行'},
-        {ic:'hotel',t:'green',b:'香格里拉镇住宿还没订',s:'6/10–6/13 · 挑了 3 家离景区近的',btn:'去预订',btnToast:'已打开酒店预订页 🛒'}]},
- {k:'出发前准备',tm:'20:00',dt:'6月8日 周一',type:'check',pin:'出发前 2 天',icon:'list',itone:'accent',title:'稻城亚丁准备',sub:'还差 3 件',
-  items:['预订香格里拉镇住宿','在稻城亚丁小程序实名预约入园','备好抗高反药、防晒霜和羽绒服','确认机场大巴衔接时间'],done:[0]},
- {k:'出发日',tm:'05:50',dt:'6月10日 周三',type:'info',pin:'出发前 2.5 小时 · 机票动态',icon:'plane',itone:'blue',title:'今天出发 · 去机场',sub:'CA4186 08:20 起飞',
-  rows:[{ic:'clock',t:'blue',b:'06:10 出发去双流机场',s:'全程 12.5 公里 · 约 20 分钟',rv:'20 分钟后'},
-        {ic:'car',t:'blue',b:'打车去双流 T2 · 约 ¥45',s:'到点一键叫车',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'},
-        {ic:'plane',t:'green',b:'CA4186 · 登机口 D12',s:'座位 A24 · 准点',rv:'已值机'}]},
- {k:'抵达目的地',tm:'10:50',dt:'6月10日 周三',type:'info',pin:'已抵达 · 海拔 4411 米',icon:'pin',itone:'green',title:'已抵达稻城亚丁',sub:'今天先适应海拔',
-  rows:[{ic:'sun',t:'orange',b:'稻城 今天晴 · 12°／3°',s:'高原紫外线强，注意防晒',rv:'晴'},
-        {ic:'car',t:'blue',b:'11:30 机场大巴去香格里拉镇',s:'约 2.5 小时 · 到达口出门右手边',btn:'查看',open:true}]},
- {k:'游玩',tm:'07:30',dt:'6月11日 周四',type:'info',pin:'Day 2 · 短线和珍珠海',icon:'route',itone:'purpa',title:'今日行程 · Day 2',sub:'晴 · 适合短线徒步',
-  rows:[{ic:'pin',t:'green',b:'冲古寺 → 珍珠海',s:'徒步约 3.5 小时 · 海拔 3900 米',rv:'08:00'},
-        {ic:'star',t:'accent',b:'明天长线：牛奶海、五色海',s:'来自你收藏的攻略 · 07:00 前进山',rv:'Day 3'}]},
- {k:'返程',tm:'20:00',dt:'6月13日 周六',type:'info',pin:'返程前一天',icon:'plane',itone:'blue',title:'明天返程',sub:'6/14 回成都',
-  rows:[{ic:'plane',t:'blue',b:'CA4187 稻城 → 成都',s:'6/14 14:30 · 建议 11:30 出发去机场',rv:'明天'},
-        {ic:'note',t:'purpa',b:'整理这趟的照片和花费',s:'一键生成游记',btn:'生成',btnToast:'正在生成游记，完成后通知你 ✨'}]},
- {k:'旅行结束',tm:'21:00',dt:'6月14日 周日',type:'info',pin:'到家了 · 旅行回顾',icon:'photo',itone:'purpa',title:'稻城亚丁 · 旅行回顾',sub:'已自动整理',
-  rows:[{ic:'photo',t:'purpa',b:'精选了 18 张照片',s:'神山 / 珍珠海 / 牛奶海',rv:'18 张'},
-        {ic:'note',t:'green',b:'游记和花费已整理好',s:'行程 + 花费 ¥4,860 + 游记',btn:'打开',open:true}]},
-];
-const COURSE=[
- {k:'课前',tm:'21:00',dt:'9月8日 周二',type:'info',pin:'明天 14:00 有高数课',icon:'book',itone:'purpa',title:'高等数学 A',sub:'周三 14:00 · 周五 08:00',
-  rows:[{ic:'cal',t:'purpa',b:'明天 14:00 · 教学楼 A203',s:'张老师 · 14:00–15:40',rv:'明天'},
-        {ic:'book',t:'blue',b:'预习：极限与连续',s:'上节课老师说要先看 ε-N 定义',btn:'预习',open:true},
-        {ic:'list',t:'accent',b:'带上教材和演算纸',s:'明天 13:30 提醒你',rv:'提醒'}]},
- {k:'临近上课',tm:'13:50',dt:'9月9日 周三',type:'check',pin:'10 分钟后上课 · A203',icon:'clock',itone:'blue',title:'马上上课',sub:'高等数学 A · 14:00',
-  items:['到 A203 找位置坐下','打开语音速记（边听边记）','手机调成静音'],done:[0]},
- {k:'上课中',tm:'14:20',dt:'9月9日 周三',type:'info',pin:'正在上课 · 语音速记中',icon:'note',itone:'purpa',title:'高数 · 极限与连续',sub:'已转写 1,860 字',
-  rows:[{ic:'note',t:'purpa',b:'语音速记进行中',s:'00:20:04 · 自动转文字',rv:'录音中'},
-        {ic:'photo',t:'blue',b:'拍一张黑板板书',s:'自动插入到这节笔记',btn:'拍照',btnToast:'已把板书插入这节笔记 ✓'}]},
- {k:'课后',tm:'15:45',dt:'9月9日 周三',type:'info',pin:'这节课已整理好',icon:'book',itone:'green',title:'课堂笔记 · 极限与连续',sub:'刚刚整理',
-  rows:[{ic:'note',t:'green',b:'提取了 3 个关键知识点',s:'ε-N 定义 / 夹逼定理 / 单调有界',btn:'查看',open:true},
-        {ic:'list',t:'accent',b:'作业：习题 1-2 第 3、5 题',s:'周五交 · 周四晚提醒你',rv:'待办'},
-        {ic:'book',t:'purpa',b:'已存入「高等数学（上）」',s:'课程合集第 3 条笔记',btn:'打开',open:true}]},
- {k:'考前',tm:'12:30',dt:'9月11日 周五',type:'info',pin:'今天 14:30 摸底测验',icon:'book',itone:'rose',title:'高数 摸底测验',sub:'教学楼 A301 · 14:30',
-  rows:[{ic:'list',t:'accent',b:'学生证、签字笔、2B 铅笔、直尺',s:'考前准备 · 出门前核对',btn:'核对',open:true},
-        {ic:'book',t:'purpa',b:'再过一遍 4 个必考点',s:'极限与连续 · 来自你的课堂笔记',btn:'复习',open:true},
-        {ic:'clock',t:'blue',b:'14:00 出发去 A301',s:'步行约 8 分钟',rv:'14:00'}]},
-];
-const COMMUTE=[
- {k:'早高峰',tm:'07:40',dt:'5月14日 周四',type:'info',pin:'上班 · 尾号 4 今天限行',icon:'car',itone:'blue',title:'上班通勤',sub:'现在 07:40 · 预计 40 分钟',
-  rows:[{ic:'train',t:'purpa',b:'地铁 10 号线 · 38 分钟到公司',s:'限行日首选 · 早高峰车厢较挤',btn:'导航',btnToast:'已规划地铁路线 🧭'},
-        {ic:'sun',t:'orange',b:'多云 18° · 傍晚有阵雨',s:'记得带把伞',rv:'带伞'},
-        {ic:'cal',t:'blue',b:'到公司第一件事：10:00 评审',s:'资料已备好',rv:'10:00'}]},
- {k:'晚高峰',tm:'18:30',dt:'5月14日 周四',type:'info',pin:'下班 · 现在走最省时',icon:'car',itone:'blue',title:'下班回家',sub:'现在 18:30 · 预计 42 分钟',
-  rows:[{ic:'train',t:'purpa',b:'地铁 10 号线 · 42 分钟到家',s:'比打车快 8 分钟 · 不受路况影响',btn:'导航',btnToast:'已规划回家路线 🧭'},
-        {ic:'bag',t:'orange',b:'顺路取 2 个快递',s:'菜鸟驿站 · 地铁 B 口出来 80 米',btn:'取件码',open:true}]},
-];
-const MED=[
- {k:'挂号后',tm:'20:30',dt:'5月15日 周五',type:'info',pin:'识别到挂号短信',icon:'cross',itone:'rose',title:'带宝宝复诊',sub:'明天 09:30 · 市儿童医院',
-  rows:[{ic:'cal',t:'rose',b:'明天 09:30–10:00 · 呼吸科',s:'王医生 · 3 号楼 2 层 · 来自挂号短信',rv:'已挂号'},
-        {ic:'list',t:'accent',b:'今晚把要带的东西备好',s:'医保卡 · 病历本 · 体温记录',btn:'查看',open:true}]},
- {k:'出发前',tm:'08:40',dt:'5月16日 周六',type:'check',pin:'08:50 出发 · 别忘带',icon:'list',itone:'accent',title:'出门前核对',sub:'去市儿童医院 · 约 25 分钟',
-  items:['医保卡 / 电子医保码','病历本和上次化验单','这 3 天的体温记录（已整理）','水杯、小零食、备用口罩'],done:[0,1]},
- {k:'到医院',tm:'09:15',dt:'5月16日 周六',type:'info',pin:'已到市儿童医院',icon:'pin',itone:'green',title:'先去报到',sub:'离 09:30 就诊时段还有 15 分钟',
-  rows:[{ic:'pin',t:'green',b:'3 号楼 2 层 · 呼吸科分诊台',s:'挂号短信里写的报到位置',rv:'去报到'},
-        {ic:'note',t:'purpa',b:'给医生看这 3 天的体温',s:'38.6° → 38.2° → 37.6° · 你记的',btn:'打开',open:true}]},
- {k:'看完病',tm:'10:20',dt:'5月16日 周六',type:'info',pin:'看完了 · 记好医嘱',icon:'cross',itone:'rose',title:'拍处方 · 设吃药提醒',sub:'医生说 3 天后复查',
-  rows:[{ic:'photo',t:'purpa',b:'拍一下处方',s:'识别药名和用法 · 你确认后才提醒',btn:'拍处方',open:true},
-        {ic:'cal',t:'rose',b:'5月19日 周二上午复查',s:'要加到日程吗？',btn:'加入',btnToast:'已加入日程 · 前一晚提醒你 🔔'}]},
-];
-const DINE=[
- {k:'约定',tm:'16:00',dt:'5月15日 周五',type:'info',pin:'今晚 19:00 · 已订位',icon:'dine',itone:'orange',title:'和小敏他们吃饭',sub:'今晚 19:00 · 4 人',
-  rows:[{ic:'dine',t:'orange',b:'比目鱼火锅（三里屯店）',s:'大厅卡座 · 来自订位短信',rv:'已订位'},
-        {ic:'clock',t:'purpa',b:'18:20 提醒你出发',s:'晚高峰打车约 25 分钟',rv:'18:20'}]},
- {k:'出发',tm:'18:20',dt:'5月15日 周五',type:'info',pin:'该出发了',icon:'clock',itone:'orange',title:'出发去三里屯',sub:'现在 18:20 · 外面小雨',
-  rows:[{ic:'car',t:'blue',b:'打车去三里屯 · 约 ¥32',s:'约 25 分钟 · 18:45 到',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'},
-        {ic:'sun',t:'orange',b:'外面在下小雨',s:'记得带伞',rv:'小雨'}]},
- {k:'到店',tm:'18:50',dt:'5月15日 周五',type:'info',pin:'到店了',icon:'pin',itone:'green',title:'比目鱼火锅',sub:'太古里 N4-2 · 18:50',
-  rows:[{ic:'note',t:'green',b:'报手机尾号 6688 入座',s:'大厅卡座 · 订位短信里的信息',rv:'4 人'},
-        {ic:'star',t:'accent',b:'你记过：小敏不吃辣',s:'点鸳鸯锅 · 上次收藏的菜还在',btn:'看看',open:true}]},
- {k:'饭后',tm:'20:40',dt:'5月15日 周五',type:'info',pin:'吃完啦',icon:'dine',itone:'orange',title:'买单 · 回家',sub:'20:40',
-  rows:[{ic:'photo',t:'purpa',b:'拍一下小票，算好 AA',s:'按 4 人平摊 · 复制发到群里',btn:'拍小票',open:true},
-        {ic:'car',t:'blue',b:'打车回家 · 约 35 分钟',s:'约 ¥48',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'}]},
-];
-const HOMEC=[
- {k:'计划',tm:'12:20',dt:'5月21日 周四',type:'info',pin:'识别到 12306 购票短信',icon:'train',itone:'green',title:'回老家',sub:'周六出发 · 还有 2 天',
-  rows:[{ic:'train',t:'blue',b:'G1234 北京南 → 济南西',s:'周六 08:00 开 · 05 车 12A',rv:'已购票'},
-        {ic:'list',t:'accent',b:'要带的东西清单',s:'周五晚 21:00 提醒你收拾',btn:'查看',open:true}]},
- {k:'收拾',tm:'21:00',dt:'5月22日 周五',type:'check',pin:'明天出发 · 今晚收拾行李',icon:'bag',itone:'accent',title:'行李清单',sub:'已备好 2 / 5',
-  items:['给爸妈的体检套餐单','给妈妈的护手霜、给爸的茶叶','身份证、孩子的证件','给爷爷的降压药（2 盒）','充电器、数据线、耳机'],done:[1,2]},
- {k:'出发',tm:'06:30',dt:'5月23日 周六',type:'info',pin:'06:40 出发 · 08:00 开车',icon:'train',itone:'green',title:'出发去北京南',sub:'周六早上路况畅通',
-  rows:[{ic:'car',t:'blue',b:'打车去北京南站 · 约 ¥52',s:'约 35 分钟 · 07:15 到站',btn:'叫车',btnToast:'已为你叫车 · 预计 3 分钟到'},
-        {ic:'train',t:'green',b:'G1234 · 12 检票口',s:'07:40 开始检票 · 05 车 12A',btn:'车票',open:true}]},
- {k:'到达',tm:'09:55',dt:'5月23日 周六',type:'info',pin:'已到济南西站',icon:'pin',itone:'green',title:'到站了',sub:'09:52 到达 · 准点',
-  rows:[{ic:'note',t:'green',b:'给爸发个到站消息',s:'爸说开车来接站 · 你记在笔记里',btn:'发消息',btnToast:'已发送：爸，我到济南西了 💬'},
-        {ic:'cal',t:'purpa',b:'返程票还没买',s:'今晚 20:00 提醒你买周日下午的票',rv:'待办'}]},
-];
-const BDAY=[
- {k:'提前一周',tm:'10:00',dt:'5月10日 周日',type:'info',pin:'下周日 · 妈妈 60 岁生日',icon:'star',itone:'rose',title:'妈妈的生日',sub:'5月17日 周日 · 还有 7 天',
-  rows:[{ic:'star',t:'rose',b:'60 岁大寿，提前准备',s:'去年送的按摩仪她很喜欢',rv:'7 天'},
-        {ic:'note',t:'purpa',b:'礼物灵感 · 预算 ¥800',s:'羊绒围巾 / 智能手环 / 体检卡',btn:'看看',open:true}]},
- {k:'前两天',tm:'12:00',dt:'5月15日 周五',type:'check',pin:'还有 2 天 · 妈妈生日',icon:'list',itone:'accent',title:'生日准备',sub:'已完成 2 / 5',
-  items:['订一个 8 寸生日蛋糕','预订家庭聚餐餐厅','买生日礼物','准备红包和一束康乃馨','叫上弟弟一家视频连线'],done:[1,2]},
- {k:'当天',tm:'08:30',dt:'5月17日 周日',type:'info',pin:'今天 · 妈妈 60 岁生日',icon:'star',itone:'rose',title:'今天给妈妈过生日',sub:'5月17日 周日',
-  rows:[{ic:'note',t:'rose',b:'先给妈妈发生日祝福',s:'帮你写好了草稿，可以改',btn:'看看',open:true},
-        {ic:'cal',t:'purpa',b:'12:00 家庭视频 · 18:30 聚餐',s:'弟弟一家 · 老家 6 人桌',rv:'今天'}]},
-];
-const HEALTH=[
- {k:'早上',tm:'07:50',dt:'5月15日 周五',type:'info',pin:'08:00 妈妈该吃药了',icon:'cross',itone:'green',title:'妈妈的用药',sub:'今天 4 次 · 已服 0 次',
-  rows:[{ic:'cross',t:'green',b:'08:00 早餐后 · 氨氯地平 1 片',s:'降压药 · 饭后服用',btn:'提醒妈妈',btnToast:'已提醒妈妈，她的手机会响铃 🔔'},
-        {ic:'sun',t:'orange',b:'早上量个血压',s:'米家血压计 · 测完自动记录',rv:'待测'}]},
- {k:'中午',tm:'11:50',dt:'5月15日 周五',type:'info',pin:'12:30 午餐后服药',icon:'cross',itone:'green',title:'妈妈的用药',sub:'已服 1 次 · 下次 12:30',
-  rows:[{ic:'cross',t:'green',b:'12:30 氨氯地平 + 二甲双胍',s:'各 1 片 · 饭后 30 分钟',btn:'提醒妈妈',btnToast:'已提醒妈妈 🔔'},
-        {ic:'bag',t:'rose',b:'氨氯地平只剩 6 片 ≈ 3 天',s:'一键补药，送到妈妈家',btn:'补药',btnToast:'已加入购药清单 💊'}]},
- {k:'晚上',tm:'20:40',dt:'5月15日 周五',type:'info',pin:'21:00 睡前服药',icon:'cross',itone:'green',title:'妈妈的用药',sub:'已服 3 次 · 还剩 1 次',
-  rows:[{ic:'cross',t:'green',b:'21:00 钙片 + 维生素 D',s:'睡前服用',btn:'提醒妈妈',btnToast:'已提醒妈妈 🔔'},
-        {ic:'note',t:'purpa',b:'今天按时吃了 3 次',s:'08:05 · 12:34 · 18:10 妈妈打卡',rv:'按时'}]},
- {k:'复诊前',tm:'19:30',dt:'5月19日 周二',type:'info',pin:'明天 09:00 心内科复诊',icon:'cal',itone:'rose',title:'陪妈妈复诊',sub:'5月20日 周三 · 协和医院',
-  rows:[{ic:'cal',t:'rose',b:'明天 09:00 · 心内科',s:'来自挂号短信',rv:'明天'},
-        {ic:'list',t:'accent',b:'近 3 个月血压和用药记录',s:'已整理成一页，给医生看',btn:'查看',open:true}]},
-];
-const PARCEL=[
- {k:'派送中',tm:'14:00',dt:'5月14日 周四',type:'info',pin:'1 件今天送达',icon:'car',itone:'blue',title:'快递 · 派送中',sub:'来自物流短信',
-  rows:[{ic:'car',t:'blue',b:'顺丰 · 耳机 正在派送',s:'预计 18:00 前送到公司前台',rv:'派送中'},
-        {ic:'bag',t:'orange',b:'还有 2 件在驿站待取',s:'菜鸟驿站 · 今天 22:00 前',btn:'取件码',open:true}]},
- {k:'待取件',tm:'18:40',dt:'5月14日 周四',type:'info',pin:'2 个快递待取 · 顺路',icon:'bag',itone:'orange',title:'快递 · 待取件',sub:'菜鸟驿站 · 22:00 关门',
-  rows:[{ic:'bag',t:'orange',b:'顺丰 · 取件码 8-2-3056',s:'李宁运动鞋 · 地铁 B 口 80 米',btn:'取件码',open:true},
-        {ic:'bag',t:'blue',b:'京东 · 取件码 5-1-1088',s:'猫砂 20kg × 2 · 较重可叫跑腿',btn:'跑腿',btnToast:'已下单跑腿代取 · 约 15 分钟到驿站 🛵'}]},
- {k:'待寄件',tm:'20:30',dt:'5月15日 周五',type:'info',pin:'明天 14:00 顺丰上门',icon:'bag',itone:'green',title:'快递 · 待寄件',sub:'退货 · 7 天无理由',
-  rows:[{ic:'bag',t:'green',b:'退货：天猫连衣裙',s:'今晚把衣服和吊牌装好',rv:'明天'},
-        {ic:'clock',t:'blue',b:'14:00–15:00 顺丰上门取件',s:'已预约 · 来自寄件短信',btn:'改约',btnToast:'已打开改约页面，可选其他时间段'}]},
-];
-const APPS={today:TODAY,travel:TRAVEL,course:COURSE,commute:COMMUTE,med:MED,dine:DINE,home:HOMEC,bday:BDAY,health:HEALTH,parcel:PARCEL};
-const SCENE=[['today','今日安排','#3a7afe'],['travel','稻城亚丁出行','#2f9e6a'],['course','高数课程','#7a5be0'],['commute','上下班通勤','#3a7afe'],['med','带娃看病','#d64531'],['dine','约饭','#e8792b'],['home','回老家','#2f9e6a'],['bday','生日纪念','#d64531'],['health','健康用药','#2f9e6a'],['parcel','收寄快递','#e8792b']];
-const DEFDATE='5月15日 周五';
-function defStage(sc){return sc==='travel'?2:0;}
+  /* 画布等比铺满屏幕（cover），保证壁纸/图标/卡片与设计稿位置一致 */
+  function fit(){ var w=screenEl.clientWidth, h=screenEl.clientHeight; var s=Math.max(w/392,h/851); neg.style.setProperty('--s',s); screenEl.style.setProperty('--s',s); }
+  window.addEventListener('resize',fit); fit();
 
-const _raw=(location.hash||'').replace(/^#/,'');
-const _open=/-open$/.test(_raw);
-const _hs=_raw.replace(/-open$/,'').match(/^([a-z]+)(?:-s([0-9]))?$/);
-let scene=(_hs&&APPS[_hs[1]])?_hs[1]:'today';
-let cur=(_hs&&_hs[2]!==undefined&&APPS[scene][+_hs[2]])?+_hs[2]:defStage(scene), checkState={};
-const cardEl=document.getElementById('aicard');
-const screenEl=document.querySelector('.screen');
-const landingEl=document.getElementById('landing');
-const toastT={id:null};
-function toast(msg){const d=document.getElementById('detail');const host=d.classList.contains('open')?d:screenEl;
-  let t=document.createElement('div');t.className='toast';t.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+msg;
-  host.querySelectorAll('.toast').forEach(x=>x.remove());host.appendChild(t);clearTimeout(toastT.id);toastT.id=setTimeout(()=>t.remove(),1900);}
+  /* ---------- 状态 ---------- */
+  var raw=(location.hash||'').replace(/^#/,''), wantOpen=/-open$/.test(raw);
+  var m=raw.replace(/-open$/,'').match(/^([a-z]+)(?:-s(\d+))?$/);
+  var scene=(m&&S[m[1]])?m[1]:'today';
+  function defStage(sc){ return sc==='travel'?2:0; }
+  var cur=(m&&m[2]!=null&&S[scene].stages[+m[2]])?+m[2]:defStage(scene);
+  var ckState={};
+  function stg(){ return S[scene].stages[cur]; }
 
-/* 时钟 / 日期 / 壁纸跟着阶段时间走 */
-function todOf(tm){const p=(tm||'08:00').split(':');const h=+p[0]+(+p[1])/60;
-  if(h<5)return 'n';if(h<7)return 'e';if(h<11)return 'm';if(h<16.5)return 'd';if(h<19.5)return 'e';return 'n';}
-function renderClock(){
- const s=APPS[scene][cur];const tm=(s.tm||'08:12').replace(/^0/,'');
- document.querySelector('.ctime').textContent=tm;document.getElementById('sbTime').textContent=tm;
- document.querySelector('.cdate').textContent=s.dt||DEFDATE;
- screenEl.classList.remove('tod-m','tod-d','tod-e','tod-n');screenEl.classList.add('tod-'+todOf(s.tm));
- const name=(SCENE.find(x=>x[0]===scene)||['','',''])[1];
- document.getElementById('stagecap').innerHTML='<b>'+name+'</b> · 第 '+(cur+1)+' / '+APPS[scene].length+' 阶段 · 模拟时间 '+(s.dt||DEFDATE)+' '+(s.tm||'');
-}
+  /* ---------- 时钟 / 日期（含农历）/ 壁纸时段 ---------- */
+  function tod(tm){ var p=(tm||'08:00').split(':'), h=+p[0]+(+p[1])/60; if(h<5) return 'n'; if(h<7) return 'e'; if(h<11) return 'm'; if(h<16.5) return 'd'; if(h<19.2) return 'e'; return 'n'; }
+  function renderClock(){
+    var s=stg(), tm=s.tm.replace(/^0/,''), dt=s.dt.split(' '), day=dt[0], wk=dt[1]||'';
+    document.getElementById('ctime').textContent=tm;
+    document.getElementById('sbTime').textContent=tm;
+    document.getElementById('cdate').textContent=day+wk+(D.lunar[day]?' '+D.lunar[day]:'');
+    neg.classList.remove('tod-m','tod-d','tod-e','tod-n'); neg.classList.add('tod-'+tod(s.tm));
+    document.getElementById('stagecap').innerHTML='<b>'+S[scene].name+'</b> · 第 '+(cur+1)+' / '+S[scene].stages.length+' 阶段 · 模拟时间 '+s.dt+' '+s.tm+' · 数据来源：'+S[scene].src;
+  }
 
-function renderCard(anim){
- const s=APPS[scene][cur];const [ic]=s.icon?TONE[s.itone]:[''];
- let inner='';
- if(s.pin) inner+='<div class="pin"><span class="dot"></span>'+s.pin+'</div>';
- if(s.type==='sug'){
-   cardEl.className='aicard sug';
-   inner+='<div class="eyebrow">'+I.spark+' '+s.eyebrow+'</div>';
-   inner+='<div class="aihd" style="margin-bottom:8px"><div class="ti"><b>'+s.title+'</b></div></div>';
-   inner+='<div class="sgtext">'+s.text+'</div>';
-   inner+='<div class="sgact"><button class="sgbtn s" data-stop>暂不</button><button class="sgbtn p" data-go>整理行程</button></div>';
- }else{
-   cardEl.className='aicard';
-   inner+='<div class="aihd"><span class="ic" style="color:#fff;background:'+ic+'">'+I[s.icon]+'</span><div class="ti"><b>'+s.title+'</b><s>'+s.sub+'</s></div><span class="more">展开</span></div>';
-   inner+='<div class="aibody">';
-   if(s.type==='check'){
-     const MAXI=4;
-     s.items.slice(0,MAXI).forEach((it,i)=>{const k=scene+':'+cur+'#'+i;const dn=(k in checkState)?checkState[k]:(s.done||[]).indexOf(i)>=0;
-       inner+='<div class="ck '+(dn?'done':'')+'" data-ck="'+i+'"><span class="box">'+(dn?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</span><span>'+it+'</span></div>';});
-     if(s.items.length>MAXI) inner+='<div class="ckmore">还有 '+(s.items.length-MAXI)+' 项 · 展开查看</div>';
-   }else{
-     s.rows.forEach((r,i)=>{inner+='<div class="row">'+ric(r.ic,r.t)+'<div class="rc"><b>'+r.b+'</b>'+(r.s?'<s>'+r.s+'</s>':'')+'</div>'+
-       (r.btn?'<button class="rbtn y" data-btn="'+i+'">'+r.btn+'</button>':'<span class="rv">'+(r.rv||'')+'</span>')+'</div>';});
-   }
-   inner+='</div>';
- }
- cardEl.innerHTML=inner;
- if(anim){cardEl.classList.remove('swap');void cardEl.offsetWidth;cardEl.classList.add('swap');}
- if(s.type!=='sug'){cardEl.onclick=(e)=>{if(e.target.closest('[data-ck]')||e.target.closest('[data-btn]'))return;openDetail();};}
- else cardEl.onclick=(e)=>{if(e.target.closest('button'))return;openDetail();};
- cardEl.querySelectorAll('[data-ck]').forEach(el=>el.onclick=()=>{const i=+el.getAttribute('data-ck');const k=scene+':'+cur+'#'+i;const was=(k in checkState)?checkState[k]:(s.done||[]).indexOf(i)>=0;checkState[k]=!was;renderCard(false);});
- cardEl.querySelectorAll('[data-btn]').forEach(el=>el.onclick=(e)=>{e.stopPropagation();const r=s.rows[+el.getAttribute('data-btn')];if(r.open){openDetail();return;}toast(r.btnToast||'已完成');});
- const go=cardEl.querySelector('[data-go]');if(go)go.onclick=(e)=>{e.stopPropagation();cur=1;renderAll(true);syncLanding();toast('已整理成行程，接下来帮你订酒店');};
- const stop=cardEl.querySelector('[data-stop]');if(stop)stop.onclick=(e)=>{e.stopPropagation();toast('好的，明天再提醒你');};
-}
+  /* ---------- 卡片（Figma 组件，位置按设计稿）---------- */
+  function applyChecks(){
+    cardsEl.querySelectorAll('.ck').forEach(function(el,i){
+      var k=scene+':'+cur+':'+i; if(!(k in ckState)) return;
+      var d=ckState[k]; el.classList.toggle('done',d); el.querySelector('.box').innerHTML=d?C.icons.check:'';
+    });
+  }
+  function renderCard(anim){
+    cardsEl.innerHTML=C.render(stg().card,{where:'neg'});
+    applyChecks();
+    var el=cardsEl.firstElementChild;
+    if(anim&&el){ el.classList.add('swap'); }
+  }
 
-/* 落地页：iframe + ?s=阶段；已打开时切阶段用 postMessage 实时同步，不重新加载 */
-const LANDING={today:'../os5-today-ai-app/',course:'../os5-course-ai-app-figma/',travel:'../os5-travel-ai-app-figma/',commute:'../os5-commute-ai-app/',med:'../os5-clinic-ai-app/',dine:'../os5-dining-ai-app/',home:'../os5-hometown-ai-app/',bday:'../os5-anniversary-ai-app/',health:'../os5-medication-ai-app/',parcel:'../os5-parcel-ai-app/'};
-function postStage(init){try{landingEl.contentWindow.postMessage({os5stage:cur,init:!!init},'*');}catch(e){}}
-landingEl.addEventListener('load',()=>postStage(true));
-function openDetail(){
- const lp=LANDING[scene];if(!lp)return;
- if(landingEl.dataset.lp===lp){postStage(true);}else{landingEl.dataset.lp=lp;landingEl.src=lp+'?s='+cur;}
- landingEl.classList.add('open');
-}
-function syncLanding(){if(landingEl.classList.contains('open')&&landingEl.dataset.lp===LANDING[scene])postStage(false);}
-function closeDetail(){document.getElementById('detail').classList.remove('open');document.getElementById('home').classList.remove('hide');}
-function closeLanding(){landingEl.classList.remove('open');}
-window.addEventListener('message',function(e){if(e.data==='close-landing')closeLanding();});
-document.getElementById('back').onclick=closeDetail;
-document.getElementById('askBtn').onclick=()=>toast('小爱：已根据这个场景为你整理好');
-document.getElementById('addBtn').onclick=()=>toast('可以补充一条内容');
+  /* ---------- 落地页（iframe，切阶段时 postMessage 实时同步）---------- */
+  function postStage(init){ try{ landingEl.contentWindow.postMessage({os5stage:cur,init:!!init},'*'); }catch(e){} }
+  landingEl.addEventListener('load',function(){ postStage(true); });
+  function openLanding(){
+    var lp=S[scene].landing; if(!lp) return;
+    if(landingEl.dataset.lp===lp){ postStage(true); } else { landingEl.dataset.lp=lp; landingEl.src=lp+'?s='+cur+(document.documentElement.classList.contains('apk')?'&apk=1':''); }
+    landingEl.classList.add('open'); syncHash(true);
+  }
+  function closeLanding(){ landingEl.classList.remove('open'); syncHash(false); }
+  function syncLanding(){ if(landingEl.classList.contains('open')&&landingEl.dataset.lp===S[scene].landing) postStage(false); }
+  window.addEventListener('message',function(e){ var d=e.data; if(d==='close-landing'){ closeLanding(); return; }
+    if(d&&typeof d==='object'&&d.os5setstage!=null&&S[scene].stages[+d.os5setstage]){ cur=+d.os5setstage; renderAll(false); } });
 
-function renderStages(){const w=document.getElementById('stages');
- w.innerHTML=APPS[scene].map((s,i)=>'<button class="'+(i===cur?'on':'')+'" data-i="'+i+'">'+(i+1)+'. '+s.k+'<i>'+(s.tm||'')+'</i></button>').join('');
- w.querySelectorAll('button').forEach(b=>b.onclick=()=>{const n=+b.getAttribute('data-i');if(n===cur)return;cur=n;renderAll(true);syncLanding();});}
-function renderScenes(){const w=document.getElementById('scenes');w.innerHTML='<div class="shd">场景 AI App</div>'+SCENE.map(x=>'<button class="'+(x[0]===scene?'on':'')+'" data-s="'+x[0]+'"><span class="d" style="background:'+x[2]+'"></span>'+x[1]+'</button>').join('');
- w.querySelectorAll('button').forEach(b=>b.onclick=()=>{const sc=b.getAttribute('data-s');if(sc===scene&&!landingEl.classList.contains('open'))return;scene=sc;cur=defStage(scene);closeLanding();closeDetail();renderAll(true);});}
-function renderAll(anim){renderScenes();renderStages();renderClock();renderCard(anim);
- try{history.replaceState(null,'','#'+scene+'-s'+cur);}catch(e){}}
+  var tT=null;
+  function toast(msg){ var old=screenEl.querySelector('.toast'); if(old) old.remove(); var t=document.createElement('div'); t.className='toast'; t.textContent=msg; screenEl.appendChild(t); clearTimeout(tT); tT=setTimeout(function(){ t.remove(); },2000); }
 
-// app grid + dock
-const HOMEAPPS=[['相册','conic-gradient(from 210deg,#ff7a7a,#ffd36b,#6be39b,#6bb8ff,#c98bff,#ff7a7a)',''],
- ['游戏中心','linear-gradient(135deg,#34c759,#1ea64a)','<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#fff\' stroke-width=\'2\' stroke-linecap=\'round\'><rect x=\'3\' y=\'8\' width=\'18\' height=\'9\' rx=\'4.5\'/><path d=\'M8 12v1.5M8.75 12.75h-1.5\'/><circle cx=\'15.5\' cy=\'12.2\' r=\'.6\' fill=\'#fff\'/><circle cx=\'17.3\' cy=\'13.8\' r=\'.6\' fill=\'#fff\'/></svg>'],
- ['计算器','#f4f4f4','<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#e8792b\' stroke-width=\'2.2\' stroke-linecap=\'round\'><path d=\'M7 8h10M9 13v4M15 13v4M9 15h6\'/></svg>'],
- ['米家','linear-gradient(135deg,#3fcf8e,#17a06a)','<b style=\'font-size:17px;color:#fff\'>mi</b>'],
- ['小米商城','linear-gradient(135deg,#ff8a3d,#ff6a00)','<b style=\'font-size:16px;color:#fff\'>mi</b>'],
- ['超级小爱','linear-gradient(135deg,#8ad0ff,#5b7bff)','<svg viewBox=\'0 0 24 24\' fill=\'#fff\'><path d=\'M12 4c4 0 7 2.6 7 6s-3 6-7 6c-1 0-2-.2-2.9-.5L6 17l1-2.6C5.7 13.3 5 11.7 5 10c0-3.4 3-6 7-6Z\'/></svg>'],
- ['应用商店','linear-gradient(135deg,#ffa23d,#ff7a1a)','<b style=\'font-size:16px;color:#fff\'>mi</b>'],
- ['设置','#e9e9ea','<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#8a8a8a\' stroke-width=\'1.9\'><circle cx=\'12\' cy=\'12\' r=\'3.2\'/><path d=\'M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2\' stroke-linecap=\'round\'/></svg>']];
-document.getElementById('appgrid').innerHTML=HOMEAPPS.map(a=>'<div class="app"><span class="ai" style="background:'+a[1]+'">'+a[2]+'</span><span class="al">'+a[0]+'</span></div>').join('');
-const DOCK=[['#34c759','<svg viewBox=\'0 0 24 24\' fill=\'#fff\'><path d=\'M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5 5l1.5-2 4 1.5v3c0 1-1 2-2 2A16 16 0 0 1 4.5 5c0-1 1-2 2-2Z\'/></svg>'],
- ['#34c759','<svg viewBox=\'0 0 24 24\' fill=\'#fff\'><path d=\'M12 4c4.4 0 8 2.9 8 6.5S16.4 17 12 17c-.7 0-1.4-.1-2-.2L6 18l1-2.8C5.1 14 4 12.4 4 10.5 4 6.9 7.6 4 12 4Z\'/></svg>'],
- ['linear-gradient(135deg,#57b0ff,#2f7df0)','<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#fff\' stroke-width=\'1.8\'><circle cx=\'12\' cy=\'12\' r=\'8.5\'/><path d=\'m14.5 9.5-5 1.5-1 4.5 5-1.5z\' fill=\'#fff\' stroke=\'none\'/></svg>'],
- ['#1b1b1f','<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#fff\' stroke-width=\'1.8\'><path d=\'M4 8.5h3l1.5-2h7L17 8.5h3v10H4z\'/><circle cx=\'12\' cy=\'13\' r=\'3.3\'/></svg>']];
-document.getElementById('dock').innerHTML=DOCK.map(a=>'<span class="ai" style="background:'+a[0]+'">'+a[1]+'</span>').join('');
+  cardsEl.addEventListener('click',function(e){
+    var b=e.target.closest('[data-a]'), ck=e.target.closest('.ck');
+    if(b){ e.stopPropagation(); var a=b.getAttribute('data-a');
+      if(a==='open'){ openLanding(); return; }
+      if(a.indexOf('toast:')===0){ toast(a.slice(6)); return; }
+      if(a.indexOf('stage:')===0){ var n=+a.slice(6); if(S[scene].stages[n]){ cur=n; renderAll(true); syncLanding(); toast(n===2&&scene==='course'?'已开始语音速记，老师讲的内容会自动转成文字 🎙':'已为你整理好，进入下一步'); } return; }
+      return; }
+    var tb=e.target.closest('[data-toast]'); if(tb){ e.stopPropagation(); toast(tb.getAttribute('data-toast')); return; }
+    if(ck){ var i=[].indexOf.call(cardsEl.querySelectorAll('.ck'),ck), k=scene+':'+cur+':'+i; ckState[k]=!ck.classList.contains('done'); applyChecks(); return; }
+    if(e.target.closest('.gcard,.wpair')) openLanding();
+  });
 
-renderAll(false);
-if(_open){openDetail();}
+  /* 卡片左右滑：切时间阶段 */
+  (function(){ var x0=null,y0=null,t0=0;
+    cardsEl.addEventListener('touchstart',function(e){ var t=e.touches[0]; x0=t.clientX; y0=t.clientY; t0=Date.now(); },{passive:true});
+    cardsEl.addEventListener('touchend',function(e){ if(x0==null) return; var t=e.changedTouches[0], dx=t.clientX-x0, dy=t.clientY-y0; x0=null;
+      if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&Date.now()-t0<700){ var n=cur+(dx<0?1:-1); if(S[scene].stages[n]){ cur=n; renderAll(true); syncLanding(); } } },{passive:true});
+  })();
+
+  /* ---------- 桌面：左侧两大品类菜单 + 阶段条 ---------- */
+  function renderMenu(){
+    var h='<div class="hd">场景 AI App</div>';
+    D.groups.forEach(function(g){
+      h+='<div class="grp"><div class="gt"><b>'+g.name+'</b><s>'+g.desc+'</s></div>';
+      D.order.forEach(function(k){ var sc=S[k]; if(sc.group!==g.k) return;
+        h+='<button class="'+(k===scene?'on':'')+'" data-s="'+k+'"><span class="d" style="background:'+sc.color+'"></span>'+sc.name+'<span class="n">'+sc.stages.length+' 个阶段</span></button>'; });
+      h+='</div>';
+    });
+    var w=document.getElementById('scenes'); w.innerHTML=h;
+    w.querySelectorAll('button[data-s]').forEach(function(b){ b.onclick=function(){ pickScene(b.getAttribute('data-s')); }; });
+  }
+  function renderStages(){
+    var w=document.getElementById('stages');
+    w.innerHTML=S[scene].stages.map(function(s,i){ return '<button class="'+(i===cur?'on':'')+'" data-i="'+i+'">'+(i+1)+'. '+s.k+'<i>'+s.tm+'</i></button>'; }).join('');
+    w.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ pickStage(+b.getAttribute('data-i')); }; });
+  }
+  function pickScene(sc){ if(sc===scene&&!landingEl.classList.contains('open')) return; scene=sc; cur=defStage(sc); closeLanding(); renderAll(true); }
+  function pickStage(n){ if(n===cur) return; cur=n; renderAll(true); syncLanding(); }
+
+  /* ---------- 手机 / APK：演示控制面板 ---------- */
+  var ds=document.getElementById('dsheet'), segG=S[scene].group;
+  function renderSheet(){
+    document.getElementById('dseg').innerHTML=D.groups.map(function(g){ return '<button class="'+(g.k===segG?'on':'')+'" data-g="'+g.k+'">'+g.name+'</button>'; }).join('');
+    document.getElementById('dsc').innerHTML=D.order.filter(function(k){ return S[k].group===segG; }).map(function(k){ return '<button class="'+(k===scene?'on':'')+'" data-s="'+k+'"><i style="background:'+S[k].color+'"></i>'+S[k].name+'</button>'; }).join('');
+    document.getElementById('dlb').textContent=S[scene].name+' · 时间阶段';
+    document.getElementById('dst').innerHTML=S[scene].stages.map(function(s,i){ return '<button class="'+(i===cur?'on':'')+'" data-i="'+i+'">'+s.k+'<i>'+s.tm+'</i></button>'; }).join('');
+  }
+  document.getElementById('dbtn').onclick=function(){ segG=S[scene].group; renderSheet(); ds.classList.add('open'); };
+  function closeSheet(){ ds.classList.remove('open'); }
+  ds.addEventListener('click',function(e){
+    if(e.target.classList.contains('bg')||e.target.id==='dclose'){ closeSheet(); return; }
+    var g=e.target.closest('[data-g]'); if(g){ segG=g.getAttribute('data-g'); renderSheet(); return; }
+    var s=e.target.closest('#dsc [data-s]'); if(s){ pickScene(s.getAttribute('data-s')); segG=S[scene].group; renderSheet(); return; }
+    var i=e.target.closest('#dst [data-i]'); if(i){ pickStage(+i.getAttribute('data-i')); renderSheet(); setTimeout(closeSheet,180); }
+  });
+
+  /* 系统返回键（APK 调用）：先关面板 → 再关落地页里的弹层 → 再关落地页 */
+  window.os5back=function(){
+    if(ds.classList.contains('open')){ closeSheet(); return 'handled'; }
+    if(landingEl.classList.contains('open')){
+      try{ var w=landingEl.contentWindow; if(w&&typeof w.os5back==='function'&&w.os5back()==='handled') return 'handled'; }catch(e){}
+      closeLanding(); return 'handled';
+    }
+    return 'finish';
+  };
+
+  function syncHash(open){ try{ history.replaceState(null,'','#'+scene+'-s'+cur+(open?'-open':'')); }catch(e){} }
+  function renderAll(anim){ renderMenu(); renderStages(); renderClock(); renderCard(anim); syncHash(landingEl.classList.contains('open')); }
+  renderAll(false);
+  if(wantOpen) openLanding();
+})();
 </script>
 </body>
 </html>

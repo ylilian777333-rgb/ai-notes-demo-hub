@@ -129,9 +129,9 @@
   function firstBold(el){ var n=el.querySelector('h3,h4,b,.nm,.kt'); return n?cleanText(n):(el.innerText||'').trim().split('\n')[0]; }
   /* 找到按钮所在的内容块，取标题与描述，让二级页内容跟着上下文走 */
   function ctxOf(el){
-    var c=el.closest('.nextup,.keysug,.remind,.flight,.tli,.li,.sug,.med,.route,.ppl,.crow,.kp,.xrow,.coll,.rxc,.card')||el.parentElement||el;
-    var tEl=c.querySelector('h3,h4,.tc b,.lc b,.sc b,.rc b,.mc b,b,.nm,.kt');
-    var dEl=c.querySelector('.np,.tc p,.lc p,.sc p,.rc p,.rc s,.mc p,p,.loc,.code');
+    var c=el.closest('.gcard,.nextup,.keysug,.remind,.flight,.tli,.li,.sug,.med,.route,.ppl,.crow,.crs,.kp,.xrow,.coll,.rxc,.card')||el.parentElement||el;
+    var tEl=c.querySelector('h3,h4,.gc-hd b,.hh b,.tc b,.lc b,.sc b,.rc b,.mc b,b,.nm,.kt');
+    var dEl=c.querySelector('p.ds,.np,.tc p,.lc p,.sc p,.rc p,.rc s,.mc p,p,.loc,.code');
     return {el:c,title:tEl?cleanText(tEl):'',desc:dEl?dEl.innerText.replace(/\s+/g,' ').trim():''};
   }
   function sheetSpec(key){ var S=window.OS5_SHEETS||{}; return S[key]||null; }
@@ -285,6 +285,11 @@
     if(el.matches('.route')){ openSheet(title,
       '<div class="k-map"></div><div class="k-card"><p>'+esc(txtOf(el,'.rc p'))+'</p></div>'
       +actRow('换一条','选择此方案并导航','已为你换一个方案','已开始导航 🧭')); return; }
+    if(el.matches('.crs')){ openSheet(txtOf(el,'.r2')||'课程',
+      '<div class="k-card"><div class="k-kv"><span class="k">时间</span><span class="v">'+esc(txtOf(el,'.r1'))+'</span></div>'
+      +'<div class="k-kv"><span class="k">地点</span><span class="v">'+esc(txtOf(el,'.r3'))+'</span></div></div>'
+      +'<div class="k-note">来自你导入的课程表</div>'+actRow('请假','课前提醒','已提交请假申请，等待老师确认','已设置课前 30 分钟提醒 🔔')); return; }
+    if(el.matches('.note')){ openSheet(txtOf(el,'b')||'课堂笔记','<div class="k-card"><p>'+esc(txtOf(el,'p'))+'</p></div><div class="k-note">来自你的课堂笔记</div>'+actRow('分享','打开笔记','已复制分享链接 ✓','已打开笔记')); return; }
     if(el.matches('.crow')){ openSheet(txtOf(el,'.nm')||'课程',
       '<div class="k-card"><div class="k-kv"><span class="k">时间</span><span class="v">'+esc(txtOf(el,'.dt'))+' '+esc(txtOf(el,'.tm'))+'</span></div>'
       +'<div class="k-kv"><span class="k">地点</span><span class="v">'+esc(txtOf(el,'.loc'))+'</span></div></div>'
@@ -311,17 +316,15 @@
   function sceneName(){ var h=document.querySelector('.htitle'); return h?h.innerText.trim():'这个场景'; }
   function chatChips(){
     var n=sceneName(), map={
-      '高数课程':['帮我梳理这章重点','出几道练习题','测验前还要准备什么'],
+      '高数课程':['帮我梳理这章重点','出几道练习题','考试前还要准备什么'],
       '稻城亚丁旅行':['帮我排一下每天行程','有什么高原注意事项','整理这些收藏成攻略'],
-      '今天':['今天还有哪些事没做','帮我把评审纪要写好','晚上聚餐要带什么'],
-      '下班回家':['现在哪条路最快','顺路还能办什么事','到家前把空调打开'],
-      '上班通勤':['现在哪条路最快','今天要带伞吗','到公司先做什么'],
+      '今日安排':['今天还有哪些事没做','帮我把评审纪要写好','晚上聚餐要带什么'],
+      '上下班通勤':['现在哪条路最快','顺路还能办什么事','今天要带伞吗'],
       '带娃看病':['看医生前要准备什么','帮我整理宝宝这几天的情况','开完药提醒我喂药'],
       '约饭':['这家店招牌菜是什么','小敏有什么忌口','买单怎么算 AA'],
       '回老家':['给爸妈带点什么好','返程票什么时候买','老家这两天天气'],
       '生日纪念':['送妈妈什么礼物好','帮我写一段祝福','生日当天怎么安排'],
-      '健康用药':['这几种药能一起吃吗','妈妈今天按时吃药了吗','血压偏高要注意什么'],
-      '收寄快递':['哪些快递快到了','退货要准备什么','猫砂太重能代取吗']
+      '健康用药':['这几种药能一起吃吗','妈妈今天按时吃药了吗','血压偏高要注意什么']
     };
     return map[n]||['帮我总结一下','接下来该做什么','还有什么要注意'];
   }
@@ -366,7 +369,7 @@
     var x=t.closest('[data-toast],[data-sheet]');
     if(x){ e.preventDefault(); if(x.hasAttribute('data-sheet')) openSpec(x.getAttribute('data-sheet')); else toast(x.getAttribute('data-toast')); return; }
     var act=t.closest('button, a, .go, .act, .more');
-    var row=t.closest('.kp, .flight, .xrow, .coll, .med, .route, .crow, .ppl, .tli, .li, .sug');
+    var row=t.closest('.kp, .xrow, .coll, .med, .route, .crow, .crs, .note, .ppl, .tli, .li');
     if(act){ e.preventDefault(); handleAct(act); return; }
     if(row){ e.preventDefault(); rowSheet(row); return; }
   },true);
@@ -453,10 +456,10 @@
 
   /* ---------- 深链 / 自检 ---------- */
   function audit(){
-    var out=[], sel='.app button, .app a, .app .go, .app .act, .app [data-sheet], .app [data-toast], .app .kp, .app .flight, .app .xrow, .app .coll, .app .med, .app .route, .app .crow, .app .ppl, .app .tli, .app .li, .app .sug';
+    var out=[], sel='.nav button, .app button, .app a, .app [data-sheet], .app [data-toast], .app .kp, .app .xrow, .app .coll, .app .med, .app .route, .app .crow, .app .crs, .app .note, .app .ppl, .app .tli, .app .li';
     qa(sel).forEach(function(el){
       if(el.offsetParent===null) return;
-      if(el.closest('.back, .nav .ib:first-child, .ck')) return;
+      if(el.closest('.back, .nav .ib:first-child, .ck, [data-a^="stage:"], [data-focus]')) return;
       var label=((el.innerText||'').trim().split('\n')[0]||el.className).slice(0,26);
       lastToast=''; closeSheet();
       el.click();

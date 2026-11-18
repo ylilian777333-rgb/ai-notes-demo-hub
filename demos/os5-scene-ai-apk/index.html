@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>场景AI · 小米手机安装包（OS5 场景 AI App 演示）</title>
+<link rel="stylesheet" href="../os5-kit/os5.css">
+<style>
+  html{background:#e2e7ef}
+  body{display:block;padding:28px 18px 60px;background:radial-gradient(1200px 760px at 50% -12%,#fcfdff 0%,#eceff4 58%,#e2e7ef 100%) no-repeat #e2e7ef}
+  .wrap{max-width:760px;margin:0 auto;display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start}
+  .pane{background:#fff;border-radius:26px;box-shadow:0 18px 50px rgba(30,42,74,.10);padding:24px 24px 22px}
+  h1{font-size:26px;font-weight:700;letter-spacing:.2px}
+  .sub{font-size:13.5px;color:var(--t3);margin-top:6px;line-height:1.6}
+  .dl{display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:24px;background:var(--blue);color:#fff;font-size:16px;font-weight:600;text-decoration:none;margin-top:18px}
+  .dl.g{background:rgba(0,0,0,.06);color:#111;font-weight:500;font-size:14px;height:42px;margin-top:10px}
+  h3{font-size:16px;font-weight:650;margin:22px 0 10px}
+  ol{padding-left:20px}
+  ol li{font-size:14px;line-height:1.75;color:rgba(0,0,0,.82);margin-bottom:4px}
+  .kv{font-size:13px}
+  .qr{text-align:center}
+  .qr>img{width:220px;height:220px;border-radius:14px;margin:4px auto 10px;image-rendering:pixelated}
+  .qr p{font-size:13px;color:var(--t3);line-height:1.6}
+  .hash{font-family:ui-monospace,Menlo,monospace;font-size:11px;word-break:break-all;color:rgba(0,0,0,.55)}
+  .pv{margin-top:16px;border-radius:20px;overflow:hidden;border:1px solid rgba(0,0,0,.06)}
+  .pv img{width:100%;height:auto}
+  @media (max-width:700px){ .wrap{grid-template-columns:1fr} .qr{display:none} .kv{flex-direction:column;gap:2px} .kv .v{text-align:left} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="pane">
+    <h1>场景AI · 安卓安装包</h1>
+    <p class="sub">OS5 场景化 AI App 演示，装在小米手机上就是真机效果：负一屏卡片 + 9 个高保真落地页，按「短期日程 / 长途出行」两大品类组织。所有页面都打包在安装包里，断网也能演示。</p>
+    <a class="dl" id="dl" href="os5-scene-ai-v1.0.0.apk" download>下载 APK · v1.0.0（1.7 MB）</a>
+    <a class="dl g" href="../os5-ai-apps-negative-screen/">先在网页里看看（同一套页面）</a>
+    <h3>在小米手机上安装</h3>
+    <ol>
+      <li>用手机浏览器打开本页（或电脑上扫右侧二维码），点「下载 APK」。</li>
+      <li>下载完成后点开安装包；如果提示「禁止安装未知应用」，按提示允许浏览器 / 文件管理安装应用。</li>
+      <li>如果弹出 HyperOS「安全守护」风险提示，选「继续安装」或「仅本次允许」（不同系统版本文案略有差异，部分机型要等几秒倒计时）。这是内部演示包，签名固定，以后的新版本可以直接覆盖安装。</li>
+      <li>桌面出现「场景AI」黄色图标，点开即进入负一屏。</li>
+    </ol>
+    <h3>演示时怎么用</h3>
+    <ol>
+      <li>点右上角的 ≡ 圆形按钮打开「演示控制」：上方切「短期日程 / 长途出行」，中间选场景，下方选时间阶段。</li>
+      <li>在负一屏卡片上左右滑动，就是时间往前 / 往后走，时钟、日期、卡片一起变。</li>
+      <li>点卡片进入落地页，页面顶部的卡片和负一屏是同一张；按手机返回键回到负一屏。</li>
+      <li>应用打开期间不息屏，方便边讲边演示。</li>
+    </ol>
+    <h3>安装包信息</h3>
+    <div class="kv"><span class="k">应用名 / 包名</span><span class="v">场景AI · com.yanglilian.os5scene</span></div>
+    <div class="kv"><span class="k">版本</span><span class="v">1.0.0（versionCode 1）· Android 8.0 以上</span></div>
+    <div class="kv"><span class="k">权限</span><span class="v">仅网络（加载内置页面），不读短信 / 通讯录 / 位置</span></div>
+    <div class="kv"><span class="k">SHA-256</span><span class="v hash">4545b5a88b9efcbc880e4170d848fe191d1aa7ae57cd07d0348116f5aa33fa13</span></div>
+  </div>
+  <div class="pane qr">
+    <img src="qr-apk.svg" alt="下载二维码">
+    <p>用小米手机相机扫码直接下载</p>
+    <div class="pv"><img src="preview.jpg" alt="真机效果"></div>
+    <p style="margin-top:8px">安卓模拟器（Xiaomi 17 尺寸）实拍</p>
+  </div>
+</div>
+</body>
+</html>

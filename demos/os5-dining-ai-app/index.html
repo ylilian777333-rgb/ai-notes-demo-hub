@@ -2,196 +2,43 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>约饭 AI App · 落地页（OS5 高保真）</title>
-<style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  s{text-decoration:none}
-  :root{--ink:#111;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#f3a93c;--green:#2f9e6a;--orange:#f0772b;--line:#eee}
-  html,body{height:100%}
-  body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:radial-gradient(1200px 760px at 50% -12%,#fcfdff 0%,#eceff4 58%,#e2e7ef 100%);min-height:100%;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 14px 40px}
-  .cap{color:#3a4150;font-size:13px;font-weight:600;text-align:center}
-  .cap span{display:block;color:#98a1b2;font-size:11.5px;font-weight:400;margin-top:3px}
-  .device{width:390px;height:844px;border-radius:54px;background:#0a0c10;padding:11px;position:relative;box-shadow:0 36px 90px rgba(0,0,0,.55),inset 0 0 0 2px #2a303c;flex:0 0 auto}
-  .screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:var(--page)}
-  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#0a0c10;border-radius:0 0 18px 18px;z-index:60}
-  .app{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}
-  .app::-webkit-scrollbar{display:none}
-
-  .hero{position:relative;background:linear-gradient(168deg,#ffb067 0%,#ff8a63 28%,#f98a86 60%,#ecd9cf 86%,var(--page) 100%);padding:0 0 12px;overflow:hidden}
-  .ill{position:absolute;right:10px;top:40px;width:140px;height:140px;pointer-events:none}
-  .sb{position:relative;display:flex;justify-content:space-between;align-items:center;padding:15px 24px 4px;font-size:14px;font-weight:650;color:#fff}
-  .sb .r{display:flex;align-items:center;gap:6px}
-  .batt{font-size:10.5px;font-weight:700;background:#fff;color:#1b1b1b;border-radius:4px;padding:1px 5px}
-  .back{position:relative;margin:4px 0 0 16px;width:34px;height:34px;border:none;background:transparent;cursor:pointer;color:#fff}
-  .greet{position:relative;font-size:14px;color:rgba(255,255,255,.92);font-weight:500;padding:2px 24px 0}
-  .htitle{position:relative;font-size:32px;font-weight:700;color:#fff;letter-spacing:-.5px;padding:3px 24px 0;text-shadow:0 1px 10px rgba(0,0,0,.1)}
-  .hpills{position:relative;display:flex;gap:8px;margin:13px 0 0 24px;flex-wrap:wrap}
-  .pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.26);border-radius:999px;padding:7px 12px;font-size:12.5px;color:#fff;font-weight:500;backdrop-filter:blur(4px)}
-
-  .body{padding:0 16px 0;position:relative;margin-top:2px}
-  .sec{display:flex;align-items:center;gap:8px;margin:22px 2px 11px;font-size:15px;font-weight:650;color:#17171b}
-  .sec .si{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff}
-  .sec .si svg{width:14px;height:14px}
-  .sec .rt{margin-left:auto;font-size:12.5px;color:var(--t4);font-weight:400}
-  .card{background:#fff;border-radius:20px}
-
-  .nextup{position:relative;background:linear-gradient(135deg,#f0772b 0%,#f5583f 55%,#ff5277 100%);border-radius:24px;padding:17px 18px;color:#fff;overflow:hidden;box-shadow:0 12px 30px rgba(240,110,50,.3);margin-top:16px}
-  .nextup .eb{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;opacity:.95}
-  .nextup .eb .dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3)}
-  .nextup h3{font-size:21px;font-weight:700;margin:11px 0 4px;letter-spacing:-.3px}
-  .nextup p{font-size:13px;opacity:.95;display:flex;align-items:center;gap:6px}
-  .nextup .nbtns{display:flex;gap:9px;margin-top:15px}
-  .nextup .nbtns button{border:none;border-radius:12px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
-  .nextup .nbtns .pri{background:#fff;color:#e2561f}
-  .nextup{transition:background .4s}
-  .nextup.c-blue{background:linear-gradient(135deg,#2b8fd6 0%,#3a7afe 60%,#5b6cff 100%);box-shadow:0 12px 30px rgba(50,110,230,.28)}
-  .nextup.c-green{background:linear-gradient(135deg,#1f9e6e 0%,#22a88a 55%,#14a7a0 100%);box-shadow:0 12px 30px rgba(30,150,110,.28)}
-  .nextup.c-purple{background:linear-gradient(135deg,#6a5bff 0%,#7b5bff 50%,#a067e8 100%);box-shadow:0 12px 30px rgba(110,90,230,.3)}
-  .nextup.c-blue .nbtns .pri{color:#2f62d8}.nextup.c-green .nbtns .pri{color:#14845e}.nextup.c-purple .nbtns .pri{color:#5b4bd6}
-  .srcl{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:11px 0 12px;font-size:12px;color:#9a9ea6}
-  .srcl a{color:#e2561f;font-weight:600;cursor:pointer}
-  .nextup .nbtns .ghost{background:rgba(255,255,255,.2);color:#fff}
-  .nextup .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid rgba(255,255,255,.12)}
-
-  .info{padding:4px 16px}
-  .irow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:14px}
-  .irow+.irow{border-top:1px solid var(--line)}
-  .irow .k{color:var(--t3)}
-  .irow .v{font-weight:600;color:#1b1b1b}
-  .irow .v.hl{color:var(--orange)}
-
-  .ppl{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer}
-  .ppl+.ppl{border-top:1px solid var(--line)}
-  .ppl .av{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:600}
-  .ppl .pc{flex:1}
-  .ppl .pc b{font-size:14.5px;font-weight:600;color:#1b1b1b}
-  .ppl .pc s{font-style:normal;font-size:12px;color:var(--t4);display:block;margin-top:3px}
-  .ppl .st{font-size:11.5px;font-weight:600;border-radius:999px;padding:3px 10px}
-
-  .lst{padding:2px 0}
-  .li{display:flex;gap:12px;padding:13px 16px;align-items:flex-start}
-  .li+.li{border-top:1px solid var(--line)}
-  .li .ic{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}
-  .li .lc{flex:1;min-width:0}
-  .li .lc b{font-size:14.5px;font-weight:600;color:#1b1b1b;display:block}
-  .li .lc p{font-size:12.5px;color:var(--t3);margin-top:4px;line-height:1.5}
-  .li .go{align-self:center;font-size:12.5px;font-weight:600;color:var(--orange);flex-shrink:0}
-
-  .fab{position:absolute;right:18px;bottom:22px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;z-index:40;background:radial-gradient(circle at 35% 30%,#fff,#fff0e8);box-shadow:0 8px 24px rgba(240,110,50,.3),0 1px 4px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center}
-  .fab svg{width:28px;height:28px}
-  .homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:120px;height:4.5px;border-radius:5px;background:rgba(0,0,0,.22);z-index:45}
-  @media(max-width:430px){body{padding:0;gap:0;background:#000}.cap{display:none}.device{width:100vw;height:100vh;border-radius:0;padding:0;box-shadow:none}.screen{border-radius:0}.notch{display:none}}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>约饭 · 场景 AI App 落地页（OS5）</title>
+<link rel="stylesheet" href="../os5-kit/os5.css">
 </head>
 <body>
-<div class="cap">约饭 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>约定 → 出发 → 到店 → 饭后 · 信息来自订位短信和你的笔记（不读取朋友位置）</span></div>
-<div class="device"><div class="screen">
-  <div class="notch"></div>
-  <div class="app">
-    <div class="hero">
-      <svg class="ill" viewBox="0 0 150 150" fill="none">
-        <path d="M30 34c0 0 4 10 14 10M40 30c0 0 2 12 12 14" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/>
-        <ellipse cx="75" cy="96" rx="52" ry="14" fill="#ffffff" fill-opacity=".9"/>
-        <path d="M24 92a51 20 0 0 0 102 0Z" fill="#ffffff" fill-opacity=".92"/>
-        <path d="M30 92h90" stroke="#ffb98a" stroke-width="3"/>
-        <circle cx="62" cy="86" r="7" fill="#ff8f5e"/><circle cx="84" cy="88" r="6" fill="#ff6f6f"/><circle cx="74" cy="82" r="5" fill="#ffd36b"/>
-        <path d="M96 40 70 78M104 44 82 80" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
-      </svg>
-      <div class="sb"><span>16:00</span><span class="r">
-        <svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
-        <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#fff"/></svg>
-        <span class="batt">100</span></span>
-      </div>
-      <button class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-      <div class="greet">今晚和朋友聚餐 · 已订好位</div>
-      <div class="htitle">约饭</div>
-      <div class="hpills">
-        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>今晚 19:00</span>
-        <span class="pill">比目鱼火锅</span>
-        <span class="pill">4 人</span>
-      </div>
-    </div>
-
-    <div class="body">
-      <div class="nextup">
-        <div class="ring"></div>
-        <div class="eb"><span class="dot"></span>接下来 · 还有约 3 小时</div>
-        <h3>19:00 比目鱼火锅（三里屯店）</h3>
-        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg><span class="np">已订位 · 4 人 · 大厅卡座 · 保留 30 分钟</span></p>
-        <div class="nbtns"><button class="pri">导航去餐厅</button><button class="ghost">一键叫车</button></div>
-      </div>
-
-      <div class="sec"><span class="si" style="background:#f0772b"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v7a2 2 0 0 0 2 2 2 2 0 0 0 2-2V3M6 12v9M18 3c-1.6 0-2.5 2-2.5 4.5S16.4 12 18 12v9"/></svg></span>聚会信息</div>
-      <div class="card info">
-        <div class="irow"><span class="k">餐厅</span><span class="v">比目鱼火锅（三里屯店）</span></div>
-        <div class="irow"><span class="k">时间</span><span class="v">今晚 19:00</span></div>
-        <div class="irow"><span class="k">人数 · 座位</span><span class="v">4 人 · 大厅卡座</span></div>
-        <div class="irow"><span class="k">人均</span><span class="v hl">约 ¥138</span></div>
-        <div class="irow"><span class="k">位置</span><span class="v">三里屯太古里 N4-2</span></div>
-        <div class="irow"><span class="k">入座</span><span class="v">报手机尾号 6688</span></div>
-        <div class="srcl"><span>来自 5月13日 收到的订位短信</span><a data-sheet="book">查看原短信 ›</a></div>
-      </div>
-
-      <div class="sec"><span class="si" style="background:#3a7afe"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19a4 4 0 0 0-8 0M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M20 19a3.5 3.5 0 0 0-5-3.2M4 19a3.5 3.5 0 0 1 5-3.2"/></svg></span>一起吃饭<span class="rt">4 人</span></div>
-      <div class="card">
-        <div class="ppl"><span class="av" style="background:#f0772b">我</span><div class="pc"><b>你（发起人）</b><s class="me">从公司出发 · 18:20 提醒你出门</s></div><span class="st" style="background:#fff1e3;color:#e8792b">发起</span></div>
-        <div class="ppl"><span class="av" style="background:#3a7afe">敏</span><div class="pc"><b>小敏</b><s>大学室友 · 不吃辣（你记过）</s></div><span class="st" style="background:#e9f1ff;color:#3a7afe">好友</span></div>
-        <div class="ppl"><span class="av" style="background:#2f9e6a">强</span><div class="pc"><b>阿强</b><s>同事 · 上次一起来过这家</s></div><span class="st" style="background:#e7f5ee;color:#2f9e6a">同事</span></div>
-        <div class="ppl"><span class="av" style="background:#9a7bd8">丽</span><div class="pc"><b>丽丽</b><s>小敏带来的朋友</s></div><span class="st" style="background:#f2edfb;color:#7b5bd0">朋友</span></div>
-      </div>
-
-      <div data-st="0 1">
-      <div class="sec"><span class="si" style="background:#2f9e6a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>到店前</div>
-      <div class="card lst">
-        <div class="li"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14a2 2 0 0 1 2 2v4h-2m0 0H7m-2 0H3v-4a2 2 0 0 1 2-2"/><circle cx="7.5" cy="14.5" r="1"/><circle cx="16.5" cy="14.5" r="1"/></svg></span><div class="lc"><b>18:20 打车出发最合适</b><p>晚高峰从公司打车约 25 分钟，18:45 前到。</p></div><span class="go">叫车 ›</span></div>
-        <div class="li"><span class="ic" style="background:#e8792b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 4l9 6.5M5 9.5V20h14V9.5M9 20v-5h6v5"/></svg></span><div class="lc"><b>停车：太古里 B2 停车场</b><p>消费满 ¥100 免 3 小时，餐厅可盖章。</p></div></div>
-      </div>
-
-      </div>
-      <div class="sec"><span class="si" style="background:#7b5bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span>点餐与买单</div>
-      <div class="card">
-        <div class="li"><span class="ic" style="background:#f0772b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l2.5 5.6 6.1.6-4.6 4 1.4 6-5.4-3.2L6.1 19.4l1.4-6-4.6-4 6.1-.6z"/></svg></span><div class="lc"><b>招牌菜：秘制比目鱼锅底</b><p>你上次收藏的：锅底 + 手打虾滑 + 酥肉。</p></div></div>
-        <div class="li"><span class="ic" style="background:#2f9e6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="17" height="12" rx="2.5"/><path d="M3.5 10h17"/></svg></span><div class="lc"><b>你记过：小敏不吃辣</b><p>点鸳鸯锅更稳妥，辣锅那边给阿强。</p></div><span class="go" data-sheet="menu">点菜参考 ›</span></div>
-        <div class="li"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span><div class="lc"><b>买单后算 AA</b><p>拍一下小票，按 4 人算好每人多少，复制发到群里。</p></div><span class="go" data-sheet="aa">拍小票 ›</span></div>
-      </div>
-      <div style="height:34px"></div>
-    </div>
-    <button class="fab"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z" fill="#f0772b"/><circle cx="18.5" cy="5.5" r="1.4" fill="#ffb98a"/></svg></button>
-    <div class="homebar"></div>
-  </div>
-</div></div>
+<script src="../os5-kit/scenes.js"></script>
+<script src="../os5-kit/cards.js"></script>
 <script>
-var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
-if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,3000);}
+/* 数据：订位短信、你记的笔记（小敏不吃辣、上次收藏的菜）、日历。约定 → 出发 → 到店 → 饭后 */
+window.OS5_PAGE={scene:'dine',title:'约饭',chip:'今晚 19:00 · 4 人',secC:true,
+  hero:{grad:'linear-gradient(180deg,#ffb48a 0%,rgba(233,242,239,0) 93.79%)',illus:'illus-dining.webp'},
+  blocks:{
+    booking:{t:'订位信息',em:'🍲',h:function(){ return OS5L.kv([['餐厅','比目鱼火锅（三里屯店）'],['时间','5月15日 周五 19:00'],['人数','4 人 · 大厅卡座'],['入座','报手机尾号 6688']],'来自订位短信'); }},
+    people:{t:'一起吃饭的人',em:'👥',h:function(){ return OS5L.list([
+        {em:'🙋‍♀️',bg:'#fff1ee',t:'小敏',p:'不吃辣，点鸳鸯锅（你记过）',src:'笔记'},
+        {em:'🙋‍♂️',bg:'#eef4ff',t:'阿杰、文文',p:'阿杰 18:50 到，文文从公司直接过来'}]); }},
+    dishes:{t:'你记过的菜',em:'📝',rt:'上次收藏',h:function(){ return OS5L.list([
+        {em:'🐟',bg:'#fff6ea',t:'招牌比目鱼（半条）',p:'上次 4 个人点半条刚好'},
+        {em:'🥩',bg:'#fff1ee',t:'鲜切牛肉 · 虾滑',p:'小敏说虾滑一定要点'},
+        {em:'🥬',bg:'#eefaf3',t:'菌菇拼盘 · 冻豆腐',p:'清汤锅那边用'}]); }},
+    go:{t:'怎么去',em:'🚕',h:function(){ return OS5L.list([
+        {em:'🚕',bg:'#eef4ff',t:'打车约 25 分钟 · ¥32',p:'18:20 出发，18:45 到；外面在下小雨，直接到门口',btn:{t:'叫车',toast:'已为你叫车，预计 3 分钟到达 🚕'}}]); }},
+    bill:{t:'买单',em:'🧾',h:function(){ return OS5L.list([
+        {em:'🧾',bg:'#f4f5f8',t:'拍小票，按 4 人平摊',p:'识别金额后算好每人多少，复制发到群里',btn:{t:'拍小票'}},
+        {em:'🚕',bg:'#eef4ff',t:'打车回家 · 约 35 分钟',p:'约 ¥48',btn:{t:'叫车',toast:'已为你叫车，预计 3 分钟到达 🚕'}}]); }}
+  },
+  order:[['top','booking','people','dishes'],['top','booking','people'],['top','dishes','people','booking'],['top','bill']]
+};
+window.OS5_ACTIONS=[[/你记过的菜/,'sheet:dishes'],[/拍小票/,'sheet:bill'],[/查看详情/,'sheet:route']];
+window.OS5_SHEETS={
+  dishes:{t:'你记过的菜',h:'<div class="k-card"><div class="k-bul"><i></i><span>招牌比目鱼（半条），上次 4 个人刚好</span></div><div class="k-bul"><i></i><span>鲜切牛肉、虾滑（小敏说一定要点）</span></div><div class="k-bul"><i></i><span>小敏不吃辣 → 点鸳鸯锅</span></div></div><div class="k-note">来自你上次聚餐记的笔记</div>',a:['稍后','好的'],at:['好的','好的']},
+  bill:{t:'拍小票',cam:true,camLabel:'对准小票拍摄，正在识别金额…',h:'<div class="k-card"><span class="t">合计 ¥486 · 4 人</span><div class="k-kv"><span class="k">每人</span><span class="v">¥121.5</span></div></div>',a:['重拍','复制发到群里'],at:['已重新打开相机','已复制：今晚火锅 ¥486，每人 ¥121.5 💬']},
+  route:{t:'公司 → 比目鱼火锅',h:'<div class="k-map"></div><div class="k-card"><p>12.4 公里，打车约 25 分钟。外面在下小雨，车直接停到店门口。</p></div>',a:['换一条','立即叫车'],at:['已为你换一条路线','已为你叫车，预计 3 分钟到达 🚕']}
+};
+window.OS5_CHAT={'小敏有什么忌口':'你记过小敏不吃辣，点鸳鸯锅；她说虾滑一定要点。','买单怎么算 AA':'拍一下小票，我按 4 人平摊算好，复制发到群里就行。'};
 </script>
-<script>
-/* 阶段：约定 → 出发 → 到店 → 饭后 */
-(function(){
-  function EB(t){return '<span class="dot"></span>'+t;}
-  function BT(a,b){return '<button class="pri">'+a+'</button><button class="ghost">'+b+'</button>';}
-  window.OS5_ACC='#f0772b'; window.OS5_STAGE_BASE=0; window.OS5_DEST='比目鱼火锅（三里屯店）';
-  window.OS5_STAGES=[
-    {k:'约定',t:'16:00',cls:{'.nextup':''},
-     set:{'.greet':'今晚和朋友聚餐 · 已订好位','.nextup .eb':EB('接下来 · 还有约 3 小时'),'.nextup h3':'19:00 比目鱼火锅（三里屯店）','.nextup .np':'已订位 · 4 人 · 大厅卡座 · 保留 15 分钟','.nextup .nbtns':BT('查看订位','18:20 提醒出发'),'.ppl .me':'从公司出发 · 18:20 提醒你出门'}},
-    {k:'出发',t:'18:20',cls:{'.nextup':'c-blue'},
-     set:{'.greet':'该出发了 · 外面小雨','.nextup .eb':EB('该出发了 · 打车约 25 分钟'),'.nextup h3':'现在出发，18:45 到店','.nextup .np':'外面小雨 · 打车直接到太古里北区门口','.nextup .nbtns':BT('一键叫车','导航去餐厅'),'.ppl .me':'在路上 · 按路况 18:45 到'}},
-    {k:'到店',t:'18:50',cls:{'.nextup':'c-green'},
-     set:{'.greet':'到店了 · 报手机尾号入座','.nextup .eb':EB('已到店 · 18:50'),'.nextup h3':'报手机尾号 6688 入座','.nextup .np':'大厅卡座 · 4 人 · 订位短信里的信息','.nextup .nbtns':BT('点菜参考','查看订位'),'.ppl .me':'已到店 · 18:50'}},
-    {k:'饭后',t:'20:40',cls:{'.nextup':'c-purple'},
-     set:{'.greet':'吃完啦 · 算个 AA','.nextup .eb':EB('吃完啦 · 20:40'),'.nextup h3':'拍一下小票，算好 AA','.nextup .np':'4 人平摊 · 算好后复制到群里','.nextup .nbtns':BT('拍小票','打车回家'),'.ppl .me':'吃完了 · 20:40'}}
-  ];
-  window.OS5_SHEETS={
-    book:{t:'订位信息',h:'<div class="k-card"><p>【比目鱼火锅】您已成功预订 5月15日（周五）19:00 三里屯店 大厅卡座 4 位，到店请报预订手机尾号 6688，座位保留 15 分钟。</p></div><div class="k-note">5月13日 收到的订位短信 · 只在本机识别</div>',a:['','知道了']},
-    menu:{t:'点菜参考',h:'<div class="k-card"><span class="t">你上次收藏的</span><div class="k-bul"><i></i><span>秘制比目鱼锅底（选鸳鸯锅）</span></div><div class="k-bul"><i></i><span>手打虾滑、现炸酥肉</span></div><div class="k-bul"><i></i><span>小敏不吃辣，清汤那边下她爱吃的菌菇</span></div></div><div class="k-note">来自你的收藏和「朋友喜好」笔记</div>',a:['','好的']},
-    aa:{t:'拍小票 · 算 AA',cam:true,camLabel:'对准小票，正在识别金额…',
-      h:'<div class="k-card"><div class="k-kv"><span class="k">合计</span><span class="v">¥548</span></div><div class="k-kv"><span class="k">人数</span><span class="v">4 人</span></div><div class="k-kv"><span class="k">每人</span><span class="v">¥137</span></div></div><div class="k-note">复制后可以直接粘贴到群里</div>',
-      a:['重拍','复制到剪贴板'],at:['已重新打开相机','已复制：今晚火锅 ¥548，每人 ¥137 ✓']}
-  };
-  window.OS5_ACTIONS=[[/查看订位/,'sheet:book'],[/点菜参考/,'sheet:menu'],[/拍小票/,'sheet:aa'],[/18:20 提醒出发/,'已设置 18:20 出发提醒 🔔'],[/打车回家/,'已为你叫车回家，预计 3 分钟到 🚕']];
-  window.OS5_CHAT={'小敏有什么忌口':'你记过：小敏不吃辣。点鸳鸯锅就好，清汤那边下菌菇。','买单怎么算 AA':'吃完拍一下小票，我按 4 人算好每人多少，复制发到群里就行。'};
-})();
-</script>
+<script src="../os5-kit/landing.js"></script>
 <script src="../os5-kit/interaction.js"></script>
 </body>
 </html>

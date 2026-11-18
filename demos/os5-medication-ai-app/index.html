@@ -2,201 +2,39 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>健康用药 AI App · 落地页（OS5 高保真）</title>
-<style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  s{text-decoration:none}
-  :root{--ink:#111;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#f3a93c;--green:#1faa6a;--line:#eee}
-  html,body{height:100%}
-  body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:radial-gradient(1200px 760px at 50% -12%,#fcfdff 0%,#eceff4 58%,#e2e7ef 100%);min-height:100%;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 14px 40px}
-  .cap{color:#3a4150;font-size:13px;font-weight:600;text-align:center}
-  .cap span{display:block;color:#98a1b2;font-size:11.5px;font-weight:400;margin-top:3px}
-  .device{width:390px;height:844px;border-radius:54px;background:#0a0c10;padding:11px;position:relative;box-shadow:0 36px 90px rgba(0,0,0,.55),inset 0 0 0 2px #2a303c;flex:0 0 auto}
-  .screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:var(--page)}
-  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#0a0c10;border-radius:0 0 18px 18px;z-index:60}
-  .app{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}
-  .app::-webkit-scrollbar{display:none}
-
-  .hero{position:relative;background:linear-gradient(168deg,#a7ead0 0%,#bfe9d6 30%,#d7eee0 62%,#e9f1ec 86%,var(--page) 100%);padding:0 0 12px;overflow:hidden}
-  .ill{position:absolute;right:12px;top:36px;width:138px;height:138px;pointer-events:none}
-  .sb{position:relative;display:flex;justify-content:space-between;align-items:center;padding:15px 24px 4px;font-size:14px;font-weight:650;color:#13503a}
-  .sb .r{display:flex;align-items:center;gap:6px}
-  .batt{font-size:10.5px;font-weight:700;background:#13503a;color:#fff;border-radius:4px;padding:1px 5px}
-  .back{position:relative;margin:4px 0 0 16px;width:34px;height:34px;border:none;background:transparent;cursor:pointer;color:#13503a}
-  .greet{position:relative;font-size:14px;color:#2f7757;font-weight:500;padding:2px 24px 0}
-  .htitle{position:relative;font-size:32px;font-weight:700;color:#0f4030;letter-spacing:-.5px;padding:3px 24px 0}
-  .hpills{position:relative;display:flex;gap:8px;margin:13px 0 0 24px;flex-wrap:wrap}
-  .pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.75);border-radius:999px;padding:7px 12px;font-size:12.5px;color:#2f7757;font-weight:500}
-
-  .body{padding:0 16px 0;position:relative;margin-top:2px}
-  .sec{display:flex;align-items:center;gap:8px;margin:22px 2px 11px;font-size:15px;font-weight:650;color:#17171b}
-  .sec .si{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff}
-  .sec .si svg{width:14px;height:14px}
-  .sec .rt{margin-left:auto;font-size:12.5px;color:var(--t4);font-weight:400}
-  .card{background:#fff;border-radius:20px}
-
-  .nextup{position:relative;background:linear-gradient(135deg,#1faa6a 0%,#19a79a 55%,#2b8fd6 100%);border-radius:24px;padding:17px 18px;color:#fff;overflow:hidden;box-shadow:0 12px 30px rgba(31,170,106,.28);margin-top:16px}
-  .nextup .eb{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;opacity:.95}
-  .nextup .eb .dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3)}
-  .nextup h3{font-size:21px;font-weight:700;margin:11px 0 4px;letter-spacing:-.3px}
-  .nextup p{font-size:13px;opacity:.95;display:flex;align-items:center;gap:6px}
-  .nextup .nbtns{display:flex;gap:9px;margin-top:15px}
-  .nextup .nbtns button{border:none;border-radius:12px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
-  .nextup .nbtns .pri{background:#fff;color:#0f8a5a}
-  .nextup{transition:background .4s}
-  .nextup.c-night{background:linear-gradient(135deg,#3b4fb8 0%,#5b5bd6 55%,#7b5bff 100%);box-shadow:0 12px 30px rgba(70,80,200,.3)}
-  .nextup.c-rose{background:linear-gradient(135deg,#e2553f 0%,#e8577a 55%,#c45bd8 100%);box-shadow:0 12px 30px rgba(220,80,90,.3)}
-  .nextup.c-night .nbtns .pri{color:#3b4fb8}.nextup.c-rose .nbtns .pri{color:#d24560}
-  .tli{cursor:pointer}
-  .nextup .nbtns .ghost{background:rgba(255,255,255,.2);color:#fff}
-  .nextup .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid rgba(255,255,255,.12)}
-
-  .tl{padding:2px 2px 0}
-  .tli{display:flex;gap:12px}
-  .tli .tm{width:46px;flex-shrink:0;text-align:right;padding-top:14px}
-  .tli .tm b{font-size:13px;font-weight:650;color:#1b1b1b;display:block}
-  .tli .tm s{font-size:10.5px;color:#b0b0b0;font-style:normal}
-  .tli .rail{position:relative;width:14px;flex-shrink:0;display:flex;justify-content:center}
-  .tli .rail i{width:12px;height:12px;border-radius:50%;background:#fff;margin-top:16px;z-index:2;box-shadow:0 0 0 2.5px currentColor}
-  .tli.ok .rail i{background:currentColor}
-  .tli .rail:before{content:"";position:absolute;top:18px;bottom:-6px;left:50%;width:2px;background:#e8e8e8;transform:translateX(-50%)}
-  .tli:last-child .rail:before{display:none}
-  .tli .tc{flex:1;min-width:0;background:#fff;border-radius:16px;padding:12px 15px;margin-bottom:11px}
-  .tli .tc b{font-size:15px;font-weight:600;color:#1b1b1b;display:flex;align-items:center;gap:7px}
-  .tli .tc .tag{font-size:10.5px;font-weight:600;border-radius:6px;padding:1px 7px}
-  .tli .tc p{font-size:12.5px;color:var(--t3);margin-top:6px;line-height:1.5}
-
-  .med{display:flex;align-items:center;gap:12px;padding:13px 16px}
-  .med+.med{border-top:1px solid var(--line)}
-  .med .pic{width:40px;height:40px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}
-  .med .mc{flex:1;min-width:0}
-  .med .mc b{font-size:14.5px;font-weight:600;color:#1b1b1b}
-  .med .mc p{font-size:12px;color:var(--t3);margin-top:3px}
-  .med .mc .bar{height:4px;border-radius:3px;background:#eee;margin-top:7px;overflow:hidden}
-  .med .mc .bar i{display:block;height:100%;border-radius:3px}
-  .med .mr{text-align:right;flex-shrink:0}
-  .med .mr b{font-size:13px;font-weight:650}
-  .med .mr button{display:block;margin-top:6px;border:none;border-radius:9px;padding:5px 11px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;background:#e9f1ff;color:var(--blue)}
-  .med .mr button.warn{background:#fcece9;color:#d64531}
-
-  .sug{display:flex;gap:12px;padding:14px 16px;align-items:flex-start}
-  .sug+.sug{border-top:1px solid var(--line)}
-  .sug .ic{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}
-  .sug .sc b{font-size:14px;font-weight:600;color:#1b1b1b;display:block}
-  .sug .sc p{font-size:12.5px;color:var(--t3);margin-top:4px;line-height:1.5}
-
-  .fab{position:absolute;right:18px;bottom:22px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;z-index:40;background:radial-gradient(circle at 35% 30%,#fff,#e6faf0);box-shadow:0 8px 24px rgba(31,170,106,.3),0 1px 4px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center}
-  .fab svg{width:28px;height:28px}
-  .homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:120px;height:4.5px;border-radius:5px;background:rgba(0,0,0,.22);z-index:45}
-  @media(max-width:430px){body{padding:0;gap:0;background:#000}.cap{display:none}.device{width:100vw;height:100vh;border-radius:0;padding:0;box-shadow:none}.screen{border-radius:0}.notch{display:none}}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>健康用药 · 场景 AI App 落地页（OS5）</title>
+<link rel="stylesheet" href="../os5-kit/os5.css">
 </head>
 <body>
-<div class="cap">健康用药 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>早上 → 中午 → 晚上 → 复诊前 · 打卡来自妈妈的手机（家庭账号），血压来自米家血压计</span></div>
-<div class="device"><div class="screen">
-  <div class="notch"></div>
-  <div class="app">
-    <div class="hero">
-      <svg class="ill" viewBox="0 0 150 150" fill="none">
-        <rect x="30" y="56" width="90" height="40" rx="20" fill="#ffffff" fill-opacity=".92" transform="rotate(-32 75 76)"/>
-        <path d="M58 44 92 78" stroke="#19b37a" stroke-width="3" opacity=".5"/>
-        <g transform="rotate(-32 75 76)"><rect x="30" y="56" width="45" height="40" rx="20" fill="#5bd1a0"/><circle cx="52" cy="76" r="4" fill="#fff" opacity=".7"/><circle cx="62" cy="70" r="3" fill="#fff" opacity=".6"/></g>
-        <path d="M24 112c6 0 6-8 12-8s6 8 12 8 6-8 12-8 6 8 12 8 6-8 12-8 6 8 12 8" stroke="#2b8fd6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
-      </svg>
-      <div class="sb"><span>11:50</span><span class="r">
-        <svg width="17" height="11" viewBox="0 0 17 11" fill="#13503a"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
-        <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#13503a" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#13503a"/></svg>
-        <span class="batt">100</span></span>
-      </div>
-      <button class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-      <div class="greet">妈妈的用药管理 · 今日</div>
-      <div class="htitle">健康用药</div>
-      <div class="hpills">
-        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="p1">今日 4 次</span></span>
-        <span class="pill"><span class="p2">已服 1 次</span></span>
-        <span class="pill" style="color:#0f8a5a"><span class="p3">下次 12:30</span></span>
-      </div>
-    </div>
-
-    <div class="body">
-      <div class="nextup">
-        <div class="ring"></div>
-        <div class="eb"><span class="dot"></span>下一次服药 · 还有约 40 分钟</div>
-        <h3>12:30 午餐后服药</h3>
-        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 4 14a5 5 0 0 1 7-7l6.5 6.5a5 5 0 0 1-7 7ZM7.5 7.5l6 6"/></svg><span class="np">降压药 1 片 + 降糖药 1 片 · 饭后 30 分钟</span></p>
-        <div class="nbtns"><button class="pri">标记已服</button><button class="ghost">到点提醒妈妈</button></div>
-      </div>
-
-      <div class="sec"><span class="si" style="background:#1faa6a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>今日用药<span class="rt">按医嘱时间提醒</span></div>
-      <div class="tl">
-        <div class="tli"><div class="tm"><b>08:00</b></div><div class="rail" style="color:#1faa6a"><i></i></div><div class="tc"><b>早餐后</b><p>苯磺酸氨氯地平 1 片（降压）· 妈妈 08:05 打卡。</p></div></div>
-        <div class="tli"><div class="tm"><b>12:30</b></div><div class="rail" style="color:#19a79a"><i></i></div><div class="tc"><b>午餐后</b><p>苯磺酸氨氯地平 1 片 + 二甲双胍 1 片（降糖）。</p></div></div>
-        <div class="tli"><div class="tm"><b>18:00</b></div><div class="rail" style="color:#f3a93c"><i></i></div><div class="tc"><b>晚餐后</b><p>阿托伐他汀 1 片（降脂）。</p></div></div>
-        <div class="tli"><div class="tm"><b>21:00</b></div><div class="rail" style="color:#5b5bd6"><i></i></div><div class="tc"><b>睡前</b><p>钙片 1 片 + 维生素 D。</p></div></div>
-      </div>
-
-      <div class="sec"><span class="si" style="background:#3a7afe"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 4 14a5 5 0 0 1 7-7l6.5 6.5a5 5 0 0 1-7 7ZM7.5 7.5l6 6"/></svg></span>药品库存<span class="rt">自动盯库存</span></div>
-      <div class="card">
-        <div class="med"><span class="pic" style="background:#ef5a4c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 4 14a5 5 0 0 1 7-7l6.5 6.5a5 5 0 0 1-7 7ZM7.5 7.5l6 6"/></svg></span><div class="mc"><b>苯磺酸氨氯地平（降压）</b><p>每日 2 片</p><div class="bar"><i style="width:18%;background:#ef5a4c"></i></div></div><div class="mr"><b style="color:#d64531">剩 6 片 ≈ 3 天</b><button class="warn">补药</button></div></div>
-        <div class="med"><span class="pic" style="background:#3a7afe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 4 14a5 5 0 0 1 7-7l6.5 6.5a5 5 0 0 1-7 7ZM7.5 7.5l6 6"/></svg></span><div class="mc"><b>二甲双胍（降糖）</b><p>每日 1 片</p><div class="bar"><i style="width:66%;background:#3a7afe"></i></div></div><div class="mr"><b>剩 20 片</b><button>记录</button></div></div>
-        <div class="med"><span class="pic" style="background:#f3a93c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 4 14a5 5 0 0 1 7-7l6.5 6.5a5 5 0 0 1-7 7ZM7.5 7.5l6 6"/></svg></span><div class="mc"><b>阿托伐他汀（降脂）</b><p>每日 1 片</p><div class="bar"><i style="width:50%;background:#f3a93c"></i></div></div><div class="mr"><b>剩 15 片</b><button>记录</button></div></div>
-      </div>
-
-      <div class="sec"><span class="si" style="background:#19a79a"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span>健康提醒</div>
-      <div class="card">
-        <div class="sug"><span class="ic" style="background:#ef5a4c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h4l2-6 4 12 2-6h4"/></svg></span><div class="sc"><b class="bp">今早血压 135/85，略偏高</b><p class="bpp">米家血压计 08:15 测量 · 已记入健康档案，连续偏高 3 天会提醒复诊。</p></div></div>
-        <div class="sug"><span class="ic" style="background:#3a7afe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4M9 14l2 2 4-4"/></svg></span><div class="sc"><b class="fz">下周三 心内科复诊</b><p class="fzp">协和医院 · 已挂好号（来自挂号短信），复诊前把这段时间的血压和用药记录整理好。</p></div></div>
-        <div class="sug"><span class="ic" style="background:#1faa6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19a4 4 0 0 0-8 0M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/></svg></span><div class="sc"><b>妈妈的打卡会同步到你这</b><p>妈妈在她手机上点「已服」，你这里就能看到；漏服 30 分钟会提醒你。</p></div></div>
-      </div>
-      <div style="height:34px"></div>
-    </div>
-    <button class="fab"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z" fill="#1faa6a"/><circle cx="18.5" cy="5.5" r="1.4" fill="#7fd6b0"/></svg></button>
-    <div class="homebar"></div>
-  </div>
-</div></div>
+<script src="../os5-kit/scenes.js"></script>
+<script src="../os5-kit/cards.js"></script>
 <script>
-var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
-if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,3000);}
+/* 数据：你拍的处方、妈妈的用药打卡、米家血压计、购药订单、复诊挂号短信 */
+var DOSE=[{d:'5月15日 · 周五',rows:[['08:00','💊','氨氯地平 1 片 · 早餐后'],['12:30','💊','氨氯地平 + 二甲双胍 · 午饭后'],['18:00','💊','二甲双胍 1 片 · 晚饭后'],['21:00','💊','钙片 + 维生素 D · 睡前']]}];
+var DST={0:{'0-0':'now'},1:{'0-0':'done','0-1':'now'},2:{'0-0':'done','0-1':'done','0-2':'done','0-3':'now'}};
+window.OS5_PAGE={scene:'health',title:'健康用药',chip:'妈妈 · 每天 4 次',chipAt:{3:'5月20日 周三 · 心内科复诊'},secC:true,
+  hero:{grad:'linear-gradient(180deg,#9ee0b4 0%,rgba(233,242,239,0) 93.79%)',illus:'illus-medication.webp'},
+  blocks:{
+    dose:{t:'今天的用药',em:'💊',rt:'妈妈打卡',h:function(i){ return OS5L.plan(DOSE,DST[i]); }},
+    bp:{t:'血压记录',em:'❤️',rt:'米家血压计',h:function(){
+      var d=[[128,82],[134,86],[126,80],[131,84],[125,79],[129,83],[127,81]], w=['五','六','日','一','二','三','四'];
+      return '<div class="card"><div style="display:flex;align-items:flex-end;justify-content:space-between;height:96px;padding:0 4px">'+d.map(function(x,j){ var h=(x[0]-100)*2.4;
+        return '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:rgba(0,0,0,.4)"><span style="font-size:10.5px;color:rgba(0,0,0,.6)">'+x[0]+'</span><i style="width:16px;height:'+h+'px;border-radius:8px;background:'+(x[0]>=133?'#f5533d':'#48bd79')+';opacity:.85"></i>周'+w[j]+'</div>'; }).join('')
+        +'</div><div class="hr"></div><div class="kv" style="padding:2px 0"><span class="k">近 7 天平均</span><span class="v">129 / 82 mmHg · 平稳</span></div></div>'; }},
+    stock:{t:'药品余量',em:'📦',rt:'按打卡自动扣减',h:function(i){ return OS5L.list([
+        {em:'💊',bg:'#fff1ee',t:'氨氯地平片',p:i>=1?'剩 6 片 · 约 3 天':'剩 8 片 · 约 4 天',btn:{t:'补药',toast:'已加入购物车，确认后下单 💊'}},
+        {em:'💊',bg:'#f4f5f8',t:'二甲双胍缓释片',p:'剩 22 片 · 约 11 天'},
+        {em:'🦴',bg:'#f4f5f8',t:'钙片 + 维生素 D',p:'剩 40 片 · 够用'}]); }},
+    visit:{t:'复诊',em:'🏥',h:function(){ return OS5L.kv([['时间','5月20日 周三 09:00'],['科室','协和医院 · 心内科'],['要带','近 3 个月血压和用药记录（已整理）']],'来自挂号短信'); }}
+  },
+  order:[['top','dose','bp','stock'],['top','stock','dose'],['top','dose','bp'],['top','visit','bp','stock']]
+};
+window.OS5_ACTIONS=[[/查看记录/,'sheet:rec'],[/提醒妈妈/,'已提醒妈妈，她的手机会响铃 🔔']];
+window.OS5_SHEETS={rec:{t:'近 3 个月记录',h:'<div class="k-card"><div class="k-kv"><span class="k">血压均值</span><span class="v">129 / 82 mmHg</span></div><div class="k-kv"><span class="k">偏高天数</span><span class="v">6 天（多在周末）</span></div><div class="k-kv"><span class="k">按时服药</span><span class="v">96%</span></div></div><div class="k-note">来自米家血压计和妈妈的用药打卡</div>',a:['分享给医生','全屏查看'],at:['已复制分享链接 ✓','已全屏显示']}};
+window.OS5_CHAT={'妈妈今天按时吃药了吗':'今天 08:05、12:34、18:10 都按时打卡了，还剩 21:00 的钙片和维生素 D。','血压偏高要注意什么':'近 7 天平均 129/82，比较平稳。周末偶尔偏高，提醒妈妈少吃咸、按时吃药。'};
 </script>
-<script>
-/* 阶段：早上 → 中午 → 晚上 → 复诊前一晚 */
-(function(){
-  function EB(t){return '<span class="dot"></span>'+t;}
-  function BT(a,b){return '<button class="pri">'+a+'</button><button class="ghost">'+b+'</button>';}
-  var T1='苯磺酸氨氯地平 1 片（降压）· 妈妈 08:05 打卡。', T2='苯磺酸氨氯地平 1 片 + 二甲双胍 1 片（降糖）· 妈妈 12:34 打卡。', T3='阿托伐他汀 1 片（降脂）· 妈妈 18:10 打卡。';
-  window.OS5_ACC='#19a79a'; window.OS5_STAGE_BASE=1; window.OS5_DONE='已服'; window.OS5_NOW='待服';
-  window.OS5_STAGES=[
-    {k:'早上',t:'07:50',cls:{'.nextup':''},
-     set:{'.greet':'妈妈的用药管理 · 今天','.p1':'今日 4 次','.p2':'已服 0 次','.p3':'下次 08:00',
-      '.nextup .eb':EB('下一次服药 · 还有 10 分钟'),'.nextup h3':'08:00 早餐后服药','.nextup .np':'苯磺酸氨氯地平 1 片 · 饭后服用','.nextup .nbtns':BT('标记已服','到点提醒妈妈'),
-      '.tl .tli:nth-child(1) .tc p':'苯磺酸氨氯地平 1 片（降压）· 早餐后服用。',
-      '.bp':'早上量个血压','.bpp':'米家血压计测完自动记录，起床后、吃药前测更准。'},
-     tl:['now','','','']},
-    {k:'中午',t:'11:50',cls:{'.nextup':''},
-     set:{'.greet':'妈妈的用药管理 · 今天','.p2':'已服 1 次','.p3':'下次 12:30','.nextup .eb':EB('下一次服药 · 还有约 40 分钟'),'.nextup h3':'12:30 午餐后服药','.nextup .nbtns':BT('标记已服','到点提醒妈妈'),'.tl .tli:nth-child(1) .tc p':T1},
-     tl:['done','now','','']},
-    {k:'晚上',t:'20:40',cls:{'.nextup':'c-night'},
-     set:{'.greet':'妈妈的用药管理 · 今天','.p2':'已服 3 次','.p3':'下次 21:00',
-      '.nextup .eb':EB('下一次服药 · 还有 20 分钟'),'.nextup h3':'21:00 睡前服药','.nextup .np':'钙片 1 片 + 维生素 D 1 粒','.nextup .nbtns':BT('标记已服','到点提醒妈妈'),
-      '.tl .tli:nth-child(1) .tc p':T1,'.tl .tli:nth-child(2) .tc p':T2,'.tl .tli:nth-child(3) .tc p':T3},
-     tl:['done','done','done','now']},
-    {k:'复诊前',t:'19:30',cls:{'.nextup':'c-rose'},
-     set:{'.greet':'明天陪妈妈复诊','.p1':'明天 09:00 复诊','.p2':'已服 3 次','.p3':'下次 21:00',
-      '.nextup .eb':EB('明天 09:00 · 心内科复诊'),'.nextup h3':'陪妈妈去协和医院','.nextup .np':'近 3 个月血压和用药记录已整理好','.nextup .nbtns':BT('查看记录','出发提醒'),
-      '.tl .tli:nth-child(1) .tc p':T1,'.tl .tli:nth-child(2) .tc p':T2,'.tl .tli:nth-child(3) .tc p':T3,
-      '.bp':'这周血压平均 132/84','.bpp':'比上周略降 · 来自米家血压计，复诊时可以给医生看趋势。',
-      '.fz':'明天 09:00 心内科复诊','.fzp':'协和医院 · 来自挂号短信。近 3 个月的血压和用药记录已整理成一页。',
-      '.med:nth-child(1) .mr':'<b>剩 26 片</b><button>记录</button>','.med:nth-child(1) .bar':'<i style="width:80%;background:#2f9e6a"></i>'},
-     tl:['done','done','done','now']}
-  ];
-  window.OS5_SHEETS={
-    record:{t:'近 3 个月 · 血压和用药',h:'<div class="k-card"><div class="k-kv"><span class="k">血压平均</span><span class="v">2 月 138/88 → 3 月 135/86 → 4 月 132/84</span></div><div class="k-kv"><span class="k">按时服药</span><span class="v">96%（漏服 4 次，都在周末）</span></div><div class="k-kv"><span class="k">在吃的药</span><span class="v">氨氯地平 · 二甲双胍 · 阿托伐他汀</span></div></div><div class="k-note">来自米家血压计记录和妈妈的打卡</div>',a:['分享给家人','全屏给医生看'],at:['已发送给家人 💬','已全屏显示，可以直接给医生看']}
-  };
-  window.OS5_ACTIONS=[[/查看记录/,'sheet:record'],[/到点提醒妈妈/,'已设置：到点妈妈的手机会响铃提醒 🔔'],[/出发提醒/,'已设置明早 08:10 出发提醒 🔔'],[/标记已服/,'已记录本次服药 ✓（妈妈那边也会显示）']];
-  window.OS5_CHAT={'妈妈今天按时吃药了吗':'今天妈妈 08:05、12:34、18:10 都打卡了，还剩 21:00 睡前那次。','血压偏高要注意什么':'今早 135/85 略偏高。少吃咸、按时吃药，连续 3 天偏高我会提醒你带妈妈复诊。'};
-})();
-</script>
+<script src="../os5-kit/landing.js"></script>
 <script src="../os5-kit/interaction.js"></script>
 </body>
 </html>

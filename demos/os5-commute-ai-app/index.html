@@ -2,194 +2,49 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>上下班通勤 AI App · 落地页（OS5 高保真）</title>
-<style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  s{text-decoration:none}
-  :root{--ink:#111;--t2:#595959;--t3:rgba(0,0,0,.6);--t4:rgba(0,0,0,.4);--page:#f3f3f3;--blue:#3a7afe;--red:#ef5a4c;--amber:#f3a93c;--green:#2f9e6a;--line:#eee}
-  html,body{height:100%}
-  body{font-family:"MiSans","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
-    background:radial-gradient(1200px 760px at 50% -12%,#fcfdff 0%,#eceff4 58%,#e2e7ef 100%);min-height:100%;
-    -webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 14px 40px}
-  .cap{color:#3a4150;font-size:13px;font-weight:600;text-align:center}
-  .cap span{display:block;color:#98a1b2;font-size:11.5px;font-weight:400;margin-top:3px}
-  .device{width:390px;height:844px;border-radius:54px;background:#0a0c10;padding:11px;position:relative;
-    box-shadow:0 36px 90px rgba(0,0,0,.55),inset 0 0 0 2px #2a303c;flex:0 0 auto}
-  .screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:var(--page)}
-  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#0a0c10;border-radius:0 0 18px 18px;z-index:60}
-  .app{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}
-  .app::-webkit-scrollbar{display:none}
-
-  .hero{position:relative;background:linear-gradient(168deg,#ff9e7a 0%,#f98fa6 28%,#9a8ad8 62%,#c3bfe6 86%,var(--page) 100%);padding:0 0 12px;overflow:hidden}
-  .hero{transition:background .5s}
-  .hero.am{background:linear-gradient(168deg,#7cc4ff 0%,#9cbcff 30%,#bfcdf6 62%,#dde2f3 86%,var(--page) 100%)}
-  .city{position:absolute;right:0;bottom:30px;width:230px;height:120px;pointer-events:none;opacity:.95}
-  .sb{position:relative;display:flex;justify-content:space-between;align-items:center;padding:15px 24px 4px;font-size:14px;font-weight:650;color:#fff}
-  .sb .r{display:flex;align-items:center;gap:6px}
-  .batt{font-size:10.5px;font-weight:700;background:#fff;color:#1b1b1b;border-radius:4px;padding:1px 5px}
-  .back{position:relative;margin:4px 0 0 16px;width:34px;height:34px;border:none;background:transparent;cursor:pointer;color:#fff}
-  .greet{position:relative;font-size:14px;color:rgba(255,255,255,.9);font-weight:500;padding:2px 24px 0}
-  .htitle{position:relative;font-size:32px;font-weight:700;color:#fff;letter-spacing:-.5px;padding:3px 24px 0;text-shadow:0 1px 10px rgba(0,0,0,.12)}
-  .hpills{position:relative;display:flex;gap:8px;margin:13px 0 0 24px}
-  .pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.26);border-radius:999px;padding:7px 12px;font-size:12.5px;color:#fff;font-weight:500;backdrop-filter:blur(4px)}
-
-  .body{padding:0 16px 0;position:relative;margin-top:2px}
-  .sec{display:flex;align-items:center;gap:8px;margin:22px 2px 11px;font-size:15px;font-weight:650;color:#17171b}
-  .sec .si{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff}
-  .sec .si svg{width:14px;height:14px}
-  .sec .rt{margin-left:auto;font-size:12.5px;color:var(--t4);font-weight:400}
-  .card{background:#fff;border-radius:20px}
-
-  .nextup{position:relative;background:linear-gradient(135deg,#6a5bff 0%,#7b5bff 50%,#9a5bff 100%);border-radius:24px;padding:17px 18px;color:#fff;overflow:hidden;box-shadow:0 12px 30px rgba(110,90,230,.28);margin-top:16px}
-  .nextup .eb{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;opacity:.92}
-  .nextup .eb .dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3)}
-  .nextup h3{font-size:21px;font-weight:700;margin:11px 0 4px;letter-spacing:-.3px}
-  .nextup p{font-size:13px;opacity:.9;display:flex;align-items:center;gap:6px}
-  .nextup .nbtns{display:flex;gap:9px;margin-top:15px}
-  .nextup .nbtns button{border:none;border-radius:12px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
-  .nextup .nbtns .pri{background:#fff;color:#6a4ee0}
-  .nextup .nbtns .ghost{background:rgba(255,255,255,.2);color:#fff}
-  .nextup .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid rgba(255,255,255,.12)}
-
-  .route{display:flex;align-items:center;gap:13px;padding:14px 16px;position:relative;cursor:pointer}
-  .route+.route{border-top:1px solid var(--line)}
-  .route .ri{width:40px;height:40px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}
-  .route .rc{flex:1;min-width:0}
-  .route .rc b{font-size:15px;font-weight:600;color:#1b1b1b;display:flex;align-items:center;gap:7px}
-  .route .rc .bg{font-size:10.5px;font-weight:600;border-radius:5px;padding:1px 6px}
-  .route .rc p{font-size:12px;color:var(--t3);margin-top:4px}
-  .route .rr{text-align:right;flex-shrink:0}
-  .route .rr b{font-size:16px;font-weight:650;color:#1b1b1b}
-  .route .rr s{display:block;font-style:normal;font-size:11.5px;color:var(--t4);margin-top:3px}
-  .route.best{background:linear-gradient(90deg,#f3f0ff,#fff)}
-  .route.best:before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:3px;background:#7b5bff}
-
-  .lst{padding:2px 0}
-  .li{display:flex;gap:12px;padding:13px 16px;align-items:flex-start}
-  .li+.li{border-top:1px solid var(--line)}
-  .li .ic{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}
-  .li .lc{flex:1;min-width:0}
-  .li .lc b{font-size:14.5px;font-weight:600;color:#1b1b1b;display:block}
-  .li .lc p{font-size:12.5px;color:var(--t3);margin-top:4px;line-height:1.5}
-  .li .go{align-self:center;font-size:12.5px;font-weight:600;color:var(--blue);flex-shrink:0}
-
-  .arrive{padding:16px;display:flex;gap:14px;align-items:center}
-  .arrive .big{font-size:30px;font-weight:700;color:#1b1b1b;letter-spacing:-.5px}
-  .arrive .big s{font-style:normal;font-size:13px;font-weight:500;color:var(--t4);display:block;margin-top:2px}
-  .arrive .av{flex:1;border-left:1px solid var(--line);padding-left:14px}
-  .arrive .av p{font-size:13px;color:#333;line-height:1.7;display:flex;align-items:center;gap:7px}
-  .arrive .av p i{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-
-  .fab{position:absolute;right:18px;bottom:22px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;z-index:40;
-    background:radial-gradient(circle at 35% 30%,#fff,#eef2ff);box-shadow:0 8px 24px rgba(60,110,230,.32),0 1px 4px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center}
-  .fab svg{width:28px;height:28px}
-  .homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:120px;height:4.5px;border-radius:5px;background:rgba(0,0,0,.22);z-index:45}
-  @media(max-width:430px){body{padding:0;gap:0;background:#000}.cap{display:none}.device{width:100vw;height:100vh;border-radius:0;padding:0;box-shadow:none}.screen{border-radius:0}.notch{display:none}}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>上下班通勤 · 场景 AI App 落地页（OS5）</title>
+<link rel="stylesheet" href="../os5-kit/os5.css">
 </head>
 <body>
-<div class="cap">上下班通勤 AI App · 落地页（OS5 落地页设计体系 · 完全高保真）<span>同一个 App 早上是「上班通勤」，晚上是「下班回家」· 方案 / 路上提醒 / 顺路 / 到家</span></div>
-<div class="device"><div class="screen">
-  <div class="notch"></div>
-  <div class="app">
-    <div class="hero">
-      <svg class="city" viewBox="0 0 230 120" fill="none">
-        <circle cx="52" cy="40" r="26" fill="#ffd98a" opacity=".9"/>
-        <g fill="#6a5a9e" opacity=".55"><rect x="8" y="60" width="26" height="60" rx="2"/><rect x="40" y="44" width="30" height="76" rx="2"/><rect x="76" y="70" width="22" height="50" rx="2"/><rect x="104" y="36" width="34" height="84" rx="2"/><rect x="144" y="58" width="26" height="62" rx="2"/><rect x="176" y="48" width="30" height="72" rx="2"/></g>
-        <g fill="#fff" opacity=".65"><rect x="47" y="52" width="4" height="5"/><rect x="55" y="52" width="4" height="5"/><rect x="47" y="62" width="4" height="5"/><rect x="113" y="46" width="5" height="6"/><rect x="123" y="46" width="5" height="6"/><rect x="113" y="58" width="5" height="6"/><rect x="183" y="58" width="4" height="5"/><rect x="193" y="58" width="4" height="5"/></g>
-        <rect x="0" y="108" width="230" height="12" fill="#5a4b8a" opacity=".5"/>
-        <rect x="150" y="96" width="46" height="18" rx="5" fill="#ffffff" opacity=".9"/><circle cx="160" cy="116" r="4" fill="#3a3a4a"/><circle cx="186" cy="116" r="4" fill="#3a3a4a"/>
-      </svg>
-      <div class="sb"><span>18:30</span><span class="r">
-        <svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
-        <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 4.2a12 12 0 0 1 15 0M3.6 6.9a8 8 0 0 1 9.8 0M6.2 9.5a4 4 0 0 1 4.6 0" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1" fill="#fff"/></svg>
-        <span class="batt">100</span></span>
-      </div>
-      <button class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-      <div class="greet">该下班啦 · 上下班通勤</div>
-      <div class="htitle">下班回家</div>
-      <div class="hpills">
-        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="p1">18:30</span></span>
-        <span class="pill">距离 14.2 km</span>
-        <span class="pill"><span class="p3">预计 42 分钟</span></span>
-      </div>
-    </div>
-
-    <div class="body">
-      <div class="nextup">
-        <div class="ring"></div>
-        <div class="eb"><span class="dot"></span>现在走最省时 · 比晚高峰后快 16 分钟</div>
-        <h3>地铁 10 号线 · 42 分钟到家</h3>
-        <p><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg><span class="np">公司 → 国贸站换乘 → 家，步行共 6 分钟</span></p>
-        <div class="nbtns"><button class="pri">开始导航</button><button class="ghost">到站提醒</button></div>
-      </div>
-
-      <div class="sec"><span class="si" style="background:#3a7afe"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.4"/><circle cx="18" cy="5" r="2.4"/><path d="M8.4 19H14a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h5.6"/></svg></span>通勤方案<span class="rt">实时路况已更新</span></div>
-      <div class="card">
-        <div class="route best"><span class="ri" style="background:#7b5bff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="14" rx="4"/><path d="M5 11h14M8 3.5V7a4 4 0 0 0 8 0V3.5"/><path d="m8 21 1.6-2.5M16 21l-1.6-2.5"/></svg></span><div class="rc"><b>地铁 10 号线 <span class="bg" style="background:#efeafd;color:#7b5bff">推荐</span></b><p>少步行 · 不受路况影响 · 末班车 23:15</p></div><div class="rr"><b>42 分</b><s>¥6</s></div></div>
-        <div class="route"><span class="ri" style="background:#9aa0ab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14v6H5zM7.5 14.5h.01M16.5 14.5h.01"/></svg></span><div class="rc"><b>自驾 <span class="bg" style="background:#fcece9;color:#d64531">今日限行</span></b><p>尾号 4 今日限行 · 晚高峰拥堵严重</p></div><div class="rr"><b>58 分</b><s>约 18 km</s></div></div>
-        <div class="route"><span class="ri" style="background:#2f9e6a"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14a2 2 0 0 1 2 2v4h-2m0 0H7m-2 0H3v-4a2 2 0 0 1 2-2m2 6v2m10-2v2"/><circle cx="7.5" cy="14.5" r="1"/><circle cx="16.5" cy="14.5" r="1"/></svg></span><div class="rc"><b>打车</b><p>立即叫车约 3 分钟到 · 高峰小幅加价</p></div><div class="rr"><b>50 分</b><s>约 ¥58</s></div></div>
-      </div>
-
-      <div class="sec"><span class="si" style="background:#f3a93c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 2.5 18a1.5 1.5 0 0 0 1.3 2.2h16.4a1.5 1.5 0 0 0 1.3-2.2L13.7 3.9a1.5 1.5 0 0 0-2.6 0Z"/></svg></span>路上提醒</div>
-      <div class="card lst" id="road">
-        <div class="li"><span class="ic" style="background:#ef5a4c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14v6H5z"/><path d="M3 15h18"/></svg></span><div class="lc"><b>今日限行尾号 4，你的车限行</b><p>已自动把自驾从推荐中排除，优先地铁。</p></div></div>
-        <div class="li"><span class="ic" style="background:#4f86f7"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><div class="lc"><b>10 号线末班车 23:15</b><p>现在出发完全来得及，不必赶。</p></div></div>
-        <div class="li"><span class="ic" style="background:#7b5bff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a8 8 0 0 1 16 0M3 18h18M8 10l-1-2M16 10l1-2"/></svg></span><div class="lc"><b>到家前有小雨</b><p>出地铁站步行约 5 分钟，建议带伞。</p></div></div>
-      </div>
-
-      <div data-st="1">
-      <div class="sec"><span class="si" style="background:#2f9e6a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 4l9 6.5M5 9.5V20h14V9.5"/></svg></span>顺路</div>
-      <div class="card lst">
-        <div class="li"><span class="ic" style="background:#e8792b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7" width="17" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M8 12h8"/></svg></span><div class="lc"><b>菜鸟驿站 2 个待取快递</b><p>地铁站 B 口出来顺路 80 米。</p></div><span class="go">去取 ›</span></div>
-        <div class="li"><span class="ic" style="background:#2f9e6a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H3M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2M17 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/></svg></span><div class="lc"><b>购物清单里还有 2 样</b><p>鸡蛋、牛奶 · 小区门口超市顺路买。</p></div><span class="go" data-sheet="shop">看看 ›</span></div>
-      </div>
-
-      </div>
-      <div class="sec"><span class="si" style="background:#7b5bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z"/></svg></span><span class="sa">到家</span></div>
-      <div class="card arrive">
-        <div class="big">19:12<s>预计到家</s></div>
-        <div class="av">
-          <p><i style="background:#3a7afe"></i>米家：到家前 10 分钟开空调 26°</p>
-          <p><i style="background:#2f9e6a"></i>米家：进小区时打开玄关灯</p>
-          <p><i style="background:#f3a93c"></i>23:00 自动进入免打扰</p>
-        </div>
-      </div>
-      <div style="height:34px"></div>
-    </div>
-    <button class="fab"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5 5 1.7-5 1.7L12 16.4l-1.7-5-5-1.7 5-1.7z" fill="#3a7afe"/><circle cx="18.5" cy="5.5" r="1.4" fill="#8aa6f5"/></svg></button>
-    <div class="homebar"></div>
-  </div>
-</div></div>
+<script src="../os5-kit/scenes.js"></script>
+<script src="../os5-kit/cards.js"></script>
 <script>
-var bk=document.querySelector('.back');if(bk)bk.addEventListener('click',function(){if(window.parent!==window)parent.postMessage('close-landing','*');});
-if(location.hash==='#b'){var a=document.querySelector('.app');if(a)a.scrollTo(0,3000);}
+/* 早高峰：家 → 公司；晚高峰：公司 → 家（顺路取快递：快递不再是独立 AI App，取件变成通勤里的顺路任务） */
+window.OS5_PAGE={scene:'commute',title:'上下班通勤',t32:true,chip:'工作日 · 家 ⇄ 公司',chipAt:{0:'今天上班 · 家 → 公司',1:'今天下班 · 公司 → 家'},secC:true,
+  hero:{grad:'linear-gradient(180deg,#7fc6f2 0%,rgba(233,242,239,0) 93.79%)',illus:'illus-commute.webp'},
+  blocks:{
+    routes:{t:'推荐路线',em:'🚇',rt:'按实时路况',h:function(i){ return i===0?OS5L.list([
+        {em:'🚇',bg:'#eef4ff',t:'地铁 10 号线 · 38 分钟',p:'不受限行影响 · 早高峰车厢较挤',r:'推荐',rc:'b'},
+        {em:'🚕',bg:'#f4f5f8',t:'打车 · 约 58 分钟',p:'约 ¥62 · 三环拥堵',r:'¥62'},
+        {em:'🚗',bg:'#fff1ee',t:'自驾 · 尾号 4 今日限行',p:'已从推荐里排除',r:'限行',rc:'r'}])
+      :OS5L.list([
+        {em:'🚇',bg:'#eef4ff',t:'地铁 10 号线 · 42 分钟',p:'比打车快 8 分钟 · 出 B 口就是菜鸟驿站',r:'推荐',rc:'b'},
+        {em:'🚕',bg:'#f4f5f8',t:'打车 · 约 50 分钟',p:'约 ¥58 · 晚高峰拥堵',r:'¥58'},
+        {em:'🚗',bg:'#fff1ee',t:'自驾 · 尾号 4 今日限行',p:'20:00 后解除',r:'限行',rc:'r'}]); }},
+    remind:{t:'路上提醒',em:'⚠️',h:function(){ return OS5L.list([
+        {em:'🚫',bg:'#fff1ee',t:'今天尾号 4 限行',p:'你的车今天限行，早晚都优先地铁'},
+        {em:'☔',bg:'#eef4ff',t:'傍晚有阵雨 · 18:00 后 70%',p:'出门带把伞，下班路上可能会下'}]); }},
+    first:{t:'到公司先做',em:'💼',h:function(){ return OS5L.list([
+        {em:'💼',bg:'#f1eeff',t:'10:00 产品评审会',p:'会议室 A302 · 评审材料 v3 已备好',src:'来自日历',btn:{t:'看资料'}}]); }},
+    errands:{t:'顺路办',em:'🧺',rt:'都在回家路上',h:function(){ return OS5L.list([
+        {em:'📦',bg:'#fff3e3',t:'菜鸟驿站取 2 个快递',p:'取件码 8-2-3056 · 5-1-1088 · 22:00 关门',src:'来自快递短信',btn:{t:'取件码'}},
+        {em:'🛵',bg:'#fff3e3',t:'猫砂 20kg 太重？',p:'叫跑腿从驿站送上楼，约 ¥8',btn:{t:'跑腿'}},
+        {em:'🥛',bg:'#eefaf3',t:'买牛奶和鸡蛋',p:'小区门口生鲜店 · 来自你的购物清单',btn:{t:'完成',toast:'已标记完成 ✓'}}]); }},
+    home:{t:'到家前',em:'🏠',h:function(){ return OS5L.list([
+        {em:'❄️',bg:'#eef4ff',t:'提前 10 分钟打开客厅空调',p:'米家空调 · 26° · 预计 19:12 到家',src:'米家',btn:{t:'打开',toast:'已打开客厅空调，26° 自动模式 ❄️'}}]); }}
+  },
+  order:[['top','routes','remind','first'],['top','errands','routes','home']]
+};
+window.OS5_ACTIONS=[[/取件码/,'sheet:code'],[/看资料/,'sheet:docs'],[/查看路线/,'sheet:route']];
+window.OS5_SHEETS={
+  code:{t:'取件码',h:'<div class="k-card"><div class="k-code">8-2-3056</div><div class="k-bars">'+Array(26).join('<i></i>')+'</div><p style="text-align:center;margin-top:8px">顺丰 · 李宁运动鞋</p></div><div class="k-card"><div class="k-code" style="font-size:24px">5-1-1088</div><p style="text-align:center">京东 · 猫砂 20kg × 2</p></div><div class="k-note">来自快递短信 · 菜鸟驿站在地铁 B 口出来 80 米</div>',a:['复制取件码','导航去驿站'],at:['已复制 2 个取件码 ✓','已开始导航 🧭']},
+  docs:{t:'评审资料',h:'<div class="k-card"><div class="k-kv"><span class="k">📄 评审材料 v3.pptx</span><span class="v">已备好</span></div><div class="k-kv"><span class="k">👥 参会人</span><span class="v">6 人</span></div></div>',a:['发给参会人','打开'],at:['已发送 💬','已打开']},
+  route:{t:'家 → 公司',h:'<div class="k-map"></div><div class="k-card"><p>步行 6 分钟到地铁站，10 号线 8 站，国贸站换乘后步行 5 分钟到公司，约 38 分钟。</p></div>',a:['换一条','开始导航'],at:['已为你换一条路线','已开始导航 🧭']}
+};
+window.OS5_CHAT={'现在哪条路最快':'地铁 10 号线最快，约 38 分钟，不受限行影响。打车要 58 分钟。','顺路还能办什么事':'回家路上可以取 2 个快递（菜鸟驿站 22:00 关门），再去小区门口买牛奶和鸡蛋。'};
 </script>
-<script>
-/* 阶段：早高峰（上班）→ 晚高峰（下班） */
-(function(){
-  function EB(t){return '<span class="dot"></span>'+t;}
-  window.OS5_ACC='#7b5bff'; window.OS5_STAGE_BASE=1;
-  window.OS5_STAGES=[
-    {k:'早高峰',t:'07:40',cls:{'.hero':'am'},
-     set:{'.greet':'早上好 · 上班通勤','.htitle':'上班通勤','.p1':'07:40','.p3':'预计 40 分钟',
-      '.nextup .eb':EB('尾号 4 今天限行 · 地铁最快'),'.nextup h3':'地铁 10 号线 · 38 分钟到公司','.nextup .np':'家 → 国贸站换乘 → 公司，步行共 6 分钟',
-      '.route:nth-child(1) .rc p':'少步行 · 不受路况影响 · 早高峰 3 分钟一班','.route:nth-child(1) .rr b':'38 分',
-      '.route:nth-child(2) .rc p':'尾号 4 今日限行 · 早高峰拥堵','.route:nth-child(2) .rr b':'52 分',
-      '.route:nth-child(3) .rc p':'约 4 分钟接驾 · 早高峰小幅加价','.route:nth-child(3) .rr b':'48 分','.route:nth-child(3) .rr s':'约 ¥55',
-      '#road .li:nth-child(2) .lc b':'国贸站换乘人多','#road .li:nth-child(2) .lc p':'走 B 通道换乘更快，比 A 通道少排 3 分钟队。',
-      '#road .li:nth-child(3) .lc b':'傍晚有阵雨','#road .li:nth-child(3) .lc p':'下班时可能下雨，出门记得带伞。',
-      '.sa':'到公司','.arrive .big':'08:20<s>预计到公司</s>',
-      '.arrive .av':'<p><i style="background:#7b5bff"></i>10:00 产品评审会 · 资料已备好</p><p><i style="background:#3a7afe"></i>米家：出门后空调和灯已关闭</p><p><i style="background:#2f9e6a"></i>米家：扫地机器人开始清扫</p>'}},
-    {k:'晚高峰',t:'18:30',cls:{'.hero':''},set:{}}
-  ];
-  window.OS5_SHEETS={
-    shop:{t:'购物清单',h:'<div class="k-card"><div class="k-kv"><span class="k">鸡蛋</span><span class="v">1 盒</span></div><div class="k-kv"><span class="k">牛奶</span><span class="v">2 瓶</span></div></div><div class="k-note">来自你的「购物清单」笔记 · 小区门口超市营业到 23:00</div>',a:['稍后','到超市提醒我'],at:['好的，稍后再提醒你','到小区门口时提醒你 🔔']}
-  };
-  window.OS5_DEST='公司 / 家';
-})();
-</script>
+<script src="../os5-kit/landing.js"></script>
 <script src="../os5-kit/interaction.js"></script>
 </body>
 </html>
