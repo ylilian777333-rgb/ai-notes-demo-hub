@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>一方应用体验赛道 · 用户和手机在一起的每个阶段</title>
+<style>
+  body { margin: 0; background: #ECEEF2; }
+  #page { display: block; margin: 24px auto; background: #fff; }
+  text { font-family: "MiSans", "PingFang SC", sans-serif; }
+</style>
+</head>
+<body>
+<!-- DSTE 对比稿一页图：按用户和手机在一起的时间（买之前 → 拿到新机 → 每天用 → 用久了 → 下一台）
+     下面三条横带标 2027 年的三件事覆盖哪些阶段：守底线横跨全部，补短板、做增量集中在每天用 -->
+<svg id="page" width="1600" height="840" viewBox="0 0 1600 840" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="tip" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3B6BF5"/>
+    </marker>
+    <marker id="tipLoop" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9DB3DD"/>
+    </marker>
+  </defs>
+
+  <!-- 判断 -->
+  <text x="90" y="112" font-size="48" font-weight="600" fill="#1B2033">用户觉得小米手机好不好用，很大程度上看一方应用</text>
+  <text x="90" y="162" font-size="26" font-weight="500" fill="#3B6BF5">2027 年：每个阶段守住底线，每天用的事补短板、做增量</text>
+
+  <!-- 下一台：从末端绕回起点 -->
+  <path d="M1436,282 L1436,226 Q1436,214 1424,214 L252,214 Q240,214 240,226 L240,238"
+        fill="none" stroke="#9DB3DD" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#tipLoop)"/>
+
+  <!-- 时间轴 -->
+  <line x1="240" y1="300" x2="1352" y2="300" stroke="#3B6BF5" stroke-width="3" marker-end="url(#tip)"/>
+  <g fill="#3B6BF5" stroke="#fff" stroke-width="3">
+    <circle cx="240" cy="300" r="9"/><circle cx="430" cy="300" r="9"/>
+    <circle cx="620" cy="300" r="9"/><circle cx="1140" cy="300" r="9"/>
+  </g>
+  <g font-size="30" font-weight="700" fill="#3B6BF5">
+    <text x="240" y="276">买之前</text>
+    <text x="430" y="276">拿到新机</text>
+    <text x="620" y="276">每天用</text>
+    <text x="1140" y="276">用久了</text>
+  </g>
+  <g font-size="23" fill="#1B2033">
+    <text x="240" y="344">门店试机</text>
+    <text x="430" y="344">开箱、换机</text>
+    <text x="620" y="344">闹钟、日程、出行、电话、设置</text>
+    <text x="1140" y="344">系统更新</text>
+  </g>
+  <text x="1366" y="308" font-size="22" font-weight="700" fill="#3B6BF5">下一台还选小米</text>
+
+  <!-- 三条横带：浅灰底是整条时间，浅蓝是 2027 年这件事覆盖的阶段 -->
+  <g fill="#F5F6F8">
+    <rect x="240" y="400" width="1090" height="92" rx="12"/>
+    <rect x="240" y="510" width="1090" height="92" rx="12"/>
+    <rect x="240" y="620" width="1090" height="92" rx="12"/>
+  </g>
+  <g fill="#DCE6FD" stroke="#B9CCF8" stroke-width="1.5">
+    <rect x="240" y="400" width="1090" height="92" rx="12"/>
+    <rect x="620" y="510" width="520" height="92" rx="12"/>
+    <rect x="620" y="620" width="520" height="92" rx="12"/>
+  </g>
+  <g font-size="22" fill="#1B2033">
+    <text x="264" y="454">每个阶段都不出错、不卡顿，中低端机同样流畅</text>
+    <text x="644" y="564">设置一次找到，少被骚扰电话和推送打扰</text>
+    <text x="644" y="674">安排提前收进来、到点提醒，能力接入超级小爱</text>
+  </g>
+  <g font-size="26" font-weight="700" fill="#3B6BF5">
+    <text x="90" y="442">守底线</text>
+    <text x="90" y="552">补短板</text>
+    <text x="90" y="662">做增量</text>
+  </g>
+  <g font-size="19" fill="#6B7280">
+    <text x="90" y="476">基础体验</text>
+    <text x="90" y="586">满意度</text>
+    <text x="90" y="696">AI 竞争力</text>
+  </g>
+
+  <!-- 子赛道 -->
+  <line x1="90" y1="760" x2="1510" y2="760" stroke="#DCE0E9" stroke-width="1.5"/>
+  <text x="90" y="800" font-size="19" fill="#6B7280">四个子赛道：门店演示（买之前）· 设备管理（拿到新机、设置、用久了）· 日程出行、通讯（每天用）</text>
+</svg>
+</body>
+</html>
